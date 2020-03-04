@@ -39,7 +39,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupReset()]
         [NWDInspectorGroupStart(NWD.K_INSPECTOR_BASIS)]
-        [PrimaryKey, AutoIncrement, NWDNotEditable]
+        [AutoIncrement, NWDNotEditable]
         [NWDCertified]
         public int ID
         {
@@ -50,6 +50,7 @@ namespace NetWorkedData
         [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
+        [PrimaryKey, NWDNotEditable]
         public string Reference
         {
             get; set;
@@ -158,6 +159,12 @@ namespace NetWorkedData
         [NWDNotEditable]
         [NWDCertified]
         public NWDBasisTag Tag
+        {
+            get; set;
+        }
+        [NWDNotEditable]
+        [NWDCertified]
+        public NWDBasisBundle Bundle
         {
             get; set;
         }

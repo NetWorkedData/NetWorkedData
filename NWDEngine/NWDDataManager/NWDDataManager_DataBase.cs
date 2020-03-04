@@ -105,9 +105,57 @@ namespace NetWorkedData
 #endif
 
                 string tEditorPass = NWDAppConfiguration.SharedInstance().GetEditorPass();
-
+                /*
                 try
                 {
+                */
+                    byte[] tDatabasePathAsBytes = GetNullTerminatedUtf8(tDatabasePathEditor);
+                    SQLite3.Result tResult = SQLite3.Open(tDatabasePathAsBytes, out SQLiteEditorHandle, (int)(SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create), IntPtr.Zero);
+                    if (tResult != SQLite3.Result.OK)
+                    {
+                        throw SQLiteException.New(tResult, string.Format("Could not open database file: {0} ({1})", tDatabasePathEditor, tResult));
+                    }
+                    else
+                    {
+                        SQLite3.Result trResultPassword = SQLite3.Key(SQLiteEditorHandle, tEditorPass, tEditorPass.Length);
+                        //UnityEngine.Debug.Log("### SQLite3.Key result = " + result.ToString());
+                        if (trResultPassword != SQLite3.Result.OK)
+                        {
+                            //    this._open = false;
+                            //UnityEngine.Debug.Log("### NOT open database with password");
+                            throw SQLiteException.New(trResultPassword, string.Format("Could not open database file with password: {0} ({1})", tDatabasePathEditor, trResultPassword));
+                        }
+                        else
+                        {
+                            //UnityEngine.Debug.Log("### open database with password");
+                        }
+
+                        DataEditorConnected = true;
+                        DataEditorConnectionInProgress = false;
+                        //Sqlite3DatabaseHandle stmtpragma = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA synchronous = OFF;");
+                        //SQLite3.Step(stmtpragma);
+                        //SQLite3.Finalize(stmtpragma);
+                        //Sqlite3DatabaseHandle stmtpragmaB = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA journal_mode = MEMORY");
+                        //SQLite3.Step(stmtpragmaB);
+                        //SQLite3.Finalize(stmtpragmaB);
+                        //Sqlite3DatabaseHandle stmtpragmaC = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA cache_size = 1000000");
+                        //SQLite3.Step(stmtpragmaC);
+                        //SQLite3.Finalize(stmtpragmaC);
+                        //Sqlite3DatabaseHandle stmtpragmaD = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA temp_store = MEMORY");
+                        //SQLite3.Step(stmtpragmaD);
+                        //SQLite3.Finalize(stmtpragmaD);
+
+                        if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment ||
+                            NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+                        {
+                            var fileInfo = new System.IO.FileInfo(tDatabasePathEditor);
+                            Debug.Log("ConnectToDatabaseEditor () tDatabasePathEditor : " + tDatabasePathEditor + " (" + fileInfo.Length + " octets) : " + tEditorPass);
+                        }
+                    }
+
+
+
+/*
                     SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor, tEditorPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
                     double tSeconds = SQLiteConnectionEditor.BusyTimeout.TotalSeconds;
                     DateTime t = DateTime.Now;
@@ -154,6 +202,8 @@ namespace NetWorkedData
                     var fileInfo = new System.IO.FileInfo(tDatabasePathEditor);
                     Debug.Log("ConnectToDatabaseEditor () tDatabasePathEditor : " + tDatabasePathEditor + " (" + fileInfo.Length + " octets) : " + tEditorPass);
                 }
+                */
+
             }
             else
             {
@@ -212,6 +262,14 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        private static byte[] GetNullTerminatedUtf8(string s)
+        {
+            int utf8Length = Encoding.UTF8.GetByteCount(s);
+            byte[] bytes = new byte[utf8Length + 1];
+            utf8Length = Encoding.UTF8.GetBytes(s, 0, s.Length, bytes, 0);
+            return bytes;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public bool ConnectToDatabaseAccount(string sSurProtection)
         {
             if (NWDLauncher.ActiveBenchmark)
@@ -238,8 +296,57 @@ namespace NetWorkedData
                 //}
                 //if (rReturn == true)
                 //{
-                SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount, tAccountPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 
+                byte[] tDatabasePathAsBytes = GetNullTerminatedUtf8(tDatabasePathAccount);
+                SQLite3.Result tResult = SQLite3.Open(tDatabasePathAsBytes, out SQLiteAccountHandle, (int)(SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create), IntPtr.Zero);
+                if (tResult != SQLite3.Result.OK)
+                {
+                    throw SQLiteException.New(tResult, string.Format("Could not open database file: {0} ({1})", tDatabasePathAccount, tResult));
+                }
+                else
+                {
+                    SQLite3.Result trResultPassword = SQLite3.Key(SQLiteAccountHandle, tAccountPass, tAccountPass.Length);
+                    //UnityEngine.Debug.Log("### SQLite3.Key result = " + result.ToString());
+                    if (trResultPassword != SQLite3.Result.OK)
+                    {
+                        //    this._open = false;
+                        //UnityEngine.Debug.Log("### NOT open database with password");
+                        throw SQLiteException.New(trResultPassword, string.Format("Could not open database file with password: {0} ({1})", tDatabasePathAccount, trResultPassword));
+                    }
+                    else
+                    {
+                        //UnityEngine.Debug.Log("### open database with password");
+                    }
+
+                    DataAccountConnected = true;
+                    DataAccountConnectionInProgress = false;
+                    //Sqlite3DatabaseHandle stmtpragma = SQLite3.Prepare2(SQLiteAccountHandle, "PRAGMA synchronous = OFF;");
+                    //SQLite3.Step(stmtpragma);
+                    //SQLite3.Finalize(stmtpragma);
+                    //Sqlite3DatabaseHandle stmtpragmaB = SQLite3.Prepare2(SQLiteAccountHandle, "PRAGMA journal_mode = MEMORY");
+                    //SQLite3.Step(stmtpragmaB);
+                    //SQLite3.Finalize(stmtpragmaB);
+                    //Sqlite3DatabaseHandle stmtpragmaC = SQLite3.Prepare2(SQLiteAccountHandle, "PRAGMA cache_size = 1000000");
+                    //SQLite3.Step(stmtpragmaC);
+                    //SQLite3.Finalize(stmtpragmaC);
+                    //Sqlite3DatabaseHandle stmtpragmaD = SQLite3.Prepare2(SQLiteAccountHandle, "PRAGMA temp_store = MEMORY");
+                    //SQLite3.Step(stmtpragmaD);
+                    //SQLite3.Finalize(stmtpragmaD);
+
+                    if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment
+                    || NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+                    {
+
+                        var fileInfo = new System.IO.FileInfo(tDatabasePathAccount);
+                        Debug.Log("ConnectToDatabaseAccount () tDatabasePathAccount : " + tDatabasePathAccount + " (" + fileInfo.Length + " octets) : " + tAccountPass);
+                    }
+                }
+
+
+
+                /*
+
+                SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount, tAccountPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
                 double tSeconds = SQLiteConnectionAccount.BusyTimeout.TotalSeconds;
                 DateTime t = DateTime.Now;
                 DateTime tf = DateTime.Now.AddSeconds(tSeconds);
@@ -274,6 +381,7 @@ namespace NetWorkedData
                     var fileInfo = new System.IO.FileInfo(tDatabasePathAccount);
                     Debug.Log("ConnectToDatabaseAccount () tDatabasePathAccount : " + tDatabasePathAccount + " (" + fileInfo.Length + " octets) : " + tAccountPass);
                 }
+            */
             }
             else
             {
@@ -286,7 +394,6 @@ namespace NetWorkedData
                     Debug.LogWarning("SQLiteConnectionAccount connexion in progress");
                 }
             }
-
 
             //Sqlite3DatabaseHandle stmtpragma = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "PRAGMA synchronous = OFF;");
             //SQLite3.Step(stmtpragma);
@@ -321,34 +428,34 @@ namespace NetWorkedData
         //    NWDLauncher.DeleteDatabaseAccount();
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public void DeleteDatabaseEditor()
-        {
-            //Debug.Log("DeleteDatabase ()");
-            DataEditorConnected = false;
-            //Close SLQite
-            if (SQLiteConnectionEditor != null)
-            {
-                //SQLiteConnectionEditor.Commit();
-                //SQLiteConnectionEditor.Dispose();
-                SQLiteConnectionEditor.Close();
-            }
-            SQLiteConnectionEditor = null;
-            // reload empty object
-            ReloadAllObjectsEditor();
-            // database is not connected
-#if UNITY_EDITOR
-            if (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor) == false)
-            {
-                AssetDatabase.CreateFolder("Assets", DatabasePathEditor);
-            }
-            string tDatabasePathEditor = "Assets/" + DatabasePathEditor + "/" + DatabaseNameEditor;
+//        public void DeleteDatabaseEditor()
+//        {
+//            //Debug.Log("DeleteDatabase ()");
+//            DataEditorConnected = false;
+//            //Close SLQite
+//            if (SQLiteConnectionEditor != null)
+//            {
+//                //SQLiteConnectionEditor.Commit();
+//                //SQLiteConnectionEditor.Dispose();
+//                SQLiteConnectionEditor.Close();
+//            }
+//            SQLiteConnectionEditor = null;
+//            // reload empty object
+//            ReloadAllObjectsEditor();
+//            // database is not connected
+//#if UNITY_EDITOR
+//            if (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor) == false)
+//            {
+//                AssetDatabase.CreateFolder("Assets", DatabasePathEditor);
+//            }
+//            string tDatabasePathEditor = "Assets/" + DatabasePathEditor + "/" + DatabaseNameEditor;
 
-            File.Delete(tDatabasePathEditor);
-#else
-            string tPathEditor = string.Format("{0}/{1}", Application.persistentDataPath, DatabaseNameEditor);
-            File.Delete(tPathEditor);
-#endif
-        }
+//            File.Delete(tDatabasePathEditor);
+//#else
+//            string tPathEditor = string.Format("{0}/{1}", Application.persistentDataPath, DatabaseNameEditor);
+//            File.Delete(tPathEditor);
+//#endif
+//        }
         //-------------------------------------------------------------------------------------------------------------
         //public void DeleteDatabase()
         //{
@@ -426,19 +533,7 @@ namespace NetWorkedData
         public void CreateAllTablesLocalAccount()
         {
             //NWEBenchmark.Start();
-            //if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
-            //{
-            //    foreach (Type tType in mTypeAccountDependantList)
-            //    {
-            //        NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-            //        tHelper.CreateTable();
-            //    }
-            //}
-            //NWEBenchmark.Finish(true, " old method");
-
-
-            //NWEBenchmark.Start();
-            Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "BEGIN TRANSACTION");
+            Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteAccountHandle, "BEGIN TRANSACTION");
             SQLite3.Step(stmt);
             SQLite3.Finalize(stmt);
             if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
@@ -446,12 +541,28 @@ namespace NetWorkedData
                 foreach (Type tType in mTypeAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    stmt = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, tHelper.CreateTableSQLite());
+                    NWDSQLiteTableState tState = tHelper.TableSQLiteState();
+                    stmt = SQLite3.Prepare2(SQLiteAccountHandle, tHelper.CreateTableSQLite(tState));
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
+
+                    string tIndexA = tHelper.CreateIndexSQLite(tState);
+                    if (string.IsNullOrEmpty(tIndexA) == false)
+                    {
+                        stmt = SQLite3.Prepare2(SQLiteAccountHandle, tIndexA);
+                        SQLite3.Step(stmt);
+                        SQLite3.Finalize(stmt);
+                    }
+                    string tIndexB = tHelper.CreateIndexBundleSQLite(tState);
+                    if (string.IsNullOrEmpty(tIndexB) == false)
+                    {
+                        stmt = SQLite3.Prepare2(SQLiteAccountHandle, tIndexB);
+                        SQLite3.Step(stmt);
+                        SQLite3.Finalize(stmt);
+                    }
                 }
             }
-            stmt = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "COMMIT");
+            stmt = SQLite3.Prepare2(SQLiteAccountHandle, "COMMIT");
             SQLite3.Step(stmt);
             SQLite3.Finalize(stmt);
             //NWEBenchmark.Finish(true, " new method");
@@ -483,18 +594,18 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void UpdateAllTablesLocalAccount()
-        {
-            if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
-            {
-                foreach (Type tType in mTypeAccountDependantList)
-                {
-                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.UpdateDataTable();
-                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_UpdateDataTable);
-                }
-            }
-        }
+        //public void UpdateAllTablesLocalAccount()
+        //{
+        //    if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
+        //    {
+        //        foreach (Type tType in mTypeAccountDependantList)
+        //        {
+        //            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+        //            tHelper.UpdateDataTable();
+        //            //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_UpdateDataTable);
+        //        }
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void ResetAllTablesLocalAccount()
         {
@@ -523,7 +634,7 @@ namespace NetWorkedData
             //NWEBenchmark.Finish(true, " old method");
 
             //NWEBenchmark.Start();
-            Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "BEGIN TRANSACTION");
+            Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteEditorHandle, "BEGIN TRANSACTION");
             SQLite3.Step(stmt);
             //SQLite3.Finalize(stmt);
             if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
@@ -531,12 +642,27 @@ namespace NetWorkedData
                 foreach (Type tType in mTypeNotAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    stmt = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, tHelper.CreateTableSQLite());
+                    NWDSQLiteTableState tState = tHelper.TableSQLiteState();
+                    stmt = SQLite3.Prepare2(SQLiteEditorHandle, tHelper.CreateTableSQLite(tState));
                     SQLite3.Step(stmt);
-                    //SQLite3.Finalize(stmt);
+                    SQLite3.Finalize(stmt);
+                    string tIndexA = tHelper.CreateIndexSQLite(tState);
+                    if (string.IsNullOrEmpty(tIndexA) == false)
+                    {
+                        stmt = SQLite3.Prepare2(SQLiteEditorHandle, tIndexA);
+                        SQLite3.Step(stmt);
+                        SQLite3.Finalize(stmt);
+                    }
+                    string tIndexB = tHelper.CreateIndexBundleSQLite(tState);
+                    if (string.IsNullOrEmpty(tIndexB) == false)
+                    {
+                        stmt = SQLite3.Prepare2(SQLiteEditorHandle, tIndexB);
+                        SQLite3.Step(stmt);
+                        SQLite3.Finalize(stmt);
+                    }
                 }
             }
-            stmt = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "COMMIT");
+            stmt = SQLite3.Prepare2(SQLiteEditorHandle, "COMMIT");
             SQLite3.Step(stmt);
             SQLite3.Finalize(stmt);
             //NWEBenchmark.Finish(true, " new method");
@@ -568,18 +694,18 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void UpdateAllTablesLocalEditor()
-        {
-            if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
-            {
-                foreach (Type tType in mTypeNotAccountDependantList)
-                {
-                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.UpdateDataTable();
-                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_UpdateDataTable);
-                }
-            }
-        }
+        //public void UpdateAllTablesLocalEditor()
+        //{
+        //    if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
+        //    {
+        //        foreach (Type tType in mTypeNotAccountDependantList)
+        //        {
+        //            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+        //            tHelper.UpdateDataTable();
+        //            //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_UpdateDataTable);
+        //        }
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void ResetAllTablesLocalEditor()
         {
@@ -594,135 +720,137 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void CreateTable(Type sType, bool sAccountConnected)
-        {
+        //public void CreateTable(Type sType, bool sAccountConnected)
+        //{
 
-            if (sAccountConnected)
-            {
-                if (SQLiteConnectionAccountIsValid())
-                {
-                    //Debug.Log("<color=green>CreateTable() account" + sType.Name + " </color>");
-                    //TODO : change create table with new method
-                    SQLiteConnectionAccount.CreateTableByType(sType);
-                }
-            }
-            else
-            {
-                if (SQLiteConnectionEditorIsValid())
-                {
-                    //Debug.Log("<color=green>CreateTable() editor" + sType.Name + " </color>");
-                    //TODO : change create table with new method
-                    SQLiteConnectionEditor.CreateTableByType(sType);
-                }
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void MigrateTable(Type sType, bool sAccountConnected)
-        {
+        //    if (sAccountConnected)
+        //    {
+        //        if (SQLiteConnectionAccountIsValid())
+        //        {
+        //            //Debug.Log("<color=green>CreateTable() account" + sType.Name + " </color>");
+        //            //TODO : change create table with new method
+        //            SQLiteConnectionAccount.CreateTableByType(sType);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (SQLiteConnectionEditorIsValid())
+        //        {
+        //            //Debug.Log("<color=green>CreateTable() editor" + sType.Name + " </color>");
+        //            //TODO : change create table with new method
+        //            SQLiteConnectionEditor.CreateTableByType(sType);
+        //        }
+        //    }
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void MigrateTable(Type sType, bool sAccountConnected)
+        //{
 
-            if (sAccountConnected)
-            {
-                //if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
-                //{
-                if (SQLiteConnectionAccountIsValid())
-                {
-                    SQLiteConnectionAccount.MigrateTableByType(sType);
-                }
-                //}
-            }
-            else
-            {
-                //if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
-                //{
-                if (SQLiteConnectionEditorIsValid())
-                {
-                    SQLiteConnectionEditor.MigrateTableByType(sType);
-                }
-                //}
-            }
-        }
+        //    if (sAccountConnected)
+        //    {
+        //        //if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
+        //        //{
+        //        if (SQLiteConnectionAccountIsValid())
+        //        {
+        //            SQLiteConnectionAccount.MigrateTableByType(sType);
+        //        }
+        //        //}
+        //    }
+        //    else
+        //    {
+        //        //if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
+        //        //{
+        //        if (SQLiteConnectionEditorIsValid())
+        //        {
+        //            SQLiteConnectionEditor.MigrateTableByType(sType);
+        //        }
+        //        //}
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public void FlushTable(Type sType, bool sAccountConnected)
-        {
+        //public void FlushTable(Type sType, bool sAccountConnected)
+        //{
 
-            if (sAccountConnected)
-            {
-                //if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
-                //{
-                if (SQLiteConnectionAccountIsValid())
-                {
-                    //SQLiteConnectionAccount.TruncateTableByType(sType);
-                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
-                    Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "DELETE FROM `" + tHelper.ClassNamePHP + "`;");
-                    SQLite3.Step(stmt);
-                    SQLite3.Finalize(stmt);
-                    stmt = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "VACUUM;");
-                    SQLite3.Step(stmt);
-                    SQLite3.Finalize(stmt);
-                }
-                //}
-            }
-            else
-            {
-                //if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
-                //{
-                if (SQLiteConnectionEditorIsValid())
-                {
-                    //SQLiteConnectionEditor.TruncateTableByType(sType);
-                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
-                    Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "DELETE FROM `" + tHelper.ClassNamePHP + "`;");
-                    SQLite3.Step(stmt);
-                    SQLite3.Finalize(stmt);
-                    stmt = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "VACUUM;");
-                    SQLite3.Step(stmt);
-                    SQLite3.Finalize(stmt);
-                }
-                //}
-            }
-        }
+        //    if (sAccountConnected)
+        //    {
+        //        //if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
+        //        //{
+        //        if (SQLiteConnectionAccountIsValid())
+        //        {
+        //            //SQLiteConnectionAccount.TruncateTableByType(sType);
+        //            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
+        //            Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteAccountHandle, "DELETE FROM `" + tHelper.ClassNamePHP + "`;");
+        //            SQLite3.Step(stmt);
+        //            SQLite3.Finalize(stmt);
+        //            stmt = SQLite3.Prepare2(SQLiteAccountHandle, "VACUUM;");
+        //            SQLite3.Step(stmt);
+        //            SQLite3.Finalize(stmt);
+        //        }
+        //        //}
+        //    }
+        //    else
+        //    {
+        //        //if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
+        //        //{
+        //        if (SQLiteConnectionEditorIsValid())
+        //        {
+        //            //SQLiteConnectionEditor.TruncateTableByType(sType);
+        //            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
+        //            Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteEditorHandle, "DELETE FROM `" + tHelper.ClassNamePHP + "`;");
+        //            SQLite3.Step(stmt);
+        //            SQLite3.Finalize(stmt);
+        //            stmt = SQLite3.Prepare2(SQLiteEditorHandle, "VACUUM;");
+        //            SQLite3.Step(stmt);
+        //            SQLite3.Finalize(stmt);
+        //        }
+        //        //}
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public void DropTable(Type sType, bool sAccountConnected)
-        {
+        //public void DropTable(Type sType, bool sAccountConnected)
+        //{
 
-            if (sAccountConnected)
-            {
-                if (SQLiteConnectionAccountIsValid())
-                {
-                    //SQLiteConnectionAccount.DropTableByType(sType);
-                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
-                    Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "DROP TABLE IF EXISTS `" + tHelper.ClassNamePHP + "`");
-                    SQLite3.Step(stmt);
-                    SQLite3.Finalize(stmt);
+        //    if (sAccountConnected)
+        //    {
+        //        if (SQLiteConnectionAccountIsValid())
+        //        {
+        //            //SQLiteConnectionAccount.DropTableByType(sType);
+        //            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
+        //            Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteAccountHandle, "DROP TABLE IF EXISTS `" + tHelper.ClassNamePHP + "`");
+        //            SQLite3.Step(stmt);
+        //            SQLite3.Finalize(stmt);
 
-                }
-            }
-            else
-            {
-                if (SQLiteConnectionEditorIsValid())
-                {
-                    //SQLiteConnectionEditor.DropTableByType(sType);
-                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
-                    Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "DROP TABLE IF EXISTS `" + tHelper.ClassNamePHP + "`");
-                    SQLite3.Step(stmt);
-                    SQLite3.Finalize(stmt);
-                }
-            }
-        }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (SQLiteConnectionEditorIsValid())
+        //        {
+        //            //SQLiteConnectionEditor.DropTableByType(sType);
+        //            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
+        //            Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteAccountHandle, "DROP TABLE IF EXISTS `" + tHelper.ClassNamePHP + "`");
+        //            SQLite3.Step(stmt);
+        //            SQLite3.Finalize(stmt);
+        //        }
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public void ReInitializeTable(Type sType, bool sAccountConnected)
-        {
-            FlushTable(sType, sAccountConnected);
-        }
+        //public void ReInitializeTable(Type sType, bool sAccountConnected)
+        //{
+        //    FlushTable(sType, sAccountConnected);
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public void ResetTable(Type sType, bool sAccountConnected)
-        {
-            DropTable(sType, sAccountConnected);
-            CreateTable(sType, sAccountConnected);
-        }
+        //public void ResetTable(Type sType, bool sAccountConnected)
+        //{
+        //    DropTable(sType, sAccountConnected);
+        //    CreateTable(sType, sAccountConnected);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public bool SQLiteConnectionEditorIsValid()
         {
             bool rReturn = true;
+            rReturn = DataEditorConnected;
+            /*
             if (SQLiteConnectionEditor != null)
             {
                 rReturn = SQLiteConnectionEditor.IsValid();
@@ -731,12 +859,15 @@ namespace NetWorkedData
             {
                 rReturn = false;
             }
+            */
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool SQLiteConnectionAccountIsValid()
         {
             bool rReturn = true;
+            rReturn = DataAccountConnected;
+            /*
             if (SQLiteConnectionAccount != null)
             {
                 rReturn = SQLiteConnectionAccount.IsValid();
@@ -745,6 +876,7 @@ namespace NetWorkedData
             {
                 rReturn = false;
             }
+            */
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

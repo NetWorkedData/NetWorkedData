@@ -168,6 +168,10 @@ namespace SQLite4Unity3d
         public static extern Result Prepare2(Sqlite3DatabaseHandle db, [MarshalAs(UnmanagedType.LPStr)] string sql,
             int numBytes, out Sqlite3DatabaseHandle stmt, Sqlite3DatabaseHandle pzTail);
 
+        [DllImport(DLL_NAME, EntryPoint = "sqlite3_execute", CallingConvention = CallingConvention.Cdecl)]
+        public static extern Result Execute(Sqlite3DatabaseHandle db, [MarshalAs(UnmanagedType.LPStr)] string sql,
+            int numBytes, out Sqlite3DatabaseHandle stmt, Sqlite3DatabaseHandle pzTail);
+
         [DllImport(DLL_NAME, EntryPoint = "sqlite3_step", CallingConvention = CallingConvention.Cdecl)]
         public static extern Result Step(Sqlite3DatabaseHandle stmt);
 
@@ -275,6 +279,16 @@ namespace SQLite4Unity3d
         {
             Sqlite3DatabaseHandle stmt;
             Result r = Prepare2(db, query, Encoding.UTF8.GetByteCount(query), out stmt, Sqlite3DatabaseHandle.Zero);
+            if (r != Result.OK)
+            {
+                throw SQLiteException.New(r, GetErrmsg(db) + " in " + query);
+            }
+            return stmt;
+        }
+        public static Sqlite3DatabaseHandle Execute(Sqlite3DatabaseHandle db, string query)
+        {
+            Sqlite3DatabaseHandle stmt;
+            Result r = Execute(db, query, Encoding.UTF8.GetByteCount(query), out stmt, Sqlite3DatabaseHandle.Zero);
             if (r != Result.OK)
             {
                 throw SQLiteException.New(r, GetErrmsg(db) + " in " + query);

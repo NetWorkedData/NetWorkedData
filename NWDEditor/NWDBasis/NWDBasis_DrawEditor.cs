@@ -656,6 +656,25 @@ namespace NetWorkedData
                     }
                 }
 
+
+                NWEDataTypeEnum tBundle = Bundle.ControlField(tR, NWDConstants.K_APP_TABLE_SEARCH_BUNDLE, !CanBeEdit);
+                tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                if (tBundle.Value != Bundle.Value)
+                {
+                    Bundle.Value = tBundle.Value;
+                    UpdateDataEditor();
+                }
+                //NWDBasisBundle tBundle = (NWDBasisBundle)Bundle.ControlField(tR, NWDConstants.K_APP_TABLE_SEARCH_BUNDLE, !CanBeEdit);
+
+                //tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+                //if (tBundle.Value != Bundle.Value)
+                //{
+                //    Bundle = tBundle;
+                //    UpdateDataEditor();
+                //}
+
+
                 bool tDisableProd = false;
                 if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType()))
                 {

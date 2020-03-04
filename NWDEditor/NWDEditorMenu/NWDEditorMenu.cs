@@ -464,13 +464,13 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().ReloadAllObjects();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_LOCAL_UPDATE_DATAS, false, 9204)]
-        public static void UpdateAllDatas()
-        {
-            NWDDataManager.SharedInstance().UpdateAllTablesLocalAccount();
-            NWDDataManager.SharedInstance().UpdateAllTablesLocalEditor();
-            NWDDataManager.SharedInstance().ReloadAllObjects();
-        }
+        //[MenuItem(NWDConstants.K_MENU_LOCAL_UPDATE_DATAS, false, 9204)]
+        //public static void UpdateAllDatas()
+        //{
+        //    NWDDataManager.SharedInstance().UpdateAllTablesLocalAccount();
+        //    NWDDataManager.SharedInstance().UpdateAllTablesLocalEditor();
+        //    NWDDataManager.SharedInstance().ReloadAllObjects();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_LOCAL_RESET_DATAS, false, 9205)]
         public static void ResetAllDatas()

@@ -171,7 +171,7 @@ namespace NetWorkedData
                 if (sTryOnDisk == true)
                 {
                     // TODO : Lag connection : look for quick solution
-                    rReturn = LoadDataByReference<T>(sReference);
+                    //rReturn = LoadDataByReference<T>(sReference);
                 }
             }
             //NWEBenchmark.Finish();
@@ -251,7 +251,7 @@ namespace NetWorkedData
                 if (sTryOnDisk == true)
                 {
                     // TODO : Lag connection : look for quick solution
-                    rReturn = LoadDataByReference<T>(sReference);
+                    //rReturn = LoadDataByReference<T>(sReference);
                 }
             }
             rReturn = QuickFilter<T>(rReturn, null, null);
@@ -330,7 +330,7 @@ namespace NetWorkedData
                 if (sTryOnDisk == true)
                 {
                     // TODO : Lag connection : look for quick solution
-                    rReturn = LoadDataByReference<T>(sReference);
+                    //rReturn = LoadDataByReference<T>(sReference);
                 }
             }
             rReturn = QuickFilter<T>(rReturn, sAccountReference, sGameSave);
@@ -593,129 +593,130 @@ namespace NetWorkedData
         #region LOAD PARTIAL
 
         //-------------------------------------------------------------------------------------------------------------
-        private static T LoadDataByReference<T>(string sReference) where T : NWDTypeClass, new()
-        {
-            Debug.Log("LoadDataByReference(" + sReference + ")");
-            NWEBenchmark.Start();
-            T rReturn = null;
-            NWDBasisHelper tTypeInfos = BasisHelper<T>();
-            if (tTypeInfos.DatasByReference.ContainsKey(sReference) == false)
-            {
-                SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-                if (tTypeInfos.kAccountDependent)
-                {
-                    tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-                }
-                if (tSQLiteConnection != null)
-                {
-                    if (tSQLiteConnection.IsValid())
-                    {
-                        List<T> tSelect = tSQLiteConnection.Query<T>("SELECT * FROM " + tTypeInfos.ClassNamePHP + " WHERE `" + NWDToolbox.PropertyName(() => FictiveData<T>().Reference) + "` = '" + sReference + "';");
-                        if (tSelect != null)
-                        {
-                            foreach (T tItem in tSelect)
-                            {
-                                rReturn = tItem as T;
-                                tItem.LoadedFromDatabase();
-#if UNITY_EDITOR
-                                tItem.RowAnalyze();
-#endif
-                            }
-                        }
-                    }
-                }
-            }
-            NWEBenchmark.Finish();
-#if UNITY_EDITOR
-            BasisHelper<T>().FilterTableEditor();
-            BasisHelper<T>().RepaintTableEditor();
-#endif
-            return rReturn;
-        }
+        //TODO : rewrite with SQLiteAccountHandle
+        //        private static T LoadDataByReference<T>(string sReference) where T : NWDTypeClass, new()
+        //        {
+        //            Debug.Log("LoadDataByReference(" + sReference + ")");
+        //            NWEBenchmark.Start();
+        //            T rReturn = null;
+        //            NWDBasisHelper tTypeInfos = BasisHelper<T>();
+        //            if (tTypeInfos.DatasByReference.ContainsKey(sReference) == false)
+        //            {
+        //                SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+        //                if (tTypeInfos.kAccountDependent)
+        //                {
+        //                    tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+        //                }
+        //                if (tSQLiteConnection != null)
+        //                {
+        //                    if (tSQLiteConnection.IsValid())
+        //                    {
+        //                        List<T> tSelect = tSQLiteConnection.Query<T>("SELECT * FROM " + tTypeInfos.ClassNamePHP + " WHERE `" + NWDToolbox.PropertyName(() => FictiveData<T>().Reference) + "` = '" + sReference + "';");
+        //                        if (tSelect != null)
+        //                        {
+        //                            foreach (T tItem in tSelect)
+        //                            {
+        //                                rReturn = tItem as T;
+        //                                tItem.LoadedFromDatabase();
+        //#if UNITY_EDITOR
+        //                                tItem.RowAnalyze();
+        //#endif
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            NWEBenchmark.Finish();
+        //#if UNITY_EDITOR
+        //            BasisHelper<T>().FilterTableEditor();
+        //            BasisHelper<T>().RepaintTableEditor();
+        //#endif
+        //            return rReturn;
+        //        }
         //-------------------------------------------------------------------------------------------------------------
-        private static void LoadDataToSync<T>(NWDAppEnvironment sEnvironment) where T : NWDTypeClass, new()
-        {
-            NWEBenchmark.Start();
-            NWDBasisHelper tTypeInfos = BasisHelper<T>();
-            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-            if (tTypeInfos.kAccountDependent)
-            {
-                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-            }
-            if (tSQLiteConnection != null)
-            {
-                if (tSQLiteConnection.IsValid())
-                {
-                    //SQLiteCommand tCommand = tSQLiteConnection.CreateCommand("SELECT `Reference` FROM " + tTypeInfos.ClassNamePHP + " WHERE `"+ sEnvironment.Environment + "Sync` = '0' OR `"+ sEnvironment.Environment + "Sync` = '1';");
-                    //List<string> tSelect = tCommand.ExecuteQuery<string>();
-                    string tQuery = "SELECT `" + NWDToolbox.PropertyName(() => FictiveData<T>().Reference) + "` FROM " + tTypeInfos.ClassNamePHP + " WHERE `" + sEnvironment.Environment + "Sync` = '0' OR `" + sEnvironment.Environment + "Sync` = '1';";
-                    //Debug.Log(tQuery);
-                    SQLiteCommand tCreateCommand = tSQLiteConnection.CreateCommand(tQuery);
-                    List<NWDTypeClassReference> tSelect = tCreateCommand.ExecuteQuery<NWDTypeClassReference>();
-                    if (tSelect != null)
-                    {
-                        foreach (NWDTypeClassReference tReference in tSelect)
-                        {
-                            //Debug.Log("tReference = " + tReference.Reference);
-                            if (tReference.Reference != null)
-                            {
-                                GetRawDataByReference<T>(tReference.Reference);
-                            }
-                        }
-                    }
-                }
-            }
-            NWEBenchmark.Finish();
-#if UNITY_EDITOR
-            BasisHelper<T>().FilterTableEditor();
-            BasisHelper<T>().RepaintTableEditor();
-#endif
-        }
+        //        private static void LoadDataToSync<T>(NWDAppEnvironment sEnvironment) where T : NWDTypeClass, new()
+        //        {
+        //            NWEBenchmark.Start();
+        //            NWDBasisHelper tTypeInfos = BasisHelper<T>();
+        //            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+        //            if (tTypeInfos.kAccountDependent)
+        //            {
+        //                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+        //            }
+        //            if (tSQLiteConnection != null)
+        //            {
+        //                if (tSQLiteConnection.IsValid())
+        //                {
+        //                    //SQLiteCommand tCommand = tSQLiteConnection.CreateCommand("SELECT `Reference` FROM " + tTypeInfos.ClassNamePHP + " WHERE `"+ sEnvironment.Environment + "Sync` = '0' OR `"+ sEnvironment.Environment + "Sync` = '1';");
+        //                    //List<string> tSelect = tCommand.ExecuteQuery<string>();
+        //                    string tQuery = "SELECT `" + NWDToolbox.PropertyName(() => FictiveData<T>().Reference) + "` FROM " + tTypeInfos.ClassNamePHP + " WHERE `" + sEnvironment.Environment + "Sync` = '0' OR `" + sEnvironment.Environment + "Sync` = '1';";
+        //                    //Debug.Log(tQuery);
+        //                    SQLiteCommand tCreateCommand = tSQLiteConnection.CreateCommand(tQuery);
+        //                    List<NWDTypeClassReference> tSelect = tCreateCommand.ExecuteQuery<NWDTypeClassReference>();
+        //                    if (tSelect != null)
+        //                    {
+        //                        foreach (NWDTypeClassReference tReference in tSelect)
+        //                        {
+        //                            //Debug.Log("tReference = " + tReference.Reference);
+        //                            if (tReference.Reference != null)
+        //                            {
+        //                                GetRawDataByReference<T>(tReference.Reference);
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            NWEBenchmark.Finish();
+        //#if UNITY_EDITOR
+        //            BasisHelper<T>().FilterTableEditor();
+        //            BasisHelper<T>().RepaintTableEditor();
+        //#endif
+        //        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         #region SELECT
         //-------------------------------------------------------------------------------------------------------------
-        public static T[] SelectDatasWhereRequest<T>(string sWhere = "`AC`=1;") where T : NWDTypeClass, new()
-        {
-            NWEBenchmark.Start();
-            List<T> rResult = new List<T>();
-            NWDBasisHelper tTypeInfos = BasisHelper<T>();
-            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-            if (tTypeInfos.kAccountDependent)
-            {
-                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-            }
-            if (tSQLiteConnection != null)
-            {
-                if (tSQLiteConnection.IsValid())
-                {
-                    string tQuery = "SELECT `" + NWDToolbox.PropertyName(() => FictiveData<T>().Reference) + "` FROM " + tTypeInfos.ClassNamePHP + " WHERE " + sWhere;
-                    Debug.Log(tQuery);
-                    SQLiteCommand tCreateCommand = tSQLiteConnection.CreateCommand(tQuery);
-                    List<NWDTypeClassReference> tSelect = tCreateCommand.ExecuteQuery<NWDTypeClassReference>();
-                    if (tSelect != null)
-                    {
-                        foreach (NWDTypeClassReference tReference in tSelect)
-                        {
-                            if (tReference.Reference != null)
-                            {
-                                T tData = GetRawDataByReference<T>(tReference.Reference, true);
-                                if (tData != null)
-                                {
-                                    rResult.Add(tData);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            NWEBenchmark.Finish();
-#if UNITY_EDITOR
-            BasisHelper<T>().FilterTableEditor();
-            BasisHelper<T>().RepaintTableEditor();
-#endif
-            return rResult.ToArray();
-        }
+        //        public static T[] SelectDatasWhereRequest<T>(string sWhere = "`AC`=1;") where T : NWDTypeClass, new()
+        //        {
+        //            NWEBenchmark.Start();
+        //            List<T> rResult = new List<T>();
+        //            NWDBasisHelper tTypeInfos = BasisHelper<T>();
+        //            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+        //            if (tTypeInfos.kAccountDependent)
+        //            {
+        //                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+        //            }
+        //            if (tSQLiteConnection != null)
+        //            {
+        //                if (tSQLiteConnection.IsValid())
+        //                {
+        //                    string tQuery = "SELECT `" + NWDToolbox.PropertyName(() => FictiveData<T>().Reference) + "` FROM " + tTypeInfos.ClassNamePHP + " WHERE " + sWhere;
+        //                    Debug.Log(tQuery);
+        //                    SQLiteCommand tCreateCommand = tSQLiteConnection.CreateCommand(tQuery);
+        //                    List<NWDTypeClassReference> tSelect = tCreateCommand.ExecuteQuery<NWDTypeClassReference>();
+        //                    if (tSelect != null)
+        //                    {
+        //                        foreach (NWDTypeClassReference tReference in tSelect)
+        //                        {
+        //                            if (tReference.Reference != null)
+        //                            {
+        //                                T tData = GetRawDataByReference<T>(tReference.Reference, true);
+        //                                if (tData != null)
+        //                                {
+        //                                    rResult.Add(tData);
+        //                                }
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            NWEBenchmark.Finish();
+        //#if UNITY_EDITOR
+        //            BasisHelper<T>().FilterTableEditor();
+        //            BasisHelper<T>().RepaintTableEditor();
+        //#endif
+        //            return rResult.ToArray();
+        //        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

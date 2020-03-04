@@ -20,6 +20,7 @@ using UnityEngine;
 using System.Threading;
 using System.Text.RegularExpressions;
 using SQLite4Unity3d;
+using Sqlite3DatabaseHandle = System.IntPtr;
 //using BasicToolBox;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -266,11 +267,17 @@ namespace NetWorkedData
                 {
                     //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
                     //{
-                        NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
+                    Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    //NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
                     //}
                     //if (NWDDataManager.SharedInstance().DataEditorConnected == true)
                     //{
-                        NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+                    Sqlite3DatabaseHandle stmtE = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
+                    SQLite3.Step(stmtE);
+                    SQLite3.Finalize(stmtE);
+                        //NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
                     //}
                     foreach (NWDTypeClass tObject in sInsertDataQueuePool)
                     {
@@ -284,11 +291,17 @@ namespace NetWorkedData
                     }
                     //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
                     //{
-                        NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "COMMIT");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    //NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
                     //}
                     //if (NWDDataManager.SharedInstance().DataEditorConnected == true)
                     //{
-                        NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+                    stmtE = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "COMMIT");
+                    SQLite3.Step(stmtE);
+                    SQLite3.Finalize(stmtE);
+                    //NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
                     //}
                     foreach (NWDTypeClass tObject in sInsertDataQueuePool)
                     {
@@ -438,11 +451,18 @@ namespace NetWorkedData
                 {
                     //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
                     //{
-                        NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
+                    Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    //NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
                     //}
                     //if (NWDDataManager.SharedInstance().DataEditorConnected == true)
                     //{
-                        NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+                        //NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+
+                    Sqlite3DatabaseHandle stmtE = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
+                    SQLite3.Step(stmtE);
+                    SQLite3.Finalize(stmtE);
                     //}
                     foreach (NWDTypeClass tObject in sUpdateDataQueuePool)
                     {
@@ -456,11 +476,17 @@ namespace NetWorkedData
                     }
                     //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
                     //{
-                        NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "COMMIT");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    //NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
                     //}
                     //if (NWDDataManager.SharedInstance().DataEditorConnected == true)
                     //{
-                        NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+                    stmtE = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "COMMIT");
+                    SQLite3.Step(stmtE);
+                    SQLite3.Finalize(stmtE);
+                    //NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
                     //}
                     foreach (NWDTypeClass tObject in sUpdateDataQueuePool)
                     {
@@ -596,11 +622,17 @@ namespace NetWorkedData
                 {
                     //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
                     //{
-                        NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
+                    Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    //NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
                     //}
                     //if (NWDDataManager.SharedInstance().DataEditorConnected == true)
                     //{
-                        NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+                    Sqlite3DatabaseHandle stmtE = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
+                    SQLite3.Step(stmtE);
+                    SQLite3.Finalize(stmtE);
+                    //NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
                     //}
                     foreach (NWDTypeClass tObject in sDeleteDataQueuePool)
                     {
@@ -614,11 +646,17 @@ namespace NetWorkedData
                     }
                     //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
                     //{
-                        NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "COMMIT");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    //NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
                     //}
                     //if (NWDDataManager.SharedInstance().DataEditorConnected == true)
                     //{
-                        NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+                    stmtE = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "COMMIT");
+                    SQLite3.Step(stmtE);
+                    SQLite3.Finalize(stmtE);
+                    //NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
                     //}
                     foreach (NWDTypeClass tObject in kDeleteDataQueueMain)
                     {

@@ -114,6 +114,7 @@ namespace NetWorkedData
                 }
                 tH += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                 tH += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                tH += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                 // Tag management
                 tH += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                 if (BasisHelper().kAccountDependent == false)
