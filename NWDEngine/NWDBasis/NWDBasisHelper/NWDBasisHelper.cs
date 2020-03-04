@@ -890,7 +890,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void AddData(NWDTypeClass sData)
         {
-            //Debug.Log("NWDDatas AddData(" + sData.Reference + ")");
             //NWEBenchmark.Start();
             // get reference
             string tReference = sData.Reference;
@@ -899,10 +898,11 @@ namespace NetWorkedData
             {
                 //Debug.Log("NWDDatas AddData() add data");
                 // get internal key
-                string tInternalKey = sData.InternalKey;
                 // Anyway I add Data in datalist
                 Datas.Add(sData);
                 DatasByReference.Add(tReference, sData);
+
+                string tInternalKey = sData.InternalKey;
                 if (DatasByInternalKey.ContainsKey(tInternalKey) == true)
                 {
                     DatasByInternalKey[tInternalKey].Add(sData);
@@ -918,18 +918,6 @@ namespace NetWorkedData
                     DatasByReverseInternalKey.Add(sData, tInternalKey);
                 }
 
-                // Ok now I check if I need to install it in reachable data
-                //bool tDataIsValid = sData.DataIntegrityState();
-                //if (tDataIsValid == true)
-                //{
-                //    AddDataReachable(sData);
-                //}
-                //else
-                //{
-                //    Debug.LogWarning("Try to add not integrity data!");
-                //}
-
-                //Debug.Log("NWDDatas AddData() add data Datas count = " + Datas.Count);
             }
             else
             {
@@ -937,19 +925,7 @@ namespace NetWorkedData
             }
             // Ok now I add datas in editor table list
 #if UNITY_EDITOR
-            // add load object in editor table
-            //if (DatasInEditorReferenceList.Contains(tReference) == false)
-            //{
-            //    // Active to auto remove on filter
-            //    // if (sObject.Tag == (int)m_SearchTag)
-            //    {
-            //        DatasInEditorReferenceList.Add(tReference);
-            //    }
-            //}
-            //DatasInEditorRowDescriptionList.Add(tInternalKey + " <" + tReference + ">");
-            //DatasInEditorSelectionList.Add(false);
-
-            /*NEW*/
+            
             if (EditorTableDatas.Contains(sData) == false)
             {
                 EditorTableDatas.Add(sData);
@@ -962,7 +938,6 @@ namespace NetWorkedData
             {
                 EditorDatasMenu.Add(sData.Reference, sData.DatasMenu());
             }
-            /*NEW*/
 #endif
             //NWEBenchmark.Finish();
         }

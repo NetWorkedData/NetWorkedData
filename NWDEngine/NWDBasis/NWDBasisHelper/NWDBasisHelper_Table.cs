@@ -731,7 +731,7 @@ namespace NetWorkedData
             stmt = SQLite3.Prepare2(tConnectorHandle, "DROP INDEX IF EXISTS `" + ClassNamePHP + "_Bundle`;");
             SQLite3.Step(stmt);
             SQLite3.Finalize(stmt);
-            stmt = SQLite3.Prepare2(tConnectorHandle, "DROP INDEX IF EXISTS`" + ClassNamePHP + "_Modified;");
+            stmt = SQLite3.Prepare2(tConnectorHandle, "DROP INDEX IF EXISTS`" + ClassNamePHP + "_Modified`;");
             SQLite3.Step(stmt);
             SQLite3.Finalize(stmt);
             stmt = SQLite3.Prepare2(tConnectorHandle, "DROP TABLE IF EXISTS `" + ClassNamePHP + "`;");
