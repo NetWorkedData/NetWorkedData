@@ -36,6 +36,7 @@ namespace NetWorkedData
             if (NWDLauncher.ActiveBenchmark)
             {
                 NWEBenchmark.Start();
+                NWEBenchmark.Log("LibVersionNumber() = " + SQLite3.LibVersionNumber());
             }
             bool rReturn = false;
             if (DataEditorConnected == false && DataEditorConnectionInProgress == false)
@@ -129,6 +130,9 @@ namespace NetWorkedData
 
                         DataEditorConnected = true;
                         DataEditorConnectionInProgress = false;
+                    IntPtr stmtpragmaX = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA cipher_memory_security = OFF;");
+                    SQLite3.Step(stmtpragmaX);
+                    SQLite3.Finalize(stmtpragmaX);
                     //IntPtr stmtpragma = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA synchronous = OFF;");
                     //SQLite3.Step(stmtpragma);
                     //SQLite3.Finalize(stmtpragma);
@@ -272,6 +276,7 @@ namespace NetWorkedData
             if (NWDLauncher.ActiveBenchmark)
             {
                 NWEBenchmark.Start();
+                NWEBenchmark.Log("LibVersionNumber() = " + SQLite3.LibVersionNumber());
             }
             bool rReturn = true;
             //Debug.LogWarning("ConnectToDatabaseAccount (" + sSurProtection + ")");
@@ -317,6 +322,9 @@ namespace NetWorkedData
 
                     DataAccountConnected = true;
                     DataAccountConnectionInProgress = false;
+                    IntPtr stmtpragmaX = SQLite3.Prepare2(SQLiteAccountHandle, "PRAGMA cipher_memory_security = OFF;");
+                    SQLite3.Step(stmtpragmaX);
+                    SQLite3.Finalize(stmtpragmaX);
                     //IntPtr stmtpragma = SQLite3.Prepare2(SQLiteAccountHandle, "PRAGMA synchronous = OFF;");
                     //SQLite3.Step(stmtpragma);
                     //SQLite3.Finalize(stmtpragma);
