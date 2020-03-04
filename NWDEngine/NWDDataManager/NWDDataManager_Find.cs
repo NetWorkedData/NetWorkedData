@@ -76,7 +76,7 @@ namespace NetWorkedData
             }
             DataEditorLoaded = true;
             PlayerLanguageLoad();
-            LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
+            //LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
             if (NWDLauncher.ActiveBenchmark)
             {
@@ -125,7 +125,7 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().DataEditorLoaded = true;
                 //NWEBenchmark.Finish("LoadData", true, "with total = " + tBenchmark.ToString("F5") + "s in total");
                 PlayerLanguageLoad();
-                LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
+                //LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
                 EditorRefresh();
                 //NWDLauncher.SetState(NWDStatut.DataEditorLoaded);
             }
