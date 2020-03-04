@@ -1,4 +1,4 @@
-﻿//=====================================================================================================================
+//=====================================================================================================================
 //
 //  ideMobi 2020©
 //  All rights reserved by ideMobi
@@ -11,6 +11,8 @@ using System.Collections;
 using UnityEngine;
 using SQLite4Unity3d;
 using Sqlite3DatabaseHandle = System.IntPtr;
+using Sqlite3Statement = System.IntPtr;
+//using BasicToolBox;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

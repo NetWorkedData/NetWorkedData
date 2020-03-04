@@ -59,18 +59,19 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().LauncherClassAccountStep + // load account class
                 0;
             StepIndex = 0;
+            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_LAUNCHER_STEP); // to init the gauge to 0
             // lauch engine
             tWaitTime = Engine_Runtime_Async();
-            NotifyStep();
+            NotifyStep(true);
             yield return tWaitTime;
             // declare models
             tWaitTime = Declare_Runtime_Async();
-            NotifyStep();
+            NotifyStep(true);
             yield return tWaitTime;
             // restaure models' param
             tWaitTime = null;
             Restaure_Editor();
-            NotifyStep();
+            NotifyStep(true);
             yield return tWaitTime;
 
             StepSum = 12 +
@@ -85,16 +86,16 @@ namespace NetWorkedData
             // connect editor
             tWaitTime = null;
             Connect_Editor_Editor();
-            NotifyStep();
+            NotifyStep(true);
             yield return tWaitTime;
             // create table editor
             tWaitTime = null;
             CreateTable_Editor_Editor();
-            NotifyStep();
+            NotifyStep(true);
             yield return tWaitTime;
             // load editor data
             tWaitTime = NWDDataManager.SharedInstance().AsyncReloadAllObjectsEditor();
-            NotifyStep();
+            NotifyStep(true);
             yield return tWaitTime;
             // index all data editor
             //tWaitTime = NWDDataManager.SharedInstance().AsyncIndexAllObjects();
@@ -105,16 +106,16 @@ namespace NetWorkedData
             // need account pincode
             tWaitTime = null;
             Connect_Account_Editor();
-            NotifyStep();
+            NotifyStep(true);
             yield return tWaitTime;
             // create table account
             tWaitTime = null;
             CreateTable_Account_Editor();
-            NotifyStep();
+            NotifyStep(true);
             yield return tWaitTime;
 
             NotifyDataAccountReady();
-            NotifyStep();
+            NotifyStep(true);
 
             // load account data account
             tWaitTime = NWDDataManager.SharedInstance().AsyncReloadAllObjectsAccount();
@@ -125,12 +126,12 @@ namespace NetWorkedData
             // Special NWDAppConfiguration loaded()
             tWaitTime = null;
             NWDAppConfiguration.SharedInstance().Loaded();
-            NotifyStep();
+            NotifyStep(true);
             yield return tWaitTime;
             // Ready!
             tWaitTime = null;
             Ready_Editor();
-            NotifyStep();
+            NotifyStep(true);
             yield return tWaitTime;
 
             NotifyNetWorkedDataReady();

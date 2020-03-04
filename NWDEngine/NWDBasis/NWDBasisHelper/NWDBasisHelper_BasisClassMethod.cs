@@ -36,6 +36,45 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
+        public NWDTypeClass CreateInstanceQuickly(bool sInsertInNetWorkedData, PropertyInfo[] sPropertyInfo)
+        {
+            return CreateInstance_Bypass(sInsertInNetWorkedData, false, sPropertyInfo);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        protected virtual NWDTypeClass CreateInstance_Bypass(bool sInsertInNetWorkedData, bool sStupid, PropertyInfo[] sPropertyInfo)
+        {
+            NWDTypeClass rReturn = Activator.CreateInstance(ClassType, new object[] { sInsertInNetWorkedData }) as NWDTypeClass;
+            foreach (PropertyInfo tPropertyInfo in sPropertyInfo)
+            {
+                if (tPropertyInfo.PropertyType.IsSubclassOf(typeof(NWEDataType)))
+                {
+                    NWEDataType tV = Activator.CreateInstance(tPropertyInfo.PropertyType) as NWEDataType;
+                    tPropertyInfo.SetValue(rReturn, tV);
+                }
+                else if (tPropertyInfo.PropertyType.IsSubclassOf(typeof(NWEDataTypeInt)))
+                {
+                    NWEDataTypeInt tV = Activator.CreateInstance(tPropertyInfo.PropertyType) as NWEDataTypeInt;
+                    tPropertyInfo.SetValue(rReturn, tV);
+                }
+                else if(tPropertyInfo.PropertyType.IsSubclassOf(typeof(NWEDataTypeEnum)))
+                {
+                    NWEDataTypeEnum tV = Activator.CreateInstance(tPropertyInfo.PropertyType) as NWEDataTypeEnum;
+                    tPropertyInfo.SetValue(rReturn, tV);
+                }
+                else if (tPropertyInfo.PropertyType.IsSubclassOf(typeof(NWEDataTypeMask)))
+                {
+                    NWEDataTypeMask tV = Activator.CreateInstance(tPropertyInfo.PropertyType) as NWEDataTypeMask;
+                    tPropertyInfo.SetValue(rReturn, tV);
+                }
+                else if (tPropertyInfo.PropertyType.IsSubclassOf(typeof(NWEDataTypeFloat)))
+                {
+                    NWEDataTypeFloat tV = Activator.CreateInstance(tPropertyInfo.PropertyType) as NWEDataTypeFloat;
+                    tPropertyInfo.SetValue(rReturn, tV);
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public string PHP_TABLENAME(NWDAppEnvironment sEnvironment)
         {
             return NWDAppConfiguration.SharedInstance().TablePrefixe + sEnvironment.Environment + "_" + TablePrefix + ClassTableName;

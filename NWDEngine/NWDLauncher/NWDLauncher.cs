@@ -1,4 +1,4 @@
-﻿//=====================================================================================================================
+//=====================================================================================================================
 //
 //  ideMobi 2019©
 //
@@ -99,7 +99,7 @@ namespace NetWorkedData
         public const string K_LAUNCHER_STEP = "K_LAUNCHER_STEP";
         public const string K_LAUNCHER_ENGINE_READY = "K_LAUNCHER_ENGINE_READY";
         public const string K_LAUNCHER_EDITOR_READY = "K_LAUNCHER_EDITOR_READY";
-        public const string K_LAUNCHER_ACCOUNT_READY = "K_LAUNCHER_ACCOUN_READY";
+        public const string K_LAUNCHER_ACCOUNT_READY = "K_LAUNCHER_ACCOUNT_READY";
         public const string K_NETWORKEDDATA_READY = "K_NETWORKEDDATA_READY";
         //-------------------------------------------------------------------------------------------------------------
     }
@@ -121,14 +121,14 @@ namespace NetWorkedData
             return (float)StepIndex / (float)StepSum;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void NotifyStep()
+        public static void NotifyStep(bool sYeld = false)
         {
             //if (ActiveBenchmark)
             //{
             //    NWEBenchmark.Start("NotifyStep");
             //}
             StepIndex++;
-            if (YieldValid())
+            if ( sYeld || YieldValid())
             {
                 NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_LAUNCHER_STEP);
             }
@@ -189,8 +189,8 @@ namespace NetWorkedData
 
             tRepport.Add("COMPILE ON", NWDAppConfiguration.SharedInstance().CompileOn); tRepportLayout.Add("---");
             tRepport.Add("COMPILE FOR", Application.platform.ToString()); tRepportLayout.Add("---");
-            //tRepport.Add("OS VERSION", SystemInfo.operatingSystem); tRepportLayout.Add("---");
-            tRepport.Add("OS VERSION", SystemInfo.operatingSystemFamily.ToString()); tRepportLayout.Add("---");
+            tRepport.Add("OS VERSION", SystemInfo.operatingSystem); tRepportLayout.Add("---");
+            //tRepport.Add("OS VERSION", SystemInfo.operatingSystemFamily.ToString()); tRepportLayout.Add("---");
             tRepport.Add("COMPILE WITH", Application.unityVersion); tRepportLayout.Add("---");
             //tRepport.Add("DEVICE", SystemInfo.deviceName); tRepportLayout.Add("---");
             tRepport.Add("DEVICE", SystemInfo.deviceModel); tRepportLayout.Add("---");
