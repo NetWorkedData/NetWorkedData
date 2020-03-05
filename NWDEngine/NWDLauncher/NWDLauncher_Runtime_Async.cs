@@ -59,6 +59,7 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().LauncherClassAccountStep + // load account class
                 0;
             StepIndex = 0;
+            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_LAUNCHER_STEP);
             // lauch engine
             tWaitTime = Engine_Runtime_Async();
             NotifyStep();
