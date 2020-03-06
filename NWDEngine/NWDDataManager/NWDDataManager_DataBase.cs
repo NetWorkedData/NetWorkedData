@@ -52,7 +52,7 @@ namespace NetWorkedData
                     AssetDatabase.Refresh();
                 }
                 // path for base editor
-                string tDatabasePathEditor = "Assets/" + DatabasePathEditor + "/" + KDBPrefix + DatabaseEditorName();
+                string tDatabasePathEditor = "Assets/" + DatabasePathEditor + "/" + DatabaseEditorName();
 #else
                 // Get saved App version from pref
                 // check if file exists in Application.persistentDataPath
