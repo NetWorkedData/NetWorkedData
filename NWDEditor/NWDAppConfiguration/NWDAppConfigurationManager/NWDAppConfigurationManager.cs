@@ -110,8 +110,8 @@ namespace NetWorkedData
                 IconAndTitle.text = NWDConstants.K_APP_CONFIGURATION_TITLE;
                 if (IconAndTitle.image == null)
                 {
-                    
-                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDAppConfigurationManager).Name+" t:texture");
+
+                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDAppConfigurationManager).Name + " t:texture");
                     foreach (string tGUID in sGUIDs)
                     {
                         string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
@@ -215,7 +215,7 @@ namespace NetWorkedData
                 bool tUnused = false;
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
                 {
-                   if (NWDBasisHelper.FindTypeInfos(tType).WebModelSQLOrder.ContainsKey(tWS.Key) == true)
+                    if (NWDBasisHelper.FindTypeInfos(tType).WebModelSQLOrder.ContainsKey(tWS.Key) == true)
                     {
                         tUnused = true;
                         break;
@@ -253,11 +253,11 @@ namespace NetWorkedData
             //EditorGUI.EndDisabledGroup();
             //EditorGUI.BeginDisabledGroup(NWDAppConfiguration.SharedInstance().SurProtected);
 
-        NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
+            NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
             NWDAppConfiguration.SharedInstance().BundleDatas = EditorGUILayout.Toggle("Bundle Datas", NWDAppConfiguration.SharedInstance().BundleDatas);
             NWDAppConfiguration.SharedInstance().LauncherBenchmark = EditorGUILayout.Toggle("Launcher Benchmark", NWDAppConfiguration.SharedInstance().LauncherBenchmark);
-        NWDAppConfiguration.SharedInstance().LauncherFaster = EditorGUILayout.IntField("Launcher Faster", NWDAppConfiguration.SharedInstance().LauncherFaster);
-            if (NWDAppConfiguration.SharedInstance().LauncherFaster <1)
+            NWDAppConfiguration.SharedInstance().LauncherFaster = EditorGUILayout.IntField("Launcher Faster", NWDAppConfiguration.SharedInstance().LauncherFaster);
+            if (NWDAppConfiguration.SharedInstance().LauncherFaster < 1)
             {
                 NWDAppConfiguration.SharedInstance().LauncherFaster = 1;
             }
@@ -265,22 +265,34 @@ namespace NetWorkedData
             //EditorGUI.EndDisabledGroup();
             NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
             // Database editor informations
-            string tDatabasePathEditor = NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseNameEditor;
+            string tDatabasePathEditor = NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseEditorName();
             NWDGUILayout.SubSection("Databases editor config for all environments");
             EditorGUILayout.LabelField("Editor path ", tDatabasePathEditor);
             EditorGUILayout.LabelField("Editor hash salt", NWDAppConfiguration.SharedInstance().EditorPass);
             EditorGUILayout.LabelField("Editor hash salt A", NWDAppConfiguration.SharedInstance().EditorPassA);
             EditorGUILayout.LabelField("Editor hash salt B", NWDAppConfiguration.SharedInstance().EditorPassB);
-            EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.TextField("Editor pass result", NWDAppConfiguration.SharedInstance().GetEditorPass());
-            EditorGUI.EndDisabledGroup();
-            if (GUILayout.Button("Editor Database File and password copy to Clipboard"))
+            if (NWDDataManager.SharedInstance().IsSecure())
             {
-                NWEClipboard.CopyToClipboard(NWDAppConfiguration.SharedInstance().GetEditorPass());
-                EditorUtility.RevealInFinder("Assets/" + tDatabasePathEditor);
-                EditorUtility.OpenWithDefaultApp("Assets/" + tDatabasePathEditor);
-                Debug.LogWarning("DatabasePathEditor = Assets/" + tDatabasePathEditor);
-                Debug.LogWarning("Editor pass result = " + NWDAppConfiguration.SharedInstance().GetEditorPass());
+                EditorGUI.BeginDisabledGroup(true);
+                EditorGUILayout.TextField("Editor pass result", NWDAppConfiguration.SharedInstance().GetEditorPass());
+                EditorGUI.EndDisabledGroup();
+                if (GUILayout.Button("Editor Database File and password copy to Clipboard"))
+                {
+                    NWEClipboard.CopyToClipboard(NWDAppConfiguration.SharedInstance().GetEditorPass());
+                    EditorUtility.RevealInFinder("Assets/" + tDatabasePathEditor);
+                    EditorUtility.OpenWithDefaultApp("Assets/" + tDatabasePathEditor);
+                    Debug.LogWarning("DatabasePathEditor = Assets/" + tDatabasePathEditor);
+                    Debug.LogWarning("Editor pass result = " + NWDAppConfiguration.SharedInstance().GetEditorPass());
+                }
+            }
+            else
+            {
+                if (GUILayout.Button("Editor Database File "))
+                {
+                    EditorUtility.RevealInFinder("Assets/" + tDatabasePathEditor);
+                    EditorUtility.OpenWithDefaultApp("Assets/" + tDatabasePathEditor);
+                    Debug.LogWarning("DatabasePathEditor = Assets/" + tDatabasePathEditor);
+                }
             }
             // Database account informations
             NWDGUILayout.SubSection("Databases accounts config for all environments (by device)");
@@ -288,51 +300,43 @@ namespace NetWorkedData
             EditorGUILayout.LabelField("Account hash salt", NWDAppConfiguration.SharedInstance().AccountHashSalt);
             EditorGUILayout.LabelField("Account hash salt A", NWDAppConfiguration.SharedInstance().AccountHashSaltA);
             EditorGUILayout.LabelField("Account hash salt B", NWDAppConfiguration.SharedInstance().AccountHashSaltB);
-            string tSurProtection = string.Empty;
 
-//           if (NWDAppConfiguration.SharedInstance().SurProtected == true)
-//            {
-//                if (NWDDataManager.SharedInstance().DatabaseAccountExists() == false)
-//                {
-//                }
-//                else
-//                {
-//#if UNITY_EDITOR
-//                    if (NWDLauncher.EditorByPass == true)
-//                    {
-//                        if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
-//                        {
-//                            tSurProtection = EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY);
-//                        }
-//                    }
-//#endif
-//                }
-//            }
-//            else
+            if (NWDDataManager.SharedInstance().IsSecure())
             {
-#if UNITY_EDITOR
-                if (NWDLauncher.EditorByPass == true)
+                string tSurProtection = string.Empty;
                 {
-                    if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
+                    if (NWDLauncher.EditorByPass == true)
                     {
-                        tSurProtection = EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY);
+                        if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
+                        {
+                            tSurProtection = EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY);
+                        }
                     }
                 }
-#endif
-            }
+                string tAccountPass = NWDAppConfiguration.SharedInstance().GetAccountPass(tSurProtection);
+                EditorGUI.BeginDisabledGroup(true);
+                EditorGUILayout.TextField("Account pass result", tAccountPass);
+                EditorGUI.EndDisabledGroup();
+                if (GUILayout.Button("Account Database File and password copy to Clipboard"))
+                {
+                    NWEClipboard.CopyToClipboard(tAccountPass);
+                    EditorUtility.RevealInFinder(NWDDataManager.SharedInstance().PathDatabaseAccount());
+                    EditorUtility.OpenWithDefaultApp(NWDDataManager.SharedInstance().PathDatabaseAccount());
+                    Debug.LogWarning("DatabasePathAccount = " + NWDDataManager.SharedInstance().PathDatabaseAccount());
+                    Debug.LogWarning("Account pass result = " + tAccountPass);
 
-            string tAccountPass = NWDAppConfiguration.SharedInstance().GetAccountPass(tSurProtection);
-            EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.TextField("Account pass result", tAccountPass);
-            EditorGUI.EndDisabledGroup();
-            if (GUILayout.Button("Account Database File and password copy to Clipboard"))
+                }
+            }
+            else
             {
-                NWEClipboard.CopyToClipboard(tAccountPass);
-                EditorUtility.RevealInFinder(NWDDataManager.SharedInstance().PathDatabaseAccount());
-                EditorUtility.OpenWithDefaultApp(NWDDataManager.SharedInstance().PathDatabaseAccount());
-                Debug.LogWarning("DatabasePathAccount = " + NWDDataManager.SharedInstance().PathDatabaseAccount());
-                Debug.LogWarning("Account pass result = " + tAccountPass);
-                
+                if (GUILayout.Button("Account Database File"))
+                {
+                    EditorUtility.RevealInFinder(NWDDataManager.SharedInstance().PathDatabaseAccount());
+                    EditorUtility.OpenWithDefaultApp(NWDDataManager.SharedInstance().PathDatabaseAccount());
+                    Debug.LogWarning("DatabasePathAccount = " + NWDDataManager.SharedInstance().PathDatabaseAccount());
+
+                }
+
             }
             NWDGUILayout.LittleSpace();
             // finish scroll view
@@ -343,7 +347,7 @@ namespace NetWorkedData
             NWDGUI.BeginRedArea();
             if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
             {
-                    NWDEditorWindow.GenerateCSharpFile();
+                NWDEditorWindow.GenerateCSharpFile();
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
