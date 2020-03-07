@@ -207,7 +207,8 @@ namespace NetWorkedData
             tRepport.Add("INFOS", "(infos)"); tRepportLayout.Add("---");
             tRepport.Add("LAUNCH UNITY", TimeStart.ToString("F3") + "s"); tRepportLayout.Add("---");
             tRepport.Add("SQL Secure", NWDDataManager.SharedInstance().IsSecure().ToString()); tRepportLayout.Add("---");
-            tRepport.Add("SQL Version", SQLite3.LibVersionNumber().ToString()); tRepportLayout.Add("---");
+            //tRepport.Add("SQL Version", SQLite3.LibVersionNumber().ToString()); tRepportLayout.Add("---");
+            tRepport.Add("SQL Version", NWDDataManager.SharedInstance().GetVersion()); tRepportLayout.Add("---");
             tRepport.Add("LAUNCH NWD", TimeNWDFinish.ToString("F3") + "s"); tRepportLayout.Add("---");
             tRepport.Add("COPY DATABASE", CopyDatabase.ToString()); tRepportLayout.Add("---");
             tRepport.Add("LAUNCH FINAL", TimeFinish.ToString("F3") + "s"); tRepportLayout.Add("---");

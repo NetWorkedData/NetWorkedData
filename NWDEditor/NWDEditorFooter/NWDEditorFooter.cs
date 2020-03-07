@@ -40,6 +40,7 @@ namespace NetWorkedData
                 "</b>  Environment : <b> " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().Environment +
                 "</b>  Webservice version : <b>" + NWDAppConfiguration.SharedInstance().WebBuild.ToString() +
                 "</b>  Version Bundle : <b>" + PlayerSettings.bundleVersion +
+                "</b>  SQLite : <b>" + NWDDataManager.SharedInstance().GetVersion() +
                 "</b>",
                 NWDGUI.kFooterLabelStyle);
             EditorGUILayout.EndHorizontal();
