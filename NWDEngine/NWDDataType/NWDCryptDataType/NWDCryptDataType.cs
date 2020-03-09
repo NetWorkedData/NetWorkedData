@@ -20,10 +20,6 @@ using System.IO;
 
 using UnityEngine;
 
-using SQLite4Unity3d;
-
-//using BasicToolBox;
-
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditorInternal;

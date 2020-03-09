@@ -17,7 +17,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using SQLite4Unity3d;
+
 using ZXing;
 using ZXing.QrCode;
 using UnityEngine.Networking;

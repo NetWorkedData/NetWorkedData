@@ -13,7 +13,7 @@
 
 using System;
 using System.Collections.Generic;
-using SQLite4Unity3d;
+
 using System.Collections;
 using System.IO;
 using System.Reflection;
@@ -190,6 +190,7 @@ namespace NetWorkedData
             tRepport.Add("COMPILE ON", NWDAppConfiguration.SharedInstance().CompileOn); tRepportLayout.Add("---");
             tRepport.Add("COMPILE FOR", Application.platform.ToString()); tRepportLayout.Add("---");
             tRepport.Add("OS VERSION", SystemInfo.operatingSystem); tRepportLayout.Add("---");
+            //tRepport.Add("ARCH", System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE", EnvironmentVariableTarget.Machine)); tRepportLayout.Add("---");
             //tRepport.Add("OS VERSION", SystemInfo.operatingSystemFamily.ToString()); tRepportLayout.Add("---");
             tRepport.Add("COMPILE WITH", Application.unityVersion); tRepportLayout.Add("---");
             //tRepport.Add("DEVICE", SystemInfo.deviceName); tRepportLayout.Add("---");

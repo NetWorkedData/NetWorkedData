@@ -24,9 +24,6 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-using SQLite4Unity3d;
-
-//using BasicToolBox;
 using System.Text.RegularExpressions;
 
 //=====================================================================================================================

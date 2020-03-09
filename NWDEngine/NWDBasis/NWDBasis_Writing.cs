@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
-using SQLite4Unity3d;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

@@ -25,8 +25,6 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-using SQLite4Unity3d;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {

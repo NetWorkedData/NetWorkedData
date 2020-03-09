@@ -12,7 +12,7 @@
 //=====================================================================================================================
 
 using System;
-using SQLite.Attribute;
+
 using UnityEngine;
 
 //=====================================================================================================================
@@ -39,18 +39,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupReset()]
         [NWDInspectorGroupStart(NWD.K_INSPECTOR_BASIS)]
-        [AutoIncrement, NWDNotEditable]
+        [NWDNotEditable]
         [NWDCertified]
         public int ID
         {
             get; set;
         }
-        //[SQLite.Attribute.IndexedAttribute(NWD.K_REFERENCE_INDEX, 0)]
-        //[Indexed(NWD.K_BASIS_INDEX, 0)]
         [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
-        [PrimaryKey, NWDNotEditable]
+        [NWDNotEditable]
         public string Reference
         {
             get; set;

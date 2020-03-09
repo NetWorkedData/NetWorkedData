@@ -15,7 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using SQLite4Unity3d;
+
 using System.Text;
 
 #if UNITY_EDITOR
@@ -77,21 +77,20 @@ namespace NetWorkedData
                     }
                 NWDLauncher.CopyDatabase = true;
 #if UNITY_ANDROID
-                    var tLoadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + KDBPrefix + DatabaseEditorName());  // this is the path to your StreamingAssets in android
+                    var tLoadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + DatabaseEditorName());  // this is the path to your StreamingAssets in android
                     while (!tLoadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
                     // then save to Application.persistentDataPath
                     File.WriteAllBytes(tPathEditor, tLoadDb.bytes);
 #elif (UNITY_IOS || UNITY_TVOS)
-                    var tLoadDb = Application.dataPath + "/Raw/" + KDBPrefix + DatabaseEditorName();  // this is the path to your StreamingAssets in iOS
+                    var tLoadDb = Application.dataPath + "/Raw/" + DatabaseEditorName();  // this is the path to your StreamingAssets in iOS
                     File.Copy(tLoadDb, tPathEditor);
 #elif (UNITY_STANDALONE_OSX || UNITY_WP8 || UNITY_WINRT || UNITY_WSA_10_0 || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX)
-                    var tLoadDb = Application.dataPath + "/Resources/Data/StreamingAssets/" + KDBPrefix + DatabaseEditorName();
+                    var tLoadDb = Application.dataPath + "/Resources/Data/StreamingAssets/" + DatabaseEditorName();
                     File.Copy(tLoadDb, tPathEditor);
 #else
-                    var tLoadDb = Application.dataPath + "/Resources/StreamingAssets/" + KDBPrefix + DatabaseEditorName();
+                    var tLoadDb = Application.dataPath + "/Resources/StreamingAssets/" + DatabaseEditorName();
                     File.Copy(tLoadDb, tPathEditor);
 #endif
-                
                     if (NWDLauncher.ActiveBenchmark)
                         {
                              NWEBenchmark.Finish("Copy editor");

@@ -18,10 +18,6 @@ using System.Linq;
 using System.IO;
 using System.Reflection;
 
-using SQLite4Unity3d;
-
-//using BasicToolBox;
-
 using UnityEngine;
 
 //=====================================================================================================================

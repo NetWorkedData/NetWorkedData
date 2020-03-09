@@ -22,7 +22,7 @@ using UnityEngine.Networking;
 
 #if UNITY_EDITOR
 using UnityEditor;
-using SQLite4Unity3d;
+
 //using BasicToolBox;
 
 //=====================================================================================================================
