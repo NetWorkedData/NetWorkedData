@@ -56,7 +56,7 @@ namespace NetWorkedData
 #else
                 // Get saved App version from pref
                 // check if file exists in Application.persistentDataPath
-                string tPathEditor = string.Format("{0}/{1}", Application.persistentDataPath, KDBPrefix + DatabaseEditorName());
+                string tPathEditor = string.Format("{0}/{1}", Application.persistentDataPath, DatabaseEditorName());
                 // if must be update by build version : delete old editor data!
                 if (UpdateBuildTimestamp() == true) // must update the editor base
                 {
@@ -169,7 +169,7 @@ namespace NetWorkedData
             //rReturn = Application.dataPath + "/" + NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseAccountName();
             rReturn = "Assets/" + DatabaseAccountName();
 #else
-            rReturn = string.Format("{0}/{1}", Application.persistentDataPath, KDBPrefix + NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseAccountName());
+            rReturn = string.Format("{0}/{1}", Application.persistentDataPath, NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseAccountName());
 #endif
             //Debug.Log("<color=orange>PathDatabaseAccount return :" + rReturn + "</color>");
             return rReturn;
