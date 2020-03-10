@@ -84,10 +84,10 @@ namespace NetWorkedData
 #elif (UNITY_IOS || UNITY_TVOS)
                     var tLoadDb = Application.dataPath + "/Raw/" + DatabaseEditorName();  // this is the path to your StreamingAssets in iOS
                     File.Copy(tLoadDb, tPathEditor);
-#elif (UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX)
+#elif (UNITY_STANDALONE_OSX)
                     var tLoadDb = Application.dataPath + "/Resources/Data/StreamingAssets/" + DatabaseEditorName();
                     File.Copy(tLoadDb, tPathEditor);
-#elif (UNITY_WP8 || UNITY_WINRT || UNITY_WSA_10_0 || UNITY_STANDALONE_WIN)
+#elif (UNITY_WP8 || UNITY_WINRT || UNITY_WSA_10_0 || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX)
                     var tLoadDb = Application.dataPath + "/StreamingAssets/" + DatabaseEditorName();
                     File.Copy(tLoadDb, tPathEditor);
 #else
@@ -95,9 +95,9 @@ namespace NetWorkedData
                     File.Copy(tLoadDb, tPathEditor);
 #endif
                     if (NWDLauncher.ActiveBenchmark)
-                        {
-                             NWEBenchmark.Finish("Copy editor");
-                        }
+                    {
+                            NWEBenchmark.Finish("Copy editor");
+                    }
                 }
                 string tDatabasePathEditor = tPathEditor;
 #endif
