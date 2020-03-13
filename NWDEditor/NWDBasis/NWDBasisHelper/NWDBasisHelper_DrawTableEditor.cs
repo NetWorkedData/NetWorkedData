@@ -691,6 +691,7 @@ namespace NetWorkedData
         //TODO : RENAME!
         public Rect DrawTableEditorTop(Rect sRect)
         {
+            int tMaxForMenuOrTextField = 25;
             //NWEBenchmark.Start();
             EditorGUIUtility.labelWidth = NWDGUI.KTableSearchLabelWidth;
             Rect rRect = new Rect(sRect.x, sRect.y, sRect.width, 0);
@@ -723,71 +724,89 @@ namespace NetWorkedData
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // draw accounts popup
                 EditorGUI.BeginDisabledGroup(!kAccountDependent);
-                List<string> tReferenceList = new List<string>();
-                List<string> tInternalNameList = new List<string>();
-                tReferenceList.Add(string.Empty);
-                tInternalNameList.Add(NWDConstants.kFieldNone);
-                tReferenceList.Add("---");
-                tInternalNameList.Add(string.Empty);
-                tReferenceList.Add("-=-");
-                tInternalNameList.Add(NWDConstants.kFieldEmpty);
-                tReferenceList.Add("-+-");
-                tInternalNameList.Add(NWDConstants.kFieldNotEmpty);
-                foreach (KeyValuePair<string, string> tKeyValue in NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).EditorDatasMenu.OrderBy(i => i.Value))
+
+                if (NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).Datas.Count < tMaxForMenuOrTextField)
                 {
-                    tReferenceList.Add(tKeyValue.Key);
-                    tInternalNameList.Add(tKeyValue.Value);
-                }
-                List<GUIContent> tContentFuturList = new List<GUIContent>();
-                foreach (string tS in tInternalNameList.ToArray())
-                {
-                    tContentFuturList.Add(new GUIContent(tS));
-                }
-                int tIndexAccount = tReferenceList.IndexOf(m_SearchAccount);
-                int tNewIndexAccount = EditorGUI.Popup(tRect, new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_ACCOUNT), tIndexAccount, tContentFuturList.ToArray(),
-                                                                           NWDGUI.KTableSearchEnum);
-                if (tNewIndexAccount >= 0 && tNewIndexAccount < tReferenceList.Count())
-                {
-                    m_SearchAccount = tReferenceList[tNewIndexAccount];
+                    List<string> tReferenceList = new List<string>();
+                    List<string> tInternalNameList = new List<string>();
+                    tReferenceList.Add(string.Empty);
+                    tInternalNameList.Add(NWDConstants.kFieldNone);
+                    tReferenceList.Add("---");
+                    tInternalNameList.Add(string.Empty);
+                    tReferenceList.Add("-=-");
+                    tInternalNameList.Add(NWDConstants.kFieldEmpty);
+                    tReferenceList.Add("-+-");
+                    tInternalNameList.Add(NWDConstants.kFieldNotEmpty);
+                    foreach (KeyValuePair<string, string> tKeyValue in NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).EditorDatasMenu.OrderBy(i => i.Value))
+                    {
+                        tReferenceList.Add(tKeyValue.Key);
+                        tInternalNameList.Add(tKeyValue.Value);
+                    }
+                    List<GUIContent> tContentFuturList = new List<GUIContent>();
+                    foreach (string tS in tInternalNameList.ToArray())
+                    {
+                        tContentFuturList.Add(new GUIContent(tS));
+                    }
+                    int tIndexAccount = tReferenceList.IndexOf(m_SearchAccount);
+                    int tNewIndexAccount = EditorGUI.Popup(tRect, new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_ACCOUNT), tIndexAccount, tContentFuturList.ToArray(),
+                                                                               NWDGUI.KTableSearchEnum);
+                    if (tNewIndexAccount >= 0 && tNewIndexAccount < tReferenceList.Count())
+                    {
+                        m_SearchAccount = tReferenceList[tNewIndexAccount];
+                    }
+                    else
+                    {
+                        m_SearchAccount = string.Empty;
+                    }
+
                 }
                 else
                 {
-                    m_SearchAccount = string.Empty;
+                    m_SearchAccount = EditorGUI.TextField(tRect, new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_GAMESAVE), m_SearchAccount, NWDGUI.KTableSearchTextfield);
                 }
                 EditorGUI.EndDisabledGroup();
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // draw GameSave popup
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
                 EditorGUI.BeginDisabledGroup(!ClassGameSaveDependent);
-                List<string> tReferenceSaveList = new List<string>();
-                List<string> tInternalNameSaveList = new List<string>();
-                tReferenceSaveList.Add(string.Empty);
-                tInternalNameSaveList.Add(NWDConstants.kFieldNone);
-                tReferenceSaveList.Add("---");
-                tInternalNameSaveList.Add(string.Empty);
-                tReferenceSaveList.Add("-=-");
-                tInternalNameSaveList.Add(NWDConstants.kFieldEmpty);
-                tReferenceSaveList.Add("-+-");
-                tInternalNameSaveList.Add(NWDConstants.kFieldNotEmpty);
-                foreach (KeyValuePair<string, string> tKeyValue in NWDBasisHelper.FindTypeInfos(typeof(NWDGameSave)).EditorDatasMenu.OrderBy(i => i.Value))
+
+                if (NWDBasisHelper.FindTypeInfos(typeof(NWDGameSave)).Datas.Count < tMaxForMenuOrTextField)
                 {
-                    tReferenceSaveList.Add(tKeyValue.Key);
-                    tInternalNameSaveList.Add(tKeyValue.Value);
-                }
-                List<GUIContent> tContentFuturSaveList = new List<GUIContent>();
-                foreach (string tS in tInternalNameSaveList.ToArray())
-                {
-                    tContentFuturSaveList.Add(new GUIContent(tS));
-                }
-                int tIndexSave = tReferenceSaveList.IndexOf(m_SearchGameSave);
-                int tNewIndexSave = EditorGUI.Popup(tRect, new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_GAMESAVE), tIndexSave, tContentFuturSaveList.ToArray(),
-                                                                           NWDGUI.KTableSearchEnum);
-                if (tNewIndexSave >= 0 && tNewIndexSave < tReferenceSaveList.Count())
-                {
-                    m_SearchGameSave = tReferenceSaveList[tNewIndexSave];
+                    List<string> tReferenceSaveList = new List<string>();
+                    List<string> tInternalNameSaveList = new List<string>();
+                    tReferenceSaveList.Add(string.Empty);
+                    tInternalNameSaveList.Add(NWDConstants.kFieldNone);
+                    tReferenceSaveList.Add("---");
+                    tInternalNameSaveList.Add(string.Empty);
+                    tReferenceSaveList.Add("-=-");
+                    tInternalNameSaveList.Add(NWDConstants.kFieldEmpty);
+                    tReferenceSaveList.Add("-+-");
+                    tInternalNameSaveList.Add(NWDConstants.kFieldNotEmpty);
+                    foreach (KeyValuePair<string, string> tKeyValue in NWDBasisHelper.FindTypeInfos(typeof(NWDGameSave)).EditorDatasMenu.OrderBy(i => i.Value))
+                    {
+                        tReferenceSaveList.Add(tKeyValue.Key);
+                        tInternalNameSaveList.Add(tKeyValue.Value);
+                    }
+                    List<GUIContent> tContentFuturSaveList = new List<GUIContent>();
+                    foreach (string tS in tInternalNameSaveList.ToArray())
+                    {
+                        tContentFuturSaveList.Add(new GUIContent(tS));
+                    }
+                    int tIndexSave = tReferenceSaveList.IndexOf(m_SearchGameSave);
+                    int tNewIndexSave = EditorGUI.Popup(tRect, new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_GAMESAVE), tIndexSave, tContentFuturSaveList.ToArray(),
+                                                                               NWDGUI.KTableSearchEnum);
+                    if (tNewIndexSave >= 0 && tNewIndexSave < tReferenceSaveList.Count())
+                    {
+                        m_SearchGameSave = tReferenceSaveList[tNewIndexSave];
+                    }
+                    else
+                    {
+                        m_SearchGameSave = string.Empty;
+                    }
                 }
                 else
                 {
-                    m_SearchGameSave = string.Empty;
+                    m_SearchGameSave = EditorGUI.TextField(tRect, new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_GAMESAVE), m_SearchGameSave, NWDGUI.KTableSearchTextfield);
                 }
                 EditorGUI.EndDisabledGroup();
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
