@@ -138,13 +138,7 @@ namespace NetWorkedData
                 //Debug.Log(SQLite3.ColumnString(stmt,1) + " " + SQLite3.ColumnString(stmt, 2));
                 string tPropName = SQLite3.ColumnString(stmt, 1);
                 PropertyInfo tPropertyInfo = ClassType.GetProperty(tPropName);
-                if (tPropertyInfo == null)
-                {
-                    //tNeedUpdate = true;
-                    // Do nothing, old datas stay in table... migrate is too long
-                    //Debug.Log("tAuto " + tPropName + " ====> UNKNOW");
-                }
-                else
+                if (tPropertyInfo != null)
                 {
                     tActualsList.Remove(tPropertyInfo);
                     tMigratePropertyList.Add(tPropertyInfo);
@@ -153,6 +147,17 @@ namespace NetWorkedData
                     if (tAuto != tActual)
                     {
                         rReturn = NWDSQLiteTableState.Migrate;
+                    }
+                }
+                else
+                {
+                    string tPropNameUpper = tPropName.ToUpper();
+                    foreach (PropertyInfo tPropertyInfoUPPER in PropertiesArray)
+                    {
+                        if (tPropNameUpper == tPropertyInfoUPPER.Name.ToUpper())
+                        {
+                            rReturn = NWDSQLiteTableState.Migrate;
+                        }
                     }
                 }
             }
