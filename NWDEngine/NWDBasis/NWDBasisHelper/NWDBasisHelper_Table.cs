@@ -133,19 +133,13 @@ namespace NetWorkedData
             while (SQLite3.Step(stmt) == SQLite3.Result.Row)
             {
                 tError = false;
-                //Debug.Log("???");
-                //Debug.Log(SQLite3.ColumnString(stmt,1) + " " + SQLite3.ColumnString(stmt, 2));
+                //Debug.Log(" For table " + ClassNamePHP + " => " + SQLite3.ColumnString(stmt, 1) + " " + SQLite3.ColumnString(stmt, 2));
                 string tPropName = SQLite3.ColumnString(stmt, 1);
                 PropertyInfo tPropertyInfo = ClassType.GetProperty(tPropName);
-                if (tPropertyInfo == null)
+                if (tPropertyInfo != null)
                 {
-                    //tNeedUpdate = true;
-                    // Do nothing, old datas stay in table... migrate is too long
-                    //Debug.Log("tAuto " + tPropName + " ====> UNKNOW");
-                }
-                else
-                {
-                    tActualsList.Remove(tPropertyInfo);
+                    //Debug.Log(" found property " + tPropName);
+                   tActualsList.Remove(tPropertyInfo);
                     tMigratePropertyList.Add(tPropertyInfo);
                     string tActual = "`" + SQLite3.ColumnString(stmt, 1) + "` " + SQLite3.ColumnString(stmt, 2);
                     string tAuto = "`" + tPropertyInfo.Name + "` " + PropertyInfoToSQLiteType(tPropertyInfo, true);
@@ -153,6 +147,19 @@ namespace NetWorkedData
                     {
                         tNeedMigrate = true;
                         //Debug.Log("tAuto " + tAuto + " ====> tActual " + tActual);
+                    }
+                }
+                else
+                {
+                    //Debug.Log(" not found property " + tPropName);
+                    string tPropNameUpper = tPropName.ToUpper();
+                    foreach (PropertyInfo tPropertyInfoUPPER in PropertiesArray)
+                    {
+                        if (tPropNameUpper == tPropertyInfoUPPER.Name.ToUpper())
+                        {
+                            tNeedMigrate = true;
+                            //Debug.Log("UpperLowerCase Change! tPropNameUpper " + tPropNameUpper + " ====> tPropertyInfoUPPER " + tPropertyInfoUPPER.Name);
+                        }
                     }
                 }
             }
@@ -176,7 +183,7 @@ namespace NetWorkedData
 
             if (tNeedMigrate == true)
             {
-                Debug.Log("tNeedMigrate");
+                //Debug.Log("tNeedMigrate");
                 tQuery.Append("CREATE TABLE IF NOT EXISTS `" + ClassNamePHP + "_new` (");
                 List<string> PropertiesSQL = new List<string>();
                 foreach (PropertyInfo tPropertyInfo in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
@@ -204,7 +211,7 @@ namespace NetWorkedData
             }
             else if (tNeedUpdate == true)
             {
-                Debug.Log("tNeedUpdate");
+                //Debug.Log("tNeedUpdate");
                 foreach (PropertyInfo tPropertyInfo in tActualsList)
                 {
                     if (tPropertyInfo != null)
@@ -234,6 +241,7 @@ namespace NetWorkedData
             {
                 //Debug.Log("Table `" + ClassNamePHP + "` is ok!");
             }
+            SQLite3.Finalize(stmt);
             return tQuery.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -622,7 +630,7 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-//#if UNITY_EDITOR
+        //#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public void FlushTable()
         {
@@ -639,7 +647,7 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().ReInitializeTable(ClassType, kAccountDependent);
         }
         //-------------------------------------------------------------------------------------------------------------
-//#endif
+        //#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
