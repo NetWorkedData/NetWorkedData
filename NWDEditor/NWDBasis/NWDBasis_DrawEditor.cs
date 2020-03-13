@@ -656,14 +656,21 @@ namespace NetWorkedData
                     }
                 }
 
-
-                NWEDataTypeEnum tBundle = Bundle.ControlField(tR, NWDConstants.K_APP_TABLE_SEARCH_BUNDLE, !CanBeEdit);
-                tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-                if (tBundle.Value != Bundle.Value)
+                if (BasisHelper().ClassType.IsSubclassOf(typeof(NWDBundledBasis)))
                 {
-                    Bundle.Value = tBundle.Value;
-                    UpdateDataEditor();
+                    NWEDataTypeEnum tBundle = Bundle.ControlField(tR, NWDConstants.K_APP_TABLE_SEARCH_BUNDLE, !CanBeEdit);
+                    if (tBundle.Value != Bundle.Value)
+                    {
+                        Bundle.Value = tBundle.Value;
+                        UpdateDataEditor();
+                    }
                 }
+                else
+                {
+                    EditorGUI.LabelField(tR, NWDConstants.K_APP_TABLE_SEARCH_BUNDLE, "no bundled");
+                    //NWEDataTypeEnum tBundle = Bundle.ControlField(tR, NWDConstants.K_APP_TABLE_SEARCH_BUNDLE, !CanBeEdit);
+                }
+                tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                 //NWDBasisBundle tBundle = (NWDBasisBundle)Bundle.ControlField(tR, NWDConstants.K_APP_TABLE_SEARCH_BUNDLE, !CanBeEdit);
 
                 //tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;

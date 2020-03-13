@@ -231,7 +231,9 @@ namespace NetWorkedData
                 }
             }
             tListOfclass.Insert(0, "  ");
-            tListOfclass.Insert(0, "NWDBasis");
+            //tListOfclass.Insert(0, "NWDBasis");
+            tListOfclass.Insert(0, typeof(NWDBundledBasis).Name);
+            tListOfclass.Insert(0, typeof(NWDBasis).Name);
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

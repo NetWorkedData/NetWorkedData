@@ -105,7 +105,7 @@ namespace NetWorkedData
             Type[] tAllHelperDTypes = (from Type type in tAllTypes where type.IsSubclassOf(typeof(NWDBasisHelper)) select type).ToArray();
             foreach (Type tType in tAllNWDTypes)
             {
-                if (tType != typeof(NWDBasis) && tType.IsGenericType == false)
+                if (tType != typeof(NWDBasis) && tType != typeof(NWDBundledBasis) && tType.IsGenericType == false)
                 {
                     if (AllNetWorkedDataTypes.Contains(tType) == false)
                     {

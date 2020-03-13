@@ -1468,7 +1468,7 @@ namespace NetWorkedData
                     SetObjectInEdition(null);
                     m_SearchInternalName = string.Empty;
                     m_SearchInternalDescription = string.Empty;
-                    LoadFromDatabase();
+                    LoadFromDatabase(string.Empty);
                     RestaureDataInEditionByReference(tReference);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;

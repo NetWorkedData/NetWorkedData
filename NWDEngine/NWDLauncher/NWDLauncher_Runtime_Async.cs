@@ -173,7 +173,7 @@ namespace NetWorkedData
             NWEBenchmark.Finish("get_refelexion");
             foreach (Type tType in tAllNWDTypes)
             {
-                if (tType != typeof(NWDBasis) && tType.IsGenericType == false)
+                if (tType != typeof(NWDBasis) && tType != typeof(NWDBundledBasis) && tType.IsGenericType == false)
                 {
                     bool tEditorOnly = false;
                     if (tType != typeof(NWDAccount))

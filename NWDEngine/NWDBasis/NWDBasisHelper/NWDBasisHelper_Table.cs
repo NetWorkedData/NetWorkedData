@@ -244,6 +244,7 @@ namespace NetWorkedData
             {
                 //Debug.Log("Table `" + ClassNamePHP + "` is ok!");
             }
+            Debug.Log("Table `" + ClassNamePHP + "` query = " + tQuery);
             return tQuery.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -260,9 +261,12 @@ namespace NetWorkedData
         public string CreateIndexBundleSQLite(NWDSQLiteTableState sState)
         {
             StringBuilder tQuery = new StringBuilder();
-            if (sState == NWDSQLiteTableState.Create)
+            if (ClassType.IsSubclassOf(typeof(NWDBundledBasis)))
             {
-                tQuery.AppendLine("CREATE INDEX IF NOT EXISTS `" + ClassNamePHP + "_Bundle` ON `" + ClassNamePHP + "` (`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Bundle) + "`);");
+                if (sState == NWDSQLiteTableState.Create)
+                {
+                    tQuery.AppendLine("CREATE INDEX IF NOT EXISTS `" + ClassNamePHP + "_Bundle` ON `" + ClassNamePHP + "` (`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Bundle) + "`);");
+                }
             }
             return tQuery.ToString();
         }
@@ -588,13 +592,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void LoadFromDatabaseByBundle(NWDBasisBundle sBundle)
         {
-            if (sBundle == NWDBasisBundle.ALL)
+            if (sBundle != NWDBasisBundle.ALL && ClassType.IsSubclassOf(typeof(NWDBundledBasis)))
             {
-                LoadFromDatabase(string.Empty);
+                LoadFromDatabase("WHERE `Bundle` = \"" + sBundle.ToLong() + "\"");
             }
             else
             {
-                LoadFromDatabase("WHERE `Bundle` = \"" + sBundle.ToLong() + "\"");
+                LoadFromDatabase(string.Empty);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -608,8 +612,10 @@ namespace NetWorkedData
             LoadFromDatabase("WHERE `Reference` IN \"" + string.Join("", sReferences) + "\"");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void LoadFromDatabase(string sWhere = "WHERE `Bundle` = \"0\"")
+        public virtual void LoadFromDatabase(string sWhere)
         {
+            // if no bundle class 
+            // else do with bundle 
             if (NWDLauncher.ActiveBenchmark)
             {
                 NWEBenchmark.Start();
@@ -771,7 +777,7 @@ namespace NetWorkedData
                 SQLite3.Finalize(stmt);
             }
             // reload empty datas
-            LoadFromDatabase();
+            LoadFromDatabase(string.Empty);
 #if UNITY_EDITOR
             // refresh the tables windows
             RepaintTableEditor();
