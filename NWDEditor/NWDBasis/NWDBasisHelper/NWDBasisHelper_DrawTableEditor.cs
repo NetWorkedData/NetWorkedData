@@ -325,24 +325,24 @@ namespace NetWorkedData
             }
             tRect.x += tRect.width;
             tRect.width = NWDGUI.kTableIDWidth;
-            if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_ID, NWDGUI.KTableHeaderId))
-            {
-                if (SortType == NWDBasisEditorDatasSortType.ByIDAscendant)
-                {
-                    SortType = NWDBasisEditorDatasSortType.ByIDDescendant;
-                }
-                else if (SortType == NWDBasisEditorDatasSortType.ByIDDescendant)
-                {
-                    SortType = NWDBasisEditorDatasSortType.ByIDAscendant;
-                }
-                else
-                {
-                    SortType = NWDBasisEditorDatasSortType.ByIDDescendant;
-                }
-                SortEditorTableDatas();
-                ChangeScroolPositionToSelection(sScrollRect);
-            }
-            tRect.x += tRect.width;
+            //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_ID, NWDGUI.KTableHeaderId))
+            //{
+            //    if (SortType == NWDBasisEditorDatasSortType.ByIDAscendant)
+            //    {
+            //        SortType = NWDBasisEditorDatasSortType.ByIDDescendant;
+            //    }
+            //    else if (SortType == NWDBasisEditorDatasSortType.ByIDDescendant)
+            //    {
+            //        SortType = NWDBasisEditorDatasSortType.ByIDAscendant;
+            //    }
+            //    else
+            //    {
+            //        SortType = NWDBasisEditorDatasSortType.ByIDDescendant;
+            //    }
+            //    SortEditorTableDatas();
+            //    ChangeScroolPositionToSelection(sScrollRect);
+            //}
+            //tRect.x += tRect.width;
             tRect.width = NWDGUI.kTablePrefabWidth * sZoom;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_PREFAB, NWDGUI.KTableHeaderPrefab))
             {
@@ -363,7 +363,7 @@ namespace NetWorkedData
             tRect.x += tRect.width;
             tRect.width = sRect.width
                 - NWDGUI.kFieldMarge
-                - NWDGUI.kTableIDWidth
+                //- NWDGUI.kTableIDWidth
                 - NWDGUI.kTableSelectWidth
                 - NWDGUI.kTablePrefabWidth * sZoom
                 - NWDGUI.KTableSearchWidth

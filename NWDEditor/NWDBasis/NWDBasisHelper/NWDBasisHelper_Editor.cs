@@ -32,8 +32,8 @@ namespace NetWorkedData
         None,
         BySelectAscendant,
         BySelectDescendant,
-        ByIDAscendant,
-        ByIDDescendant,
+        //ByIDAscendant,
+        //ByIDDescendant,
         ByPrefabAscendant,
         ByPrefabDescendant,
         ByInternalKeyAscendant,
@@ -328,7 +328,7 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             // first sort to order result constant
-            EditorTableDatas.Sort((x, y) => x.AnalyzeID.CompareTo(y.AnalyzeID));
+            //EditorTableDatas.Sort((x, y) => x.AnalyzeID.CompareTo(y.AnalyzeID));
             // reccord the new pref!
             EditorPrefs.SetInt(ClassNamePHP + "_SortEditor", (int)SortType);
             // procced!
@@ -338,17 +338,17 @@ namespace NetWorkedData
                     {
                     }
                     break;
-                case NWDBasisEditorDatasSortType.ByIDAscendant:
-                    {
-                        //Already did! at first line!
-                        //EditorTableDatas.Sort((x, y) => x.AnalyzeID.CompareTo(y.AnalyzeID));
-                    }
-                    break;
-                case NWDBasisEditorDatasSortType.ByIDDescendant:
-                    {
-                        EditorTableDatas.Sort((x, y) => y.AnalyzeID.CompareTo(x.AnalyzeID));
-                    }
-                    break;
+                //case NWDBasisEditorDatasSortType.ByIDAscendant:
+                //    {
+                //        //Already did! at first line!
+                //        //EditorTableDatas.Sort((x, y) => x.AnalyzeID.CompareTo(y.AnalyzeID));
+                //    }
+                //    break;
+                //case NWDBasisEditorDatasSortType.ByIDDescendant:
+                //    {
+                //        EditorTableDatas.Sort((x, y) => y.AnalyzeID.CompareTo(x.AnalyzeID));
+                //    }
+                //    break;
                 case NWDBasisEditorDatasSortType.ByPrefabAscendant:
                     {
                         EditorTableDatas.Sort((x, y) => x.AnalyzePrefab.CompareTo(y.AnalyzePrefab));
