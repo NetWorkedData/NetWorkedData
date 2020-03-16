@@ -61,13 +61,13 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             base.Initialization();
-            NWDVersion tMaxVersion = SelectMaxRecheableData();
-            if (tMaxVersion!=null)
-            {
-                Version.SetIntValue(tMaxVersion.Version.ToInt() + 1);
-            }
             if (Version != null)
             {
+                NWDVersion tMaxVersion = SelectMaxRecheableData();
+                if (tMaxVersion != null)
+                {
+                    Version.SetIntValue(tMaxVersion.Version.ToInt() + 1);
+                }
                 InternalKey = Version.ToString();
             }
             //NWEBenchmark.Finish();
