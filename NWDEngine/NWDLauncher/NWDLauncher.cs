@@ -175,9 +175,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public bool EditorByPass;
         //-------------------------------------------------------------------------------------------------------------
-        static double TimeStart;
-        static double TimeFinish;
-        static double TimeNWDFinish;
+        static public double TimeStart;
+        static public double TimeFinish;
+        static public double TimeNWDFinish;
         //-------------------------------------------------------------------------------------------------------------
         static void LauncherBenchmarkToMarkdown()
         {
@@ -298,9 +298,10 @@ namespace NetWorkedData
                 NWEBenchmark.Finish("Launch");
                 if (Preload == true)
                 {
-                    //if (ActiveBenchmark)
+                    if (ActiveBenchmark)
                     {
                         LauncherBenchmarkToMarkdown();
+                        NWBBenchmarkResult.CurrentData().BenchmarkNow();
                     }
                 }
             }

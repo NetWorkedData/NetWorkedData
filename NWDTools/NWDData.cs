@@ -26,7 +26,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// 
+        ///  Sync Datas of sTypeList on server in active environment.
         /// </summary>
         /// <param name="sTypeList"></param>
         public static void SyncDatas(List<Type> sTypeList)

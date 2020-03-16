@@ -144,12 +144,13 @@ namespace NetWorkedData
             //NWEBenchmark.Log(" NWDDataManager.SharedInstance().ClassAccountExpected = " + NWDDataManager.SharedInstance().ClassAccountExpected);
             //NWEBenchmark.Log(" StepSum = " + StepSum + " and StepIndex =" + StepIndex);
 
-            //if (ActiveBenchmark)
+            if (ActiveBenchmark)
             {
                 //TimeFinish = NWEBenchmark.SinceStartup();
                 TimeFinish = Time.realtimeSinceStartup;
                 TimeNWDFinish = NWEBenchmark.Finish("Launch_Runtime_Async");
                 LauncherBenchmarkToMarkdown();
+                NWBBenchmarkResult.CurrentData().BenchmarkNow();
             }
 
             NotifyNetWorkedDataReady();

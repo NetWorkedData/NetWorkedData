@@ -287,7 +287,7 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             NWDGUILayout.Section("Database writing");
             // use these bools to fix the bug of error on redraw
-            this.minSize = new Vector2(300, 500);
+            this.minSize = new Vector2(300, 200);
             this.maxSize = new Vector2(300, 4096);
 
             int tObjectInQueue = NWDDataManager.SharedInstance().DataQueueCounter();

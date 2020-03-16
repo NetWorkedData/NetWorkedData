@@ -170,15 +170,15 @@ namespace NetWorkedData
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
-                IconAndTitle.text = "NWD Custom Class";
+                IconAndTitle.text = "Custom Class";
                 if (IconAndTitle.image == null)
                 {
-                    string[] sGUIDs = AssetDatabase.FindAssets("NWDEditorNewWindow t:texture");
+                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDEditorNewClass).Name + " t:texture");
                     foreach (string tGUID in sGUIDs)
                     {
                         string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
                         string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals("NWDEditorNewWindow"))
+                        if (tPathFilename.Equals(typeof(NWDEditorNewClass).Name))
                         {
                             IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
                         }
@@ -186,6 +186,8 @@ namespace NetWorkedData
                 }
                 titleContent = IconAndTitle;
             }
+
+
             tListOfType = new List<string>();
             tListOfType.Add(" ");
             tListOfType.Add("string");

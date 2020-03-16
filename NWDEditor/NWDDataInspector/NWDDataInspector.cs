@@ -42,7 +42,7 @@ namespace NetWorkedData
                 EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDDataInspector));
                 tWindow.Show();
                 kShareInstance = (NWDDataInspector)tWindow;
-                kShareInstance.minSize = new Vector2(300, 500);
+                kShareInstance.minSize = new Vector2(250, 540);
                 kShareInstance.maxSize = new Vector2(600, 2048);
             }
             //NWEBenchmark.Finish();

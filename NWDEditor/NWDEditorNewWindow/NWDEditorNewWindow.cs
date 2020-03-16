@@ -88,15 +88,15 @@ namespace NetWorkedData
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
-                IconAndTitle.text = "NWD Custom Window Manager";
+                IconAndTitle.text = "Custom Window Manager";
                 if (IconAndTitle.image == null)
                 {
-                    string[] sGUIDs = AssetDatabase.FindAssets("NWDEditorNewWindow t:texture");
+                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDEditorNewWindow).Name + " t:texture");
                     foreach (string tGUID in sGUIDs)
                     {
                         string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
                         string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals("NWDEditorNewWindow"))
+                        if (tPathFilename.Equals(typeof(NWDEditorNewWindow).Name))
                         {
                             IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
                         }

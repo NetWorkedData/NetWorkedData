@@ -244,7 +244,7 @@ namespace NetWorkedData
             {
                 //Debug.Log("Table `" + ClassNamePHP + "` is ok!");
             }
-            Debug.Log("Table `" + ClassNamePHP + "` query = " + tQuery);
+            //Debug.Log("Table `" + ClassNamePHP + "` query = " + tQuery);
             return tQuery.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------

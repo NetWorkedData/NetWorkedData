@@ -217,6 +217,8 @@ namespace NetWorkedData
         public static GUIStyle kIconButtonStyle;
         public static GUIStyle kEditButtonStyle;
 
+        public static GUIStyle kIconCenterStyle;
+
         //-------------------------------------------------------------------------------------------------------------
         public static GUIContent kNodeContentIcon;
 
@@ -232,8 +234,8 @@ namespace NetWorkedData
         // Nodal Document
         // TODO : all rename!! with right name!
 
-        public static float kNodeCardWidth = 360.0F;
-        public static float kNodeCardHeight = 360.0F;
+        public static float kNodeCardWidth = 330.0F;
+        public static float kNodeCardHeight = 430.0F;
         //public static float kNodeCardMarging = 50.0F;
 
         public static float kNodeCanvasFraction = 20;
@@ -668,6 +670,12 @@ KTableSearchMask.fontSize = tTextSize;
                 kMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
                 kMiniButtonStyle.fixedHeight = kMiniButtonStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
 
+
+                kIconCenterStyle = new GUIStyle(EditorStyles.label);
+                kIconCenterStyle.fixedHeight = 36;
+                kIconCenterStyle.alignment = TextAnchor.MiddleCenter;
+                kIconCenterStyle.imagePosition = ImagePosition.ImageOnly;
+
                 // Data Selector design
 
                 kDataSelectorFieldStyle = new GUIStyle(EditorStyles.helpBox);
@@ -719,6 +727,7 @@ KTableSearchMask.fontSize = tTextSize;
                 kRightContentIcon = new GUIContent(kImageRight, ">");
 
                 kDatasSelectorYOffset = 2;
+
             }
             //NWEBenchmark.Finish();
         }

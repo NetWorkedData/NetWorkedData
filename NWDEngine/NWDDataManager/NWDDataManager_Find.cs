@@ -216,8 +216,8 @@ namespace NetWorkedData
             {
                 NWEBenchmark.Start();
             }
-            int tRow = 0;
-            int tMethod = 0;
+            RowsCounterOp = 0;
+            MethodCounterOp = 0;
             DatasIndexed = false;
             ClassIndexation = 0;
             while (ClassIndexation < ClassExpected)
@@ -231,15 +231,15 @@ namespace NetWorkedData
                 }
                 if (tHelper != null)
                 {
-                    tMethod += tHelper.IndexInMemoryMethodList.Count;
-                    tRow += tHelper.Datas.Count;
+                    MethodCounterOp += tHelper.IndexInMemoryMethodList.Count;
+                    RowsCounterOp += tHelper.Datas.Count;
                 }
             }
             DatasIndexed = true;
             //PlayerLanguageLoad();
             //LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
-            NWDLauncher.RowInformations = "Rows indexed : " + tRow + " rows. Used " + IndexationCounterOp + " operation(s) and " + tMethod + " method(s).";
+            NWDLauncher.RowInformations = "Rows indexed : " + RowsCounterOp + " rows. Used " + IndexationCounterOp + " operation(s) and " + MethodCounterOp + " method(s).";
             if (NWDLauncher.ActiveBenchmark)
             {
                 NWEBenchmark.Log(NWDLauncher.RowInformations);
@@ -268,6 +268,8 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         public int IndexationCounterOp = 0;
+        public int RowsCounterOp = 0;
+        public int MethodCounterOp = 0;
         //-------------------------------------------------------------------------------------------------------------
         public void IndexAllObjects()
         {
@@ -275,19 +277,19 @@ namespace NetWorkedData
             {
                 NWEBenchmark.Start();
             }
-            int tRow = 0;
-            int tMethod = 0;
+            RowsCounterOp = 0;
+            MethodCounterOp = 0;
             DatasIndexed = false;
             foreach (Type tType in mTypeList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tMethod += tHelper.IndexInMemoryMethodList.Count;
-                tRow += tHelper.Datas.Count;
+                MethodCounterOp += tHelper.IndexInMemoryMethodList.Count;
+                RowsCounterOp += tHelper.Datas.Count;
                 tHelper.IndexInMemoryAllObjects();
             }
             DatasIndexed = true;
             EditorRefresh();
-            NWDLauncher.RowInformations = "Rows indexed : " + tRow + " rows. Used " + IndexationCounterOp + " operation(s) and " + tMethod + " method(s).";
+            NWDLauncher.RowInformations = "Rows indexed : " + RowsCounterOp + " rows. Used " + IndexationCounterOp + " operation(s) and " + MethodCounterOp + " method(s).";
             if (NWDLauncher.ActiveBenchmark)
             {
                 NWEBenchmark.Log(NWDLauncher.RowInformations);

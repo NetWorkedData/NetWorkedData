@@ -27,21 +27,21 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         public static string K_APP_CHOOSER_ENVIRONMENT = "Select Environment used in Player Mode (Game panel)";
-        public static string K_APP_CHOOSER_ENVIRONMENT_TITLE = "NWD Chooser";
+        public static string K_APP_CHOOSER_ENVIRONMENT_TITLE = "Chooser";
         public static string K_APP_MODEL_MANAGER_TITLE = "Model Manager";
         public static string K_APP_CLUSTER_SIZER_TITLE = "Cluster Sizer";
         public static string K_APP_SYNC_ENVIRONMENT = "Synchronize your datas in the good environment";
 
-        public static string K_APP_SYNC_ENVIRONMENT_TITLE = "NWD Sync";
-        public static string K_APP_CONFIGURATION_TITLE = "NWD App configuration";
-        public static string K_DATA_SELECTOR_TITLE = "NWD Selector";
+        public static string K_APP_SYNC_ENVIRONMENT_TITLE = "Sync";
+        public static string K_APP_CONFIGURATION_TITLE = "App configuration";
+        public static string K_DATA_SELECTOR_TITLE = "Selector";
         public static string K_DATA_SELECTOR_TITLE_FOR = "Selector for ";
-        public static string K_LOCALIZATION_CONFIGURATION_TITLE = "NWD Localization";
-        public static string K_EDITOR_CONFIGURATION_TITLE = "NWD Editor";
+        public static string K_LOCALIZATION_CONFIGURATION_TITLE = "Localization";
+        public static string K_EDITOR_CONFIGURATION_TITLE = "Editor";
 
-        public static string K_ENVIRONMENTS_CONFIGURATION_TITLE = "NWD Environments";
+        public static string K_ENVIRONMENTS_CONFIGURATION_TITLE = "Environments";
 
-        public static string K_APP_SYNC_INSPECTOR_TITLE = "NWD Data"; 
+        public static string K_APP_SYNC_INSPECTOR_TITLE = "Net Worked Data"; 
         public static string K_ALERT_SALT_SHORT_ERROR = "ALERT SALT ARE NOT MEMORIZE : RECCORD CONFIGURATIONS AND RECOMPILE!";
         public static string K_APP_CLASS_SALT_REGENERATE = "Generate salts";
         //-------------------------------------------------------------------------------------------------------------

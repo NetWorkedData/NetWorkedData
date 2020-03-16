@@ -258,7 +258,15 @@ namespace NetWorkedData
                     if (ClassType.IsSubclassOf(typeof(NWDIndexByBase)) == false)
                     {
                         rReturn.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                        rReturn.AppendLine("public partial class " + ClassNamePHP + " : " + ClassType.DeclaringType.Name + "");
+                        if (ClassType.BaseType != null)
+                        {
+                            rReturn.AppendLine("public partial class " + ClassNamePHP + " : " + ClassType.BaseType.Name + "");
+                        }
+                        else
+                        {
+
+                            rReturn.AppendLine("public partial class " + ClassNamePHP + " : NWDBasis");
+                        }
                         rReturn.AppendLine("{");
                         rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
                         // NWDBasis override

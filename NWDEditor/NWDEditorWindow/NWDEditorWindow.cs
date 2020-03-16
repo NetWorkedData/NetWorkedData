@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
+using System.IO;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -22,6 +23,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         static List<NWDEditorWindow> AllWindowsList = new List<NWDEditorWindow>();
+        private GUIContent IconAndTitleCompile;
         //-------------------------------------------------------------------------------------------------------------
         public static void GenerateCSharpFile()
         {
@@ -85,18 +87,42 @@ namespace NetWorkedData
             }
             else
             {
+                if (IconAndTitleCompile == null)
+                {
+                    IconAndTitleCompile = new GUIContent();
+                    if (IconAndTitleCompile.image == null)
+                    {
+                        string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDEditorWindow).Name + " t:texture");
+                        foreach (string tGUID in sGUIDs)
+                        {
+                            string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+                            string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                            if (tPathFilename.Equals(typeof(NWDEditorWindow).Name))
+                            {
+                                IconAndTitleCompile.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                            }
+                        }
+                    }
+                }
+
                 GUILayout.FlexibleSpace();
                 GUILayout.BeginHorizontal();
                 GUILayout.FlexibleSpace();
-                EditorGUILayout.HelpBox("...compile in progress...", MessageType.Warning, false);
+                GUILayout.Label(IconAndTitleCompile, NWDGUI.kIconCenterStyle);
+                GUILayout.FlexibleSpace();
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                GUILayout.FlexibleSpace();
+                GUILayout.Label("...compile in progress...");
                 GUILayout.FlexibleSpace();
                 GUILayout.EndHorizontal();
                 GUILayout.FlexibleSpace();
             }
-           // if (EditorGUIUtility.isProSkin == true)
+            // if (EditorGUIUtility.isProSkin == true)
             {
-                float LogoSize = NWDGUI.kTitleStyle.fixedHeight;
-                GUI.Label(new Rect(position.width - LogoSize, 0, LogoSize, LogoSize), NWDGUI.kNetWorkedDataLogoContent);
+                float tLogoSize = NWDGUI.kTitleStyle.fixedHeight;
+                GUI.Label(new Rect(position.width - tLogoSize, 0, tLogoSize, tLogoSize), NWDGUI.kNetWorkedDataLogoContent);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
