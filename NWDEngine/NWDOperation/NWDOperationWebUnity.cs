@@ -248,8 +248,16 @@ namespace NetWorkedData
                         // Notification of an Download in progress
                         NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS, this));
                     }
+#if UNITY_EDITOR
+                    Debug.Log(" request % " + (Request.uploadProgress*100.0F).ToString("F3"));
+#endif
                     yield return null;
                 }
+
+#if UNITY_EDITOR
+                Debug.Log(" request % " + (Request.uploadProgress * 100.0F).ToString("F3"));
+#endif
+
                 if (Request.isNetworkError)
                 {
 #if UNITY_EDITOR

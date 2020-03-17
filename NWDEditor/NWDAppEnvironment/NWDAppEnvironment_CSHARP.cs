@@ -149,13 +149,16 @@ namespace NetWorkedData
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailPort) + " = " + MailPort.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailUserName) + " =  \"" + MailUserName.Trim() + "\";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailPassword) + " =  \"" + MailPassword.Replace("\"", "\\\"") + "\";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailDomain) + " =  \"" + MailDomain.Trim() + " \";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailAuthentication) + " =  \"" + MailAuthentication.Trim() + "\";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailEnableStarttlsAuto) + " =  \"" + MailEnableStarttlsAuto.Trim() + "\";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailOpenSSLVerifyMode) + " =  \"" + MailOpenSSLVerifyMode.Trim() + "\";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailOpenSSLVerifyMode) + " =  \"" + MailOpenSSLVerifyMode.Trim() + "\";");
+
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailDomain) + " =  \"" + MailDomain.Trim() + " \";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailAuthentication) + " =  \"" + MailAuthentication.Trim() + "\";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailEnableStarttlsAuto) + " =  \"" + MailEnableStarttlsAuto.Trim() + "\";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailOpenSSLVerifyMode) + " =  \"" + MailOpenSSLVerifyMode.Trim() + "\";");
+
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailSSL) + " =  " + MailSSL.ToString().ToLower() + ";");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailAuth) + " =  " + MailAuth.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailFrom) + " =  \"" + MailFrom.Trim() + "\";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailReplyTo) + " =  \"" + MailReplyTo.Trim() + "\";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailReplyTo) + " =  \"" + MailReplyTo.Trim() + "\";");
             rReturn.AppendLine("#endif");
             if (AdminInPlayer == true)
             {

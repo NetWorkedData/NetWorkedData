@@ -213,7 +213,7 @@ namespace NetWorkedData
             tConstantsFile.AppendLine("// CONSTANT FOR WEB");
             tConstantsFile.AppendLine("$NWD_FLOAT_FORMAT = " + NWDConstants.FloatSQLFormat + ";");
             tConstantsFile.AppendLine("$NWD_DOUBLE_FORMAT = " + NWDConstants.DoubleSQLFormat + ";");
-            tConstantsFile.AppendLine("$HTTP_URL = 'https://" + GetConfigurationServerHTTPS() + "/" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';");
+            tConstantsFile.AppendLine("$HTTP_URL = '" + GetConfigurationServerHTTPS() + "/" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';");
             tConstantsFile.AppendLine("$WS_DIR = '" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';");
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("// CONSTANT FOR SHA512");
@@ -229,14 +229,14 @@ namespace NetWorkedData
             tConstantsFile.AppendLine("// CONSTANT FOR SMTP");
             tConstantsFile.AppendLine("$SMTP_HOST = '" + MailHost.Trim().Replace("'", "\'") + "';");
             tConstantsFile.AppendLine("$SMTP_PORT = " + MailPort.ToString() + ";");
-            tConstantsFile.AppendLine("$SMTP_DOMAIN = '" + MailDomain.Trim().Replace("'", "\'") + "';");
+            //tConstantsFile.AppendLine("$SMTP_DOMAIN = '" + MailDomain.Trim().Replace("'", "\'") + "';");
             tConstantsFile.AppendLine("$SMTP_FROM = '" + MailFrom.Trim().Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("$SMTP_REPLY = '" + MailReplyTo.Trim().Replace("'", "\'") + "';");
+            //tConstantsFile.AppendLine("$SMTP_REPLY = '" + MailReplyTo.Trim().Replace("'", "\'") + "';");
             tConstantsFile.AppendLine("$SMTP_USER = '" + MailUserName.Trim().Replace("'", "\'") + "';");
             tConstantsFile.AppendLine("$SMTP_PSW = '" + MailPassword.Trim().Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("$SMTP_AUT = '" + MailAuthentication.Trim().Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("$SMTP_STARTTLS = '" + MailEnableStarttlsAuto.Trim().Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("$SMTP_OPENSSL = '" + MailOpenSSLVerifyMode.Trim().Replace("'", "\'") + "';");
+            //tConstantsFile.AppendLine("$SMTP_AUT = '" + MailAuthentication.Trim().Replace("'", "\'") + "';");
+            //tConstantsFile.AppendLine("$SMTP_STARTTLS = '" + MailEnableStarttlsAuto.Trim().Replace("'", "\'") + "';");
+            //tConstantsFile.AppendLine("$SMTP_OPENSSL = '" + MailOpenSSLVerifyMode.Trim().Replace("'", "\'") + "';");
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("// CONSTANT TO CONNECT TO SQL DATABASE");
             tConstantsFile.AppendLine("$SQL_HOT = '" + ServerHost.Replace("'", "\'") + "';");
