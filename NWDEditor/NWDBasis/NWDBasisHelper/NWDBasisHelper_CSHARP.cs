@@ -346,7 +346,22 @@ namespace NetWorkedData
                     File.WriteAllText(tPathType, rReturnTypeFormatted);
                 }
             }
-            AssetDatabase.ImportAsset(tPathType, ImportAssetOptions.ForceUpdate);
+
+            try
+            {
+                AssetDatabase.ImportAsset(tPathType, ImportAssetOptions.ForceUpdate);
+                AssetDatabase.ImportAsset(NWDToolbox.FindCompileConfigurationFolder(), ImportAssetOptions.ForceUpdate);
+                //AssetDatabase.Refresh();
+            }
+            catch (IOException e)
+            {
+                Debug.LogException(e);
+                /*if (e.Source != null)
+                {
+                    Console.WriteLine("IOException source: {0}", e.Source);
+                }*/
+                throw;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public string CreationCSHARPCallLoader()

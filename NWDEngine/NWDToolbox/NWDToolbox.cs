@@ -720,6 +720,11 @@ namespace NetWorkedData
             return NWDToolbox.FindClassFolder("NWDFindOwnerConfiguration", "NetWorkedData_Configuration");
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string FindPrivateConfigurationFolder()
+        {
+            return NWDToolbox.FindClassFolder("NetWorkedData_Private", "NetWorkedData_Private");
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static string FindCompileConfigurationFolder()
         {
             return NWDToolbox.FindClassFolder("NWDCompileConfiguration", "NetWorkedData_Compile");

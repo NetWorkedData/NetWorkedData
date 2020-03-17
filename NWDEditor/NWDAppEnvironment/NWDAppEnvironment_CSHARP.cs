@@ -28,51 +28,49 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             StringBuilder rReturn = new StringBuilder(string.Empty);
             string tPropertyName = "null";
-            if (NWDAppConfiguration.SharedInstance().DevEnvironment == this)
+
+           if (NWDAppConfiguration.SharedInstance().DevEnvironment == this)
             {
                 tPropertyName = NWDToolbox.PropertyName(() => NWDAppConfiguration.SharedInstance().DevEnvironment);
                 rReturn.AppendLine("//" + tPropertyName);
-                if (sSelectedEnvironment == this)
-                {
-                    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.Selected) + " = true;");
-                    //rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"" + NWDAccount.GetAccountsForConfig(NWDAccountEnvironment.Dev) + "\";");
-                }
-                else
-                {
-                    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.Selected) + " = false;");
-                    //rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"\";");
-                }
+                //if (sSelectedEnvironment == this)
+                //{
+                //    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.Selected) + " = true;");
+                //}
+                //else
+                //{
+                //    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.Selected) + " = false;");
+                //}
             }
             if (NWDAppConfiguration.SharedInstance().PreprodEnvironment == this)
             {
                 tPropertyName = NWDToolbox.PropertyName(() => NWDAppConfiguration.SharedInstance().PreprodEnvironment);
                 rReturn.AppendLine("//" + tPropertyName);
-                if (sSelectedEnvironment == this)
-                {
-                    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.Selected) + " = true;");
-                    //rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"" + NWDAccount.GetAccountsForConfig(NWDAccountEnvironment.Preprod) + "\";");
-                }
-                else
-                {
-                    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.Selected) + " = false;");
-                    //rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"\";");
-                }
+                //if (sSelectedEnvironment == this)
+                //{
+                //    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.Selected) + " = true;");
+                //}
+                //else
+                //{
+                //    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.Selected) + " = false;");
+                //}
             }
             if (NWDAppConfiguration.SharedInstance().ProdEnvironment == this)
             {
                 tPropertyName = NWDToolbox.PropertyName(() => NWDAppConfiguration.SharedInstance().ProdEnvironment);
                 rReturn.AppendLine("//" + tPropertyName);
-                if (sSelectedEnvironment == this)
-                {
-                    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.Selected) + " = true; ");
-                    //rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"" + NWDAccount.GetAccountsForConfig(NWDAccountEnvironment.Prod) + "\";");
-                }
-                else
-                {
-                    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.Selected) + " = false; ");
-                    //rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"\";");
-                }
+                //if (sSelectedEnvironment == this)
+                //{
+                //    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.Selected) + " = true; ");
+                //}
+                //else
+                //{
+                //    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.Selected) + " = false; ");
+                //}
             }
+
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.Selected) + " = false;");
+
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.Environment) + " = \"" + Environment.Replace("\"", "\\\"") + "\";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.DataSHAPassword) + " = \"" + NWDToolbox.SaltCleaner(DataSHAPassword) + "\";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.DataSHAVector) + " = \"" + NWDToolbox.SaltCleaner(DataSHAVector) + "\";");
