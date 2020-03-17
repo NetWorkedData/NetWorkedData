@@ -245,7 +245,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void InitHelper(Type sType, bool sBase = false)
         {
-            //NWEBenchmark.Start();
+            NWEBenchmark.Start();
             bool tServerSynchronize = true;
             if (sType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true).Length > 0)
             {
@@ -509,7 +509,7 @@ namespace NetWorkedData
                 ClusterMax = 2048;
             }
 
-            //NWEBenchmark.Finish(true, "editor mode " + ClassNamePHP);
+            NWEBenchmark.Finish(true, "editor mode " + ClassNamePHP);
         }
 
         //-------------------------------------------------------------------------------------------------------------

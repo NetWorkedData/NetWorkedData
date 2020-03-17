@@ -123,6 +123,16 @@ namespace NetWorkedData
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClusterMin) + " = " + ClusterMin.ToString() + ";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClusterMax) + " = " + ClusterMax.ToString() + ";");
 
+                    List<string> tPropertiesArrayInString = new List<string>();
+                    //PropertyInfo[]  tPropertiesArrayInStrineeeg =  new PropertyInfo[] { };
+                    foreach (PropertyInfo tInf in PropertiesArray)
+                    {
+                        tPropertiesArrayInString.Add("ClassType.GetProperty(\"" + tInf.Name + "\")");
+                    }
+                    rReturn.AppendLine(NWDToolbox.PropertyName(() => PropertiesArray) + " = new PropertyInfo[]{"+string.Join(", ", tPropertiesArrayInString)+ "};");
+
+
+
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => kAccountDependentProperties) + ".Clear();");
                     foreach (PropertyInfo tProp in kAccountDependentProperties)
                     {
@@ -196,7 +206,7 @@ namespace NetWorkedData
                     rReturn.AppendLine("}");
                     //if (ClassType.IsConstructedGenericType == false)
                     if (ClassType.IsSubclassOf(typeof(NWDIndexByBase)) == false)
-                        {
+                    {
                         rReturn.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                         rReturn.AppendLine("public partial class " + ClassNamePHP + " : NWDBasis");
                         rReturn.AppendLine("{");

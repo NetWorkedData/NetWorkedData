@@ -139,7 +139,7 @@ namespace NetWorkedData
                 if (tPropertyInfo != null)
                 {
                     //Debug.Log(" found property " + tPropName);
-                   tActualsList.Remove(tPropertyInfo);
+                    tActualsList.Remove(tPropertyInfo);
                     tMigratePropertyList.Add(tPropertyInfo);
                     string tActual = "`" + SQLite3.ColumnString(stmt, 1) + "` " + SQLite3.ColumnString(stmt, 2);
                     string tAuto = "`" + tPropertyInfo.Name + "` " + PropertyInfoToSQLiteType(tPropertyInfo, true);
@@ -153,12 +153,15 @@ namespace NetWorkedData
                 {
                     //Debug.Log(" not found property " + tPropName);
                     string tPropNameUpper = tPropName.ToUpper();
-                    foreach (PropertyInfo tPropertyInfoUPPER in PropertiesArray)
+                    //if (PropertiesArray != null)
                     {
-                        if (tPropNameUpper == tPropertyInfoUPPER.Name.ToUpper())
+                        foreach (PropertyInfo tPropertyInfoUPPER in PropertiesArray)
                         {
-                            tNeedMigrate = true;
-                            //Debug.Log("UpperLowerCase Change! tPropNameUpper " + tPropNameUpper + " ====> tPropertyInfoUPPER " + tPropertyInfoUPPER.Name);
+                            if (tPropNameUpper == tPropertyInfoUPPER.Name.ToUpper())
+                            {
+                                tNeedMigrate = true;
+                                //Debug.Log("UpperLowerCase Change! tPropNameUpper " + tPropNameUpper + " ====> tPropertyInfoUPPER " + tPropertyInfoUPPER.Name);
+                            }
                         }
                     }
                 }
