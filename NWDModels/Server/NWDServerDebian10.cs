@@ -97,6 +97,7 @@ namespace NetWorkedData
             tScriptServer.AppendLine(SUDO + "apt -y install php7.0-ssh2");
             tScriptServer.AppendLine(SUDO + "apt -y install php-pear");
             tScriptServer.AppendLine(SUDO + "apt -y install libapache2-mod-php");
+            tScriptServer.AppendLine(SUDO + "pear install Net_SMTP");
             tScriptServer.AppendLine("# php configure");
             tScriptServer.AppendLine(SUDO + "sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 20M/g' /etc/php/7.0/apache2/php.ini");
             tScriptServer.AppendLine(SUDO + "sed -i 's/max_file_uploads = 20/max_file_uploads = 200/g'/etc/php/7.0/apache2/ php.ini");

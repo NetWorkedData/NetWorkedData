@@ -522,19 +522,68 @@ namespace NetWorkedData
 
             tFile.AppendLine("function SendEmail($sSubject, $sMessage, $sEmail, $sEmailFrom)");
             tFile.AppendLine("{");
+
+
+//            tFile.AppendLine("set_include_path(\".\".PATH_SEPARATOR. ($UserDir = dirname($_SERVER['DOCUMENT_ROOT'])). \"/pear/php\".PATH_SEPARATOR.get_include_path());");
+//            tFile.AppendLine("require_once \"Mail.php\"; ");
+
+//            tFile.AppendLine("$host = "ssl://smtp.dreamhost.com";
+//tFile.AppendLine("$username = "youremail@example.com";");
+//            tFile.AppendLine("$password = "your email password";");
+//            tFile.AppendLine("$port = "465";");
+//            tFile.AppendLine("$to = "address_form_will_send_TO@example.com";");
+//            tFile.AppendLine("$email_from = $sEmailFrom;");
+//tFile.AppendLine("$email_subject = "Subject Line Here: ";");
+//            tFile.AppendLine("$email_body = "whatever you like";");
+//$tFile.AppendLine("email_address = "reply -to@example.com";");
+//            tFile.AppendLine("$headers = array('From' => $email_from, 'To' => $to, 'Subject' => $email_subject, 'Reply-To' => $email_address);");
+//            tFile.AppendLine("$smtp = Mail::factory('smtp', array('host' => $host, 'port' => $port, 'auth' => true, 'username' => $username, 'password' => $password));");
+//            tFile.AppendLine("$mail = $smtp->send($to, $headers, $email_body);");
+//            tFile.AppendLine("if (PEAR::isError($mail))");
+//            tFile.AppendLine(" {");
+//            tFile.AppendLine("echo(" < p>". $mail->getMessage(). "</p> ");");
+//            tFile.AppendLine("}");
+//            tFile.AppendLine("else");
+//            tFile.AppendLine("{");
+//            tFile.AppendLine("echo(" < p>Message successfully sent!</p> ");");
+//            tFile.AppendLine(" }");
+
+
+
             if (MailBySMTP == true)
             {
-                tFile.AppendLine("global $SMTP_HOST, $SMTP_PORT, $SMTP_DOMAIN, $SMTP_FROM, $SMTP_REPLY, $SMTP_USER, $SMTP_PSW, $SMTP_AUT, $SMTP_STARTTLS, $SMTP_OPENSSL;");
+                tFile.AppendLine("require_once \"Mail.php\";");
+                tFile.AppendLine("global $SMTP_HOST, $SMTP_PORT, $SMTP_FRO, $SMTP_USER, $SMTP_PSW;");
                 tFile.AppendLine("$headers['From'] = $sEmailFrom;");
                 tFile.AppendLine("$headers['To'] = $sEmail;");
                 tFile.AppendLine("$headers['Subject'] =$sSubject;");
                 tFile.AppendLine("$params['sendmail_path'] = '/usr/lib/sendmail';");
                 tFile.AppendLine("// Create the mail object using the Mail::factory method");
-                tFile.AppendLine("$mail_object = Mail::factory('smtp', array ('host' => $SMTP_HOST, ");
+                tFile.AppendLine("$mail_object = Mail::factory('smtp', array (");
+                if (MailAuth == true)
+                {
+                    tFile.AppendLine("'host' => 'ssl://'.$SMTP_HOST, ");
+                }
+                else
+                {
+                    tFile.AppendLine("'host' => $SMTP_HOST, ");
+                }
+                tFile.AppendLine("'port' => $SMTP_PORT, ");
+                if (MailAuth == true)
+                {
                 tFile.AppendLine("'auth' => true, ");
                 tFile.AppendLine("'username' => $SMTP_USER, ");
                 tFile.AppendLine("'password' => $SMTP_PSW));");
-                tFile.AppendLine("$mail_object->send($sEmail, $headers, $sMessage);");
+                }
+                //tFile.AppendLine("if (PEAR::isError($mail_object->send($sEmail, $headers, $sMessage)))");
+                tFile.AppendLine("if ($mail_object->send($sEmail, $headers, $sMessage))");
+                tFile.AppendLine("{");
+                tFile.AppendLine(NWDError.PHP_log(this, "Email sent!"));
+                tFile.AppendLine("}");
+                tFile.AppendLine("else");
+                tFile.AppendLine("{");
+                tFile.AppendLine(NWDError.PHP_log(this, "Email error ... not send!"));
+                tFile.AppendLine("}");
             }
             else
             {

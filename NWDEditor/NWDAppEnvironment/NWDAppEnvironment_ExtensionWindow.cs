@@ -92,18 +92,23 @@ namespace NetWorkedData
             RescuePasswordLength = EditorGUILayout.IntField("Rescue Password length", RescuePasswordLength);
             NWDGUILayout.SubSection("Mail Params for " + Environment);
 
+            MailFrom = EditorGUILayout.TextField("Mail From ", MailFrom);
+            //MailReplyTo = EditorGUILayout.TextField("Mail Reply to", MailReplyTo);
+
             MailBySMTP = EditorGUILayout.Toggle("Mail By SMTP", MailBySMTP);
             EditorGUI.BeginDisabledGroup(!MailBySMTP);
-            MailHost = EditorGUILayout.TextField("Mail Host", MailHost);
-            MailPort = EditorGUILayout.IntField("Mail Port", MailPort);
-            MailDomain = EditorGUILayout.TextField("Mail Domain", MailDomain);
-            MailFrom = EditorGUILayout.TextField("Mail From ", MailFrom);
-            MailReplyTo = EditorGUILayout.TextField("Mail Reply to", MailReplyTo);
-            MailUserName = EditorGUILayout.TextField("Mail User Name", MailUserName);
-            MailPassword = EditorGUILayout.TextField("Mail Password", MailPassword);
-            MailAuthentication = EditorGUILayout.TextField("Mail Authentication", MailAuthentication);
-            MailEnableStarttlsAuto = EditorGUILayout.TextField("Mail Enable Starttls Auto", MailEnableStarttlsAuto);
-            MailOpenSSLVerifyMode = EditorGUILayout.TextField("Mail Open SSL Verify Mode", MailOpenSSLVerifyMode);
+            MailHost = EditorGUILayout.TextField("SMTP Host", MailHost);
+            MailSSL = EditorGUILayout.Toggle("SMTP SSL", MailSSL);
+            MailPort = EditorGUILayout.IntField("SMTP Port", MailPort);
+            //MailDomain = EditorGUILayout.TextField("Mail Domain", MailDomain);
+            MailAuth = EditorGUILayout.Toggle("SMTP Authentification", MailAuth);
+            EditorGUI.BeginDisabledGroup(!MailAuth);
+            MailUserName = EditorGUILayout.TextField("SMTP Username", MailUserName);
+            MailPassword = EditorGUILayout.TextField("SMTP Password", MailPassword);
+            //MailAuthentication = EditorGUILayout.TextField("Mail Authentication", MailAuthentication);
+            //MailEnableStarttlsAuto = EditorGUILayout.TextField("Mail Enable Starttls Auto", MailEnableStarttlsAuto);
+            //MailOpenSSLVerifyMode = EditorGUILayout.TextField("Mail Open SSL Verify Mode", MailOpenSSLVerifyMode);
+            EditorGUI.EndDisabledGroup();
             EditorGUI.EndDisabledGroup();
             //NWDGUILayout.SubSection("Social Params for " + Environment);
             //FacebookAppID = EditorGUILayout.TextField("FacebookAppID", FacebookAppID);

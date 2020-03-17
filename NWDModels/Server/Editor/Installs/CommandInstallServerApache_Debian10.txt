@@ -62,7 +62,7 @@ sudo apt -y install php7.0-mail
 sudo apt -y install php7.0-ssh2
 sudo apt -y install php-pear		
 sudo apt -y install libapache2-mod-php7.0
-
+pear install Net_SMTP
 sudo systemctl restart apache2 
 
 # php configure
