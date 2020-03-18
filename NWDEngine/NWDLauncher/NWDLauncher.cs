@@ -307,6 +307,44 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
+        static public bool LauncherIsReady()
+        {
+            bool rReturn = true;
+            if (NWDLauncher.Launched == false)
+            {
+                // WTF ... your launcher is not started! 
+#if UNITY_EDITOR
+                EditorUtility.DisplayDialog("NetWorkedData Alert", "Your launcher is not ready", "OK");
+#endif
+                //rReturn = false; //?
+                NWDLauncher.Launch();
+            }
+            else
+            {
+                if (NWDLauncher.GetState() != NWDStatut.NetWorkedDataReady)
+                {
+                    // WTF ... your launcher is not Ready! 
+#if UNITY_EDITOR
+                    EditorUtility.DisplayDialog("NetWorkedData Alert", "Your launcher is not ready", "OK");
+#endif
+                    rReturn = false;
+                }
+                else
+                {
+                    if (NWDLauncher.AllNetWorkedDataTypes.Count == 0)
+                    {
+                        // WTF ... your launcher is empty! 
+#if UNITY_EDITOR
+                        EditorUtility.DisplayDialog("NetWorkedData Alert", "Your launcher return a empty list of type! It's not possible.", "OK");
+#endif
+                    }
+                    rReturn = false;
+                }
+            }
+            return rReturn;
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
