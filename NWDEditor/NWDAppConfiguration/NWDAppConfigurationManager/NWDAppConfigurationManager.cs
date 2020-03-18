@@ -309,15 +309,15 @@ namespace NetWorkedData
 //            }
 //            else
             {
-#if UNITY_EDITOR
-                if (NWDLauncher.EditorByPass == true)
-                {
-                    if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
-                    {
-                        tSurProtection = EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY);
-                    }
-                }
-#endif
+//#if UNITY_EDITOR
+//                //if (NWDLauncher.EditorByPass == true)
+//                //{
+//                //    //if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
+//                //    //{
+//                //    //    tSurProtection = EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY);
+//                //    //}
+//                //}
+//#endif
             }
 
             string tAccountPass = NWDAppConfiguration.SharedInstance().GetAccountPass(tSurProtection);

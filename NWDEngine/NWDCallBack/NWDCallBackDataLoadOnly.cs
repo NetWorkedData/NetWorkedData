@@ -81,8 +81,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void PinCodeInsert(string sPinCode, string sPinCodeConfirm)
         {
-            NWDLauncher.CodePinValue = sPinCode;
-            NWDLauncher.CodePinValueConfirm = sPinCodeConfirm;
+            //NWDLauncher.CodePinValue = sPinCode;
+            //NWDLauncher.CodePinValueConfirm = sPinCodeConfirm;
             //NWDLauncher.DatabaseAccountConnection(sPinCode);
         }
         //-------------------------------------------------------------------------------------------------------------

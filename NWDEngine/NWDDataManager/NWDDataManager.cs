@@ -119,6 +119,9 @@ namespace NetWorkedData
         {
             SharedInstance().DataQueueExecute();
             NWENotificationManager.SharedInstance().RemoveAll();
+            //
+            NWDLauncher.ResetLauncher();
+            Debug.LogWarning("NWDDataManager.SharedInstance() will be destroyed!");
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool TestSaltMemorizationForAllClass()
