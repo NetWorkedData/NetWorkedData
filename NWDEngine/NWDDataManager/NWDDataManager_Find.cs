@@ -158,8 +158,8 @@ namespace NetWorkedData
             }
             DataAccountLoaded = true;
             //Debug.Log("NWDDataManager AsyncReloadAllObjects() post notification Account is loaded and All Datas is loaded");
-            PlayerLanguageLoad();
             LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
+            PlayerLanguageLoad();
             EditorRefresh();
             if (NWDLauncher.ActiveBenchmark)
             {
@@ -200,8 +200,8 @@ namespace NetWorkedData
                     ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
                 }
                 DataAccountLoaded = true;
-                PlayerLanguageLoad();
                 LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
+                PlayerLanguageLoad();
                 EditorRefresh();
             }
             if (NWDLauncher.ActiveBenchmark)

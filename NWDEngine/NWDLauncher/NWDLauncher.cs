@@ -107,14 +107,24 @@ namespace NetWorkedData
     public static partial class NWDLauncher
     {
         //-------------------------------------------------------------------------------------------------------------
+        public static List<Type> AllNetWorkedDataTypes = new List<Type>();
+        //-------------------------------------------------------------------------------------------------------------
+        static private Dictionary<Type, Type> BasisToHelperList = new Dictionary<Type, Type>();
+        //-------------------------------------------------------------------------------------------------------------
         static private NWDStatut State = NWDStatut.None;
-        static private int StepSum;
-        static private int StepIndex;
+        static private int StepSum = 0;
+        static private int StepIndex = 0;
         static private bool Launched = false;
         static bool Preload = true;
-        static public bool ActiveBenchmark;
-        static public string RowInformations;
+        static public bool ActiveBenchmark = false;
+        static public string RowInformations = string.Empty;
         static public bool CopyDatabase = false;
+        //-------------------------------------------------------------------------------------------------------------
+        static private bool EditorByPass = false;
+        //-------------------------------------------------------------------------------------------------------------
+        static private double TimeStart = 0;
+        static private double TimeFinish = 0;
+        static private double TimeNWDFinish = 0;
         //-------------------------------------------------------------------------------------------------------------
         static public float GetPurcent()
         {
@@ -123,19 +133,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void NotifyStep(bool sYeld = false)
         {
-            //if (ActiveBenchmark)
-            //{
-            //    NWEBenchmark.Start("NotifyStep");
-            //}
             StepIndex++;
             if (sYeld || YieldValid())
             {
                 NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_LAUNCHER_STEP);
             }
-            //if (ActiveBenchmark)
-            //{
-            //    NWEBenchmark.Finish("NotifyStep");
-            //}
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool YieldValid()
@@ -172,12 +174,6 @@ namespace NetWorkedData
         {
             return Preload;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        static public bool EditorByPass;
-        //-------------------------------------------------------------------------------------------------------------
-        static public double TimeStart;
-        static public double TimeFinish;
-        static public double TimeNWDFinish;
         //-------------------------------------------------------------------------------------------------------------
         static void LauncherBenchmarkToMarkdown()
         {
@@ -228,15 +224,12 @@ namespace NetWorkedData
             UnityEngine.Debug.Log("benchmark : REPPORT | " + string.Join(" | ", tRepport.Values) + " |");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public const string K_PINCODE_KEY = "K_PINCODE_KEY_jkghvjh";
-        //-------------------------------------------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod]
         static public void Launch()
         {
             if (Launched == false)
             {
                 TimeStart = Time.realtimeSinceStartup;
-
                 ActiveBenchmark = NWDAppConfiguration.SharedInstance().LauncherBenchmark;
                 StepSum = 0;
                 StepIndex = 0;
@@ -307,17 +300,61 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        static void Quit()
+        static public void ResetLauncher()
         {
-            // delete editor key
-#if UNITY_EDITOR
-            //Debug.Log("Quitting the Editor");
-            if (EditorPrefs.HasKey(K_PINCODE_KEY))
-            {
-                EditorPrefs.DeleteKey(K_PINCODE_KEY);
-            }
-#endif
+            AllNetWorkedDataTypes.Clear();
+            BasisToHelperList.Clear();
+            State = NWDStatut.None;
+            StepSum = 0;
+            StepIndex = 0;
+            Launched = false;
+            Preload = true;
+            ActiveBenchmark = false;
+            RowInformations = string.Empty;
+            CopyDatabase = false;
+            EditorByPass = false;
+            TimeStart = 0;
+            TimeFinish = 0;
+            TimeNWDFinish = 0;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        static public bool LauncherIsReady()
+        {
+            bool rReturn = true;
+            if (NWDLauncher.Launched == false)
+            {
+                // WTF ... your launcher is not started! 
+#if UNITY_EDITOR
+                EditorUtility.DisplayDialog("NetWorkedData Alert", "Your launcher is not ready", "OK");
+#endif
+                //rReturn = false; //?
+                NWDLauncher.Launch();
+            }
+            else
+            {
+                if (NWDLauncher.GetState() != NWDStatut.NetWorkedDataReady)
+                {
+                    // WTF ... your launcher is not Ready! 
+#if UNITY_EDITOR
+                    EditorUtility.DisplayDialog("NetWorkedData Alert", "Your launcher is not ready", "OK");
+#endif
+                    rReturn = false;
+                }
+                else
+                {
+                    if (NWDLauncher.AllNetWorkedDataTypes.Count == 0)
+                    {
+                        // WTF ... your launcher is empty! 
+#if UNITY_EDITOR
+                        EditorUtility.DisplayDialog("NetWorkedData Alert", "Your launcher return a empty list of type! It's not possible.", "OK");
+#endif
+                    }
+                    rReturn = false;
+                }
+            }
+            return rReturn;
+        }
+
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

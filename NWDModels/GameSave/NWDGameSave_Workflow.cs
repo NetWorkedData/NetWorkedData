@@ -1,18 +1,13 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:42:3
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
+//  ideMobi 2020©
 //
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
 using System;
-using System.Collections.Generic;
+using UnityEngine;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -33,27 +28,30 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
-            //Debug.Log("NWDGameSave Initialization()");
+#if UNITY_EDITOR
+            Debug.Log("NWDGameSave Initialization()");
             Name = " * GameSave " + DateTime.Today.ToShortDateString();
-            Tag = NWDBasisTag.TagAdminCreated;
+            InternalKey = "GameSave " + DateTime.Today.ToShortDateString();
+            Tag = NWDBasisTag.TagTestForDev;
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDGameSave NewCurrent()
         {
             NWDGameSave rGameSave = null;
-            rGameSave = NWDBasisHelper.NewData<NWDGameSave>();
-            //rGameSave.InternalKey = NWDAccount.GetCurrentAccountReference();
-            rGameSave.Name = "GameSave " + DateTime.Today.ToShortDateString();
-            rGameSave.Tag = NWDBasisTag.TagUserCreated;
-            rGameSave.IsCurrent = true;
-            //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
             NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
             if (tAccountInfos != null)
             {
+                rGameSave = NWDBasisHelper.NewData<NWDGameSave>();
+                //rGameSave.InternalKey = NWDAccount.GetCurrentAccountReference();
+                rGameSave.Name = "GameSave " + DateTime.Today.ToShortDateString();
+                rGameSave.Tag = NWDBasisTag.TagUserCreated;
+                rGameSave.IsCurrent = true;
+                //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
                 tAccountInfos.CurrentGameSave.SetReference(rGameSave.Reference);
                 tAccountInfos.SaveData();
+                rGameSave.SaveData();
             }
-            rGameSave.SaveData();
             return rGameSave;
         }
         //-------------------------------------------------------------------------------------------------------------

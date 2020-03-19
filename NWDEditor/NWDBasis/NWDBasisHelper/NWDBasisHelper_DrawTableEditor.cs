@@ -2187,112 +2187,114 @@ namespace NetWorkedData
                 tDialogRect.height += (NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge) * 3 + NWDGUI.ErrorMinHeight;
 
                 EditorGUI.EndDisabledGroup();
-                if (NWDLauncher.GetState() == NWDStatut.DataAccountCodePinStop)
-                {
-                    tDialogRect.height -= NWDGUI.kFieldMarge;
-                    Rect tDialogRectBox = NWDGUI.UnMargeAll(tDialogRect);
-                    GUI.Label(tDialogRectBox, "", EditorStyles.helpBox);
-                    tDialogRect.height += NWDGUI.kTextFieldStyle.fixedHeight;
-                    tDialogRect.y += NWDGUI.WarningBox(tDialogRect, NWDLauncher.GetState().ToString()).height + NWDGUI.kFieldMarge;
-                    tDialogRect.height = NWDGUI.kTextFieldStyle.fixedHeight;
-                    tDialogRect.y += NWDGUI.ErrorBox(tDialogRect, "TOO MUCH TENTATIVE").height + NWDGUI.kFieldMarge;
-                }
-                else if (NWDLauncher.GetState() == NWDStatut.DataAccountCodePinRequest || NWDLauncher.GetState() == NWDStatut.DataAccountCodePinFail)
-                {
-                    tDialogRect.height -= NWDGUI.kFieldMarge;
-                    Rect tDialogRectBox = NWDGUI.UnMargeAll(tDialogRect);
-                    GUI.Label(tDialogRectBox, "", EditorStyles.helpBox);
-                    tDialogRect.height += NWDGUI.kTextFieldStyle.fixedHeight;
-                    tDialogRect.y += NWDGUI.WarningBox(tDialogRect, NWDLauncher.GetState().ToString()).height + NWDGUI.kFieldMarge;
+                //if (NWDLauncher.GetState() == NWDStatut.DataAccountCodePinStop)
+                //{
+                //    tDialogRect.height -= NWDGUI.kFieldMarge;
+                //    Rect tDialogRectBox = NWDGUI.UnMargeAll(tDialogRect);
+                //    GUI.Label(tDialogRectBox, "", EditorStyles.helpBox);
+                //    tDialogRect.height += NWDGUI.kTextFieldStyle.fixedHeight;
+                //    tDialogRect.y += NWDGUI.WarningBox(tDialogRect, NWDLauncher.GetState().ToString()).height + NWDGUI.kFieldMarge;
+                //    tDialogRect.height = NWDGUI.kTextFieldStyle.fixedHeight;
+                //    tDialogRect.y += NWDGUI.ErrorBox(tDialogRect, "TOO MUCH TENTATIVE").height + NWDGUI.kFieldMarge;
+                //}
+                //else if (NWDLauncher.GetState() == NWDStatut.DataAccountCodePinRequest || NWDLauncher.GetState() == NWDStatut.DataAccountCodePinFail)
+                //{
+                //    tDialogRect.height -= NWDGUI.kFieldMarge;
+                //    Rect tDialogRectBox = NWDGUI.UnMargeAll(tDialogRect);
+                //    GUI.Label(tDialogRectBox, "", EditorStyles.helpBox);
+                //    tDialogRect.height += NWDGUI.kTextFieldStyle.fixedHeight;
+                //    tDialogRect.y += NWDGUI.WarningBox(tDialogRect, NWDLauncher.GetState().ToString()).height + NWDGUI.kFieldMarge;
 
-                    tDialogRect.height = NWDGUI.kTextFieldStyle.fixedHeight;
-                    NWDLauncher.CodePinValue = EditorGUI.PasswordField(tDialogRect, "CodePin", NWDLauncher.CodePinValue, NWDGUI.kTextFieldStyle);
-                    tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                //    //tDialogRect.height = NWDGUI.kTextFieldStyle.fixedHeight;
+                //    //NWDLauncher.CodePinValue = EditorGUI.PasswordField(tDialogRect, "CodePin", NWDLauncher.CodePinValue, NWDGUI.kTextFieldStyle);
+                //    //tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-                    tDialogRect.height = NWDGUI.kMiniButtonStyle.fixedHeight;
-                    if (GUI.Button(tDialogRect, "Valid", NWDGUI.kMiniButtonStyle))
-                    {
-                        //Debug.LogWarning("Try this code");
-                        //NWDLauncher.DatabaseAccountConnection(NWDLauncher.CodePinValue);
-                    }
-                    tDialogRect.y += (NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge);
-                    tDialogRect.y += NWDGUI.Separator(tDialogRect).height;
-                    NWDGUI.BeginRedArea();
-                    if (GUI.Button(tDialogRect, "DELETE ACCOUNT BASE", NWDGUI.kMiniButtonStyle))
-                    {
-                        Debug.LogWarning("Delete account base?!");
-                        if (EditorUtility.DisplayDialog("DELETE ACCOUNT DATABASE", "YOU WILL DELETE ACCOUNT DATABASE! ARE YOU SURE?", "DELETE!", "CANCEL"))
-                        {
-                            //NWDDataManager.SharedInstance().DeleteDatabaseAccount();
-                            NWDLauncher.Launch();
-                        }
-                        GUI.FocusControl(null);
-                        GUIUtility.ExitGUI();
-                    }
-                    tDialogRect.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    NWDGUI.EndRedArea();
+                //    tDialogRect.height = NWDGUI.kMiniButtonStyle.fixedHeight;
+                //    if (GUI.Button(tDialogRect, "Valid", NWDGUI.kMiniButtonStyle))
+                //    {
+                //        //Debug.LogWarning("Try this code");
+                //        //NWDLauncher.DatabaseAccountConnection(NWDLauncher.CodePinValue);
+                //    }
+                //    tDialogRect.y += (NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge);
+                //    tDialogRect.y += NWDGUI.Separator(tDialogRect).height;
+                //    NWDGUI.BeginRedArea();
+                //    if (GUI.Button(tDialogRect, "DELETE ACCOUNT BASE", NWDGUI.kMiniButtonStyle))
+                //    {
+                //        Debug.LogWarning("Delete account base?!");
+                //        if (EditorUtility.DisplayDialog("DELETE ACCOUNT DATABASE", "YOU WILL DELETE ACCOUNT DATABASE! ARE YOU SURE?", "DELETE!", "CANCEL"))
+                //        {
+                //            //NWDDataManager.SharedInstance().DeleteDatabaseAccount();
+                //            NWDLauncher.Launch();
+                //        }
+                //        GUI.FocusControl(null);
+                //        GUIUtility.ExitGUI();
+                //    }
+                //    tDialogRect.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+                //    NWDGUI.EndRedArea();
 
-                }
-                else if (NWDLauncher.GetState() == NWDStatut.DataAccountCodePinCreate)
-                {
-                    tDialogRect.height += NWDGUI.kFieldMarge;
-                    Rect tDialogRectBox = NWDGUI.UnMargeAll(tDialogRect);
-                    GUI.Label(tDialogRectBox, "", EditorStyles.helpBox);
-                    tDialogRect.height += NWDGUI.kTextFieldStyle.fixedHeight;
-                    tDialogRect.y += NWDGUI.WarningBox(tDialogRect, NWDLauncher.GetState().ToString()).height + NWDGUI.kFieldMarge;
+                //}
+                //else if (NWDLauncher.GetState() == NWDStatut.DataAccountCodePinCreate)
+                //{
+                //    tDialogRect.height += NWDGUI.kFieldMarge;
+                //    Rect tDialogRectBox = NWDGUI.UnMargeAll(tDialogRect);
+                //    GUI.Label(tDialogRectBox, "", EditorStyles.helpBox);
+                //    tDialogRect.height += NWDGUI.kTextFieldStyle.fixedHeight;
+                //    tDialogRect.y += NWDGUI.WarningBox(tDialogRect, NWDLauncher.GetState().ToString()).height + NWDGUI.kFieldMarge;
 
-                    tDialogRect.height = NWDGUI.kTextFieldStyle.fixedHeight;
-                    NWDLauncher.CodePinValue = EditorGUI.PasswordField(tDialogRect, "CodePin", NWDLauncher.CodePinValue, NWDGUI.kTextFieldStyle);
-                    tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    NWDLauncher.CodePinValueConfirm = EditorGUI.PasswordField(tDialogRect, "CodePin confirm", NWDLauncher.CodePinValueConfirm, NWDGUI.kTextFieldStyle);
-                    tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    NWDGUI.BeginRedArea();
-                    bool tValid = true;
-                    if (string.IsNullOrEmpty(NWDLauncher.CodePinValue))
-                    {
-                        NWDLauncher.CodePinValue = string.Empty;
-                    }
-                    if (string.IsNullOrEmpty(NWDLauncher.CodePinValueConfirm))
-                    {
-                        NWDLauncher.CodePinValueConfirm = string.Empty;
-                    }
-                    if (NWDLauncher.CodePinValue != NWDLauncher.CodePinValueConfirm)
-                    {
-                        tValid = false;
-                    }
-                    //if (NWDLauncher.CodePinValue.Length < NWDAppConfiguration.SharedInstance().PinCodeLenghtMin || NWDLauncher.CodePinValue.Length > NWDAppConfiguration.SharedInstance().PinCodeLenghtMax)
-                    //{
-                    //    tValid = false;
-                    //}
-                    if (string.IsNullOrEmpty(NWDLauncher.CodePinValue))
-                    {
-                        tValid = false;
-                    }
-                    if (NWDLauncher.CodePinValue.Length < 4)
-                    {
-                        tValid = false;
-                    }
-                    if (tValid == true)
-                    {
-                        EditorGUI.LabelField(tDialogRect, "valid CodePin");
-                    }
-                    else
-                    {
-                        EditorGUI.LabelField(tDialogRect, "invalid CodePin");
-                    }
-                    tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    EditorGUI.BeginDisabledGroup(!tValid);
-                    if (GUI.Button(tDialogRect, "CREATE ACCOUNT BASE", NWDGUI.kMiniButtonStyle))
-                    {
-                        Debug.LogWarning("Create account base?!");
-                        GUI.FocusControl(null);
-                        //NWDLauncher.DatabaseAccountConnection(NWDLauncher.CodePinValue);
-                    }
-                    tDialogRect.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    EditorGUI.EndDisabledGroup();
-                    NWDGUI.EndRedArea();
-                }
-                else if (NWDLauncher.GetState() == NWDStatut.EditorReady)
+                //    tDialogRect.height = NWDGUI.kTextFieldStyle.fixedHeight;
+                //    NWDLauncher.CodePinValue = EditorGUI.PasswordField(tDialogRect, "CodePin", NWDLauncher.CodePinValue, NWDGUI.kTextFieldStyle);
+                //    tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                //    NWDLauncher.CodePinValueConfirm = EditorGUI.PasswordField(tDialogRect, "CodePin confirm", NWDLauncher.CodePinValueConfirm, NWDGUI.kTextFieldStyle);
+                //    tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                //    NWDGUI.BeginRedArea();
+                //    bool tValid = true;
+                //    if (string.IsNullOrEmpty(NWDLauncher.CodePinValue))
+                //    {
+                //        NWDLauncher.CodePinValue = string.Empty;
+                //    }
+                //    if (string.IsNullOrEmpty(NWDLauncher.CodePinValueConfirm))
+                //    {
+                //        NWDLauncher.CodePinValueConfirm = string.Empty;
+                //    }
+                //    if (NWDLauncher.CodePinValue != NWDLauncher.CodePinValueConfirm)
+                //    {
+                //        tValid = false;
+                //    }
+                //    //if (NWDLauncher.CodePinValue.Length < NWDAppConfiguration.SharedInstance().PinCodeLenghtMin || NWDLauncher.CodePinValue.Length > NWDAppConfiguration.SharedInstance().PinCodeLenghtMax)
+                //    //{
+                //    //    tValid = false;
+                //    //}
+                //    if (string.IsNullOrEmpty(NWDLauncher.CodePinValue))
+                //    {
+                //        tValid = false;
+                //    }
+                //    if (NWDLauncher.CodePinValue.Length < 4)
+                //    {
+                //        tValid = false;
+                //    }
+                //    if (tValid == true)
+                //    {
+                //        EditorGUI.LabelField(tDialogRect, "valid CodePin");
+                //    }
+                //    else
+                //    {
+                //        EditorGUI.LabelField(tDialogRect, "invalid CodePin");
+                //    }
+                //    tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                //    EditorGUI.BeginDisabledGroup(!tValid);
+                //    if (GUI.Button(tDialogRect, "CREATE ACCOUNT BASE", NWDGUI.kMiniButtonStyle))
+                //    {
+                //        Debug.LogWarning("Create account base?!");
+                //        GUI.FocusControl(null);
+                //        //NWDLauncher.DatabaseAccountConnection(NWDLauncher.CodePinValue);
+                //    }
+                //    tDialogRect.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+                //    EditorGUI.EndDisabledGroup();
+                //    NWDGUI.EndRedArea();
+                //}
+                //else
+
+                if (NWDLauncher.GetState() == NWDStatut.EditorReady)
                 {
                     tDialogRect.height += NWDGUI.kFieldMarge;
                     Rect tDialogRectBox = NWDGUI.UnMargeAll(tDialogRect);

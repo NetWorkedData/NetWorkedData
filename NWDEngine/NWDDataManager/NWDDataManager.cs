@@ -83,7 +83,10 @@ namespace NetWorkedData
             }
             if (DataAccountLoaded == true)
             {
-                //NWEBenchmark.Start("account language");
+                if (NWDLauncher.ActiveBenchmark)
+                {
+                    NWEBenchmark.Start("account language");
+                }
                 NWDUserPreference tUserLanguage = NWDUserPreference.GetByInternalKeyOrCreate(PlayerLanguageKey, new NWDMultiType(string.Empty));
                 if (tUserLanguage.Value.GetStringValue() == string.Empty)
                 {
@@ -91,15 +94,30 @@ namespace NetWorkedData
                     tUserLanguage.UpdateData();
                 }
                 PlayerLanguage = tUserLanguage.Value.GetStringValue();
-                //NWEBenchmark.Finish("account language");
+                if (NWDLauncher.ActiveBenchmark)
+                {
+                    NWEBenchmark.Finish("account language");
+                }
             }
             else
             {
-                //NWEBenchmark.Start("device language");
+                if (NWDLauncher.ActiveBenchmark)
+                {
+                    NWEBenchmark.Start("device language");
+                }
                 PlayerLanguage = NWEPrefsManager.ShareInstance().getString(PlayerLanguageKey, PlayerLanguage);
-                //NWEBenchmark.Finish("device language");
+                if (NWDLauncher.ActiveBenchmark)
+                {
+                    NWEBenchmark.Finish("device language");
+                }
             }
             PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
+#if UNITY_EDITOR
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Step(true, "<color=red>PlayerLanguageLoad</color> Language is " + PlayerLanguage);
+            }
+#endif
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
             if (NWDLauncher.ActiveBenchmark)
             {
@@ -119,6 +137,9 @@ namespace NetWorkedData
         {
             SharedInstance().DataQueueExecute();
             NWENotificationManager.SharedInstance().RemoveAll();
+            //
+            NWDLauncher.ResetLauncher();
+            Debug.LogWarning("NWDDataManager.SharedInstance() will be destroyed!");
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool TestSaltMemorizationForAllClass()
