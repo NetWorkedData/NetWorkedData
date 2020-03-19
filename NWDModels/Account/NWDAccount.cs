@@ -19,7 +19,7 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassUnityEditorOnlyAttribute]
     [NWDClassServerSynchronizeAttribute(false)]
-    [NWDClassTrigrammeAttribute("ACC")]
+    [NWDClassTrigrammeAttribute(NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM)]
     [NWDClassDescriptionAttribute("Account descriptions Class")]
     [NWDClassMenuNameAttribute("Account")]
     [NWDClassClusterAttribute(1, 2)]
@@ -30,6 +30,7 @@ namespace NetWorkedData
         public const string K_ACCOUNT_CERTIFIED_SUFFIXE = "C";
         public const string K_ACCOUNT_NEW_SUFFIXE = "Z";
         //public const string K_ACCOUNT_SIGNED_SUFFIXE = "S";
+        public const string K_ACCOUNT_PREFIX_TRIGRAM = "ACC";
         //-------------------------------------------------------------------------------------------------------------
         const string K_LOGIN_INDEX = "LoginIndex";
         const string K_SECRET_INDEX = "SecretIndex";

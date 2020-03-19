@@ -1,4 +1,4 @@
-﻿//=====================================================================================================================
+//=====================================================================================================================
 //
 //  ideMobi 2019©
 //
@@ -438,6 +438,121 @@ namespace NetWorkedData
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                     tHelper.ResetTable();
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ResetTable);
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void CreateTable(Type sType, bool sAccountConnected)
+        {
+
+            if (sAccountConnected)
+            {
+                if (SQLiteConnectionAccountIsValid())
+                {
+                    //Debug.Log("<color=green>CreateTable() account" + sType.Name + " </color>");
+                    //TODO : change create table with new method
+                    SQLiteConnectionAccount.CreateTableByType(sType);
+                }
+            }
+            else
+            {
+                if (SQLiteConnectionEditorIsValid())
+                {
+                    //Debug.Log("<color=green>CreateTable() editor" + sType.Name + " </color>");
+                    //TODO : change create table with new method
+                    SQLiteConnectionEditor.CreateTableByType(sType);
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void MigrateTable(Type sType, bool sAccountConnected)
+        {
+
+            if (sAccountConnected)
+            {
+                //if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
+                //{
+                if (SQLiteConnectionAccountIsValid())
+                {
+                    SQLiteConnectionAccount.MigrateTableByType(sType);
+                }
+                //}
+            }
+            else
+            {
+                //if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
+                //{
+                if (SQLiteConnectionEditorIsValid())
+                {
+                    SQLiteConnectionEditor.MigrateTableByType(sType);
+                }
+                //}
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void FlushTable(Type sType, bool sAccountConnected)
+        {
+            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
+
+            Debug.Log("!!! FlushTable " + tHelper.ClassTableName);
+            if (sAccountConnected)
+            {
+                //if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
+                //{
+                if (SQLiteConnectionAccountIsValid())
+                {
+                    //SQLiteConnectionAccount.TruncateTableByType(sType);
+                    Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "DELETE FROM `" + tHelper.ClassNamePHP + "`;");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    stmt = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "VACUUM;");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                }
+                //}
+            }
+            else
+            {
+                //if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
+                //{
+                if (SQLiteConnectionEditorIsValid())
+                {
+                    //SQLiteConnectionEditor.TruncateTableByType(sType);
+                    Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "DELETE FROM `" + tHelper.ClassNamePHP + "`;");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    stmt = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "VACUUM;");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                }
+                //}
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DropTable(Type sType, bool sAccountConnected)
+        {
+
+            if (sAccountConnected)
+            {
+                if (SQLiteConnectionAccountIsValid())
+                {
+                    //SQLiteConnectionAccount.DropTableByType(sType);
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
+                    Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "DROP TABLE IF EXISTS `" + tHelper.ClassNamePHP + "`");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+
+                }
+            }
+            else
+            {
+                if (SQLiteConnectionEditorIsValid())
+                {
+                    //SQLiteConnectionEditor.DropTableByType(sType);
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
+                    Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "DROP TABLE IF EXISTS `" + tHelper.ClassNamePHP + "`");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
                 }
             }
         }

@@ -307,7 +307,7 @@ namespace NetWorkedData
                 // the next selected tab
                 int tTabSelected = 0;
                 // check if tab ids necessary
-                if (mTabContentList.Length > 1)
+                if (mTabContentList.Length > 0)
                 {
                     if (tWidthUsed > TabsTotalWidthExpected)
                     {

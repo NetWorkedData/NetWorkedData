@@ -716,6 +716,10 @@ namespace NetWorkedData
                     m_SearchInternalDescription, NWDGUI.KTableSearchTextfield);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
+                // TODO REMOVE
+                EditorGUI.Toggle(tRect, NWDConstants.K_APP_TABLE_SEARCHACCOUNTDEPENDENT, kAccountDependent);
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
                 // Change column
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
                 tRect.y = sRect.y;
@@ -762,7 +766,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    m_SearchAccount = EditorGUI.TextField(tRect, new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_GAMESAVE), m_SearchAccount, NWDGUI.KTableSearchTextfield);
+                    m_SearchAccount = EditorGUI.TextField(tRect, new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_ACCOUNT), m_SearchAccount, NWDGUI.KTableSearchTextfield);
                 }
                 EditorGUI.EndDisabledGroup();
                 // draw GameSave popup

@@ -471,7 +471,7 @@ namespace NetWorkedData
                                                         }
                                                         else
                                                         {
-                                                            NWEBenchmark.Log("bypassed because it's editor");
+                                                            NWEBenchmark.Log("!!! bypassed because it's editor");
                                                         }
                                                         NWEBenchmark.Finish("PURGE ACCOUNT DATABASE");
                                                     }
