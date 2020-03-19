@@ -303,18 +303,7 @@ namespace NetWorkedData
 
             if (NWDDataManager.SharedInstance().IsSecure())
             {
-<<<<<<< HEAD
-                string tSurProtection = string.Empty;
-                {
-                    if (NWDLauncher.EditorByPass == true)
-                    {
-                        if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
-                        {
-                            tSurProtection = EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY);
-                        }
-                    }
-                }
-                string tAccountPass = NWDAppConfiguration.SharedInstance().GetAccountPass(tSurProtection);
+                string tAccountPass = NWDAppConfiguration.SharedInstance().GetAccountPass(string.Empty);
                 EditorGUI.BeginDisabledGroup(true);
                 EditorGUILayout.TextField("Account pass result", tAccountPass);
                 EditorGUI.EndDisabledGroup();
@@ -325,19 +314,6 @@ namespace NetWorkedData
                     EditorUtility.OpenWithDefaultApp(NWDDataManager.SharedInstance().PathDatabaseAccount());
                     Debug.LogWarning("DatabasePathAccount = " + NWDDataManager.SharedInstance().PathDatabaseAccount());
                     Debug.LogWarning("Account pass result = " + tAccountPass);
-=======
-//#if UNITY_EDITOR
-//                //if (NWDLauncher.EditorByPass == true)
-//                //{
-//                //    //if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
-//                //    //{
-//                //    //    tSurProtection = EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY);
-//                //    //}
-//                //}
-//#endif
-            }
->>>>>>> development_for_merge_3
-
                 }
             }
             else
