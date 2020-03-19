@@ -450,6 +450,8 @@ namespace NetWorkedData
                                 tPropertyListConnected.Add(tProp);
                                 MethodInfo tMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
                                 tAccountMethodList.Add(tProp, tMethod);
+                                rAccountConnected = true;
+                                rLockedObject = false;
                             }
                         }
                         else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>))

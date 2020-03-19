@@ -42,6 +42,9 @@ namespace NetWorkedData
                 }
                 else
                 {
+#if UNITY_EDITOR
+                    NWEClipboard.CopyToClipboard(sString);
+#endif
                     Debug.Log(sString);
                 }
             }

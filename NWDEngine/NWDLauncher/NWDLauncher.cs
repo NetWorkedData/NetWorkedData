@@ -336,8 +336,8 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                         EditorUtility.DisplayDialog("NetWorkedData Alert", "Your launcher return a empty list of type! It's not possible.", "OK");
 #endif
-                    }
                     rReturn = false;
+                    }
                 }
             }
             return rReturn;

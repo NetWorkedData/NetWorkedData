@@ -644,7 +644,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void FlushTable(Type sType, bool sAccountConnected)
         {
+            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
 
+            Debug.Log("!!! FlushTable " + tHelper.ClassTableName);
             if (sAccountConnected)
             {
                 //if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
@@ -652,7 +654,6 @@ namespace NetWorkedData
                 if (SQLiteConnectionAccountIsValid())
                 {
                     //SQLiteConnectionAccount.TruncateTableByType(sType);
-                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
                     Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "DELETE FROM `" + tHelper.ClassNamePHP + "`;");
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
@@ -669,7 +670,6 @@ namespace NetWorkedData
                 if (SQLiteConnectionEditorIsValid())
                 {
                     //SQLiteConnectionEditor.TruncateTableByType(sType);
-                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
                     Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "DELETE FROM `" + tHelper.ClassNamePHP + "`;");
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
