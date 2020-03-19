@@ -122,9 +122,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static private bool EditorByPass = false;
         //-------------------------------------------------------------------------------------------------------------
-        static private double TimeStart = 0;
-        static private double TimeFinish = 0;
-        static private double TimeNWDFinish = 0;
+        static public double TimeStart = 0;
+        static public double TimeFinish = 0;
+        static public double TimeNWDFinish = 0;
         //-------------------------------------------------------------------------------------------------------------
         static public float GetPurcent()
         {
