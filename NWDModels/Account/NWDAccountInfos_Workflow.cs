@@ -31,7 +31,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
         //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization() { }
+        public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
+        {
+#if UNITY_EDITOR
+            Debug.Log("NWDAccountInfos Initialization()");
+            InternalKey = "AccountInfos : " + DateTime.Today.ToShortDateString();
+            Tag = NWDBasisTag.TagTestForDev;
+#endif
+        }
         //=============================================================================================================
         // PUBLIC STATIC METHOD
         //-------------------------------------------------------------------------------------------------------------

@@ -83,6 +83,7 @@ namespace NetWorkedData
             }
             if (DataAccountLoaded == true)
             {
+                //Debug.Log("<color=red>PlayerLanguageLoad</color> DataAccountLoaded == true ");
                 //NWEBenchmark.Start("account language");
                 NWDUserPreference tUserLanguage = NWDUserPreference.GetByInternalKeyOrCreate(PlayerLanguageKey, new NWDMultiType(string.Empty));
                 if (tUserLanguage.Value.GetStringValue() == string.Empty)
@@ -100,6 +101,9 @@ namespace NetWorkedData
                 //NWEBenchmark.Finish("device language");
             }
             PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
+#if UNITY_EDITOR
+            Debug.Log("<color=red>PlayerLanguageLoad</color> Language is " + PlayerLanguage);
+#endif
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
             if (NWDLauncher.ActiveBenchmark)
             {

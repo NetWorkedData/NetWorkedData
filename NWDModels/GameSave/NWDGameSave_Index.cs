@@ -60,7 +60,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            if (rParty == null)
+            if (rParty == null && tAccountInfos != null)
             {
                 rParty = NewCurrent();
             }

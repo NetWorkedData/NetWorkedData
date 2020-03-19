@@ -21,49 +21,49 @@ namespace NetWorkedData
     public partial class NWDAccountInfos : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-//        static protected NWDIndex<NWDAccount, NWDAccountInfos> kAccountIndex = new NWDIndex<NWDAccount, NWDAccountInfos>();
-//        //-------------------------------------------------------------------------------------------------------------
-//        [NWDIndexInMemory]
-//        public void InsertInAccountIndex()
-//        {
-//            // Re-add to the actual indexation ?
-//            if (IsUsable())
-//            {
-//                // Re-add !
-//                string tKey = Account.GetReference();
-//                kAccountIndex.UpdateData(this, tKey);
-//            }
-//        }
-//        //-------------------------------------------------------------------------------------------------------------
-//        [NWDDeindexInMemory]
-//        public void RemoveFromAccountIndex()
-//        {
-//            // Remove from the actual indexation
-//            kAccountIndex.RemoveData(this);
-//        }
-//        //-------------------------------------------------------------------------------------------------------------
-//        public static NWDAccountInfos FindFirstDataByAccount(string sAccountReference, bool sOrCreate = true)
-//        {
-//            NWDAccountInfos rReturn = null;
-//            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDAccountInfos));
-//            if (tHelper.AllDatabaseIsLoaded() && tHelper.AllDatabaseIsIndexed() == true)
-//            {
-//                rReturn = kAccountIndex.FirstRawDataByKey(sAccountReference);
-//                if (rReturn == null && sOrCreate == true)
-//                {
-//                    rReturn = NWDBasisHelper.NewData<NWDAccountInfos>();
+        //        static protected NWDIndex<NWDAccount, NWDAccountInfos> kAccountIndex = new NWDIndex<NWDAccount, NWDAccountInfos>();
+        //        //-------------------------------------------------------------------------------------------------------------
+        //        [NWDIndexInMemory]
+        //        public void InsertInAccountIndex()
+        //        {
+        //            // Re-add to the actual indexation ?
+        //            if (IsUsable())
+        //            {
+        //                // Re-add !
+        //                string tKey = Account.GetReference();
+        //                kAccountIndex.UpdateData(this, tKey);
+        //            }
+        //        }
+        //        //-------------------------------------------------------------------------------------------------------------
+        //        [NWDDeindexInMemory]
+        //        public void RemoveFromAccountIndex()
+        //        {
+        //            // Remove from the actual indexation
+        //            kAccountIndex.RemoveData(this);
+        //        }
+        //        //-------------------------------------------------------------------------------------------------------------
+        //        public static NWDAccountInfos FindFirstDataByAccount(string sAccountReference, bool sOrCreate = true)
+        //        {
+        //            NWDAccountInfos rReturn = null;
+        //            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDAccountInfos));
+        //            if (tHelper.AllDatabaseIsLoaded() && tHelper.AllDatabaseIsIndexed() == true)
+        //            {
+        //                rReturn = kAccountIndex.FirstRawDataByKey(sAccountReference);
+        //                if (rReturn == null && sOrCreate == true)
+        //                {
+        //                    rReturn = NWDBasisHelper.NewData<NWDAccountInfos>();
 
-//#if UNITY_EDITOR
-//                    rReturn.InternalKey = sAccountReference;
-//#endif
+        //#if UNITY_EDITOR
+        //                    rReturn.InternalKey = sAccountReference;
+        //#endif
 
-//                    rReturn.Account.SetReference(sAccountReference);
-//                    rReturn.Tag = NWDBasisTag.TagUserCreated;
-//                    rReturn.UpdateData();
-//                }
-//            }
-//            return rReturn;
-//        }
+        //                    rReturn.Account.SetReference(sAccountReference);
+        //                    rReturn.Tag = NWDBasisTag.TagUserCreated;
+        //                    rReturn.UpdateData();
+        //                }
+        //            }
+        //            return rReturn;
+        //        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Used it to change and Temporary acount to a certified account.
@@ -91,7 +91,7 @@ namespace NetWorkedData
             {
                 //NWDAccountInfos tInfos = FindFirstDataByAccount(NWDAccount.CurrentReference(), true);
                 tInfos = NWDBasisHelper.GetRawDataByReference<NWDAccountInfos>(NWDAccount.CurrentReference());
-                if (tInfos == null)
+                if (tInfos == null && string.IsNullOrEmpty(NWDAccount.CurrentReference()) == false)
                 {
                     tInfos = NWDBasisHelper.NewDataWithReference<NWDAccountInfos>(NWDAccount.CurrentReference());
                     tInfos.SaveData();
