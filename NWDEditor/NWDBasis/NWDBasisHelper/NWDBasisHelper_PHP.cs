@@ -833,6 +833,7 @@ namespace NetWorkedData
             StringBuilder tFile = new StringBuilder(string.Empty);
             //========= SYNCHRONIZATION FUNCTIONS FILE
             // if need Account reference I prepare the restriction
+            List<string> tAccountReferenceUpdate = new List<string>();
             List<string> tAccountReference = new List<string>();
             List<string> tGameSaveReference = new List<string>();
             List<string> tAccountReferences = new List<string>();
@@ -850,11 +851,15 @@ namespace NetWorkedData
                             {
                                 tAccountReference.Add("`" + tProp.Name + "` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($sAccountReference).'\\' ");
                                 tAccountReferences.Add("`" + tProp.Name + "` IN (\\''.implode('\\', \\'', $sAccountReferences).'\\') ");
+                                // only if Not locked property
+                                if (tProp.GetCustomAttributes(typeof(NWDLockUpdateForAccountAttribute), true).Length == 0)
+                                {
+                                    tAccountReferenceUpdate.Add("`" + tProp.Name + "` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($sAccountReference).'\\' ");
+                                }
                             }
                             if (tSubType == typeof(NWDGameSave))
                             {
                                 tGameSaveReference.Add("`" + tProp.Name + "` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($sGameSaveReference).'\\' ");
-                                //tGameSaveReference.Add("`" + tProp.Name + "` IN (\\''.implode('\\', \\'', $sGameSaveReferences).'\\') ");
                             }
                         }
                         else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>))
@@ -863,7 +868,11 @@ namespace NetWorkedData
                             if (tSubType == typeof(NWDAccount))
                             {
                                 tAccountReference.Add("`" + tProp.Name + "` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string(md5($sAccountReference." + PHP_CONSTANT_SALT_A() + ")).'\\' ");
-                                //tAccountReferences.Add("`" + tProp.Name + "` IN (\\''.implode('\\', \\'', " + NWD.K_SQL_CON + "->real_escape_string($sAccountReferences)).'\\') ");
+                                // only if Not locked property
+                                if (tProp.GetCustomAttributes(typeof(NWDLockUpdateForAccountAttribute), true).Length == 0)
+                                {
+                                    tAccountReferenceUpdate.Add("`" + tProp.Name + "` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string(md5($sAccountReference." + PHP_CONSTANT_SALT_A() + ")).'\\' ");
+                                }
                             }
                         }
                         else if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple)))
@@ -871,8 +880,12 @@ namespace NetWorkedData
                             Type tSubType = tTypeOfThis.GetGenericArguments()[0];
                             if (tSubType == typeof(NWDAccount))
                             {
-                                // TODO Secure injection short accout-Reference !!!!!
                                 tAccountReference.Add("`" + tProp.Name + "` LIKE \\'%'." + NWD.K_SQL_CON + "->real_escape_string($sAccountReference).'%\\'");
+                                // only if Not locked property
+                                if (tProp.GetCustomAttributes(typeof(NWDLockUpdateForAccountAttribute), true).Length == 0)
+                                {
+                                    tAccountReferenceUpdate.Add("`" + tProp.Name + "` LIKE \\'%'." + NWD.K_SQL_CON + "->real_escape_string($sAccountReference).'%\\'");
+                                }
                             }
                         }
                     }
@@ -1269,7 +1282,7 @@ namespace NetWorkedData
             }
             else
             {
-                tFile.AppendLine("$tUpdateRestriction = 'AND (" + string.Join(" OR ", tAccountReference.ToArray()) + ") ';");
+                tFile.AppendLine("$tUpdateRestriction = 'AND (" + string.Join(" OR ", tAccountReferenceUpdate.ToArray()) + ") ';");
             }
             tFile.AppendLine("if ($admin == false)");
             tFile.AppendLine("{");
