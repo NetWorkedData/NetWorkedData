@@ -52,7 +52,7 @@ namespace NetWorkedData
                     NWEDataTypeInt tV = Activator.CreateInstance(tPropertyInfo.PropertyType) as NWEDataTypeInt;
                     tPropertyInfo.SetValue(rReturn, tV);
                 }
-                else if(tPropertyInfo.PropertyType.IsSubclassOf(typeof(NWEDataTypeEnum)))
+                else if (tPropertyInfo.PropertyType.IsSubclassOf(typeof(NWEDataTypeEnum)))
                 {
                     NWEDataTypeEnum tV = Activator.CreateInstance(tPropertyInfo.PropertyType) as NWEDataTypeEnum;
                     tPropertyInfo.SetValue(rReturn, tV);
@@ -205,8 +205,11 @@ namespace NetWorkedData
             {
                 if (sTryOnDisk == true)
                 {
-                    BasisHelper<T>().LoadFromDatabaseByReference(sReference);
-                    rReturn = BasisHelper<T>().DatasByReference[sReference] as T;
+                    BasisHelper<T>().LoadFromDatabaseByReference(sReference, true);
+                    if (BasisHelper<T>().DatasByReference.ContainsKey(sReference))
+                    {
+                        rReturn = BasisHelper<T>().DatasByReference[sReference] as T;
+                    }
                 }
             }
             //NWEBenchmark.Finish();
@@ -277,16 +280,24 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             T rReturn = null;
-            if (BasisHelper<T>().DatasByReference.ContainsKey(sReference))
+            NWDBasisHelper tHelper = BasisHelper<T>();
+            if (tHelper.DatasByReference.ContainsKey(sReference))
             {
-                rReturn = BasisHelper<T>().DatasByReference[sReference] as T;
+                //Debug.Log("found in memory reference " + sReference);
+                rReturn = tHelper.DatasByReference[sReference] as T;
             }
             else
             {
+                //Debug.Log("not found in memory reference " + sReference);
                 if (sTryOnDisk == true)
                 {
-                    BasisHelper<T>().LoadFromDatabaseByReference(sReference);
-                    rReturn = BasisHelper<T>().DatasByReference[sReference] as T;
+                    //Debug.Log("try find on disk reference " + sReference);
+                    tHelper.LoadFromDatabaseByReference(sReference, true);
+                    if (tHelper.DatasByReference.ContainsKey(sReference))
+                    {
+                        //Debug.Log("not found on disk reference " + sReference);
+                        rReturn = tHelper.DatasByReference[sReference] as T;
+                    }
                 }
             }
             rReturn = QuickFilter<T>(rReturn, null, null);
@@ -364,8 +375,11 @@ namespace NetWorkedData
             {
                 if (sTryOnDisk == true)
                 {
-                    BasisHelper<T>().LoadFromDatabaseByReference(sReference);
-                    rReturn = BasisHelper<T>().DatasByReference[sReference] as T;
+                    BasisHelper<T>().LoadFromDatabaseByReference(sReference, true);
+                    if (BasisHelper<T>().DatasByReference.ContainsKey(sReference))
+                    {
+                        rReturn = BasisHelper<T>().DatasByReference[sReference] as T;
+                    }
                 }
             }
             rReturn = QuickFilter<T>(rReturn, sAccountReference, sGameSave);
@@ -801,9 +815,9 @@ namespace NetWorkedData
                                                    // restore the DC and Reference 
                     rReturnObject.Reference = tReference;
                     rReturnObject.DC = tDC;
-//#if UNITY_INCLUDE_TESTS
-//                    rReturnObject.Tag = sData.Tag;
-//#endif
+                    //#if UNITY_INCLUDE_TESTS
+                    //                    rReturnObject.Tag = sData.Tag;
+                    //#endif
                     //rReturnObject.Tag = sData.Tag;
                     // WARNING ... copy generate an error in XX ? 
                     // but copy the DD XX and AC from this

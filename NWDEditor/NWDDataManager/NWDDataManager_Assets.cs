@@ -43,7 +43,7 @@ namespace NetWorkedData
                 {
                     if (tHelper.IsLoaded() == false)
                     {
-                        tHelper.LoadFromDatabase(string.Empty);
+                        tHelper.LoadFromDatabase(string.Empty, false);
                     }
                 }
             }

@@ -1045,6 +1045,7 @@ namespace NetWorkedData
             NWDBasisHelper tHelper = BasisHelper();
             string tSignReference = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference);
             string rReturn = "DELETE FROM `" + tHelper.ClassNamePHP + "` WHERE `" + tSignReference + "` = \"" + Reference.Replace("\"", "\"\"") + "\";";
+            //Debug.Log(rReturn);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

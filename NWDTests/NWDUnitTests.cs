@@ -58,6 +58,7 @@ namespace NetWorkedData
             T rObject = NWDBasisHelper.GetRawDataByReference<T>(NWDToolbox.AplhaNumericCleaner(sReference), true);
             if (rObject == null)
             {
+                Debug.Log("PermanentData create data with reference : " + NWDToolbox.AplhaNumericCleaner(sReference));
                 rObject = NWDBasisHelper.NewDataWithReference<T>(NWDToolbox.AplhaNumericCleaner(sReference));
                 rObject.InternalKey = sAddInternalKey + " (UnitTest " + NWDToolbox.RandomStringCypher(8) + ")";
                 rObject.InternalDescription = kDescriptionMarkNew;

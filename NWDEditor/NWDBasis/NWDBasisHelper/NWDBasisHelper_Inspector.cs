@@ -509,6 +509,10 @@ namespace NetWorkedData
             {
                 LoadStyle = true;
                 NWDGUI.LoadStyles();
+               string[] PropertiesInWebModel = PropertiesOrderArray(LastWebBuild).ToArray();
+                Debug.Log(string.Join(", ", PropertiesInWebModel));
+                //List<string> tListB = new List<string>(WebModelSQLOrder[LastWebBuild].Split(new char[] { ',' }));
+
                 Dictionary<NWDBasisHelperElement, string> PropertiesForGroupName = new Dictionary<NWDBasisHelperElement, string>();
                 List<string> tPropertyListInWebModel = new List<string>();
                 if (WebServiceWebModel.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
@@ -702,7 +706,14 @@ namespace NetWorkedData
                         if (tCertified == false)
                         {
                             tProperty.Name = "<i> <color=orange>•</color>" + tProperty.Name + "</i>";
-                            tProperty.Tooltips += "\n\nNot certified by attribut";
+                            tProperty.Tooltips += "\n - Not certified by attribut";
+                        }
+
+                        if (PropertiesInWebModel.Contains(tProp.Name) == false)
+                        //if (tListB.Contains(tProp.Name) == false)
+                        {
+                            tProperty.Name = "!!! " + tProperty.Name + "";
+                            tProperty.NotEditable = true;
                         }
                     }
                 }

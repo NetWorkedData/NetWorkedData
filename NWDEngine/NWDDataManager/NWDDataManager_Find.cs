@@ -91,7 +91,7 @@ namespace NetWorkedData
             {
                 Type tType = mTypeNotAccountDependantList[sCounter];
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tHelper.LoadFromDatabaseByBundle(sBundle);
+                tHelper.LoadFromDatabaseByBundle(sBundle, true);
             }
             return rReturn;
         }
@@ -113,7 +113,7 @@ namespace NetWorkedData
                 {
                     //NWEBenchmark.Start("LoadData " + tType.Name);
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.LoadFromDatabaseByBundle(sBundle);
+                    tHelper.LoadFromDatabaseByBundle(sBundle, true);
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
                     ClassEditorDataLoaded++;
                     ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
@@ -174,7 +174,7 @@ namespace NetWorkedData
             {
                 Type tType = mTypeAccountDependantList[sCounter];
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tHelper.LoadFromDatabaseByBundle(sBundle);
+                tHelper.LoadFromDatabaseByBundle(sBundle, true);
                 //tHelper.LoadFromDatabase();
             }
             return rReturn;
@@ -194,7 +194,7 @@ namespace NetWorkedData
                 foreach (Type tType in mTypeAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.LoadFromDatabaseByBundle(sBundle);
+                    tHelper.LoadFromDatabaseByBundle(sBundle, true);
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
                     ClassAccountDataLoaded++;
                     ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;

@@ -34,7 +34,7 @@ namespace NetWorkedData
         public void ChangeReferenceForAnotherInAllObjects(string sOldReference, string sNewReference)
         {
             //Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
-            LoadFromDatabase(string.Empty);
+            LoadFromDatabase(string.Empty, false);
             foreach (NWDTypeClass tObject in Datas)
             {
                 tObject.ChangeReferenceForAnother(sOldReference, sNewReference);

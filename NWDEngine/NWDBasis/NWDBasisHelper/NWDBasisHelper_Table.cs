@@ -114,6 +114,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         List<PropertyInfo> tActualsList = new List<PropertyInfo>();
         List<PropertyInfo> tMigratePropertyList = new List<PropertyInfo>();
+        List<string> tTransfertList = new List<string>();
         //-------------------------------------------------------------------------------------------------------------
         public NWDSQLiteTableState TableSQLiteState()
         {
@@ -121,6 +122,7 @@ namespace NetWorkedData
             StringBuilder tQuery = new StringBuilder();
             tActualsList = new List<PropertyInfo>(ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance));
             tMigratePropertyList = new List<PropertyInfo>(ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance));
+            tTransfertList.Clear();
             IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
             //SQLiteConnection Connector = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
             if (kAccountDependent == false)
@@ -147,6 +149,10 @@ namespace NetWorkedData
                     if (tAuto != tActual)
                     {
                         rReturn = NWDSQLiteTableState.Migrate;
+                    }
+                    else
+                    {
+                        tTransfertList.Add(tPropName);
                     }
                 }
                 else
@@ -176,20 +182,18 @@ namespace NetWorkedData
         }
 
         //-------------------------------------------------------------------------------------------------------------
-        public string CreateTableSQLite(NWDSQLiteTableState sState)
+        public string[] CreateTableSQLite(NWDSQLiteTableState sState)
         {
-            StringBuilder tQuery = new StringBuilder();
 
+            List<string> tQuery = new List<string>();
             IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
             if (kAccountDependent == false)
             {
                 tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
             }
-
-
             if (sState == NWDSQLiteTableState.Migrate)
             {
-                tQuery.Append("CREATE TABLE IF NOT EXISTS `" + ClassNamePHP + "_new` (");
+                StringBuilder tQueryBuilder = new StringBuilder();
                 List<string> PropertiesSQL = new List<string>();
                 foreach (PropertyInfo tPropertyInfo in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                 {
@@ -198,21 +202,37 @@ namespace NetWorkedData
                         PropertiesSQL.Add("`" + tPropertyInfo.Name + "` " + PropertyInfoToSQLiteType(tPropertyInfo));
                     }
                 }
-                tQuery.Append(string.Join(",", PropertiesSQL.ToArray()));
-                tQuery.Append(");");
-                tQuery.Append("INSERT INTO `" + ClassNamePHP + "_new` (");
-                List<string> tMigratePropertyListName = new List<string>();
-                foreach (PropertyInfo tPropertyInfo in tMigratePropertyList)
+                tQueryBuilder.Append("CREATE TABLE IF NOT EXISTS `" + ClassNamePHP + "_new` (");
+                tQueryBuilder.Append(string.Join(",", PropertiesSQL.ToArray()));
+                tQueryBuilder.Append(");");
+                tQuery.Add(tQueryBuilder.ToString());
+
+                tQueryBuilder = new StringBuilder();
+                List<string> PropertiesName = new List<string>();
+                foreach (string tName in tTransfertList)
                 {
-                    tMigratePropertyListName.Add("`" + tPropertyInfo.Name + "`");
+                    if (string.IsNullOrEmpty(tName) == false)
+                    {
+                        PropertiesName.Add("`" + tName + "` ");
+                    }
                 }
-                tQuery.Append(string.Join(",", PropertiesSQL.ToArray()));
-                tQuery.Append(") SELECT ");
-                tQuery.Append(string.Join(",", PropertiesSQL.ToArray()));
-                tQuery.Append("FROM `" + ClassNamePHP + "`;");
-                tQuery.Append("DROP TABLE `" + ClassNamePHP + "`;");
-                tQuery.Append("ALTER TABLE `" + ClassNamePHP + "_new` RENAME TO `" + ClassNamePHP + "`;");
-                //Debug.Log(tQuery.ToString());
+                if (PropertiesName.Count > 0)
+                {
+                    tQueryBuilder.Append("INSERT INTO `" + ClassNamePHP + "_new` (");
+                    tQueryBuilder.Append(string.Join(",", PropertiesName.ToArray()));
+                    tQueryBuilder.Append(") SELECT ");
+                    tQueryBuilder.Append(string.Join(",", PropertiesName.ToArray()));
+                    tQueryBuilder.Append("FROM `" + ClassNamePHP + "`;");
+                    tQuery.Add(tQueryBuilder.ToString());
+                }
+
+                tQueryBuilder = new StringBuilder();
+                tQueryBuilder.Append("DROP TABLE `" + ClassNamePHP + "`;");
+                tQuery.Add(tQueryBuilder.ToString());
+
+                tQueryBuilder = new StringBuilder();
+                tQueryBuilder.Append("ALTER TABLE `" + ClassNamePHP + "_new` RENAME TO `" + ClassNamePHP + "`;");
+                tQuery.Add(tQueryBuilder.ToString());
             }
             else if (sState == NWDSQLiteTableState.Update)
             {
@@ -220,14 +240,14 @@ namespace NetWorkedData
                 {
                     if (tPropertyInfo != null)
                     {
-                        tQuery.AppendLine("ALTER TABLE `" + ClassNamePHP + "` ADD COLUMN`" + tPropertyInfo.Name + "` " + PropertyInfoToSQLiteType(tPropertyInfo) + ";");
+                        tQuery.Add("ALTER TABLE `" + ClassNamePHP + "` ADD COLUMN`" + tPropertyInfo.Name + "` " + PropertyInfoToSQLiteType(tPropertyInfo) + ";");
                     }
                 }
-                //Debug.Log(tQuery.ToString());
             }
             else if (sState == NWDSQLiteTableState.Create)
             {
-                tQuery.Append("CREATE TABLE IF NOT EXISTS `" + ClassNamePHP + "` (");
+                StringBuilder tQueryBuilder = new StringBuilder();
+                tQueryBuilder.Append("CREATE TABLE IF NOT EXISTS `" + ClassNamePHP + "` (");
                 List<string> PropertiesSQL = new List<string>();
                 foreach (PropertyInfo tPropertyInfo in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                 {
@@ -236,22 +256,17 @@ namespace NetWorkedData
                         PropertiesSQL.Add("`" + tPropertyInfo.Name + "` " + PropertyInfoToSQLiteType(tPropertyInfo));
                     }
                 }
-                tQuery.Append(string.Join(",", PropertiesSQL.ToArray()));
-                tQuery.AppendLine(");");
-                //Debug.Log(tQuery.ToString());
+                tQueryBuilder.Append(string.Join(",", PropertiesSQL.ToArray()));
+                tQueryBuilder.AppendLine(");");
+                tQuery.Add(tQueryBuilder.ToString());
             }
-            else
-            {
-                //Debug.Log("Table `" + ClassNamePHP + "` is ok!");
-            }
-            //Debug.Log("Table `" + ClassNamePHP + "` query = " + tQuery);
-            return tQuery.ToString();
+            return tQuery.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
         public string CreateIndexSQLite(NWDSQLiteTableState sState)
         {
             StringBuilder tQuery = new StringBuilder();
-            if (sState == NWDSQLiteTableState.Create)
+            if (sState == NWDSQLiteTableState.Create || sState == NWDSQLiteTableState.Migrate)
             {
                 tQuery.Append("CREATE UNIQUE INDEX IF NOT EXISTS `" + ClassNamePHP + "_Index` ON `" + ClassNamePHP + "` (`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference) + "`);");
             }
@@ -263,9 +278,9 @@ namespace NetWorkedData
             StringBuilder tQuery = new StringBuilder();
             if (ClassType.IsSubclassOf(typeof(NWDBundledBasis)))
             {
-                if (sState == NWDSQLiteTableState.Create)
+                if (sState == NWDSQLiteTableState.Create || sState == NWDSQLiteTableState.Migrate)
                 {
-                    tQuery.AppendLine("CREATE INDEX IF NOT EXISTS `" + ClassNamePHP + "_Bundle` ON `" + ClassNamePHP + "` (`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Bundle) + "`);");
+                    tQuery.AppendLine("CREATE INDEX IF NOT EXISTS `" + ClassNamePHP + "_Bundle` ON `" + ClassNamePHP + "` (`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDBundledBasis>().Bundle) + "`);");
                 }
             }
             return tQuery.ToString();
@@ -274,17 +289,12 @@ namespace NetWorkedData
         public string CreateIndexModifiySQLite(NWDSQLiteTableState sState)
         {
             StringBuilder tQuery = new StringBuilder();
-            if (sState == NWDSQLiteTableState.Create)
+            if (sState == NWDSQLiteTableState.Create || sState == NWDSQLiteTableState.Migrate)
             {
                 tQuery.AppendLine("CREATE INDEX IF NOT EXISTS `" + ClassNamePHP + "_Modified` ON `" + ClassNamePHP + "` (`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DM) + "`);");
             }
             return tQuery.ToString();
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //public void CreateTable()
-        //{
-        //    NWDDataManager.SharedInstance().CreateTable(ClassType, kAccountDependent);
-        //}
         //-------------------------------------------------------------------------------------------------------------
         public void CleanTable()
         {
@@ -339,17 +349,6 @@ namespace NetWorkedData
             RepaintTableEditor();
 #endif
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //public void UpdateDataTable()
-        //{
-        //    NWDDataManager.SharedInstance().MigrateTable(ClassType, kAccountDependent);
-        //    //List<object> tObjectsListToDelete = new List<object>();
-        //    foreach (NWDTypeClass tObject in Datas)
-        //    {
-        //        tObject.UpdateData();
-        //    }
-        //}
-
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public void FilterTableEditor()
@@ -590,29 +589,29 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void LoadFromDatabaseByBundle(NWDBasisBundle sBundle)
+        public virtual void LoadFromDatabaseByBundle(NWDBasisBundle sBundle, bool sOverrideMemory)
         {
             if (sBundle != NWDBasisBundle.ALL && ClassType.IsSubclassOf(typeof(NWDBundledBasis)))
             {
-                LoadFromDatabase("WHERE `Bundle` = \"" + sBundle.ToLong() + "\"");
+                LoadFromDatabase("WHERE `Bundle` = \"" + sBundle.ToLong() + "\"", sOverrideMemory);
             }
             else
             {
-                LoadFromDatabase(string.Empty);
+                LoadFromDatabase(string.Empty, sOverrideMemory);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void LoadFromDatabaseByReference(string sReference)
+        public virtual void LoadFromDatabaseByReference(string sReference, bool sOverrideMemory)
         {
-            LoadFromDatabase("WHERE `Reference` = \"" + sReference + "\"");
+            LoadFromDatabase("WHERE `Reference` = \"" + sReference + "\"", sOverrideMemory);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void LoadFromDatabaseByReferences(string[] sReferences)
+        public virtual void LoadFromDatabaseByReferences(string[] sReferences, bool sOverrideMemory)
         {
-            LoadFromDatabase("WHERE `Reference` IN \"" + string.Join("", sReferences) + "\"");
+            LoadFromDatabase("WHERE `Reference` IN \"" + string.Join("", sReferences) + "\"", sOverrideMemory);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void LoadFromDatabase(string sWhere)
+        public virtual void LoadFromDatabase(string sWhere, bool sOverrideMemory)
         {
             // if no bundle class 
             // else do with bundle 
@@ -679,12 +678,26 @@ namespace NetWorkedData
                 string tReferenceFromDataBase = SQLite3.ColumnString(stmtc, tReferenceIndex);
                 if (DatasByReference.ContainsKey(tReferenceFromDataBase) == false)
                 {
+                    // create new one object
                     var tD = CreateInstance_Bypass(false, true, tPropTypeArrayToCreate);
                     for (int tI = 0; tI < tProplist.Length; tI++)
                     {
                         ReadCol(tPropTypelist[tI], tProplist[tI], stmtc, tI, tD);
                     }
                     tD.LoadedFromDatabase();
+                }
+                else
+                {
+                    if (sOverrideMemory == true)
+                    {
+                        // restaure data value!
+                        var tD = DatasByReference[tReferenceFromDataBase];
+                        for (int tI = 0; tI < tProplist.Length; tI++)
+                        {
+                            ReadCol(tPropTypelist[tI], tProplist[tI], stmtc, tI, tD);
+                        }
+                        tD.LoadedFromDatabase();
+                    }
                 }
                 tCount++;
             }
@@ -704,7 +717,7 @@ namespace NetWorkedData
                 //NWEBenchmark.Step(true, " " + ClassNamePHP + "Datas count = " + Datas.Count);
                 //NWEBenchmark.Step(true, " " + ClassNamePHP + "DatasByReference count = " + DatasByReference.Count);
                 //NWEBenchmark.Step(true, " " + ClassNamePHP + "DatasByInternalKey count = " + DatasByInternalKey.Count);
-                NWEBenchmark.Finish(true, " " + ClassNamePHP + " " + tCount + " row loaded! DatasByReference count = "+ DatasByReference.Count);
+                NWEBenchmark.Finish(true, " " + ClassNamePHP + " " + tCount + " row loaded! DatasByReference count = " + DatasByReference.Count);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -752,9 +765,12 @@ namespace NetWorkedData
             //SQLite3.Finalize(stmt);
 
             // create table and indexes
-            stmt = SQLite3.Prepare2(tConnectorHandle, CreateTableSQLite(NWDSQLiteTableState.Create));
-            SQLite3.Step(stmt);
-            SQLite3.Finalize(stmt);
+            foreach (string tQuery in CreateTableSQLite(NWDSQLiteTableState.Create))
+            {
+                stmt = SQLite3.Prepare2(tConnectorHandle, tQuery);
+                SQLite3.Step(stmt);
+                SQLite3.Finalize(stmt);
+            }
             string tIndexA = CreateIndexSQLite(NWDSQLiteTableState.Create);
             if (string.IsNullOrEmpty(tIndexA) == false)
             {
@@ -777,7 +793,7 @@ namespace NetWorkedData
                 SQLite3.Finalize(stmt);
             }
             // reload empty datas
-            LoadFromDatabase(string.Empty);
+            LoadFromDatabase(string.Empty, true);
 #if UNITY_EDITOR
             // refresh the tables windows
             RepaintTableEditor();

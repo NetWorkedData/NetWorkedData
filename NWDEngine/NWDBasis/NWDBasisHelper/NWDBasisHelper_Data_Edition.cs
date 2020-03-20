@@ -120,7 +120,7 @@ namespace NetWorkedData
                 }
                 // need to reload this data now : to remove all tObjects from memory!
                 //LoadTableEditor();
-                LoadFromDatabase(string.Empty);
+                LoadFromDatabase(string.Empty, true);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

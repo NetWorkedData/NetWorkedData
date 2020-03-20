@@ -318,21 +318,26 @@ namespace NetWorkedData
             TimeNWDFinish = 0;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Return if the launcher is ready or not and some error.
+        /// use to prevent empty type list launched error in unity Editor
+        /// </summary>
+        /// <returns></returns>
         static public bool LauncherIsReady()
         {
             bool rReturn = true;
-            if (NWDLauncher.Launched == false)
+            if (Launched == false)
             {
                 // WTF ... your launcher is not started! 
 #if UNITY_EDITOR
                 EditorUtility.DisplayDialog("NetWorkedData Alert", "Your launcher is not ready", "OK");
 #endif
-                //rReturn = false; //?
-                NWDLauncher.Launch();
+                //rReturn = false; //? no prefere launch the static method
+                Launch();
             }
             else
             {
-                if (NWDLauncher.GetState() != NWDStatut.NetWorkedDataReady)
+                if (GetState() != NWDStatut.NetWorkedDataReady)
                 {
                     // WTF ... your launcher is not Ready! 
 #if UNITY_EDITOR
@@ -342,7 +347,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    if (NWDLauncher.AllNetWorkedDataTypes.Count == 0)
+                    if (AllNetWorkedDataTypes.Count == 0)
                     {
                         // WTF ... your launcher is empty! 
 #if UNITY_EDITOR

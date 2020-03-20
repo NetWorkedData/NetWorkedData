@@ -172,54 +172,49 @@ namespace NetWorkedData
         /// <summary>
         /// Regenerates the reference.
         /// </summary>
-        public void RegenerateNewReference(bool sShort = false)
-        {
-#if UNITY_EDITOR
-            //TODO : dupplicate if synchronized and trash old data!
-            //DuplicateData();
-            string tOldReference = Reference;
-            string tNewReference = NewReference();
-            if (sShort == true)
-            {
-                tNewReference = NewShortReference();
-            }
-            NWDDataManager.SharedInstance().DataQueueExecute();
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
-            {
-                //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ChangeReferenceForAnotherInAllObjects);
-                //if (tMethodInfo != null)
-                //{
-                //    tMethodInfo.Invoke(null, new object[] { tOldReference, tNewReference });
-                //}
+//        public void RegenerateNewReference(bool sShort = false)
+//        {
+//#if UNITY_EDITOR
+//            //TODO : dupplicate if synchronized and trash old data!
+//            //DuplicateData();
+//            string tOldReference = Reference;
+//            string tNewReference = NewReference();
+//            if (sShort == true)
+//            {
+//                tNewReference = NewShortReference();
+//            }
+//            NWDDataManager.SharedInstance().DataQueueExecute();
+//            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+//            {
+//                NWDBasisHelper basisHelper = NWDBasisHelper.FindTypeInfos(tType);
+//                basisHelper.LoadFromDatabase(string.Empty, true);
+//                basisHelper.ChangeReferenceForAnotherInAllObjects(tOldReference, tNewReference);
+//            }
+//            Reference = tNewReference;
+//            UpdateData();
+//            BasisHelper().LoadFromDatabase(string.Empty, true);
+//            //BasisHelper().SortEditorTableDatas();
+//            BasisHelper().RestaureDataInEditionByReference(tNewReference);
+//            NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
 
-                BasisHelper().ChangeReferenceForAnotherInAllObjects(tOldReference, tNewReference);
-
-
-            }
-            Reference = tNewReference;
-            UpdateData();
-            BasisHelper().LoadFromDatabase(string.Empty);
-            //BasisHelper().SortEditorTableDatas();
-            BasisHelper().RestaureDataInEditionByReference(tNewReference);
-            NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
-
-            if (BasisHelper().ConnexionType != null)
-            {
-                UnityEngine.Object[] tAllObjects = Resources.FindObjectsOfTypeAll(BasisHelper().ConnexionType);
-                foreach (UnityEngine.Object tObject in tAllObjects)
-                {
-                    Debug.Log("tObject find for connexion with " + BasisHelper().ClassNamePHP + " with path ....");
-                    // TODO : find solution to change the serialization connection
-                }
-            }
-#endif
-        }
-        public void RegenerateNewShortReference()
-        {
-#if UNITY_EDITOR
-            RegenerateNewReference(true);
-#endif
-        }
+//            if (BasisHelper().ConnexionType != null)
+//            {
+//                UnityEngine.Object[] tAllObjects = Resources.FindObjectsOfTypeAll(BasisHelper().ConnexionType);
+//                foreach (UnityEngine.Object tObject in tAllObjects)
+//                {
+//                    Debug.Log("tObject find for connexion with " + BasisHelper().ClassNamePHP + " with path ....");
+//                    // TODO : find solution to change the serialization connection
+//                }
+//            }
+//#endif
+//        }
+//        //-------------------------------------------------------------------------------------------------------------
+//        public void RegenerateNewShortReference()
+//        {
+//#if UNITY_EDITOR
+//            RegenerateNewReference(true);
+//#endif
+//        }
         //-------------------------------------------------------------------------------------------------------------
         // TODO : rename ... yhaht change refertence in properties not the object reference!
         public override void ChangeReferenceForAnother(string sOldReference, string sNewReference)
