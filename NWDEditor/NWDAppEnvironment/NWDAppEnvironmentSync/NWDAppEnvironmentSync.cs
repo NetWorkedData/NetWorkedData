@@ -28,8 +28,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private static NWDAppEnvironmentSync kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
-        GUIContent IconAndTitle;
-        //-------------------------------------------------------------------------------------------------------------
         Texture2D DevIcon;
         Texture2D PreprodIcon;
         Texture2D ProdIcon;
@@ -93,6 +91,8 @@ namespace NetWorkedData
         public void OnEnable()
         {
             //NWEBenchmark.Start();
+            TitleInit(NWDConstants.K_APP_SYNC_ENVIRONMENT_TITLE, typeof(NWDAppEnvironmentSync));
+
             if (LastInfos == null) {
                 LastInfos = new NWDOperationResult();
             }
@@ -100,25 +100,6 @@ namespace NetWorkedData
             DevIcon = NWDGUI.kImageWaiting;
             PreprodIcon = NWDGUI.kImageWaiting;
             ProdIcon = NWDGUI.kImageWaiting;
-            if (IconAndTitle == null)
-            {
-                IconAndTitle = new GUIContent();
-                IconAndTitle.text = NWDConstants.K_APP_SYNC_ENVIRONMENT_TITLE;
-                if (IconAndTitle.image == null)
-                {
-                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDAppEnvironmentSync).Name + " t:texture");
-                    foreach (string tGUID in sGUIDs)
-                    {
-                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
-                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals(typeof(NWDAppEnvironmentSync).Name))
-                        {
-                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
-                        }
-                    }
-                }
-                titleContent = IconAndTitle;
-            }
             // SUCCESS BLOCK
             SuccessBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bInfos)
             {

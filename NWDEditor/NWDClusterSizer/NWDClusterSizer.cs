@@ -25,10 +25,6 @@ namespace NetWorkedData
     public class NWDClusterSizer : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// The icon and title.
-        /// </summary>
-        GUIContent IconAndTitle;
         Vector2 ScrollPosition;
         public List<NWDBasisHelper> TypeEditorList = new List<NWDBasisHelper>();
         public List<NWDBasisHelper> TypeAccountList = new List<NWDBasisHelper>();
@@ -87,6 +83,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
+            TitleInit(NWDConstants.K_APP_CLUSTER_SIZER_TITLE, typeof(NWDClusterSizer));
             TypeAccountedAndSize.Clear();
             TypeAndQuantity.Clear();
             TypeEditorAndSize.Clear();
@@ -95,25 +92,6 @@ namespace NetWorkedData
             TypeAndMin.Clear();
             TypeAndMax.Clear();
             //NWEBenchmark.Start();
-            if (IconAndTitle == null)
-            {
-                IconAndTitle = new GUIContent();
-                IconAndTitle.text = NWDConstants.K_APP_CLUSTER_SIZER_TITLE;
-                if (IconAndTitle.image == null)
-                {
-                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDClusterSizer).Name + " t:texture");
-                    foreach (string tGUID in sGUIDs)
-                    {
-                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
-                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals(typeof(NWDClusterSizer).Name))
-                        {
-                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
-                        }
-                    }
-                }
-                titleContent = IconAndTitle;
-            }
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeNotAccountDependantList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);

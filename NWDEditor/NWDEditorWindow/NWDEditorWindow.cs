@@ -24,6 +24,85 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static List<NWDEditorWindow> AllWindowsList = new List<NWDEditorWindow>();
         private GUIContent IconAndTitleCompile;
+        private GUIContent IconAndTitle;
+        protected bool ProSkinActive;
+        private string EditorTitle;
+        private Type EditorType;
+        private bool TitleIsInit = false;
+        //-------------------------------------------------------------------------------------------------------------
+        public void SkinChange()
+        {
+            if (EditorGUIUtility.isProSkin != ProSkinActive || TitleIsInit == false)
+            {
+                TitleEnable();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void TitleInit(string tTitle, Type tType)
+        {
+            EditorTitle = tTitle;
+            EditorType = tType;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void TitleEnable()
+        {
+            NWEBenchmark.Start();
+            if (string.IsNullOrEmpty(EditorTitle) == false && EditorType != null)
+            {
+                TitleIsInit = true;
+                ProSkinActive = EditorGUIUtility.isProSkin;
+                if (IconAndTitle == null)
+                {
+                    IconAndTitle = new GUIContent();
+                }
+                IconAndTitle.text = EditorTitle;
+
+                // find texture by default
+                string tIconName = EditorGUIUtility.isProSkin ? typeof(NWDEditorWindow).Name + "_pro" : typeof(NWDEditorWindow).Name;
+                NWEBenchmark.Step(true, tIconName);
+                string[] sGUIDs = AssetDatabase.FindAssets(tIconName + " t:texture");
+                foreach (string tGUID in sGUIDs)
+                {
+                    string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+                    string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                    if (tPathFilename.Equals(tIconName))
+                    {
+                        IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                        break;
+                    }
+                }
+
+                // find texture by in parameters
+                tIconName = EditorGUIUtility.isProSkin ? EditorType.Name + "_pro" : EditorType.Name;
+                NWEBenchmark.Step(true, tIconName);
+                sGUIDs = AssetDatabase.FindAssets(tIconName + " t:texture");
+                foreach (string tGUID in sGUIDs)
+                {
+                    string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+                    string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                    if (tPathFilename.Equals(tIconName))
+                    {
+                        IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                    }
+                }
+                titleContent = IconAndTitle;
+
+                IconAndTitleCompile = new GUIContent();
+                string tIconNameCompile = EditorGUIUtility.isProSkin ? typeof(NWDEditorWindow).Name + "Compile_pro" : typeof(NWDEditorWindow).Name + "Compile";
+                string[] sGUIDCompiles = AssetDatabase.FindAssets(tIconNameCompile + " t:texture");
+                foreach (string tGUID in sGUIDCompiles)
+                {
+                    string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+                    string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                    if (tPathFilename.Equals(tIconNameCompile))
+                    {
+                        IconAndTitleCompile.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                        break;
+                    }
+                }
+            }
+            NWEBenchmark.Finish();
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static void GenerateCSharpFile()
         {
@@ -80,6 +159,7 @@ namespace NetWorkedData
         public void OnGUI()
         {
             //Debug.Log("NWDEditorWindow OnGUI()");
+            SkinChange();
             NWDGUI.LoadStyles();
             if (Recompile == false || EditorApplication.isCompiling == false)
             {
@@ -87,24 +167,6 @@ namespace NetWorkedData
             }
             else
             {
-                if (IconAndTitleCompile == null)
-                {
-                    IconAndTitleCompile = new GUIContent();
-                    if (IconAndTitleCompile.image == null)
-                    {
-                        string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDEditorWindow).Name + " t:texture");
-                        foreach (string tGUID in sGUIDs)
-                        {
-                            string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
-                            string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                            if (tPathFilename.Equals(typeof(NWDEditorWindow).Name))
-                            {
-                                IconAndTitleCompile.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
-                            }
-                        }
-                    }
-                }
-
                 GUILayout.FlexibleSpace();
                 GUILayout.BeginHorizontal();
                 GUILayout.FlexibleSpace();

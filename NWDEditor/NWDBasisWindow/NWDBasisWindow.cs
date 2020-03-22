@@ -57,10 +57,6 @@ namespace NetWorkedData
         /// </summary>
         public string mTitleKey = "X Edition";
         /// <summary>
-        /// The icon of window.
-        /// </summary>
-        public Texture IconOfWindow;
-        /// <summary>
         /// The description of window.
         /// </summary>
         public string mDescriptionKey = "X Edition, You can add, change, remove the …";
@@ -170,16 +166,6 @@ namespace NetWorkedData
             {
                 NWDTypeWindowParamAttribute tNWDBasisWindowParamAttribute = (NWDTypeWindowParamAttribute)typeof(K).GetCustomAttributes(typeof(NWDTypeWindowParamAttribute), true)[0];
                 mTitleKey = tNWDBasisWindowParamAttribute.Title;
-                //IconOfWindow = FromGizmos(tNWDBasisWindowParamAttribute.IconName);
-                if (tNWDBasisWindowParamAttribute.IconName == null)
-                {
-                    tNWDBasisWindowParamAttribute.IconName = typeof(K).Name;
-                }
-                IconOfWindow = NWDFindPackage.EditorTexture(tNWDBasisWindowParamAttribute.IconName);
-                if (IconOfWindow == null)
-                {
-                    IconOfWindow = NWDFindPackage.PackageEditorTexture("settings.png");
-                }
                 mDescriptionKey = tNWDBasisWindowParamAttribute.Description;
                 if (tNWDBasisWindowParamAttribute.TypeList == null)
                 {
@@ -205,7 +191,6 @@ namespace NetWorkedData
                         mTabTypeList.Add(tType);
                     }
                 }
-
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
                 {
                     foreach (NWDWindowOwnerAttribute tOnwer in tType.GetCustomAttributes(typeof(NWDWindowOwnerAttribute), true))
@@ -219,12 +204,7 @@ namespace NetWorkedData
                         }
                     }
                 }
-
-                // create the title content
-                titleContent = new GUIContent();
-                titleContent.text = mTitleKey;
-                titleContent.tooltip = mDescriptionKey; // not working :-(
-                titleContent.image = IconOfWindow;
+                TitleInit(mTitleKey, typeof(K));
                 // redefine the TabBar navigation
                 DefineTab();
             }

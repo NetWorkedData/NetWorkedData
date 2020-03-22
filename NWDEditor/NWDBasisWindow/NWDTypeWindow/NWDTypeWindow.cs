@@ -25,15 +25,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 		public string Title;
 		public string Description;
-        // TODO : Remove and replace by icon from name of class ... but perhaps used in other windows type?
-		public string IconName;
         public Type[] TypeList;
         //-------------------------------------------------------------------------------------------------------------
+        [Obsolete]
 		public NWDTypeWindowParamAttribute (string sTitle, string sDescription, string sIconName, Type[] sTypeList)
 		{
 			this.Title = sTitle;
 			this.Description = sDescription;
-			this.IconName = sIconName;
 			this.TypeList = sTypeList;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -41,7 +39,6 @@ namespace NetWorkedData
         {
             this.Title = sTitle;
             this.Description = sDescription;
-            this.IconName = null;
             this.TypeList = sTypeList;
         }
         //-------------------------------------------------------------------------------------------------------------

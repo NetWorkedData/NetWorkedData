@@ -291,8 +291,11 @@ namespace NetWorkedData
             string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Textures/NWDExample.psd";
             string tIconPathNew = tOwnerClassesFolderPath + "/Editor/" + sClassNamePHP + ".psd";
             File.Copy(tIconPath, tIconPathNew);
-            NWDDebug.Log("copy file to " + tIconPathNew);
+            string tIconPathPro = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Textures/NWDExample_pro.psd";
+            string tIconPathNewPro = tOwnerClassesFolderPath + "/Editor/" + sClassNamePHP + "_pro.psd";
+            File.Copy(tIconPathPro, tIconPathNewPro);
             AssetDatabase.ImportAsset(tIconPathNew);
+            AssetDatabase.ImportAsset(tIconPathNewPro);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

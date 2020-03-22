@@ -30,10 +30,6 @@ namespace NetWorkedData
         private static NWDLocalizationConfigurationManager kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// The icon and title.
-        /// </summary>
-        GUIContent IconAndTitle;
-        /// <summary>
         /// The scroll position.
         /// </summary>
         static Vector2 ScrollPosition;
@@ -82,25 +78,7 @@ namespace NetWorkedData
         public void OnEnable()
         {
             //NWEBenchmark.Start();
-            if (IconAndTitle == null)
-            {
-                IconAndTitle = new GUIContent();
-                IconAndTitle.text = NWDConstants.K_LOCALIZATION_CONFIGURATION_TITLE;
-                if (IconAndTitle.image == null)
-                {
-                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDLocalizationConfigurationManager).Name + " t:texture");
-                    foreach (string tGUID in sGUIDs)
-                    {
-                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
-                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals(typeof(NWDLocalizationConfigurationManager).Name))
-                        {
-                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
-                        }
-                    }
-                }
-                titleContent = IconAndTitle;
-            }
+            TitleInit(NWDConstants.K_LOCALIZATION_CONFIGURATION_TITLE, typeof(NWDLocalizationConfigurationManager));
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

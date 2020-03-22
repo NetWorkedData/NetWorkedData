@@ -26,10 +26,6 @@ namespace NetWorkedData
     public class NWDModelManager : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// The icon and title.
-        /// </summary>
-        GUIContent IconAndTitle;
         Vector2 ScrollPosition;
         public List<Type> TypeList = new List<Type>();
         public List<Type> TypeErrorList = new List<Type>();
@@ -83,25 +79,7 @@ namespace NetWorkedData
         public void OnEnable()
         {
             //NWEBenchmark.Start();
-            if (IconAndTitle == null)
-            {
-                IconAndTitle = new GUIContent();
-                IconAndTitle.text = NWDConstants.K_APP_MODEL_MANAGER_TITLE;
-                if (IconAndTitle.image == null)
-                {
-                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDModelManager).Name + " t:texture");
-                    foreach (string tGUID in sGUIDs)
-                    {
-                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
-                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals(typeof(NWDModelManager).Name))
-                        {
-                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
-                        }
-                    }
-                }
-                titleContent = IconAndTitle;
-            }
+            TitleInit(NWDConstants.K_APP_MODEL_MANAGER_TITLE, typeof(NWDModelManager));
             TypeList.Clear();
             TypeErrorList.Clear();
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList.OrderBy(A => NWDBasisHelper.FindTypeInfos(A).ClassNamePHP))

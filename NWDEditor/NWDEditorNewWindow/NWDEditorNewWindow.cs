@@ -28,7 +28,6 @@ namespace NetWorkedData
     public class NWDEditorNewWindow : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
-        GUIContent IconAndTitle;
         Vector2 ScrollPosition = Vector2.zero;
         //-------------------------------------------------------------------------------------------------------------
         string WindowName = string.Empty;
@@ -73,9 +72,18 @@ namespace NetWorkedData
             ClassesList = new List<string>();
             // import new script
             AssetDatabase.ImportAsset(tFilePath);
-            // TODO: not working ... must be fix or remove
-            //			GameObject tScript = AssetDatabase.LoadAssetAtPath<GameObject> (tFilePath);
-            //			Selection.activeObject = tScript;
+            // create directories
+            Directory.CreateDirectory(tOwnerClassesFolderPath);
+            Directory.CreateDirectory(tOwnerClassesFolderPath + "/Editor");
+            // write icon to modify
+            string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Textures/NWDExampleWindow.psd";
+            string tIconPathNew = tOwnerClassesFolderPath + "/Editor/" + WindowName + ".psd";
+            File.Copy(tIconPath, tIconPathNew);
+            string tIconPathPro = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Textures/NWDExampleWindow_pro.psd";
+            string tIconPathNewPro = tOwnerClassesFolderPath + "/Editor/" + WindowName + "_pro.psd";
+            File.Copy(tIconPathPro, tIconPathNewPro);
+            AssetDatabase.ImportAsset(tIconPathNew);
+            AssetDatabase.ImportAsset(tIconPathNewPro);
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -85,25 +93,7 @@ namespace NetWorkedData
         public void OnEnable()
         {
             //NWEBenchmark.Start();
-            if (IconAndTitle == null)
-            {
-                IconAndTitle = new GUIContent();
-                IconAndTitle.text = "Custom Window Manager";
-                if (IconAndTitle.image == null)
-                {
-                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDEditorNewWindow).Name + " t:texture");
-                    foreach (string tGUID in sGUIDs)
-                    {
-                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
-                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals(typeof(NWDEditorNewWindow).Name))
-                        {
-                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
-                        }
-                    }
-                }
-                titleContent = IconAndTitle;
-            }
+            TitleInit("Custom Window Manager", typeof(NWDEditorNewWindow));
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

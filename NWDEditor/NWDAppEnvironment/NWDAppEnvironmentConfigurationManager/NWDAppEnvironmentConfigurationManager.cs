@@ -28,7 +28,6 @@ namespace NetWorkedData
         /// </summary>
         private static NWDAppEnvironmentConfigurationManager kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
-        GUIContent IconAndTitle;
         Vector2 ScrollPosition;
         static int TabSelected = 0;
         //-------------------------------------------------------------------------------------------------------------
@@ -76,25 +75,7 @@ namespace NetWorkedData
         public void OnEnable()
         {
             //NWEBenchmark.Start();
-            if (IconAndTitle == null)
-            {
-                IconAndTitle = new GUIContent();
-                IconAndTitle.text = NWDConstants.K_ENVIRONMENTS_CONFIGURATION_TITLE;
-                if (IconAndTitle.image == null)
-                {
-                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDAppEnvironmentConfigurationManager).Name +" t:texture");
-                    foreach (string tGUID in sGUIDs)
-                    {
-                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
-                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals(typeof(NWDAppEnvironmentConfigurationManager).Name))
-                        {
-                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
-                        }
-                    }
-                }
-                titleContent = IconAndTitle;
-            }
+            TitleInit(NWDConstants.K_ENVIRONMENTS_CONFIGURATION_TITLE, typeof(NWDAppEnvironmentConfigurationManager));
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -24,10 +24,6 @@ namespace NetWorkedData
     public class NWDAppEnvironmentChooser : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// The icon and title.
-        /// </summary>
-        GUIContent IconAndTitle;
         Vector2 ScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -79,25 +75,7 @@ namespace NetWorkedData
         public void OnEnable()
         {
             //NWEBenchmark.Start();
-            if (IconAndTitle == null)
-            {
-                IconAndTitle = new GUIContent();
-                IconAndTitle.text = NWDConstants.K_APP_CHOOSER_ENVIRONMENT_TITLE;
-                if (IconAndTitle.image == null)
-                {
-                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDAppEnvironmentChooser).Name + " t:texture");
-                    foreach (string tGUID in sGUIDs)
-                    {
-                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
-                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals(typeof(NWDAppEnvironmentChooser).Name))
-                        {
-                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
-                        }
-                    }
-                }
-                titleContent = IconAndTitle;
-            }
+            TitleInit(NWDConstants.K_APP_CHOOSER_ENVIRONMENT_TITLE, typeof(NWDAppEnvironmentChooser));
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

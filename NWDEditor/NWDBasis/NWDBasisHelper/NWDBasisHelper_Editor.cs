@@ -75,7 +75,7 @@ namespace NetWorkedData
             //Debug.Log("LoadEditorPrefererences()");
             RowZoom = EditorPrefs.GetFloat(ActionsPrefkey(() => RowZoom), 1.0F);
 
-            m_ShowEnable = EditorPrefs.GetBool(ActionsPrefkey(() => m_ShowEnable),true);
+            m_ShowEnable = EditorPrefs.GetBool(ActionsPrefkey(() => m_ShowEnable), true);
             m_ShowDisable = EditorPrefs.GetBool(ActionsPrefkey(() => m_ShowDisable), true);
             m_ShowTrashed = EditorPrefs.GetBool(ActionsPrefkey(() => m_ShowTrashed), true);
             m_ShowIntegrityError = EditorPrefs.GetBool(ActionsPrefkey(() => m_ShowIntegrityError), true);
@@ -156,7 +156,7 @@ namespace NetWorkedData
         //    EditorPrefs.SetBool(ActionsPrefkey() + kTableEditorKey, sValue);
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public bool SearchActions =true;
+        public bool SearchActions = true;
         public bool RowActions = true;
         public bool TableActions = true;
         //-------------------------------------------------------------------------------------------------------------
@@ -257,25 +257,48 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             if (Texture == null)
             {
-                Texture2D rTexture = null;
-                string[] sGUIDs = AssetDatabase.FindAssets(ClassNamePHP + " t:texture2D");
+                string tIconName = EditorGUIUtility.isProSkin ? ClassNamePHP + "_pro" : ClassNamePHP;
+                string[] sGUIDs = AssetDatabase.FindAssets(tIconName + " t:texture2D");
                 foreach (string tGUID in sGUIDs)
                 {
-                    //Debug.Log("TextureOfClass GUID " + tGUID);
                     string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
                     string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                    //Debug.Log("tPathFilename = " + tPathFilename);
-                    if (tPathFilename.Equals(ClassNamePHP))
+                    if (tPathFilename.Equals(tIconName))
                     {
-                        //Debug.Log("TextureOfClass " + tPath);
-                        rTexture = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                        Texture = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                        break;
                     }
                 }
-                Texture = rTexture;
-                // if null  the draw default
+                // if null find just no pro icon ? 
                 if (Texture == null)
                 {
-                    Texture = NWDGUI.kImageDefaultIcon;
+                    sGUIDs = AssetDatabase.FindAssets(ClassNamePHP + " t:texture2D");
+                    foreach (string tGUID in sGUIDs)
+                    {
+                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                        if (tPathFilename.Equals(ClassNamePHP))
+                        {
+                            Texture = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                            break;
+                        }
+                    }
+                }
+                // ok draw default ?
+                if (Texture == null)
+                {
+                    tIconName = EditorGUIUtility.isProSkin ? typeof(NWDExample).Name + "_pro" : typeof(NWDExample).Name;
+                    sGUIDs = AssetDatabase.FindAssets(tIconName + " t:texture2D");
+                    foreach (string tGUID in sGUIDs)
+                    {
+                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                        if (tPathFilename.Equals(tIconName))
+                        {
+                            Texture = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                            break;
+                        }
+                    }
                 }
             }
             //NWEBenchmark.Finish();
