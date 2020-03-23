@@ -64,14 +64,15 @@ namespace NetWorkedData
         public static Texture2D kImageSyncDanger = NWDFindPackage.PackageEditorTexture("NWDSyncDanger.png");
         public static Texture2D kImageSyncForbidden = NWDFindPackage.PackageEditorTexture("NWDSyncForbidden.png");
         public static Texture2D kImageSyncForward = NWDFindPackage.PackageEditorTexture("NWDSyncForward.png");
-        public static Texture2D kImageSyncRequired = NWDFindPackage.PackageEditorTexture("NWDSyncRequired.png");
+        //public static Texture2D kImageSyncRequired = NWDFindPackage.PackageEditorTexture("NWDSyncRequired.png");
         public static Texture2D kImageSyncSuccessed = NWDFindPackage.PackageEditorTexture("NWDSyncSuccessed.png");
         public static Texture2D kImageSyncWaiting = NWDFindPackage.PackageEditorTexture("NWDSyncWaiting.png");
         public static Texture2D kImageSyncProceed = NWDFindPackage.PackageEditorTexture("NWDProceed.png");
         public static Texture2D kImageBezierTexture = NWDFindPackage.PackageEditorTexture("NWDBezierTexture.psd"); //for nodal line?
         public static Texture2D kImageDefaultIcon = NWDFindPackage.PackageEditorTexture("NWDExample.psd");
         //-------------------------------------------------------------------------------------------------------------
-        public static Texture2D kNetWorkedDataLogo = NWDFindPackage.PackageEditorTexture("NWDWindowLogo.psd");
+        public static Texture2D kImageSyncRequired = NWDFindPackage.PackageEditor("NWDSyncRequired");
+        public static Texture2D kNetWorkedDataLogo = NWDFindPackage.PackageEditor("NWDWindowLogo");
         public static GUIContent kNetWorkedDataLogoContent;
         //-------------------------------------------------------------------------------------------------------------
         // change color of background interface element

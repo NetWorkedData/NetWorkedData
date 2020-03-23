@@ -519,6 +519,7 @@ namespace NetWorkedData
         public const string K_APP_BASIS_WARNING_MODEL_DEGRADED = "WARNING! MODEL WAS DEGRADED!";
 
         //-------------------------------------------------------------------------------------------------------------
+        public const string _pro = "_pro";
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
