@@ -199,7 +199,7 @@ namespace NetWorkedData
         public void ResetIconByDefaultIcon()
         {
             //NWEBenchmark.Start();
-            string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Textures/NWDExample.psd";
+            string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/NWDExample.psd";
             string tLookFor = ClassNamePHP + "";
             //Debug.Log("Loook for :" + tLookFor);
             string[] sGUIDs = AssetDatabase.FindAssets(tLookFor);

@@ -44,8 +44,7 @@ namespace NetWorkedData
         public static Texture2D kImageAction = NWDFindPackage.PackageEditorTexture("NWDInterfaceAction.png"); // Clean
         public static Texture2D kImageNew = NWDFindPackage.PackageEditorTexture("NWDInterfaceNew.png");  // new
         public static Texture2D kImageTabReduce = NWDFindPackage.PackageEditorTexture("NWDInterfaceEdit.png"); // edit
-        public static Texture2D kImageRed = NWDFindPackage.PackageEditorTexture("NWDRed.png");
-        public static Texture2D kImageGreen = NWDFindPackage.PackageEditorTexture("NWDGreen.png");
+        //public static Texture2D kImageGreen = NWDFindPackage.PackageEditorTexture("NWDGreen.png");
         public static Texture2D kImageForbidden = NWDFindPackage.PackageEditorTexture("NWDForbidden.png");
         public static Texture2D kImageEmpty = NWDFindPackage.PackageEditorTexture("NWDEmpty.png");
         public static Texture2D kImageWaiting = NWDFindPackage.PackageEditorTexture("NWDWaiting.png");
@@ -57,22 +56,26 @@ namespace NetWorkedData
         public static Texture2D kImageCheckValid = NWDFindPackage.PackageEditorTexture("NWDCheckValid.png");
         public static Texture2D kImageCheckWorkInProgress = NWDFindPackage.PackageEditorTexture("NWDCheckWorkInProgress.png");
         public static Texture2D kImageCheckWarning = NWDFindPackage.PackageEditorTexture("NWDCheckWarning.png");
-        public static Texture2D kImageSyncGeneralForbidden = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralForbidden.png");
         public static Texture2D kImageSyncGeneralForward = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralForward.png");
         public static Texture2D kImageSyncGeneralSuccessed = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralSuccessed.png");
         public static Texture2D kImageSyncGeneralWaiting = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralWaiting.png");
         public static Texture2D kImageSyncDanger = NWDFindPackage.PackageEditorTexture("NWDSyncDanger.png");
-        public static Texture2D kImageSyncForbidden = NWDFindPackage.PackageEditorTexture("NWDSyncForbidden.png");
+        //public static Texture2D kImageSyncForbidden = NWDFindPackage.PackageEditorTexture("NWDSyncForbidden.png");
         public static Texture2D kImageSyncForward = NWDFindPackage.PackageEditorTexture("NWDSyncForward.png");
         //public static Texture2D kImageSyncRequired = NWDFindPackage.PackageEditorTexture("NWDSyncRequired.png");
-        public static Texture2D kImageSyncSuccessed = NWDFindPackage.PackageEditorTexture("NWDSyncSuccessed.png");
+        //public static Texture2D kImageSyncSuccessed = NWDFindPackage.PackageEditorTexture("NWDSyncSuccessed.png");
         public static Texture2D kImageSyncWaiting = NWDFindPackage.PackageEditorTexture("NWDSyncWaiting.png");
         public static Texture2D kImageSyncProceed = NWDFindPackage.PackageEditorTexture("NWDProceed.png");
         public static Texture2D kImageBezierTexture = NWDFindPackage.PackageEditorTexture("NWDBezierTexture.psd"); //for nodal line?
-        public static Texture2D kImageDefaultIcon = NWDFindPackage.PackageEditorTexture("NWDExample.psd");
         //-------------------------------------------------------------------------------------------------------------
+        public static Texture2D kImageSyncForbidden = NWDFindPackage.PackageEditor("NWDSyncForbidden");
+        public static Texture2D kImageSyncGeneralForbidden = NWDFindPackage.PackageEditor("NWDSyncGeneralForbidden");
+        public static Texture2D kImageRed = NWDFindPackage.PackageEditor("NWDRed");
+        public static Texture2D kImageGreen = NWDFindPackage.PackageEditor("NWDGreen");
         public static Texture2D kImageSyncRequired = NWDFindPackage.PackageEditor("NWDSyncRequired");
+        public static Texture2D kImageSyncSuccessed = NWDFindPackage.PackageEditor("NWDSyncSuccessed");
         public static Texture2D kNetWorkedDataLogo = NWDFindPackage.PackageEditor("NWDWindowLogo");
+        public static Texture2D kImageDefaultIcon = NWDFindPackage.PackageEditor("NWDExample");
         public static GUIContent kNetWorkedDataLogoContent;
         //-------------------------------------------------------------------------------------------------------------
         // change color of background interface element

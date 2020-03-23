@@ -90,14 +90,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static Texture2D PackageEditor(string sAddPath = NWEConstants.K_EMPTY_STRING)
         {
+            string tPro = string.Empty;
             if (EditorGUIUtility.isProSkin)
             {
-                return AssetDatabase.LoadAssetAtPath<Texture2D>(PathEditor(sAddPath + NWDConstants._pro +".psd"));
+                tPro = NWDConstants._pro;
+            }
+            string tPath = PathEditor(sAddPath + tPro + ".psd");
+            Texture2D rTexture2D = AssetDatabase.LoadAssetAtPath<Texture2D>(tPath);
+            if (rTexture2D == null)
+            {
+                Debug.LogWarning("erreur to find " + tPath);
             }
             else
             {
-                return AssetDatabase.LoadAssetAtPath<Texture2D>(PathEditor(sAddPath + ".psd"));
+                Debug.LogWarning("GOOD found " + tPath);
             }
+            return rTexture2D;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Texture EditorTexture(string sName)
