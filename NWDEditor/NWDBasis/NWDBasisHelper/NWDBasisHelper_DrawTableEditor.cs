@@ -369,8 +369,11 @@ namespace NetWorkedData
                 - NWDGUI.KTableSearchWidth
                 - NWDGUI.KTableReferenceWidth
                 - NWDGUI.KTableRowWebModelWidth
-                - NWDGUI.kTableIconWidth * 6;
-
+                - NWDGUI.kTableIconWidth * 5;
+            if (kAccountDependent == false)
+            {
+                tRect.width -= NWDGUI.kTableIconWidth;
+            }
             if (tRect.width < NWDGUI.KTableSearchWidth)
             {
                 tRect.width = NWDGUI.KTableSearchWidth;
@@ -412,25 +415,30 @@ namespace NetWorkedData
                 ChangeScroolPositionToSelection(sScrollRect);
             }
             tRect.x += tRect.width;
-            tRect.width = NWDGUI.kTableIconWidth;
-            if (GUI.Button(tRect, "Check", NWDGUI.KTableHeaderIcon))
+
+            if (kAccountDependent == false)
             {
-                if (SortType == NWDBasisEditorDatasSortType.ByChecklistAscendant)
+                tRect.width = NWDGUI.kTableIconWidth;
+                if (GUI.Button(tRect, "Check", NWDGUI.KTableHeaderIcon))
                 {
-                    SortType = NWDBasisEditorDatasSortType.ByChecklistDescendant;
+                    if (SortType == NWDBasisEditorDatasSortType.ByChecklistAscendant)
+                    {
+                        SortType = NWDBasisEditorDatasSortType.ByChecklistDescendant;
+                    }
+                    else if (SortType == NWDBasisEditorDatasSortType.ByChecklistDescendant)
+                    {
+                        SortType = NWDBasisEditorDatasSortType.ByChecklistAscendant;
+                    }
+                    else
+                    {
+                        SortType = NWDBasisEditorDatasSortType.ByChecklistDescendant;
+                    }
+                    SortEditorTableDatas();
+                    ChangeScroolPositionToSelection(sScrollRect);
                 }
-                else if (SortType == NWDBasisEditorDatasSortType.ByChecklistDescendant)
-                {
-                    SortType = NWDBasisEditorDatasSortType.ByChecklistAscendant;
-                }
-                else
-                {
-                    SortType = NWDBasisEditorDatasSortType.ByChecklistDescendant;
-                }
-                SortEditorTableDatas();
-                ChangeScroolPositionToSelection(sScrollRect);
+                tRect.x += tRect.width;
             }
-            tRect.x += tRect.width;
+
             tRect.width = NWDGUI.kTableIconWidth;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_DISK, NWDGUI.KTableHeaderIcon))
             {

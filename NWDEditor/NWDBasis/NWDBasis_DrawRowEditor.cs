@@ -398,10 +398,16 @@ namespace NetWorkedData
                 - NWDGUI.kTableSelectWidth
                 //- NWDGUI.kTableIDWidth
                 - NWDGUI.kTablePrefabWidth * sZoom
-                - NWDGUI.kTableIconWidth * 6
+                - NWDGUI.kTableIconWidth * 5
                 - NWDGUI.KTableSearchWidth
                 - NWDGUI.KTableRowWebModelWidth
                 - NWDGUI.KTableReferenceWidth;
+
+            if (BasisHelper().kAccountDependent == false)
+            {
+                tRect.width -= NWDGUI.kTableIconWidth;
+            }
+
             if (tRect.width < NWDGUI.KTableSearchWidth)
             {
                 tRect.width = NWDGUI.KTableSearchWidth;
@@ -413,9 +419,12 @@ namespace NetWorkedData
             GUI.Label(tRect, ModelInfos, NWDGUI.KTableRowStatut);
             tRect.x += NWDGUI.KTableRowWebModelWidth;
             // draw check
-            tRect.width = NWDGUI.kTableIconWidth;
-            GUI.Label(tRect, ImageChecklist, NWDGUI.KTableRowIcon);
-            tRect.x += NWDGUI.kTableIconWidth;
+            if (BasisHelper().kAccountDependent == false)
+            {
+                tRect.width = NWDGUI.kTableIconWidth;
+                GUI.Label(tRect, ImageChecklist, NWDGUI.KTableRowIcon);
+                tRect.x += NWDGUI.kTableIconWidth;
+            }
             // draw disk
             tRect.width = NWDGUI.kTableIconWidth;
             GUI.Label(tRect, ImageDisk, NWDGUI.KTableRowIcon);

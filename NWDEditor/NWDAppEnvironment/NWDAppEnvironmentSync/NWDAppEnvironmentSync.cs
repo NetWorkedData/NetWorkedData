@@ -203,17 +203,17 @@ namespace NetWorkedData
                 string tErrorCode = LastInfos.errorCode;
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
                 {
-                    DevIcon = NWDGUI.kImageForbidden;
+                    DevIcon = NWDGUI.kImageSyncForbidden;
                     DevProgress = "Cancelled";
                 }
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment)
                 {
-                    PreprodIcon = NWDGUI.kImageForbidden;
+                    PreprodIcon = NWDGUI.kImageSyncForbidden;
                     PreprodProgress = "Cancelled";
                 }
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment)
                 {
-                    ProdIcon = NWDGUI.kImageForbidden;
+                    ProdIcon = NWDGUI.kImageSyncForbidden;
                     ProdProgress = "Cancelled";
                 }
                 Repaint();
