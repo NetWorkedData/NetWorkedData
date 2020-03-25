@@ -1,28 +1,14 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:24:53
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.IO;
 using System.Reflection;
-
 using UnityEngine;
-
-using SQLite4Unity3d;
-//using BasicToolBox;
-
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -88,11 +74,6 @@ namespace NetWorkedData
         {
             return DatasLoaded;
         }
-        ////-------------------------------------------------------------------------------------------------------------
-        //public bool DatasAreLoaded()
-        //{
-        //    return DatasLoaded;
-        //}
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
@@ -105,11 +86,11 @@ namespace NetWorkedData
         {
             NWDDataInspector.ActiveRepaint();
         }
+        //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
         public void ChangeAssetPath(string sOldPath, string sNewPath)
         {
-            //Debug.Log("sOldPath = " + sOldPath + " to sNewPath " + sNewPath);
             if (kAssetDependent == true)
             {
                 foreach (NWDTypeClass tObject in Datas)
@@ -152,13 +133,6 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDHelper<K> : NWDBasisHelper where K : NWDBasis, new()
     {
-        //#if UNITY_EDITOR
-        //        //-------------------------------------------------------------------------------------------------------------
-        //        public K FictiveData()
-        //        {
-        //            return NWDBasisNWDBasisHelper.FictiveData<>();
-        //        }
-        //#endif
         //-------------------------------------------------------------------------------------------------------------
         public override List<Type> OverrideClasseInThisSync()
         {
@@ -174,8 +148,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static NWDBasisHelper()
         {
-            //Debug.Log("NWDDatas Static Class Constructor()");
-            //NWDTypeLauncher.Launcher();
             NWDLauncher.Launch();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -230,12 +202,6 @@ namespace NetWorkedData
         public int ClusterMin;
         public int ClusterMax;
         //-------------------------------------------------------------------------------------------------------------
-        //#if UNITY_EDITOR
-        //public List<string> ObjectsInEditorTableKeyList = new List<string>();
-        //public List<string> ObjectsInEditorTableList = new List<string>();
-        //public List<bool> ObjectsInEditorTableSelectionList = new List<bool>();
-        //#endif
-        //-------------------------------------------------------------------------------------------------------------
         public NWDBasisHelper()
         {
         }
@@ -245,7 +211,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void InitHelper(Type sType, bool sBase = false)
         {
-            NWEBenchmark.Start();
+            //NWEBenchmark.Start();
             bool tServerSynchronize = true;
             if (sType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true).Length > 0)
             {
@@ -288,37 +254,15 @@ namespace NetWorkedData
             ClassTableName = sType.Name;
 
             ClassName = sType.AssemblyQualifiedName;
-            //NWEBenchmark.Finish("Declare() step A");
-            //NWEBenchmark.Start("Declare() step B");
-
-            //TableMapping tTableMapping = new TableMapping(sType);
-            //string rClassName = tTableMapping.TableName;
             string rClassName = sType.Name;
             ClassNamePHP = rClassName;
             ClassPrefBaseKey = ClassNamePHP + "_";
-            //if (StringsDictionary.ContainsKey(rClassName))
-            //{
-            //    Debug.LogWarning(rClassName + " already in StringsDictionary!");
-            //}
-            //else
-            //{
-            //    StringsDictionary.Add(rClassName, this);
-            //}
-            //NWEBenchmark.Finish("Declare() step B");
-            //NWEBenchmark.Start("Declare() step C");
-            // insert attributs infos
             ClassTrigramme = tClassTrigramme;
             ClassMenuName = tMenuName;
             ClassDescription = tDescription;
             ClassSynchronize = tServerSynchronize;
-
-            //foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Instance))
             foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
             {
-                //if (sType.Name == "NWDItem")
-                //{
-                //    Debug.Log("<color=blue>tMethod</color> " + tMethod.Name + " "+ tMethod.GetCustomAttributes(typeof(NWDIndexInsert), true).Length);
-                //}
                 if (tMethod.GetCustomAttributes(typeof(NWDIndexInMemory), true).Length > 0)
                 {
                     if (IndexInMemoryMethodList.Contains(tMethod) == false)
@@ -348,33 +292,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            //NWEBenchmark.Finish("Declare() step C");
-            //NWEBenchmark.Start("Declare() step D");
-            // create GUI object
-
-            //#if UNITY_EDITOR
-            // tTypeInfos.ClassMenuNameContent = new GUIContenm();t(sMenuName, tTypeInfos.TextureOfClass(), sDescription);
-            //#endif
-
-            //NWEBenchmark.Finish("Declare() step D");
-            //NWEBenchmark.Start("Declare() step E");
-            // Prepare engine informlations
-            //tTypeInfos.ClassPrefBaseKey = sType.Name + "_";
-            //tTypeInfos.PropertiesArrayPrepare();
-            //tTypeInfos.PropertiesOrderArrayPrepare();
-            //tTypeInfos.SLQAssemblyOrderArrayPrepare();
-            //tTypeInfos.SLQAssemblyOrderPrepare();
-            //tTypeInfos.SLQIntegrityOrderPrepare();
-            //tTypeInfos.DataAssemblyPropertiesListPrepare();
-
-            //NWEBenchmark.Finish("Declare() step E");
-            //NWEBenchmark.Start("Declare() step F");
-            // get salt 
             PrefLoad();
-            //NWEBenchmark.Finish("Declare() step F");
-            //NWEBenchmark.Finish();
-            //NWEBenchmark.Start();
-
             bool rAccountConnected = false;
             bool rAssetConnected = false;
             bool rLockedObject = true;
@@ -383,12 +301,10 @@ namespace NetWorkedData
             List<PropertyInfo> tAssetPropertyList = new List<PropertyInfo>();
             Dictionary<PropertyInfo, MethodInfo> tAccountMethodList = new Dictionary<PropertyInfo, MethodInfo>();
 
-
             ClassGameSaveDependent = false;
             ClassGameDependentProperties = null;
             GameSaveMethod = null;
             // exception for NWDAccount table
-            //if (sType == typeof(NWDAccount) || sType == typeof(NWDRequestToken) || sType == typeof(NWDServerSFTP))
             NWDClassUnityEditorOnlyAttribute tServerOnlyAttribut = (NWDClassUnityEditorOnlyAttribute)sType.GetCustomAttribute(typeof(NWDClassUnityEditorOnlyAttribute), true);
             if (tServerOnlyAttribut != null)
             {
@@ -475,26 +391,17 @@ namespace NetWorkedData
             kAccountDependent = rAccountConnected;
             // reccord class' object is account dependent properties
             kAccountDependentProperties = tPropertyList;
-
             // reccord class' object is account connected properties
             kAccountConnectedProperties = tPropertyListConnected;
             AccountMethodDico = tAccountMethodList;
-
             // reccord if class' object is locked for editor
-
 #if UNITY_EDITOR
             rLockedObject = false;
 #endif
             kLockedObject = rLockedObject;
-
             // reccord if class' object is asset dependent
             kAssetDependent = rAssetConnected;
             kAssetDependentProperties = tAssetPropertyList;
-            //NWEBenchmark.Finish();
-
-
-
-
             NWDClassClusterAttribute tClusterAttribute = null;
             if (sType.GetCustomAttributes(typeof(NWDClassClusterAttribute), true).Length > 0)
             {
@@ -510,10 +417,7 @@ namespace NetWorkedData
                 ClusterMin = 0;
                 ClusterMax = 2048;
             }
-
-            NWEBenchmark.Finish(true, "editor mode " + ClassNamePHP);
         }
-
         //-------------------------------------------------------------------------------------------------------------
         public void InstallHelper()
         {
@@ -524,16 +428,12 @@ namespace NetWorkedData
             }
             else
             {
-                //Debug.LogWarning(ClassNamePHP + " installed in StringsDictionary!");
                 StringsDictionary.Add(ClassNamePHP, this);
             }
-
-
             if (NWDDataManager.SharedInstance().mTypeList.Contains(ClassType) == false)
             {
                 NWDDataManager.SharedInstance().mTypeList.Add(ClassType);
             }
-
             if (kAccountDependent)
             {
                 if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(ClassType) == false)
@@ -556,7 +456,6 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(ClassType);
                 }
             }
-
             if (ClassSynchronize == true)
             {
                 if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(ClassType) == false)
@@ -596,14 +495,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDBasisHelper Declare(Type sType, Type sTypeHelper)
         {
-            //NWEBenchmark.Start("Declare NWDBasisHelper " + sType.Name);
-            //Debug.Log("NWDDatas Declare for " + sType.Name + " !");
             NWDBasisHelper tTypeInfos = null;
             if (sType.IsSubclassOf(typeof(NWDTypeClass)))
             {
-
-                //NWEBenchmark.Start("Declare() step A");
-                // find infos object if exists or create 
                 if (TypesDictionary.ContainsKey(sType))
                 {
                     Debug.LogWarning(sType.Name + " already in TypesDictionary");
@@ -611,37 +505,16 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    //NWEBenchmark.Start("Declare part 1");
                     Type tTypeHelper = sTypeHelper;
-                    //Type tTypeHelper = null;
-                    //Type[] tAllTypes = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
-                    //Type[] tAllHelperDTypes = (from System.Type type in tAllTypes where type.IsSubclassOf(typeof(NWDBasisHelper)) select type).ToArray();
-                    //foreach (Type tPossibleHelper in tAllHelperDTypes)
-                    //{
-                    //    if (tPossibleHelper.ContainsGenericParameters == false)
-                    //    {
-                    //        if (tPossibleHelper.BaseType.GenericTypeArguments.Contains(sType))
-                    //        {
-                    //            tTypeHelper = tPossibleHelper;
-                    //            break;
-                    //        }
-                    //    }
-                    //}
-                    //NWEBenchmark.Finish("Declare part 1");
-                    //NWEBenchmark.Start("Declare part 2");
                     if (tTypeHelper != null)
                     {
                         tTypeInfos = Activator.CreateInstance(tTypeHelper) as NWDBasisHelper;
-                        //Debug.Log("<color=green> YES </color> create "+ tTypeInfos.GetType().Name + " instance for " + sType.Name + " ");
                     }
                     else
                     {
                         tTypeInfos = new NWDBasisHelper();
-                        //Debug.Log("<color=red> NO </color> create "+ tTypeInfos.GetType().Name + " instance for " + sType.Name + " ");
                     }
-                    //NWEBenchmark.Finish("Declare part 2");
                     tTypeInfos.InitHelper(sType);
-                    //NWEBenchmark.Start("Declare part 3");
                     tTypeInfos.InstallHelper();
                     tTypeInfos.ClassInitialization();
 #if UNITY_EDITOR
@@ -649,25 +522,16 @@ namespace NetWorkedData
 #endif
                     tTypeInfos.ClassLoaded = true;
                     TypesDictionary.Add(sType, tTypeInfos);
-                    //NWEBenchmark.Finish("Declare part 3");
                 }
             }
             //NWEBenchmark.Finish("Declare NWDBasisHelper " + sType.Name);
             return tTypeInfos;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public void PrefSave()
-        //{
-        //    NWDAppConfiguration.SharedInstance().SetSalt(ClassPrefBaseKey, NWDConstants.kPrefSaltAKey, SaltA);
-        //    NWDAppConfiguration.SharedInstance().SetSalt(ClassPrefBaseKey, NWDConstants.kPrefSaltBKey, SaltB);
-        //    NWDAppConfiguration.SharedInstance().SetSaltValid(ClassPrefBaseKey, NWDConstants.kPrefSaltValidKey, "ok");
-        //}
-        //-------------------------------------------------------------------------------------------------------------
         public void PrefLoad()
         {
             if (string.IsNullOrEmpty(SaltStart) || string.IsNullOrEmpty(SaltEnd))
             {
-                //Debug.Log("Generate Salt for " + ClassNamePHP);
                 SaltStart = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
                 SaltEnd = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
                 SaltValid = false;
@@ -676,35 +540,7 @@ namespace NetWorkedData
             {
                 LastWebBuild = NWDAppConfiguration.SharedInstance().WebBuildMax;
             }
-            //SaltA = NWDAppConfiguration.SharedInstance().GetSalt(ClassPrefBaseKey, NWDConstants.kPrefSaltAKey, NWDConstants.kPrefSaltValidKey);
-            //SaltB = NWDAppConfiguration.SharedInstance().GetSalt(ClassPrefBaseKey, NWDConstants.kPrefSaltBKey, NWDConstants.kPrefSaltValidKey);
-            //SaltOk = NWDAppConfiguration.SharedInstance().GetSaltValid(ClassPrefBaseKey, NWDConstants.kPrefSaltValidKey);
-
-            //SaltStart = SaltA;
-            //SaltEnd = SaltB;
-            //SaltValid = true;
         }
-
-        //-------------------------------------------------------------------------------------------------------------
-        //public void SaltRegenerate()
-        //{
-        //    PrefLoad();
-        //    PrefSave();
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //public bool TestSaltValid()
-        //{
-        //    bool rReturn = false;
-        //    if (SaltOk == "ok")
-        //    {
-        //        rReturn = true;
-        //    }
-        //    else
-        //    {
-        //        //Debug.Log ("!!! error in salt memorize : " + ClassNamePHP ());
-        //    }
-        //    return rReturn;
-        //}
         //-------------------------------------------------------------------------------------------------------------
         public static NWDBasisHelper FindTypeInfos(Type sType)
         {
@@ -977,6 +813,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ResetDatas()
         {
+            NWEBenchmark.Start();
             DatasLoaded = false;
             Datas.Clear();
             DatasByReference.Clear();
@@ -986,11 +823,10 @@ namespace NetWorkedData
 
             EditorTableDatas.Clear();
             EditorTableDatasSelected.Clear();
-
-            // use in pop menu in edition of NWD inspector...
             EditorDatasMenu.Clear();
             EditorDatasMenu.Add("---", string.Empty);
 #endif
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool AllDatabaseIsIndexed()
@@ -1001,17 +837,6 @@ namespace NetWorkedData
         public bool AllDatabaseIsLoaded()
         {
             return (NWDDataManager.SharedInstance().DataAccountLoaded == true && NWDDataManager.SharedInstance().DataEditorLoaded == true);
-
-            //bool rLoaded = true;
-            //if (kAccountDependent == true && NWDDataManager.SharedInstance().DataAccountLoaded == false)
-            //{
-            //    rLoaded = false;
-            //}
-            //else if (kAccountDependent == false && NWDDataManager.SharedInstance().DataEditorLoaded == false)
-            //{
-            //    rLoaded = false;
-            //}
-            //return rLoaded;
         }
         //-------------------------------------------------------------------------------------------------------------
         //public void UserChangedReloadDatas()
@@ -1067,7 +892,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void AddData(NWDTypeClass sData)
         {
-            //Debug.Log("NWDDatas AddData()");
             //NWEBenchmark.Start();
             // get reference
             string tReference = sData.Reference;
@@ -1076,10 +900,11 @@ namespace NetWorkedData
             {
                 //Debug.Log("NWDDatas AddData() add data");
                 // get internal key
-                string tInternalKey = sData.InternalKey;
                 // Anyway I add Data in datalist
                 Datas.Add(sData);
                 DatasByReference.Add(tReference, sData);
+
+                string tInternalKey = sData.InternalKey;
                 if (DatasByInternalKey.ContainsKey(tInternalKey) == true)
                 {
                     DatasByInternalKey[tInternalKey].Add(sData);
@@ -1095,18 +920,6 @@ namespace NetWorkedData
                     DatasByReverseInternalKey.Add(sData, tInternalKey);
                 }
 
-                // Ok now I check if I need to install it in reachable data
-                //bool tDataIsValid = sData.DataIntegrityState();
-                //if (tDataIsValid == true)
-                //{
-                //    AddDataReachable(sData);
-                //}
-                //else
-                //{
-                //    Debug.LogWarning("Try to add not integrity data!");
-                //}
-
-                //Debug.Log("NWDDatas AddData() add data Datas count = " + Datas.Count);
             }
             else
             {
@@ -1114,19 +927,7 @@ namespace NetWorkedData
             }
             // Ok now I add datas in editor table list
 #if UNITY_EDITOR
-            // add load object in editor table
-            //if (DatasInEditorReferenceList.Contains(tReference) == false)
-            //{
-            //    // Active to auto remove on filter
-            //    // if (sObject.Tag == (int)m_SearchTag)
-            //    {
-            //        DatasInEditorReferenceList.Add(tReference);
-            //    }
-            //}
-            //DatasInEditorRowDescriptionList.Add(tInternalKey + " <" + tReference + ">");
-            //DatasInEditorSelectionList.Add(false);
-
-            /*NEW*/
+            
             if (EditorTableDatas.Contains(sData) == false)
             {
                 EditorTableDatas.Add(sData);
@@ -1139,7 +940,6 @@ namespace NetWorkedData
             {
                 EditorDatasMenu.Add(sData.Reference, sData.DatasMenu());
             }
-            /*NEW*/
 #endif
             //NWEBenchmark.Finish();
         }

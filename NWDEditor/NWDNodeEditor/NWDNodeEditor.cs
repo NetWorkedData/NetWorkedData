@@ -29,8 +29,6 @@ namespace NetWorkedData
         public const string K_NODE_EDITOR_LAST_TYPE_KEY = "K_NODE_EDITOR_LAST_TYPE_KEY_5fdshjktr";
         public const string K_NODE_EDITOR_LAST_REFERENCE_KEY = "K_NODE_EDITOR_LAST_REFERENCE_KEY_ed5f5dtr";
         //-------------------------------------------------------------------------------------------------------------
-        GUIContent IconAndTitle;
-        //-------------------------------------------------------------------------------------------------------------
         bool DragDetect = false;
         //-------------------------------------------------------------------------------------------------------------
         public Vector2 ScrollPosition = Vector2.zero;
@@ -224,25 +222,7 @@ namespace NetWorkedData
         public void OnEnable()
         {
             //NWEBenchmark.Start();
-            if (IconAndTitle == null)
-            {
-                IconAndTitle = new GUIContent();
-                IconAndTitle.text = NWDConstants.K_EDITOR_NODE_WINDOW_TITLE;
-                if (IconAndTitle.image == null)
-                {
-                    string[] sGUIDs = AssetDatabase.FindAssets("NWDNodeEditor t:texture");
-                    foreach (string tGUID in sGUIDs)
-                    {
-                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
-                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals("NWDNodeEditor"))
-                        {
-                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
-                        }
-                    }
-                }
-                titleContent = IconAndTitle;
-            }
+            TitleInit(NWDConstants.K_EDITOR_NODE_WINDOW_TITLE, typeof(NWDNodeEditor));
             Document.EditorWindow = this;
             Document.LoadClasses();
             Repaint();

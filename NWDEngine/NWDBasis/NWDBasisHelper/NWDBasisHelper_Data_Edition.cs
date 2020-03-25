@@ -18,8 +18,6 @@ using System.Linq;
 using System.IO;
 using System.Reflection;
 using UnityEngine;
-using SQLite4Unity3d;
-//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -122,7 +120,7 @@ namespace NetWorkedData
                 }
                 // need to reload this data now : to remove all tObjects from memory!
                 //LoadTableEditor();
-                LoadFromDatabase();
+                LoadFromDatabase(string.Empty, true);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

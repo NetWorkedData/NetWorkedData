@@ -30,10 +30,6 @@ namespace NetWorkedData
         private static NWDEditorConfigurationManager kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// The icon and title.
-        /// </summary>
-        GUIContent IconAndTitle;
-        /// <summary>
         /// The scroll position.
         /// </summary>
         static Vector2 ScrollPosition;
@@ -96,25 +92,7 @@ namespace NetWorkedData
         public void OnEnable()
         {
             //NWEBenchmark.Start();
-            if (IconAndTitle == null)
-            {
-                IconAndTitle = new GUIContent();
-                IconAndTitle.text = NWDConstants.K_EDITOR_CONFIGURATION_TITLE;
-                if (IconAndTitle.image == null)
-                {
-                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDEditorConfigurationManager).Name+" t:texture");
-                    foreach (string tGUID in sGUIDs)
-                    {
-                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
-                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals(typeof(NWDEditorConfigurationManager).Name))
-                        {
-                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
-                        }
-                    }
-                }
-                titleContent = IconAndTitle;
-            }
+            TitleInit(NWDConstants.K_EDITOR_CONFIGURATION_TITLE, typeof(NWDEditorConfigurationManager));
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -133,7 +111,7 @@ namespace NetWorkedData
 
             //General preferences
             NWDGUILayout.Section("User preferences");
-           EditorPrefs.SetString("NWD_USER_BUILDER", EditorGUILayout.TextField("User builder name", EditorPrefs.GetString("NWD_USER_BUILDER","(user)")));
+            EditorPrefs.SetString("NWD_USER_BUILDER", EditorGUILayout.TextField("User builder name", EditorPrefs.GetString("NWD_USER_BUILDER", "(user)")));
 
             //General preferences
             NWDGUILayout.Section("General preferences");

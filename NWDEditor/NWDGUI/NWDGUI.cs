@@ -36,42 +36,46 @@ namespace NetWorkedData
         public static Color KTAB_BAR_LINE_COLOR;
         public static Color KTAB_BAR_HIGHLIGHT_COLOR;
         //-------------------------------------------------------------------------------------------------------------
-        public static Texture2D kImageSelectionUpdate = NWDFindPackage.PackageEditorTexture("NWDInterfaceNode.png");  // node
         public static Texture2D kImageUp = NWDFindPackage.PackageEditorTexture("NWDInterfaceUp.png");
         public static Texture2D kImageDown = NWDFindPackage.PackageEditorTexture("NWDInterfaceDown.png");
         public static Texture2D kImageLeft = NWDFindPackage.PackageEditorTexture("NWDInterfaceLeft.png");
         public static Texture2D kImageRight = NWDFindPackage.PackageEditorTexture("NWDInterfaceRight.png");
-        public static Texture2D kImageAction = NWDFindPackage.PackageEditorTexture("NWDInterfaceAction.png"); // Clean
-        public static Texture2D kImageNew = NWDFindPackage.PackageEditorTexture("NWDInterfaceNew.png");  // new
-        public static Texture2D kImageTabReduce = NWDFindPackage.PackageEditorTexture("NWDInterfaceEdit.png"); // edit
-        public static Texture2D kImageRed = NWDFindPackage.PackageEditorTexture("NWDRed.png");
-        public static Texture2D kImageGreen = NWDFindPackage.PackageEditorTexture("NWDGreen.png");
-        public static Texture2D kImageForbidden = NWDFindPackage.PackageEditorTexture("NWDForbidden.png");
-        public static Texture2D kImageEmpty = NWDFindPackage.PackageEditorTexture("NWDEmpty.png");
-        public static Texture2D kImageWaiting = NWDFindPackage.PackageEditorTexture("NWDWaiting.png");
-        public static Texture2D kImageDiskUnknow = NWDFindPackage.PackageEditorTexture("NWDDiskUnknow.png");
-        public static Texture2D kImageDiskUpdate = NWDFindPackage.PackageEditorTexture("NWDDiskUpdate.png");
-        public static Texture2D kImageDiskInsert = NWDFindPackage.PackageEditorTexture("NWDDiskInsert.png");
-        public static Texture2D kImageDiskDelete = NWDFindPackage.PackageEditorTexture("NWDDiskDelete.png");
-        public static Texture2D kImageDiskDatabase = NWDFindPackage.PackageEditorTexture("NWDDiskDatabase.png");
-        public static Texture2D kImageCheckValid = NWDFindPackage.PackageEditorTexture("NWDCheckValid.png");
-        public static Texture2D kImageCheckWorkInProgress = NWDFindPackage.PackageEditorTexture("NWDCheckWorkInProgress.png");
-        public static Texture2D kImageCheckWarning = NWDFindPackage.PackageEditorTexture("NWDCheckWarning.png");
-        public static Texture2D kImageSyncGeneralForbidden = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralForbidden.png");
-        public static Texture2D kImageSyncGeneralForward = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralForward.png");
-        public static Texture2D kImageSyncGeneralSuccessed = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralSuccessed.png");
-        public static Texture2D kImageSyncGeneralWaiting = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralWaiting.png");
-        public static Texture2D kImageSyncDanger = NWDFindPackage.PackageEditorTexture("NWDSyncDanger.png");
-        public static Texture2D kImageSyncForbidden = NWDFindPackage.PackageEditorTexture("NWDSyncForbidden.png");
-        public static Texture2D kImageSyncForward = NWDFindPackage.PackageEditorTexture("NWDSyncForward.png");
-        public static Texture2D kImageSyncRequired = NWDFindPackage.PackageEditorTexture("NWDSyncRequired.png");
-        public static Texture2D kImageSyncSuccessed = NWDFindPackage.PackageEditorTexture("NWDSyncSuccessed.png");
-        public static Texture2D kImageSyncWaiting = NWDFindPackage.PackageEditorTexture("NWDSyncWaiting.png");
-        public static Texture2D kImageSyncProceed = NWDFindPackage.PackageEditorTexture("NWDProceed.png");
-        public static Texture2D kImageBezierTexture = NWDFindPackage.PackageEditorTexture("NWDBezierTexture.psd"); //for nodal line?
-        public static Texture2D kImageDefaultIcon = NWDFindPackage.PackageEditorTexture("NWDExample.psd");
+
+
+        public static Texture2D kImageBezierTexture = NWDFindPackage.PackageEditorTexture("NWDBezierTexture.psd");
+
+
         //-------------------------------------------------------------------------------------------------------------
-        public static Texture2D kNetWorkedDataLogo = NWDFindPackage.PackageEditorTexture("NWDWindowLogo.psd");
+        public static Texture2D kImageSyncGeneralForward = NWDFindPackage.PackageEditor("NWDSyncGeneralForward");
+
+        public static Texture2D kImageSyncGeneralSuccessed = NWDFindPackage.PackageEditor("NWDSyncGeneralSuccessed");
+        public static Texture2D kImageSyncGeneralWaiting = NWDFindPackage.PackageEditor("NWDSyncGeneralWaiting");
+        public static Texture2D kImageSyncDanger = NWDFindPackage.PackageEditor("NWDSyncDanger");
+        public static Texture2D kImageSyncForward = NWDFindPackage.PackageEditor("NWDSyncForward");
+
+        public static Texture2D kImageSyncProceed = NWDFindPackage.PackageEditor("NWDProceed");
+
+        public static Texture2D kImageSyncWaiting = NWDFindPackage.PackageEditor("NWDSyncWaiting");
+        public static Texture2D kImageWaiting = NWDFindPackage.PackageEditor("NWDWaiting");
+        public static Texture2D kImageDiskUnknow = NWDFindPackage.PackageEditor("NWDDiskUnknow");
+        public static Texture2D kImageDiskUpdate = NWDFindPackage.PackageEditor("NWDDiskUpdate");
+        public static Texture2D kImageDiskInsert = NWDFindPackage.PackageEditor("NWDDiskInsert");
+        public static Texture2D kImageDiskDelete = NWDFindPackage.PackageEditor("NWDDiskDelete");
+        public static Texture2D kImageDiskDatabase = NWDFindPackage.PackageEditor("NWDDiskDatabase");
+
+        public static Texture2D kImageCheckValid = NWDFindPackage.PackageEditor("NWDCheckValid");
+        public static Texture2D kImageCheckWorkInProgress = NWDFindPackage.PackageEditor("NWDCheckWorkInProgress");
+        public static Texture2D kImageCheckWarning = NWDFindPackage.PackageEditor("NWDCheckWarning");
+        //-------------------------------------------------------------------------------------------------------------
+
+        public static Texture2D kImageSyncForbidden = NWDFindPackage.PackageEditor("NWDSyncForbidden");
+        public static Texture2D kImageSyncGeneralForbidden = NWDFindPackage.PackageEditor("NWDSyncGeneralForbidden");
+        public static Texture2D kImageRed = NWDFindPackage.PackageEditor("NWDRed");
+        public static Texture2D kImageGreen = NWDFindPackage.PackageEditor("NWDGreen");
+        public static Texture2D kImageSyncRequired = NWDFindPackage.PackageEditor("NWDSyncRequired");
+        public static Texture2D kImageSyncSuccessed = NWDFindPackage.PackageEditor("NWDSyncSuccessed");
+        public static Texture2D kNetWorkedDataLogo = NWDFindPackage.PackageEditor("NWDWindowLogo");
+        public static Texture2D kImageDefaultIcon = NWDFindPackage.PackageEditor("NWDExample");
         public static GUIContent kNetWorkedDataLogoContent;
         //-------------------------------------------------------------------------------------------------------------
         // change color of background interface element
@@ -217,6 +221,8 @@ namespace NetWorkedData
         public static GUIStyle kIconButtonStyle;
         public static GUIStyle kEditButtonStyle;
 
+        public static GUIStyle kIconCenterStyle;
+
         //-------------------------------------------------------------------------------------------------------------
         public static GUIContent kNodeContentIcon;
 
@@ -232,8 +238,8 @@ namespace NetWorkedData
         // Nodal Document
         // TODO : all rename!! with right name!
 
-        public static float kNodeCardWidth = 360.0F;
-        public static float kNodeCardHeight = 360.0F;
+        public static float kNodeCardWidth = 330.0F;
+        public static float kNodeCardHeight = 430.0F;
         //public static float kNodeCardMarging = 50.0F;
 
         public static float kNodeCanvasFraction = 20;
@@ -668,6 +674,12 @@ KTableSearchMask.fontSize = tTextSize;
                 kMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
                 kMiniButtonStyle.fixedHeight = kMiniButtonStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
 
+
+                kIconCenterStyle = new GUIStyle(EditorStyles.label);
+                kIconCenterStyle.fixedHeight = 36;
+                kIconCenterStyle.alignment = TextAnchor.MiddleCenter;
+                kIconCenterStyle.imagePosition = ImagePosition.ImageOnly;
+
                 // Data Selector design
 
                 kDataSelectorFieldStyle = new GUIStyle(EditorStyles.helpBox);
@@ -719,6 +731,7 @@ KTableSearchMask.fontSize = tTextSize;
                 kRightContentIcon = new GUIContent(kImageRight, ">");
 
                 kDatasSelectorYOffset = 2;
+
             }
             //NWEBenchmark.Finish();
         }

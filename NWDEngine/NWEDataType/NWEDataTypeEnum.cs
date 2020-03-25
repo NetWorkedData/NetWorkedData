@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.IO;
 using UnityEngine;
-using SQLite4Unity3d;
+
 using System.Globalization;
 
 #if UNITY_EDITOR
@@ -268,21 +268,24 @@ namespace NetWorkedData
             int tSelection = -1;
             foreach (KeyValuePair<long, K> tKeyPair in kList)
             {
-                kListIndex.Add(tKeyPair.Key);
-                kListK.Add(tKeyPair.Value);
-                string tName = "error in " + tKeyPair.Key;
-                if (tKeyPair.Value == null)
+                if (tKeyPair.Key >= 0)
                 {
-                }
-                else
-                {
-                    tName = tKeyPair.Value.Name;
-                    if (string.IsNullOrEmpty(tName))
+                    kListIndex.Add(tKeyPair.Key);
+                    kListK.Add(tKeyPair.Value);
+                    string tName = "error in " + tKeyPair.Key;
+                    if (tKeyPair.Value == null)
                     {
-                        tName = "???";
                     }
+                    else
+                    {
+                        tName = tKeyPair.Value.Name;
+                        if (string.IsNullOrEmpty(tName))
+                        {
+                            tName = "???";
+                        }
+                    }
+                    kListString.Add(tName);
                 }
-                kListString.Add(tName);
                 //Debug.Log("enum listing :" + tKeyPair.Key + " : " + tName);
             }
             tSelection = kListIndex.IndexOf(Value);

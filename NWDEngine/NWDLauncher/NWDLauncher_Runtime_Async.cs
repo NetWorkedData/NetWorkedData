@@ -23,7 +23,7 @@ namespace NetWorkedData
     public partial class NWDGameDataManager : NWDCallBackDataLoadOnly
     {
         //-------------------------------------------------------------------------------------------------------------
-        private void Launch_Runtime_Async()
+        private void LaunchRuntimeAsync()
         {
             if (NWDLauncher.GetPreload() == false)
             {
@@ -31,7 +31,7 @@ namespace NetWorkedData
                 {
                     // Load async the engine!
                     //Debug.Log("########## <color=blue>Load async the engine</color>!");
-                    StartCoroutine(NWDLauncher.Launch_Runtime_Async());
+                    StartCoroutine(NWDLauncher.LaunchRuntimeAsync());
                 }
                 else
                 {
@@ -45,11 +45,16 @@ namespace NetWorkedData
     public static partial class NWDLauncher
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static IEnumerator Launch_Runtime_Async()
+        public static IEnumerator LaunchRuntimeAsync()
         {
             //if (ActiveBenchmark)
             {
                 NWEBenchmark.Start("Launch_Runtime_Async");
+            }
+            NWDBasisBundle tBasisBundle = NWDBasisBundle.None;
+            if (NWDAppConfiguration.SharedInstance().BundleDatas == false)
+            {
+                tBasisBundle = NWDBasisBundle.ALL;
             }
             IEnumerator tWaitTime = null;
             StepSum = 12 +
@@ -59,19 +64,19 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().LauncherClassAccountStep + // load account class
                 0;
             StepIndex = 0;
-            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_LAUNCHER_STEP);
+            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_LAUNCHER_STEP); // to init the gauge to 0
             // lauch engine
-            tWaitTime = Engine_Runtime_Async();
-            NotifyStep();
+            tWaitTime = EngineRuntimeAsync();
+            NotifyStep(true);
             yield return tWaitTime;
             // declare models
-            tWaitTime = Declare_Runtime_Async();
-            NotifyStep();
+            tWaitTime = DeclareRuntimeAsync();
+            NotifyStep(true);
             yield return tWaitTime;
             // restaure models' param
             tWaitTime = null;
-            Restaure_Editor();
-            NotifyStep();
+            RestaureStandard();
+            NotifyStep(true);
             yield return tWaitTime;
 
             StepSum = 12 +
@@ -85,17 +90,17 @@ namespace NetWorkedData
 
             // connect editor
             tWaitTime = null;
-            Connect_Editor_Editor();
-            NotifyStep();
+            ConnectEditorStandard();
+            NotifyStep(true);
             yield return tWaitTime;
             // create table editor
             tWaitTime = null;
-            CreateTable_Editor_Editor();
-            NotifyStep();
+            CreateTableEditorStandard();
+            NotifyStep(true);
             yield return tWaitTime;
             // load editor data
-            tWaitTime = NWDDataManager.SharedInstance().AsyncReloadAllObjectsEditor();
-            NotifyStep();
+            tWaitTime = NWDDataManager.SharedInstance().AsyncReloadAllObjectsEditor(tBasisBundle);
+            NotifyStep(true);
             yield return tWaitTime;
             // index all data editor
             //tWaitTime = NWDDataManager.SharedInstance().AsyncIndexAllObjects();
@@ -105,20 +110,20 @@ namespace NetWorkedData
 
             // need account pincode
             tWaitTime = null;
-            Connect_Account_Editor();
-            NotifyStep();
+            ConnectAccountStandard();
+            NotifyStep(true);
             yield return tWaitTime;
             // create table account
             tWaitTime = null;
-            CreateTable_Account_Editor();
-            NotifyStep();
+            CreateTableAccountStandard();
+            NotifyStep(true);
             yield return tWaitTime;
 
             NotifyDataAccountReady();
-            NotifyStep();
+            NotifyStep(true);
 
             // load account data account
-            tWaitTime = NWDDataManager.SharedInstance().AsyncReloadAllObjectsAccount();
+            tWaitTime = NWDDataManager.SharedInstance().AsyncReloadAllObjectsAccount(tBasisBundle);
             yield return tWaitTime;
             // index all data
             tWaitTime = NWDDataManager.SharedInstance().AsyncIndexAllObjects();
@@ -126,29 +131,32 @@ namespace NetWorkedData
             // Special NWDAppConfiguration loaded()
             tWaitTime = null;
             NWDAppConfiguration.SharedInstance().Loaded();
-            NotifyStep();
+            NotifyStep(true);
             yield return tWaitTime;
             // Ready!
             tWaitTime = null;
-            Ready_Editor();
-            NotifyStep();
+            Ready();
+            NotifyStep(true);
             yield return tWaitTime;
 
-            NotifyNetWorkedDataReady();
 
             //NWEBenchmark.Log(" NWDDataManager.SharedInstance().ClassEditorExpected = " + NWDDataManager.SharedInstance().ClassEditorExpected);
             //NWEBenchmark.Log(" NWDDataManager.SharedInstance().ClassAccountExpected = " + NWDDataManager.SharedInstance().ClassAccountExpected);
             //NWEBenchmark.Log(" StepSum = " + StepSum + " and StepIndex =" + StepIndex);
 
-            //if (ActiveBenchmark)
+            if (ActiveBenchmark)
             {
-                TimeFinish = NWEBenchmark.SinceStartup();
+                //TimeFinish = NWEBenchmark.SinceStartup();
+                TimeFinish = Time.realtimeSinceStartup;
                 TimeNWDFinish = NWEBenchmark.Finish("Launch_Runtime_Async");
                 LauncherBenchmarkToMarkdown();
+                NWBBenchmarkResult.CurrentData().BenchmarkNow();
             }
+
+            NotifyNetWorkedDataReady();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private static IEnumerator Engine_Runtime_Async()
+        private static IEnumerator EngineRuntimeAsync()
         {
             if (ActiveBenchmark)
             {
@@ -166,7 +174,7 @@ namespace NetWorkedData
             NWEBenchmark.Finish("get_refelexion");
             foreach (Type tType in tAllNWDTypes)
             {
-                if (tType != typeof(NWDBasis) && tType.IsGenericType == false)
+                if (tType != typeof(NWDBasis) && tType != typeof(NWDBundledBasis) && tType.IsGenericType == false)
                 {
                     bool tEditorOnly = false;
                     if (tType != typeof(NWDAccount))
@@ -216,7 +224,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        private static IEnumerator Declare_Runtime_Async()
+        private static IEnumerator DeclareRuntimeAsync()
         {
             if (ActiveBenchmark)
             {

@@ -437,15 +437,32 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_LOCAL_CREATE_TABLES, false, 9201)]
         public static void CreateTables()
         {
+            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            {
+                NWDBasisHelper tBasisHelper = NWDBasisHelper.FindTypeInfos(tType);
+                tBasisHelper.DropTable();
+            }
+
             NWDDataManager.SharedInstance().CreateAllTablesLocalAccount();
             NWDDataManager.SharedInstance().CreateAllTablesLocalEditor();
-            NWDDataManager.SharedInstance().ReloadAllObjects();
+
+            NWDDataManager.SharedInstance().ReloadAllObjects(NWDBasisBundle.ALL);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_LOCAL_RECREATE_INDEX_TABLE, false, 9201)]
+        public static void RecreateAllIndexForAllTables()
+        {
+            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            {
+                NWDBasisHelper tBasisHelper = NWDBasisHelper.FindTypeInfos(tType);
+                tBasisHelper.RecreateAllIndexForTable();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_LOCAL_RELOAD_DATAS, false, 9202)]
         public static void ReloadAllDatas()
         {
-            NWDDataManager.SharedInstance().ReloadAllObjects();
+            NWDDataManager.SharedInstance().ReloadAllObjects(NWDBasisBundle.ALL);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_LOCAL_CLEAN_TRASHED_DATAS, false, 9203)]
@@ -453,7 +470,7 @@ namespace NetWorkedData
         {
             NWDDataManager.SharedInstance().CleanAllTablesLocalAccount();
             NWDDataManager.SharedInstance().CleanAllTablesLocalEditor();
-            NWDDataManager.SharedInstance().ReloadAllObjects();
+            NWDDataManager.SharedInstance().ReloadAllObjects(NWDBasisBundle.ALL);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_LOCAL_PURGE_DATAS, false, 9203)]
@@ -461,23 +478,23 @@ namespace NetWorkedData
         {
             NWDDataManager.SharedInstance().PurgeAllTablesLocalAccount();
             NWDDataManager.SharedInstance().PurgeAllTablesLocalEditor();
-            NWDDataManager.SharedInstance().ReloadAllObjects();
+            NWDDataManager.SharedInstance().ReloadAllObjects(NWDBasisBundle.ALL);
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_LOCAL_UPDATE_DATAS, false, 9204)]
-        public static void UpdateAllDatas()
-        {
-            NWDDataManager.SharedInstance().UpdateAllTablesLocalAccount();
-            NWDDataManager.SharedInstance().UpdateAllTablesLocalEditor();
-            NWDDataManager.SharedInstance().ReloadAllObjects();
-        }
+        //[MenuItem(NWDConstants.K_MENU_LOCAL_UPDATE_DATAS, false, 9204)]
+        //public static void UpdateAllDatas()
+        //{
+        //    NWDDataManager.SharedInstance().UpdateAllTablesLocalAccount();
+        //    NWDDataManager.SharedInstance().UpdateAllTablesLocalEditor();
+        //    NWDDataManager.SharedInstance().ReloadAllObjects();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_LOCAL_RESET_DATAS, false, 9205)]
         public static void ResetAllDatas()
         {
             NWDDataManager.SharedInstance().ResetAllTablesLocalAccount();
             NWDDataManager.SharedInstance().ResetAllTablesLocalEditor();
-            NWDDataManager.SharedInstance().ReloadAllObjects();
+            NWDDataManager.SharedInstance().ReloadAllObjects(NWDBasisBundle.ALL);
         }
         //-------------------------------------------------------------------------------------------------------------
         //[MenuItem(NWDConstants.K_MENU_LOCAL_DECONNECT_ACCOUNT_DATAS, false, 9303)]

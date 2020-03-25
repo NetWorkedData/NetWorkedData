@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
 using UnityEngine;
-using SQLite4Unity3d;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;

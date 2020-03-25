@@ -27,21 +27,21 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         public static string K_APP_CHOOSER_ENVIRONMENT = "Select Environment used in Player Mode (Game panel)";
-        public static string K_APP_CHOOSER_ENVIRONMENT_TITLE = "NWD Chooser";
+        public static string K_APP_CHOOSER_ENVIRONMENT_TITLE = "Chooser";
         public static string K_APP_MODEL_MANAGER_TITLE = "Model Manager";
         public static string K_APP_CLUSTER_SIZER_TITLE = "Cluster Sizer";
         public static string K_APP_SYNC_ENVIRONMENT = "Synchronize your datas in the good environment";
 
-        public static string K_APP_SYNC_ENVIRONMENT_TITLE = "NWD Sync";
-        public static string K_APP_CONFIGURATION_TITLE = "NWD App configuration";
-        public static string K_DATA_SELECTOR_TITLE = "NWD Selector";
+        public static string K_APP_SYNC_ENVIRONMENT_TITLE = "Sync";
+        public static string K_APP_CONFIGURATION_TITLE = "App configuration";
+        public static string K_DATA_SELECTOR_TITLE = "Selector";
         public static string K_DATA_SELECTOR_TITLE_FOR = "Selector for ";
-        public static string K_LOCALIZATION_CONFIGURATION_TITLE = "NWD Localization";
-        public static string K_EDITOR_CONFIGURATION_TITLE = "NWD Editor";
+        public static string K_LOCALIZATION_CONFIGURATION_TITLE = "Localization";
+        public static string K_EDITOR_CONFIGURATION_TITLE = "Editor";
 
-        public static string K_ENVIRONMENTS_CONFIGURATION_TITLE = "NWD Environments";
+        public static string K_ENVIRONMENTS_CONFIGURATION_TITLE = "Environments";
 
-        public static string K_APP_SYNC_INSPECTOR_TITLE = "NWD Data"; 
+        public static string K_APP_SYNC_INSPECTOR_TITLE = "Net Worked Data"; 
         public static string K_ALERT_SALT_SHORT_ERROR = "ALERT SALT ARE NOT MEMORIZE : RECCORD CONFIGURATIONS AND RECOMPILE!";
         public static string K_APP_CLASS_SALT_REGENERATE = "Generate salts";
         //-------------------------------------------------------------------------------------------------------------
@@ -151,6 +151,8 @@ namespace NetWorkedData
         public const string K_MENU_LOCAL_CREATE_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Recreate Database on local";
         public const string K_MENU_LOCAL_CREATE_DATAS_AND_PASS = K_MENU_BASE + K_MENU_LOCAL + "/Recreate Database and passwords on local";
         public const string K_MENU_LOCAL_INTEGRITY_TO_TRASHED = K_MENU_BASE + K_MENU_LOCAL + "/PUT INTEGRITY ERROR TO TRASH";
+        public const string K_MENU_LOCAL_RECREATE_INDEX_TABLE = K_MENU_BASE + K_MENU_LOCAL + "/Create all index for all tables";
+
         public const string K_MENU_LOCAL_REINTEGRITATE_ALL_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/INTEGRATE ALL DATAS";
 
         public const string K_MENU_LOCAL_BLOCK_RECOMPILE = K_MENU_BASE + "/SPECIAL/BLOCK RECOMPILE";
@@ -331,6 +333,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_SEARCHACCOUNTDEPENDENT = "Account Dep.";
         public const string K_APP_TABLE_SEARCH_TAG = "Internal Tag";
         public const string K_APP_TABLE_SEARCH_CHECKLIST = "Check List";
+        public const string K_APP_TABLE_SEARCH_BUNDLE = "Bundle List";
         public const string K_APP_TABLE_SEARCH_ACCOUNT = "Account";
         public const string K_APP_TABLE_SEARCH_GAMESAVE = "GameSave";
         public const string K_APP_TABLE_SEARCH_REMOVE_FILTER = "Remove filter";
@@ -516,6 +519,7 @@ namespace NetWorkedData
         public const string K_APP_BASIS_WARNING_MODEL_DEGRADED = "WARNING! MODEL WAS DEGRADED!";
 
         //-------------------------------------------------------------------------------------------------------------
+        public const string _pro = "_pro";
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

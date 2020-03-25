@@ -18,7 +18,7 @@ using System.Linq;
 using System.IO;
 using System.Reflection;
 
-using SQLite4Unity3d;
+
 
 using UnityEngine;
 //using BasicToolBox;
@@ -267,6 +267,8 @@ namespace NetWorkedData
             //NWDBasisHelper tHelper = BasisHelper(); // it's slower than call directly BasisHelper() !?
             if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)
             {
+                // TODO reduce complexity by shortly hashsum
+                // TODO override IntegrityAssembly() in compile file
                 return BasisHelper().HashSum(BasisHelper().SaltStart + IntegrityAssembly() + BasisHelper().SaltEnd);
             }
             else

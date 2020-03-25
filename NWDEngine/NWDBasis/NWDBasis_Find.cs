@@ -13,8 +13,6 @@
 
 using System.Collections.Generic;
 using System.Reflection;
-//using BasicToolBox;
-using SQLite4Unity3d;
 using UnityEngine;
 
 #if UNITY_EDITOR

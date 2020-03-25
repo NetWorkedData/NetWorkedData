@@ -1,44 +1,42 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:25:6
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Reflection;
 using System.Text;
-using SQLite4Unity3d;
 using UnityEngine;
-
-using Sqlite3DatabaseHandle = System.IntPtr;
-using Sqlite3Statement = System.IntPtr;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    public class NWDColumnInfo
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //public class NWDColumnInfo
+    //{
+    //    public string Name
+    //    {
+    //        get; set;
+    //    }
+    //    public int notnull
+    //    {
+    //        get; set;
+    //    }
+    //    public override string ToString()
+    //    {
+    //        return this.Name;
+    //    }
+    //}
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDSQLiteTableState : int
     {
-        public string Name
-        {
-            get; set;
-        }
-        public int notnull
-        {
-            get; set;
-        }
-        public override string ToString()
-        {
-            return this.Name;
-        }
+        Error,
+        Update,
+        Create,
+        Migrate,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasisHelper
@@ -104,90 +102,98 @@ namespace NetWorkedData
             {
                 if (sPropertyInfo.Name == NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference))
                 {
-                    //rReturn += " primary key not null";
+                    rReturn += " primary key not null";
                 }
                 if (sPropertyInfo.Name == NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID))
                 {
-                    rReturn += " primary key autoincrement not null default 0 ";
+                    //rReturn += " primary key autoincrement not null default 0 ";
                 }
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string CreateTableSQLite()
+        List<PropertyInfo> tActualsList = new List<PropertyInfo>();
+        List<PropertyInfo> tMigratePropertyList = new List<PropertyInfo>();
+        List<string> tTransfertList = new List<string>();
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDSQLiteTableState TableSQLiteState()
         {
+            NWDSQLiteTableState rReturn = NWDSQLiteTableState.Error;
             StringBuilder tQuery = new StringBuilder();
-            List<PropertyInfo> tActualsList = new List<PropertyInfo>(ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance));
-            List<PropertyInfo> tMigratePropertyList = new List<PropertyInfo>(ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance));
-
-            SQLiteConnection Connector = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+            tActualsList = new List<PropertyInfo>(ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance));
+            tMigratePropertyList = new List<PropertyInfo>(ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance));
+            tTransfertList.Clear();
+            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
+            //SQLiteConnection Connector = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
             if (kAccountDependent == false)
             {
-                Connector = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+                //Connector = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+                tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
             }
-            Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(Connector.Handle, "PRAGMA table_info(`" + ClassNamePHP + "`)");
-            bool tNeedUpdate = false;
-            bool tNeedCreate = false;
-            bool tNeedMigrate = false;
+            IntPtr stmt = SQLite3.Prepare2(tConnectorHandle, "PRAGMA table_info(`" + ClassNamePHP + "`)");
+
             bool tError = true;
             while (SQLite3.Step(stmt) == SQLite3.Result.Row)
             {
                 tError = false;
-                //Debug.Log(" For table " + ClassNamePHP + " => " + SQLite3.ColumnString(stmt, 1) + " " + SQLite3.ColumnString(stmt, 2));
+                //Debug.Log("???");
+                //Debug.Log(SQLite3.ColumnString(stmt,1) + " " + SQLite3.ColumnString(stmt, 2));
                 string tPropName = SQLite3.ColumnString(stmt, 1);
                 PropertyInfo tPropertyInfo = ClassType.GetProperty(tPropName);
                 if (tPropertyInfo != null)
                 {
-                    //Debug.Log(" found property " + tPropName);
                     tActualsList.Remove(tPropertyInfo);
                     tMigratePropertyList.Add(tPropertyInfo);
                     string tActual = "`" + SQLite3.ColumnString(stmt, 1) + "` " + SQLite3.ColumnString(stmt, 2);
                     string tAuto = "`" + tPropertyInfo.Name + "` " + PropertyInfoToSQLiteType(tPropertyInfo, true);
                     if (tAuto != tActual)
                     {
-                        tNeedMigrate = true;
-                        //Debug.Log("tAuto " + tAuto + " ====> tActual " + tActual);
+                        rReturn = NWDSQLiteTableState.Migrate;
+                    }
+                    else
+                    {
+                        tTransfertList.Add(tPropName);
                     }
                 }
                 else
                 {
-                    //Debug.Log(" not found property " + tPropName);
                     string tPropNameUpper = tPropName.ToUpper();
-                    //if (PropertiesArray != null)
+                    foreach (PropertyInfo tPropertyInfoUPPER in PropertiesArray)
                     {
-                        foreach (PropertyInfo tPropertyInfoUPPER in PropertiesArray)
+                        if (tPropNameUpper == tPropertyInfoUPPER.Name.ToUpper())
                         {
-                            if (tPropNameUpper == tPropertyInfoUPPER.Name.ToUpper())
-                            {
-                                tNeedMigrate = true;
-                                //Debug.Log("UpperLowerCase Change! tPropNameUpper " + tPropNameUpper + " ====> tPropertyInfoUPPER " + tPropertyInfoUPPER.Name);
-                            }
+                            rReturn = NWDSQLiteTableState.Migrate;
                         }
                     }
                 }
             }
             if (tError == true)
             {
-                //Debug.Log("Table " + ClassNamePHP + "error");
-                tNeedCreate = true;
+                rReturn = NWDSQLiteTableState.Create;
             }
             else
             {
                 if (tActualsList.Count > 0)
                 {
-                    tNeedUpdate = true;
-                    foreach (PropertyInfo tPropertyInfo in tActualsList)
-                    {
-                        //Debug.Log("tAuto " + "`" + tPropertyInfo.Name + "` " + PropertyInfoToSQLiteType(tPropertyInfo, true) + " <==== not present!!!");
-                    }
+                    rReturn = NWDSQLiteTableState.Update;
                 }
             }
+            return rReturn;
+        }
 
+        //-------------------------------------------------------------------------------------------------------------
+        public string[] CreateTableSQLite(NWDSQLiteTableState sState)
+        {
 
-            if (tNeedMigrate == true)
+            List<string> tQuery = new List<string>();
+            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
+            if (kAccountDependent == false)
             {
-                //Debug.Log("tNeedMigrate");
-                tQuery.Append("CREATE TABLE IF NOT EXISTS `" + ClassNamePHP + "_new` (");
+                tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
+            }
+            if (sState == NWDSQLiteTableState.Migrate)
+            {
+                StringBuilder tQueryBuilder = new StringBuilder();
                 List<string> PropertiesSQL = new List<string>();
                 foreach (PropertyInfo tPropertyInfo in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                 {
@@ -196,38 +202,52 @@ namespace NetWorkedData
                         PropertiesSQL.Add("`" + tPropertyInfo.Name + "` " + PropertyInfoToSQLiteType(tPropertyInfo));
                     }
                 }
-                tQuery.Append(string.Join(",", PropertiesSQL.ToArray()));
-                tQuery.Append(");");
-                tQuery.Append("INSERT INTO `" + ClassNamePHP + "_new` (");
-                List<string> tMigratePropertyListName = new List<string>();
-                foreach (PropertyInfo tPropertyInfo in tMigratePropertyList)
+                tQueryBuilder.Append("CREATE TABLE IF NOT EXISTS `" + ClassNamePHP + "_new` (");
+                tQueryBuilder.Append(string.Join(",", PropertiesSQL.ToArray()));
+                tQueryBuilder.Append(");");
+                tQuery.Add(tQueryBuilder.ToString());
+
+                tQueryBuilder = new StringBuilder();
+                List<string> PropertiesName = new List<string>();
+                foreach (string tName in tTransfertList)
                 {
-                    tMigratePropertyListName.Add("`" + tPropertyInfo.Name + "`");
+                    if (string.IsNullOrEmpty(tName) == false)
+                    {
+                        PropertiesName.Add("`" + tName + "` ");
+                    }
                 }
-                tQuery.Append(string.Join(",", PropertiesSQL.ToArray()));
-                tQuery.Append(") SELECT ");
-                tQuery.Append(string.Join(",", PropertiesSQL.ToArray()));
-                tQuery.Append("FROM `" + ClassNamePHP + "`;");
-                tQuery.Append("DROP TABLE `" + ClassNamePHP + "`;");
-                tQuery.Append("ALTER TABLE `" + ClassNamePHP + "_new` RENAME TO `" + ClassNamePHP + "`;");
-                Debug.Log(tQuery.ToString());
+                if (PropertiesName.Count > 0)
+                {
+                    tQueryBuilder.Append("INSERT INTO `" + ClassNamePHP + "_new` (");
+                    tQueryBuilder.Append(string.Join(",", PropertiesName.ToArray()));
+                    tQueryBuilder.Append(") SELECT ");
+                    tQueryBuilder.Append(string.Join(",", PropertiesName.ToArray()));
+                    tQueryBuilder.Append("FROM `" + ClassNamePHP + "`;");
+                    tQuery.Add(tQueryBuilder.ToString());
+                }
+
+                tQueryBuilder = new StringBuilder();
+                tQueryBuilder.Append("DROP TABLE `" + ClassNamePHP + "`;");
+                tQuery.Add(tQueryBuilder.ToString());
+
+                tQueryBuilder = new StringBuilder();
+                tQueryBuilder.Append("ALTER TABLE `" + ClassNamePHP + "_new` RENAME TO `" + ClassNamePHP + "`;");
+                tQuery.Add(tQueryBuilder.ToString());
             }
-            else if (tNeedUpdate == true)
+            else if (sState == NWDSQLiteTableState.Update)
             {
-                //Debug.Log("tNeedUpdate");
                 foreach (PropertyInfo tPropertyInfo in tActualsList)
                 {
                     if (tPropertyInfo != null)
                     {
-                        tQuery.AppendLine("ALTER TABLE `" + ClassNamePHP + "` ADD COLUMN`" + tPropertyInfo.Name + "` " + PropertyInfoToSQLiteType(tPropertyInfo) + ";");
+                        tQuery.Add("ALTER TABLE `" + ClassNamePHP + "` ADD COLUMN`" + tPropertyInfo.Name + "` " + PropertyInfoToSQLiteType(tPropertyInfo) + ";");
                     }
                 }
-                Debug.Log(tQuery.ToString());
             }
-            else if (tNeedCreate == true)
+            else if (sState == NWDSQLiteTableState.Create)
             {
-                //Debug.Log("tNeedCreate");
-                tQuery.Append("CREATE TABLE IF NOT EXISTS `" + ClassNamePHP + "` (");
+                StringBuilder tQueryBuilder = new StringBuilder();
+                tQueryBuilder.Append("CREATE TABLE IF NOT EXISTS `" + ClassNamePHP + "` (");
                 List<string> PropertiesSQL = new List<string>();
                 foreach (PropertyInfo tPropertyInfo in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                 {
@@ -236,21 +256,44 @@ namespace NetWorkedData
                         PropertiesSQL.Add("`" + tPropertyInfo.Name + "` " + PropertyInfoToSQLiteType(tPropertyInfo));
                     }
                 }
-                tQuery.Append(string.Join(",", PropertiesSQL.ToArray()));
-                tQuery.Append(");");
-                Debug.Log(tQuery.ToString());
+                tQueryBuilder.Append(string.Join(",", PropertiesSQL.ToArray()));
+                tQueryBuilder.AppendLine(");");
+                tQuery.Add(tQueryBuilder.ToString());
             }
-            else
+            return tQuery.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string CreateIndexSQLite(NWDSQLiteTableState sState)
+        {
+            StringBuilder tQuery = new StringBuilder();
+            if (sState == NWDSQLiteTableState.Create || sState == NWDSQLiteTableState.Migrate)
             {
-                //Debug.Log("Table `" + ClassNamePHP + "` is ok!");
+                tQuery.Append("CREATE UNIQUE INDEX IF NOT EXISTS `" + ClassNamePHP + "_Index` ON `" + ClassNamePHP + "` (`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference) + "`);");
             }
-            SQLite3.Finalize(stmt);
             return tQuery.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void CreateTable()
+        public string CreateIndexBundleSQLite(NWDSQLiteTableState sState)
         {
-            NWDDataManager.SharedInstance().CreateTable(ClassType, kAccountDependent);
+            StringBuilder tQuery = new StringBuilder();
+            if (ClassType.IsSubclassOf(typeof(NWDBundledBasis)))
+            {
+                if (sState == NWDSQLiteTableState.Create || sState == NWDSQLiteTableState.Migrate)
+                {
+                    tQuery.AppendLine("CREATE INDEX IF NOT EXISTS `" + ClassNamePHP + "_Bundle` ON `" + ClassNamePHP + "` (`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDBundledBasis>().Bundle) + "`);");
+                }
+            }
+            return tQuery.ToString();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string CreateIndexModifiySQLite(NWDSQLiteTableState sState)
+        {
+            StringBuilder tQuery = new StringBuilder();
+            if (sState == NWDSQLiteTableState.Create || sState == NWDSQLiteTableState.Migrate)
+            {
+                tQuery.AppendLine("CREATE INDEX IF NOT EXISTS `" + ClassNamePHP + "_Modified` ON `" + ClassNamePHP + "` (`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DM) + "`);");
+            }
+            return tQuery.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void CleanTable()
@@ -306,17 +349,6 @@ namespace NetWorkedData
             RepaintTableEditor();
 #endif
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public void UpdateDataTable()
-        {
-            NWDDataManager.SharedInstance().MigrateTable(ClassType, kAccountDependent);
-            //List<object> tObjectsListToDelete = new List<object>();
-            foreach (NWDTypeClass tObject in Datas)
-            {
-                tObject.UpdateData();
-            }
-        }
-
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public void FilterTableEditor()
@@ -466,9 +498,7 @@ namespace NetWorkedData
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        static IntPtr NegativePointer = new IntPtr(-1);
-        //-------------------------------------------------------------------------------------------------------------
-        private void ReadCol(Type tTypeOfThis, PropertyInfo tProp, Sqlite3DatabaseHandle stmtc, int i, object tD)
+        private void ReadCol(Type tTypeOfThis, PropertyInfo tProp, IntPtr stmtc, int i, object tD)
         {
             if (tTypeOfThis == typeof(int) ||
                                 tTypeOfThis == typeof(Int16) ||
@@ -509,43 +539,82 @@ namespace NetWorkedData
             }
             else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
             {
-                NWEDataType tV = Activator.CreateInstance(tTypeOfThis) as NWEDataType;
+                //NWEDataType tV = Activator.CreateInstance(tTypeOfThis) as NWEDataType;
+                //tV.Value = SQLite3.ColumnString(stmtc, i);
+                //tProp.SetValue(tD, tV);
+
+                NWEDataType tV = tProp.GetValue(tD) as NWEDataType;
                 tV.Value = SQLite3.ColumnString(stmtc, i);
-                tProp.SetValue(tD, tV);
                 return;
             }
             else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
             {
-                NWEDataTypeInt tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeInt;
+                //NWEDataTypeInt tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeInt;
+                //tV.Value = SQLite3.ColumnInt64(stmtc, i);
+                //tProp.SetValue(tD, tV);
+
+                NWEDataTypeInt tV = tProp.GetValue(tD) as NWEDataTypeInt;
                 tV.Value = SQLite3.ColumnInt64(stmtc, i);
-                tProp.SetValue(tD, tV);
                 return;
             }
             else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
             {
-                NWEDataTypeEnum tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeEnum;
+                //NWEDataTypeEnum tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeEnum;
+                //tV.Value = SQLite3.ColumnInt64(stmtc, i);
+                //tProp.SetValue(tD, tV);
+
+                NWEDataTypeEnum tV = tProp.GetValue(tD) as NWEDataTypeEnum;
                 tV.Value = SQLite3.ColumnInt64(stmtc, i);
-                tProp.SetValue(tD, tV);
                 return;
             }
             else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
             {
-                NWEDataTypeMask tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeMask;
+                //NWEDataTypeMask tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeMask;
+                //tV.Value = SQLite3.ColumnInt64(stmtc, i);
+                //tProp.SetValue(tD, tV);
+
+                NWEDataTypeMask tV = tProp.GetValue(tD) as NWEDataTypeMask;
                 tV.Value = SQLite3.ColumnInt64(stmtc, i);
-                tProp.SetValue(tD, tV);
                 return;
             }
             else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
             {
-                NWEDataTypeFloat tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeFloat;
-                tV.Value = SQLite3.ColumnDouble(stmtc, i);
-                tProp.SetValue(tD, tV);
+                //NWEDataTypeFloat tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeFloat;
+                //tV.Value = SQLite3.ColumnDouble(stmtc, i);
+                //tProp.SetValue(tD, tV);
+
+                NWEDataTypeFloat tV = tProp.GetValue(tD) as NWEDataTypeFloat;
+                tV.Value = SQLite3.ColumnInt64(stmtc, i);
                 return;
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void LoadFromDatabase()
+        public virtual void LoadFromDatabaseByBundle(NWDBasisBundle sBundle, bool sOverrideMemory)
         {
+            if (sBundle != NWDBasisBundle.ALL && ClassType.IsSubclassOf(typeof(NWDBundledBasis)))
+            {
+                LoadFromDatabase("WHERE `Bundle` = \"" + sBundle.ToLong() + "\"", sOverrideMemory);
+            }
+            else
+            {
+                LoadFromDatabase(string.Empty, sOverrideMemory);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void LoadFromDatabaseByReference(string sReference, bool sOverrideMemory)
+        {
+            LoadFromDatabase("WHERE `Reference` = \"" + sReference + "\"", sOverrideMemory);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void LoadFromDatabaseByReferences(string[] sReferences, bool sOverrideMemory)
+        {
+            LoadFromDatabase("WHERE `Reference` IN \"" + string.Join("", sReferences) + "\"", sOverrideMemory);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void LoadFromDatabase(string sWhere, bool sOverrideMemory)
+        {
+            // if no bundle class 
+            // else do with bundle 
             if (NWDLauncher.ActiveBenchmark)
             {
                 NWEBenchmark.Start();
@@ -555,46 +624,89 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().DataQueueExecute();
             RowAnalyzed = false;
 #endif
-            ResetDatas();
-            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-            if (kAccountDependent)
+            //ResetDatas();
+            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
+            if (kAccountDependent == false)
             {
-                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+                tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
             }
-            if (tSQLiteConnection != null)
-            {
-                if (tSQLiteConnection.IsValid())
-                {
-                    List<PropertyInfo> tProplist = new List<PropertyInfo>();
-                    List<Type> tPropTypelist = new List<Type>();
-                    List<string> tColumnList = new List<string>();
-                    foreach (PropertyInfo tProp in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-                    {
-                        //if (tProp.Name != "ID" && string.IsNullOrEmpty(tProp.Name) == false)
-                        {
-                            tProplist.Add(tProp);
-                            tPropTypelist.Add(tProp.PropertyType);
-                            tColumnList.Add(tProp.Name);
-                        }
-                    }
-                    Sqlite3DatabaseHandle stmtc = SQLite3.Prepare2(tSQLiteConnection.Handle, "SELECT `" + string.Join("`, `", tColumnList) + "` FROM `" + ClassNamePHP + "`;");
 
-                    while (SQLite3.Step(stmtc) == SQLite3.Result.Row)
-                    {
-                        var tD = Activator.CreateInstance(ClassType, new object[] { false });
-                        for (int i = 0; i < tProplist.Count; i++)
-                        {
-                            PropertyInfo tProp = tProplist[i];
-                            Type tTypeOfThis = tPropTypelist[i];
-                            ReadCol(tTypeOfThis, tProp, stmtc, i, tD);
-                        }
-                        ((NWDTypeClass)tD).LoadedFromDatabase();
-                        tCount++;
-                    }
-                    SQLite3.Finalize(stmtc);
+            List<PropertyInfo> tProplistA = new List<PropertyInfo>();
+            List<Type> tPropTypelistA = new List<Type>();
+            List<string> tColumnListA = new List<string>();
+            List<PropertyInfo> tPropTypelistToCreate = new List<PropertyInfo>();
+
+            foreach (PropertyInfo tProp in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+
+                tProplistA.Add(tProp);
+                tPropTypelistA.Add(tProp.PropertyType);
+                tColumnListA.Add(tProp.Name);
+
+                if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataType)))
+                {
+                    tPropTypelistToCreate.Add(tProp);
+                }
+                else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeInt)))
+                {
+                    tPropTypelistToCreate.Add(tProp);
+                }
+                else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeEnum)))
+                {
+                    tPropTypelistToCreate.Add(tProp);
+                }
+                else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeMask)))
+                {
+                    tPropTypelistToCreate.Add(tProp);
+                }
+                else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeFloat)))
+                {
+                    tPropTypelistToCreate.Add(tProp);
                 }
             }
+
+            PropertyInfo[] tProplist = tProplistA.ToArray();
+            Type[] tPropTypelist = tPropTypelistA.ToArray();
+            string[] tColumnList = tColumnListA.ToArray();
+            int tReferenceIndex = Array.IndexOf(tColumnList, "Reference");
+            PropertyInfo[] tPropTypeArrayToCreate = tPropTypelistToCreate.ToArray();
+
+            IntPtr stmtc = SQLite3.Prepare2(tConnectorHandle, "SELECT `" + string.Join("`, `", tColumnList) + "` FROM `" + ClassNamePHP + "` " + sWhere + ";");
+
+            while (SQLite3.Step(stmtc) == SQLite3.Result.Row)
+            {
+                string tReferenceFromDataBase = SQLite3.ColumnString(stmtc, tReferenceIndex);
+                if (DatasByReference.ContainsKey(tReferenceFromDataBase) == false)
+                {
+                    // create new one object
+                    var tD = CreateInstance_Bypass(false, true, tPropTypeArrayToCreate);
+                    for (int tI = 0; tI < tProplist.Length; tI++)
+                    {
+                        ReadCol(tPropTypelist[tI], tProplist[tI], stmtc, tI, tD);
+                    }
+                    tD.LoadedFromDatabase();
+                }
+                else
+                {
+                    if (sOverrideMemory == true)
+                    {
+                        // restaure data value!
+                        var tD = DatasByReference[tReferenceFromDataBase];
+                        for (int tI = 0; tI < tProplist.Length; tI++)
+                        {
+                            ReadCol(tPropTypelist[tI], tProplist[tI], stmtc, tI, tD);
+                        }
+                        tD.LoadedFromDatabase();
+                    }
+                }
+                tCount++;
+            }
+            SQLite3.Finalize(stmtc);
             DatasLoaded = true;
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Step(true, " " + ClassNamePHP + " " + tCount + " row loaded! Select ... " + sWhere);
+            }
             ClassDatasAreLoaded();
 #if UNITY_EDITOR
             FilterTableEditor();
@@ -602,19 +714,20 @@ namespace NetWorkedData
 #endif
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Finish(true, " " + ClassNamePHP + " " + tCount + " row loaded!");
+                //NWEBenchmark.Step(true, " " + ClassNamePHP + "Datas count = " + Datas.Count);
+                //NWEBenchmark.Step(true, " " + ClassNamePHP + "DatasByReference count = " + DatasByReference.Count);
+                //NWEBenchmark.Step(true, " " + ClassNamePHP + "DatasByInternalKey count = " + DatasByInternalKey.Count);
+                NWEBenchmark.Finish(true, " " + ClassNamePHP + " " + tCount + " row loaded! DatasByReference count = " + DatasByReference.Count);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void UnloadDataByReference(string sReference)
         {
-            //Debug.Log("UnloadDataByReference(" + sReference + ")");
             if (DatasByReference.ContainsKey(sReference))
             {
                 NWDTypeClass tData = DatasByReference[sReference];
                 tData.DeindexInMemory(); // call override method
                 RemoveData(tData);
-                //tData.Delete();
             }
 #if UNITY_EDITOR
             FilterTableEditor();
@@ -624,33 +737,183 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ResetTable()
         {
-            NWDDataManager.SharedInstance().ResetTable(ClassType, kAccountDependent);
+            // reset datas
+            ResetDatas();
+            // delete indexes and table
+            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
+            if (kAccountDependent == false)
+            {
+                tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
+            }
+            //IntPtr stmt = SQLite3.Prepare2(tConnectorHandle, "BEGIN TRANSACTION");
+            //SQLite3.Step(stmt);
+            //SQLite3.Finalize(stmt);
+            IntPtr stmt = SQLite3.Prepare2(tConnectorHandle, "DROP INDEX IF EXISTS `" + ClassNamePHP + "_Index`;");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            stmt = SQLite3.Prepare2(tConnectorHandle, "DROP INDEX IF EXISTS `" + ClassNamePHP + "_Bundle`;");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            stmt = SQLite3.Prepare2(tConnectorHandle, "DROP INDEX IF EXISTS`" + ClassNamePHP + "_Modified`;");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            stmt = SQLite3.Prepare2(tConnectorHandle, "DROP TABLE IF EXISTS `" + ClassNamePHP + "`;");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            //stmt = SQLite3.Prepare2(tConnectorHandle, "COMMIT");
+            //SQLite3.Step(stmt);
+            //SQLite3.Finalize(stmt);
+
+            // create table and indexes
+            foreach (string tQuery in CreateTableSQLite(NWDSQLiteTableState.Create))
+            {
+                stmt = SQLite3.Prepare2(tConnectorHandle, tQuery);
+                SQLite3.Step(stmt);
+                SQLite3.Finalize(stmt);
+            }
+            string tIndexA = CreateIndexSQLite(NWDSQLiteTableState.Create);
+            if (string.IsNullOrEmpty(tIndexA) == false)
+            {
+                stmt = SQLite3.Prepare2(tConnectorHandle, tIndexA);
+                SQLite3.Step(stmt);
+                SQLite3.Finalize(stmt);
+            }
+            string tIndexB = CreateIndexBundleSQLite(NWDSQLiteTableState.Create);
+            if (string.IsNullOrEmpty(tIndexB) == false)
+            {
+                stmt = SQLite3.Prepare2(tConnectorHandle, tIndexB);
+                SQLite3.Step(stmt);
+                SQLite3.Finalize(stmt);
+            }
+            string tIndexC = CreateIndexModifiySQLite(NWDSQLiteTableState.Create);
+            if (string.IsNullOrEmpty(tIndexC) == false)
+            {
+                stmt = SQLite3.Prepare2(tConnectorHandle, tIndexC);
+                SQLite3.Step(stmt);
+                SQLite3.Finalize(stmt);
+            }
             // reload empty datas
-            LoadFromDatabase();
+            LoadFromDatabase(string.Empty, true);
 #if UNITY_EDITOR
             // refresh the tables windows
             RepaintTableEditor();
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        //#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
         public void FlushTable()
         {
-            NWDDataManager.SharedInstance().FlushTable(ClassType, kAccountDependent);
+            // reset datas
+            ResetDatas();
+            // delete all datas on table
+            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
+            if (kAccountDependent == false)
+            {
+                tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
+            }
+            IntPtr stmt = SQLite3.Prepare2(tConnectorHandle, "BEGIN TRANSACTION");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            stmt = SQLite3.Prepare2(tConnectorHandle, "DELETE FROM `" + ClassNamePHP + "`;");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            stmt = SQLite3.Prepare2(tConnectorHandle, "COMMIT");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            stmt = SQLite3.Prepare2(tConnectorHandle, "VACUUM;");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+#if UNITY_EDITOR
+            // refresh the tables windows
+            RepaintTableEditor();
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DropTable()
         {
-            NWDDataManager.SharedInstance().DropTable(ClassType, kAccountDependent);
+            // reset datas
+            ResetDatas();
+            // delete indexes and table
+            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
+            if (kAccountDependent == false)
+            {
+                tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
+            }
+            //IntPtr stmt = SQLite3.Prepare2(tConnectorHandle, "BEGIN TRANSACTION");
+            //SQLite3.Step(stmt);
+            //SQLite3.Finalize(stmt);
+            IntPtr stmt = SQLite3.Prepare2(tConnectorHandle, "DROP INDEX IF EXISTS `" + ClassNamePHP + "_Index`;");
+            //Debug.Log("DROP INDEX IF EXISTS `" + ClassNamePHP + "_Index`;");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            stmt = SQLite3.Prepare2(tConnectorHandle, "DROP INDEX IF EXISTS `" + ClassNamePHP + "_Bundle`;");
+            //Debug.Log("DROP INDEX IF EXISTS `" + ClassNamePHP + "_Bundle`;");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            stmt = SQLite3.Prepare2(tConnectorHandle, "DROP INDEX IF EXISTS `" + ClassNamePHP + "_Modified`;");
+            //Debug.Log("DROP INDEX IF EXISTS `" + ClassNamePHP + "_Modified`;");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            stmt = SQLite3.Prepare2(tConnectorHandle, "DROP TABLE IF EXISTS `" + ClassNamePHP + "`;");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            //stmt = SQLite3.Prepare2(tConnectorHandle, "COMMIT");
+            //SQLite3.Step(stmt);
+            //SQLite3.Finalize(stmt);
+#if UNITY_EDITOR
+            // refresh the tables windows
+            RepaintTableEditor();
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ReInitializeTable()
+        public void RecreateAllIndexForTable()
         {
-            NWDDataManager.SharedInstance().ReInitializeTable(ClassType, kAccountDependent);
+            // reset datas
+            ResetDatas();
+            // delete indexes and table
+            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
+            if (kAccountDependent == false)
+            {
+                tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
+            }
+            IntPtr stmt = SQLite3.Prepare2(tConnectorHandle, "DROP INDEX IF EXISTS `" + ClassNamePHP + "_Index`;");
+            //Debug.Log("DROP INDEX IF EXISTS `" + ClassNamePHP + "_Index`;");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            stmt = SQLite3.Prepare2(tConnectorHandle, "DROP INDEX IF EXISTS `" + ClassNamePHP + "_Bundle`;");
+            //Debug.Log("DROP INDEX IF EXISTS `" + ClassNamePHP + "_Bundle`;");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            stmt = SQLite3.Prepare2(tConnectorHandle, "DROP INDEX IF EXISTS `" + ClassNamePHP + "_Modified`;");
+            //Debug.Log("DROP INDEX IF EXISTS `" + ClassNamePHP + "_Modified`;");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+
+            string tIndexA = CreateIndexSQLite(NWDSQLiteTableState.Create);
+            if (string.IsNullOrEmpty(tIndexA) == false)
+            {
+                stmt = SQLite3.Prepare2(tConnectorHandle, tIndexA);
+                SQLite3.Step(stmt);
+                SQLite3.Finalize(stmt);
+            }
+            string tIndexB = CreateIndexBundleSQLite(NWDSQLiteTableState.Create);
+            if (string.IsNullOrEmpty(tIndexB) == false)
+            {
+                stmt = SQLite3.Prepare2(tConnectorHandle, tIndexB);
+                SQLite3.Step(stmt);
+                SQLite3.Finalize(stmt);
+            }
+            string tIndexC = CreateIndexModifiySQLite(NWDSQLiteTableState.Create);
+            if (string.IsNullOrEmpty(tIndexC) == false)
+            {
+                stmt = SQLite3.Prepare2(tConnectorHandle, tIndexC);
+                SQLite3.Step(stmt);
+                SQLite3.Finalize(stmt);
+            }
+#if UNITY_EDITOR
+            // refresh the tables windows
+            RepaintTableEditor();
+#endif
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

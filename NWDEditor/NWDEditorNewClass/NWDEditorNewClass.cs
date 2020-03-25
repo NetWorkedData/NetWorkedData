@@ -36,7 +36,6 @@ namespace NetWorkedData
         const int K_MENU_MIN = 3;
         const int K_MENU_MAX = 24;
         //-------------------------------------------------------------------------------------------------------------
-        GUIContent IconAndTitle;
         Vector2 ScrollPosition = Vector2.zero;
         //-------------------------------------------------------------------------------------------------------------
 
@@ -167,25 +166,7 @@ namespace NetWorkedData
         public void OnEnable()
         {
             //NWEBenchmark.Start();
-            if (IconAndTitle == null)
-            {
-                IconAndTitle = new GUIContent();
-                IconAndTitle.text = "NWD Custom Class";
-                if (IconAndTitle.image == null)
-                {
-                    string[] sGUIDs = AssetDatabase.FindAssets("NWDEditorNewWindow t:texture");
-                    foreach (string tGUID in sGUIDs)
-                    {
-                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
-                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals("NWDEditorNewWindow"))
-                        {
-                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
-                        }
-                    }
-                }
-                titleContent = IconAndTitle;
-            }
+            TitleInit("Custom Class", typeof(NWDEditorNewClass));
             tListOfType = new List<string>();
             tListOfType.Add(" ");
             tListOfType.Add("string");
@@ -195,7 +176,6 @@ namespace NetWorkedData
             tListOfType.Add("double");
             tListOfType.Add("float");
             tListOfType.Add("  "); // use as separator remove by ereg
-
             Type[] tAllTypes = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
             Type[] tAllNWDTypes = (from System.Type type in tAllTypes
                                    where type.IsSubclassOf(typeof(NWEDataType))
@@ -231,7 +211,8 @@ namespace NetWorkedData
                 }
             }
             tListOfclass.Insert(0, "  ");
-            tListOfclass.Insert(0, "NWDBasis");
+            tListOfclass.Insert(0, typeof(NWDBundledBasis).Name);
+            tListOfclass.Insert(0, typeof(NWDBasis).Name);
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

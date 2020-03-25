@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
-using SQLite4Unity3d;
+
 //using BasicToolBox;
 
 #if UNITY_EDITOR

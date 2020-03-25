@@ -14,7 +14,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using SQLite.Attribute;
+
 
 #if UNITY_EDITOR
 using UnityEditor;

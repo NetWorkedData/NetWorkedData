@@ -19,7 +19,7 @@ using System.Reflection;
 
 using UnityEngine;
 
-using SQLite4Unity3d;
+
 //using BasicToolBox;
 
 //=====================================================================================================================
@@ -51,7 +51,7 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public IEnumerator AsyncReloadAllObjectsEditor()
+        public IEnumerator AsyncReloadAllObjectsEditor(NWDBasisBundle sBundle)
         {
             if (NWDLauncher.ActiveBenchmark)
             {
@@ -65,7 +65,7 @@ namespace NetWorkedData
             ClassEditorDataLoaded = 0;
             while (ClassEditorDataLoaded < ClassEditorExpected)
             {
-                ReloadAllObjectsByClassEditor(ClassEditorDataLoaded);
+                ReloadAllObjectsByClassEditor(ClassEditorDataLoaded, sBundle);
                 ClassEditorDataLoaded++;
                 ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
                 NWDLauncher.NotifyStep();
@@ -84,22 +84,19 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ReloadAllObjectsByClassEditor(int sCounter)
+        public bool ReloadAllObjectsByClassEditor(int sCounter, NWDBasisBundle sBundle)
         {
             bool rReturn = false;
             if (sCounter >= 0 && sCounter < mTypeNotAccountDependantList.Count)
             {
                 Type tType = mTypeNotAccountDependantList[sCounter];
-
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tHelper.LoadFromDatabase();
-
-                //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
+                tHelper.LoadFromDatabaseByBundle(sBundle, true);
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ReloadAllObjectsEditor()
+        public void ReloadAllObjectsEditor(NWDBasisBundle sBundle)
         {
             if (NWDLauncher.ActiveBenchmark)
             {
@@ -116,7 +113,7 @@ namespace NetWorkedData
                 {
                     //NWEBenchmark.Start("LoadData " + tType.Name);
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.LoadFromDatabase();
+                    tHelper.LoadFromDatabaseByBundle(sBundle, true);
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
                     ClassEditorDataLoaded++;
                     ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
@@ -135,7 +132,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public IEnumerator AsyncReloadAllObjectsAccount()
+        public IEnumerator AsyncReloadAllObjectsAccount(NWDBasisBundle sBundle)
         {
             if (NWDLauncher.ActiveBenchmark)
             {
@@ -150,7 +147,7 @@ namespace NetWorkedData
             ClassAccountDataLoaded = 0;
             while (ClassAccountDataLoaded < ClassAccountExpected)
             {
-                ReloadAllObjectsByClassAccount(ClassAccountDataLoaded);
+                ReloadAllObjectsByClassAccount(ClassAccountDataLoaded, sBundle);
                 ClassAccountDataLoaded++;
                 ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
                 NWDLauncher.NotifyStep();
@@ -170,21 +167,20 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ReloadAllObjectsByClassAccount(int sCounter)
+        public bool ReloadAllObjectsByClassAccount(int sCounter, NWDBasisBundle sBundle)
         {
             bool rReturn = false;
             if (sCounter >= 0 && sCounter < mTypeAccountDependantList.Count)
             {
-
                 Type tType = mTypeAccountDependantList[sCounter];
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tHelper.LoadFromDatabase();
-                //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
+                tHelper.LoadFromDatabaseByBundle(sBundle, true);
+                //tHelper.LoadFromDatabase();
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ReloadAllObjectsAccount()
+        public void ReloadAllObjectsAccount(NWDBasisBundle sBundle)
         {
             if (NWDLauncher.ActiveBenchmark)
             {
@@ -198,7 +194,7 @@ namespace NetWorkedData
                 foreach (Type tType in mTypeAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.LoadFromDatabase();
+                    tHelper.LoadFromDatabaseByBundle(sBundle, true);
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
                     ClassAccountDataLoaded++;
                     ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
@@ -220,8 +216,8 @@ namespace NetWorkedData
             {
                 NWEBenchmark.Start();
             }
-            int tRow = 0;
-            int tMethod = 0;
+            RowsCounterOp = 0;
+            MethodCounterOp = 0;
             DatasIndexed = false;
             ClassIndexation = 0;
             while (ClassIndexation < ClassExpected)
@@ -235,15 +231,15 @@ namespace NetWorkedData
                 }
                 if (tHelper != null)
                 {
-                    tMethod += tHelper.IndexInMemoryMethodList.Count;
-                    tRow += tHelper.Datas.Count;
+                    MethodCounterOp += tHelper.IndexInMemoryMethodList.Count;
+                    RowsCounterOp += tHelper.Datas.Count;
                 }
             }
             DatasIndexed = true;
             //PlayerLanguageLoad();
             //LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
-            NWDLauncher.RowInformations = "Rows indexed : " + tRow + " rows. Used " + IndexationCounterOp + " operation(s) and " + tMethod + " method(s).";
+            NWDLauncher.RowInformations = "Rows indexed : " + RowsCounterOp + " rows. Used " + IndexationCounterOp + " operation(s) and " + MethodCounterOp + " method(s).";
             if (NWDLauncher.ActiveBenchmark)
             {
                 NWEBenchmark.Log(NWDLauncher.RowInformations);
@@ -265,13 +261,15 @@ namespace NetWorkedData
                 int tRow = tHelper.IndexInMemoryAllObjects();
                 if (NWDLauncher.ActiveBenchmark)
                 {
-                    NWEBenchmark.Finish(true, " " + tHelper.ClassNamePHP + " "+ tRow + " rows indexed");
+                    NWEBenchmark.Finish(true, " " + tHelper.ClassNamePHP + " " + tRow + " rows indexed");
                 }
             }
             return tHelper;
         }
         //-------------------------------------------------------------------------------------------------------------
         public int IndexationCounterOp = 0;
+        public int RowsCounterOp = 0;
+        public int MethodCounterOp = 0;
         //-------------------------------------------------------------------------------------------------------------
         public void IndexAllObjects()
         {
@@ -279,19 +277,19 @@ namespace NetWorkedData
             {
                 NWEBenchmark.Start();
             }
-            int tRow = 0;
-            int tMethod = 0;
+            RowsCounterOp = 0;
+            MethodCounterOp = 0;
             DatasIndexed = false;
             foreach (Type tType in mTypeList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tMethod += tHelper.IndexInMemoryMethodList.Count;
-                tRow += tHelper.Datas.Count;
+                MethodCounterOp += tHelper.IndexInMemoryMethodList.Count;
+                RowsCounterOp += tHelper.Datas.Count;
                 tHelper.IndexInMemoryAllObjects();
             }
             DatasIndexed = true;
             EditorRefresh();
-            NWDLauncher.RowInformations = "Rows indexed : " + tRow + " rows. Used " + IndexationCounterOp + " operation(s) and " + tMethod + " method(s).";
+            NWDLauncher.RowInformations = "Rows indexed : " + RowsCounterOp + " rows. Used " + IndexationCounterOp + " operation(s) and " + MethodCounterOp + " method(s).";
             if (NWDLauncher.ActiveBenchmark)
             {
                 NWEBenchmark.Log(NWDLauncher.RowInformations);
@@ -299,10 +297,10 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ReloadAllObjects()
+        public void ReloadAllObjects(NWDBasisBundle sBundle)
         {
-            ReloadAllObjectsEditor();
-            ReloadAllObjectsAccount();
+            ReloadAllObjectsEditor(sBundle);
+            ReloadAllObjectsAccount(sBundle);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

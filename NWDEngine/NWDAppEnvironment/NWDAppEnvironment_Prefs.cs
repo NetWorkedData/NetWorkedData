@@ -32,6 +32,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SavePreferences()
         {
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             if (string.IsNullOrEmpty(PlayerAccountReference))
             {
                 PlayerAccountReference = NWDToolbox.GenerateUniqueID();
@@ -41,6 +45,10 @@ namespace NetWorkedData
                 NWEPrefsManager.ShareInstance().set(Environment + kPlayerAccountReferenceKey, PlayerAccountReference);
                 NWDBasisPreferences.SetString(kRequesTokenKey, this, RequesToken, false);
                 NWDDataManager.SharedInstance().DataQueueExecute();
+            }
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Finish(true, "RequesToken = " + RequesToken);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -60,12 +68,16 @@ namespace NetWorkedData
             }
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWEBenchmark.Finish(true, "RequesToken = " + RequesToken);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ResetPreferences(bool withTemporaryAccount = true, string sWithSign = null)
         {
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             SavePreferences();
             NWDDataManager.SharedInstance().DataQueueExecute();
             PlayerAccountReference = NWDToolbox.GenerateUniqueID(withTemporaryAccount);
@@ -89,6 +101,10 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             NWDAppEnvironmentChooser.Refresh();
 #endif
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Finish(true, "RequesToken = " + RequesToken);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -21,25 +21,26 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDEditorFooter : EditorWindow
+    public class NWDEditorFooter : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
         private void OnEnable()
         {
-            minSize = new Vector2(10, 16);
+            minSize = new Vector2(20, 32);
             maxSize = new Vector2(float.MaxValue, 16);
+            TitleInit(NWDAppConfiguration.SharedInstance().SelectedEnvironment().AppName, typeof(NWDEditorFooter));
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void OnGUI()
+        public override void OnPreventGUI()
         {
             NWDGUI.LoadStyles();
-            titleContent = new GUIContent(NWDAppConfiguration.SharedInstance().SelectedEnvironment().AppName);
             EditorGUILayout.BeginHorizontal();
             GUILayout.Label(
                 "   Project : <b>" + NWDAppConfiguration.SharedInstance().DevEnvironment.AppName +
                 "</b>  Environment : <b> " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().Environment +
                 "</b>  Webservice version : <b>" + NWDAppConfiguration.SharedInstance().WebBuild.ToString() +
                 "</b>  Version Bundle : <b>" + PlayerSettings.bundleVersion +
+                "</b>  SQLite : <b>" + NWDDataManager.SharedInstance().GetVersion() +
                 "</b>",
                 NWDGUI.kFooterLabelStyle);
             EditorGUILayout.EndHorizontal();

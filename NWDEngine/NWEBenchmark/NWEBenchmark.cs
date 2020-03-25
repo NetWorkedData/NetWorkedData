@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
@@ -15,12 +15,18 @@ namespace NetWorkedData
         private static float FrameRate = -1;
         private static Stopwatch Watch = new Stopwatch();
         //-------------------------------------------------------------------------------------------------------------
+#if (UNITY_EDITOR)
         public static float kMaxDefault = 0.010f;
+#elif (UNITY_ANDROID || UNITY_IOS)
+        public static float kMaxDefault = 0.030f;
+#else
+        public static float kMaxDefault = 0.015f;
+#endif
         private static int StartCount = 0;
         //-------------------------------------------------------------------------------------------------------------
         static NWEBenchmark()
         {
-            UnityEngine.Debug.Log("START NWEBenchmark CLASS");
+            //UnityEngine.Debug.Log("START NWEBenchmark CLASS");
             Watch.Start();
             if (Application.targetFrameRate == -1)
             {
@@ -95,14 +101,14 @@ namespace NetWorkedData
 
             if (cStartDico.ContainsKey(sKey) == true)
             {
-                string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + " all ready started!";
-                UnityEngine.Debug.Log(tLog);
+                //string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + " all ready started!";
+                //UnityEngine.Debug.Log(tLog);
             }
             else
             {
                 StartCount++;
                 cStartDico.Add(sKey, Watch.ElapsedMilliseconds);
-                string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + " start now!";
+                string tLog = "benchmark : " + GetIndentation() + "•<b>" + sKey + "</b>\t" + " start now!";
                 UnityEngine.Debug.Log(tLog);
             }
 
@@ -153,12 +159,13 @@ namespace NetWorkedData
                 {
                     tMaxColor = "red";
                 }
-                string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + " execute in <color=" + tMaxColor + ">" +
+                UnityEngine.Debug.Log("benchmark : " + GetIndentation() + "| <b><color=" + tMaxColor + ">" + rDelta.ToString("F3") + "</color></b>" + "");
+
+                string tLog = "benchmark : " + GetIndentation() + "•<b>" + sKey + "</b>\t" + " execute in <color=" + tMaxColor + ">" +
                  rDelta.ToString("F3") + " seconds </color> spent " + rFrameSpend.ToString("F1") + "F/" + FrameRate + "Fps. " + sMoreInfos;
                 UnityEngine.Debug.Log(tLog);
                 StartCount--;
                 cStartDico.Remove(sKey);
-                UnityEngine.Debug.Log("benchmark : " + GetIndentation() + "<b><color=" + tMaxColor + ">" + rDelta.ToString("F3") + "</color></b>" + "");
             }
             else
             {
@@ -187,7 +194,7 @@ namespace NetWorkedData
                 {
                     tMaxColor = "red";
                 }
-                string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + " step <color=" + tMaxColor + ">" +
+                string tLog = "benchmark : " + GetIndentation() + "|    <b>" + sKey + "</b>\t" + " step <color=" + tMaxColor + ">" +
                  rDelta.ToString("F3") + " seconds </color> spent " + rFrameSpend.ToString("F1") + "F/" + FrameRate + "Fps. " + sMoreInfos;
                 UnityEngine.Debug.Log(tLog);
             }

@@ -269,7 +269,7 @@ namespace NetWorkedData
                 else if (Request.isHttpError)
                 {
 #if UNITY_EDITOR
-                    Debug.Log(Request.error + "\n" + Request.downloadHandler.text + "\n");
+                    Debug.Log(Request.error + "\n" + Request.downloadHandler.text + "\n " + Request.url);
 #endif
                     Statut = NWEOperationState.Error;
                     ResultInfos.SetError(NWDError.NWDError_WEB02);

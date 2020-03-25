@@ -1,28 +1,13 @@
-﻿//=====================================================================================================================
+//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:26:25
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Collections;
-using System.IO;
 using UnityEngine;
-using System.Threading;
-using System.Text.RegularExpressions;
-using SQLite4Unity3d;
-using Sqlite3DatabaseHandle = System.IntPtr;
-using Sqlite3Statement = System.IntPtr;
-//using BasicToolBox;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -39,7 +24,6 @@ namespace NetWorkedData
             NWDBasisHelper tHelper = BasisHelper();
             foreach (PropertyInfo tPropInfo in tHelper.kAccountDependentProperties)
             {
-                //Debug.Log("try to insert automatically the account reference in the NWDAccount connection property : " + tPropInfo.Name);
                 NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
                 tAtt.Value = NWDAccount.CurrentReference();
                 tPropInfo.SetValue(this, tAtt, null);
@@ -85,50 +69,35 @@ namespace NetWorkedData
                 string tValueString = string.Copy(tValue.ToString()); // force to copy new object
                 if (tTypeOfThis.IsEnum)
                 {
-                    //int tTemp = 0;
-                    //int.TryParse(tValueString, out tTemp);
                     tPropertyInfo.SetValue(this, tValue, null);
                 }
                 else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
                 {
                     NWEDataType tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataType;
                     tTemp.Value = ((NWEDataType)tValue).Value;
-                    //tTemp.SetValue(tValueString);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
                 {
                     NWEDataTypeInt tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeInt;
-                    //long tTempInt = 0;
-                    //long.TryParse(tValueString, out tTempInt);
-                    //tTemp.SetLong(tTempInt);
                     tTemp.Value = ((NWEDataTypeInt)tValue).Value;
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
                 {
                     NWEDataTypeFloat tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeFloat;
-                    //double tTempDouble = 0;
-                    //double.TryParse(tValueString, out tTempDouble);
-                    //tTemp.SetDouble(tTempDouble);
                     tTemp.Value = ((NWEDataTypeFloat)tValue).Value;
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
                 {
                     NWEDataTypeEnum tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeEnum;
-                    //long tTempDouble = 0;
-                    //long.TryParse(tValueString, out tTempDouble);
-                    //tTemp.SetLong(tTempDouble);
                     tTemp.Value = ((NWEDataTypeEnum)tValue).Value;
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
                 {
                     NWEDataTypeMask tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeMask;
-                    //long tTempDouble = 0;
-                    //long.TryParse(tValueString, out tTempDouble);
-                    //tTemp.SetLong(tTempDouble);
                     tTemp.Value = ((NWEDataTypeMask)tValue).Value;
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
@@ -139,7 +108,7 @@ namespace NetWorkedData
                 else if (tTypeOfThis == typeof(bool))
                 {
                     bool tValueInsert = false;
-                    int tTemp = 0;
+                    int tTemp;
                     int.TryParse(tValueString, out tTemp);
                     if (tTemp > 0)
                     {
@@ -149,61 +118,61 @@ namespace NetWorkedData
                 }
                 else if (tTypeOfThis == typeof(int))
                 {
-                    int tTemp = 0;
+                    int tTemp;
                     int.TryParse(tValueString, out tTemp);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis == typeof(long))
                 {
-                    long tTemp = 0;
+                    long tTemp;
                     long.TryParse(tValueString, out tTemp);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis == typeof(Int16))
                 {
-                    Int16 tTemp = 0;
+                    Int16 tTemp;
                     Int16.TryParse(tValueString, out tTemp);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis == typeof(Int32))
                 {
-                    Int32 tTemp = 0;
+                    Int32 tTemp;
                     Int32.TryParse(tValueString, out tTemp);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis == typeof(Int64))
                 {
-                    Int64 tTemp = 0;
+                    Int64 tTemp;
                     Int64.TryParse(tValueString, out tTemp);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis == typeof(float))
                 {
-                    float tTemp = 0;
+                    float tTemp;
                     float.TryParse(tValueString, out tTemp);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis == typeof(double))
                 {
-                    double tTemp = 0;
+                    double tTemp;
                     double.TryParse(tValueString, out tTemp);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis == typeof(Single))
                 {
-                    Single tTemp = 0;
+                    Single tTemp;
                     Single.TryParse(tValueString, out tTemp);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis == typeof(Double))
                 {
-                    Double tTemp = 0;
+                    Double tTemp;
                     Double.TryParse(tValueString, out tTemp);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis == typeof(Decimal))
                 {
-                    Decimal tTemp = 0;
+                    Decimal tTemp;
                     Decimal.TryParse(tValueString, out tTemp);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
@@ -325,18 +294,7 @@ namespace NetWorkedData
                 this.DC = NWDToolbox.Timestamp();
                 this.DM = NWDToolbox.Timestamp();
             }
-            //NWDVersionType tVersion = new NWDVersionType();
-            //tVersion.SetValue("0.00.00");
-            //this.MinVersion = tVersion;
-
-            //NWDVersionType tMaxVersion = new NWDVersionType();
-            //tMaxVersion.SetString("99.99.99");
-            //this.MaxVersion = tMaxVersion;
-
-            int tWebModelToUse = WebModelToUse();
-            //Debug.Log(" set from " + this.WebModel + " To " + tWebModelToUse);
-            WebModel = tWebModelToUse;
-
+            WebModel = WebModelToUse();
             this.DS = 0;
             if (AccountDependent() == true)
             {
@@ -373,15 +331,18 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
-                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Insert(this);
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, New_SQLInsertOrReplace());
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
                 }
             }
             else
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
-
-                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Insert(this);
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, New_SQLInsertOrReplace());
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
                 }
             }
             //NWEBenchmark.Finish();
@@ -395,19 +356,30 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
-                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Insert(this);
-                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, New_SQLInsertOrReplace());
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "COMMIT");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
                 }
             }
             else
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
-
-                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Insert(this);
-                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, New_SQLInsertOrReplace());
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "COMMIT");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
                 }
             }
             //NWEBenchmark.Finish();
@@ -416,7 +388,6 @@ namespace NetWorkedData
         public override void InsertDataFinish()
         {
             //NWEBenchmark.Start();
-            //Debug.Log("NWDBasis InsertDataFinish()");
             WritingLockRemove();
             WritingPending = NWDWritingPending.InDatabase;
 #if UNITY_EDITOR
@@ -523,13 +494,9 @@ namespace NetWorkedData
             {
                 this.AddonUpdatedMe(); // call override method
             }
-            //Debug.Log("update ... index method count = "+ BasisHelper().IndexInsertMethodList.Count);
-            //UpdateObjectInListOfEdition(this);
             this.IndexInBase();
             this.IndexInMemory();
-
             BasisHelper().UpdateData(this);
-
             bool tDoUpdate = true;
             switch (sWritingMode)
             {
@@ -598,7 +565,6 @@ namespace NetWorkedData
                 int tWS = WebModelToUse();
                 if (this.WebModel != tWS)
                 {
-                    //this.AddonVersionMe(); // call override method
                     //Debug.Log(" set from " + WebModel + " To " + tWS);
                     this.WebModel = tWS;
                 }
@@ -615,15 +581,18 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
-                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Update(this);
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, New_SQLInsertOrReplace());
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
                 }
             }
             else
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
-
-                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Update(this);
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, New_SQLInsertOrReplace());
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
                 }
             }
             //NWEBenchmark.Finish();
@@ -637,18 +606,30 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
-                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Update(this);
-                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, New_SQLInsertOrReplace());
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "COMMIT");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
                 }
             }
             else
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
-                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Update(this);
-                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, New_SQLInsertOrReplace());
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "COMMIT");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
                 }
             }
             //NWEBenchmark.Finish();
@@ -842,25 +823,22 @@ namespace NetWorkedData
         public override void DeleteDataProceed()
         {
             //NWEBenchmark.Start();
-            //Debug.Log("NWDBasis DeleteDataProceed()");
             if (AccountDependent())
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
-                    //Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionAccount.Handle, New_SQLDelete());
-                    //SQLite3.Step(stmt);
-                    //SQLite3.Finalize(stmt);
-                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Delete(this);
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, New_SQLDelete());
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
                 }
             }
             else
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
-                    //Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionEditor.Handle, New_SQLDelete());
-                    //SQLite3.Step(stmt);
-                    //SQLite3.Finalize(stmt);
-                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Delete(this);
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, New_SQLDelete());
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
                 }
             }
             //NWEBenchmark.Finish();
@@ -874,38 +852,30 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
-                    //Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionAccount.Handle, "BEGIN TRANSACTION");
-                    //SQLite3.Step(stmt);
-                    //SQLite3.Finalize(stmt);
-                    //stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionAccount.Handle, New_SQLDelete());
-                    //SQLite3.Step(stmt);
-                    //SQLite3.Finalize(stmt);
-                    //stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionAccount.Handle, "COMMIT");
-                    //SQLite3.Step(stmt);
-                    //SQLite3.Finalize(stmt);
-
-                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Delete(this);
-                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, New_SQLDelete());
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "COMMIT");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
                 }
             }
             else
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
-                    //Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionEditor.Handle, "BEGIN TRANSACTION");
-                    //SQLite3.Step(stmt);
-                    //SQLite3.Finalize(stmt);
-                    //stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionEditor.Handle, New_SQLDelete());
-                    //SQLite3.Step(stmt);
-                    //SQLite3.Finalize(stmt);
-                    //stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionEditor.Handle, "COMMIT");
-                    //SQLite3.Step(stmt);
-                    //SQLite3.Finalize(stmt);
-
-                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Delete(this);
-                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, New_SQLDelete());
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "COMMIT");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
                 }
             }
             //NWEBenchmark.Finish();
@@ -914,7 +884,6 @@ namespace NetWorkedData
         public override void DeleteDataFinish()
         {
             //NWEBenchmark.Start();
-            //Debug.Log("NWDBasis DeleteDataFinish()");
             WritingLockRemove();
             WritingPending = NWDWritingPending.InDatabase;
 #if UNITY_EDITOR
@@ -957,27 +926,128 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #endregion Load Data
         //-------------------------------------------------------------------------------------------------------------
-        //public string New_SQLInsertOrReplace()
-        //{
-        //    NWDBasisHelper tHelper = BasisHelper();
-        //    List<string> tKeys = new List<string>();
-        //    List<string> tValues = new List<string>();
-        //    foreach (PropertyInfo tProp in tHelper.ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-        //    {
-        //        tKeys.Add(tProp.Name);
-        //        tValues.Add(tProp.GetValue(this).ToString());
-        //    }
-        //    string rReturn = "INSERT OR REPLACE INTO `" + tHelper.ClassNamePHP + "` (`" + string.Join("`, `", tKeys) + "`) VALUES (\"" + string.Join("\", \"", tValues) + "\");";
-        //    return rReturn;
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public string New_SQLDelete()
-        //{
-        //    NWDBasisHelper tHelper = BasisHelper();
-        //    string tSignReference = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID);
-        //    string rReturn = "DELETE FROM `" + tHelper.ClassNamePHP + "` WHERE `" + tSignReference + "` = `" + ID + "`;";
-        //    return rReturn;
-        //}
+        public string New_SQLInsertOrReplace()
+        {
+            NWDBasisHelper tHelper = BasisHelper();
+            List<string> tKeys = new List<string>();
+            List<string> tValues = new List<string>();
+            foreach (PropertyInfo tProp in tHelper.ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                tKeys.Add(tProp.Name);
+
+                Type tTypeOfThis = tProp.PropertyType;
+                string tValueString = string.Empty;
+                object tValue = tProp.GetValue(this, null);
+                if (tValue == null)
+                {
+                    if (tTypeOfThis.IsEnum)
+                    {
+                        tValueString = "0";
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
+                    {
+                        tValueString = string.Empty;
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt))||
+                        tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat))||
+                        tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum))||
+                        tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
+                    {
+                        tValueString = "0";
+                    }
+                    else if (tTypeOfThis == typeof(String) ||
+                        tTypeOfThis == typeof(string))
+                    {
+                        tValueString = string.Empty;
+                    }
+                    else if (tTypeOfThis == typeof(bool))
+                    {
+                        tValueString = NWDToolbox.BoolToIntString(false);
+                    }
+                    else if (tTypeOfThis == typeof(int) ||
+                        tTypeOfThis == typeof(long) ||
+                        tTypeOfThis == typeof(float) ||
+                        tTypeOfThis == typeof(double))
+                    {
+                        tValueString = "0";
+                    }
+                    else
+                    {
+                        tValueString = string.Empty;
+                    }
+                }
+                else
+                {
+                    if (tTypeOfThis.IsEnum)
+                    {
+                        int tInt = (int)tValue;
+                        tValueString = tInt.ToString();
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
+                    {
+                        tValueString = tValue.ToString().Replace("\"", "\"\"");
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
+                    {
+                        tValueString = NWDToolbox.LongToString(((NWEDataTypeInt)tValue).Value);
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
+                    {
+                        tValueString = NWDToolbox.DoubleToString(((NWEDataTypeFloat)tValue).Value);
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
+                    {
+                        tValueString = NWDToolbox.LongToString(((NWEDataTypeEnum)tValue).Value);
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
+                    {
+                        tValueString = NWDToolbox.LongToString(((NWEDataTypeMask)tValue).Value);
+                    }
+                    else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
+                    {
+                        tValueString = tValue.ToString().Replace("\"", "\"\"");
+                    }
+                    else if (tTypeOfThis == typeof(bool))
+                    {
+                        tValueString = NWDToolbox.BoolToIntString((bool)tValue);
+                    }
+                    else if (tTypeOfThis == typeof(int))
+                    {
+                        tValueString = NWDToolbox.IntToString((int)tValue);
+                    }
+                    else if (tTypeOfThis == typeof(long))
+                    {
+                        tValueString = NWDToolbox.LongToString((long)tValue);
+                    }
+                    else if (tTypeOfThis == typeof(float))
+                    {
+                        tValueString = NWDToolbox.FloatToString((float)tValue);
+                    }
+                    else if (tTypeOfThis == typeof(double))
+                    {
+                        tValueString = NWDToolbox.DoubleToString((double)tValue);
+                    }
+                    else
+                    {
+                        tValueString = tValue.ToString().Replace("\"", "\"\"");
+                    }
+                }
+                //tValueString = "/*" + tProp.Name + "*/" + tValueString;
+                tValues.Add(tValueString);
+            }
+            string rReturn = "INSERT OR REPLACE INTO `" + tHelper.ClassNamePHP + "` (`" + string.Join("`, `", tKeys) + "`) VALUES (\"" + string.Join("\", \"", tValues) + "\");";
+            //Debug.Log(rReturn);
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string New_SQLDelete()
+        {
+            NWDBasisHelper tHelper = BasisHelper();
+            string tSignReference = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference);
+            string rReturn = "DELETE FROM `" + tHelper.ClassNamePHP + "` WHERE `" + tSignReference + "` = \"" + Reference.Replace("\"", "\"\"") + "\";";
+            //Debug.Log(rReturn);
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

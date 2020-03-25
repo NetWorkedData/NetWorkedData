@@ -18,7 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using SQLite4Unity3d;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -33,16 +33,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateBasisError()
         {
-            //NWEBenchmark.Start();
-            if (AllDatabaseIsLoaded())
-            {
-            }
+            NWEBenchmark.Start();
             if (IsLoaded() == true)
             {
                 GenerateServerErreur();
                 GenerateGenericErreur();
             }
-            //NWEBenchmark.Finish();
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateServerErreur()
@@ -217,7 +214,6 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             base.ClassDatasAreLoaded();
-            //Debug.Log("ClassDatasAreLoaded() override method (" + GetType().FullName + ")");
             //#if UNITY_EDITOR
             GenerateBasisError();
             //#endif

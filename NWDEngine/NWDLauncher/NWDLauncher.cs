@@ -1,4 +1,4 @@
-﻿//=====================================================================================================================
+//=====================================================================================================================
 //
 //  ideMobi 2019©
 //
@@ -13,7 +13,7 @@
 
 using System;
 using System.Collections.Generic;
-using SQLite4Unity3d;
+
 using System.Collections;
 using System.IO;
 using System.Reflection;
@@ -99,7 +99,7 @@ namespace NetWorkedData
         public const string K_LAUNCHER_STEP = "K_LAUNCHER_STEP";
         public const string K_LAUNCHER_ENGINE_READY = "K_LAUNCHER_ENGINE_READY";
         public const string K_LAUNCHER_EDITOR_READY = "K_LAUNCHER_EDITOR_READY";
-        public const string K_LAUNCHER_ACCOUNT_READY = "K_LAUNCHER_ACCOUN_READY";
+        public const string K_LAUNCHER_ACCOUNT_READY = "K_LAUNCHER_ACCOUNT_READY";
         public const string K_NETWORKEDDATA_READY = "K_NETWORKEDDATA_READY";
         //-------------------------------------------------------------------------------------------------------------
     }
@@ -122,19 +122,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static private bool EditorByPass = false;
         //-------------------------------------------------------------------------------------------------------------
-        static private double TimeStart = 0;
-        static private double TimeFinish = 0;
-        static private double TimeNWDFinish = 0;
+        static public double TimeStart = 0;
+        static public double TimeFinish = 0;
+        static public double TimeNWDFinish = 0;
         //-------------------------------------------------------------------------------------------------------------
         static public float GetPurcent()
         {
             return (float)StepIndex / (float)StepSum;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void NotifyStep()
+        public static void NotifyStep(bool sYeld = false)
         {
             StepIndex++;
-            if (YieldValid())
+            if (sYeld || YieldValid())
             {
                 NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_LAUNCHER_STEP);
             }
@@ -185,8 +185,9 @@ namespace NetWorkedData
 
             tRepport.Add("COMPILE ON", NWDAppConfiguration.SharedInstance().CompileOn); tRepportLayout.Add("---");
             tRepport.Add("COMPILE FOR", Application.platform.ToString()); tRepportLayout.Add("---");
-            //tRepport.Add("OS VERSION", SystemInfo.operatingSystem); tRepportLayout.Add("---");
-            tRepport.Add("OS VERSION", SystemInfo.operatingSystemFamily.ToString()); tRepportLayout.Add("---");
+            tRepport.Add("OS VERSION", SystemInfo.operatingSystem); tRepportLayout.Add("---");
+            //tRepport.Add("ARCH", System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE", EnvironmentVariableTarget.Machine)); tRepportLayout.Add("---");
+            //tRepport.Add("OS VERSION", SystemInfo.operatingSystemFamily.ToString()); tRepportLayout.Add("---");
             tRepport.Add("COMPILE WITH", Application.unityVersion); tRepportLayout.Add("---");
             //tRepport.Add("DEVICE", SystemInfo.deviceName); tRepportLayout.Add("---");
             tRepport.Add("DEVICE", SystemInfo.deviceModel); tRepportLayout.Add("---");
@@ -202,6 +203,9 @@ namespace NetWorkedData
 
             tRepport.Add("INFOS", "(infos)"); tRepportLayout.Add("---");
             tRepport.Add("LAUNCH UNITY", TimeStart.ToString("F3") + "s"); tRepportLayout.Add("---");
+            tRepport.Add("SQL Secure", NWDDataManager.SharedInstance().IsSecure().ToString()); tRepportLayout.Add("---");
+            //tRepport.Add("SQL Version", SQLite3.LibVersionNumber().ToString()); tRepportLayout.Add("---");
+            tRepport.Add("SQL Version", NWDDataManager.SharedInstance().GetVersion()); tRepportLayout.Add("---");
             tRepport.Add("LAUNCH NWD", TimeNWDFinish.ToString("F3") + "s"); tRepportLayout.Add("---");
             tRepport.Add("COPY DATABASE", CopyDatabase.ToString()); tRepportLayout.Add("---");
             tRepport.Add("LAUNCH FINAL", TimeFinish.ToString("F3") + "s"); tRepportLayout.Add("---");
@@ -214,10 +218,10 @@ namespace NetWorkedData
 
             if (ActiveBenchmark)
             {
-                UnityEngine.Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepport.Keys) + " |");
-                UnityEngine.Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepportLayout) + " |");
+                UnityEngine.Debug.Log("benchmark : REPPORT | " + string.Join(" | ", tRepport.Keys) + " |");
+                UnityEngine.Debug.Log("benchmark : REPPORT | " + string.Join(" | ", tRepportLayout) + " |");
             }
-            UnityEngine.Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepport.Values) + " |");
+            UnityEngine.Debug.Log("benchmark : REPPORT | " + string.Join(" | ", tRepport.Values) + " |");
         }
         //-------------------------------------------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod]
@@ -230,8 +234,8 @@ namespace NetWorkedData
                 StepSum = 0;
                 StepIndex = 0;
                 NWEBenchmark.Start("Launch");
-                Stopwatch tSW = new Stopwatch();
-                tSW.Start();
+                //Stopwatch tSW = new Stopwatch();
+                //tSW.Start();
                 Launched = true;
                 //NWDToolbox.EditorAndPlaying("NWDLauncher Launch()");
                 EditorByPass = false;
@@ -260,7 +264,7 @@ namespace NetWorkedData
                 if (EditorByPass == true)
                 {
                     Preload = true;
-                    Launch_Editor();
+                    LaunchStandard();
                 }
                 else
                 {
@@ -271,7 +275,7 @@ namespace NetWorkedData
                         {
                             NWEBenchmark.Log("Launch in runtime preload (sync)");
                         }
-                        Launch_Runtime_Sync();
+                        LaunchRuntimeSync();
                     }
                     else
                     {
@@ -282,9 +286,17 @@ namespace NetWorkedData
                         //Launch_Runtime_Async(); // waiting order from NWDGameDataManager.ShareInstance()
                     }
                 }
-                tSW.Stop();
-                UnityEngine.Debug.Log("STOPWATCH : " + (tSW.ElapsedMilliseconds / 1000.0F).ToString("F3") + " s");
+                //tSW.Stop();
+                //UnityEngine.Debug.Log("STOPWATCH : " + (tSW.ElapsedMilliseconds / 1000.0F).ToString("F3") + " s");
                 NWEBenchmark.Finish("Launch");
+                if (Preload == true)
+                {
+                    if (ActiveBenchmark)
+                    {
+                        LauncherBenchmarkToMarkdown();
+                        NWBBenchmarkResult.CurrentData().BenchmarkNow();
+                    }
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -306,21 +318,26 @@ namespace NetWorkedData
             TimeNWDFinish = 0;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Return if the launcher is ready or not and some error.
+        /// use to prevent empty type list launched error in unity Editor
+        /// </summary>
+        /// <returns></returns>
         static public bool LauncherIsReady()
         {
             bool rReturn = true;
-            if (NWDLauncher.Launched == false)
+            if (Launched == false)
             {
                 // WTF ... your launcher is not started! 
 #if UNITY_EDITOR
                 EditorUtility.DisplayDialog("NetWorkedData Alert", "Your launcher is not ready", "OK");
 #endif
-                //rReturn = false; //?
-                NWDLauncher.Launch();
+                //rReturn = false; //? no prefere launch the static method
+                Launch();
             }
             else
             {
-                if (NWDLauncher.GetState() != NWDStatut.NetWorkedDataReady)
+                if (GetState() != NWDStatut.NetWorkedDataReady)
                 {
                     // WTF ... your launcher is not Ready! 
 #if UNITY_EDITOR
@@ -330,7 +347,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    if (NWDLauncher.AllNetWorkedDataTypes.Count == 0)
+                    if (AllNetWorkedDataTypes.Count == 0)
                     {
                         // WTF ... your launcher is empty! 
 #if UNITY_EDITOR

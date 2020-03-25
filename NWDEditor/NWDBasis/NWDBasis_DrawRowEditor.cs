@@ -41,7 +41,7 @@ namespace NetWorkedData
         //protected string ChecklistInfos = string.Empty;
         protected Texture2D ImageChecklist = NWDGUI.kImageSyncWaiting;
         public int AnalyzeChecklist = 0;
-        public int AnalyzeID = 0;
+        //public int AnalyzeID = 0;
         public bool AnalyzeSelected = false;
         //GUIStyle tStyleBox = NWDConstants.KTableRowNormal;
         public Color tBoxColor = Color.clear;
@@ -76,7 +76,7 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             CanBeEdit = true; // change to false in draw editor
-            AnalyzeID = ID;
+            //AnalyzeID = ID;
             AnalyzeModel = WebModel;
             TestIntegrityResult = IntegrityIsValid();
             TestWebserviceVersionIsValid = WebserviceVersionIsValid();
@@ -384,9 +384,9 @@ namespace NetWorkedData
             BasisHelper().EditorTableDatasSelected[this] = EditorGUI.ToggleLeft(tRectToogle, "", BasisHelper().EditorTableDatasSelected[this]);
             tRect.x += NWDGUI.kTableSelectWidth;
             // Draw ID
-            tRect.width = NWDGUI.kTableIDWidth;
-            GUI.Label(tRect, ID.ToString(), NWDGUI.KTableRowId);
-            tRect.x += NWDGUI.kTableIDWidth;
+            //tRect.width = NWDGUI.kTableIDWidth;
+            //GUI.Label(tRect, ID.ToString(), NWDGUI.KTableRowId);
+            //tRect.x += NWDGUI.kTableIDWidth;
             // Draw prefab
             tRect.width = NWDGUI.kTablePrefabWidth * sZoom;
             DrawPreviewTexture2D(new Rect(tRect.x + NWDGUI.kFieldMarge, tRect.y + NWDGUI.kFieldMarge, NWDGUI.kTablePrefabWidth * sZoom - +NWDGUI.kFieldMarge * 2, NWDGUI.kTableRowHeight * sZoom - +NWDGUI.kFieldMarge * 2));
@@ -396,12 +396,18 @@ namespace NetWorkedData
                 - NWDGUI.kFieldMarge
                 - NWDGUI.kScrollbar
                 - NWDGUI.kTableSelectWidth
-                - NWDGUI.kTableIDWidth
+                //- NWDGUI.kTableIDWidth
                 - NWDGUI.kTablePrefabWidth * sZoom
-                - NWDGUI.kTableIconWidth * 6
+                - NWDGUI.kTableIconWidth * 5
                 - NWDGUI.KTableSearchWidth
                 - NWDGUI.KTableRowWebModelWidth
                 - NWDGUI.KTableReferenceWidth;
+
+            if (BasisHelper().kAccountDependent == false)
+            {
+                tRect.width -= NWDGUI.kTableIconWidth;
+            }
+
             if (tRect.width < NWDGUI.KTableSearchWidth)
             {
                 tRect.width = NWDGUI.KTableSearchWidth;
@@ -413,9 +419,12 @@ namespace NetWorkedData
             GUI.Label(tRect, ModelInfos, NWDGUI.KTableRowStatut);
             tRect.x += NWDGUI.KTableRowWebModelWidth;
             // draw check
-            tRect.width = NWDGUI.kTableIconWidth;
-            GUI.Label(tRect, ImageChecklist, NWDGUI.KTableRowIcon);
-            tRect.x += NWDGUI.kTableIconWidth;
+            if (BasisHelper().kAccountDependent == false)
+            {
+                tRect.width = NWDGUI.kTableIconWidth;
+                GUI.Label(tRect, ImageChecklist, NWDGUI.KTableRowIcon);
+                tRect.x += NWDGUI.kTableIconWidth;
+            }
             // draw disk
             tRect.width = NWDGUI.kTableIconWidth;
             GUI.Label(tRect, ImageDisk, NWDGUI.KTableRowIcon);

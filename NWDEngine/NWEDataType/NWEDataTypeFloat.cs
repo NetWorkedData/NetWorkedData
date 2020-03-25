@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.IO;
 using UnityEngine;
-using SQLite4Unity3d;
+
 using System.Globalization;
 
 #if UNITY_EDITOR

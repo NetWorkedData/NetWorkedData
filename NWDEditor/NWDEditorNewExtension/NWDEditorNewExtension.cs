@@ -116,15 +116,15 @@ namespace NetWorkedData
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
-                IconAndTitle.text = "NWD Custom Extension";
+                IconAndTitle.text = "Custom Extension";
                 if (IconAndTitle.image == null)
                 {
-                    string[] sGUIDs = AssetDatabase.FindAssets("NWDEditorNewWindow t:texture");
+                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDEditorNewExtension).Name +" t:texture");
                     foreach (string tGUID in sGUIDs)
                     {
                         string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
                         string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals("NWDEditorNewWindow"))
+                        if (tPathFilename.Equals(typeof(NWDEditorNewExtension).Name))
                         {
                             IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
                         }

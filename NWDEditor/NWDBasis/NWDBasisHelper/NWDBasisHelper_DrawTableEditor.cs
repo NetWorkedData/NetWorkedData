@@ -19,8 +19,6 @@ using System.Linq;
 using System.IO;
 using System.Reflection;
 using UnityEngine;
-using SQLite4Unity3d;
-//using BasicToolBox;
 using UnityEditor;
 
 //=====================================================================================================================
@@ -327,24 +325,24 @@ namespace NetWorkedData
             }
             tRect.x += tRect.width;
             tRect.width = NWDGUI.kTableIDWidth;
-            if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_ID, NWDGUI.KTableHeaderId))
-            {
-                if (SortType == NWDBasisEditorDatasSortType.ByIDAscendant)
-                {
-                    SortType = NWDBasisEditorDatasSortType.ByIDDescendant;
-                }
-                else if (SortType == NWDBasisEditorDatasSortType.ByIDDescendant)
-                {
-                    SortType = NWDBasisEditorDatasSortType.ByIDAscendant;
-                }
-                else
-                {
-                    SortType = NWDBasisEditorDatasSortType.ByIDDescendant;
-                }
-                SortEditorTableDatas();
-                ChangeScroolPositionToSelection(sScrollRect);
-            }
-            tRect.x += tRect.width;
+            //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_ID, NWDGUI.KTableHeaderId))
+            //{
+            //    if (SortType == NWDBasisEditorDatasSortType.ByIDAscendant)
+            //    {
+            //        SortType = NWDBasisEditorDatasSortType.ByIDDescendant;
+            //    }
+            //    else if (SortType == NWDBasisEditorDatasSortType.ByIDDescendant)
+            //    {
+            //        SortType = NWDBasisEditorDatasSortType.ByIDAscendant;
+            //    }
+            //    else
+            //    {
+            //        SortType = NWDBasisEditorDatasSortType.ByIDDescendant;
+            //    }
+            //    SortEditorTableDatas();
+            //    ChangeScroolPositionToSelection(sScrollRect);
+            //}
+            //tRect.x += tRect.width;
             tRect.width = NWDGUI.kTablePrefabWidth * sZoom;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_PREFAB, NWDGUI.KTableHeaderPrefab))
             {
@@ -365,14 +363,17 @@ namespace NetWorkedData
             tRect.x += tRect.width;
             tRect.width = sRect.width
                 - NWDGUI.kFieldMarge
-                - NWDGUI.kTableIDWidth
+                //- NWDGUI.kTableIDWidth
                 - NWDGUI.kTableSelectWidth
                 - NWDGUI.kTablePrefabWidth * sZoom
                 - NWDGUI.KTableSearchWidth
                 - NWDGUI.KTableReferenceWidth
                 - NWDGUI.KTableRowWebModelWidth
-                - NWDGUI.kTableIconWidth * 6;
-
+                - NWDGUI.kTableIconWidth * 5;
+            if (kAccountDependent == false)
+            {
+                tRect.width -= NWDGUI.kTableIconWidth;
+            }
             if (tRect.width < NWDGUI.KTableSearchWidth)
             {
                 tRect.width = NWDGUI.KTableSearchWidth;
@@ -414,25 +415,30 @@ namespace NetWorkedData
                 ChangeScroolPositionToSelection(sScrollRect);
             }
             tRect.x += tRect.width;
-            tRect.width = NWDGUI.kTableIconWidth;
-            if (GUI.Button(tRect, "Check", NWDGUI.KTableHeaderIcon))
+
+            if (kAccountDependent == false)
             {
-                if (SortType == NWDBasisEditorDatasSortType.ByChecklistAscendant)
+                tRect.width = NWDGUI.kTableIconWidth;
+                if (GUI.Button(tRect, "Check", NWDGUI.KTableHeaderIcon))
                 {
-                    SortType = NWDBasisEditorDatasSortType.ByChecklistDescendant;
+                    if (SortType == NWDBasisEditorDatasSortType.ByChecklistAscendant)
+                    {
+                        SortType = NWDBasisEditorDatasSortType.ByChecklistDescendant;
+                    }
+                    else if (SortType == NWDBasisEditorDatasSortType.ByChecklistDescendant)
+                    {
+                        SortType = NWDBasisEditorDatasSortType.ByChecklistAscendant;
+                    }
+                    else
+                    {
+                        SortType = NWDBasisEditorDatasSortType.ByChecklistDescendant;
+                    }
+                    SortEditorTableDatas();
+                    ChangeScroolPositionToSelection(sScrollRect);
                 }
-                else if (SortType == NWDBasisEditorDatasSortType.ByChecklistDescendant)
-                {
-                    SortType = NWDBasisEditorDatasSortType.ByChecklistAscendant;
-                }
-                else
-                {
-                    SortType = NWDBasisEditorDatasSortType.ByChecklistDescendant;
-                }
-                SortEditorTableDatas();
-                ChangeScroolPositionToSelection(sScrollRect);
+                tRect.x += tRect.width;
             }
-            tRect.x += tRect.width;
+
             tRect.width = NWDGUI.kTableIconWidth;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_DISK, NWDGUI.KTableHeaderIcon))
             {
@@ -1474,7 +1480,7 @@ namespace NetWorkedData
                     SetObjectInEdition(null);
                     m_SearchInternalName = string.Empty;
                     m_SearchInternalDescription = string.Empty;
-                    LoadFromDatabase();
+                    LoadFromDatabase(string.Empty, true);
                     RestaureDataInEditionByReference(tReference);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;

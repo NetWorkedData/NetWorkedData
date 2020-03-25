@@ -21,10 +21,6 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-using SQLite4Unity3d;
-//using BasicToolBox;
-
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -35,6 +31,45 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasisHelper
     {
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDTypeClass CreateInstanceQuickly(bool sInsertInNetWorkedData, PropertyInfo[] sPropertyInfo)
+        {
+            return CreateInstance_Bypass(sInsertInNetWorkedData, false, sPropertyInfo);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        protected virtual NWDTypeClass CreateInstance_Bypass(bool sInsertInNetWorkedData, bool sStupid, PropertyInfo[] sPropertyInfo)
+        {
+            NWDTypeClass rReturn = Activator.CreateInstance(ClassType, new object[] { sInsertInNetWorkedData }) as NWDTypeClass;
+            foreach (PropertyInfo tPropertyInfo in sPropertyInfo)
+            {
+                if (tPropertyInfo.PropertyType.IsSubclassOf(typeof(NWEDataType)))
+                {
+                    NWEDataType tV = Activator.CreateInstance(tPropertyInfo.PropertyType) as NWEDataType;
+                    tPropertyInfo.SetValue(rReturn, tV);
+                }
+                else if (tPropertyInfo.PropertyType.IsSubclassOf(typeof(NWEDataTypeInt)))
+                {
+                    NWEDataTypeInt tV = Activator.CreateInstance(tPropertyInfo.PropertyType) as NWEDataTypeInt;
+                    tPropertyInfo.SetValue(rReturn, tV);
+                }
+                else if (tPropertyInfo.PropertyType.IsSubclassOf(typeof(NWEDataTypeEnum)))
+                {
+                    NWEDataTypeEnum tV = Activator.CreateInstance(tPropertyInfo.PropertyType) as NWEDataTypeEnum;
+                    tPropertyInfo.SetValue(rReturn, tV);
+                }
+                else if (tPropertyInfo.PropertyType.IsSubclassOf(typeof(NWEDataTypeMask)))
+                {
+                    NWEDataTypeMask tV = Activator.CreateInstance(tPropertyInfo.PropertyType) as NWEDataTypeMask;
+                    tPropertyInfo.SetValue(rReturn, tV);
+                }
+                else if (tPropertyInfo.PropertyType.IsSubclassOf(typeof(NWEDataTypeFloat)))
+                {
+                    NWEDataTypeFloat tV = Activator.CreateInstance(tPropertyInfo.PropertyType) as NWEDataTypeFloat;
+                    tPropertyInfo.SetValue(rReturn, tV);
+                }
+            }
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public string PHP_TABLENAME(NWDAppEnvironment sEnvironment)
         {
@@ -170,8 +205,11 @@ namespace NetWorkedData
             {
                 if (sTryOnDisk == true)
                 {
-                    // TODO : Lag connection : look for quick solution
-                    rReturn = LoadDataByReference<T>(sReference);
+                    BasisHelper<T>().LoadFromDatabaseByReference(sReference, true);
+                    if (BasisHelper<T>().DatasByReference.ContainsKey(sReference))
+                    {
+                        rReturn = BasisHelper<T>().DatasByReference[sReference] as T;
+                    }
                 }
             }
             //NWEBenchmark.Finish();
@@ -242,16 +280,24 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             T rReturn = null;
-            if (BasisHelper<T>().DatasByReference.ContainsKey(sReference))
+            NWDBasisHelper tHelper = BasisHelper<T>();
+            if (tHelper.DatasByReference.ContainsKey(sReference))
             {
-                rReturn = BasisHelper<T>().DatasByReference[sReference] as T;
+                //Debug.Log("found in memory reference " + sReference);
+                rReturn = tHelper.DatasByReference[sReference] as T;
             }
             else
             {
+                //Debug.Log("not found in memory reference " + sReference);
                 if (sTryOnDisk == true)
                 {
-                    // TODO : Lag connection : look for quick solution
-                    rReturn = LoadDataByReference<T>(sReference);
+                    //Debug.Log("try find on disk reference " + sReference);
+                    tHelper.LoadFromDatabaseByReference(sReference, true);
+                    if (tHelper.DatasByReference.ContainsKey(sReference))
+                    {
+                        //Debug.Log("not found on disk reference " + sReference);
+                        rReturn = tHelper.DatasByReference[sReference] as T;
+                    }
                 }
             }
             rReturn = QuickFilter<T>(rReturn, null, null);
@@ -329,8 +375,11 @@ namespace NetWorkedData
             {
                 if (sTryOnDisk == true)
                 {
-                    // TODO : Lag connection : look for quick solution
-                    rReturn = LoadDataByReference<T>(sReference);
+                    BasisHelper<T>().LoadFromDatabaseByReference(sReference, true);
+                    if (BasisHelper<T>().DatasByReference.ContainsKey(sReference))
+                    {
+                        rReturn = BasisHelper<T>().DatasByReference[sReference] as T;
+                    }
                 }
             }
             rReturn = QuickFilter<T>(rReturn, sAccountReference, sGameSave);
@@ -593,129 +642,130 @@ namespace NetWorkedData
         #region LOAD PARTIAL
 
         //-------------------------------------------------------------------------------------------------------------
-        private static T LoadDataByReference<T>(string sReference) where T : NWDTypeClass, new()
-        {
-            Debug.Log("LoadDataByReference(" + sReference + ")");
-            NWEBenchmark.Start();
-            T rReturn = null;
-            NWDBasisHelper tTypeInfos = BasisHelper<T>();
-            if (tTypeInfos.DatasByReference.ContainsKey(sReference) == false)
-            {
-                SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-                if (tTypeInfos.kAccountDependent)
-                {
-                    tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-                }
-                if (tSQLiteConnection != null)
-                {
-                    if (tSQLiteConnection.IsValid())
-                    {
-                        List<T> tSelect = tSQLiteConnection.Query<T>("SELECT * FROM " + tTypeInfos.ClassNamePHP + " WHERE `" + NWDToolbox.PropertyName(() => FictiveData<T>().Reference) + "` = '" + sReference + "';");
-                        if (tSelect != null)
-                        {
-                            foreach (T tItem in tSelect)
-                            {
-                                rReturn = tItem as T;
-                                tItem.LoadedFromDatabase();
-#if UNITY_EDITOR
-                                tItem.RowAnalyze();
-#endif
-                            }
-                        }
-                    }
-                }
-            }
-            NWEBenchmark.Finish();
-#if UNITY_EDITOR
-            BasisHelper<T>().FilterTableEditor();
-            BasisHelper<T>().RepaintTableEditor();
-#endif
-            return rReturn;
-        }
+        //TODO : rewrite with SQLiteAccountHandle
+        //        private static T LoadDataByReference<T>(string sReference) where T : NWDTypeClass, new()
+        //        {
+        //            Debug.Log("LoadDataByReference(" + sReference + ")");
+        //            NWEBenchmark.Start();
+        //            T rReturn = null;
+        //            NWDBasisHelper tTypeInfos = BasisHelper<T>();
+        //            if (tTypeInfos.DatasByReference.ContainsKey(sReference) == false)
+        //            {
+        //                SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+        //                if (tTypeInfos.kAccountDependent)
+        //                {
+        //                    tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+        //                }
+        //                if (tSQLiteConnection != null)
+        //                {
+        //                    if (tSQLiteConnection.IsValid())
+        //                    {
+        //                        List<T> tSelect = tSQLiteConnection.Query<T>("SELECT * FROM " + tTypeInfos.ClassNamePHP + " WHERE `" + NWDToolbox.PropertyName(() => FictiveData<T>().Reference) + "` = '" + sReference + "';");
+        //                        if (tSelect != null)
+        //                        {
+        //                            foreach (T tItem in tSelect)
+        //                            {
+        //                                rReturn = tItem as T;
+        //                                tItem.LoadedFromDatabase();
+        //#if UNITY_EDITOR
+        //                                tItem.RowAnalyze();
+        //#endif
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            NWEBenchmark.Finish();
+        //#if UNITY_EDITOR
+        //            BasisHelper<T>().FilterTableEditor();
+        //            BasisHelper<T>().RepaintTableEditor();
+        //#endif
+        //            return rReturn;
+        //        }
         //-------------------------------------------------------------------------------------------------------------
-        private static void LoadDataToSync<T>(NWDAppEnvironment sEnvironment) where T : NWDTypeClass, new()
-        {
-            NWEBenchmark.Start();
-            NWDBasisHelper tTypeInfos = BasisHelper<T>();
-            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-            if (tTypeInfos.kAccountDependent)
-            {
-                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-            }
-            if (tSQLiteConnection != null)
-            {
-                if (tSQLiteConnection.IsValid())
-                {
-                    //SQLiteCommand tCommand = tSQLiteConnection.CreateCommand("SELECT `Reference` FROM " + tTypeInfos.ClassNamePHP + " WHERE `"+ sEnvironment.Environment + "Sync` = '0' OR `"+ sEnvironment.Environment + "Sync` = '1';");
-                    //List<string> tSelect = tCommand.ExecuteQuery<string>();
-                    string tQuery = "SELECT `" + NWDToolbox.PropertyName(() => FictiveData<T>().Reference) + "` FROM " + tTypeInfos.ClassNamePHP + " WHERE `" + sEnvironment.Environment + "Sync` = '0' OR `" + sEnvironment.Environment + "Sync` = '1';";
-                    //Debug.Log(tQuery);
-                    SQLiteCommand tCreateCommand = tSQLiteConnection.CreateCommand(tQuery);
-                    List<NWDTypeClassReference> tSelect = tCreateCommand.ExecuteQuery<NWDTypeClassReference>();
-                    if (tSelect != null)
-                    {
-                        foreach (NWDTypeClassReference tReference in tSelect)
-                        {
-                            //Debug.Log("tReference = " + tReference.Reference);
-                            if (tReference.Reference != null)
-                            {
-                                GetRawDataByReference<T>(tReference.Reference);
-                            }
-                        }
-                    }
-                }
-            }
-            NWEBenchmark.Finish();
-#if UNITY_EDITOR
-            BasisHelper<T>().FilterTableEditor();
-            BasisHelper<T>().RepaintTableEditor();
-#endif
-        }
+        //        private static void LoadDataToSync<T>(NWDAppEnvironment sEnvironment) where T : NWDTypeClass, new()
+        //        {
+        //            NWEBenchmark.Start();
+        //            NWDBasisHelper tTypeInfos = BasisHelper<T>();
+        //            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+        //            if (tTypeInfos.kAccountDependent)
+        //            {
+        //                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+        //            }
+        //            if (tSQLiteConnection != null)
+        //            {
+        //                if (tSQLiteConnection.IsValid())
+        //                {
+        //                    //SQLiteCommand tCommand = tSQLiteConnection.CreateCommand("SELECT `Reference` FROM " + tTypeInfos.ClassNamePHP + " WHERE `"+ sEnvironment.Environment + "Sync` = '0' OR `"+ sEnvironment.Environment + "Sync` = '1';");
+        //                    //List<string> tSelect = tCommand.ExecuteQuery<string>();
+        //                    string tQuery = "SELECT `" + NWDToolbox.PropertyName(() => FictiveData<T>().Reference) + "` FROM " + tTypeInfos.ClassNamePHP + " WHERE `" + sEnvironment.Environment + "Sync` = '0' OR `" + sEnvironment.Environment + "Sync` = '1';";
+        //                    //Debug.Log(tQuery);
+        //                    SQLiteCommand tCreateCommand = tSQLiteConnection.CreateCommand(tQuery);
+        //                    List<NWDTypeClassReference> tSelect = tCreateCommand.ExecuteQuery<NWDTypeClassReference>();
+        //                    if (tSelect != null)
+        //                    {
+        //                        foreach (NWDTypeClassReference tReference in tSelect)
+        //                        {
+        //                            //Debug.Log("tReference = " + tReference.Reference);
+        //                            if (tReference.Reference != null)
+        //                            {
+        //                                GetRawDataByReference<T>(tReference.Reference);
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            NWEBenchmark.Finish();
+        //#if UNITY_EDITOR
+        //            BasisHelper<T>().FilterTableEditor();
+        //            BasisHelper<T>().RepaintTableEditor();
+        //#endif
+        //        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         #region SELECT
         //-------------------------------------------------------------------------------------------------------------
-        public static T[] SelectDatasWhereRequest<T>(string sWhere = "`AC`=1;") where T : NWDTypeClass, new()
-        {
-            NWEBenchmark.Start();
-            List<T> rResult = new List<T>();
-            NWDBasisHelper tTypeInfos = BasisHelper<T>();
-            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-            if (tTypeInfos.kAccountDependent)
-            {
-                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-            }
-            if (tSQLiteConnection != null)
-            {
-                if (tSQLiteConnection.IsValid())
-                {
-                    string tQuery = "SELECT `" + NWDToolbox.PropertyName(() => FictiveData<T>().Reference) + "` FROM " + tTypeInfos.ClassNamePHP + " WHERE " + sWhere;
-                    Debug.Log(tQuery);
-                    SQLiteCommand tCreateCommand = tSQLiteConnection.CreateCommand(tQuery);
-                    List<NWDTypeClassReference> tSelect = tCreateCommand.ExecuteQuery<NWDTypeClassReference>();
-                    if (tSelect != null)
-                    {
-                        foreach (NWDTypeClassReference tReference in tSelect)
-                        {
-                            if (tReference.Reference != null)
-                            {
-                                T tData = GetRawDataByReference<T>(tReference.Reference, true);
-                                if (tData != null)
-                                {
-                                    rResult.Add(tData);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            NWEBenchmark.Finish();
-#if UNITY_EDITOR
-            BasisHelper<T>().FilterTableEditor();
-            BasisHelper<T>().RepaintTableEditor();
-#endif
-            return rResult.ToArray();
-        }
+        //        public static T[] SelectDatasWhereRequest<T>(string sWhere = "`AC`=1;") where T : NWDTypeClass, new()
+        //        {
+        //            NWEBenchmark.Start();
+        //            List<T> rResult = new List<T>();
+        //            NWDBasisHelper tTypeInfos = BasisHelper<T>();
+        //            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+        //            if (tTypeInfos.kAccountDependent)
+        //            {
+        //                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+        //            }
+        //            if (tSQLiteConnection != null)
+        //            {
+        //                if (tSQLiteConnection.IsValid())
+        //                {
+        //                    string tQuery = "SELECT `" + NWDToolbox.PropertyName(() => FictiveData<T>().Reference) + "` FROM " + tTypeInfos.ClassNamePHP + " WHERE " + sWhere;
+        //                    Debug.Log(tQuery);
+        //                    SQLiteCommand tCreateCommand = tSQLiteConnection.CreateCommand(tQuery);
+        //                    List<NWDTypeClassReference> tSelect = tCreateCommand.ExecuteQuery<NWDTypeClassReference>();
+        //                    if (tSelect != null)
+        //                    {
+        //                        foreach (NWDTypeClassReference tReference in tSelect)
+        //                        {
+        //                            if (tReference.Reference != null)
+        //                            {
+        //                                T tData = GetRawDataByReference<T>(tReference.Reference, true);
+        //                                if (tData != null)
+        //                                {
+        //                                    rResult.Add(tData);
+        //                                }
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            NWEBenchmark.Finish();
+        //#if UNITY_EDITOR
+        //            BasisHelper<T>().FilterTableEditor();
+        //            BasisHelper<T>().RepaintTableEditor();
+        //#endif
+        //            return rResult.ToArray();
+        //        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -765,9 +815,9 @@ namespace NetWorkedData
                                                    // restore the DC and Reference 
                     rReturnObject.Reference = tReference;
                     rReturnObject.DC = tDC;
-//#if UNITY_INCLUDE_TESTS
-//                    rReturnObject.Tag = sData.Tag;
-//#endif
+                    //#if UNITY_INCLUDE_TESTS
+                    //                    rReturnObject.Tag = sData.Tag;
+                    //#endif
                     //rReturnObject.Tag = sData.Tag;
                     // WARNING ... copy generate an error in XX ? 
                     // but copy the DD XX and AC from this

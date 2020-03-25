@@ -267,7 +267,7 @@ namespace NetWorkedData
                     object tValue = tProp.GetValue(this, null);
                     if (tValue == null)
                     {
-                        tValue = string.Empty;
+                        tValueString = string.Empty;
                     }
                     else
                     {

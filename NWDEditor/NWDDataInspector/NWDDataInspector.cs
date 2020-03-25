@@ -30,8 +30,6 @@ namespace NetWorkedData
         public int ActualIndex = 0;
         public bool RemoveActualFocus = true;
         //-------------------------------------------------------------------------------------------------------------
-        private GUIContent IconAndTitle;
-        //-------------------------------------------------------------------------------------------------------------
         static NWDDataInspector kShareInstance;
         //-------------------------------------------------------------------------------------------------------------
         public static NWDDataInspector ShareInstance()
@@ -42,7 +40,7 @@ namespace NetWorkedData
                 EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDDataInspector));
                 tWindow.Show();
                 kShareInstance = (NWDDataInspector)tWindow;
-                kShareInstance.minSize = new Vector2(300, 500);
+                kShareInstance.minSize = new Vector2(250, 540);
                 kShareInstance.maxSize = new Vector2(600, 2048);
             }
             //NWEBenchmark.Finish();
@@ -227,6 +225,7 @@ namespace NetWorkedData
         public void OnEnable()
         {
             //Debug.Log ("OnEnable");
+            TitleInit(NWDConstants.K_APP_SYNC_INSPECTOR_TITLE, typeof(NWDDataInspector));
 
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -252,28 +251,6 @@ namespace NetWorkedData
             {
                 GUI.FocusControl(null);
                 RemoveActualFocus = false;
-            }
-            if (IconAndTitle == null)
-            {
-                IconAndTitle = new GUIContent();
-                IconAndTitle.text = NWDConstants.K_APP_SYNC_INSPECTOR_TITLE;
-                if (IconAndTitle.image == null)
-                {
-                    string[] sGUIDs = AssetDatabase.FindAssets("NWDDataInspector t:texture");
-                    foreach (string tGUID in sGUIDs)
-                    {
-                        //Debug.Log("TextureOfClass GUID " + tGUID);
-                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
-                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        //Debug.Log("tPathFilename = " + tPathFilename);
-                        if (tPathFilename.Equals("NWDDataInspector"))
-                        {
-                            //Debug.Log("TextureOfClass " + tPath);
-                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
-                        }
-                    }
-                }
-                titleContent = IconAndTitle;
             }
             //			ScrollPosition = GUI.BeginScrollView(new Rect(0, 0, position.width, position.height), ScrollPosition, new Rect(0, 0, position.width, position.height*2));
             if (mObjectInEdition == null)

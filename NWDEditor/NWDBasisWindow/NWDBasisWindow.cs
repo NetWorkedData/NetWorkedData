@@ -16,9 +16,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-//using BasicToolBox;
 using UnityEngine;
-using SQLite4Unity3d;
 using System.IO;
 using UnityEditor;
 //=====================================================================================================================
@@ -58,10 +56,6 @@ namespace NetWorkedData
         /// The title of window
         /// </summary>
         public string mTitleKey = "X Edition";
-        /// <summary>
-        /// The icon of window.
-        /// </summary>
-        public Texture IconOfWindow;
         /// <summary>
         /// The description of window.
         /// </summary>
@@ -172,16 +166,6 @@ namespace NetWorkedData
             {
                 NWDTypeWindowParamAttribute tNWDBasisWindowParamAttribute = (NWDTypeWindowParamAttribute)typeof(K).GetCustomAttributes(typeof(NWDTypeWindowParamAttribute), true)[0];
                 mTitleKey = tNWDBasisWindowParamAttribute.Title;
-                //IconOfWindow = FromGizmos(tNWDBasisWindowParamAttribute.IconName);
-                if (tNWDBasisWindowParamAttribute.IconName == null)
-                {
-                    tNWDBasisWindowParamAttribute.IconName = typeof(K).Name;
-                }
-                IconOfWindow = NWDFindPackage.EditorTexture(tNWDBasisWindowParamAttribute.IconName);
-                if (IconOfWindow == null)
-                {
-                    IconOfWindow = NWDFindPackage.PackageEditorTexture("settings.png");
-                }
                 mDescriptionKey = tNWDBasisWindowParamAttribute.Description;
                 if (tNWDBasisWindowParamAttribute.TypeList == null)
                 {
@@ -207,7 +191,6 @@ namespace NetWorkedData
                         mTabTypeList.Add(tType);
                     }
                 }
-
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
                 {
                     foreach (NWDWindowOwnerAttribute tOnwer in tType.GetCustomAttributes(typeof(NWDWindowOwnerAttribute), true))
@@ -221,12 +204,7 @@ namespace NetWorkedData
                         }
                     }
                 }
-
-                // create the title content
-                titleContent = new GUIContent();
-                titleContent.text = mTitleKey;
-                titleContent.tooltip = mDescriptionKey; // not working :-(
-                titleContent.image = IconOfWindow;
+                TitleInit(mTitleKey, typeof(K));
                 // redefine the TabBar navigation
                 DefineTab();
             }
@@ -313,12 +291,12 @@ namespace NetWorkedData
                 {
                     if (tWidthUsed > TabsTotalWidthExpected)
                     {
-                        Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tWidthUsed - NWDGUI.kFieldMarge * 2, tHeight - NWDGUI.kFieldMarge * 2);
+                        Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tWidthUsed - NWDGUI.kFieldMarge * 1  - NWDGUI.kTitleStyle.fixedHeight, tHeight - NWDGUI.kFieldMarge * 2);
                         tTabSelected = GUI.Toolbar(tRectTab, mTabSelected, mTabContentList, NWDGUI.KTableClassToolbar);
                     }
                     else
                     {
-                        Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tWidthUsed - NWDGUI.kFieldMarge * 2, tHeight - NWDGUI.kFieldMarge * 2);
+                        Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tWidthUsed - NWDGUI.kFieldMarge * 1 - NWDGUI.kTitleStyle.fixedHeight, tHeight - NWDGUI.kFieldMarge * 2);
                         tTabSelected = EditorGUI.Popup(tRectTab, mTabSelected, mTabContentList, NWDGUI.KTableClassPopup);
                     }
                 }

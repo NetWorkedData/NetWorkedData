@@ -656,6 +656,33 @@ namespace NetWorkedData
                     }
                 }
 
+                if (BasisHelper().ClassType.IsSubclassOf(typeof(NWDBundledBasis)))
+                {
+                    NWDBundledBasis tThis = (NWDBundledBasis)this;
+                    NWEDataTypeEnum tBundle = tThis.Bundle.ControlField(tR, NWDConstants.K_APP_TABLE_SEARCH_BUNDLE, !CanBeEdit);
+                    if (tBundle.Value != tThis.Bundle.Value)
+                    {
+                        tThis.Bundle.Value = tBundle.Value;
+                        UpdateDataEditor();
+                    }
+                }
+                else
+                {
+                    EditorGUI.LabelField(tR, NWDConstants.K_APP_TABLE_SEARCH_BUNDLE, "no bundled");
+                    //NWEDataTypeEnum tBundle = Bundle.ControlField(tR, NWDConstants.K_APP_TABLE_SEARCH_BUNDLE, !CanBeEdit);
+                }
+                tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                //NWDBasisBundle tBundle = (NWDBasisBundle)Bundle.ControlField(tR, NWDConstants.K_APP_TABLE_SEARCH_BUNDLE, !CanBeEdit);
+
+                //tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+                //if (tBundle.Value != Bundle.Value)
+                //{
+                //    Bundle = tBundle;
+                //    UpdateDataEditor();
+                //}
+
+
                 bool tDisableProd = false;
                 if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType()))
                 {
@@ -1000,26 +1027,26 @@ namespace NetWorkedData
                         BasisHelper().RepaintTableEditor();
                     }
                 }
-                if (GUI.Button(tMatrixRect[2, 3], NWDConstants.K_APP_BASIS_NEW_SHORT_REFERENCE, NWDGUI.kMiniButtonStyle))
-                {
-                    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_NEW_REFERENCE_WARNING,
-                            NWDConstants.K_APP_BASIS_NEW_REFERENCE_MESSAGE,
-                            NWDConstants.K_APP_BASIS_NEW_REFERENCE_OK,
-                            NWDConstants.K_APP_BASIS_NEW_REFERENCE_CANCEL))
-                    {
-                        RegenerateNewShortReference();
-                    }
-                }
-                if (GUI.Button(tMatrixRect[3, 3], NWDConstants.K_APP_BASIS_NEW_REFERENCE, NWDGUI.kMiniButtonStyle))
-                {
-                    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_NEW_REFERENCE_WARNING,
-                            NWDConstants.K_APP_BASIS_NEW_REFERENCE_MESSAGE,
-                            NWDConstants.K_APP_BASIS_NEW_REFERENCE_OK,
-                            NWDConstants.K_APP_BASIS_NEW_REFERENCE_CANCEL))
-                    {
-                        RegenerateNewReference();
-                    }
-                }
+                //if (GUI.Button(tMatrixRect[2, 3], NWDConstants.K_APP_BASIS_NEW_SHORT_REFERENCE, NWDGUI.kMiniButtonStyle))
+                //{
+                //    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_NEW_REFERENCE_WARNING,
+                //            NWDConstants.K_APP_BASIS_NEW_REFERENCE_MESSAGE,
+                //            NWDConstants.K_APP_BASIS_NEW_REFERENCE_OK,
+                //            NWDConstants.K_APP_BASIS_NEW_REFERENCE_CANCEL))
+                //    {
+                //        RegenerateNewShortReference();
+                //    }
+                //}
+                //if (GUI.Button(tMatrixRect[3, 3], NWDConstants.K_APP_BASIS_NEW_REFERENCE, NWDGUI.kMiniButtonStyle))
+                //{
+                //    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_NEW_REFERENCE_WARNING,
+                //            NWDConstants.K_APP_BASIS_NEW_REFERENCE_MESSAGE,
+                //            NWDConstants.K_APP_BASIS_NEW_REFERENCE_OK,
+                //            NWDConstants.K_APP_BASIS_NEW_REFERENCE_CANCEL))
+                //    {
+                //        RegenerateNewReference();
+                //    }
+                //}
                 NWDGUI.EndRedArea();
                 //if (GUI.Button(tMatrixRect[0, 4], "Select in table", NWDGUI.kMiniButtonStyle))
                 //{

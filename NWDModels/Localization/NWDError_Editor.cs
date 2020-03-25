@@ -20,20 +20,36 @@ namespace NetWorkedData
     public partial class NWDError : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
+        static NWDBasisHelper KBasisHelper;
+        //-------------------------------------------------------------------------------------------------------------
+        private static NWDBasisHelper GetBasisHelper()
+        {
+            if (KBasisHelper == null)
+            {
+                KBasisHelper = NWDBasisHelper.BasisHelper<NWDError>();
+                //Debug.Log("DatasByReference count " + KBasisHelper.DatasByReference.Count);
+            }
+            return KBasisHelper;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static NWDError CreateGenericError(string sDomain, string sCode, string sTitle, string sDescription, string sValidation, NWDErrorType sType = NWDErrorType.LogVerbose, NWDBasisTag sTag = NWDBasisTag.TagInternal)
         {
             NWDError tError = null;
-            if (NWDBasisHelper.BasisHelper<NWDError>() != null)
+            if (GetBasisHelper() != null)
             {
-                string tReference = NWDBasisHelper.BasisHelper<NWDError>().ClassTrigramme + "-" + sDomain + NWEConstants.K_MINUS + sCode;
-                // TODO: alert if reference is too long for ereg / or substring if too long
-                tError = NWDBasisHelper.GetRawDataByReference<NWDError>(tReference);
-                if (tError != null && tError.IsTrashed())
+                string tReference = GetBasisHelper().ClassTrigramme + "-" + sDomain + NWEConstants.K_MINUS + sCode;
+                if (GetBasisHelper().DatasByReference.ContainsKey(tReference) == true)
                 {
-                    tError = null;
+                    //Debug.Log("find tReference " + tReference);
+                    tError = GetBasisHelper().DatasByReference[tReference] as NWDError;
                 }
+                //if (tError != null && tError.IsTrashed())
+                //{
+                //    tError = null;
+                //}
                 if (tError == null)
                 {
+                    //Debug.Log("create tReference " + tReference);
                     tError = NWDBasisHelper.NewDataWithReference<NWDError>(tReference, true);
                     //RemoveObjectInListOfEdition(tError);
                     tError.Reference = tReference;
@@ -94,7 +110,8 @@ namespace NetWorkedData
             tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sRect)).height;
             if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Test error", NWDGUI.kMiniButtonStyle))
             {
-                ShowAlert("TEST", delegate (NWDUserNotification sUserNotification) {
+                ShowAlert("TEST", delegate (NWDUserNotification sUserNotification)
+                {
                     Debug.Log("Completed! block is running!");
                 });
             }

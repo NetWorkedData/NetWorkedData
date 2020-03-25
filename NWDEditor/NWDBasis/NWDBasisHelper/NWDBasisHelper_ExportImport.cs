@@ -18,9 +18,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEditor;
-using SQLite4Unity3d;
 using System.IO;
-//using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {

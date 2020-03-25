@@ -13,8 +13,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using SQLite4Unity3d;
-//using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -38,14 +36,16 @@ namespace NetWorkedData
         public bool DataAccountConnectionInProgress = false;
         public bool DataAccountLoaded = false;
         public string DatabaseNameAccount = "Account.prp";  // TODO rename DataEditorBasename by  replace by DataEditorPath()
-        public SQLiteConnection SQLiteConnectionAccount;    // TODO rename SQLiteAccountConnection
+        //public SQLiteConnection SQLiteConnectionAccount;    // TODO rename SQLiteAccountConnection
+        public IntPtr SQLiteAccountHandle;
         //-------------------------------------------------------------------------------------------------------------
         public bool DataEditorConnected = false;
         public bool DataEditorConnectionInProgress = false;
         public bool DataEditorLoaded = false;
         public string DatabasePathEditor = "StreamingAssets";       // TODO remove and use const!?
         public string DatabaseNameEditor = "NWDDatabaseEditor.prp"; // TODO rename DataEditorBasename by  replace by DataEditorPath()
-        public SQLiteConnection SQLiteConnectionEditor;             // TODO rename SQLiteEditorConnection
+        //public SQLiteConnection SQLiteConnectionEditor;             // TODO rename SQLiteEditorConnection
+        public IntPtr SQLiteEditorHandle;
         //-------------------------------------------------------------------------------------------------------------
         private bool DatasIndexed = false;
         //-------------------------------------------------------------------------------------------------------------
