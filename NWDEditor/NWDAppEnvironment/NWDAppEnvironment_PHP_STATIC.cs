@@ -557,6 +557,8 @@ namespace NetWorkedData
                 tFile.AppendLine("$headers['From'] = $sEmailFrom;");
                 tFile.AppendLine("$headers['To'] = $sEmail;");
                 tFile.AppendLine("$headers['Subject'] =$sSubject;");
+                tFile.AppendLine("$headers['Content-Type'] ='text/html';");
+                tFile.AppendLine("$headers['charset'] = \"utf-8\";");
                 tFile.AppendLine("$params['sendmail_path'] = '/usr/lib/sendmail';");
                 tFile.AppendLine("// Create the mail object using the Mail::factory method");
                 tFile.AppendLine("$mail_object = Mail::factory('smtp', array (");

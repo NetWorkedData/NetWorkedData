@@ -951,7 +951,7 @@ namespace NetWorkedData
             tFile.AppendLine("unset($tCsvList[" + NWDBasisHelper.CSV_IndexOf<NWDExample>(NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().PreprodSync)) + "]);//remove " + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().PreprodSync) + "");
             tFile.AppendLine("unset($tCsvList[" + NWDBasisHelper.CSV_IndexOf<NWDExample>(NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ProdSync)) + "]);//remove " + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ProdSync) + "");
             tFile.AppendLine("$tDataString = implode('',$tCsvList);");
-            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "tDataString : '.$tDataString.'"));
+            //tFile.AppendLine(NWDError.PHP_log(sEnvironment, "tDataString : '.$tDataString.'"));
             tFile.AppendLine("$tCalculate = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5(" + PHP_CONSTANT_SALT_A() + ".$tDataString." + PHP_CONSTANT_SALT_B() + "));");
             tFile.AppendLine("if ($tCalculate!=$tIntegrity)");
             tFile.AppendLine("{");
