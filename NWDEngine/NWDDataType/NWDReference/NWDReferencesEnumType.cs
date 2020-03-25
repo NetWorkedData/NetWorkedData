@@ -36,7 +36,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// NWDReferencesEnumType used to put a reference with float in value. Use properties with name, like 'ItemQuantity', 'SpotQuantity', 'BonusQuantity' , etc.
+    /// NWDReferencesEnumType used to put a reference with enum in value. Use properties with name, like 'Chapter' , 'Quest', etc.
     /// </summary>
     [SerializeField]
     public class NWDReferencesEnumType<K, E> : NWDReferenceMultiple where E : Enum where K : NWDBasis, new()
@@ -204,9 +204,9 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, int> GetReachableDatasAndQuantities()
+        public Dictionary<K, E> GetReachableDatasAndState()
         {
-            Dictionary<K, int> tValueDico = new Dictionary<K, int>();
+            Dictionary<K, E> tValueDico = new Dictionary<K, E>();
             if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
@@ -215,9 +215,7 @@ namespace NetWorkedData
                     string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                     if (tLineValue.Length == 2)
                     {
-                        int tQ = NWDToolbox.IntFromString(tLineValue[1]);
-                        //int tQ = 0;
-                        //int.TryParse(tLineValue[1], System.Globalization.NumberStyles.Integer, NWDConstants.FormatCountry, out tQ);
+                        E tQ = (E)(object)NWDToolbox.IntFromString(tLineValue[1]);
                         K tObject = NWDBasisHelper.GetReachableDataByReference<K>(tLineValue[0]) as K;
                         if (tObject != null)
                         {
@@ -229,9 +227,9 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, int> GetRawDatasAndQuantities()
+        public Dictionary<K, E> GetRawDatasAndState()
         {
-            Dictionary<K, int> tValueDico = new Dictionary<K, int>();
+            Dictionary<K, E> tValueDico = new Dictionary<K, E>();
             if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
@@ -240,9 +238,7 @@ namespace NetWorkedData
                     string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                     if (tLineValue.Length == 2)
                     {
-                        int tQ = NWDToolbox.IntFromString(tLineValue[1]);
-                        //int tQ = 0;
-                        //int.TryParse(tLineValue[1], System.Globalization.NumberStyles.Integer, NWDConstants.FormatCountry, out tQ);
+                        E tQ = (E)(object)NWDToolbox.IntFromString(tLineValue[1]);
                         K tObject = NWDBasisHelper.GetRawDataByReference<K>(tLineValue[0]) as K;
                         if (tObject != null)
                         {
@@ -265,16 +261,10 @@ namespace NetWorkedData
                     string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                     if (tLineValue.Length == 2)
                     {
-                        int tQ = NWDToolbox.IntFromString(tLineValue[1]);
-                        //int tQ = 0;
-                        //int.TryParse(tLineValue[1], System.Globalization.NumberStyles.Integer, NWDConstants.FormatCountry, out tQ);
                         K tObject = NWDBasisHelper.GetRawDataByReference<K>(tLineValue[0]) as K;
                         if (tObject != null)
                         {
-                            for (int i = 0; i < tQ; i++)
-                            {
                                 rList.Add(tObject);
-                            }
                         }
                     }
                 }
