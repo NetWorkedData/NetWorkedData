@@ -148,7 +148,7 @@ namespace NetWorkedData
             // Shortcut navigation
             if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.DownArrow)
             {
-                    NWDBasis tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis;
+                NWDBasis tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis;
                 if (tSelected != null)
                 {
                     if (BasisHelper().EditorTableDatas.Contains(tSelected))
@@ -284,7 +284,7 @@ namespace NetWorkedData
                 tTitle = "<b><color=red>" + NWDConstants.K_WARNING + tTitle + "</color></b>";
             }
             tR.height = NWDGUI.kInspectorInternalTitle.fixedHeight;
-            GUI.Label(tR, new GUIContent (tTitle,ErrorLog), NWDGUI.kInspectorInternalTitle);
+            GUI.Label(tR, new GUIContent(tTitle, ErrorLog), NWDGUI.kInspectorInternalTitle);
             tR.y += NWDGUI.kInspectorInternalTitle.fixedHeight;
             Rect tRcenter = new Rect(tR.x + NWDGUI.kIconClassWidth + NWDGUI.kFieldMarge, tR.y, HeaderRect.width - NWDGUI.kFieldMarge * 2 - NWDGUI.kIconClassWidth * 2, NWDGUI.kInspectorReferenceCenter.fixedHeight);
             // Draw reference
@@ -300,16 +300,16 @@ namespace NetWorkedData
             GUI.Label(tRcenter, NWDConstants.K_APP_BASIS_DM + NWDToolbox.TimeStampToDateTime(DM).ToString("yyyy/MM/dd HH:mm:ss"), NWDGUI.kInspectorReferenceCenter);
             tRcenter.y += NWDGUI.kInspectorReferenceCenter.fixedHeight;
 
-            if (GUI.Button(tRcenter, "Select in table", NWDGUI.kMiniButtonStyle))
-            {
-                foreach (NWDTypeWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(ClassType()))
-                {
-                    tWindow.Focus();
-                    tWindow.SelectTab(ClassType());
-                }
-                BasisHelper().SetObjectInEdition(this, false, true);
-                BasisHelper().ChangeScroolPositionToSelection();
-            }
+            //if (GUI.Button(tRcenter, "Select in table", NWDGUI.kMiniButtonStyle))
+            //{
+            //    foreach (NWDTypeWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(ClassType()))
+            //    {
+            //        tWindow.Focus();
+            //        tWindow.SelectTab(ClassType());
+            //    }
+            //    BasisHelper().SetObjectInEdition(this, false, true);
+            //    BasisHelper().ChangeScroolPositionToSelection();
+            //}
             // draw preview
             DrawPreviewTexture2D(tRright);
             //draw class icon
@@ -543,12 +543,12 @@ namespace NetWorkedData
                 if (tInternalDescriptionEditable == true)
                 {
                     string tInternalDescriptionActual = NWDToolbox.TextUnprotect(InternalDescription);
-                string tInternalDescription = EditorGUI.TextField(tR, NWDConstants.K_APP_BASIS_INTERNAL_DESCRIPTION, tInternalDescriptionActual, NWDGUI.kTextFieldStyle);
-                tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-                if (tInternalDescription != InternalDescription)
-                {
-                    tInternalDescription = NWDToolbox.TextProtect(tInternalDescription);
-                    InternalDescription = tInternalDescription;
+                    string tInternalDescription = EditorGUI.TextField(tR, NWDConstants.K_APP_BASIS_INTERNAL_DESCRIPTION, tInternalDescriptionActual, NWDGUI.kTextFieldStyle);
+                    tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    if (tInternalDescription != InternalDescription)
+                    {
+                        tInternalDescription = NWDToolbox.TextProtect(tInternalDescription);
+                        InternalDescription = tInternalDescription;
                         UpdateDataEditor();
                     }
                 }
@@ -640,7 +640,7 @@ namespace NetWorkedData
                 if (tInternalTag != Tag)
                 {
                     Tag = tInternalTag;
-                        UpdateDataEditor();
+                    UpdateDataEditor();
                 }
 
                 if (BasisHelper().kAccountDependent == false)
@@ -649,7 +649,7 @@ namespace NetWorkedData
                     {
                         CheckList = new NWDBasisCheckList();
                     }
-                    NWDBasisCheckList tCheckList = (NWDBasisCheckList)CheckList.ControlField(tR, NWDConstants.K_APP_TABLE_SEARCH_CHECKLIST, !CanBeEdit );
+                    NWDBasisCheckList tCheckList = (NWDBasisCheckList)CheckList.ControlField(tR, NWDConstants.K_APP_TABLE_SEARCH_CHECKLIST, !CanBeEdit);
 
                     tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
 
@@ -932,6 +932,7 @@ namespace NetWorkedData
             }
             if (tDrawBottom == true)
             {
+                int tLine = 0;
                 Rect tActionRectO = ActionRect;
                 if (sNodalCard != null)
                 {
@@ -940,19 +941,20 @@ namespace NetWorkedData
                 NWDGUI.Line(NWDGUI.UnMargeLeftRight(tActionRectO));//, Color.yellow);
                 Rect tActionRect = new Rect(tActionRectO.x, tActionRectO.y + NWDGUI.kFieldMarge, tActionRectO.width, tActionRectO.height - NWDGUI.kFieldMarge);
                 Rect[,] tMatrixRect = NWDGUI.DiviseArea(tActionRect, 4, 4, true);
-                GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, 0], tMatrixRect[3, 0]), NWDConstants.K_APP_BASIS_ACTION_ZONE, NWDGUI.kBoldLabelStyle);
-                if (GUI.Button(tMatrixRect[0, 1], NWDConstants.K_BUTTON_EDITOR_NODAL, NWDGUI.kMiniButtonStyle))
+                GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, tLine], tMatrixRect[3, tLine]), NWDConstants.K_APP_BASIS_ACTION_ZONE, NWDGUI.kBoldLabelStyle);
+                tLine++;
+                if (GUI.Button(tMatrixRect[0, tLine], NWDConstants.K_BUTTON_EDITOR_NODAL, NWDGUI.kMiniButtonStyle))
                 {
                     NWDNodeEditor.SetObjectInNodeWindow(this);
                 }
-                if (GUI.Button(tMatrixRect[1, 1], NWDConstants.K_APP_BASIS_UPDATE, NWDGUI.kMiniButtonStyle))
+                if (GUI.Button(tMatrixRect[1, tLine], NWDConstants.K_APP_BASIS_UPDATE, NWDGUI.kMiniButtonStyle))
                 {
                     //DM = NWDToolbox.Timestamp();
                     //UpdateIntegrity();
                     UpdateData(true, NWDWritingMode.ByEditorDefault);
                     NWDDataManager.SharedInstance().DataQueueExecute();
                 }
-                if (GUI.Button(tMatrixRect[2, 1], NWDConstants.K_APP_BASIS_DUPPLICATE, NWDGUI.kMiniButtonStyle))
+                if (GUI.Button(tMatrixRect[2, tLine], NWDConstants.K_APP_BASIS_DUPPLICATE, NWDGUI.kMiniButtonStyle))
                 {
                     UpdateDataIfModified(true, NWDWritingMode.ByEditorDefault);
                     NWDTypeClass tNexObject = NWDBasisHelper.DuplicateData(this, true, NWDWritingMode.ByEditorDefault);
@@ -965,10 +967,21 @@ namespace NetWorkedData
                     BasisHelper().m_PageSelected = BasisHelper().m_MaxPage * 3;
                     NWDDataManager.SharedInstance().DataQueueExecute();
                 }
+                //if (GUI.Button(tMatrixRect[3, tLine], NWDConstants.K_APP_BASIS_RESELECT, NWDGUI.kMiniButtonStyle))
+                //{
+                //    foreach (NWDTypeWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(ClassType()))
+                //    {
+                //        tWindow.Focus();
+                //        tWindow.SelectTab(ClassType());
+                //    }
+                //    BasisHelper().SetObjectInEdition(this, false, true);
+                //    BasisHelper().ChangeScroolPositionToSelection();
+                //}
+
                 EditorGUI.BeginDisabledGroup(IsTrashed());
                 if (AC == false)
                 {
-                    if (GUI.Button(tMatrixRect[3, 1], NWDConstants.K_APP_BASIS_REACTIVE, NWDGUI.kMiniButtonStyle))
+                    if (GUI.Button(tMatrixRect[3, tLine], NWDConstants.K_APP_BASIS_REACTIVE, NWDGUI.kMiniButtonStyle))
                     {
 
                         if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_REACTIVE_WARNING,
@@ -983,18 +996,20 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    if (GUI.Button(tMatrixRect[3, 1], NWDConstants.K_APP_BASIS_DISACTIVE, NWDGUI.kMiniButtonStyle))
+                    if (GUI.Button(tMatrixRect[3, tLine], NWDConstants.K_APP_BASIS_DISACTIVE, NWDGUI.kMiniButtonStyle))
                     {
                         DisableData();
                     }
                 }
                 EditorGUI.EndDisabledGroup();
                 EditorGUI.EndDisabledGroup();
-                GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, 2], tMatrixRect[3, 2]), NWDConstants.K_APP_BASIS_WARNING_ZONE, NWDGUI.kBoldLabelStyle);
+                tLine++;
+                GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, tLine], tMatrixRect[3, tLine]), NWDConstants.K_APP_BASIS_WARNING_ZONE, NWDGUI.kBoldLabelStyle);
+                tLine++;
                 NWDGUI.BeginRedArea();
                 if (IsTrashed() == false)
                 {
-                    if (GUI.Button(tMatrixRect[0, 3], NWDConstants.K_APP_BASIS_PUT_IN_TRASH, NWDGUI.kMiniButtonStyle))
+                    if (GUI.Button(tMatrixRect[0, tLine], NWDConstants.K_APP_BASIS_PUT_IN_TRASH, NWDGUI.kMiniButtonStyle))
                     {
                         if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_PUT_IN_TRASH_WARNING,
                                 NWDConstants.K_APP_BASIS_PUT_IN_TRASH_MESSAGE,
@@ -1007,7 +1022,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    if (GUI.Button(tMatrixRect[0, 3], NWDConstants.K_APP_BASIS_UNTRASH, NWDGUI.kMiniButtonStyle))
+                    if (GUI.Button(tMatrixRect[0, tLine], NWDConstants.K_APP_BASIS_UNTRASH, NWDGUI.kMiniButtonStyle))
                     {
                         if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_UNTRASH_WARNING,
                                 NWDConstants.K_APP_BASIS_UNTRASH_MESSAGE,
@@ -1018,7 +1033,7 @@ namespace NetWorkedData
                         }
                     }
                 }
-                if (GUI.Button(tMatrixRect[1, 3], NWDConstants.K_APP_BASIS_DELETE, NWDGUI.kMiniButtonStyle))
+                if (GUI.Button(tMatrixRect[1, tLine], NWDConstants.K_APP_BASIS_DELETE, NWDGUI.kMiniButtonStyle))
                 {
                     if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_DELETE_WARNING,
                             NWDConstants.K_APP_BASIS_DELETE_MESSAGE,
@@ -1031,7 +1046,7 @@ namespace NetWorkedData
                         BasisHelper().RepaintTableEditor();
                     }
                 }
-                //if (GUI.Button(tMatrixRect[2, 3], NWDConstants.K_APP_BASIS_NEW_SHORT_REFERENCE, NWDGUI.kMiniButtonStyle))
+                //if (GUI.Button(tMatrixRect[2, tLine], NWDConstants.K_APP_BASIS_NEW_SHORT_REFERENCE, NWDGUI.kMiniButtonStyle))
                 //{
                 //    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_NEW_REFERENCE_WARNING,
                 //            NWDConstants.K_APP_BASIS_NEW_REFERENCE_MESSAGE,
@@ -1041,7 +1056,7 @@ namespace NetWorkedData
                 //        RegenerateNewShortReference();
                 //    }
                 //}
-                //if (GUI.Button(tMatrixRect[3, 3], NWDConstants.K_APP_BASIS_NEW_REFERENCE, NWDGUI.kMiniButtonStyle))
+                //if (GUI.Button(tMatrixRect[3, tLine], NWDConstants.K_APP_BASIS_NEW_REFERENCE, NWDGUI.kMiniButtonStyle))
                 //{
                 //    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_NEW_REFERENCE_WARNING,
                 //            NWDConstants.K_APP_BASIS_NEW_REFERENCE_MESSAGE,
@@ -1052,16 +1067,43 @@ namespace NetWorkedData
                 //    }
                 //}
                 NWDGUI.EndRedArea();
-                //if (GUI.Button(tMatrixRect[0, 4], "Select in table", NWDGUI.kMiniButtonStyle))
+                //if (GUI.Button(tMatrixRect[2, tLine], NWDConstants.K_APP_BASIS_DUPPLICATE, NWDGUI.kMiniButtonStyle))
                 //{
-                //    foreach (NWDTypeWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(ClassType()))
+                //    UpdateDataIfModified(true, NWDWritingMode.ByEditorDefault);
+                //    NWDTypeClass tNexObject = NWDBasisHelper.DuplicateData(this, true, NWDWritingMode.ByEditorDefault);
+                //    if (BasisHelper().m_SearchTag != NWDBasisTag.NoTag)
                 //    {
-                //        tWindow.Focus();
-                //        tWindow.SelectTab(ClassType());
+                //        tNexObject.Tag = BasisHelper().m_SearchTag;
+                //        tNexObject.UpdateData();
                 //    }
-                //    BasisHelper().New_SetObjectInEdition(this,false,true);
-                //    BasisHelper().New_ChangeScroolPositionToSelection();
+                //    BasisHelper().SetObjectInEdition(tNexObject);
+                //    BasisHelper().m_PageSelected = BasisHelper().m_MaxPage * 3;
+                //    NWDDataManager.SharedInstance().DataQueueExecute();
                 //}
+                //EditorGUI.BeginDisabledGroup(IsTrashed());
+                //if (AC == false)
+                //{
+                //    if (GUI.Button(tMatrixRect[3, tLine], NWDConstants.K_APP_BASIS_REACTIVE, NWDGUI.kMiniButtonStyle))
+                //    {
+
+                //        if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_REACTIVE_WARNING,
+                //                    NWDConstants.K_APP_BASIS_REACTIVE_WARNING_MESSAGE,
+                //                    NWDConstants.K_APP_BASIS_REACTIVE_OK,
+                //                    NWDConstants.K_APP_BASIS_REACTIVE_CANCEL
+                //                ))
+                //        {
+                //            EnableData();
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    if (GUI.Button(tMatrixRect[3, tLine], NWDConstants.K_APP_BASIS_DISACTIVE, NWDGUI.kMiniButtonStyle))
+                //    {
+                //        DisableData();
+                //    }
+                //}
+                //EditorGUI.EndDisabledGroup();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1106,7 +1148,7 @@ namespace NetWorkedData
                         if (tNWEDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;
-                            ErrorLog += "error in " + tProp.Name + " with value " + tValue.ToString()+"\n";
+                            ErrorLog += "error in " + tProp.Name + " with value " + tValue.ToString() + "\n";
                         }
                     }
                 }
@@ -1119,7 +1161,7 @@ namespace NetWorkedData
                         if (tNWEDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;
-                            ErrorLog += "error in " + tProp.Name + " with value " + tValue.ToString()+"\n";
+                            ErrorLog += "error in " + tProp.Name + " with value " + tValue.ToString() + "\n";
                         }
                     }
                 }
@@ -1132,7 +1174,7 @@ namespace NetWorkedData
                         if (tNWEDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;
-                            ErrorLog += "error in " + tProp.Name + " with value " + tValue.ToString()+"\n";
+                            ErrorLog += "error in " + tProp.Name + " with value " + tValue.ToString() + "\n";
                         }
                     }
                 }
@@ -1145,7 +1187,7 @@ namespace NetWorkedData
                         if (tNWEDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;
-                            ErrorLog += "error in " + tProp.Name + " with value " + tValue.ToString()+"\n";
+                            ErrorLog += "error in " + tProp.Name + " with value " + tValue.ToString() + "\n";
                         }
                     }
                 }
@@ -1158,7 +1200,7 @@ namespace NetWorkedData
                         if (tNWEDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;
-                            ErrorLog += "error in " + tProp.Name + " with value " + tValue.ToString()+"\n";
+                            ErrorLog += "error in " + tProp.Name + " with value " + tValue.ToString() + "\n";
                         }
                     }
                 }

@@ -254,6 +254,7 @@ namespace NetWorkedData
         public const string K_APP_BASIS_DISACTIVED = "Disactived";
         public const string K_APP_BASIS_INACTIVED = "Inactived :";
         public const string K_APP_BASIS_REACTIVE = "ReActive";
+        public const string K_APP_BASIS_RESELECT = "ReSelect";
         public const string K_APP_BASIS_ACTIVE = "Active";
         public const string K_APP_BASIS_DISACTIVE = "Disactive";
 
