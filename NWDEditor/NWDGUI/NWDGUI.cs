@@ -140,6 +140,7 @@ namespace NetWorkedData
         public static GUIStyle KTableClassPopup;
         public static float kTablePrefabWidth = 40.0F;
         public static float kTableSelectWidth = 20.0f;
+        //public static float kTableClassIconWidth = 20.0f;
         public static float kTableIDWidth = 45.0f;
         public static float kTableIconWidth = 44.0f;
         public static float kTableHeaderHeight = 30.0f;

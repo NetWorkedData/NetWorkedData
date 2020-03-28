@@ -387,6 +387,12 @@ namespace NetWorkedData
             //tRect.width = NWDGUI.kTableIDWidth;
             //GUI.Label(tRect, ID.ToString(), NWDGUI.KTableRowId);
             //tRect.x += NWDGUI.kTableIDWidth;
+
+            //Draw icon
+            //tRect.width = NWDGUI.kTableIconWidth;
+            //GUI.Label(tRect, BasisHelper().TextureOfClass(), NWDGUI.KTableRowIcon);
+            //tRect.x += NWDGUI.kTableIconWidth;
+
             // Draw prefab
             tRect.width = NWDGUI.kTablePrefabWidth * sZoom;
             DrawPreviewTexture2D(new Rect(tRect.x + NWDGUI.kFieldMarge, tRect.y + NWDGUI.kFieldMarge, NWDGUI.kTablePrefabWidth * sZoom - +NWDGUI.kFieldMarge * 2, NWDGUI.kTableRowHeight * sZoom - +NWDGUI.kFieldMarge * 2));
@@ -396,6 +402,7 @@ namespace NetWorkedData
                 - NWDGUI.kFieldMarge
                 - NWDGUI.kScrollbar
                 - NWDGUI.kTableSelectWidth
+                //- NWDGUI.kTableIconWidth
                 //- NWDGUI.kTableIDWidth
                 - NWDGUI.kTablePrefabWidth * sZoom
                 - NWDGUI.kTableIconWidth * 5

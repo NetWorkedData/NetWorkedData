@@ -85,6 +85,10 @@ namespace NetWorkedData
             {
                 GUI.DrawTexture(sRect, tTexture, ScaleMode.ScaleToFit, true);
             }
+            else
+            {
+                GUI.DrawTexture(sRect, BasisHelper().TextureOfClass(), ScaleMode.ScaleToFit, true);
+            }
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

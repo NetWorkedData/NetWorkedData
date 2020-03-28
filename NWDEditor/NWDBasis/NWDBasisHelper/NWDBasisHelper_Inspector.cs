@@ -510,7 +510,7 @@ namespace NetWorkedData
                 LoadStyle = true;
                 NWDGUI.LoadStyles();
                string[] PropertiesInWebModel = PropertiesOrderArray(LastWebBuild).ToArray();
-                Debug.Log(string.Join(", ", PropertiesInWebModel));
+                //Debug.Log(string.Join(", ", PropertiesInWebModel));
                 //List<string> tListB = new List<string>(WebModelSQLOrder[LastWebBuild].Split(new char[] { ',' }));
 
                 Dictionary<NWDBasisHelperElement, string> PropertiesForGroupName = new Dictionary<NWDBasisHelperElement, string>();
