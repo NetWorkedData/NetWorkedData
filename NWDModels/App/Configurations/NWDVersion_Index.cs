@@ -20,8 +20,8 @@ using System.Reflection;
 using UnityEngine;
 
 
-using ZXing;
-using ZXing.QrCode;
+//using ZXing;
+//using ZXing.QrCode;
 using UnityEngine.Networking;
 
 #if UNITY_EDITOR

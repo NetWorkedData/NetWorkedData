@@ -18,8 +18,8 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-using ZXing;
-using ZXing.QrCode;
+//using ZXing;
+//using ZXing.QrCode;
 using UnityEngine.Networking;
 
 #if UNITY_EDITOR
@@ -129,7 +129,7 @@ namespace NetWorkedData
             InternalKey = Version.ToString();
 #if UNITY_EDITOR
             // Add QRCodeTexture
-            QRCodeTexture = FlashMyApp(false, 256);
+            //QRCodeTexture = FlashMyApp(false, 256);
             // Prevent Default Version if it's default value
             PreventDefaultVersion(this);
 #endif
@@ -243,28 +243,28 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Texture2D FlashMyApp(bool sRedirection, int sDimension)
-        {
-            Texture2D rTexture = new Texture2D(sDimension, sDimension);
-            var color32 = Encode(URLMyApp(sRedirection), rTexture.width, rTexture.height);
-            rTexture.SetPixels32(color32);
-            rTexture.Apply();
-            return rTexture;
-        }
+        //public Texture2D FlashMyApp(bool sRedirection, int sDimension)
+        //{
+        //    Texture2D rTexture = new Texture2D(sDimension, sDimension);
+        //    var color32 = Encode(URLMyApp(sRedirection), rTexture.width, rTexture.height);
+        //    rTexture.SetPixels32(color32);
+        //    rTexture.Apply();
+        //    return rTexture;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        private static Color32[] Encode(string textForEncoding, int width, int height)
-        {
-            var writer = new BarcodeWriter
-            {
-                Format = BarcodeFormat.QR_CODE,
-                Options = new QrCodeEncodingOptions
-                {
-                    Height = height,
-                    Width = width
-                }
-            };
-            return writer.Write(textForEncoding);
-        }
+        //private static Color32[] Encode(string textForEncoding, int width, int height)
+        //{
+        //    var writer = new BarcodeWriter
+        //    {
+        //        Format = BarcodeFormat.QR_CODE,
+        //        Options = new QrCodeEncodingOptions
+        //        {
+        //            Height = height,
+        //            Width = width
+        //        }
+        //    };
+        //    return writer.Write(textForEncoding);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public string URLMyApp(bool sRedirection)
         {

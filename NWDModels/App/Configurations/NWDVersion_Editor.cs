@@ -19,8 +19,8 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-using ZXing;
-using ZXing.QrCode;
+//using ZXing;
+//using ZXing.QrCode;
 using UnityEngine.Networking;
 
 #if UNITY_EDITOR
@@ -33,7 +33,7 @@ namespace NetWorkedData
     public partial class NWDVersion : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        Texture2D QRCodeTexture = null;
+        //Texture2D QRCodeTexture = null;
         //-------------------------------------------------------------------------------------------------------------
         public static void UpdateVersionBundle()
         {
@@ -148,12 +148,12 @@ namespace NetWorkedData
             sInRect.y += NWDGUI.Separator(sInRect).height;
 
             // Draw QRCode texture
-            if (QRCodeTexture == null)
-            {
-                QRCodeTexture = FlashMyApp(false, 256);
-            }
-            EditorGUI.DrawPreviewTexture(new Rect(sInRect.x, sInRect.y, NWDGUI.kPrefabSize * 2, NWDGUI.kPrefabSize * 2), QRCodeTexture);
-            sInRect.y += NWDGUI.kPrefabSize * 2 + NWDGUI.kFieldMarge;
+            //if (QRCodeTexture == null)
+            //{
+            //    QRCodeTexture = FlashMyApp(false, 256);
+            //}
+            //EditorGUI.DrawPreviewTexture(new Rect(sInRect.x, sInRect.y, NWDGUI.kPrefabSize * 2, NWDGUI.kPrefabSize * 2), QRCodeTexture);
+            //sInRect.y += NWDGUI.kPrefabSize * 2 + NWDGUI.kFieldMarge;
 
             // Draw line 
             sInRect.y += NWDGUI.Separator(sInRect).height;

@@ -393,9 +393,9 @@ namespace NWEMiniJSON
                     {
                         return TOKEN.NONE;
                     }
-                    
+
                     EatWhitespace();
-                    
+
                     switch (PeekChar)
                     {
                         case '{':
@@ -630,9 +630,9 @@ namespace NWEMiniJSON
                 {
                     SerializeString(value.ToString());
                 }
-            }   
+            }
         }
-        
+
         public static bool IsValidJson(this string sValue)
         {
             if (string.IsNullOrWhiteSpace(sValue))
@@ -652,7 +652,7 @@ namespace NWEMiniJSON
                     //var obj = JToken.Parse(value);
                     return true;
                 }
-                catch (Exception e) 
+                catch (Exception e)
                 {
                     Debug.LogError("Generic Exception Handler: " + e);
                     return false;
