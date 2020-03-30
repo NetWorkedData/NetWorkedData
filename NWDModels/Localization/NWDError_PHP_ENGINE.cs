@@ -321,6 +321,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine(K_PHP_ERR_LOG + ".=' ';");
             tFile.AppendLine("}");
+            tFile.AppendLine(K_PHP_ERR_LOG + ".=' ';");
             tFile.AppendLine(K_PHP_ERR_LOG + ".=$sString;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);

@@ -46,7 +46,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void TitleEnable()
         {
-            NWEBenchmark.Start();
+            //NWEBenchmark.Start();
             if (string.IsNullOrEmpty(EditorTitle) == false && EditorType != null)
             {
                 TitleIsInit = true;
@@ -101,7 +101,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            NWEBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void GenerateCSharpFile()
