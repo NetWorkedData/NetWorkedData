@@ -61,8 +61,10 @@ namespace NetWorkedData
             tClassExample = tClassExample.Replace("typeof(NWDExample),", tClassesLinearize);
             // find the owner classes folder
             string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder();
+            Directory.CreateDirectory(tOwnerClassesFolderPath);
+            Directory.CreateDirectory(tOwnerClassesFolderPath + "/"+ WindowName);
             // write file
-            string tFilePath = tOwnerClassesFolderPath + "/" + WindowName + ".cs";
+            string tFilePath = tOwnerClassesFolderPath + "/" + WindowName + "/" + WindowName + ".cs";
             File.WriteAllText(tFilePath, tClassExample);
             // flush params
             WindowName = string.Empty;
@@ -74,16 +76,43 @@ namespace NetWorkedData
             AssetDatabase.ImportAsset(tFilePath);
             // create directories
             Directory.CreateDirectory(tOwnerClassesFolderPath);
-            Directory.CreateDirectory(tOwnerClassesFolderPath + "/Editor");
+            Directory.CreateDirectory(tOwnerClassesFolderPath + "/" + WindowName + "/Editor");
             // write icon to modify
             string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/NWDExampleWindow.psd";
-            string tIconPathNew = tOwnerClassesFolderPath + "/Editor/" + WindowName + ".psd";
+            string tIconPathNew = tOwnerClassesFolderPath + "/" + WindowName + "/Editor/" + WindowName + ".psd";
             File.Copy(tIconPath, tIconPathNew);
             string tIconPathPro = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/NWDExampleWindow_pro.psd";
-            string tIconPathNewPro = tOwnerClassesFolderPath + "/Editor/" + WindowName + "_pro.psd";
+            string tIconPathNewPro = tOwnerClassesFolderPath + "/" + WindowName + "/Editor/" + WindowName + "_pro.psd";
             File.Copy(tIconPathPro, tIconPathNewPro);
             AssetDatabase.ImportAsset(tIconPathNew);
             AssetDatabase.ImportAsset(tIconPathNewPro);
+
+            // change meta
+            TextureImporter tIconPathNewImporter = AssetImporter.GetAtPath(tIconPathNew) as TextureImporter;
+            tIconPathNewImporter.textureType = TextureImporterType.GUI;
+            tIconPathNewImporter.alphaSource = TextureImporterAlphaSource.FromInput;
+            tIconPathNewImporter.alphaIsTransparency = true;
+            //tIconPathNewImporter. // remove matte ?
+            var tIconPathNewImporterSerialized = new SerializedObject(tIconPathNewImporter);
+            tIconPathNewImporterSerialized.FindProperty("m_PSDRemoveMatte").boolValue = true;
+            tIconPathNewImporterSerialized.FindProperty("m_PSDShowRemoveMatteOption").boolValue = true; // this is not needed unless you want to show the option (and warning)
+            tIconPathNewImporterSerialized.ApplyModifiedProperties();
+
+            AssetDatabase.WriteImportSettingsIfDirty(tIconPathNew);
+
+            // change meta pro
+            TextureImporter tIconPathNewProImporter = AssetImporter.GetAtPath(tIconPathNewPro) as TextureImporter;
+            tIconPathNewProImporter.textureType = TextureImporterType.GUI;
+            tIconPathNewProImporter.alphaSource = TextureImporterAlphaSource.FromInput;
+            tIconPathNewProImporter.alphaIsTransparency = true;
+            //tIconPathNewImporter. // remove matte ?
+            var tIconPathNewProImporterSerialized = new SerializedObject(tIconPathNewProImporter);
+            tIconPathNewProImporterSerialized.FindProperty("m_PSDRemoveMatte").boolValue = true;
+            tIconPathNewProImporterSerialized.FindProperty("m_PSDShowRemoveMatteOption").boolValue = true; // this is not needed unless you want to show the option (and warning)
+            tIconPathNewProImporterSerialized.ApplyModifiedProperties();
+
+            AssetDatabase.WriteImportSettingsIfDirty(tIconPathNewPro);
+
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
