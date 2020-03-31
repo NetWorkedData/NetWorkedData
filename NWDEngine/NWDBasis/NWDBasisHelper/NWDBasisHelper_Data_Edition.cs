@@ -35,7 +35,7 @@ namespace NetWorkedData
         public const string K_EDITOR_LAST_TYPE_KEY = "K_EDITOR_LAST_TYPE_KEY_5fdshjktr";
         public const string K_EDITOR_LAST_REFERENCE_KEY = "K_EDITOR_LAST_REFERENCE_KEY_ed5f5dtr";
         //-------------------------------------------------------------------------------------------------------------
-       public NWDTypeClass RestaureObjectInEdition()
+        public NWDTypeClass RestaureObjectInEdition()
         {
             string tTypeEdited = EditorPrefs.GetString(K_EDITOR_LAST_TYPE_KEY);
             string tLastReferenceEdited = EditorPrefs.GetString(K_EDITOR_LAST_REFERENCE_KEY);
@@ -76,30 +76,63 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        public NWDBasis GetObjectInEdition()
+        {
+            NWDBasis tSelected = null;
+            if (InspectorActions == true)
+            {
+                tSelected = mObjectInEdition as NWDBasis;
+            }
+            else
+            {
+                tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis;
+            }
+            return tSelected;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetObjectInEdition(NWDTypeClass sObject, bool sResetStack = true, bool sFocus = true)
         {
-            GUI.FocusControl(null);
-            NWDDataInspector.InspectNetWorkedData(sObject, sResetStack, sFocus);
-            if (sObject != null)
+
+            if (InspectorActions == true)
             {
-                NWDBasisEditor.ObjectEditorLastType = sObject.GetType();
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
+                mObjectInEdition = sObject;
             }
-            else if (NWDBasisEditor.ObjectEditorLastType != null)
+            else
             {
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
-                NWDBasisEditor.ObjectEditorLastType = null;
+                GUI.FocusControl(null);
+                NWDDataInspector.InspectNetWorkedData(sObject, sResetStack, sFocus);
+                if (sObject != null)
+                {
+                    NWDBasisEditor.ObjectEditorLastType = sObject.GetType();
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
+                }
+                else if (NWDBasisEditor.ObjectEditorLastType != null)
+                {
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
+                    NWDBasisEditor.ObjectEditorLastType = null;
+                }
+                SaveObjectInEdition();
             }
-            SaveObjectInEdition();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool IsObjectInEdition(NWDTypeClass sObject)
         {
             bool rReturn = false;
-            if (NWDDataInspector.ObjectInEdition() == sObject)
+            if (InspectorActions == true)
             {
-                rReturn = true;
+                if (mObjectInEdition == sObject)
+                {
+                    rReturn = true;
+                }
             }
+            else
+            {
+                if (NWDDataInspector.ObjectInEdition() == sObject)
+                {
+                    rReturn = true;
+                }
+            }
+
             return rReturn;
         }
 #endif
@@ -110,7 +143,7 @@ namespace NetWorkedData
             {
                 // reset last sync to zero
                 SynchronizationSetNewTimestamp(sEnvironment, 0); // set to 0 ... only for data AccountDependent, so that's not affect the not connected data (game's data)
-                                                                     // delete all datas for this user
+                                                                 // delete all datas for this user
                 foreach (NWDTypeClass tObject in Datas)
                 {
                     if (tObject.IsReacheableByAccount(NWDAccount.CurrentReference()))

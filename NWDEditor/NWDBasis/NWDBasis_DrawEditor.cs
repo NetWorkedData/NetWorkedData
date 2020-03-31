@@ -148,7 +148,7 @@ namespace NetWorkedData
             // Shortcut navigation
             if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.DownArrow)
             {
-                NWDBasis tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis;
+                NWDBasis tSelected = BasisHelper().GetObjectInEdition();
                 if (tSelected != null)
                 {
                     if (BasisHelper().EditorTableDatas.Contains(tSelected))
@@ -169,7 +169,7 @@ namespace NetWorkedData
             }
             if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.UpArrow)
             {
-                NWDBasis tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis;
+                NWDBasis tSelected = BasisHelper().GetObjectInEdition();
                 if (tSelected != null)
                 {
                     if (BasisHelper().EditorTableDatas.Contains(tSelected))

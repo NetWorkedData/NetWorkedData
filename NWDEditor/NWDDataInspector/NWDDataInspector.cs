@@ -242,29 +242,19 @@ namespace NetWorkedData
         public override void OnPreventGUI()
         {
             //NWEBenchmark.Start();
-
-            this.minSize = new Vector2(NWDGUI.kNodeCardWidth, NWDGUI.kNodeCardHeight);
-            this.maxSize = new Vector2(NWDGUI.kNodeCardWidth * 2, NWDGUI.kNodeCardHeight * 2);
-
-
+            minSize = new Vector2(NWDGUI.kNodeCardWidth, NWDGUI.kNodeCardHeight);
+            maxSize = new Vector2(NWDGUI.kNodeCardWidth * 2, NWDGUI.kNodeCardHeight * 2);
             if (RemoveActualFocus == true)
             {
                 GUI.FocusControl(null);
                 RemoveActualFocus = false;
             }
-            //			ScrollPosition = GUI.BeginScrollView(new Rect(0, 0, position.width, position.height), ScrollPosition, new Rect(0, 0, position.width, position.height*2));
             if (mObjectInEdition == null)
             {
+               GUI.Label(new Rect(0, 0, position.width, position.height), NWDConstants.K_EDITOR_NO_DATA_SELECTED, NWDGUI.kInspectorNoData);
             }
             else
             {
-                //Type tType = mObjectInEdition.GetType();
-                //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tType, NWDConstants.M_DrawObjectEditor);
-                //if (tMethodInfo != null)
-                //{
-                //    tMethodInfo.Invoke(mObjectInEdition, new object[] { position, true });
-                //}
-                //mObjectInEdition.New_DrawObjectEditor(position, true);
                 mObjectInEdition.DrawEditor(new Rect(0, 0, position.width, position.height), true, null);
             }
             //NWEBenchmark.Finish();

@@ -69,6 +69,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public Vector2 ObjectEditorScrollPosition = Vector2.zero;
         public bool kSyncAndMoreInformations = false;
+        public NWDTypeClass mObjectInEdition;
         //-------------------------------------------------------------------------------------------------------------
         public void LoadEditorPrefererences()
         {
@@ -85,6 +86,7 @@ namespace NetWorkedData
             RowActions = EditorPrefs.GetBool(ActionsPrefkey(() => RowActions), true);
             TableActions = EditorPrefs.GetBool(ActionsPrefkey(() => TableActions), true);
             SearchActions = EditorPrefs.GetBool(ActionsPrefkey(() => SearchActions), true);
+            InspectorActions = EditorPrefs.GetBool(ActionsPrefkey(() => InspectorActions), true);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SaveEditorPrefererences()
@@ -98,8 +100,9 @@ namespace NetWorkedData
             EditorPrefs.SetInt(ActionsPrefkey(() => m_ItemPerPageSelection), m_ItemPerPageSelection);
 
             EditorPrefs.SetBool(ActionsPrefkey(() => RowActions), RowActions);
-            EditorPrefs.SetBool(ActionsPrefkey(() => TableActions), TableActions);
             EditorPrefs.SetBool(ActionsPrefkey(() => SearchActions), SearchActions);
+            EditorPrefs.SetBool(ActionsPrefkey(() => TableActions), TableActions);
+            EditorPrefs.SetBool(ActionsPrefkey(() => InspectorActions), InspectorActions);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string ActionsPrefkey<T>(Expression<Func<T>> sProperty)
@@ -159,6 +162,7 @@ namespace NetWorkedData
         public bool SearchActions = true;
         public bool RowActions = true;
         public bool TableActions = true;
+        public bool InspectorActions = true;
         //-------------------------------------------------------------------------------------------------------------
 
         public NWDBasisEditorDatasSortType SortType = NWDBasisEditorDatasSortType.ByInternalKeyDescendant;

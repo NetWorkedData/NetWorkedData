@@ -46,7 +46,7 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             string rReturn = null;
-            NWDTypeClass tObject = NWDDataInspector.ObjectInEdition() as NWDTypeClass;
+            NWDTypeClass tObject = GetObjectInEdition() as NWDTypeClass;
             if (tObject != null)
             {
                 rReturn = string.Copy(tObject.Reference);
@@ -257,7 +257,7 @@ namespace NetWorkedData
         public void ChangeScroolPositionToSelection(Rect sScrollRect)
         {
             //NWEBenchmark.Start();
-            int tIndexSelected = EditorTableDatas.IndexOf((NWDTypeClass)NWDDataInspector.ObjectInEdition());
+            int tIndexSelected = EditorTableDatas.IndexOf(GetObjectInEdition());
             float tNumberPage = tIndexSelected / m_ItemPerPage;
             int tPageExpected = (int)Math.Floor(tNumberPage);
             m_PageSelected = tPageExpected;
@@ -291,6 +291,13 @@ namespace NetWorkedData
         public void DrawHeaderInEditor(Rect sRect, Rect sScrollRect, float sZoom)
         {
             //NWEBenchmark.Start();
+            GUI.BeginScrollView(
+                    sRect,
+                    Vector2.zero,
+                    sRect,
+                    false,
+                    false
+                    );
             EditorGUI.DrawRect(sRect, NWDGUI.kTableHeaderColor);
             sRect.x += NWDGUI.kFieldMarge;
             sRect.width = sRect.width - NWDGUI.kScrollbar;
@@ -554,6 +561,7 @@ namespace NetWorkedData
                 SortEditorTableDatas();
                 ChangeScroolPositionToSelection(sScrollRect);
             }
+            GUI.EndScrollView();
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -562,6 +570,14 @@ namespace NetWorkedData
         public void DrawHeaderBottomInEditor(Rect sRect, Rect sScrollRect)
         {
             //NWEBenchmark.Start();
+            GUI.BeginScrollView(
+                    sRect,
+                    Vector2.zero,
+                    sRect,
+                    false,
+                    false
+                    );
+
             EditorGUI.DrawRect(sRect, NWDGUI.kTableHeaderColor);
             sRect.width = sRect.width - NWDGUI.kScrollbar;
 
@@ -692,6 +708,7 @@ namespace NetWorkedData
                 SetObjectInEdition(tNewObject);
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
             }
+            GUI.EndScrollView();
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -2035,11 +2052,15 @@ namespace NetWorkedData
         public void DrawTableEditor(EditorWindow sEditorWindow)
         {
             //NWEBenchmark.Start();
+            float tOldLabelWidth = EditorGUIUtility.labelWidth;
             bool rLoaded = AllDatabaseIsLoaded();
 
             EditorGUI.BeginDisabledGroup(!rLoaded);
 
+            Rect tWindowRectOriginal = new Rect(sEditorWindow.position.x, sEditorWindow.position.y, sEditorWindow.position.width, sEditorWindow.position.height);
+
             Rect tWindowRect = new Rect(sEditorWindow.position.x, sEditorWindow.position.y, sEditorWindow.position.width, sEditorWindow.position.height);
+
             if (tWindowRect.width < NWDGUI.KTableMinWidth)
             {
                 tWindowRect.width = NWDGUI.KTableMinWidth;
@@ -2048,7 +2069,7 @@ namespace NetWorkedData
             // offset the tab bar 
             tRect.y += NWDGUI.KTAB_BAR_HEIGHT + NWDGUI.kFieldMarge;
 
-            float tWidthTiers = Mathf.Floor(sEditorWindow.position.width / 3.0F);
+            float tWidthTiers = Mathf.Floor(sEditorWindow.position.width / 4.0F);
             Rect tRectToogle = new Rect(NWDGUI.kFieldMarge, tRect.y, tWidthTiers, NWDGUI.kToggleStyle.fixedHeight);
 
             bool tSearchActions = GUI.Toggle(tRectToogle, SearchActions, "Search");
@@ -2071,9 +2092,26 @@ namespace NetWorkedData
                 TableActions = tTableActions;
                 SaveEditorPrefererences();
             }
+            tRectToogle.x += tWidthTiers;
+            bool tInspectorActions = GUI.Toggle(tRectToogle, InspectorActions, "Data Panel");
+            if (tInspectorActions != InspectorActions)
+            {
+                InspectorActions = tInspectorActions;
+                SaveEditorPrefererences();
+            }
             tRect.y += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            tRect.y += NWDGUI.Line(tRect).height;
+            Rect tWindowRectLine = new Rect(tRect.position.x, tRect.position.y, tWindowRectOriginal.width, tRect.height);
+
+            tRect.y += NWDGUI.Line(tWindowRectLine).height;
+
+            float tW = 320;
+            Rect tWindowRectInpsector = new Rect(tRect.width - tW, tRect.position.y, tW, sEditorWindow.position.height - tRect.position.y);
+            if (InspectorActions == true)
+            {
+                tWindowRect.width -= tW;
+                tRect.width -= tW;
+            }
 
             // if necessary recalcul row informations
             RowAnalyze();
@@ -2393,7 +2431,7 @@ namespace NetWorkedData
                 // KEY S
                 if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.S)
                 {
-                    NWDTypeClass tSelected = NWDDataInspector.ObjectInEdition();
+                    NWDTypeClass tSelected = GetObjectInEdition();
                     if (tSelected != null)
                     {
                         if (DatasByReference.ContainsKey(tSelected.Reference))
@@ -2415,7 +2453,7 @@ namespace NetWorkedData
                 if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.DownArrow)
                 {
                     //Debug.LogVerbose ("KeyDown DownArrow", DebugResult.Success);
-                    NWDTypeClass tSelected = NWDDataInspector.ObjectInEdition();
+                    NWDTypeClass tSelected = GetObjectInEdition();
                     if (tSelected != null)
                     {
                         if (EditorTableDatas.Contains(tSelected))
@@ -2443,7 +2481,7 @@ namespace NetWorkedData
                 if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.UpArrow)
                 {
                     //Debug.LogVerbose ("KeyDown UpArrow", DebugResult.Success);
-                    NWDTypeClass tSelected = NWDDataInspector.ObjectInEdition();
+                    NWDTypeClass tSelected = GetObjectInEdition();
                     if (tSelected != null)
                     {
                         if (EditorTableDatas.Contains(tSelected))
@@ -2520,7 +2558,7 @@ namespace NetWorkedData
                 }
 
                 Rect tRectRow = new Rect(sEditorWindow.position.x, sEditorWindow.position.y,
-                     sEditorWindow.position.width, sEditorWindow.position.height);
+                     tRect.width, sEditorWindow.position.height);
 
                 if (tRectRow.width < NWDGUI.KTableMinWidth)
                 {
@@ -2548,6 +2586,21 @@ namespace NetWorkedData
                 // ===========================================
 
                 EditorGUI.EndDisabledGroup();
+            }
+            if (InspectorActions == true)
+            {
+                EditorGUIUtility.labelWidth = tOldLabelWidth;
+                //EditorGUI.DrawRect(tWindowRectInpsector, NWDGUI.kTableHeaderColor);
+                if (mObjectInEdition != null)
+                {
+                    mObjectInEdition.DrawEditor(tWindowRectInpsector, true, null);
+                }
+                else
+                {
+                    GUI.Label(tWindowRectInpsector, NWDConstants.K_EDITOR_NO_DATA_SELECTED, NWDGUI.kInspectorNoData);
+                    
+                }
+                NWDGUI.LineVertical(tWindowRectInpsector);
             }
             //NWEBenchmark.Finish();
         }

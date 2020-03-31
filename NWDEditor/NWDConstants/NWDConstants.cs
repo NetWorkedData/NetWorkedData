@@ -467,6 +467,7 @@ namespace NetWorkedData
         public const string K_EDITOR_NODE_SHOW_ALL = "Show for all";
         public const string K_EDITOR_NODE_LIST = "Classes show/analyze/new";
 
+        public const string K_EDITOR_NO_DATA_SELECTED = "no data selected";
         //-------------------------------------------------------------------------------------------------------------
         public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE = "ALERT";
         public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE = "You are in playing mode, sync only effective on player's data!";

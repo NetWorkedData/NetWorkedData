@@ -192,6 +192,7 @@ namespace NetWorkedData
 
         public static GUIStyle kInspectorInternalTitle;
         public static GUIStyle kInspectorReferenceCenter;
+        public static GUIStyle kInspectorNoData;
 
 
         public static GUIStyle kLabelStyle;
@@ -609,6 +610,8 @@ KTableSearchMask.fontSize = tTextSize;
                 kInspectorReferenceCenter = new GUIStyle(EditorStyles.miniLabel);
                 kInspectorReferenceCenter.fixedHeight = kInspectorReferenceCenter.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
                 kInspectorReferenceCenter.alignment = TextAnchor.MiddleCenter;
+                kInspectorNoData = new GUIStyle(EditorStyles.miniLabel);
+                kInspectorNoData.alignment = TextAnchor.MiddleCenter;
                 kPropertyEntitlementStyle = new GUIStyle(EditorStyles.label);
                 kPropertyEntitlementStyle.fixedHeight = kPropertyEntitlementStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
                 kPropertyEntitlementStyle.richText = true;
@@ -778,6 +781,34 @@ KTableSearchMask.fontSize = tTextSize;
             tLineTexture.Apply();
             kLineStyle.normal.background = tLineTexture;
             GUI.Label(sRect, string.Empty, kLineStyle);
+            sRect.y += kLineStyle.fixedHeight;
+            kLineStyle.normal.background = tOldLineTexture;
+            return sRect;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Rect LineVertical(Rect sRect)
+        {
+            float tOld = kLineStyle.fixedHeight;
+            sRect.width = kLineStyle.fixedHeight;
+            kLineStyle.fixedHeight = sRect.height;
+            GUI.Label(sRect, string.Empty, kLineStyle);
+            kLineStyle.fixedHeight = tOld;
+            sRect.y += kLineStyle.fixedHeight;
+            return sRect;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Rect LineVertical(Rect sRect, Color sColor)
+        {
+            Texture2D tOldLineTexture = kLineStyle.normal.background;
+            Texture2D tLineTexture = new Texture2D(1, 1);
+            tLineTexture.SetPixel(0, 0, sColor);
+            tLineTexture.Apply();
+            float tOld = kLineStyle.fixedHeight;
+            sRect.width = kLineStyle.fixedHeight;
+            kLineStyle.fixedHeight = sRect.height;
+            kLineStyle.normal.background = tLineTexture;
+            GUI.Label(sRect, string.Empty, kLineStyle);
+            kLineStyle.fixedHeight = tOld;
             sRect.y += kLineStyle.fixedHeight;
             kLineStyle.normal.background = tOldLineTexture;
             return sRect;

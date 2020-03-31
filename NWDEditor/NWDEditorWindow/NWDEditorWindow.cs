@@ -59,7 +59,7 @@ namespace NetWorkedData
 
                 // find texture by default
                 string tIconName = EditorGUIUtility.isProSkin ? typeof(NWDEditorWindow).Name + "_pro" : typeof(NWDEditorWindow).Name;
-                NWEBenchmark.Step(true, tIconName);
+                //NWEBenchmark.Step(true, tIconName);
                 string[] sGUIDs = AssetDatabase.FindAssets(tIconName + " t:texture");
                 foreach (string tGUID in sGUIDs)
                 {
@@ -74,7 +74,7 @@ namespace NetWorkedData
 
                 // find texture by in parameters
                 tIconName = EditorGUIUtility.isProSkin ? EditorType.Name + "_pro" : EditorType.Name;
-                NWEBenchmark.Step(true, tIconName);
+                //NWEBenchmark.Step(true, tIconName);
                 sGUIDs = AssetDatabase.FindAssets(tIconName + " t:texture");
                 foreach (string tGUID in sGUIDs)
                 {
