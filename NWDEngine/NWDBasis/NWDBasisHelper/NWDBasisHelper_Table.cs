@@ -813,7 +813,7 @@ namespace NetWorkedData
             IntPtr stmt = SQLite3.Prepare2(tConnectorHandle, "BEGIN TRANSACTION");
             SQLite3.Step(stmt);
             SQLite3.Finalize(stmt);
-            stmt = SQLite3.Prepare2(tConnectorHandle, "DELETE FROM `" + ClassNamePHP + "`;");
+            stmt = SQLite3.Prepare2(tConnectorHandle, "DELETE FROM `" + ClassNamePHP + "`;"); // it's the TRUNCATE optimizer syntax for SQLite
             SQLite3.Step(stmt);
             SQLite3.Finalize(stmt);
             stmt = SQLite3.Prepare2(tConnectorHandle, "COMMIT");

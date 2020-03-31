@@ -158,6 +158,11 @@ namespace NetWorkedData
     public class NWDGDPR
     {
         //-------------------------------------------------------------------------------------------------------------
+        static public void Log(string sInformations)
+        {
+            Debug.Log("<color=red>GDPR informations</color>: " + sInformations);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Extract the specified type.
         /// </summary>

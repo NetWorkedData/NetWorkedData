@@ -449,18 +449,23 @@ namespace NetWorkedData
                                                 if (ResultInfos.isUserTransfert)
                                                 {
                                                     //NWEBenchmark.Log(" IS TRANSFERT USER");
+                                                    NWDGDPR.Log("The temporary account will be transfert to certified account...");
                                                     if (!ResultInfos.uuid.Equals(string.Empty))
                                                     {
                                                         NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, ResultInfos.preview_user, ResultInfos.next_user /*, ResultInfos.signkey*/);
                                                     }
+                                                    NWDGDPR.Log("The temporary account was transfert to certified account!");
                                                 }
                                                 else
                                                 {
                                                     if (NWDAppConfiguration.SharedInstance().PurgeOldAccountDatabase == true)
                                                     {
+                                                        // the best way is to delete all data in the database ... it's slow but better for security
+                                                        // change database will be an option, but not secure, the data stay in the old database anyway it's crypted!
                                                         //NWEBenchmark.Start("PURGE ACCOUNT DATABASE");
                                                         if (Application.isEditor == false)
                                                         {
+                                                            NWDGDPR.Log("Purge database from all old account informations. The old account will be deleted from this device...");
                                                             // I drop all table account connected?
                                                             foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
                                                             {
@@ -468,6 +473,7 @@ namespace NetWorkedData
                                                                 tHelper.FlushTable();
                                                                 //tHelper.ResetDatas();
                                                             }
+                                                            NWDGDPR.Log("The old account was deleted from this device!");
                                                         }
                                                         else
                                                         {
@@ -476,6 +482,7 @@ namespace NetWorkedData
                                                         //NWEBenchmark.Finish("PURGE ACCOUNT DATABASE");
                                                     }
                                                 }
+                                                NWDGDPR.Log("New certified account valid on this device!");
                                             }
                                             if (!ResultInfos.uuid.Equals(string.Empty))
                                             {
