@@ -444,11 +444,11 @@ namespace NetWorkedData
                                             if (ResultInfos.isNewUser)
                                             {
                                                 tUserChange = true;
-                                                NWEBenchmark.Log(" CHANGE USER");
+                                                //NWEBenchmark.Log(" CHANGE USER");
                                                 CanRestart();
                                                 if (ResultInfos.isUserTransfert)
                                                 {
-                                                    NWEBenchmark.Log(" IS TRANSFERT USER");
+                                                    //NWEBenchmark.Log(" IS TRANSFERT USER");
                                                     if (!ResultInfos.uuid.Equals(string.Empty))
                                                     {
                                                         NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, ResultInfos.preview_user, ResultInfos.next_user /*, ResultInfos.signkey*/);
@@ -458,7 +458,7 @@ namespace NetWorkedData
                                                 {
                                                     if (NWDAppConfiguration.SharedInstance().PurgeOldAccountDatabase == true)
                                                     {
-                                                        NWEBenchmark.Start("PURGE ACCOUNT DATABASE");
+                                                        //NWEBenchmark.Start("PURGE ACCOUNT DATABASE");
                                                         if (Application.isEditor == false)
                                                         {
                                                             // I drop all table account connected?
@@ -471,9 +471,9 @@ namespace NetWorkedData
                                                         }
                                                         else
                                                         {
-                                                            NWEBenchmark.Log("!!! bypassed because it's editor");
+                                                            //NWEBenchmark.Log("!!! bypassed because it's editor");
                                                         }
-                                                        NWEBenchmark.Finish("PURGE ACCOUNT DATABASE");
+                                                        //NWEBenchmark.Finish("PURGE ACCOUNT DATABASE");
                                                     }
                                                 }
                                             }

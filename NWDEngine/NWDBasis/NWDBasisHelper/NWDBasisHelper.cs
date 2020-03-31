@@ -813,7 +813,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ResetDatas()
         {
-            NWEBenchmark.Start();
+            //NWEBenchmark.Start();
             DatasLoaded = false;
             Datas.Clear();
             DatasByReference.Clear();
@@ -826,7 +826,7 @@ namespace NetWorkedData
             EditorDatasMenu.Clear();
             EditorDatasMenu.Add("---", string.Empty);
 #endif
-            NWEBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool AllDatabaseIsIndexed()

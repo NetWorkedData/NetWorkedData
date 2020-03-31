@@ -822,6 +822,8 @@ namespace NetWorkedData
             stmt = SQLite3.Prepare2(tConnectorHandle, "VACUUM;");
             SQLite3.Step(stmt);
             SQLite3.Finalize(stmt);
+            // but the data are loaded ! anyway! just database is empty...
+            DatasLoaded = true;
 #if UNITY_EDITOR
             // refresh the tables windows
             RepaintTableEditor();
