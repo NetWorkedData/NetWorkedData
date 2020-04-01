@@ -509,7 +509,7 @@ namespace NetWorkedData
             {
                 LoadStyle = true;
                 NWDGUI.LoadStyles();
-               string[] PropertiesInWebModel = PropertiesOrderArray(LastWebBuild).ToArray();
+                string[] PropertiesInWebModel = PropertiesOrderArray(LastWebBuild).ToArray();
                 //Debug.Log(string.Join(", ", PropertiesInWebModel));
                 //List<string> tListB = new List<string>(WebModelSQLOrder[LastWebBuild].Split(new char[] { ',' }));
 
@@ -758,29 +758,32 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             GUIContent rReturn = null;
-            if (DatasByReference.ContainsKey(sReference))
+            if (DatasByReference != null)
             {
-                NWDTypeClass tObject = DatasByReference[sReference] as NWDTypeClass;
-                if (string.IsNullOrEmpty(tObject.InternalKey))
+                if (DatasByReference.ContainsKey(sReference))
                 {
-                    //rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
-                    rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.InternalDescription);
+                    NWDTypeClass tObject = DatasByReference[sReference] as NWDTypeClass;
+                    if (string.IsNullOrEmpty(tObject.InternalKey))
+                    {
+                        //rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
+                        rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.InternalDescription);
+                    }
+                    else
+                    {
+                        //rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
+                        rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", tObject.InternalDescription);
+                    }
                 }
                 else
                 {
-                    //rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
-                    rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", tObject.InternalDescription);
-                }
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(sReference))
-                {
-                    rReturn = new GUIContent(NWDConstants.kFieldNone);
-                }
-                else
-                {
-                    rReturn = new GUIContent("<i>WARNING</i> [" + sReference + "]");
+                    if (string.IsNullOrEmpty(sReference))
+                    {
+                        rReturn = new GUIContent(NWDConstants.kFieldNone);
+                    }
+                    else
+                    {
+                        rReturn = new GUIContent("<i>WARNING</i> [" + sReference + "]");
+                    }
                 }
             }
             //NWEBenchmark.Finish();
