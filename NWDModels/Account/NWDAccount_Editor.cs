@@ -152,6 +152,7 @@ namespace NetWorkedData
             tI++;
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Add sign"))
             {
+                NWDBasisHelper.BasisHelper<NWDAccountSign>().VerifLoadFromDatabaseForEditor();
                 NWDAccountSign tSign = NWDBasisHelper.NewData<NWDAccountSign>();
                 tSign.Account.SetReference(Reference);
                 tSign.SaveData();

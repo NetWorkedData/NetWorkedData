@@ -111,7 +111,8 @@ namespace NetWorkedData
 
             //General preferences
             NWDGUILayout.Section("User preferences");
-            EditorPrefs.SetString("NWD_USER_BUILDER", EditorGUILayout.TextField("User builder name", EditorPrefs.GetString("NWD_USER_BUILDER", "(user)")));
+            EditorPrefs.SetString(NWDConstants.K_EDITOR_USER_BUILDER, EditorGUILayout.TextField("User builder name", EditorPrefs.GetString(NWDConstants.K_EDITOR_USER_BUILDER, "(user)")));
+            EditorPrefs.SetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, EditorGUILayout.IntSlider("Panel data width", EditorPrefs.GetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, 320), 300, 400));
 
             //General preferences
             NWDGUILayout.Section("General preferences");

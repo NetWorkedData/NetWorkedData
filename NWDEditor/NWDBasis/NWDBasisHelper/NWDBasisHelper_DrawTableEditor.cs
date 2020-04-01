@@ -2105,7 +2105,7 @@ namespace NetWorkedData
 
             tRect.y += NWDGUI.Line(tWindowRectLine).height;
 
-            float tW = 320;
+            float tW = EditorPrefs.GetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, 320);
             Rect tWindowRectInpsector = new Rect(tRect.width - tW, tRect.position.y, tW, sEditorWindow.position.height - tRect.position.y);
             if (InspectorActions == true)
             {

@@ -26,6 +26,9 @@ namespace NetWorkedData
     public partial class NWDConstants
     {
         //-------------------------------------------------------------------------------------------------------------
+        public static string K_EDITOR_USER_BUILDER = "NWD_USER_BUILDER";
+        public static string K_EDITOR_PANEL_WIDTH = "K_EDITOR_PANEL_WIDTH";
+        //-------------------------------------------------------------------------------------------------------------
         public static string K_APP_CHOOSER_ENVIRONMENT = "Select Environment used in Player Mode (Game panel)";
         public static string K_APP_CHOOSER_ENVIRONMENT_TITLE = "Chooser";
         public static string K_APP_MODEL_MANAGER_TITLE = "Model Manager";

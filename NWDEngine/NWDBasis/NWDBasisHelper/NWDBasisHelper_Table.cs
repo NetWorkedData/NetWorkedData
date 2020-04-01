@@ -601,6 +601,14 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        public virtual void VerifLoadFromDatabaseForEditor()
+        {
+            if (IsLoaded() == false)
+            {
+                LoadFromDatabaseByBundle(NWDBasisBundle.ALL, true);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public virtual void LoadFromDatabaseByReference(string sReference, bool sOverrideMemory)
         {
             LoadFromDatabase("WHERE `Reference` = \"" + sReference + "\"", sOverrideMemory);
