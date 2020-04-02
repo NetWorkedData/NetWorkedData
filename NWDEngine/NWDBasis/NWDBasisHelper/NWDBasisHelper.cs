@@ -113,19 +113,19 @@ namespace NetWorkedData
         public List<Type> ClasseInThisSync()
         {
             List<Type> rReturn = null;
-            if (Application.isPlaying == true)
-            {
+            //if (Application.isPlaying == true)
+            //{
                 rReturn = OverrideClasseInThisSync();
                 if (rReturn.Contains(ClassType) == false)
                 {
                     rReturn.Add(ClassType);
                 }
-            }
-            else
-            {
-                rReturn = new List<Type>();
-                rReturn.Add(ClassType);
-            }
+            //}
+            //else
+            //{
+            //    rReturn = new List<Type>();
+            //    rReturn.Add(ClassType);
+            //}
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

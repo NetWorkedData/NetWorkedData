@@ -382,6 +382,11 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public string PHP_SQL_SELECT()
+        {
+            return SLQSelect(-1);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public string SLQSelect(int sWebBuilt = -1)
         {
             string rReturnString = string.Empty;
