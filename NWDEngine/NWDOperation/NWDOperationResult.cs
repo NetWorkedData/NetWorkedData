@@ -118,12 +118,20 @@ namespace NetWorkedData
                             // let's go... no error for this moment
                         }
                         break;
+                    case "log":
+#if UNITY_EDITOR
+                        foreach (string tL in tValue.ToString().Split(new string[]{"\\r"}, StringSplitOptions.RemoveEmptyEntries))
+                        {
+                            Debug.Log("WS log : "+tL);
+                        }
+#endif
+                        break;
                     default:
                         Type t = tValue.GetType();
                         bool isDict = t.IsGenericType && t.GetGenericTypeDefinition().IsAssignableFrom(typeof(Dictionary<,>));
                         if (!isDict)
                         {
-                            Debug.LogWarning("Key: " + tKey + " with value: " + tValue + " not parse!");
+                                Debug.LogWarning("Key: " + tKey + " with value: " + tValue + " not parse!");
                         }
                         break;
                 }
