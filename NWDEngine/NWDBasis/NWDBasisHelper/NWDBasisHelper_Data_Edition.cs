@@ -90,12 +90,22 @@ namespace NetWorkedData
             return tSelected;
         }
         //-------------------------------------------------------------------------------------------------------------
+        private string LastSelectedObjectKey() { return ClassNamePHP + "_last_selected_ref"; }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetObjectInEdition(NWDTypeClass sObject, bool sResetStack = true, bool sFocus = true)
         {
 
             if (InspectorActions == true)
             {
                 mObjectInEdition = sObject;
+                if (mObjectInEdition != null)
+                {
+                    EditorPrefs.SetString(LastSelectedObjectKey(), mObjectInEdition.Reference);
+                }
+                else
+                {
+                    EditorPrefs.SetString(LastSelectedObjectKey(), string.Empty);
+                }
             }
             else
             {

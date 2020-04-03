@@ -2591,6 +2591,16 @@ namespace NetWorkedData
             {
                 EditorGUIUtility.labelWidth = tOldLabelWidth;
                 //EditorGUI.DrawRect(tWindowRectInpsector, NWDGUI.kTableHeaderColor);
+
+                // TODO move in better place
+                //{
+                string tLastReferenceSelected = EditorPrefs.GetString(LastSelectedObjectKey(), string.Empty);
+                if (string.IsNullOrEmpty(tLastReferenceSelected) == false)
+                {
+                    mObjectInEdition = GetDataByReference(tLastReferenceSelected);
+                }
+                //}
+
                 if (mObjectInEdition != null)
                 {
                     mObjectInEdition.DrawEditor(tWindowRectInpsector, true, null);
