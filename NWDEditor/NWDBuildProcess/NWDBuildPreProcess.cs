@@ -88,6 +88,10 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             Debug.Log("NWDBuildPreProcess OnPreprocessBuild");
+
+            // prevent error not exist (delete by dev)
+            NWDErrorHelper tErrorHelper = NWDBasisHelper.BasisHelper<NWDError>() as NWDErrorHelper;
+            tErrorHelper.GenerateBasisError();
             //Force all datas to be write in database
             NWDDataManager.SharedInstance().DataQueueExecute();
 

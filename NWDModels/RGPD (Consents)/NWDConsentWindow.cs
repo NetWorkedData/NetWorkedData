@@ -22,7 +22,6 @@ namespace NetWorkedData
     [NWDTypeWindowParamAttribute(
             "RGPD",
             "Consent Managment",
-            "NWDConsentWindow",
         new Type[] {
             typeof(NWDConsent),
             typeof(NWDAccountConsent),

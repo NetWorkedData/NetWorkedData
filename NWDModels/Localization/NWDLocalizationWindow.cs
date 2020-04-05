@@ -25,7 +25,6 @@ namespace NetWorkedData
     [NWDTypeWindowParamAttribute(
         "Localization",
         "Localize your meassage, error, UI by Localization reference. (Use Autolocalized script)",
-        "NWDLocalizationWindow",
         new Type[] {
             typeof(NWDLocalization),
             typeof(NWDMessage),

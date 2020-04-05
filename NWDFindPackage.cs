@@ -97,14 +97,14 @@ namespace NetWorkedData
             }
             string tPath = PathEditor(sAddPath + tPro + ".psd");
             Texture2D rTexture2D = AssetDatabase.LoadAssetAtPath<Texture2D>(tPath);
-            if (rTexture2D == null)
-            {
-                Debug.LogWarning("erreur to find " + tPath);
-            }
-            else
-            {
-                Debug.LogWarning("GOOD found " + tPath);
-            }
+            //if (rTexture2D == null)
+            //{
+            //    Debug.LogWarning("erreur to find " + tPath);
+            //}
+            //else
+            //{
+            //    Debug.LogWarning("GOOD found " + tPath);
+            //}
             return rTexture2D;
         }
         //-------------------------------------------------------------------------------------------------------------

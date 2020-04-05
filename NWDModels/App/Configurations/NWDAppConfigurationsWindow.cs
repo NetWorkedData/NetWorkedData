@@ -23,7 +23,6 @@ namespace NetWorkedData
         "App Configuration",
         "Project Edition, You can add, change, remove the item of your game here. " +
         "Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.",
-        "NWDAppConfigurationsWindow",
         new Type[] {
             typeof(NWDVersion),
             typeof(NWDPreferenceKey),

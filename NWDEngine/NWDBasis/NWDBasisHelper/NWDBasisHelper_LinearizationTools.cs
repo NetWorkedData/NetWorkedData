@@ -455,7 +455,10 @@ namespace NetWorkedData
             int tActualWebBuildMax = NWDAppConfiguration.SharedInstance().WebBuildMax + 1;
             WebModelDegradationList.Clear();
             Dictionary<int, List<string>> tModel_Properties = new Dictionary<int, List<string>>(WebModelPropertiesOrder);
+            if (tModel_Properties.ContainsKey( tActualWebBuildMax) == false )
+            {
             tModel_Properties.Add(tActualWebBuildMax, PropertiesOrderArray(-1));
+            }
 
             if (tModel_Properties.Count > 0)
             {

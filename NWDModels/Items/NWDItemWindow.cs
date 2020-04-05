@@ -22,7 +22,6 @@ namespace NetWorkedData
     [NWDTypeWindowParamAttribute(
         "Items",
         "Items",
-        "NWDItemWindow",
         new Type[] {
             typeof(NWDItem),
             typeof(NWDItemGroup),

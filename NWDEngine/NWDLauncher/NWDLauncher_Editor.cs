@@ -146,17 +146,19 @@ namespace NetWorkedData
                 NWEBenchmark.Start();
             }
             State = NWDStatut.ClassDeclareStart;
+            int tClassDeclare = 0;
             foreach (Type tType in AllNetWorkedDataTypes)
             {
                 if (tType != typeof(NWDBasis))
                 {
+                    tClassDeclare++;
                     NWDBasisHelper tHelper = NWDBasisHelper.Declare(tType, BasisToHelperList[tType]);
                 }
             }
             State = NWDStatut.ClassDeclareFinish;
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWEBenchmark.Finish(true, " classes delared : " + tClassDeclare);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

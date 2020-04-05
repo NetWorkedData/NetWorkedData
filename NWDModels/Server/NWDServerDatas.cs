@@ -24,6 +24,7 @@ namespace NetWorkedData
     [NWDClassMenuNameAttribute("Server Datas")]
     public partial class NWDServerDatas : NWDBasis
     {
+        //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Server Services")]
@@ -80,8 +81,14 @@ namespace NetWorkedData
 
         [NWDInspectorGroupStart("Install Server Options")]
         public NWDServerDistribution Distribution { get; set; }
+        [NWDInspectorGroupEnd]
+        [NWDInspectorGroupStart("Server Environment Actif")]
+        public bool Dev { get; set; }
+        public bool Preprod { get; set; }
+        public bool Prod { get; set; }
         //-------------------------------------------------------------------------------------------------------------
 #endif
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

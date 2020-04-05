@@ -32,8 +32,22 @@ namespace NetWorkedData
             return KBasisHelper;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static bool GenericErrorExists(string sDomain, string sCode)
+        {
+            NWEBenchmark.Start();
+            bool rReturn = false;
+            if (GetBasisHelper() != null)
+            {
+                string tReference = GetBasisHelper().ClassTrigramme + "-" + sDomain + NWEConstants.K_MINUS + sCode;
+                rReturn = GetBasisHelper().DatasByReference.ContainsKey(tReference);
+            }
+            NWEBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static NWDError CreateGenericError(string sDomain, string sCode, string sTitle, string sDescription, string sValidation, NWDErrorType sType = NWDErrorType.LogVerbose, NWDBasisTag sTag = NWDBasisTag.TagInternal)
         {
+            NWEBenchmark.Start();
             NWDError tError = null;
             if (GetBasisHelper() != null)
             {
@@ -83,6 +97,7 @@ namespace NetWorkedData
                     tError.UpdateData(true, NWDWritingMode.ByEditorDefault);
                 }
             }
+            NWEBenchmark.Finish();
             return tError;
         }
         //-------------------------------------------------------------------------------------------------------------

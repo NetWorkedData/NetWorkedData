@@ -233,7 +233,7 @@ namespace NetWorkedData
         /// </summary>
         private static void PreventDefaultVersion(NWDVersion sVersion)
         {
-            //NWEBenchmark.Start();
+            NWEBenchmark.Start();
             // check default value for default version
             NWDVersion tDefaultVersion = NWDBasisHelper.GetEditorDataByReference<NWDVersion>(DefaultVersionReference());
             if (tDefaultVersion == sVersion)
@@ -242,7 +242,7 @@ namespace NetWorkedData
                 // force version default to default value
                 sVersion.ResetToDefaultVersionValue();
             }
-            //NWEBenchmark.Finish();
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

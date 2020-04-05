@@ -33,6 +33,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateBasisError()
         {
+            // TODO : too long ... thaht take 0.501 seconds
             NWEBenchmark.Start();
             if (IsLoaded() == true)
             {
@@ -44,9 +45,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateServerErreur()
         {
-            //NWEBenchmark.Start();
+            NWEBenchmark.Start();
             NWDError.NWDError_WEB01 = NWDError.CreateGenericError("webrequest", "WEB01", "Network", "no network or time out", "OK", NWDErrorType.InGame, NWDBasisTag.TagInternal);
-
             NWDError.NWDError_WEB02 = NWDError.CreateGenericError("webrequest", "WEB02", "Network", "http error", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
             NWDError.NWDError_WEB03 = NWDError.CreateGenericError("webrequest", "WEB03", "Network", "http respond is empty", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
             NWDError.NWDError_WEB04 = NWDError.CreateGenericError("webrequest", "WEB04", "Network", "http respond is not valid format", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
@@ -181,42 +181,100 @@ namespace NetWorkedData
             NWDError.NWDError_RescuePageError = NWDError.CreateGenericError("RESC", "NWDError_RescuePageError", "{APP} Rescue request", "{APP} rescue error!", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.NWDError_RescueAnswerLogin = NWDError.CreateGenericError("RESC", "RescueAnswerLogin", "{APP} Rescue Answer Login", "{APP} rescue informations new login is : {LOGIN} new password is : {PASSWORD}", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.NWDError_RescueAnswerEmail = NWDError.CreateGenericError("RESC", "RescueAnswerEmail", "{APP} Rescue Answer Email", "{APP} rescue informations new password is : {PASSWORD} ", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            //NWEBenchmark.Finish();
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateGenericErreur()
         {
-            //NWEBenchmark.Start();
-            NWDError.NWDError_XXx01 = NWDError.CreateGenericError("XXX", "XXXx01", "Error in  model XXX", "error in request creation in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx02 = NWDError.CreateGenericError("XXX", "XXXx02", "Error in  model XXX", "error in request creation add primary key in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx03 = NWDError.CreateGenericError("XXX", "XXXx03", "Error in  model XXX", "error in request creation add autoincrement modify in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx05 = NWDError.CreateGenericError("XXX", "XXXx05", "Error in  model XXX", "error in sql index creation in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx07 = NWDError.CreateGenericError("XXX", "XXXx07", "Error in  model XXX", "error in sql defragment in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx08 = NWDError.CreateGenericError("XXX", "XXXx08", "Error in  model XXX", "error in sql drop in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx09 = NWDError.CreateGenericError("XXX", "XXXx09", "Error in  model XXX", "error in sql Flush in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx11 = NWDError.CreateGenericError("XXX", "XXXx11", "Error in  model XXX", "error in sql add columns in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx12 = NWDError.CreateGenericError("XXX", "XXXx12", "Error in  model XXX", "error in sql alter columns in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx31 = NWDError.CreateGenericError("XXX", "XXXx31", "Error in  model XXX", "error in request insert new datas before update in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx32 = NWDError.CreateGenericError("XXX", "XXXx32", "Error in  model XXX", "error in request select datas to update in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx33 = NWDError.CreateGenericError("XXX", "XXXx33", "Error in  model XXX", "error in request select updatable datas in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx38 = NWDError.CreateGenericError("XXX", "XXXx38", "Error in  model XXX", "error in request update datas in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx39 = NWDError.CreateGenericError("XXX", "XXXx39", "Error in  model XXX", "error more than one row for this reference in  XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx40 = NWDError.CreateGenericError("XXX", "XXXx40", "Error in  model XXX", "error in flush trashed in  XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx91 = NWDError.CreateGenericError("XXX", "XXXx91", "Error in  model XXX", "error update integrity in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx98 = NWDError.CreateGenericError("XXX", "XXXx98", "Error in  model XXX", "error columns header sign in XXX (update webservice?)", "OK", NWDErrorType.UnityEditor, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx99 = NWDError.CreateGenericError("XXX", "XXXx99", "Error in  model XXX", "error columns number in XXX (update table?)", "OK", NWDErrorType.UnityEditor, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx88 = NWDError.CreateGenericError("XXX", "XXXx88", "Error in  model XXX", "integrity of one datas is false, break in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.NWDError_XXx77 = NWDError.CreateGenericError("XXX", "XXXx77", "Error in  model XXX", "error update log in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            //NWEBenchmark.Finish();
+            NWEBenchmark.Start();
+            //if (NWDError.GenericErrorExists("XXX", "XXXx01") == false)
+            {
+                NWDError.NWDError_XXx01 = NWDError.CreateGenericError("XXX", "XXXx01", "Error in  model XXX", "error in request creation in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx02") == false)
+            {
+                NWDError.NWDError_XXx02 = NWDError.CreateGenericError("XXX", "XXXx02", "Error in  model XXX", "error in request creation add primary key in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx03") == false)
+            {
+                NWDError.NWDError_XXx03 = NWDError.CreateGenericError("XXX", "XXXx03", "Error in  model XXX", "error in request creation add autoincrement modify in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx05") == false)
+            {
+                NWDError.NWDError_XXx05 = NWDError.CreateGenericError("XXX", "XXXx05", "Error in  model XXX", "error in sql index creation in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx07") == false)
+            {
+                NWDError.NWDError_XXx07 = NWDError.CreateGenericError("XXX", "XXXx07", "Error in  model XXX", "error in sql defragment in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx08") == false)
+            {
+                NWDError.NWDError_XXx08 = NWDError.CreateGenericError("XXX", "XXXx08", "Error in  model XXX", "error in sql drop in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx09") == false)
+            {
+                NWDError.NWDError_XXx09 = NWDError.CreateGenericError("XXX", "XXXx09", "Error in  model XXX", "error in sql Flush in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx11") == false)
+            {
+                NWDError.NWDError_XXx11 = NWDError.CreateGenericError("XXX", "XXXx11", "Error in  model XXX", "error in sql add columns in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx12") == false)
+            {
+                NWDError.NWDError_XXx12 = NWDError.CreateGenericError("XXX", "XXXx12", "Error in  model XXX", "error in sql alter columns in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx31") == false)
+            {
+                NWDError.NWDError_XXx31 = NWDError.CreateGenericError("XXX", "XXXx31", "Error in  model XXX", "error in request insert new datas before update in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx32") == false)
+            {
+                NWDError.NWDError_XXx32 = NWDError.CreateGenericError("XXX", "XXXx32", "Error in  model XXX", "error in request select datas to update in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx33") == false)
+            {
+                NWDError.NWDError_XXx33 = NWDError.CreateGenericError("XXX", "XXXx33", "Error in  model XXX", "error in request select updatable datas in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx38") == false)
+            {
+                NWDError.NWDError_XXx38 = NWDError.CreateGenericError("XXX", "XXXx38", "Error in  model XXX", "error in request update datas in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx39") == false)
+            {
+                NWDError.NWDError_XXx39 = NWDError.CreateGenericError("XXX", "XXXx39", "Error in  model XXX", "error more than one row for this reference in  XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx40") == false)
+            {
+                NWDError.NWDError_XXx40 = NWDError.CreateGenericError("XXX", "XXXx40", "Error in  model XXX", "error in flush trashed in  XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx91") == false)
+            {
+                NWDError.NWDError_XXx91 = NWDError.CreateGenericError("XXX", "XXXx91", "Error in  model XXX", "error update integrity in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx98") == false)
+            {
+                NWDError.NWDError_XXx98 = NWDError.CreateGenericError("XXX", "XXXx98", "Error in  model XXX", "error columns header sign in XXX (update webservice?)", "OK", NWDErrorType.UnityEditor, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx99") == false)
+            {
+                NWDError.NWDError_XXx99 = NWDError.CreateGenericError("XXX", "XXXx99", "Error in  model XXX", "error columns number in XXX (update table?)", "OK", NWDErrorType.UnityEditor, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx88") == false)
+            {
+                NWDError.NWDError_XXx88 = NWDError.CreateGenericError("XXX", "XXXx88", "Error in  model XXX", "integrity of one datas is false, break in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            }
+            //if (NWDError.GenericErrorExists("XXX", "XXXx77") == false)
+            {
+                NWDError.NWDError_XXx77 = NWDError.CreateGenericError("XXX", "XXXx77", "Error in  model XXX", "error update log in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            }
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void ClassDatasAreLoaded()
         {
             //NWEBenchmark.Start();
             base.ClassDatasAreLoaded();
-            //#if UNITY_EDITOR
             GenerateBasisError();
-            //#endif
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

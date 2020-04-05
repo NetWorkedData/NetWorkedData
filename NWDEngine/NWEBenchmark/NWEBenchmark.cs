@@ -11,11 +11,14 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         private static Dictionary<string, long> cStartDico = new Dictionary<string, long>(new StringIndexKeyComparer());
+        private static Dictionary<string, long> cStepDico = new Dictionary<string, long>(new StringIndexKeyComparer());
         public static long BenchmarkError = 0;
         private static float FrameRate = -1;
         private static Stopwatch Watch = new Stopwatch();
+        //private static float LastStep = 0;
         //-------------------------------------------------------------------------------------------------------------
 #if (UNITY_EDITOR)
+        public static float kWarningDefault = 0.003f;
         public static float kMaxDefault = 0.010f;
 #elif (UNITY_ANDROID || UNITY_IOS)
         public static float kMaxDefault = 0.030f;
@@ -108,6 +111,14 @@ namespace NetWorkedData
             {
                 StartCount++;
                 cStartDico.Add(sKey, Watch.ElapsedMilliseconds);
+                if (cStartDico.ContainsKey(sKey) == true)
+                {
+                    cStepDico[sKey] = Watch.ElapsedMilliseconds;
+                }
+                else
+                {
+                    cStepDico.Add(sKey, Watch.ElapsedMilliseconds);
+                }
                 string tLog = "benchmark : " + GetIndentation() + "•<b>" + sKey + "</b>\t" + " start now!";
                 UnityEngine.Debug.Log(tLog);
             }
@@ -147,7 +158,14 @@ namespace NetWorkedData
         public static double Finish(string sKey, bool sWithDebug = true, string sMoreInfos = "")
         {
             //long tStart = Watch.ElapsedMilliseconds;
-
+            if (cStartDico.ContainsKey(sKey) == true)
+            {
+                cStepDico[sKey] = Watch.ElapsedMilliseconds;
+            }
+            else
+            {
+                cStepDico.Add(sKey, Watch.ElapsedMilliseconds);
+            }
             double rDelta = 0;
             double rFrameSpend = 0;
             if (cStartDico.ContainsKey(sKey) == true)
@@ -155,6 +173,10 @@ namespace NetWorkedData
                 rDelta = (Watch.ElapsedMilliseconds - cStartDico[sKey]) / 1000.0F;
                 rFrameSpend = FrameRate * rDelta;
                 string tMaxColor = "green";
+                if (rDelta >= kWarningDefault)
+                {
+                    tMaxColor = "orange";
+                }
                 if (rDelta >= kMaxDefault)
                 {
                     tMaxColor = "red";
@@ -183,26 +205,44 @@ namespace NetWorkedData
         {
             //long tStart = Watch.ElapsedMilliseconds;
 
+            double rDeltaAbsolute = 0;
             double rDelta = 0;
             double rFrameSpend = 0;
+            long LastStep = 0;
             if (cStartDico.ContainsKey(sKey) == true)
             {
-                rDelta = (Watch.ElapsedMilliseconds - cStartDico[sKey]) / 1000.0F;
+                rDeltaAbsolute = (Watch.ElapsedMilliseconds - cStartDico[sKey]) / 1000.0F;
+                if (cStartDico.ContainsKey(sKey) == true)
+                {
+                    LastStep = cStepDico[sKey];
+                }
+                rDelta = (Watch.ElapsedMilliseconds - LastStep) / 1000.0F;
                 rFrameSpend = FrameRate * rDelta;
                 string tMaxColor = "green";
+                if (rDelta >= kWarningDefault)
+                {
+                    tMaxColor = "orange";
+                }
                 if (rDelta >= kMaxDefault)
                 {
                     tMaxColor = "red";
                 }
                 string tLog = "benchmark : " + GetIndentation() + "|    <b>" + sKey + "</b>\t" + " step <color=" + tMaxColor + ">" +
-                 rDelta.ToString("F3") + " seconds </color> spent " + rFrameSpend.ToString("F1") + "F/" + FrameRate + "Fps. " + sMoreInfos;
+                rDelta.ToString("F3") + " seconds </color> spent " + rFrameSpend.ToString("F1") + "F/" + FrameRate + "Fps. (Delta Absolute = " + rDeltaAbsolute.ToString("F3") + ") " + sMoreInfos;
                 UnityEngine.Debug.Log(tLog);
             }
             else
             {
                 UnityEngine.Debug.Log("benchmark : error '" + GetIndentation() + sKey + "' has no start value. " + sMoreInfos);
             }
-
+            if (cStartDico.ContainsKey(sKey) == true)
+            {
+                cStepDico[sKey] = Watch.ElapsedMilliseconds;
+            }
+            else
+            {
+                cStepDico.Add(sKey, Watch.ElapsedMilliseconds);
+            }
             //long tStop = Watch.ElapsedMilliseconds - tStart;
             //BenchmarkError += tStop;
             //UnityEngine.Debug.Log("NWEBenchmark STOPWATCH Step() : " + (tStop / 1000.0F).ToString("F3") + " s");

@@ -55,6 +55,9 @@ namespace NetWorkedData
             //Debug.Log("Play Mode State Changed!");
             if (sState == PlayModeStateChange.ExitingEditMode)
             {
+                // prevent error not exist (delete by dev)
+                NWDErrorHelper tErrorHelper = NWDBasisHelper.BasisHelper<NWDError>() as NWDErrorHelper;
+                tErrorHelper.GenerateBasisError();
                 //Force all datas to be write in database
                 NWDDataManager.SharedInstance().DataQueueExecute();
                 // must check the accounts for test

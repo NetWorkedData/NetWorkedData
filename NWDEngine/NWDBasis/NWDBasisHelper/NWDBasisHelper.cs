@@ -115,11 +115,11 @@ namespace NetWorkedData
             List<Type> rReturn = null;
             //if (Application.isPlaying == true)
             //{
-                rReturn = OverrideClasseInThisSync();
-                if (rReturn.Contains(ClassType) == false)
-                {
-                    rReturn.Add(ClassType);
-                }
+            rReturn = OverrideClasseInThisSync();
+            if (rReturn.Contains(ClassType) == false)
+            {
+                rReturn.Add(ClassType);
+            }
             //}
             //else
             //{
@@ -249,6 +249,7 @@ namespace NetWorkedData
                 }
             }
 
+            //NWEBenchmark.Step();
             // insert basic infos
             ClassType = sType;
             ClassTableName = sType.Name;
@@ -261,6 +262,8 @@ namespace NetWorkedData
             ClassMenuName = tMenuName;
             ClassDescription = tDescription;
             ClassSynchronize = tServerSynchronize;
+            //NWEBenchmark.Step();
+            // TODO:  ... too long! that take 0.006s ... it's too much!
             foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
             {
                 if (tMethod.GetCustomAttributes(typeof(NWDIndexInMemory), true).Length > 0)
@@ -292,7 +295,9 @@ namespace NetWorkedData
                     }
                 }
             }
+            //NWEBenchmark.Step();
             PrefLoad();
+            // NWEBenchmark.Step();
             bool rAccountConnected = false;
             bool rAssetConnected = false;
             bool rLockedObject = true;
@@ -310,6 +315,7 @@ namespace NetWorkedData
             {
                 rAccountConnected = true;
             }
+            // NWEBenchmark.Step();
             PropertiesArray = sType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             List<PropertyInfo> tDataPropertiesArray = new List<PropertyInfo>();
             foreach (PropertyInfo tProp in sType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
@@ -387,6 +393,7 @@ namespace NetWorkedData
                     }
                 }
             }
+            //NWEBenchmark.Step();
             NWDDataPropertiesArray = tDataPropertiesArray.ToArray();
             kAccountDependent = rAccountConnected;
             // reccord class' object is account dependent properties
@@ -403,6 +410,7 @@ namespace NetWorkedData
             kAssetDependent = rAssetConnected;
             kAssetDependentProperties = tAssetPropertyList;
             NWDClassClusterAttribute tClusterAttribute = null;
+            //NWEBenchmark.Step();
             if (sType.GetCustomAttributes(typeof(NWDClassClusterAttribute), true).Length > 0)
             {
                 tClusterAttribute = (NWDClassClusterAttribute)sType.GetCustomAttributes(typeof(NWDClassClusterAttribute), true)[0];
@@ -417,6 +425,8 @@ namespace NetWorkedData
                 ClusterMin = 0;
                 ClusterMax = 2048;
             }
+            //NWEBenchmark.Step();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void InstallHelper()
@@ -495,6 +505,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDBasisHelper Declare(Type sType, Type sTypeHelper)
         {
+            //NWEBenchmark.Start();
             NWDBasisHelper tTypeInfos = null;
             if (sType.IsSubclassOf(typeof(NWDTypeClass)))
             {
@@ -514,17 +525,22 @@ namespace NetWorkedData
                     {
                         tTypeInfos = new NWDBasisHelper();
                     }
+                    //NWEBenchmark.Step();
                     tTypeInfos.InitHelper(sType);
+                    //NWEBenchmark.Step();
                     tTypeInfos.InstallHelper();
+                    //NWEBenchmark.Step();
                     tTypeInfos.ClassInitialization();
+                    //NWEBenchmark.Step();
 #if UNITY_EDITOR
                     tTypeInfos.LoadEditorPrefererences();
+                    //NWEBenchmark.Step();
 #endif
                     tTypeInfos.ClassLoaded = true;
                     TypesDictionary.Add(sType, tTypeInfos);
                 }
             }
-            //NWEBenchmark.Finish("Declare NWDBasisHelper " + sType.Name);
+            //NWEBenchmark.Finish(true, "Declare NWDBasisHelper " + sType.Name);
             return tTypeInfos;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -927,7 +943,7 @@ namespace NetWorkedData
             }
             // Ok now I add datas in editor table list
 #if UNITY_EDITOR
-            
+
             if (EditorTableDatas.Contains(sData) == false)
             {
                 EditorTableDatas.Add(sData);
