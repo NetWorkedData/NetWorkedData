@@ -85,12 +85,10 @@ namespace NetWorkedData
                         rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
                         rReturn.AppendLine("protected override NWDTypeClass CreateInstance_Bypass(bool sInsertInNetWorkedData, bool sStupid, PropertyInfo[] sPropertyInfo)");
                         rReturn.AppendLine("{");
-                        if (ClassType == typeof(NWDCategory))
-                        {
-                            rReturn.AppendLine("Debug.Log(\"override NWDTypeClass CreateInstance_Bypass\");");
-                        }
-
-
+                        //if (ClassType == typeof(NWDCategory))
+                        //{
+                        //    rReturn.AppendLine("Debug.Log(\"override NWDTypeClass CreateInstance_Bypass\");");
+                        //}
                         //rReturn.AppendLine("" + ClassNamePHP + " rReturn = new " + ClassNamePHP + "(sInsertInNetWorkedData);");
                         //foreach (PropertyInfo tProp in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                         //{
@@ -110,9 +108,6 @@ namespace NetWorkedData
                         //        }
                         //    }
                         //}
-
-
-
                         rReturn.AppendLine("" + ClassNamePHP + " rReturn = new " + ClassNamePHP + "(sInsertInNetWorkedData) {");
                         foreach (PropertyInfo tProp in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                         {
@@ -124,7 +119,12 @@ namespace NetWorkedData
                             {
                                 if (tProp.PropertyType.IsGenericType)
                                 {
-                                    rReturn.AppendLine("" + tProp.Name + " = new " + tProp.PropertyType.Name.Replace("`1", "<" + tProp.PropertyType.GenericTypeArguments[0].Name + ">") + "(),");
+                                    List<string> tArguments = new List<string>();
+                                    foreach (Type tTypeArg in tProp.PropertyType.GenericTypeArguments)
+                                    {
+                                        tArguments.Add(tTypeArg.Name);
+                                    }
+                                    rReturn.AppendLine("" + tProp.Name + " = new " + tProp.PropertyType.Name.Replace("`"+ tArguments.Count + "", "<" + string.Join(", ", tArguments) + ">") + "(),");
                                 }
                                 else
                                 {
@@ -133,9 +133,6 @@ namespace NetWorkedData
                             }
                         }
                         rReturn.AppendLine("};");
-
-
-
                         rReturn.AppendLine("return rReturn;");
                         rReturn.AppendLine("}");
                     }
