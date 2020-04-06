@@ -45,6 +45,11 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static NWDError  CreateGenericError(string sDomain, string sCode, string sTitle, string sDescription, string sValidation, NWDErrorType sType = NWDErrorType.LogVerbose, NWDBasisTag sTag = NWDBasisTag.TagInternal)
+        {
+            return CreateGenericError(sDomain + NWEConstants.K_MINUS + sCode, sTitle, sDescription, sValidation, sType, sTag);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static NWDError  CreateGenericError(string sDomain_sCode, string sTitle, string sDescription, string sValidation, NWDErrorType sType = NWDErrorType.LogVerbose, NWDBasisTag sTag = NWDBasisTag.TagInternal)
         {
             NWEBenchmark.Start();
