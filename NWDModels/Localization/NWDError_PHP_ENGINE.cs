@@ -192,16 +192,17 @@ namespace NetWorkedData
             return tFile.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private static string PHP_Error(string sCode, string sInfos = NWEConstants.K_EMPTY_STRING, bool sExit = true)
-        {
-            return FUNCTIONPHP_Error + "('" + sCode.Replace("'", "\\'") + "', '" + sInfos.Replace("'", "\\'") + "', " + sExit.ToString().ToLower() + ", __FILE__, __FUNCTION__, __LINE__);" + "\n";
-        }
+        //private static string PHP_Error(string sCode, string sInfos = NWEConstants.K_EMPTY_STRING, bool sExit = true)
+        //{
+        //    return FUNCTIONPHP_Error + "('" + sCode.Replace("'", "\\'") + "', '" + sInfos.Replace("'", "\\'") + "', " + sExit.ToString().ToLower() + ", __FILE__, __FUNCTION__, __LINE__);" + "\n";
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static string PHP_Error(NWDError sError, string sInfos = NWEConstants.K_EMPTY_STRING, bool sExit = true)
+        public static string PHP_Error(string sError, string sInfos = NWEConstants.K_EMPTY_STRING, bool sExit = true)
         {
-            if (sError != null)
+            NWDError tError = NWDError.GetError(sError);
+            if (tError != null)
             {
-                return "/* " + sError.Description.GetBaseString() + " */" + "\n" + PHP_Error(sError.Code, sInfos, sExit);
+                return "/* " + tError.Description.GetBaseString() + " */" + "\n" + PHP_Error(tError.Code, sInfos, sExit);
             }
             else
             {
@@ -254,13 +255,13 @@ namespace NetWorkedData
             tFile.AppendLine("if (!$tResultError)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryError"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.CreateGenericError("ERR", "ERR01", "ERROR error", "Invalid Request.", "OK", NWDErrorType.Alert)));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_ERR01));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
             tFile.AppendLine("if ($tResultError->num_rows != 1)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.CreateGenericError("ERR", "RESC04", "ERROR error", "Invalid Reference match.", "OK", NWDErrorType.Alert)));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_RESC04));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");

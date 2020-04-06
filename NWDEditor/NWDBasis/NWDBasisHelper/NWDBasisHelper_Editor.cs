@@ -493,7 +493,7 @@ namespace NetWorkedData
         public NWDError Error(string sXCode, string sDescription)
         {
             //Debug.Log("NWDBasisHelper Error()");
-            return NWDError.CreateGenericError(ClassTableName, ClassTrigramme + sXCode, "Error in " + ClassTableName, sDescription, "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            return NWDError.CreateGenericError(ClassTableName + NWEConstants.K_MINUS + ClassTrigramme + sXCode, "Error in " + ClassTableName, sDescription, "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RefreshAllWindows()

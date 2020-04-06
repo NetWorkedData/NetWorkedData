@@ -45,13 +45,13 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDError CreateGenericError(string sDomain, string sCode, string sTitle, string sDescription, string sValidation, NWDErrorType sType = NWDErrorType.LogVerbose, NWDBasisTag sTag = NWDBasisTag.TagInternal)
+        public static NWDError  CreateGenericError(string sDomain_sCode, string sTitle, string sDescription, string sValidation, NWDErrorType sType = NWDErrorType.LogVerbose, NWDBasisTag sTag = NWDBasisTag.TagInternal)
         {
             NWEBenchmark.Start();
             NWDError tError = null;
             if (GetBasisHelper() != null)
             {
-                string tReference = GetBasisHelper().ClassTrigramme + "-" + sDomain + NWEConstants.K_MINUS + sCode;
+                string tReference = GetBasisHelper().ClassTrigramme + "-" + sDomain_sCode;
                 if (GetBasisHelper().DatasByReference.ContainsKey(tReference) == true)
                 {
                     //Debug.Log("find tReference " + tReference);
@@ -71,8 +71,9 @@ namespace NetWorkedData
                     tError.InternalDescription = sDescription;
                     tError.Tag = sTag;
                     // domain code
-                    tError.Domain = sDomain;
-                    tError.Code = sCode;
+                    string[] sDomoinCode = sDomain_sCode.Split(new char[] { NWEConstants.K_MINUS[0]});
+                    tError.Domain = sDomoinCode[0];
+                    tError.Code = sDomoinCode[1];
                     // title
                     NWDLocalizableStringType tTitle = new NWDLocalizableStringType();
                     tTitle.AddBaseString(sTitle);

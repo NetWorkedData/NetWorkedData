@@ -678,15 +678,15 @@ namespace NetWorkedData
             string[] tColumnList = tColumnListA.ToArray();
             int tReferenceIndex = Array.IndexOf(tColumnList, "Reference");
             PropertyInfo[] tPropTypeArrayToCreate = tPropTypelistToCreate.ToArray();
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWEBenchmark.Step();
-            }
+            //if (NWDLauncher.ActiveBenchmark)
+            //{
+            //    NWEBenchmark.Step();
+            //}
             IntPtr stmtc = SQLite3.Prepare2(tConnectorHandle, "SELECT `" + string.Join("`, `", tColumnList) + "` FROM `" + ClassNamePHP + "` " + sWhere + ";");
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWEBenchmark.Step();
-            }
+            //if (NWDLauncher.ActiveBenchmark)
+            //{
+            //    NWEBenchmark.Step();
+            //}
             while (SQLite3.Step(stmtc) == SQLite3.Result.Row)
             {
                 string tReferenceFromDataBase = SQLite3.ColumnString(stmtc, tReferenceIndex);
@@ -715,16 +715,16 @@ namespace NetWorkedData
                 }
                 tCount++;
             }
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWEBenchmark.Step();
-            }
+            //if (NWDLauncher.ActiveBenchmark)
+            //{
+            //    NWEBenchmark.Step();
+            //}
             SQLite3.Finalize(stmtc);
             DatasLoaded = true;
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWEBenchmark.Step(true, " " + ClassNamePHP + " " + tCount + " row loaded! Select ... " + sWhere);
-            }
+            //if (NWDLauncher.ActiveBenchmark)
+            //{
+            //    NWEBenchmark.Step(true, " " + ClassNamePHP + " " + tCount + " row loaded! Select ... " + sWhere);
+            //}
             ClassDatasAreLoaded();
 #if UNITY_EDITOR
             FilterTableEditor();

@@ -1253,9 +1253,9 @@ namespace NetWorkedData
             tFile.AppendLine("$ereg_hash = '/^(.*)$/';");
             tFile.AppendLine("$ereg_token = '/^(.*)$/';");
             tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("if (headerValue ('os', '" + NWD.K_WEB_HEADER_OS_KEY + "', $ereg_os, '" + NWDError.NWDError_HEA01.Code + "', '" + NWDError.NWDError_HEA11.Code + "')) // test if os infos is valid");
+            tFile.AppendLine("if (headerValue ('os', '" + NWD.K_WEB_HEADER_OS_KEY + "', $ereg_os, '" + NWDError.GetError(NWDError.NWDError_HEA01).Code + "', '" + NWDError.GetError(NWDError.NWDError_HEA11).Code + "')) // test if os infos is valid");
             tFile.AppendLine("{");
-            tFile.AppendLine("if (headerValue ('version', '" + NWD.K_WEB_HEADER_VERSION_KEY + "', $ereg_version, '" + NWDError.NWDError_HEA02.Code + "', '" + NWDError.NWDError_HEA12.Code + "')) // test if version is ok");
+            tFile.AppendLine("if (headerValue ('version', '" + NWD.K_WEB_HEADER_VERSION_KEY + "', $ereg_version, '" + NWDError.GetError(NWDError.NWDError_HEA02).Code + "', '" + NWDError.GetError(NWDError.NWDError_HEA12).Code + "')) // test if version is ok");
             tFile.AppendLine("{");
             tFile.AppendLine("// I must prevent admin mode in table creation");
             tFile.AppendLine("global $admin;");
@@ -1272,12 +1272,12 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("if ($versionValid == true)");
             tFile.AppendLine("{");
-            tFile.AppendLine("if (headerValue ('lang', '" + NWD.K_WEB_HEADER_LANG_KEY + "', $ereg_lang, '" + NWDError.NWDError_HEA03.Code + "', '" + NWDError.NWDError_HEA13.Code + "')) // test if lang is ok");
+            tFile.AppendLine("if (headerValue ('lang', '" + NWD.K_WEB_HEADER_LANG_KEY + "', $ereg_lang, '" + NWDError.GetError(NWDError.NWDError_HEA03).Code + "', '" + NWDError.GetError(NWDError.NWDError_HEA13).Code + "')) // test if lang is ok");
             tFile.AppendLine("{");
-            tFile.AppendLine("if (headerValue ('uuid', '" + NWD.K_WEB_UUID_KEY + "', $ereg_UUID, '" + NWDError.NWDError_HEA04.Code + "', '" + NWDError.NWDError_HEA14.Code + "')) // test UUID of headers");
+            tFile.AppendLine("if (headerValue ('uuid', '" + NWD.K_WEB_UUID_KEY + "', $ereg_UUID, '" + NWDError.GetError(NWDError.NWDError_HEA04).Code + "', '" + NWDError.GetError(NWDError.NWDError_HEA14).Code + "')) // test UUID of headers");
             tFile.AppendLine("{");
             tFile.AppendLine("$HeaderUUID = $uuid;");
-            tFile.AppendLine("if (headerValue ('hash', '" + NWD.HashKey + "', $ereg_hash, '" + NWDError.NWDError_HEA05.Code + "', '" + NWDError.NWDError_HEA15.Code + "')) // test hash of headers");
+            tFile.AppendLine("if (headerValue ('hash', '" + NWD.HashKey + "', $ereg_hash, '" + NWDError.GetError(NWDError.NWDError_HEA05).Code + "', '" + NWDError.GetError(NWDError.NWDError_HEA15).Code + "')) // test hash of headers");
             tFile.AppendLine("{");
             tFile.AppendLine("headerBrutalValue ('token', '" + NWD.K_WEB_REQUEST_TOKEN_KEY + "');");
             tFile.AppendLine("$temporalSalt = saltTemporal($NWD_SLT_TMP, 0);");

@@ -68,6 +68,7 @@ namespace NetWorkedData
         public override void AddonUpdateMe()
         {
             base.AddonUpdateMe();
+//#if UNITY_EDITOR
             // do something when object will be updated
             List<string> tDescription = new List<string>();
             if (Dev == true)
@@ -83,6 +84,7 @@ namespace NetWorkedData
                 tDescription.Add(NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment);
             }
             InternalDescription = string.Join(" / ", tDescription);
+//#endif
             // TODO verif if method is call in good place in good timing
         }
         //-------------------------------------------------------------------------------------------------------------

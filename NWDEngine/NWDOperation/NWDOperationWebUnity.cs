@@ -264,7 +264,7 @@ namespace NetWorkedData
                     Debug.Log(Request.error + "\n" + Request.downloadHandler.text + "\n");
 #endif
                     Statut = NWEOperationState.Error;
-                    ResultInfos.SetError(NWDError.NWDError_WEB01);
+                    ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_WEB01));
                 }
                 else if (Request.isHttpError)
                 {
@@ -272,7 +272,7 @@ namespace NetWorkedData
                     Debug.Log(Request.error + "\n" + Request.downloadHandler.text + "\n " + Request.url);
 #endif
                     Statut = NWEOperationState.Error;
-                    ResultInfos.SetError(NWDError.NWDError_WEB02);
+                    ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_WEB02));
                 }
                 else
                 {
@@ -295,7 +295,7 @@ namespace NetWorkedData
                         // Check for error
                         if (tDataConverted.Equals(string.Empty))
                         {
-                            ResultInfos.SetError(NWDError.NWDError_WEB04);
+                            ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_WEB04));
                             // Application is in running mode
                             // Request Failed, send Invoke
                             //FailInvoke(Request.downloadProgress, ResultInfos);
@@ -317,7 +317,7 @@ namespace NetWorkedData
                                     if (tData == null)
                                     {
                                         // Log DownloadHandler in console
-                                        ResultInfos.SetError(NWDError.NWDError_WEB03);
+                                        ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_WEB03));
                                         // Notification of a Download success
                                         NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
                                         // Request Failed, send Invoke
@@ -335,14 +335,14 @@ namespace NetWorkedData
                                                 string tDigestValue = NWESecurityTools.GenerateSha(Environment.SaltStart + tSCR + Environment.SaltEnd, NWESecurityShaTypeEnum.Sha1);
                                                 if (tDigestValue != tSCRDGT)
                                                 {
-                                                    ResultInfos.SetError(NWDError.NWDError_RQT98);
+                                                    ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_RQT98));
                                                 }
                                                 else
                                                 {
                                                     tData = NWESecurityTools.RemoveAes(tSCR, Environment.DataSHAPassword, Environment.DataSHAVector, NWESecurityAesTypeEnum.Aes128);
                                                     if (tData == null)
                                                     {
-                                                        ResultInfos.SetError(NWDError.NWDError_RQT99);
+                                                        ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_RQT99));
                                                     }
                                                     else
                                                     {
@@ -352,7 +352,7 @@ namespace NetWorkedData
                                             }
                                             else
                                             {
-                                                ResultInfos.SetError(NWDError.NWDError_RQT98);
+                                                ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_RQT98));
                                             }
                                         }
                                         // Request in Progress, send Invoke
@@ -365,21 +365,21 @@ namespace NetWorkedData
                                             if (Environment.RequesToken == ResultInfos.token)
                                             {
                                                 // What the token is the same? It's not possible!
-                                                ResultInfos.SetError(NWDError.NWDError_RQT95);
+                                                ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_RQT95));
                                             }
                                             else
                                             {
                                                 if (Environment.RequesToken == Request.GetResponseHeader(NWD.K_WEB_REQUEST_TOKEN_KEY))
                                                 {
                                                     // What the token is not beetween respond and header? It's not possible!
-                                                    ResultInfos.SetError(NWDError.NWDError_RQT97);
+                                                    ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_RQT97));
                                                 }
                                                 else
                                                 {
                                                     if (TestTemporalRequestHash(Request.GetResponseHeader(NWD.HashKey), Request.GetResponseHeader(NWD.K_WEB_REQUEST_TOKEN_KEY)) == false)
                                                     {
                                                         // What the token is not valid!? It's not possible!
-                                                        ResultInfos.SetError(NWDError.NWDError_RQT96);
+                                                        ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_RQT96));
                                                     }
                                                     else
                                                     {
@@ -395,26 +395,41 @@ namespace NetWorkedData
                                         // Check if error
                                         if (ResultInfos.isError)
                                         {
+
+                                           NWDError tNWDError_RQT90  = NWDError.GetError(NWDError.NWDError_RQT90);
+                                            NWDError tNWDError_RQT91 = NWDError.GetError(NWDError.NWDError_RQT91);
+                                            NWDError tNWDError_RQT92 = NWDError.GetError(NWDError.NWDError_RQT92);
+                                            NWDError tNWDError_RQT93 = NWDError.GetError(NWDError.NWDError_RQT93);
+                                            NWDError tNWDError_RQT94 = NWDError.GetError(NWDError.NWDError_RQT94);
+                                            NWDError tNWDError_RQT95 = NWDError.GetError(NWDError.NWDError_RQT95);
+                                            NWDError tNWDError_RQT96 = NWDError.GetError(NWDError.NWDError_RQT96);
+                                            NWDError tNWDError_RQT97 = NWDError.GetError(NWDError.NWDError_RQT97);
+                                            NWDError tNWDError_RQT98 = NWDError.GetError(NWDError.NWDError_RQT98);
+                                            NWDError tNWDError_RQT99 = NWDError.GetError(NWDError.NWDError_RQT99);
+
+                                            NWDError tNWDError_ACC98 = NWDError.GetError(NWDError.NWDError_ACC98);
+                                            NWDError tNWDError_ACC99 = NWDError.GetError(NWDError.NWDError_ACC99);
+
                                             Statut = NWEOperationState.Failed;
-                                            if (NWDError.NWDError_RQT90 != null &&
-                                                NWDError.NWDError_RQT91 != null &&
-                                                NWDError.NWDError_RQT92 != null &&
-                                                NWDError.NWDError_RQT93 != null &&
-                                                NWDError.NWDError_RQT94 != null &&
-                                                NWDError.NWDError_RQT95 != null &&
-                                                NWDError.NWDError_RQT96 != null &&
-                                                NWDError.NWDError_RQT97 != null &&
-                                                NWDError.NWDError_RQT98 != null &&
-                                                NWDError.NWDError_RQT99 != null)
+                                            if (tNWDError_RQT90 != null &&
+                                                tNWDError_RQT91 != null &&
+                                                tNWDError_RQT92 != null &&
+                                                tNWDError_RQT93 != null &&
+                                                tNWDError_RQT94 != null &&
+                                                tNWDError_RQT95 != null &&
+                                                tNWDError_RQT96 != null &&
+                                                tNWDError_RQT97 != null &&
+                                               tNWDError_RQT98 != null &&
+                                                tNWDError_RQT99 != null)
                                             {
-                                                if (ResultInfos.errorCode == NWDError.NWDError_RQT90.Code ||
-                                                    ResultInfos.errorCode == NWDError.NWDError_RQT91.Code ||
-                                                    ResultInfos.errorCode == NWDError.NWDError_RQT92.Code ||
-                                                    ResultInfos.errorCode == NWDError.NWDError_RQT93.Code ||
-                                                    ResultInfos.errorCode == NWDError.NWDError_RQT94.Code ||
-                                                    ResultInfos.errorCode == NWDError.NWDError_RQT95.Code ||
-                                                    ResultInfos.errorCode == NWDError.NWDError_RQT96.Code ||
-                                                    ResultInfos.errorCode == NWDError.NWDError_RQT97.Code
+                                                if (ResultInfos.errorCode == tNWDError_RQT90.Code ||
+                                                    ResultInfos.errorCode == tNWDError_RQT91.Code ||
+                                                    ResultInfos.errorCode == tNWDError_RQT92.Code ||
+                                                    ResultInfos.errorCode == tNWDError_RQT93.Code ||
+                                                    ResultInfos.errorCode == tNWDError_RQT94.Code ||
+                                                    ResultInfos.errorCode == tNWDError_RQT95.Code ||
+                                                    ResultInfos.errorCode == tNWDError_RQT96.Code ||
+                                                    ResultInfos.errorCode == tNWDError_RQT97.Code
                                                     )
                                                 {
                                                     // Notification of a Session expired
@@ -427,8 +442,8 @@ namespace NetWorkedData
                                                     if (ResultInfos.errorDesc != null)
                                                     {
                                                         if (
-                                                            ResultInfos.errorCode == NWDError.NWDError_ACC98.Code ||
-                                                            ResultInfos.errorCode == NWDError.NWDError_ACC99.Code
+                                                            ResultInfos.errorCode == tNWDError_ACC98.Code ||
+                                                            ResultInfos.errorCode == tNWDError_ACC99.Code
                                                             )
                                                         {
                                                             // Notification of an Account Banned
@@ -501,12 +516,12 @@ namespace NetWorkedData
                                 }
                                 else
                                 {
-                                    ResultInfos.SetError(NWDError.NWDError_MAINTENANCE);
+                                    ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_MAINTENANCE));
                                 }
                             }
                             else
                             {
-                                ResultInfos.SetError(NWDError.NWDError_OBSOLETE);
+                                ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_OBSOLETE));
                             }
                         }
                     }

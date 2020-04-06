@@ -36,7 +36,7 @@ namespace NetWorkedData
     public partial class NWDCluster : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupReset]
         //[NWDInspectorGroupStart("Domains to use")]
@@ -57,7 +57,7 @@ namespace NetWorkedData
         [NWDNotEditable]
         public NWDIPType EditorIP { get; set; }
         //-------------------------------------------------------------------------------------------------------------
-#endif
+//#endif
         //-------------------------------------------------------------------------------------------------------------
         public NWDCluster()
         {

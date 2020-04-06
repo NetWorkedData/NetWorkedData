@@ -18,11 +18,13 @@ namespace NetWorkedData
         //private static float LastStep = 0;
         //-------------------------------------------------------------------------------------------------------------
 #if (UNITY_EDITOR)
-        public static float kWarningDefault = 0.003f;
+        public static float kWarningDefault = 0.0033f;
         public static float kMaxDefault = 0.010f;
 #elif (UNITY_ANDROID || UNITY_IOS)
+        public static float kWarningDefault = 0.10f;
         public static float kMaxDefault = 0.030f;
 #else
+        public static float kWarningDefault = 0.05f;
         public static float kMaxDefault = 0.015f;
 #endif
         private static int StartCount = 0;
