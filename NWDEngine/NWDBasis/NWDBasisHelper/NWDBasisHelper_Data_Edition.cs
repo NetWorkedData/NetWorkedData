@@ -101,6 +101,12 @@ namespace NetWorkedData
                 if (mObjectInEdition != null)
                 {
                     EditorPrefs.SetString(LastSelectedObjectKey(), mObjectInEdition.Reference);
+                    foreach (NWDTypeWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(sObject.GetType()))
+                    {
+                        tWindow.Focus();
+                        tWindow.SelectTab(sObject.GetType());
+                        tWindow.Repaint();
+                    };
                 }
                 else
                 {
