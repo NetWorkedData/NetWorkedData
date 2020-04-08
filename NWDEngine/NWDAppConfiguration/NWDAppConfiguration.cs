@@ -97,7 +97,9 @@ namespace NetWorkedData
         public int PinCodeLenghtMax = 8; //TODO:  rename PinCodeMaxLength
         public int ProtectionTentativeMax = 6; //TODO:  rename maximum attempt
 
-        public bool EditorTableCommun = true; //TODO param in config editor extension...
+        [Obsolete]
+        public bool EditorTableCommun = true; //
+
         public bool ShowCompile = true; //TODO param in config editor extension...
         public Color TintColor;
 

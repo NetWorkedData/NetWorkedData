@@ -109,11 +109,14 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             string tKey = "NWDBasisHelper_"; // prevent herited class
-            if (NWDAppConfiguration.SharedInstance().EditorTableCommun == false)
+            //if (NWDAppConfiguration.SharedInstance().EditorTableCommun == true)
+            //{
+            //    tKey = tKey + NWDToolbox.PropertyName(sProperty);
+            //}
+            //else
             {
                 tKey = tKey + ClassNamePHP;
             }
-            tKey = tKey + NWDToolbox.PropertyName(sProperty);
             //Debug.Log("ActionsPrefkey() : " + tKey);
             //NWEBenchmark.Finish();
             return tKey;

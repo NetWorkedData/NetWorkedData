@@ -94,8 +94,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetObjectInEdition(NWDTypeClass sObject, bool sResetStack = true, bool sFocus = true)
         {
+            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sObject.GetType());
 
-            if (InspectorActions == true)
+            if (tHelper.InspectorActions == true)
             {
                 mObjectInEdition = sObject;
                 if (mObjectInEdition != null)
