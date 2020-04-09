@@ -115,7 +115,7 @@ namespace NetWorkedData
             //}
             //else
             {
-                tKey = tKey + ClassNamePHP;
+                tKey = tKey + ClassNamePHP + NWDToolbox.PropertyName(sProperty); ;
             }
             //Debug.Log("ActionsPrefkey() : " + tKey);
             //NWEBenchmark.Finish();
