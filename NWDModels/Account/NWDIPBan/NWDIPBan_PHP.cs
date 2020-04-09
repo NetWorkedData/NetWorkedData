@@ -73,7 +73,7 @@ namespace NetWorkedData
         {
             StringBuilder rReturn = new StringBuilder();
             rReturn.AppendLine("// in function " + PHP_FUNCTION_SPECIAL() + " ($sTimeStamp, $sAccountReferences)");
-            rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassName + " Special'] ='success!!!';");
+            rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassNamePHP + " Special'] ='success!!!';");
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ namespace NetWorkedData
             StringBuilder rReturn = new StringBuilder();
             rReturn.AppendLine("function AddOnOne" + ClassNamePHP + " ($sTimeStamp, $sAccountReferences)");
             rReturn.AppendLine("{");
-            rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassName + " Special'] ='success!!!';");
+            rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassNamePHP + " Special'] ='success!!!';");
             rReturn.AppendLine("}");
             return rReturn.ToString();
         }

@@ -46,6 +46,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
+        [NWDIndexedAttribut(NWD.K_REFERENCE_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         [NWDNotEditable]
