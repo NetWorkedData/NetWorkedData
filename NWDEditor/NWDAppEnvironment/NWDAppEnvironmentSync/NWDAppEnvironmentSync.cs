@@ -828,7 +828,40 @@ namespace NetWorkedData
                     EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                 }
                 StartProcess(sEnvironment);
-                NWDOperationWebSynchronisation.AddOperation("App Environnement Sync " + sOperation.ToString(), SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, sForceSync, sPriority, sOperation);
+                NWDOperationWebSynchronisation.AddOperation("App Environnement Sync " + sOperation.ToString(), SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, null, sForceSync, sPriority, sOperation);
+            }
+            //NWEBenchmark.Finish();
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public void OperationPullReferences(NWDAppEnvironment sEnvironment,
+                                           Dictionary<Type, List<string>> sTypeAndReferences,
+                                           bool sPriority = false)
+        {
+            //NWEBenchmark.Start();
+            bool tOk = false;
+            if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
+                        NWDConstants.K_SYNC_ALERT_MESSAGE,
+                        NWDConstants.K_SYNC_ALERT_OK,
+                        NWDConstants.K_SYNC_ALERT_CANCEL))
+                {
+                    tOk = true;
+                }
+            }
+            else
+            {
+                tOk = true;
+            }
+            if (tOk == true)
+            {
+                if (Application.isPlaying == true)
+                {
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                }
+                StartProcess(sEnvironment);
+                NWDOperationWebSynchronisation.AddOperation("App Environnement pull reference ", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, null, sTypeAndReferences, false, sPriority, NWDOperationSpecial.PullReference);
             }
             //NWEBenchmark.Finish();
         }

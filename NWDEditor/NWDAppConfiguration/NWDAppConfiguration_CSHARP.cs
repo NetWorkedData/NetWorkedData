@@ -168,7 +168,7 @@ namespace NetWorkedData
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PreloadDatas) + " = " + PreloadDatas.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.LauncherBenchmark) + " = " + LauncherBenchmark.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.LauncherFaster) + " = " + LauncherFaster.ToString() + ";");
-            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.EditorTableCommun) + " = " + EditorTableCommun.ToString().ToLower() + ";");
+            //rReturn.AppendLine(NWDToolbox.PropertyName(() => this.EditorTableCommun) + " = " + EditorTableCommun.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.ShowCompile) + " = " + ShowCompile.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.ProjetcLanguage) + " = \"" + ProjetcLanguage + "\";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TintColor) + " = new Color(" + NWDToolbox.FloatToString(TintColor.r) + "F," +

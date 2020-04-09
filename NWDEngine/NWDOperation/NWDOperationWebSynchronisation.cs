@@ -40,6 +40,8 @@ namespace NetWorkedData
 
         Pull = 5,
 
+        PullReference = 6,
+
         Indexes = 8,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -47,6 +49,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         public List<Type> TypeList;
+        public Dictionary<Type, List<string>> TypeAndReferences;
         public bool ForceSync = false;
         //public bool FlushTrash = false;
         public NWDOperationSpecial Special = NWDOperationSpecial.None;
@@ -58,11 +61,12 @@ namespace NetWorkedData
                                                                    NWEOperationBlock sProgressBlock = null,
                                                                    NWDAppEnvironment sEnvironment = null,
                                                                    List<Type> sTypeList = null,
+                                                                   Dictionary<Type, List<string>> sTypeAndReferences = null,
                                                                    bool sForceSync = false,
                                                                    bool sPriority = false,
                                                                    NWDOperationSpecial sSpecial = NWDOperationSpecial.None)
         {
-            NWDOperationWebSynchronisation rReturn = Create(sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, sForceSync, sSpecial);
+            NWDOperationWebSynchronisation rReturn = Create(sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, sTypeAndReferences, sForceSync, sSpecial);
             if (rReturn != null)
             {
                 NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(rReturn, sPriority);
@@ -77,24 +81,21 @@ namespace NetWorkedData
                                                              NWEOperationBlock sProgressBlock = null,
                                                              NWDAppEnvironment sEnvironment = null,
                                                              List<Type> sTypeList = null,
+                                                             Dictionary<Type, List<string>> sTypeAndReferences = null,
                                                              bool sForceSync = false,
                                                              NWDOperationSpecial sSpecial = NWDOperationSpecial.None)
         {
             NWDOperationWebSynchronisation rReturn = null;
-
             if (NWDDataManager.SharedInstance().DataLoaded() == true)
             {
-
                 if (sName == null)
                 {
                     sName = "UnNamed Web Operation Synchronisation";
                 }
-
                 if (sEnvironment == null)
                 {
                     sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
                 }
-
                 GameObject tGameObjectToSpawn = new GameObject(NWDToolbox.RandomStringUnix(16) + sName);
 #if UNITY_EDITOR
                 tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
@@ -105,54 +106,59 @@ namespace NetWorkedData
                 rReturn.GameObjectToSpawn = tGameObjectToSpawn;
                 rReturn.Environment = sEnvironment;
                 rReturn.QueueName = sEnvironment.Environment;
-                List<Type> tReturn = new List<Type>();
-                //if (sTypeList == null)
-                //{
-                //    sTypeList = NWDDataManager.SharedInstance().mTypeSynchronizedList;
-                //}
-                if (sTypeList != null)
+                List<Type> tReturnList = new List<Type>();
+                if (sTypeAndReferences != null)
                 {
-                    foreach (Type tType in sTypeList)
+                    sTypeList = new List<Type>();
+                    rReturn.TypeAndReferences = new Dictionary<Type, List<string>>();
+                    rReturn.Special = NWDOperationSpecial.PullReference;
+                    foreach (KeyValuePair<Type, List<string>> tKeyValue in sTypeAndReferences)
                     {
-                        NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                        if (tHelper != null)
+                        NWDBasisHelper tHelperSync = NWDBasisHelper.FindTypeInfos(tKeyValue.Key);
+                        if (tHelperSync.WebModelChanged == false)
                         {
-                            foreach (Type tR in tHelper.ClasseInThisSync())
+                            sTypeList.Add(tKeyValue.Key);
+                            tReturnList.Add(tKeyValue.Key);
+                            rReturn.TypeAndReferences.Add(tKeyValue.Key, tKeyValue.Value);
+                        }
+                        else
+                        {
+                            Debug.Log(tHelperSync.ClassNamePHP + " WebModelChanged is true, removed from sync!");
+                        }
+                    }
+                }
+                else
+                {
+                    if (sTypeList != null)
+                    {
+                        foreach (Type tType in sTypeList)
+                        {
+                            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                            if (tHelper != null)
                             {
-                                if (tReturn.Contains(tR) == false)
+                                foreach (Type tR in tHelper.ClasseInThisSync())
                                 {
-                                    // check if Sync is possible with this webmodel (not changed)
-                                    NWDBasisHelper tHelperSync = NWDBasisHelper.FindTypeInfos(tR);
-                                    if (tHelperSync.WebModelChanged == false)
+                                    if (tReturnList.Contains(tR) == false)
                                     {
-                                        tReturn.Add(tR);
-                                    }
-                                    else
-                                    {
-                                        Debug.Log(tHelperSync.ClassNamePHP + " WebModelChanged is true, removed from sync!");
+                                        NWDBasisHelper tHelperSync = NWDBasisHelper.FindTypeInfos(tR);
+                                        if (tHelperSync.WebModelChanged == false)
+                                        {
+                                            tReturnList.Add(tR);
+                                        }
+                                        else
+                                        {
+                                            Debug.Log(tHelperSync.ClassNamePHP + " WebModelChanged is true, removed from sync!");
+                                        }
                                     }
                                 }
                             }
                         }
-                        //MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(tType, NWDConstants.M_ClasseInThisSync, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                        //if (tMethodInfo != null)
-                        //{
-                        //    foreach (Type tR in tMethodInfo.Invoke(null, null) as List<Type>)
-                        //    {
-                        //        if (tReturn.Contains(tR) == false)
-                        //        {
-                        //            tReturn.Add(tR);
-                        //        }
-                        //    }
-                        //}
                     }
                 }
-                //Debug.Log("New_ClasseInThisSync return : " + string.Join(" ", tReturn));
-                rReturn.TypeList = tReturn;
+                rReturn.TypeList = tReturnList;
                 rReturn.ForceSync = sForceSync;
                 rReturn.Special = sSpecial;
                 rReturn.SecureData = sEnvironment.AllwaysSecureData;
-                // TODO : Mettre dans le helper!!!!
                 if (sTypeList != null)
                 {
                     foreach (Type tType in sTypeList)
@@ -168,11 +174,7 @@ namespace NetWorkedData
             }
             else
             {
-                //NWEOperation tOperation = new NWEOperation();
-                //NWDOperationResult tResult = new NWDOperationResult();
-                //tOperation.QueueName = NWDAppEnvironment.SelectedEnvironment().Environment;
                 sFailBlock(null, 1.0F, null);
-                //Debug.LogWarning("SYNC NEED TO OPEN ALL ACCOUNT TABLES AND LOADED ALL DATAS!");
             }
             return rReturn;
         }
@@ -208,7 +210,7 @@ namespace NetWorkedData
             }
             if (tSync == true)
             {
-                Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas(ResultInfos, Environment, ForceSync, TypeList, Special);
+                Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas(ResultInfos, Environment, ForceSync, TypeList, TypeAndReferences, Special);
                 tData.Add(NWD.K_WEB_ACTION_KEY, NWD.K_WEB_ACTION_SYNC_KEY);
                 Data = tData;
             }

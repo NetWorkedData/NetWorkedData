@@ -1346,6 +1346,26 @@ namespace NetWorkedData
 
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
+
+                // TODO Change!!! .... we need restaure from environment!!!
+                //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SELECT_RESTAURE_FROM_SERVER, NWDGUI.KTableSearchButton))
+                //{
+                //    List<string> tReferencesList = new List<string>();
+                //    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                //    {
+                //        if (tKeyValue.Value == true)
+                //        {
+                //            tReferencesList.Add(tKeyValue.Key.Reference);
+                //        }
+                //    }
+                //    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                //    tTypeAndReferences.Add(ClassType, tReferencesList);
+                //    NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate
+                //    {
+                //        NWDDataInspector.ActiveRepaint();
+                //    });
+                //}
+                //tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 //if (false)
                 //{
                 //    if (GUI.Button(tRect, "UnLoad", NWDGUI.KTableSearchButton))
@@ -1409,6 +1429,32 @@ namespace NetWorkedData
                     PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
                 }
                 EditorGUI.EndDisabledGroup();
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+
+
+                EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
+                NWDGUI.BeginRedArea();
+                if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
+                {
+                    List<string> tReferencesList = new List<string>();
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                    {
+                        if (tKeyValue.Value == true)
+                        {
+                            tReferencesList.Add(tKeyValue.Key.Reference);
+                        }
+                    }
+                    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                    tTypeAndReferences.Add(ClassType, tReferencesList);
+                    PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().DevEnvironment, tTypeAndReferences);
+                }
+                EditorGUI.EndDisabledGroup();
+                NWDGUI.EndRedArea();
+
+
+
+
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
                 tRect.y = tRectActionRight.y;
@@ -1450,6 +1496,26 @@ namespace NetWorkedData
                     PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
                 }
                 EditorGUI.EndDisabledGroup();
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+                EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
+                NWDGUI.BeginRedArea();
+                if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
+                {
+                    List<string> tReferencesList = new List<string>();
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                    {
+                        if (tKeyValue.Value == true)
+                        {
+                            tReferencesList.Add(tKeyValue.Key.Reference);
+                        }
+                    }
+                    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                    tTypeAndReferences.Add(ClassType, tReferencesList);
+                    PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().PreprodEnvironment, tTypeAndReferences);
+                }
+                EditorGUI.EndDisabledGroup();
+                NWDGUI.EndRedArea();
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
                 tRect.y = tRectActionRight.y;
@@ -1479,6 +1545,24 @@ namespace NetWorkedData
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 EditorGUI.EndDisabledGroup();
+                EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
+                NWDGUI.BeginRedArea();
+                if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
+                {
+                    List<string> tReferencesList = new List<string>();
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                    {
+                        if (tKeyValue.Value == true)
+                        {
+                            tReferencesList.Add(tKeyValue.Key.Reference);
+                        }
+                    }
+                    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                    tTypeAndReferences.Add(ClassType, tReferencesList);
+                    PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().ProdEnvironment, tTypeAndReferences);
+                }
+                EditorGUI.EndDisabledGroup();
+                NWDGUI.EndRedArea();
 
             }
             if (TableActions == true)
@@ -1523,6 +1607,8 @@ namespace NetWorkedData
                 //}
                 //NWDGUI.EndRedArea();
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+
 
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;

@@ -98,7 +98,7 @@ namespace NetWorkedData
         public int ProtectionTentativeMax = 6; //TODO:  rename maximum attempt
 
         [Obsolete]
-        public bool EditorTableCommun = true; //
+        public bool EditorTableCommun = true; // 
 
         public bool ShowCompile = true; //TODO param in config editor extension...
         public Color TintColor;

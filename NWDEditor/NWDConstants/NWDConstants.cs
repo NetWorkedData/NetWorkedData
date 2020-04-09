@@ -277,7 +277,7 @@ namespace NetWorkedData
 
         public const string K_APP_BASIS_TRASH_ZONE = "TRASH ZONE";
         public const string K_APP_BASIS_ACTION_ZONE = "ACTION ZONE";
-        public const string K_APP_BASIS_PUT_IN_TRASH = "Trash-it";
+        public const string K_APP_BASIS_PUT_IN_TRASH = "Trash";
         public const string K_APP_BASIS_REINITIALISE = "Reinitialisation";
         public const string K_APP_BASIS_PUT_IN_TRASH_WARNING = "Warning";
         public const string K_APP_BASIS_PUT_IN_TRASH_MESSAGE = "Do you want to trash this object?";
@@ -285,7 +285,8 @@ namespace NetWorkedData
         public const string K_APP_BASIS_PUT_IN_TRASH_CANCEL = "Cancel";
 
         public const string K_APP_BASIS_WARNING_ZONE = "WARNING ZONE";
-        public const string K_APP_BASIS_DELETE = "Local delete";
+        public const string K_APP_BASIS_DELETE = "Delete";
+        public const string K_APP_BASIS_PULL_FROM_SERVER = "Restaure";
         public const string K_APP_BASIS_DELETE_WARNING = "Warning";
         public const string K_APP_BASIS_DELETE_MESSAGE = "Do you want to delete this object?";
         public const string K_APP_BASIS_DELETE_OK = "Delete it";
@@ -354,6 +355,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_INVERSE = "Inverse";
         public const string K_APP_TABLE_SELECT_ENABLED = "Select all enabled";
         public const string K_APP_TABLE_SELECT_DISABLED = "Select all disabled";
+        public const string K_APP_TABLE_SELECT_RESTAURE_FROM_SERVER= "Restaure";
         public const string K_APP_TABLE_ACTIONS = "Actions";
         public const string K_APP_TABLE_REACTIVE = "Re-active";
         public const string K_APP_TABLE_DISACTIVE = "Disactive";

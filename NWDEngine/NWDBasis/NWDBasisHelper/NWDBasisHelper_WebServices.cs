@@ -115,7 +115,11 @@ namespace NetWorkedData
         //}
 
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, object> SynchronizationPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, NWDOperationSpecial sSpecial)
+        public Dictionary<string, object> SynchronizationPushData(NWDOperationResult sInfos,
+            NWDAppEnvironment sEnvironment,
+            Dictionary<Type, List<string>> sTypeAndReferences,
+            bool sForceAll,
+            NWDOperationSpecial sSpecial)
         {
             //Debug.Log("NWDBasis SynchronizationPushData() " + ClassName);
             // loads data unloaded but not sync
@@ -154,7 +158,7 @@ namespace NetWorkedData
                     }
                     else
                     {
-                        if (IsLoaded()==true)
+                        if (IsLoaded() == true)
                         {
                             LoadFromDatabase(string.Empty, false);
                         }
@@ -300,7 +304,24 @@ namespace NetWorkedData
             {
                 rSendDatas.Add(sSpecial.ToString().ToLower(), "true");
             }
-            rSendDatas.Add(NWD.K_WEB_ACTION_SYNC_KEY, tLastSynchronization);
+            else
+            {
+                rSendDatas.Add(NWD.K_WEB_ACTION_SYNC_KEY, tLastSynchronization); // . move in if ?
+            }
+
+
+            if (sSpecial == NWDOperationSpecial.PullReference)
+            {
+                if (sTypeAndReferences.ContainsKey(ClassType))
+                {
+                    rSendDatas.Add(NWD.K_WEB_ACTION_REF_KEY, sTypeAndReferences[ClassType]);
+                }
+            }
+            else
+            {
+
+            }
+
             rSendDatas.Add(NWD.K_WEB_WEBSIGN_KEY, WebServiceSign(LastWebBuild));
             // return the data
             //Debug.Log ("SynchronizationPushData for table " + TableName () +" rSend = " + rSend.ToString ());
@@ -329,6 +350,10 @@ namespace NetWorkedData
                 if (sSpecial == NWDOperationSpecial.None)
                 {
                     SynchronizationSetNewTimestamp(sEnvironment, tTimestampServer);
+                }
+                else
+                {
+                    // it's not a sync  ... no reccord the timestamp return for last sync
                 }
                 // now i need get only datas for this class tablename
                 string tTableName = ClassTableName;
@@ -398,7 +423,7 @@ namespace NetWorkedData
         {
             if (Application.isPlaying == true)
             {
-                NWDOperationWebSynchronisation.AddOperation("Sync " + ClassNamePHP, sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, ClasseInThisSync(), sForce, sPriority);
+                NWDOperationWebSynchronisation.AddOperation("Sync " + ClassNamePHP, sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, ClasseInThisSync(), null, sForce, sPriority);
             }
             else
             {
@@ -447,6 +472,28 @@ namespace NetWorkedData
             }
 #else
             NWDDataManager.SharedInstance().AddWebRequestPullForce(ClasseInThisSync(), true, sEnvironment);
+#endif
+            rReturn = true;
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Synchronizations from web service.
+        /// </summary>
+        public bool PullFromWebServiceReferences(NWDAppEnvironment sEnvironment, Dictionary<Type, List<string>> sTypeAndReferences)
+        {
+            bool rReturn = false;
+#if UNITY_EDITOR
+            if (Application.isPlaying == true)
+            {
+                NWDDataManager.SharedInstance().AddWebRequestPullReferences(sTypeAndReferences, true, sEnvironment);
+            }
+            else
+            {
+                NWDAppEnvironmentSync.SharedInstance().OperationPullReferences(sEnvironment, sTypeAndReferences, true);
+            }
+#else
+            NWDDataManager.SharedInstance().AddWebRequestPullForce(sTypeAndReferences, true, sEnvironment);
 #endif
             rReturn = true;
             return rReturn;

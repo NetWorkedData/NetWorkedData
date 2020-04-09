@@ -39,7 +39,7 @@ namespace NWDPlayModeProcess
                 {
                     Debug.Log("NWDSyncTest Success");
                     tTest = true;
-                }, null, null, null, null, new List<Type>() { typeof(NWDExample) }, true, false, NWDOperationSpecial.None);
+                }, null, null, null, null, new List<Type>() { typeof(NWDExample) }, null, true, false, NWDOperationSpecial.None);
             NWDUnitTests.Log("TestSync() Start");
             while (!tOperation.IsFinish)
             {

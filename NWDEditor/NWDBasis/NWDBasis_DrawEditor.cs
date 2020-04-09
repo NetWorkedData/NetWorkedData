@@ -1046,6 +1046,25 @@ namespace NetWorkedData
                         BasisHelper().RepaintTableEditor();
                     }
                 }
+
+                // TODO Change!!! .... we need restaure from environment!!!
+                //if (GUI.Button(tMatrixRect[2, tLine], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.kMiniButtonStyle))
+                //{
+                //    //if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_DELETE_WARNING,
+                //    //        NWDConstants.K_APP_BASIS_DELETE_MESSAGE,
+                //    //        NWDConstants.K_APP_BASIS_DELETE_OK,
+                //    //        NWDConstants.K_APP_BASIS_DELETE_CANCEL))
+                //    //{
+                //    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                //    tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
+                //    NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate {
+                //        BasisHelper().RepaintTableEditor();
+                //    });
+                //    //}
+                //}
+
+
+
                 //if (GUI.Button(tMatrixRect[2, tLine], NWDConstants.K_APP_BASIS_NEW_SHORT_REFERENCE, NWDGUI.kMiniButtonStyle))
                 //{
                 //    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_NEW_REFERENCE_WARNING,

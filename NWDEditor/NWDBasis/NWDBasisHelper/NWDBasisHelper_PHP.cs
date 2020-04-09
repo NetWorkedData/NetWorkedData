@@ -1150,7 +1150,7 @@ namespace NetWorkedData
             tFile.Append("$tUpdate = 'UPDATE `" + PHP_TABLENAME(sEnvironment) + "` SET '.$tUpdateAdd.'`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Integrity) + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($tCalculate).'\\',");
             //tFile.Append(" `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ServerHash) + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($tCalculateServer).'\\',");
             tFile.Append(" `" + PHP_ENV_SYNC(sEnvironment) + "` = \\''." + NWD.K_PHP_TIME_SYNC + ".'\\' ,");
-            tFile.AppendLine(" `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().WebModel) + "` = \\''." + PHP_CONSTANT_WEBSERVICE() + ".'\\'" + " WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference) + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($tRow['"+ NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference) + "']).'\\';';");
+            tFile.AppendLine(" `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().WebModel) + "` = \\''." + PHP_CONSTANT_WEBSERVICE() + ".'\\'" + " WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference) + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($tRow['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference) + "']).'\\';';");
             tFile.AppendLine("$tUpdateResult = " + NWD.K_SQL_CON + "->query($tUpdate);");
             tFile.AppendLine("if (!$tUpdateResult)");
             tFile.AppendLine("{");
@@ -1933,14 +1933,32 @@ namespace NetWorkedData
             tFile.AppendLine("// any way get data");
             tFile.AppendLine("if (isset($sJsonDico['" + ClassNamePHP + "']))");
             tFile.AppendLine("{");
-            tFile.AppendLine("if (isset($sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "']))");
-            tFile.AppendLine("{");
-            tFile.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
-            tFile.AppendLine("{");
-            tFile.AppendLine("" + PHP_FUNCTION_GET_DATAS() + " ($sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "'], $tAccountReferenceSure);");
-            tFile.AppendLine("$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "'] = " + NWD.K_PHP_TIME_SYNC + ";");
-            tFile.AppendLine("}");
-            tFile.AppendLine("}");
+            {
+                tFile.AppendLine("if (isset($sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "']))");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("" + PHP_FUNCTION_GET_DATAS() + " ($sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "'], $tAccountReferenceSure);");
+                        tFile.AppendLine("$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "'] = " + NWD.K_PHP_TIME_SYNC + ";");
+                    }
+                    tFile.AppendLine("}");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("if (isset($sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_REF_KEY + "']))");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("" + PHP_FUNCTION_GET_DATAS_BY_REFERENCES() + " ($sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_REF_KEY + "'], $tAccountReferenceSure);");
+                        tFile.AppendLine("$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "'] = " + NWD.K_PHP_TIME_SYNC + ";");
+                    }
+                    tFile.AppendLine("}");
+                }
+                tFile.AppendLine("}");
+            }
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
