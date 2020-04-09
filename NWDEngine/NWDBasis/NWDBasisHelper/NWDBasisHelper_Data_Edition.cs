@@ -94,42 +94,50 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetObjectInEdition(NWDTypeClass sObject, bool sResetStack = true, bool sFocus = true)
         {
-            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sObject.GetType());
-
-            if (tHelper.InspectorActions == true)
+            bool tInspectorDataPanel = false;
+            if (sObject != null)
             {
-                mObjectInEdition = sObject;
-                if (mObjectInEdition != null)
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sObject.GetType());
+                if (tHelper!=null)
                 {
-                    EditorPrefs.SetString(LastSelectedObjectKey(), mObjectInEdition.Reference);
-                    foreach (NWDTypeWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(sObject.GetType()))
+                    tInspectorDataPanel = tHelper.InspectorActions;
+                }
+            }
+
+            if (tInspectorDataPanel == true)
+                {
+                    mObjectInEdition = sObject;
+                    if (mObjectInEdition != null)
                     {
-                        tWindow.Focus();
-                        tWindow.SelectTab(sObject.GetType());
-                        tWindow.Repaint();
-                    };
+                        EditorPrefs.SetString(LastSelectedObjectKey(), mObjectInEdition.Reference);
+                        foreach (NWDTypeWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(sObject.GetType()))
+                        {
+                            tWindow.Focus();
+                            tWindow.SelectTab(sObject.GetType());
+                            tWindow.Repaint();
+                        };
+                    }
+                    else
+                    {
+                        EditorPrefs.SetString(LastSelectedObjectKey(), string.Empty);
+                    }
                 }
                 else
                 {
-                    EditorPrefs.SetString(LastSelectedObjectKey(), string.Empty);
+                    GUI.FocusControl(null);
+                    NWDDataInspector.InspectNetWorkedData(sObject, sResetStack, sFocus);
+                    if (sObject != null)
+                    {
+                        NWDBasisEditor.ObjectEditorLastType = sObject.GetType();
+                        NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
+                    }
+                    else if (NWDBasisEditor.ObjectEditorLastType != null)
+                    {
+                        NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
+                        NWDBasisEditor.ObjectEditorLastType = null;
+                    }
+                    SaveObjectInEdition();
                 }
-            }
-            else
-            {
-                GUI.FocusControl(null);
-                NWDDataInspector.InspectNetWorkedData(sObject, sResetStack, sFocus);
-                if (sObject != null)
-                {
-                    NWDBasisEditor.ObjectEditorLastType = sObject.GetType();
-                    NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
-                }
-                else if (NWDBasisEditor.ObjectEditorLastType != null)
-                {
-                    NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
-                    NWDBasisEditor.ObjectEditorLastType = null;
-                }
-                SaveObjectInEdition();
-            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool IsObjectInEdition(NWDTypeClass sObject)
