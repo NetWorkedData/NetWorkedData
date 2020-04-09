@@ -103,6 +103,21 @@ namespace NetWorkedData
 #endif
             return rReturn;
         }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserOwnership[] FindReachableByItemCategory(NWDCategory sCategory, bool sOrCreate = true)
+        {
+            List<NWDUserOwnership> rReturn = new List<NWDUserOwnership>();
+            foreach (NWDItem tItem in NWDItem.FindByCategoryInverse(sCategory))
+            {
+                NWDUserOwnership tAdd = FindReachableByItemReference(tItem.Reference, sOrCreate);
+                if (tAdd != null)
+                {
+                    rReturn.Add(tAdd);
+                }
+            }
+            return rReturn.ToArray();
+        }
         // OWNERSHIP AND ITEM FOR PLAYER
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
