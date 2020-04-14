@@ -111,6 +111,11 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
+    public class NWDDisableAccountDependence : Attribute
+    {
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDInspectorGroupEnd : Attribute
     {
     }

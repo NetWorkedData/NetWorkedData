@@ -211,7 +211,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void InitHelper(Type sType, bool sBase = false)
         {
-            //NWEBenchmark.Start();
+            NWEBenchmark.Start();
             bool tServerSynchronize = true;
             if (sType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true).Length > 0)
             {
@@ -339,12 +339,19 @@ namespace NetWorkedData
                             Type tSubType = tTypeOfThis.GetGenericArguments()[0];
                             if (tSubType == typeof(NWDAccount))
                             {
-                                tPropertyList.Add(tProp);
-                                tPropertyListConnected.Add(tProp);
-                                MethodInfo tMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
-                                tAccountMethodList.Add(tProp, tMethod);
-                                rAccountConnected = true;
-                                rLockedObject = false;
+                                if (tProp.GetCustomAttribute(typeof(NWDDisableAccountDependence), true) == null)
+                                {
+                                    tPropertyList.Add(tProp);
+                                    tPropertyListConnected.Add(tProp);
+                                    MethodInfo tMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
+                                    tAccountMethodList.Add(tProp, tMethod);
+                                    rAccountConnected = true;
+                                    rLockedObject = false;
+                                }
+                                else
+                                {
+                                    Debug.Log("ignore account dependance for " + tTypeOfThis.Name +" in " + sType.Name);
+                                }
                             }
                             if (tSubType == typeof(NWDGameSave))
                             {
@@ -369,11 +376,18 @@ namespace NetWorkedData
                             if (tSubType == typeof(NWDAccount))
                             {
                                 // it's not directly a NWDAccount a dependency ....
-                                tPropertyListConnected.Add(tProp);
-                                MethodInfo tMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
-                                tAccountMethodList.Add(tProp, tMethod);
-                                rAccountConnected = true;
-                                rLockedObject = false;
+                                if (tProp.GetCustomAttribute(typeof(NWDDisableAccountDependence), true) == null)
+                                {
+                                    tPropertyListConnected.Add(tProp);
+                                    MethodInfo tMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
+                                    tAccountMethodList.Add(tProp, tMethod);
+                                    rAccountConnected = true;
+                                    rLockedObject = false;
+                                }
+                                else
+                                {
+                                    Debug.Log("ignore account dependance for " + tTypeOfThis.Name + " in " + sType.Name);
+                                }
                             }
                         }
                         else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>))
@@ -381,8 +395,15 @@ namespace NetWorkedData
                             Type tSubType = tTypeOfThis.GetGenericArguments()[0];
                             if (tSubType == typeof(NWDAccount))
                             {
-                                // it's not directly a NWDAccount a dependency ....
-                                // I don't know what I must do with in this case..
+                                if (tProp.GetCustomAttribute(typeof(NWDDisableAccountDependence), true) == null)
+                                {
+                                    // it's not directly a NWDAccount a dependency ....
+                                    // I don't know what I must do with in this case..
+                                }
+                                else
+                                {
+                                    Debug.Log("ignore account dependance for " + tTypeOfThis.Name + " in " + sType.Name);
+                                }
                             }
                         }
                     }
@@ -426,7 +447,7 @@ namespace NetWorkedData
                 ClusterMax = 2048;
             }
             //NWEBenchmark.Step();
-            //NWEBenchmark.Finish();
+            NWEBenchmark.Finish(true, ClassNamePHP);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void InstallHelper()

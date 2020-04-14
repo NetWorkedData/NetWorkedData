@@ -386,16 +386,22 @@ namespace NetWorkedData
                         Type tSubType = tTypeOfThis.GetGenericArguments()[0];
                         if (tSubType == typeof(NWDAccount) || tSubType == typeof(NWDGameSave))
                         {
-                            if (tIndexesDico[NWD.K_BASIS_INDEX].Contains(tPropertyInfo) == false)
+                            if (tPropertyInfo.GetCustomAttribute(typeof(NWDDisableAccountDependence), true) == null)
+                            {
+                                if (tIndexesDico[NWD.K_BASIS_INDEX].Contains(tPropertyInfo) == false)
                             {
                                 tIndexesDico[NWD.K_BASIS_INDEX].Add(tPropertyInfo);
+                            }
                             }
                         }
                         if (tSubType == typeof(NWDAccount))
                         {
-                            if (tIndexesDico[NWD.K_ACCOUNT_INDEX].Contains(tPropertyInfo) == false)
+                            if (tPropertyInfo.GetCustomAttribute(typeof(NWDDisableAccountDependence), true) == null)
+                            {
+                                if (tIndexesDico[NWD.K_ACCOUNT_INDEX].Contains(tPropertyInfo) == false)
                             {
                                 tIndexesDico[NWD.K_ACCOUNT_INDEX].Add(tPropertyInfo);
+                            }
                             }
                         }
                     }
@@ -856,12 +862,15 @@ namespace NetWorkedData
                             Type tSubType = tTypeOfThis.GetGenericArguments()[0];
                             if (tSubType == typeof(NWDAccount))
                             {
-                                tAccountReference.Add("`" + tProp.Name + "` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($sAccountReference).'\\' ");
+                                if (tProp.GetCustomAttribute(typeof(NWDDisableAccountDependence), true) == null)
+                                {
+                                    tAccountReference.Add("`" + tProp.Name + "` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($sAccountReference).'\\' ");
                                 tAccountReferences.Add("`" + tProp.Name + "` IN (\\''.implode('\\', \\'', $sAccountReferences).'\\') ");
                                 // only if Not locked property
                                 if (tProp.GetCustomAttributes(typeof(NWDLockUpdateForAccountAttribute), true).Length == 0)
                                 {
                                     tAccountReferenceUpdate.Add("`" + tProp.Name + "` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($sAccountReference).'\\' ");
+                                }
                                 }
                             }
                             if (tSubType == typeof(NWDGameSave))
@@ -874,11 +883,14 @@ namespace NetWorkedData
                             Type tSubType = tTypeOfThis.GetGenericArguments()[0];
                             if (tSubType == typeof(NWDAccount))
                             {
-                                tAccountReference.Add("`" + tProp.Name + "` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string(md5($sAccountReference." + PHP_CONSTANT_SALT_A() + ")).'\\' ");
+                                if (tProp.GetCustomAttribute(typeof(NWDDisableAccountDependence), true) == null)
+                                {
+                                    tAccountReference.Add("`" + tProp.Name + "` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string(md5($sAccountReference." + PHP_CONSTANT_SALT_A() + ")).'\\' ");
                                 // only if Not locked property
                                 if (tProp.GetCustomAttributes(typeof(NWDLockUpdateForAccountAttribute), true).Length == 0)
                                 {
                                     tAccountReferenceUpdate.Add("`" + tProp.Name + "` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string(md5($sAccountReference." + PHP_CONSTANT_SALT_A() + ")).'\\' ");
+                                }
                                 }
                             }
                         }
@@ -887,11 +899,14 @@ namespace NetWorkedData
                             Type tSubType = tTypeOfThis.GetGenericArguments()[0];
                             if (tSubType == typeof(NWDAccount))
                             {
-                                tAccountReference.Add("`" + tProp.Name + "` LIKE \\'%'." + NWD.K_SQL_CON + "->real_escape_string($sAccountReference).'%\\'");
+                                if (tProp.GetCustomAttribute(typeof(NWDDisableAccountDependence), true) == null)
+                                {
+                                    tAccountReference.Add("`" + tProp.Name + "` LIKE \\'%'." + NWD.K_SQL_CON + "->real_escape_string($sAccountReference).'%\\'");
                                 // only if Not locked property
                                 if (tProp.GetCustomAttributes(typeof(NWDLockUpdateForAccountAttribute), true).Length == 0)
                                 {
                                     tAccountReferenceUpdate.Add("`" + tProp.Name + "` LIKE \\'%'." + NWD.K_SQL_CON + "->real_escape_string($sAccountReference).'%\\'");
+                                }
                                 }
                             }
                         }
