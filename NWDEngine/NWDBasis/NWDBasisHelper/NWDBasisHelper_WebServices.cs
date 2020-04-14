@@ -300,28 +300,28 @@ namespace NetWorkedData
                     rSendDatas.Add(NWD.K_WEB_DATA_KEY, tDatas);
                 }
             }
-            if (sSpecial != NWDOperationSpecial.None)
+
+            if (sSpecial == NWDOperationSpecial.None)
             {
+                rSendDatas.Add(NWD.K_WEB_ACTION_SYNC_KEY, tLastSynchronization);
+            }
+            else if (sSpecial == NWDOperationSpecial.Pull)
+            {
+                rSendDatas.Add(NWD.K_WEB_ACTION_SYNC_KEY, 0);
                 rSendDatas.Add(sSpecial.ToString().ToLower(), "true");
             }
-            else
-            {
-                rSendDatas.Add(NWD.K_WEB_ACTION_SYNC_KEY, tLastSynchronization); // . move in if ?
-            }
-
-
-            if (sSpecial == NWDOperationSpecial.PullReference)
+            else if (sSpecial == NWDOperationSpecial.PullReference)
             {
                 if (sTypeAndReferences.ContainsKey(ClassType))
                 {
                     rSendDatas.Add(NWD.K_WEB_ACTION_REF_KEY, sTypeAndReferences[ClassType]);
+                    rSendDatas.Add(sSpecial.ToString().ToLower(), "true");
                 }
             }
             else
             {
-
+                rSendDatas.Add(sSpecial.ToString().ToLower(), "true");
             }
-
             rSendDatas.Add(NWD.K_WEB_WEBSIGN_KEY, WebServiceSign(LastWebBuild));
             // return the data
             //Debug.Log ("SynchronizationPushData for table " + TableName () +" rSend = " + rSend.ToString ());
