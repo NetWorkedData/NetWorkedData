@@ -42,6 +42,14 @@ namespace NetWorkedData
                 sInfos.RowAddedCounter++;
                 tObject = NewDataFromWeb(sEnvironment, sDataArray, tReference);
                 //AddObjectInListOfEdition(tObject);
+                if (kAccountDependent == true)
+                {
+                    if (tObject.IsTrashed() == true && NWDAppConfiguration.SharedInstance().AutoDeleteTrashDatas == true)
+                    {
+                        Debug.Log("DATA With Reference " + tObject.Reference + " will be delete ... just after insert :-p");
+                        tObject.DeleteData();
+                    }
+                }
             }
             else
             {
@@ -55,6 +63,14 @@ namespace NetWorkedData
                 // BUT I NEED ANY WAY TO REWRITE THE SYNC DATE!!!!
                 // TO DO use Unity Editor to switch write  before or not ?
                 tObject.UpdateDataFromWeb(sEnvironment, sDataArray);
+                if (kAccountDependent == true)
+                {
+                    if (tObject.IsTrashed() == true && NWDAppConfiguration.SharedInstance().AutoDeleteTrashDatas == true)
+                    {
+                        Debug.Log("DATA With Reference " + tObject.Reference + " will be delete");
+                        tObject.DeleteData();
+                    }
+                }
             }
 #if UNITY_EDITOR
             tObject.ErrorCheck();
@@ -75,14 +91,6 @@ namespace NetWorkedData
             // I need to test the integrity of datas... 
             bool tIntegrityTest = true;
             tIntegrityTest = TestIntegrityValueFromCSV(tDataArray);
-            if (tIntegrityTest == false)
-            {
-#if UNITY_EDITOR
-                //Datas().CSVAssemblyOrderArrayPrepare();
-                //Debug.Log("SynchronizationTryToUse INTEGRITY IS FALSE " + ClassTableName + " \n" + string.Join("|", sData + "\n"));
-                //EditorUtility.DisplayDialog("SynchronizationTryToUse()", "INTEGRITY IS FALSE", "OK");
-#endif
-            }
             if (tIntegrityTest == true || sForceToUse == true)
             {
                 rReturn = SynchronizationInsertInBase(sInfos, sEnvironment, tDataArray);
@@ -493,7 +501,7 @@ namespace NetWorkedData
                 NWDAppEnvironmentSync.SharedInstance().OperationPullReferences(sEnvironment, sTypeAndReferences, true);
             }
 #else
-            NWDDataManager.SharedInstance().AddWebRequestPullForce(sTypeAndReferences, true, sEnvironment);
+            NWDDataManager.SharedInstance().AddWebRequestPullReferences(sTypeAndReferences, true, sEnvironment);
 #endif
             rReturn = true;
             return rReturn;

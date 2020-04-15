@@ -332,9 +332,39 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void DisableData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) { }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void TrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) { }
+        public virtual bool TrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        {
+            //NWEBenchmark.Start();
+            bool rReturn = false;
+            if (XX == 0)
+            {
+                rReturn = true;
+                int tTimestamp = NWDToolbox.Timestamp();
+                this.DD = tTimestamp;
+                this.XX = 1;
+                this.AC = false;
+                this.UpdateData(true, sWritingMode);
+            }
+            return rReturn;
+            //NWEBenchmark.Finish();
+        }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void UnTrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) { }
+        public virtual bool UnTrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        {
+            //NWEBenchmark.Start();
+            bool rReturn = false;
+            if (XX <= 1)
+            {
+                rReturn = true;
+                this.XX = 0;
+                this.AC = false;
+                this.UpdateData(true, sWritingMode);
+            }
+            return rReturn;
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool UnTrashable() { return XX <= 1; }
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool IsReacheableByGameSave(NWDGameSave sGameSave)
         {

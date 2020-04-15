@@ -56,7 +56,7 @@ namespace NetWorkedData
             NWDError tError = null;
             if (GetBasisHelper() != null)
             {
-                string tReference = GetBasisHelper().ClassTrigramme + "-" + sDomain_sCode;
+                string tReference = GetBasisHelper().ClassTrigramme + NWEConstants.K_MINUS  + sDomain_sCode;
                 if (GetBasisHelper().DatasByReference.ContainsKey(tReference) == true)
                 {
                     //Debug.Log("find tReference " + tReference);

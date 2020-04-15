@@ -602,11 +602,11 @@ namespace NetWorkedData
             tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDError>().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
             tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDAccountSign>().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
             tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDError>().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-            tFile.AppendLine("if (getValue('rescueemail', '" + NWD.K_WEB_RESCUE_EMAIL_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.GetError(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetError(NWDError.NWDError_SHS02).Code + "'))");
+            tFile.AppendLine("if (getValue('rescueemail', '" + NWD.K_WEB_RESCUE_EMAIL_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS02).Code + "'))");
             tFile.AppendLine("{");
-            tFile.AppendLine("if (getValue('rescuelang', '" + NWD.K_WEB_RESCUE_LANGUAGE_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.GetError(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetError(NWDError.NWDError_SHS02).Code + "'))");
+            tFile.AppendLine("if (getValue('rescuelang', '" + NWD.K_WEB_RESCUE_LANGUAGE_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS02).Code + "'))");
             tFile.AppendLine("{");
-            tFile.AppendLine("if (getValue('fyr', '" + NWD.K_WEB_RESCUE_PROOF_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.GetError(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetError(NWDError.NWDError_SHS02).Code + "'))");
+            tFile.AppendLine("if (getValue('fyr', '" + NWD.K_WEB_RESCUE_PROOF_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS02).Code + "'))");
             tFile.AppendLine("{");
             tFile.AppendLine("include_once (" + NWDBasisHelper.BasisHelper<NWDAccountSign>().PHP_ENGINE_PATH(this) + ");");
             tFile.AppendLine("RescueSignProceed($rescueemail, $rescuelang, $fyr);");
@@ -645,7 +645,7 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("if (!" + NWDError.FUNCTIONPHP_errorDetected + "())");
             tFile.AppendLine("{");
-            tFile.AppendLine("if (paramValue('action', '" + NWD.K_WEB_ACTION_KEY + "', " + NWD.K_WEB_EREG_ACTION + ", '" + NWDError.GetError(NWDError.NWDError_ACC01).Code + "', '" + NWDError.GetError(NWDError.NWDError_ACC02).Code + "')) // test if action is valid");
+            tFile.AppendLine("if (paramValue('action', '" + NWD.K_WEB_ACTION_KEY + "', " + NWD.K_WEB_EREG_ACTION + ", '" + NWDError.GetErrorDomainCode(NWDError.NWDError_ACC01).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_ACC02).Code + "')) // test if action is valid");
             tFile.AppendLine("{");
 
             tFile.AppendLine("//---- SECURE SYNC ----");
@@ -673,9 +673,9 @@ namespace NetWorkedData
             tFile.AppendLine("if ($action == '" + NWD.K_WEB_ACTION_RESCUE_KEY + "')");
             tFile.AppendLine("{");
 
-            tFile.AppendLine("if (paramValue('rescueemail', '" + NWD.K_WEB_RESCUE_EMAIL_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.GetError(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetError(NWDError.NWDError_SHS02).Code + "'))");
+            tFile.AppendLine("if (paramValue('rescueemail', '" + NWD.K_WEB_RESCUE_EMAIL_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS02).Code + "'))");
             tFile.AppendLine("{");
-            tFile.AppendLine("if (paramValue('rescuelang', '" + NWD.K_WEB_RESCUE_LANGUAGE_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.GetError(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetError(NWDError.NWDError_SHS02).Code + "'))");
+            tFile.AppendLine("if (paramValue('rescuelang', '" + NWD.K_WEB_RESCUE_LANGUAGE_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS02).Code + "'))");
             tFile.AppendLine("{");
             tFile.AppendLine("include_once (" + NWDBasisHelper.BasisHelper<NWDAccountSign>().PHP_ENGINE_PATH(this) + ");");
             tFile.AppendLine("RescueSign($rescueemail, $rescuelang);");
@@ -688,13 +688,13 @@ namespace NetWorkedData
             tFile.AppendLine("// I sign up with the value");
             tFile.AppendLine("if ($action == '" + NWD.K_WEB_ACTION_SIGNUP_KEY + "')");
             tFile.AppendLine("{");
-            tFile.AppendLine("if (paramValue('sdkt', '" + NWD.K_WEB_SIGN_UP_TYPE_Key + "', " + NWD.K_WEB_EREG_SDKT + ", '" + NWDError.GetError(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetError(NWDError.NWDError_SHS02).Code + "'))");
+            tFile.AppendLine("if (paramValue('sdkt', '" + NWD.K_WEB_SIGN_UP_TYPE_Key + "', " + NWD.K_WEB_EREG_SDKT + ", '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS02).Code + "'))");
             tFile.AppendLine("{");
-            tFile.AppendLine("if (paramValue('sdkv', '" + NWD.K_WEB_SIGN_UP_VALUE_Key + "', " + NWD.K_WEB_EREG_SDKI + ", '" + NWDError.GetError(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetError(NWDError.NWDError_SHS02).Code + "'))");
+            tFile.AppendLine("if (paramValue('sdkv', '" + NWD.K_WEB_SIGN_UP_VALUE_Key + "', " + NWD.K_WEB_EREG_SDKI + ", '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS02).Code + "'))");
             tFile.AppendLine("{");
-            tFile.AppendLine("if (paramValue('sdkr', '" + NWD.K_WEB_SIGN_UP_RESCUE_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.GetError(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetError(NWDError.NWDError_SHS02).Code + "'))");
+            tFile.AppendLine("if (paramValue('sdkr', '" + NWD.K_WEB_SIGN_UP_RESCUE_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS02).Code + "'))");
             tFile.AppendLine("{");
-            tFile.AppendLine("if (paramValue('sdkl', '" + NWD.K_WEB_SIGN_UP_LOGIN_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.GetError(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetError(NWDError.NWDError_SHS02).Code + "'))");
+            tFile.AppendLine("if (paramValue('sdkl', '" + NWD.K_WEB_SIGN_UP_LOGIN_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS02).Code + "'))");
             tFile.AppendLine("{");
             tFile.AppendLine("FindSDKI($sdkt, $sdkv, $sdkr, $sdkl);");
             tFile.AppendLine("}");
@@ -722,7 +722,7 @@ namespace NetWorkedData
             tFile.AppendLine("// I sign in with the good value");
             tFile.AppendLine("if ($action == '" + NWD.K_WEB_ACTION_SIGNIN_KEY + "')");
             tFile.AppendLine("{");
-            tFile.AppendLine("if (paramValue('sdki', '" + NWD.K_WEB_SIGN_Key + "', " + NWD.K_WEB_EREG_SDKI + ", '" + NWDError.GetError(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetError(NWDError.NWDError_SHS02).Code + "'))");
+            tFile.AppendLine("if (paramValue('sdki', '" + NWD.K_WEB_SIGN_Key + "', " + NWD.K_WEB_EREG_SDKI + ", '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS02).Code + "'))");
             tFile.AppendLine("{");
             //tFile.AppendLine("$tOldUuid = $uuid;");
             tFile.AppendLine("$tNewUuid = FindAccount($HeaderUUID, $sdki, false);");
@@ -748,7 +748,7 @@ namespace NetWorkedData
             tFile.AppendLine("// I sign out with the good value");
             tFile.AppendLine("if ($action == '" + NWD.K_WEB_ACTION_SIGNOUT_KEY + "')");
             tFile.AppendLine("{");
-            tFile.AppendLine("if (paramValue('sdki', '" + NWD.K_WEB_SIGN_Key + "', " + NWD.K_WEB_EREG_SDKI + ", '" + NWDError.GetError(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetError(NWDError.NWDError_SHS02).Code + "'))");
+            tFile.AppendLine("if (paramValue('sdki', '" + NWD.K_WEB_SIGN_Key + "', " + NWD.K_WEB_EREG_SDKI + ", '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS02).Code + "'))");
             tFile.AppendLine("{");
             //tFile.AppendLine("$tOldUuid = $uuid;");
             //tFile.AppendLine("$tNewUuid = FindAccount($tOldUuid, $sdki, true);");

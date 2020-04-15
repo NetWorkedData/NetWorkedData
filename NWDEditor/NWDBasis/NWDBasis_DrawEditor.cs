@@ -337,80 +337,106 @@ namespace NetWorkedData
                     tR = new Rect(sNodalCard.InformationsRect.x, sNodalCard.InformationsRect.y, sNodalCard.InformationsRect.width, sNodalCard.InformationsRect.height);
                 }
                 tR.height = 0;
-
-                if (WebserviceVersionIsValid())
+                if (XX <= 1)
                 {
-                    if (TestIntegrityResult == false)
+                    if (WebserviceVersionIsValid())
                     {
-                        tR.height = NWDGUI.kBoldLabelStyle.fixedHeight;
-                        GUI.Label(tR, NWDConstants.K_APP_BASIS_INTEGRITY_IS_FALSE, NWDGUI.kBoldLabelStyle);
-                        tR.y += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-                        tR.height = NWDGUI.kHelpBoxStyle.fixedHeight;
-                        EditorGUI.HelpBox(tR, NWDConstants.K_APP_BASIS_INTEGRITY_HELPBOX, MessageType.Error);
-                        tR.y += NWDGUI.kHelpBoxStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-                        tR.height = NWDGUI.kMiniButtonStyle.fixedHeight;
-                        if (GUI.Button(tR, NWDConstants.K_APP_BASIS_INTEGRITY_REEVAL, NWDGUI.kMiniButtonStyle))
+                        if (TestIntegrityResult == false)
                         {
-                            if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_INTEGRITY_WARNING,
-                                    NWDConstants.K_APP_BASIS_INTEGRITY_WARNING_MESSAGE,
-                                    NWDConstants.K_APP_BASIS_INTEGRITY_OK,
-                                    NWDConstants.K_APP_BASIS_INTEGRITY_CANCEL))
+                            tR.height = NWDGUI.kBoldLabelStyle.fixedHeight;
+                            GUI.Label(tR, NWDConstants.K_APP_BASIS_INTEGRITY_IS_FALSE, NWDGUI.kBoldLabelStyle);
+                            tR.y += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+                            tR.height = NWDGUI.kHelpBoxStyle.fixedHeight;
+                            EditorGUI.HelpBox(tR, NWDConstants.K_APP_BASIS_INTEGRITY_HELPBOX, MessageType.Error);
+                            tR.y += NWDGUI.kHelpBoxStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+                            tR.height = NWDGUI.kMiniButtonStyle.fixedHeight;
+                            if (GUI.Button(tR, NWDConstants.K_APP_BASIS_INTEGRITY_REEVAL, NWDGUI.kMiniButtonStyle))
                             {
-                                UpdateData(true);
+                                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_INTEGRITY_WARNING,
+                                        NWDConstants.K_APP_BASIS_INTEGRITY_WARNING_MESSAGE,
+                                        NWDConstants.K_APP_BASIS_INTEGRITY_OK,
+                                        NWDConstants.K_APP_BASIS_INTEGRITY_CANCEL))
+                                {
+                                    UpdateData(true);
+                                }
                             }
-                        }
-                        tR.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-                        tR.y += NWDGUI.kFieldMarge;
+                            tR.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+                            tR.y += NWDGUI.kFieldMarge;
 
+                        }
+                        else if (XX == 1)
+                        {
+                            tR.height = NWDGUI.kBoldLabelStyle.fixedHeight;
+                            GUI.Label(tR, NWDConstants.K_APP_BASIS_IN_TRASH, NWDGUI.kBoldLabelStyle);
+                            tR.y += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+                            tR.height = NWDGUI.kHelpBoxStyle.fixedHeight;
+                            EditorGUI.HelpBox(tR, NWDConstants.K_APP_BASIS_IN_TRASH_HELPBOX, MessageType.Warning);
+                            tR.y += NWDGUI.kHelpBoxStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+                            tR.height = NWDGUI.kMiniButtonStyle.fixedHeight;
+                            if (GUI.Button(tR, NWDConstants.K_APP_BASIS_UNTRASH, NWDGUI.kMiniButtonStyle))
+                            {
+                                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_UNTRASH_WARNING,
+                                        NWDConstants.K_APP_BASIS_UNTRASH_MESSAGE,
+                                        NWDConstants.K_APP_BASIS_UNTRASH_OK,
+                                        NWDConstants.K_APP_BASIS_UNTRASH_CANCEL
+                                    ))
+                                {
+                                    UnTrashData();
+                                }
+                            }
+                            tR.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+                            tR.y += NWDGUI.kFieldMarge;
+                        }
+                        else if (IsEnable() == false)
+                        {
+                            tR.height = NWDGUI.kBoldLabelStyle.fixedHeight;
+                            GUI.Label(tR, NWDConstants.K_APP_BASIS_DISABLED, NWDGUI.kBoldLabelStyle);
+                            tR.y += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+                            tR.height = NWDGUI.kHelpBoxStyle.fixedHeight;
+                            EditorGUI.HelpBox(tR, NWDConstants.K_APP_BASIS_DISABLED_HELPBOX, MessageType.Warning);
+                            tR.y += NWDGUI.kHelpBoxStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+                            tR.height = NWDGUI.kMiniButtonStyle.fixedHeight;
+                            if (GUI.Button(tR, NWDConstants.K_APP_BASIS_REACTIVE_LONG, NWDGUI.kMiniButtonStyle))
+                            {
+                                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_REACTIVE_WARNING,
+                                        NWDConstants.K_APP_BASIS_REACTIVE_WARNING_MESSAGE,
+                                        NWDConstants.K_APP_BASIS_REACTIVE_OK,
+                                        NWDConstants.K_APP_BASIS_REACTIVE_CANCEL
+                                    ))
+                                {
+                                    EnableData();
+                                }
+                            }
+                            tR.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+                            tR.y += NWDGUI.kFieldMarge;
+                        }
                     }
-                    else if (XX > 0)
+                    else
                     {
                         tR.height = NWDGUI.kBoldLabelStyle.fixedHeight;
-                        GUI.Label(tR, NWDConstants.K_APP_BASIS_IN_TRASH, NWDGUI.kBoldLabelStyle);
+                        GUI.Label(tR, NWDConstants.K_APP_BASIS_WS_ERROR, NWDGUI.kBoldLabelStyle);
                         tR.y += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
 
                         tR.height = NWDGUI.kHelpBoxStyle.fixedHeight;
-                        EditorGUI.HelpBox(tR, NWDConstants.K_APP_BASIS_IN_TRASH_HELPBOX, MessageType.Warning);
+                        EditorGUI.HelpBox(tR, NWDConstants.K_APP_BASIS_WS_ERROR_HELPBOX, MessageType.Warning);
                         tR.y += NWDGUI.kHelpBoxStyle.fixedHeight + NWDGUI.kFieldMarge;
 
                         tR.height = NWDGUI.kMiniButtonStyle.fixedHeight;
-                        if (GUI.Button(tR, NWDConstants.K_APP_BASIS_UNTRASH, NWDGUI.kMiniButtonStyle))
+                        if (GUI.Button(tR, NWDConstants.K_APP_BASIS_WS_ERROR_FIX, NWDGUI.kMiniButtonStyle))
                         {
-                            if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_UNTRASH_WARNING,
-                                    NWDConstants.K_APP_BASIS_UNTRASH_MESSAGE,
-                                    NWDConstants.K_APP_BASIS_UNTRASH_OK,
-                                    NWDConstants.K_APP_BASIS_UNTRASH_CANCEL
+                            if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_WS_ERROR_FIX_WARNING,
+                                                            NWDConstants.K_APP_BASIS_WS_ERROR_FIX_WARNING_MESSAGE,
+                                                            NWDConstants.K_APP_BASIS_WS_ERROR_FIX_OK,
+                                                            NWDConstants.K_APP_BASIS_WS_ERROR_FIX_CANCEL
                                 ))
                             {
-                                UnTrashData();
-                            }
-                        }
-                        tR.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-                        tR.y += NWDGUI.kFieldMarge;
-                    }
-
-                    else if (IsEnable() == false)
-                    {
-                        tR.height = NWDGUI.kBoldLabelStyle.fixedHeight;
-                        GUI.Label(tR, NWDConstants.K_APP_BASIS_DISABLED, NWDGUI.kBoldLabelStyle);
-                        tR.y += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-                        tR.height = NWDGUI.kHelpBoxStyle.fixedHeight;
-                        EditorGUI.HelpBox(tR, NWDConstants.K_APP_BASIS_DISABLED_HELPBOX, MessageType.Warning);
-                        tR.y += NWDGUI.kHelpBoxStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-                        tR.height = NWDGUI.kMiniButtonStyle.fixedHeight;
-                        if (GUI.Button(tR, NWDConstants.K_APP_BASIS_REACTIVE_LONG, NWDGUI.kMiniButtonStyle))
-                        {
-                            if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_REACTIVE_WARNING,
-                                    NWDConstants.K_APP_BASIS_REACTIVE_WARNING_MESSAGE,
-                                    NWDConstants.K_APP_BASIS_REACTIVE_OK,
-                                    NWDConstants.K_APP_BASIS_REACTIVE_CANCEL
-                                ))
-                            {
-                                EnableData();
+                                UpdateData();
                             }
                         }
                         tR.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -420,25 +446,20 @@ namespace NetWorkedData
                 else
                 {
                     tR.height = NWDGUI.kBoldLabelStyle.fixedHeight;
-                    GUI.Label(tR, NWDConstants.K_APP_BASIS_WS_ERROR, NWDGUI.kBoldLabelStyle);
+                    GUI.Label(tR, NWDConstants.K_APP_BASIS_IN_TRASH, NWDGUI.kBoldLabelStyle);
                     tR.y += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
 
                     tR.height = NWDGUI.kHelpBoxStyle.fixedHeight;
-                    EditorGUI.HelpBox(tR, NWDConstants.K_APP_BASIS_WS_ERROR_HELPBOX, MessageType.Warning);
+                    EditorGUI.HelpBox(tR, NWDConstants.K_APP_BASIS_IN_TRASHED_HELPBOX, MessageType.Warning);
                     tR.y += NWDGUI.kHelpBoxStyle.fixedHeight + NWDGUI.kFieldMarge;
 
+                    NWDGUI.BeginRedArea();
                     tR.height = NWDGUI.kMiniButtonStyle.fixedHeight;
-                    if (GUI.Button(tR, NWDConstants.K_APP_BASIS_WS_ERROR_FIX, NWDGUI.kMiniButtonStyle))
+                    if (GUI.Button(tR, NWDConstants.K_APP_BASIS_DELETE, NWDGUI.kMiniButtonStyle))
                     {
-                        if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_WS_ERROR_FIX_WARNING,
-                                                        NWDConstants.K_APP_BASIS_WS_ERROR_FIX_WARNING_MESSAGE,
-                                                        NWDConstants.K_APP_BASIS_WS_ERROR_FIX_OK,
-                                                        NWDConstants.K_APP_BASIS_WS_ERROR_FIX_CANCEL
-                            ))
-                        {
-                            UpdateData();
-                        }
+                        DeleteData();
                     }
+                    NWDGUI.EndRedArea();
                     tR.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
                     tR.y += NWDGUI.kFieldMarge;
                 }
@@ -1007,29 +1028,33 @@ namespace NetWorkedData
                 GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, tLine], tMatrixRect[3, tLine]), NWDConstants.K_APP_BASIS_WARNING_ZONE, NWDGUI.kBoldLabelStyle);
                 tLine++;
                 NWDGUI.BeginRedArea();
-                if (IsTrashed() == false)
+
+                if (UnTrashable() == true)
                 {
-                    if (GUI.Button(tMatrixRect[0, tLine], NWDConstants.K_APP_BASIS_PUT_IN_TRASH, NWDGUI.kMiniButtonStyle))
+                    if (IsTrashed() == false)
                     {
-                        if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_PUT_IN_TRASH_WARNING,
-                                NWDConstants.K_APP_BASIS_PUT_IN_TRASH_MESSAGE,
-                                NWDConstants.K_APP_BASIS_PUT_IN_TRASH_OK,
-                                NWDConstants.K_APP_BASIS_PUT_IN_TRASH_CANCEL))
+                        if (GUI.Button(tMatrixRect[0, tLine], NWDConstants.K_APP_BASIS_PUT_IN_TRASH, NWDGUI.kMiniButtonStyle))
                         {
-                            TrashData();
+                            if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_PUT_IN_TRASH_WARNING,
+                                    NWDConstants.K_APP_BASIS_PUT_IN_TRASH_MESSAGE,
+                                    NWDConstants.K_APP_BASIS_PUT_IN_TRASH_OK,
+                                    NWDConstants.K_APP_BASIS_PUT_IN_TRASH_CANCEL))
+                            {
+                                TrashData();
+                            }
                         }
                     }
-                }
-                else
-                {
-                    if (GUI.Button(tMatrixRect[0, tLine], NWDConstants.K_APP_BASIS_UNTRASH, NWDGUI.kMiniButtonStyle))
+                    else
                     {
-                        if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_UNTRASH_WARNING,
-                                NWDConstants.K_APP_BASIS_UNTRASH_MESSAGE,
-                                NWDConstants.K_APP_BASIS_UNTRASH_OK,
-                                NWDConstants.K_APP_BASIS_UNTRASH_CANCEL))
+                        if (GUI.Button(tMatrixRect[0, tLine], NWDConstants.K_APP_BASIS_UNTRASH, NWDGUI.kMiniButtonStyle))
                         {
-                            UnTrashData();
+                            if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_UNTRASH_WARNING,
+                                    NWDConstants.K_APP_BASIS_UNTRASH_MESSAGE,
+                                    NWDConstants.K_APP_BASIS_UNTRASH_OK,
+                                    NWDConstants.K_APP_BASIS_UNTRASH_CANCEL))
+                            {
+                                UnTrashData();
+                            }
                         }
                     }
                 }

@@ -21,13 +21,18 @@ namespace NetWorkedData
     public partial class NWDAccountSign : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountSign() {}
+        public NWDAccountSign() { }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountSign(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) {}
+        public NWDAccountSign(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
         //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization() {}
+        public override void Initialization() { }
         //=============================================================================================================
         // PUBLIC METHOD
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonTrashMe()
+        {
+            SignStatus = NWDAccountSignAction.TryToDissociate;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void Register()
         {

@@ -197,9 +197,9 @@ namespace NetWorkedData
             return FUNCTIONPHP_Error + "('" + sCode.Replace("'", "\\'") + "', '" + sInfos.Replace("'", "\\'") + "', " + sExit.ToString().ToLower() + ", __FILE__, __FUNCTION__, __LINE__);" + "\n";
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string PHP_Error(string sErrorReference, string sInfos = NWEConstants.K_EMPTY_STRING, bool sExit = true)
+        public static string PHP_Error(string sDomainCode, string sInfos = NWEConstants.K_EMPTY_STRING, bool sExit = true)
         {
-            NWDError tError = NWDError.GetError(sErrorReference);
+            NWDError tError = NWDError.GetErrorDomainCode(sDomainCode);
             if (tError != null)
             {
                 return "/* " + tError.Description.GetBaseString() + " */" + "\n" + PHP_ErrorFunction(tError.Code, sInfos, sExit);

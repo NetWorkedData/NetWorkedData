@@ -27,10 +27,26 @@ namespace NetWorkedData
     public partial class NWDError : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDError GetError(string sReference)
+        public static NWDError GetErrorReference(string sReference)
         {
             NWDError rReturn = null;
             rReturn = NWDBasisHelper.BasisHelper<NWDError>().GetDataByReference(sReference) as NWDError;
+            if (rReturn == null)
+            {
+                rReturn = new NWDError(false);
+                rReturn.Type = NWDErrorType.Alert;
+                rReturn.Code = "error";
+                rReturn.Domain = "error";
+                rReturn.Title = new NWDLocalizableStringType();
+                rReturn.Description = new NWDLocalizableTextType();
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDError GetErrorDomainCode(string sDomainsCode)
+        {
+            NWDError rReturn = null;
+            rReturn = NWDBasisHelper.BasisHelper<NWDError>().GetDataByReference(GetBasisHelper().ClassTrigramme + NWEConstants.K_MINUS + sDomainsCode) as NWDError;
             if (rReturn == null)
             {
                 rReturn = new NWDError(false);

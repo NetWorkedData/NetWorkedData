@@ -264,7 +264,7 @@ namespace NetWorkedData
                     Debug.Log(Request.error + "\n" + Request.downloadHandler.text + "\n");
 #endif
                     Statut = NWEOperationState.Error;
-                    ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_WEB01));
+                    ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_WEB01));
                 }
                 else if (Request.isHttpError)
                 {
@@ -272,7 +272,7 @@ namespace NetWorkedData
                     Debug.Log(Request.error + "\n" + Request.downloadHandler.text + "\n " + Request.url);
 #endif
                     Statut = NWEOperationState.Error;
-                    ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_WEB02));
+                    ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_WEB02));
                 }
                 else
                 {
@@ -295,7 +295,7 @@ namespace NetWorkedData
                         // Check for error
                         if (tDataConverted.Equals(string.Empty))
                         {
-                            ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_WEB04));
+                            ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_WEB04));
                             // Application is in running mode
                             // Request Failed, send Invoke
                             //FailInvoke(Request.downloadProgress, ResultInfos);
@@ -317,7 +317,7 @@ namespace NetWorkedData
                                     if (tData == null)
                                     {
                                         // Log DownloadHandler in console
-                                        ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_WEB03));
+                                        ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_WEB03));
                                         // Notification of a Download success
                                         NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
                                         // Request Failed, send Invoke
@@ -335,14 +335,14 @@ namespace NetWorkedData
                                                 string tDigestValue = NWESecurityTools.GenerateSha(Environment.SaltStart + tSCR + Environment.SaltEnd, NWESecurityShaTypeEnum.Sha1);
                                                 if (tDigestValue != tSCRDGT)
                                                 {
-                                                    ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_RQT98));
+                                                    ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_RQT98));
                                                 }
                                                 else
                                                 {
                                                     tData = NWESecurityTools.RemoveAes(tSCR, Environment.DataSHAPassword, Environment.DataSHAVector, NWESecurityAesTypeEnum.Aes128);
                                                     if (tData == null)
                                                     {
-                                                        ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_RQT99));
+                                                        ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_RQT99));
                                                     }
                                                     else
                                                     {
@@ -352,7 +352,7 @@ namespace NetWorkedData
                                             }
                                             else
                                             {
-                                                ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_RQT98));
+                                                ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_RQT98));
                                             }
                                         }
                                         // Request in Progress, send Invoke
@@ -365,21 +365,21 @@ namespace NetWorkedData
                                             if (Environment.RequesToken == ResultInfos.token)
                                             {
                                                 // What the token is the same? It's not possible!
-                                                ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_RQT95));
+                                                ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_RQT95));
                                             }
                                             else
                                             {
                                                 if (Environment.RequesToken == Request.GetResponseHeader(NWD.K_WEB_REQUEST_TOKEN_KEY))
                                                 {
                                                     // What the token is not beetween respond and header? It's not possible!
-                                                    ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_RQT97));
+                                                    ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_RQT97));
                                                 }
                                                 else
                                                 {
                                                     if (TestTemporalRequestHash(Request.GetResponseHeader(NWD.HashKey), Request.GetResponseHeader(NWD.K_WEB_REQUEST_TOKEN_KEY)) == false)
                                                     {
                                                         // What the token is not valid!? It's not possible!
-                                                        ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_RQT96));
+                                                        ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_RQT96));
                                                     }
                                                     else
                                                     {
@@ -396,19 +396,19 @@ namespace NetWorkedData
                                         if (ResultInfos.isError)
                                         {
 
-                                           NWDError tNWDError_RQT90  = NWDError.GetError(NWDError.NWDError_RQT90);
-                                            NWDError tNWDError_RQT91 = NWDError.GetError(NWDError.NWDError_RQT91);
-                                            NWDError tNWDError_RQT92 = NWDError.GetError(NWDError.NWDError_RQT92);
-                                            NWDError tNWDError_RQT93 = NWDError.GetError(NWDError.NWDError_RQT93);
-                                            NWDError tNWDError_RQT94 = NWDError.GetError(NWDError.NWDError_RQT94);
-                                            NWDError tNWDError_RQT95 = NWDError.GetError(NWDError.NWDError_RQT95);
-                                            NWDError tNWDError_RQT96 = NWDError.GetError(NWDError.NWDError_RQT96);
-                                            NWDError tNWDError_RQT97 = NWDError.GetError(NWDError.NWDError_RQT97);
-                                            NWDError tNWDError_RQT98 = NWDError.GetError(NWDError.NWDError_RQT98);
-                                            NWDError tNWDError_RQT99 = NWDError.GetError(NWDError.NWDError_RQT99);
+                                           NWDError tNWDError_RQT90  = NWDError.GetErrorDomainCode(NWDError.NWDError_RQT90);
+                                            NWDError tNWDError_RQT91 = NWDError.GetErrorDomainCode(NWDError.NWDError_RQT91);
+                                            NWDError tNWDError_RQT92 = NWDError.GetErrorDomainCode(NWDError.NWDError_RQT92);
+                                            NWDError tNWDError_RQT93 = NWDError.GetErrorDomainCode(NWDError.NWDError_RQT93);
+                                            NWDError tNWDError_RQT94 = NWDError.GetErrorDomainCode(NWDError.NWDError_RQT94);
+                                            NWDError tNWDError_RQT95 = NWDError.GetErrorDomainCode(NWDError.NWDError_RQT95);
+                                            NWDError tNWDError_RQT96 = NWDError.GetErrorDomainCode(NWDError.NWDError_RQT96);
+                                            NWDError tNWDError_RQT97 = NWDError.GetErrorDomainCode(NWDError.NWDError_RQT97);
+                                            NWDError tNWDError_RQT98 = NWDError.GetErrorDomainCode(NWDError.NWDError_RQT98);
+                                            NWDError tNWDError_RQT99 = NWDError.GetErrorDomainCode(NWDError.NWDError_RQT99);
 
-                                            NWDError tNWDError_ACC98 = NWDError.GetError(NWDError.NWDError_ACC98);
-                                            NWDError tNWDError_ACC99 = NWDError.GetError(NWDError.NWDError_ACC99);
+                                            NWDError tNWDError_ACC98 = NWDError.GetErrorDomainCode(NWDError.NWDError_ACC98);
+                                            NWDError tNWDError_ACC99 = NWDError.GetErrorDomainCode(NWDError.NWDError_ACC99);
 
                                             Statut = NWEOperationState.Failed;
                                             if (tNWDError_RQT90 != null &&
@@ -516,12 +516,12 @@ namespace NetWorkedData
                                 }
                                 else
                                 {
-                                    ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_MAINTENANCE));
+                                    ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_MAINTENANCE));
                                 }
                             }
                             else
                             {
-                                ResultInfos.SetError(NWDError.GetError(NWDError.NWDError_OBSOLETE));
+                                ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_OBSOLETE));
                             }
                         }
                     }

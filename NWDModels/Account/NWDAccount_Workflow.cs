@@ -12,6 +12,9 @@
 //=====================================================================================================================
 
 //=====================================================================================================================
+using System;
+using UnityEngine;
+
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -27,9 +30,9 @@ namespace NetWorkedData
     public partial class NWDAccount : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccount() {}
+        public NWDAccount() { }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccount(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) {}
+        public NWDAccount(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
@@ -47,6 +50,60 @@ namespace NetWorkedData
                 }
             }
             return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUnTrashMe()
+        {
+            AccountUnTrash(Reference);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void AccountUnTrash(string sAccountReference)
+        {
+            NWEBenchmark.Start();
+            foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+            {
+                if (tType != typeof(NWDAccount))
+                {
+                    foreach (NWDBasis tObject in NWDBasisHelper.FindTypeInfos(tType).Datas)
+                    {
+                        if (tObject.IsReacheableByAccount(sAccountReference))
+                        {
+                            if (tObject.UnTrashData())
+                            {
+                                Debug.Log("Data ref " + tObject.Reference + " put remove from trash");
+                            }
+                        }
+                    }
+                }
+            }
+            NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonTrashMe()
+        {
+            AccountTrash(Reference);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void AccountTrash(string sAccountReference)
+        {
+            NWEBenchmark.Start();
+            foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+            {
+                if (tType != typeof(NWDAccount))
+                {
+                    foreach (NWDBasis tObject in NWDBasisHelper.FindTypeInfos(tType).Datas)
+                    {
+                        if (tObject.IsReacheableByAccount(sAccountReference))
+                        {
+                            if (tObject.TrashData())
+                            {
+                                Debug.Log("Data ref " + tObject.Reference + " put in trash, ready to be sync and delete!");
+                            }
+                        }
+                    }
+                }
+            }
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

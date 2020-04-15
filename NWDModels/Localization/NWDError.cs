@@ -36,12 +36,13 @@ namespace NetWorkedData
     public delegate void NWDErrorBlock(NWDError sError);
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("ERR")]
+    [NWDClassTrigrammeAttribute(NWDError.ErrorTrigram)]
     [NWDClassDescriptionAttribute("Error descriptions Class")]
     [NWDClassMenuNameAttribute("Errors")]
     [NWDInternalKeyNotEditableAttribute]
     public partial class NWDError : NWDBasis
     {
+     public const string ErrorTrigram = "ERR";
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
         //public bool DiscoverItYourSelf { get; set; }

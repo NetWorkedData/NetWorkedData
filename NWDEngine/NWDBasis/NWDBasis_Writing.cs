@@ -692,25 +692,37 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void TrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        public override bool TrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //NWEBenchmark.Start();
-            int tTimestamp = NWDToolbox.Timestamp();
-            this.DD = tTimestamp;
-            this.XX = tTimestamp;
-            this.AC = false;
-            this.AddonTrashMe(); // call override method
-            this.UpdateData(true, sWritingMode);
+            bool rReturn = false;
+            if (XX == 0)
+            {
+                rReturn = true;
+                int tTimestamp = NWDToolbox.Timestamp();
+                this.DD = tTimestamp;
+                this.XX = 1;
+                this.AC = false;
+                this.AddonTrashMe(); // call override method
+                this.UpdateData(true, sWritingMode);
+            }
+            return rReturn;
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void UnTrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        public override bool UnTrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //NWEBenchmark.Start();
-            this.XX = 0;
-            this.AC = false;
-            this.AddonUnTrashMe(); // call override method
-            this.UpdateData(true, sWritingMode);
+            bool rReturn = false;
+            if (XX <= 1)
+            {
+                rReturn = true;
+                this.XX = 0;
+                this.AC = false;
+                this.AddonUnTrashMe(); // call override method
+                this.UpdateData(true, sWritingMode);
+            }
+            return rReturn;
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -948,9 +960,9 @@ namespace NetWorkedData
                     {
                         tValueString = string.Empty;
                     }
-                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt))||
-                        tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat))||
-                        tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum))||
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)) ||
+                        tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)) ||
+                        tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)) ||
                         tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
                     {
                         tValueString = "0";

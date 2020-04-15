@@ -52,7 +52,7 @@ namespace NetWorkedData
             tFile.AppendLine("global $SQL_CON;");
             tFile.AppendLine("global $ENV, $WSBUILD, $HTTP_URL, $NWD_APP_NAM, $NWD_RES_MAIL, $NWD_SLT_STR, $NWD_SLT_END;");
             tFile.AppendLine("global $admin, $uuid;");
-            tFile.AppendLine("$tErrorReference = '" + NWDError.GetError(NWDError.NWDError_RescuePageError).Reference + "';");
+            tFile.AppendLine("$tErrorReference = '" + NWDError.GetErrorDomainCode(NWDError.NWDError_RescuePageError).Reference + "';");
             tFile.Append("$tQuerySign = 'SELECT * ");
             tFile.Append("FROM `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "` ");
             tFile.Append("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "` = \\''.$SQL_CON->real_escape_string(sha1(strtolower($sEmail).'" + NWDAppEnvironment.SelectedEnvironment().SaltStart + "')).'\\' ");
@@ -84,7 +84,7 @@ namespace NetWorkedData
             tFile.AppendLine("if ($tShA == $sFyr || $tShB == $sFyr || $tShC == $sFyr)");
             tFile.AppendLine("{");
             // draw page success
-            tFile.AppendLine("$tErrorReference = '" + NWDError.GetError(NWDError.NWDError_RescuePage).Reference + "';");
+            tFile.AppendLine("$tErrorReference = '" + NWDError.GetErrorDomainCode(NWDError.NWDError_RescuePage).Reference + "';");
 
             // EMAIL PASSWORD PROCESS
             tFile.AppendLine("if ($tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignType) + "'] == " + NWDAccountSignType.EmailPassword.ToLong() + ")");
@@ -126,7 +126,7 @@ namespace NetWorkedData
             tFile.AppendLine("else");
             tFile.AppendLine("{");
             tFile.AppendLine("" + NWDBasisHelper.BasisHelper<NWDAccountSign>().PHP_FUNCTION_INTEGRITY_REEVALUATE() + "($tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Reference) + "']);");
-            tFile.AppendLine("$tErrorToPost = "+NWDError.FUNCTIONPHP_ERROR_SELECT + "('" + NWDError.GetError(NWDError.NWDError_RescueAnswerEmail).Reference + "', $sLanguage);");
+            tFile.AppendLine("$tErrorToPost = "+NWDError.FUNCTIONPHP_ERROR_SELECT + "('" + NWDError.GetErrorDomainCode(NWDError.NWDError_RescueAnswerEmail).Reference + "', $sLanguage);");
             tFile.AppendLine("$tSubject = str_replace('{APP}',$NWD_APP_NAM,$tErrorToPost['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDError>().Title) + "']);");
             tFile.AppendLine("$tMessage = str_replace('{APP}',$NWD_APP_NAM,$tErrorToPost['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDError>().Description) + "']);");
             tFile.AppendLine("$tMessage = str_replace('{PASSWORD}',$tPassword, $tMessage);");
@@ -180,7 +180,7 @@ namespace NetWorkedData
             tFile.AppendLine("else");
             tFile.AppendLine("{");
             tFile.AppendLine("" + NWDBasisHelper.BasisHelper<NWDAccountSign>().PHP_FUNCTION_INTEGRITY_REEVALUATE() + "($tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Reference) + "']);");
-            tFile.AppendLine("$tErrorToPost = "+NWDError.FUNCTIONPHP_ERROR_SELECT + "('" + NWDError.GetError(NWDError.NWDError_RescueAnswerLogin).Reference + "', $sLanguage);");
+            tFile.AppendLine("$tErrorToPost = "+NWDError.FUNCTIONPHP_ERROR_SELECT + "('" + NWDError.GetErrorDomainCode(NWDError.NWDError_RescueAnswerLogin).Reference + "', $sLanguage);");
             tFile.AppendLine("$tSubject = str_replace('{APP}',$NWD_APP_NAM,$tErrorToPost['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDError>().Title) + "']);");
             tFile.AppendLine("$tMessage = str_replace('{APP}',$NWD_APP_NAM,$tErrorToPost['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDError>().Description) + "']);");
             tFile.AppendLine("$tMessage = str_replace('{PASSWORD}',$tPassword, $tMessage);");
@@ -196,7 +196,7 @@ namespace NetWorkedData
             tFile.AppendLine("else");
             tFile.AppendLine("{");
             // draw page lose
-            tFile.AppendLine("$tErrorReference = '" + NWDError.GetError(NWDError.NWDError_RescuePageError).Reference + "';");
+            tFile.AppendLine("$tErrorReference = '" + NWDError.GetErrorDomainCode(NWDError.NWDError_RescuePageError).Reference + "';");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("else //or more than one user with this email … strange… I push an error, user must be unique");
@@ -283,7 +283,7 @@ namespace NetWorkedData
                             tFile.AppendLine("$tSh = sha1(saltTemporal("+sEnvironment.RescueDelay+",0).$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Reference) + "'].$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "']);");
                             tFile.AppendLine("$tUrl = $HTTP_URL.'/'.$ENV.'/" + NWD.K_STATIC_RESCUE_PHP + "?" + NWD.K_WEB_RESCUE_EMAIL_Key + "='.$sEmail.'&" + NWD.K_WEB_RESCUE_LANGUAGE_Key + "='.$sLanguage.'&" + NWD.K_WEB_RESCUE_PROOF_Key + "='.$tSh.'';");
 
-                            tFile.AppendLine("$tError = "+NWDError.FUNCTIONPHP_ERROR_SELECT + "('" + NWDError.GetError(NWDError.NWDError_RescueRequest).Reference + "', $sLanguage);");
+                            tFile.AppendLine("$tError = "+NWDError.FUNCTIONPHP_ERROR_SELECT + "('" + NWDError.GetErrorDomainCode(NWDError.NWDError_RescueRequest).Reference + "', $sLanguage);");
                             tFile.AppendLine("$tSubject = str_replace('{APP}',$NWD_APP_NAM,$tError['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDError>().Title) + "']);");
                             tFile.AppendLine("$tMessage = str_replace('{APP}',$NWD_APP_NAM,$tError['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDError>().Description) + "']);");
                             tFile.AppendLine("$tMessage = str_replace('{URL}',$tUrl,$tMessage);");

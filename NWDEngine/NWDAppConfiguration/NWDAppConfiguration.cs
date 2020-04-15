@@ -78,6 +78,7 @@ namespace NetWorkedData
         public string ProjetcLanguage = "en";
         public bool PreloadDatas = true;
         public bool BundleDatas = true;
+        public bool AutoDeleteTrashDatas = true;
         public bool LauncherBenchmark = true;
         public int LauncherFaster = 10;
         //public bool PreloadDatasInEditor = true;
