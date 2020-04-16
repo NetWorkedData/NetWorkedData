@@ -202,7 +202,7 @@ namespace NetWorkedData
                 GUIContent sImageLabel = sHelper.GetGUIPreview(sReference);
                 Rect tPreviewRect = new Rect(sRect.position.x + EditorGUIUtility.labelWidth, sRect.position.y, NWDGUI.kDataSelectorFieldStyle.fixedHeight, NWDGUI.kDataSelectorFieldStyle.fixedHeight);
                 //GUI.Label(tPreviewRect, sImageLabel);
-                GUI.Label(tPreviewRect, sImageLabel, NWDGUI.kDataSelectorFieldStyle);
+                GUI.Label(tPreviewRect, sImageLabel, NWDGUI.kDataSelectorFieldIconStyle);
                 tField.x += NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight;
                 tField.width -= NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight;
             }

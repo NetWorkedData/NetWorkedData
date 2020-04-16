@@ -60,6 +60,10 @@ namespace NetWorkedData
                     PreviewTextureIsLoaded = true;
                 }
             }
+            if (PreviewTexture == null)
+            {
+                PreviewTexture = BasisHelper().TextureOfClass();
+            }
             //NWEBenchmark.Finish();
             return PreviewTexture;
         }

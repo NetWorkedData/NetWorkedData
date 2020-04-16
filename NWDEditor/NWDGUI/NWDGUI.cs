@@ -166,6 +166,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         // Datas Selector
         public static GUIStyle kDataSelectorFieldStyle;
+        public static GUIStyle kDataSelectorFieldIconStyle;
         public static GUIStyle kDataSelectorTileStyle;
         public static GUIStyle kDataSelectorRowStyle;
         public static float kDatasSelectorYOffset;
@@ -695,6 +696,13 @@ KTableSearchMask.fontSize = tTextSize;
                 kDataSelectorFieldStyle.border = new RectOffset(2, 2, 2, 2);
                 kDataSelectorFieldStyle.fixedHeight = kDataSelectorFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
                 // Selector design
+                //kDataSelectorFieldIconStyle = new GUIStyle(kDataSelectorFieldStyle);
+                kDataSelectorFieldIconStyle = new GUIStyle(EditorStyles.label);
+                kDataSelectorFieldIconStyle.imagePosition = ImagePosition.ImageOnly;
+                kDataSelectorFieldIconStyle.border = new RectOffset(0, 0, 0, 0);
+                kDataSelectorFieldIconStyle.margin = new RectOffset(0, 0, 0, 0);
+                kDataSelectorFieldIconStyle.fixedHeight = 24;
+                kDataSelectorFieldIconStyle.fixedWidth = 24;
 
                 kDataSelectorTileStyle = new GUIStyle(EditorStyles.helpBox);
                 kDataSelectorTileStyle.richText = true;
