@@ -149,6 +149,40 @@ namespace NetWorkedData
                 }
                 EditorGUI.EndDisabledGroup();
 
+
+                //EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Login) ||
+                //    string.IsNullOrEmpty(Password)  ||
+                //    string.IsNullOrEmpty(Email)
+                //    );
+                if (GUI.Button(tMatrix[0, tI++], "Select similar rescue", NWDGUI.kMiniButtonStyle))
+                {
+                    NWDAccountSign tSignFound = null;
+                    string tRescueWanted = GetRescueEmailHash(Email);
+                    Debug.Log("tRescueWanted = " + tRescueWanted);
+                    foreach (NWDAccountSign tAccountSign in BasisHelper().Datas)
+                    {
+                        if (string.IsNullOrEmpty(Email) == false)
+                        {
+                            if (tAccountSign.RescueHash == tRescueWanted)
+                            {
+                                tSignFound = tAccountSign;
+                                break;
+                            }
+                        }
+                    }
+                    if (tSignFound != null)
+                    {
+                        Debug.Log("tRescueWanted = " + tRescueWanted +" find the reference : " + tSignFound.Reference + " for account " + tSignFound.Account.GetReference());
+                        BasisHelper().SetObjectInEdition(tSignFound);
+                    }
+                    else
+                    {
+                        Debug.Log("tRescueWanted = " + tRescueWanted + " NOT FOUND REFERENCE ");
+                    }
+
+                }
+                //EditorGUI.EndDisabledGroup();
+
                 NWDGUI.Separator(tMatrix[0, tI++]);
                 GUI.Label(tMatrix[0, tI++], "To associate with social token", NWDGUI.kBoldLabelStyle);
                 Social = EditorGUI.TextField(tMatrix[0, tI++], "Social", Social);
