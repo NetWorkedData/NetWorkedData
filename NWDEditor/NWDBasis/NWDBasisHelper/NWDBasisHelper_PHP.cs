@@ -1298,7 +1298,7 @@ namespace NetWorkedData
             tFile.AppendLine("function " + PHP_FUNCTION_INTEGRITY_VALIDATE_BY_ROW() + " ($sRow)");
             tFile.AppendLine("{");
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", $WSBUILD, " + NWD.K_ENV + ", " + NWD.K_NWD_SLT_SRV + ";");
-            tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + "," + PHP_CONSTANT_WEBSERVICE() + ";");
+            tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + "," + PHP_CONSTANT_WEBSERVICE() + ", " + NWD.K_PATH_BASE + ";");
             tFile.AppendLine("$tCalculate = " + PHP_FUNCTION_INTEGRITY_GENERATE() + " ($sRow);");
             tFile.AppendLine("if ($tCalculate == $sRow['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Integrity) + "'])");
             tFile.AppendLine("{");
@@ -1327,7 +1327,7 @@ namespace NetWorkedData
             //tFile.AppendLine("$sAccountReferenceSure = str_replace('%','',str_replace('_','',$sAccountReferenceSure));");
             //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", $WSBUILD, " + NWD.K_ENV + ", " + NWD.K_NWD_SLT_SRV + ", " + NWD.K_PHP_TIME_SYNC + ", $NWD_FLOAT_FORMAT, $ACC_NEEDED, " + NWD.K_PATH_BASE + ", $REF_NEEDED, $REP;");
-            tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ", " + PHP_CONSTANT_WEBSERVICE() + ";");
+            tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + "," + PHP_CONSTANT_WEBSERVICE() + ", " + NWD.K_PATH_BASE + ";");
             tFile.AppendLine("global $admin, $uuid;");
             tFile.AppendLine("if (" + PHP_FUNCTION_INTERGRITY_TEST() + " ($sCsv) == true)");
             tFile.AppendLine("{");
@@ -1461,7 +1461,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", $WSBUILD, " + NWD.K_ENV + ", $REF_NEEDED, $ACC_NEEDED, $uuid;");
-            tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + "," + PHP_CONSTANT_WEBSERVICE() + ";");
+            tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + "," + PHP_CONSTANT_WEBSERVICE() + ", " + NWD.K_PATH_BASE + ";");
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("global $admin;");
             //"$tPage = $sPage*$sLimit;" );
@@ -1524,7 +1524,7 @@ namespace NetWorkedData
             tFile.AppendLine("function " + PHP_FUNCTION_GET_DATAS_BY_REFERENCES() + " ($sReferences)");
             tFile.AppendLine("{");
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", $WSBUILD, " + NWD.K_ENV + ", $REF_NEEDED, $ACC_NEEDED, $uuid;");
-            tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + "," + PHP_CONSTANT_WEBSERVICE() + ";");
+            tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + "," + PHP_CONSTANT_WEBSERVICE() + ", " + NWD.K_PATH_BASE + ";");
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("global $admin;");
             //"$tPage = $sPage*$sLimit;" );
@@ -1563,7 +1563,7 @@ namespace NetWorkedData
             //tFile.AppendLine("$sAccountReferenceSure = str_replace('%','',str_replace('_','',$sAccountReferenceSure));");
 
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", $WSBUILD, " + NWD.K_ENV + ", $REF_NEEDED, $ACC_NEEDED, $uuid;");
-            tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + "," + PHP_CONSTANT_WEBSERVICE() + ";");
+            tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + "," + PHP_CONSTANT_WEBSERVICE() + ", " + NWD.K_PATH_BASE + ";");
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("global $admin;");
             if (sEnvironment.LogMode == true)
@@ -1692,7 +1692,7 @@ namespace NetWorkedData
             //tFile.AppendLine("$sAccountReferenceSure = str_replace('" + NWDAccount.K_ACCOUNT_CERTIFIED_SUFFIXE + "','',str_replace('" + NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM + "','',$sAccountReference));");
             //tFile.AppendLine("$sAccountReferenceSure = str_replace('%','',str_replace('_','',$sAccountReferenceSure));");
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", $WSBUILD, " + NWD.K_ENV + ", $REF_NEEDED, $ACC_NEEDED, $uuid;");
-            tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + "," + PHP_CONSTANT_WEBSERVICE() + ";");
+            tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + "," + PHP_CONSTANT_WEBSERVICE() + ", " + NWD.K_PATH_BASE + ";");
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("global $admin;");
             //"$tPage = $sPage*$sLimit;" );
@@ -1772,7 +1772,7 @@ namespace NetWorkedData
             tFile.AppendLine("function " + PHP_FUNCTION_GET_DATAS_BY_ACCOUNT() + " ($sTimeStamp, $sAccountReferences)");
             tFile.AppendLine("{");
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", $WSBUILD, " + NWD.K_ENV + ", $REF_NEEDED, $ACC_NEEDED, $uuid;");
-            tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ", " + PHP_CONSTANT_WEBSERVICE() + ";");
+            tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + "," + PHP_CONSTANT_WEBSERVICE() + ", " + NWD.K_PATH_BASE + ";");
             tFile.AppendLine("global $REP;");
             //"$tPage = $sPage*$sLimit;" );
             tFile.Append("$tQuery = 'SELECT " + SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE ");
@@ -1815,7 +1815,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", $WSBUILD, " + NWD.K_ENV + ", " + NWD.K_NWD_SLT_SRV + ", " + NWD.K_PHP_TIME_SYNC + ", $NWD_FLOAT_FORMAT, $ACC_NEEDED, " + NWD.K_PATH_BASE + ", $REF_NEEDED, $REP;");
-            tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ", " + PHP_CONSTANT_WEBSERVICE() + ";");
+            tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + "," + PHP_CONSTANT_WEBSERVICE() + ", " + NWD.K_PATH_BASE + ";");
             tFile.AppendLine("global $admin, $uuid;");
 
             tFile.Append(AddonPhpSpecialCalculate(sEnvironment));
