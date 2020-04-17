@@ -53,6 +53,7 @@ namespace NetWorkedData
             //"\t\t\t\t$sCsvList = Prepare" + tClassName + "Data($sCsv);\n"
             //"\t ..."
             rReturn.AppendLine("// write your php script string here to update $tReference before sync on server");
+            rReturn.AppendLine("// use public override string AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)");
             //"\t ..."
             //"\t Datas Updated"
             //"\t ..."
@@ -72,6 +73,7 @@ namespace NetWorkedData
             //"\t Datas Updated"
             //"\t ..."
             rReturn.AppendLine("// write your php script string here to update after sync on server");
+            rReturn.AppendLine("// use public override string AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)");
             //"\t ..."
             //"\t}\n"
             return rReturn.ToString();
@@ -83,6 +85,7 @@ namespace NetWorkedData
             rReturn.Append(base.AddonPhpGetCalculate(sEnvironment));
             rReturn.AppendLine("// use $tRow");
             rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassNamePHP + " After Get'] ='success!!!';");
+            rReturn.AppendLine("// use public override string  AddonPhpGetCalculate(NWDAppEnvironment sEnvironment)");
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -92,6 +95,7 @@ namespace NetWorkedData
             rReturn.Append(base.AddonPhpSpecialCalculate(sEnvironment));
             rReturn.AppendLine("// in function " + PHP_FUNCTION_SPECIAL() + " ($sTimeStamp, $sAccountReferences)");
             rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassNamePHP + " Special'] ='success!!!';");
+            rReturn.AppendLine("// use public override string  AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)");
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -102,6 +106,7 @@ namespace NetWorkedData
             rReturn.AppendLine("function AddOnOne" + ClassNamePHP + " ($sTimeStamp, $sAccountReferences)");
             rReturn.AppendLine("{");
             rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassNamePHP + " Special'] ='success!!!';");
+            rReturn.AppendLine("// use public override string  AddonPhpFunctions(NWDAppEnvironment sEnvironment)");
             rReturn.AppendLine("}");
             return rReturn.ToString();
         }
