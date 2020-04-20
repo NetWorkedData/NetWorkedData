@@ -618,13 +618,13 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private static List<T> QuickFilterDatas<T>(List<NWDTypeClass> sDatasArray, string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
+        private static List<T> QuickFilterDatas<T>(List<NWDTypeClass> sDatasList, string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
         {
             List<T> rList = new List<T>();
-            if (sDatasArray != null)
+            if (sDatasList != null)
             {
                 //Debug.Log(BasisHelper<T>().ClassNamePHP + " : search data in " + sDatasArray.Count + " rows ");
-                foreach (T tData in sDatasArray)
+                foreach (T tData in sDatasList)
                 {
                     T tDataReturn = QuickFilter<T>(tData, sAccountReference, sGameSave);
                     if (tDataReturn != null)
@@ -635,6 +635,52 @@ namespace NetWorkedData
             }
 
             return rList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<T> QuickFilterDatas<T>(List<T> sDatasList, string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
+        {
+            List<T> rList = new List<T>();
+            if (sDatasList != null)
+            {
+                foreach (T tData in sDatasList)
+                {
+                    T tDataReturn = QuickFilter<T>(tData, sAccountReference, sGameSave);
+                    if (tDataReturn != null)
+                    {
+                        rList.Add(tDataReturn);
+                    }
+                }
+            }
+
+            return rList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T[] QuickFilterDatas<T>(T[] sDatasArray, string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
+        {
+            List<T> rList = new List<T>();
+            if (sDatasArray != null)
+            {
+                foreach (T tData in sDatasArray)
+                {
+                    T tDataReturn = QuickFilter<T>(tData, sAccountReference, sGameSave);
+                    if (tDataReturn != null)
+                    {
+                        rList.Add(tDataReturn);
+                    }
+                }
+            }
+
+            return rList.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T[] QuickFilterReacheableDatas<T>(T[] sDatasArray) where T : NWDTypeClass, new()
+        {
+            return QuickFilterDatas<T>(sDatasArray, NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<T> QuickFilterReacheableDatas<T>(List<T> sDatasList) where T : NWDTypeClass, new()
+        {
+            return QuickFilterDatas<T>(sDatasList, NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
         }
         //-------------------------------------------------------------------------------------------------------------
 
