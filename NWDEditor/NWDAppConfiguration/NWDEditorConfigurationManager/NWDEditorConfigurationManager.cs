@@ -111,6 +111,7 @@ namespace NetWorkedData
 
             //General preferences
             NWDGUILayout.Section("User preferences");
+            EditorPrefs.SetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG, EditorGUILayout.ToggleLeft("Copy DebugLog In Clipoard", EditorPrefs.GetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG)));
             EditorPrefs.SetString(NWDConstants.K_EDITOR_USER_BUILDER, EditorGUILayout.TextField("User builder name", EditorPrefs.GetString(NWDConstants.K_EDITOR_USER_BUILDER, "(user)")));
             EditorPrefs.SetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, EditorGUILayout.IntSlider("Panel data width", EditorPrefs.GetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, 320), 300, 400));
 

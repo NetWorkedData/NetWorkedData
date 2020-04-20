@@ -26,6 +26,7 @@ namespace NetWorkedData
     public partial class NWDConstants
     {
         //-------------------------------------------------------------------------------------------------------------
+        public static string K_EDITOR_CLIPBOARD_LAST_LOG = "K_EDITOR_CLIPBOARD_LAST_LOG";
         public static string K_EDITOR_USER_BUILDER = "NWD_USER_BUILDER";
         public static string K_EDITOR_PANEL_WIDTH = "K_EDITOR_PANEL_WIDTH";
         //-------------------------------------------------------------------------------------------------------------

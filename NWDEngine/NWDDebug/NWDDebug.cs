@@ -12,7 +12,10 @@
 //=====================================================================================================================
 
 
+using UnityEditor;
+#if UNITY_EDITOR
 using UnityEngine;
+#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -43,7 +46,10 @@ namespace NetWorkedData
                 else
                 {
 #if UNITY_EDITOR
-                    NWEClipboard.CopyToClipboard(sString);
+                    if (EditorPrefs.GetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG) == true)
+                    {
+                        NWEClipboard.CopyToClipboard(sString);
+                    }
 #endif
                     Debug.Log(sString);
                 }
