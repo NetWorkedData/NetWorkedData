@@ -103,9 +103,12 @@ namespace NetWorkedData
         public NWDTypeClass GetDataByReference(string sReference)
         {
             NWDTypeClass rReturn = null;
-            if (DatasByReference.ContainsKey(sReference))
+            if (sReference != null)
             {
-                rReturn = DatasByReference[sReference];
+                if (DatasByReference.ContainsKey(sReference))
+                {
+                    rReturn = DatasByReference[sReference];
+                }
             }
             return rReturn;
         }

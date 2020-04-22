@@ -30,6 +30,108 @@ namespace NetWorkedData
     public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
+        public void DevSyncActive(bool sLock)
+        {
+            if (sLock == false)
+            {
+                if (DevSync == 0)
+                {
+                    DevSync = -1;
+                }
+                else if (DevSync == 1)
+                {
+                    DevSync = -2;
+                }
+                else
+                {
+                    DevSync = -Math.Abs(DevSync);
+                }
+            }
+            else
+            {
+                if (DevSync == -1)
+                {
+                    DevSync = 0;
+                }
+                else if (DevSync == -2)
+                {
+                    DevSync = 1;
+                }
+                else
+                {
+                    DevSync = Math.Abs(DevSync);
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void PreprodSyncActive(bool sLock)
+        {
+            if (sLock == false)
+            {
+                if (PreprodSync == 0)
+                {
+                    PreprodSync = -1;
+                }
+                else if (PreprodSync == 1)
+                {
+                    PreprodSync = -2;
+                }
+                else
+                {
+                    PreprodSync = -Math.Abs(PreprodSync);
+                }
+            }
+            else
+            {
+                if (PreprodSync == -1)
+                {
+                    PreprodSync = 0;
+                }
+                else if (PreprodSync == -2)
+                {
+                    PreprodSync = 1;
+                }
+                else
+                {
+                    PreprodSync = Math.Abs(PreprodSync);
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ProdSyncActive(bool sLock)
+        {
+            if (sLock == false)
+            {
+                if (ProdSync == 0)
+                {
+                    ProdSync = -1;
+                }
+                else if (ProdSync == 1)
+                {
+                    ProdSync = -2;
+                }
+                else
+                {
+                    ProdSync = -Math.Abs(ProdSync);
+                }
+            }
+            else
+            {
+                if (ProdSync == -1)
+                {
+                    ProdSync = 0;
+                }
+                else if (ProdSync == -2)
+                {
+                    ProdSync = 1;
+                }
+                else
+                {
+                    ProdSync = Math.Abs(ProdSync);
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override bool IsSynchronized()
         {
             if (SynchronizeStamp() > 0)

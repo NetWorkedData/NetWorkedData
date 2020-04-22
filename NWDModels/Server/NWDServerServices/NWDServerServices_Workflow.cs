@@ -19,15 +19,15 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDServerDatas : NWDBasis
+    public partial class NWDServerServices : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDServerDatas()
+        public NWDServerServices()
         {
             //Debug.Log("NWDServerConfig Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDServerDatas(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDServerServices(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             //Debug.Log("NWDServerConfig Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
@@ -36,46 +36,20 @@ namespace NetWorkedData
         {
             base.Initialization();
             InternalKey = "Unused config";
-            Port = 22;
-            //User = NWDAppEnvironment.SelectedEnvironment().SFTPUser;
-            IP.SetValue("192.168.0.1");
-
+            User = "wsuser" + NWDToolbox.RandomStringAlpha(3).ToLower();
             // no sync please
             DevSync = -1;
             PreprodSync = -1;
             ProdSync = -1;
-            AccountRangeStart = 000;
-            AccountRangeEnd = 999;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdateMe()
+        public NWDServerAuthentication GetServerSFTP(NWDAppEnvironment sEnvironment)
         {
-            base.AddonUpdateMe();
-            MySQLUser = NWDToolbox.UnixCleaner(MySQLUser);
-            MySQLBase = NWDToolbox.UnixCleaner(MySQLBase);
-            if (Root_MysqlPassword != null)
-            {
-                Root_MysqlPassword.SetValue(NWDToolbox.UnixCleaner(Root_MysqlPassword.GetValue()));
-            }
-
-            Admin_User = NWDToolbox.UnixCleaner(Admin_User);
-            if (Admin_Password != null)
-            {
-                Admin_Password.SetValue(NWDToolbox.UnixCleaner(Admin_Password.GetValue()));
-            }
-            Root_User = NWDToolbox.UnixCleaner(Root_User);
-            if (Root_MysqlPassword != null)
-            {
-                Root_MysqlPassword.SetValue(NWDToolbox.UnixCleaner(Root_Password.GetValue()));
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDServerDatabaseAuthentication GetServerDatabase(NWDAppEnvironment sEnvironment)
-        {
-            NWDServerDatabaseAuthentication rReturn = null;
+            NWDServerAuthentication rReturn = null;
+            NWDServerDomain tServerDNS = ServerDomain.GetRawData();
             if (Server != null)
             {
-                NWDServerDomain tServerDNS = Server.GetRawData();
+                NWDServer tServer = Server.GetRawData();
                 if (tServerDNS != null)
                 {
 
@@ -85,7 +59,7 @@ namespace NetWorkedData
                             (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment && tServerDNS.Preprod == true) ||
                             (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment && tServerDNS.Prod == true))
                         {
-                            rReturn = new NWDServerDatabaseAuthentication(NWDToolbox.TextUnprotect(MySQLIP.GetValue()), MySQLPort, NWDToolbox.TextUnprotect(MySQLBase), NWDToolbox.TextUnprotect(MySQLUser), NWDToolbox.TextUnprotect(MySQLPassword.ToString()));
+                            rReturn = new NWDServerAuthentication(NWDToolbox.TextUnprotect(tServerDNS.ServerDNS), tServer.Port, NWDToolbox.TextUnprotect(Folder), NWDToolbox.TextUnprotect(User), NWDToolbox.TextUnprotect(Password.ToString()));
                         }
                     }
                 }
@@ -93,19 +67,19 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDServerDatabaseAuthentication GetConfigurationServerDatabase(NWDAppEnvironment sEnvironment)
+        public static NWDServerAuthentication GetConfigurationServerSFTP(NWDAppEnvironment sEnvironment)
         {
-            NWDServerDatabaseAuthentication rReturn = new NWDServerDatabaseAuthentication(sEnvironment.ServerHost, 555, sEnvironment.ServerBase, sEnvironment.ServerUser, sEnvironment.ServerPassword);
+            NWDServerAuthentication rReturn = new NWDServerAuthentication(sEnvironment.SFTPHost, sEnvironment.SFTPPort, sEnvironment.SFTPFolder, sEnvironment.SFTPUser, sEnvironment.SFTPPassword);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDServerDatabaseAuthentication[] GetAllConfigurationServerDatabase(NWDAppEnvironment sEnvironment)
+        public static NWDServerAuthentication[] GetAllConfigurationServerSFTP(NWDAppEnvironment sEnvironment)
         {
-            List<NWDServerDatabaseAuthentication> rReturn = new List<NWDServerDatabaseAuthentication>();
-            rReturn.Add(GetConfigurationServerDatabase(sEnvironment));
-            foreach (NWDServerDatas tServerDatabase in NWDBasisHelper.GetRawDatas<NWDServerDatas>())
+            List<NWDServerAuthentication> rReturn = new List<NWDServerAuthentication>();
+            rReturn.Add(GetConfigurationServerSFTP(sEnvironment));
+            foreach (NWDServerServices tSFTP in NWDBasisHelper.GetRawDatas<NWDServerServices>())
             {
-                NWDServerDatabaseAuthentication tConn = tServerDatabase.GetServerDatabase(sEnvironment);
+                NWDServerAuthentication tConn = tSFTP.GetServerSFTP(sEnvironment);
                 if (tConn != null)
                 {
                     rReturn.Add(tConn);

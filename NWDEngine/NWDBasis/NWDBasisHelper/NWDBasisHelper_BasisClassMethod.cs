@@ -280,27 +280,30 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             T rReturn = null;
-            NWDBasisHelper tHelper = BasisHelper<T>();
-            if (tHelper.DatasByReference.ContainsKey(sReference))
+            if (string.IsNullOrEmpty(sReference) == false)
             {
-                //Debug.Log("found in memory reference " + sReference);
-                rReturn = tHelper.DatasByReference[sReference] as T;
-            }
-            else
-            {
-                //Debug.Log("not found in memory reference " + sReference);
-                if (sTryOnDisk == true)
+                NWDBasisHelper tHelper = BasisHelper<T>();
+                if (tHelper.DatasByReference.ContainsKey(sReference))
                 {
-                    //Debug.Log("try find on disk reference " + sReference);
-                    tHelper.LoadFromDatabaseByReference(sReference, true);
-                    if (tHelper.DatasByReference.ContainsKey(sReference))
+                    //Debug.Log("found in memory reference " + sReference);
+                    rReturn = tHelper.DatasByReference[sReference] as T;
+                }
+                else
+                {
+                    //Debug.Log("not found in memory reference " + sReference);
+                    if (sTryOnDisk == true)
                     {
-                        //Debug.Log("not found on disk reference " + sReference);
-                        rReturn = tHelper.DatasByReference[sReference] as T;
+                        //Debug.Log("try find on disk reference " + sReference);
+                        tHelper.LoadFromDatabaseByReference(sReference, true);
+                        if (tHelper.DatasByReference.ContainsKey(sReference))
+                        {
+                            //Debug.Log("not found on disk reference " + sReference);
+                            rReturn = tHelper.DatasByReference[sReference] as T;
+                        }
                     }
                 }
+                rReturn = QuickFilter<T>(rReturn, null, null);
             }
-            rReturn = QuickFilter<T>(rReturn, null, null);
             //NWEBenchmark.Finish();
             return rReturn;
         }

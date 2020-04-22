@@ -37,30 +37,6 @@ namespace NetWorkedData
             InternalKey = "Unused server";
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdateMe()
-        {
-            base.AddonUpdateMe();
-            InternalKey = "Unused server";
-            if (string.IsNullOrEmpty(ServerDNS) == false)
-            {
-                InternalKey = ServerDNS;
-
-                if (Dev == true)
-                {
-                    InternalKey = InternalKey + " dev";
-                }
-                if (Preprod == true)
-                {
-                    InternalKey = InternalKey + " prepord";
-                }
-                if (Prod == true)
-                {
-                    InternalKey = InternalKey + " prod";
-                }
-            }
-            ServerDNS = NWDToolbox.TextProtect(NWDToolbox.CleanDNS(NWDToolbox.TextUnprotect(ServerDNS)));
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public bool ValidInSelectedEnvironment()
         {
             return ValidInEnvironment(NWDAppConfiguration.SharedInstance().SelectedEnvironment());

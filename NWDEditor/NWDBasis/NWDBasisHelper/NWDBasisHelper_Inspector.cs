@@ -174,7 +174,6 @@ namespace NetWorkedData
                         if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
                         {
 
-                            EditorGUI.LabelField(tEntitlementRect, Content(), NWDGUI.kPropertyEntitlementStyle);
                             float tH = 0;
                             if (Property.GetCustomAttributes(typeof(NWDLongString), true).Length > 0)
                             {
@@ -188,13 +187,26 @@ namespace NetWorkedData
                             {
                                 tH += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                             }
+                            EditorGUI.LabelField(tEntitlementRect, Content(), NWDGUI.kPropertyEntitlementStyle);
                             string tValue = Property.GetValue(sObject, null) as string;
                             if (string.IsNullOrEmpty(tValue) == false)
                             {
                                 tValue = NWDToolbox.TextUnprotect(tValue);
                             }
                             tFieldRect.height = tH;
-                            string tValueNext = EditorGUI.TextField(tFieldRect, tValue, NWDGUI.kTextFieldStyle);
+                            string tValueNext = tValue;
+                            if (Property.GetCustomAttributes(typeof(NWDLongString), true).Length > 0)
+                            {
+                                tValueNext = EditorGUI.TextField(tFieldRect, tValue);  // if use NWDGUI.kTextFieldStyle, the rect is limited by style :-(
+                            }
+                            else if (Property.GetCustomAttributes(typeof(NWDVeryLongString), true).Length > 0)
+                            {
+                                tValueNext = EditorGUI.TextField(tFieldRect, tValue); // if use NWDGUI.kTextFieldStyle, the rect is limited by style :-( 
+                            }
+                            else
+                            {
+                                tValueNext = EditorGUI.TextField(tFieldRect, tValue, NWDGUI.kTextFieldStyle);
+                            }
                             tY += tH;
                             if (tValueNext != tValue)
                             {
@@ -758,33 +770,44 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             GUIContent rReturn = null;
-            if (DatasByReference != null)
+            if (string.IsNullOrEmpty(sReference) == false)
             {
-                if (DatasByReference.ContainsKey(sReference))
+                if (DatasByReference != null)
                 {
-                    NWDTypeClass tObject = DatasByReference[sReference] as NWDTypeClass;
-                    if (string.IsNullOrEmpty(tObject.InternalKey))
+                    if (DatasByReference.ContainsKey(sReference))
                     {
-                        //rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
-                        rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.InternalDescription);
+                        NWDTypeClass tObject = DatasByReference[sReference] as NWDTypeClass;
+                        if (string.IsNullOrEmpty(tObject.InternalKey))
+                        {
+                            //rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
+                            rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.InternalDescription);
+                        }
+                        else
+                        {
+                            //rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
+                            rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", tObject.InternalDescription);
+                        }
                     }
                     else
                     {
-                        //rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
-                        rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", tObject.InternalDescription);
+                        if (string.IsNullOrEmpty(sReference))
+                        {
+                            rReturn = new GUIContent(NWDConstants.kFieldNone);
+                        }
+                        else
+                        {
+                            rReturn = new GUIContent("<i>WARNING</i> [" + sReference + "]");
+                        }
                     }
                 }
                 else
                 {
-                    if (string.IsNullOrEmpty(sReference))
-                    {
-                        rReturn = new GUIContent(NWDConstants.kFieldNone);
-                    }
-                    else
-                    {
-                        rReturn = new GUIContent("<i>WARNING</i> [" + sReference + "]");
-                    }
+                    rReturn = new GUIContent("<i>! Table not loaded</i>");
                 }
+            }
+            else
+            {
+                rReturn = new GUIContent(NWDConstants.kFieldNone);
             }
             //NWEBenchmark.Finish();
             return rReturn;

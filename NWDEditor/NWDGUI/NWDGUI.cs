@@ -545,13 +545,13 @@ namespace NetWorkedData
                 KTableSearchMask = new GUIStyle(EditorStyles.layerMaskField);
                 KTableSearchButton = new GUIStyle(EditorStyles.miniButton);
                 KTableSearchLabel = new GUIStyle(EditorStyles.label);
-int tTextSize = 10;
+                int tTextSize = 10;
                 KTableSearchButton.fontSize = tTextSize;
                 KTableSearchLabel.fontSize = tTextSize;
-KTableSearchTextfield.fontSize = tTextSize;
-KTableSearchToggle.fontSize = tTextSize;
-KTableSearchEnum.fontSize = tTextSize;
-KTableSearchMask.fontSize = tTextSize;
+                KTableSearchTextfield.fontSize = tTextSize;
+                KTableSearchToggle.fontSize = tTextSize;
+                KTableSearchEnum.fontSize = tTextSize;
+                KTableSearchMask.fontSize = tTextSize;
 
                 KTableToolbar.fixedHeight = KTableToolbar.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
                 KTableSearchIcon.alignment = TextAnchor.MiddleCenter;

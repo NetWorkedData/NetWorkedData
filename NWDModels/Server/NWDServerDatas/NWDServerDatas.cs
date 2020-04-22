@@ -16,19 +16,22 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDInternalKeyNotEditable]
+    //[NWDInternalKeyNotEditable]
     [NWDClassUnityEditorOnlyAttribute]
-    [NWDClassServerSynchronizeAttribute(false)]
+    [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("SSD")]
     [NWDClassDescriptionAttribute("Server Datas descriptions Class")]
     [NWDClassMenuNameAttribute("Server Datas")]
+    [NWDInternalDescriptionNotEditable]
     public partial class NWDServerDatas : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStart("Server Services")]
-        public NWDReferenceType<NWDServerDomain> Server { get; set; }
+        [NWDInspectorGroupStart("Server SSH")]
+        public NWDReferenceType<NWDServer> Server { get; set; }
+        [NWDInspectorGroupStart("Data Account Range")]
+        //public NWDReferenceType<NWDServerDomain> Server { get; set; }
         [NWDEntitled("Account Range Start")]
         [NWDIntSlider(0,999)]
         public int AccountRangeStart { get; set; }
@@ -60,32 +63,37 @@ namespace NetWorkedData
         public bool PhpMyAdmin { get; set; }
         [NWDInspectorGroupEnd]
 
-        [NWDInspectorGroupStart("Authentification SSH")]
-        [NWDEntitled("SSH IP")]
-        public NWDIPType IP { get; set; }
-        [NWDEntitled("SSH Port")]
-        public int Port { get; set; }
-        //[NWDEntitled("SSH User")]
-        //public string User { get; set; }
-        //[NWDEntitled("SSH Password")]
-        //public NWDPasswordType Password { get; set; }
-        [NWDEntitled("SSH Admin User")]
-        public string Admin_User { get; set; }
-        [NWDEntitled("SSH Admin Password")]
-        public NWDPasswordType Admin_Password { get; set; }
-        [NWDEntitled("SSH Root User")]
-        public string Root_User { get; set; }
-        [NWDEntitled("SSH Root Password")]
-        public NWDPasswordType Root_Password { get; set; }
-        [NWDInspectorGroupEnd]
+        //[NWDInspectorGroupStart("Authentification SSH")]
+        //[NWDEntitled("SSH IP")]
+        //public NWDIPType IP { get; set; }
+        //[NWDEntitled("SSH Port")]
+        //public int Port { get; set; }
+        ////[NWDEntitled("SSH User")]
+        ////public string User { get; set; }
+        ////[NWDEntitled("SSH Password")]
+        ////public NWDPasswordType Password { get; set; }
+        //[NWDEntitled("SSH Admin User")]
+        //public string Admin_User { get; set; }
+        //[NWDEntitled("SSH Admin Password")]
+        //public NWDPasswordType Admin_Password { get; set; }
+        //[NWDEntitled("SSH Root User")]
+        //public string Root_User { get; set; }
+        //[NWDEntitled("SSH Root Password")]
+        //public NWDPasswordType Root_Password { get; set; }
+        //[NWDInspectorGroupEnd]
 
-        [NWDInspectorGroupStart("Install Server Options")]
-        public NWDServerDistribution Distribution { get; set; }
-        [NWDInspectorGroupEnd]
+        //[NWDInspectorGroupStart("Install Server Options")]
+        //public NWDServerDistribution Distribution { get; set; }
+        //[NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Server Environment Actif")]
+        [NWDNotEditable]
         public bool Dev { get; set; }
+        [NWDNotEditable]
         public bool Preprod { get; set; }
+        [NWDNotEditable]
         public bool Prod { get; set; }
+        [NWDNotEditable]
+        public string Information { get; set; }
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------

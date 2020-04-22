@@ -763,7 +763,7 @@ namespace NetWorkedData
                         }
                         else
                         {
-                            DevSync = -DevSync;
+                            DevSync = -Math.Abs(DevSync);
                         }
                     }
                     else
@@ -794,7 +794,7 @@ namespace NetWorkedData
                         }
                         else
                         {
-                            PreprodSync = -PreprodSync;
+                            PreprodSync = -Math.Abs(PreprodSync);
                         }
                     }
                     else
@@ -825,7 +825,7 @@ namespace NetWorkedData
                         }
                         else
                         {
-                            ProdSync = -ProdSync;
+                            ProdSync = -Math.Abs(ProdSync);
                         }
                     }
                     else

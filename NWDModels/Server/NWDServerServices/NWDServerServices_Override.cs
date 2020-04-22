@@ -19,7 +19,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDCluster : NWDBasis
+    public partial class NWDServerServices : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -69,6 +69,39 @@ namespace NetWorkedData
         public override void AddonUpdateMe()
         {
             base.AddonUpdateMe();
+            InternalKey = "Unused config";
+            NWDServerDomain tServerDNS = ServerDomain.GetRawData();
+            if (tServerDNS != null)
+            {
+                if (string.IsNullOrEmpty(tServerDNS.ServerDNS) == false)
+                {
+                    InternalKey = tServerDNS.InternalKey + " config";
+                }
+            }
+            Folder = NWDToolbox.UnixCleaner(Folder);
+
+            User = NWDToolbox.UnixCleaner(User);
+            if (Password != null)
+            {
+                Password.SetValue(NWDToolbox.UnixCleaner(Password.GetValue()));
+            }
+
+            //User = NWDToolbox.UnixCleaner(User);
+            //if (Password != null)
+            //{
+            //    Password.SetValue(NWDToolbox.UnixCleaner(Password.GetValue()));
+            //}
+            //Admin_User = NWDToolbox.UnixCleaner(Admin_User);
+            //if (Admin_Password != null)
+            //{
+            //    Admin_Password.SetValue(NWDToolbox.UnixCleaner(Admin_Password.GetValue()));
+            //}
+
+            //Root_User = NWDToolbox.UnixCleaner(Root_User);
+            //if (Root_Password != null)
+            //{
+            //    Root_Password.SetValue(NWDToolbox.UnixCleaner(Root_Password.GetValue()));
+            //}
             //#if UNITY_EDITOR
             // do something when object will be updated
             List<string> tDescription = new List<string>();
