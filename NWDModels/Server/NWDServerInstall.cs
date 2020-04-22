@@ -28,14 +28,14 @@ namespace NetWorkedData
     public class NWDServerInstall
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static string CommandInstallServerSSH(NWDServerDistribution sDistribution, string sIP, int sPort, string sRoot, string sRootPassword, string sAdmin_User, string sAdmin_Password)
+        public static string CommandInstallServerSSH(NWDServer sServer)
         {
             StringBuilder tScriptServer = new StringBuilder();
-            switch (sDistribution)
+            switch (sServer.Distribution)
             {
                 case NWDServerDistribution.debian9:
                     {
-                        tScriptServer.Append(NWDServerDebian9.CommandInstallServerSSH(sIP, sPort, sRoot, sRootPassword, sAdmin_User, sAdmin_Password));
+                        tScriptServer.Append(NWDServerDebian9.CommandInstallServerSSH(sServer.IP.GetValue(), sServer.Port, sServer.Root_User, sServer.Root_Password.GetValue(), sServer.Admin_User, sServer.Admin_Password.GetValue()));
                     }
                     break;
                 case NWDServerDistribution.debian10:
@@ -48,14 +48,14 @@ namespace NetWorkedData
         }
 
         //-------------------------------------------------------------------------------------------------------------
-        public static string CommandInstallServerApache(NWDServerDistribution sDistribution, string sIP, int sPort, string sAdmin_User, string sAdmin_Password, string sRootPassword)
+        public static string CommandInstallServerApache(NWDServer sServer)
         {
             StringBuilder tScriptServer = new StringBuilder();
-            switch (sDistribution)
+            switch (sServer.Distribution)
             {
                 case NWDServerDistribution.debian9:
                     {
-                        tScriptServer.Append( NWDServerDebian9.CommandInstallServerApache(sIP, sPort, sAdmin_User, sAdmin_Password, sRootPassword));
+                        tScriptServer.Append( NWDServerDebian9.CommandInstallServerApache(sServer.IP.GetValue(), sServer.Port, sServer.Admin_User, sServer.Admin_Password.GetValue(), sServer.Root_Password.GetValue()));
                     }
                     break;
                 case NWDServerDistribution.debian10:
@@ -67,14 +67,14 @@ namespace NetWorkedData
             return tScriptServer.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string CommandInstallServerMySQL(NWDServerDistribution sDistribution, string sIP, int sPort, string sAdmin_User, string sAdmin_Password, string sRootPassword, string sRootMySQLPassword, bool sMySQLExternal, bool sMySQLPhpMyAdmin)
+        public static string CommandInstallServerMySQL(NWDServer sServer, string sRootMySQLPassword, bool sMySQLExternal, bool sMySQLPhpMyAdmin)
         {
             StringBuilder tScriptServer = new StringBuilder();
-            switch (sDistribution)
+            switch (sServer.Distribution)
             {
                 case NWDServerDistribution.debian9:
                     {
-                        tScriptServer.Append(NWDServerDebian9.CommandInstallServerMySQL(sIP, sPort, sAdmin_User, sAdmin_Password, sRootPassword, sRootMySQLPassword, sMySQLExternal,  sMySQLPhpMyAdmin));
+                        tScriptServer.Append(NWDServerDebian9.CommandInstallServerMySQL(sServer.IP.GetValue(), sServer.Port, sServer.Admin_User, sServer.Admin_Password.GetValue(), sServer.Root_Password.GetValue(), sRootMySQLPassword, sMySQLExternal,  sMySQLPhpMyAdmin));
                     }
                     break;
                 case NWDServerDistribution.debian10:
@@ -86,14 +86,14 @@ namespace NetWorkedData
             return tScriptServer.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string CommandInstallWebService(NWDServerDistribution sDistribution, string sIP, int sPort, string sAdmin_User, string sAdmin_Password, string sRootPassword, string sDNS, string sUser, string sPassword, string sFolder, string sEmail)
+        public static string CommandInstallWebService(NWDServer sServer, string sDNS, string sUser, string sPassword, string sFolder, string sEmail)
         {
             StringBuilder tScriptServer = new StringBuilder();
-            switch (sDistribution)
+            switch (sServer.Distribution)
             {
                 case NWDServerDistribution.debian9:
                     {
-                        tScriptServer.Append(NWDServerDebian9.CommandInstallWebService(sIP, sPort, sAdmin_User, sAdmin_Password, sRootPassword, sDNS, sUser, sPassword, sFolder, sEmail));
+                        tScriptServer.Append(NWDServerDebian9.CommandInstallWebService(sServer.IP.GetValue(), sServer.Port, sServer.Admin_User, sServer.Admin_Password.GetValue(), sServer.Root_Password.GetValue(), sDNS, sUser, sPassword, sFolder, sEmail));
                     }
                     break;
                 case NWDServerDistribution.debian10:
@@ -105,14 +105,14 @@ namespace NetWorkedData
             return tScriptServer.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string CommandInstallDatabase(NWDServerDistribution sDistribution, string sIP, int sPort, string sAdmin_User, string sAdmin_Password, string sRootPassword, string sMySQLRootPassword, string sMySQLUser, string sMySQLPassword, string sMySQLBase)
+        public static string CommandInstallDatabase(NWDServer sServer, string sMySQLRootPassword, string sMySQLUser, string sMySQLPassword, string sMySQLBase)
         {
             StringBuilder tScriptServer = new StringBuilder();
-            switch (sDistribution)
+            switch (sServer.Distribution)
             {
                 case NWDServerDistribution.debian9:
                     {
-                        tScriptServer.Append(NWDServerDebian9.CommandInstallDatabase(sIP, sPort, sAdmin_User, sAdmin_Password, sRootPassword, sMySQLRootPassword, sMySQLUser, sMySQLPassword, sMySQLBase));
+                        tScriptServer.Append(NWDServerDebian9.CommandInstallDatabase(sServer.IP.GetValue(), sServer.Port, sServer.Admin_User, sServer.Admin_Password.GetValue(), sServer.Root_Password.GetValue(), sMySQLRootPassword, sMySQLUser, sMySQLPassword, sMySQLBase));
                     }
                     break;
                 case NWDServerDistribution.debian10:

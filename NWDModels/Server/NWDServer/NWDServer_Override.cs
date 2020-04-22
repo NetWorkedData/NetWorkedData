@@ -19,7 +19,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDCluster : NWDBasis
+    public partial class NWDServer : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -69,27 +69,21 @@ namespace NetWorkedData
         public override void AddonUpdateMe()
         {
             base.AddonUpdateMe();
-            //#if UNITY_EDITOR
-            // do something when object will be updated
-            List<string> tDescription = new List<string>();
-            DevSyncActive(Dev);
-            PreprodSyncActive(Preprod);
-            ProdSyncActive(Prod);
-            if (Dev == true)
+            InternalKey = "Unused config";
+            if (string.IsNullOrEmpty(DomainNameServer) ==false)
             {
-                tDescription.Add(NWDAppConfiguration.SharedInstance().DevEnvironment.Environment);
+                    InternalKey = DomainNameServer + " config";
             }
-            if (Preprod == true)
+            Admin_User = NWDToolbox.UnixCleaner(Admin_User);
+            if (Admin_Password != null)
             {
-                tDescription.Add(NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment);
+                Admin_Password.SetValue(NWDToolbox.UnixCleaner(Admin_Password.GetValue()));
             }
-            if (Prod == true)
+            Root_User = NWDToolbox.UnixCleaner(Root_User);
+            if (Root_Password != null)
             {
-                tDescription.Add(NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment);
+                Root_Password.SetValue(NWDToolbox.UnixCleaner(Root_Password.GetValue()));
             }
-            InternalDescription = string.Join(" / ", tDescription);
-            //#endif
-            // TODO verif if method is call in good place in good timing
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -119,6 +113,7 @@ namespace NetWorkedData
         public override void AddonDuplicateMe()
         {
             base.AddonDuplicateMe();
+            Port = 22;
             // do something when object will be dupplicate
             // TODO verif if method is call in good place in good timing
         }

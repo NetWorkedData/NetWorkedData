@@ -19,7 +19,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDCluster : NWDBasis
+    public partial class NWDServerDomain : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -88,6 +88,7 @@ namespace NetWorkedData
                 tDescription.Add(NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment);
             }
             InternalDescription = string.Join(" / ", tDescription);
+            InternalKey = NWDToolbox.URLCleaner(ServerDNS).Replace("https://", "").Replace("http://", "");
             //#endif
             // TODO verif if method is call in good place in good timing
         }

@@ -26,8 +26,8 @@ namespace NetWorkedData
     /// <summary>
     /// NWDCluster class. This class is use for (complete description here).
     /// </summary>
-    //[NWDClassUnityEditorOnlyAttribute()]
-    [NWDClassServerSynchronizeAttribute(false)]
+    [NWDClassUnityEditorOnlyAttribute]
+    [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("CLS")]
     [NWDClassDescriptionAttribute("Cluster")]
     [NWDClassMenuNameAttribute("Cluster")]
@@ -43,6 +43,8 @@ namespace NetWorkedData
         //public NWDReferencesListType<NWDServerDomain> Domains { get; set; }
         //[NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Servers")]
+        [NWDNotEditable]
+        public NWDReferencesListType<NWDServerDomain> Domains { get; set; }
         public NWDReferencesListType<NWDServerServices> Services { get; set; }
         public NWDReferencesListType<NWDServerDatas> DataBases { get; set; }
         [NWDInspectorGroupEnd]
@@ -50,6 +52,9 @@ namespace NetWorkedData
         public bool Dev { get; set; }
         public bool Preprod { get; set; }
         public bool Prod { get; set; }
+        [NWDNotEditable]
+        [NWDVeryLongString]
+        public string Information { get; set; }
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("IP of Editor")]
         [NWDNotEditable]
@@ -57,7 +62,7 @@ namespace NetWorkedData
         [NWDNotEditable]
         public NWDIPType EditorIP { get; set; }
         //-------------------------------------------------------------------------------------------------------------
-//#endif
+        //#endif
         //-------------------------------------------------------------------------------------------------------------
         public NWDCluster()
         {

@@ -28,6 +28,7 @@ namespace NetWorkedData
         new Type[] {
             typeof(NWDCluster),
             typeof(NWDServerDomain),
+            typeof(NWDServer),
             typeof(NWDServerServices),
             typeof(NWDServerDatas),
             typeof(NWDBasisPreferences),

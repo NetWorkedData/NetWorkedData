@@ -19,7 +19,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDCluster : NWDBasis
+    public partial class NWDServerDatas : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -69,8 +69,22 @@ namespace NetWorkedData
         public override void AddonUpdateMe()
         {
             base.AddonUpdateMe();
-            //#if UNITY_EDITOR
-            // do something when object will be updated
+            MySQLUser = NWDToolbox.UnixCleaner(MySQLUser);
+            MySQLBase = NWDToolbox.UnixCleaner(MySQLBase);
+            //if (Root_MysqlPassword != null)
+            //{
+            //    Root_MysqlPassword.SetValue(NWDToolbox.UnixCleaner(Root_MysqlPassword.GetValue()));
+            //}
+            //Admin_User = NWDToolbox.UnixCleaner(Admin_User);
+            //if (Admin_Password != null)
+            //{
+            //    Admin_Password.SetValue(NWDToolbox.UnixCleaner(Admin_Password.GetValue()));
+            //}
+            //Root_User = NWDToolbox.UnixCleaner(Root_User);
+            //if (Root_Password != null)
+            //{
+            //    Root_Password.SetValue(NWDToolbox.UnixCleaner(Root_Password.GetValue()));
+            //}
             List<string> tDescription = new List<string>();
             DevSyncActive(Dev);
             PreprodSyncActive(Preprod);
@@ -88,8 +102,6 @@ namespace NetWorkedData
                 tDescription.Add(NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment);
             }
             InternalDescription = string.Join(" / ", tDescription);
-            //#endif
-            // TODO verif if method is call in good place in good timing
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

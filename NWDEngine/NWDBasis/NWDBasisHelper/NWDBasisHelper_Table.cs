@@ -539,51 +539,56 @@ namespace NetWorkedData
             }
             else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
             {
-                //NWEDataType tV = Activator.CreateInstance(tTypeOfThis) as NWEDataType;
-                //tV.Value = SQLite3.ColumnString(stmtc, i);
-                //tProp.SetValue(tD, tV);
-
                 NWEDataType tV = tProp.GetValue(tD) as NWEDataType;
+                if (tV == null)
+                {
+                    tV = Activator.CreateInstance(tTypeOfThis) as NWEDataType;
+                    tProp.SetValue(tD, tV);
+                }
                 tV.Value = SQLite3.ColumnString(stmtc, i);
                 return;
             }
             else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
             {
-                //NWEDataTypeInt tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeInt;
-                //tV.Value = SQLite3.ColumnInt64(stmtc, i);
-                //tProp.SetValue(tD, tV);
-
                 NWEDataTypeInt tV = tProp.GetValue(tD) as NWEDataTypeInt;
+                if (tV == null)
+                {
+                    tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeInt;
+                    tProp.SetValue(tD, tV);
+                }
                 tV.Value = SQLite3.ColumnInt64(stmtc, i);
                 return;
             }
             else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
             {
-                //NWEDataTypeEnum tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeEnum;
-                //tV.Value = SQLite3.ColumnInt64(stmtc, i);
-                //tProp.SetValue(tD, tV);
-
                 NWEDataTypeEnum tV = tProp.GetValue(tD) as NWEDataTypeEnum;
+                if (tV == null)
+                {
+                    tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeEnum;
+                    tProp.SetValue(tD, tV);
+                }
                 tV.Value = SQLite3.ColumnInt64(stmtc, i);
                 return;
             }
             else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
             {
-                //NWEDataTypeMask tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeMask;
-                //tV.Value = SQLite3.ColumnInt64(stmtc, i);
-                //tProp.SetValue(tD, tV);
-
                 NWEDataTypeMask tV = tProp.GetValue(tD) as NWEDataTypeMask;
+                if (tV == null)
+                {
+                    tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeMask;
+                    tProp.SetValue(tD, tV);
+                }
                 tV.Value = SQLite3.ColumnInt64(stmtc, i);
                 return;
             }
             else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
             {
-                //NWEDataTypeFloat tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeFloat;
-                //tV.Value = SQLite3.ColumnDouble(stmtc, i);
-                //tProp.SetValue(tD, tV);
-
                 NWEDataTypeFloat tV = tProp.GetValue(tD) as NWEDataTypeFloat;
+                if (tV == null)
+                {
+                    tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeFloat;
+                    tProp.SetValue(tD, tV);
+                }
                 tV.Value = SQLite3.ColumnInt64(stmtc, i);
                 return;
             }
