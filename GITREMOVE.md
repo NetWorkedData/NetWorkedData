@@ -1,5 +1,14 @@
 # To clean the project
 
+## Resolve Host key verification failed
+
+```
+ssh test@github.com
+ssh test@hephaiscode.com
+```
+
+and accept to add to ~/.ssh/known_hosts
+
 ## Clean OSX
 ```
 git rm -r .DS_Store
