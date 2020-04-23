@@ -27,10 +27,11 @@ namespace NetWorkedData
         "Servers",
         new Type[] {
             typeof(NWDCluster),
-            typeof(NWDServerDomain),
             typeof(NWDServer),
+            typeof(NWDServerDomain),
             typeof(NWDServerServices),
             typeof(NWDServerDatas),
+            typeof(NWDServerOther),
             typeof(NWDBasisPreferences),
             typeof(NWDRequestToken),
             typeof(NWDIPBan),
