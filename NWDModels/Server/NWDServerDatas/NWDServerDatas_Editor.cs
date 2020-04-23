@@ -88,18 +88,29 @@ namespace NetWorkedData
                     tCommandList.Add("apt-get -y upgrade");
                     tCommandList.Add("apt-get -y dist-upgrade");
 
+                    tCommandList.Add("/etc/init.d/mysql stop");
+
                     tCommandList.Add("echo \"<color=red> -> mysql install (MariaDB)</color>\"");
                     tCommandList.Add("debconf-set-selections <<< \"mariadb-server mysql-server/root_password password " + Root_MysqlPassword + "\"");
                     tCommandList.Add("debconf-set-selections <<< \"mariadb-server mysql-server/root_password_again password " + Root_MysqlPassword + "\"");
                     tCommandList.Add("apt-get -y install mariadb-server");
                     tCommandList.Add("echo PURGE | debconf-communicate mariadb-server");
                     tCommandList.Add("echo \"<color=red> -> mysql start (MariaDB)</color>\"");
-                    tCommandList.Add("/etc/init.d/mysql start");
-
                     if (External == true)
                     {
-
+                        //prefere use replace as delete and add
+                        //tCommandList.Add("sed -i 's/^.*bind\\-address.*$//g' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                        //tCommandList.Add("sed -i '$ a bind-address = 0.0.0.0' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                        tCommandList.Add("sed -i 's/^.*bind\\-address.*$/bind\\-address = 0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
                     }
+                    else
+                    {
+                        //prefere use replace as delete and add
+                        //tCommandList.Add("sed -i 's/^.*bind\\-address.*$//g' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                        //tCommandList.Add("sed -i '$ a bind-address = 127.0.0.1' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                        tCommandList.Add("sed -i 's/^.*bind-address .*$/bind-address = 127.0.0.1/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                    }
+                        tCommandList.Add("/etc/init.d/mysql start");
                     if (PhpMyAdmin == true)
                     {
                         tCommandList.Add("echo \"<color=red> -> install apache</color>\"");
@@ -182,12 +193,18 @@ namespace NetWorkedData
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 {
                     List<string> tCommandList = new List<string>();
-
                     tCommandList.Add("echo \"<color=red> -> add user in mysql</color>\"");
                     tCommandList.Add("echo \" -> add user in mysql\"");
-                    tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"create database " + MySQLBase + ";\"");
-                    tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"GRANT ALL PRIVILEGES ON " + MySQLBase + ".* TO " + MySQLUser + "@localhost IDENTIFIED BY '" + MySQLPassword + "';\"");
-
+                    tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"CREATE DATABASE IF NOT EXISTS " + MySQLBase + ";\"");
+                    tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"GRANT ALL PRIVILEGES ON " + MySQLBase + ".* TO '" + MySQLUser + "'@'localhost' IDENTIFIED BY '" + MySQLPassword + "';\"");
+                    if (External == true)
+                    {
+                        tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"GRANT ALL PRIVILEGES ON " + MySQLBase + ".* TO '" + MySQLUser + "'@'%' IDENTIFIED BY '" + MySQLPassword + "';\"");
+                    }
+                    else
+                    {
+                        tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"REVOKE ALL PRIVILEGES ON " + MySQLBase + ".* FROM '" + MySQLUser + "'@'%';\"");
+                    }
                     tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
                 }
                 tI++;
