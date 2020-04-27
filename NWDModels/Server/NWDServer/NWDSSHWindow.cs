@@ -397,6 +397,42 @@ namespace NetWorkedData
             return rLineReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string ExecuteProcessTerminal(string argument)
+        {
+            string output = null;
+            try
+            {
+                UnityEngine.Debug.Log("============== Start Executing [" + argument + "] ===============");
+                ProcessStartInfo startInfo = new ProcessStartInfo()
+                {
+                    FileName = "/bin/bash",
+                    UseShellExecute = false,
+                    RedirectStandardError = true,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true,
+                    Arguments = " -c \"" + argument + " \""
+                };
+                Process myProcess = new Process
+                {
+                    StartInfo = startInfo
+                };
+                myProcess.Start();
+                output = myProcess.StandardOutput.ReadToEnd();
+                myProcess.WaitForExit();
+                UnityEngine.Debug.Log("============== End ===============");
+
+                return output;
+            }
+            catch (Exception e)
+            {
+                UnityEngine.Debug.Log(e);
+                UnityEngine.Debug.Log("============== End ===============");
+                return output;
+            }
+            return output;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

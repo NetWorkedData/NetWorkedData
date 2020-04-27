@@ -60,6 +60,7 @@ namespace NetWorkedData
             var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDModelManager));
             foreach (NWDModelManager tWindow in tWindows)
             {
+                tWindow.Analyze();
                 tWindow.Repaint();
             }
         }
@@ -77,6 +78,13 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
+        {
+            //NWEBenchmark.Start();
+            Analyze();
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Analyze()
         {
             //NWEBenchmark.Start();
             TitleInit(NWDConstants.K_APP_MODEL_MANAGER_TITLE, typeof(NWDModelManager));
@@ -107,7 +115,7 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             NWDGUI.LoadStyles();
-            NWDGUILayout.Title("Model Manager");
+            NWDGUILayout.Title(NWDConstants.K_APP_MODEL_MANAGER_TITLE);
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             if (TypeErrorList.Count > 0)
             {

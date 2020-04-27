@@ -327,6 +327,14 @@ namespace NetWorkedData
             {
                 NWEBenchmark.Finish();
             }
+#if UNITY_EDITOR
+            NWDEditorConfigurationManager.Refresh();
+            NWDAppConfigurationManager.Refresh();
+            NWDAppEnvironmentConfigurationManager.Refresh();
+            NWDModelManager.Refresh();
+            NWDAppEnvironmentSync.Refresh();
+            NWDAppEnvironmentChooser.Refresh();
+#endif
             //Debug.Log("!!!! BenchmarkError = " + (NWEBenchmark.BenchmarkError / 1000.0F).ToString("F3") + " s !!!!");
         }
         //-------------------------------------------------------------------------------------------------------------

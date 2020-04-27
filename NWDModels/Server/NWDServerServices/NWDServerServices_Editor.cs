@@ -50,15 +50,27 @@ namespace NetWorkedData
             if (tServer != null)
             {
                 //-----------------
-                tButtonTitle = new GUIContent("Open terminal", " open terminal or console on your desktop");
+                EditorGUI.HelpBox(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
+                tI+=2;
+                //tButtonTitle = new GUIContent("Open terminal", " open terminal or console on your desktop");
+                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                //{
+                //    // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
+                //    FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
+                //    System.Diagnostics.Process.Start(tFileInfo.FullName);
+                //}
+                //tI++;
+                string tcommandKeyGen = "ssh-keygen -R [" + tServer.IP.GetValue() + "]:" + tServer.Port +" & ssh "+ tServer.IP.GetValue() + " -l "+User+" -p "+ tServer.Port;
+                tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 {
-                    // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
-                    FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
-                    System.Diagnostics.Process.Start(tFileInfo.FullName);
+                    NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
                 }
                 tI++;
-
+                GUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI+1]), tcommandKeyGen);
+                tI += 2;
+                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                tI++;
 
                 //-----------------
                 tButtonTitle = new GUIContent("Try connexion", " try connexion with root or admin");
@@ -316,6 +328,17 @@ namespace NetWorkedData
                         //"certbot --agree-tos --no-eff-email --apache --redirect --email " + Email + " -d " + tServerDomain.ServerDNS + "",
                         "certbot --agree-tos --no-eff-email --apache --redirect --email " + Email + " -d " + tServerDomain.ServerDNS + "",
                     });
+                }
+                tI++;
+
+
+                //-----------------
+                string tURL = "sftp://" + User + ":"+Password.GetValue()+"@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + Folder;
+                tButtonTitle = new GUIContent("Try open sftp direct", tURL);
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    NWEClipboard.CopyToClipboard(Password.GetValue());
+                    Application.OpenURL(tURL);
                 }
                 tI++;
             }

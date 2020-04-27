@@ -31,12 +31,20 @@ namespace NetWorkedData
         [NWDInspectorGroupStart("Server SSH")]
         public NWDReferenceType<NWDServer> Server { get; set; }
         [NWDInspectorGroupStart("Data Account Range")]
+        [NWDNotEditable]
+        public int Range { get; set; }
+        public int UserMax { get; set; }
+
         //public NWDReferenceType<NWDServerDomain> Server { get; set; }
         [NWDEntitled("Account Range Start")]
         [NWDIntSlider(0,999)]
+        [NWDNotEditable]
+        [Obsolete]
         public int AccountRangeStart { get; set; }
         [NWDEntitled("Account Range Finish")]
         [NWDIntSlider(0, 999)]
+        [NWDNotEditable]
+        [Obsolete]
         public int AccountRangeEnd { get; set; }
         [NWDInspectorGroupEnd]
 
@@ -85,6 +93,9 @@ namespace NetWorkedData
         //[NWDInspectorGroupStart("Install Server Options")]
         //public NWDServerDistribution Distribution { get; set; }
         //[NWDInspectorGroupEnd]
+        [NWDInspectorGroupStart("Copy editor base from ...")]
+        public NWDReferenceType<NWDServerDatas> ServerOriginal { get; set; }
+        [NWDNotEditable]
         [NWDInspectorGroupStart("Server Environment Actif")]
         [NWDNotEditable]
         public bool Dev { get; set; }

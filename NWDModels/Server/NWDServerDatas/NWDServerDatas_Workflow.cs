@@ -36,6 +36,7 @@ namespace NetWorkedData
         {
             base.Initialization();
             string tRandom = NWDToolbox.RandomStringAlpha(3).ToLower();
+            UserMax = 200000;
             InternalKey = "Unused config";
             MySQLUser = "dbuser" + tRandom;
             MySQLPort = 3306;
@@ -46,8 +47,66 @@ namespace NetWorkedData
             DevSync = -1;
             PreprodSync = -1;
             ProdSync = -1;
-            AccountRangeStart = 000;
-            AccountRangeEnd = 999;
+            //AccountRangeStart = 000;
+            //AccountRangeEnd = 999;
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public void CheckInformations()
+        {
+            MySQLUser = NWDToolbox.UnixCleaner(MySQLUser);
+            MySQLBase = NWDToolbox.UnixCleaner(MySQLBase);
+            if (Range < 1)
+            {
+                Range = 1; // 0 is reserved by old system without cluster
+            }
+            int tNexRange = Range;
+            bool tTest = false;
+            while (tTest == false)
+            {
+                tTest = true;
+                foreach (NWDServerDatas tServerDatas in BasisHelper().Datas)
+                {
+                    if (tServerDatas != this)
+                    {
+                        //if (tServerDatas.IsEnable()) // use all servers, not only active ? Modify in usage.
+                        {
+                            if (tServerDatas.Range == tNexRange)
+                            {
+                                tNexRange++;
+                                tTest = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            if (ServerOriginal.GetRawData() == this)
+            {
+                ServerOriginal.SetData(null);
+            }
+            Range = tNexRange;
+            if (UserMax < 1)
+            {
+                UserMax = 1;
+            }
+            List<string> tDescription = new List<string>();
+            DevSyncActive(Dev);
+            PreprodSyncActive(Preprod);
+            ProdSyncActive(Prod);
+            if (Dev == true)
+            {
+                tDescription.Add(NWDAppConfiguration.SharedInstance().DevEnvironment.Environment);
+            }
+            if (Preprod == true)
+            {
+                tDescription.Add(NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment);
+            }
+            if (Prod == true)
+            {
+                tDescription.Add(NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment);
+            }
+            InternalDescription = string.Join(" / ", tDescription);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDServerDatabaseAuthentication GetServerDatabase(NWDAppEnvironment sEnvironment)
@@ -57,33 +116,33 @@ namespace NetWorkedData
                 (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment && Preprod == true) ||
                 (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment && Prod == true))
             {
-                rReturn = new NWDServerDatabaseAuthentication(NWDToolbox.TextUnprotect(MySQLIP.GetValue()), MySQLPort, NWDToolbox.TextUnprotect(MySQLBase), NWDToolbox.TextUnprotect(MySQLUser), NWDToolbox.TextUnprotect(MySQLPassword.ToString()));
+                rReturn = new NWDServerDatabaseAuthentication(InternalKey, Reference, Range.ToString(), UserMax.ToString(), NWDToolbox.TextUnprotect(MySQLIP.GetValue()), MySQLPort, NWDToolbox.TextUnprotect(MySQLBase), NWDToolbox.TextUnprotect(MySQLUser), NWDToolbox.TextUnprotect(MySQLPassword.ToString()));
             }
             return rReturn;
         }
-    //-------------------------------------------------------------------------------------------------------------
-    public static NWDServerDatabaseAuthentication GetConfigurationServerDatabase(NWDAppEnvironment sEnvironment)
-    {
-        NWDServerDatabaseAuthentication rReturn = new NWDServerDatabaseAuthentication(sEnvironment.ServerHost, 555, sEnvironment.ServerBase, sEnvironment.ServerUser, sEnvironment.ServerPassword);
-        return rReturn;
-    }
-    //-------------------------------------------------------------------------------------------------------------
-    public static NWDServerDatabaseAuthentication[] GetAllConfigurationServerDatabase(NWDAppEnvironment sEnvironment)
-    {
-        List<NWDServerDatabaseAuthentication> rReturn = new List<NWDServerDatabaseAuthentication>();
-        rReturn.Add(GetConfigurationServerDatabase(sEnvironment));
-        foreach (NWDServerDatas tServerDatabase in NWDBasisHelper.GetRawDatas<NWDServerDatas>())
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDServerDatabaseAuthentication GetConfigurationServerDatabase(NWDAppEnvironment sEnvironment)
         {
-            NWDServerDatabaseAuthentication tConn = tServerDatabase.GetServerDatabase(sEnvironment);
-            if (tConn != null)
-            {
-                rReturn.Add(tConn);
-            }
+            NWDServerDatabaseAuthentication rReturn = new NWDServerDatabaseAuthentication("Environment " + sEnvironment.Environment, sEnvironment.Environment, "0", "100000", sEnvironment.ServerHost, 555, sEnvironment.ServerBase, sEnvironment.ServerUser, sEnvironment.ServerPassword);
+            return rReturn;
         }
-        return rReturn.ToArray();
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDServerDatabaseAuthentication[] GetAllConfigurationServerDatabase(NWDAppEnvironment sEnvironment)
+        {
+            List<NWDServerDatabaseAuthentication> rReturn = new List<NWDServerDatabaseAuthentication>();
+            rReturn.Add(GetConfigurationServerDatabase(sEnvironment));
+            foreach (NWDServerDatas tServerDatabase in NWDBasisHelper.GetRawDatas<NWDServerDatas>())
+            {
+                NWDServerDatabaseAuthentication tConn = tServerDatabase.GetServerDatabase(sEnvironment);
+                if (tConn != null)
+                {
+                    rReturn.Add(tConn);
+                }
+            }
+            return rReturn.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
-    //-------------------------------------------------------------------------------------------------------------
-}
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

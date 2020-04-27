@@ -51,6 +51,33 @@ namespace NetWorkedData
             if (tServer != null)
             {
                 //-----------------
+                EditorGUI.HelpBox(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
+                tI += 2;
+                //tButtonTitle = new GUIContent("Open terminal", " open terminal or console on your desktop");
+                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                //{
+                //    // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
+                //    FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
+                //    System.Diagnostics.Process.Start(tFileInfo.FullName);
+                //}
+                //tI++;
+
+                string tcommandKeyGen = "ssh-keygen -R [" + tServer.IP.GetValue() + "]:" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Root_User + " -p " + tServer.Port;
+                if (tServer.AdminInstalled)
+                {
+                    tcommandKeyGen = "ssh-keygen -R [" + tServer.IP.GetValue() + "]:" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Admin_User + " -p " + tServer.Port;
+                }
+                tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
+                }
+                tI++;
+                GUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), tcommandKeyGen);
+                tI += 2;
+                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                tI++;
+                //-----------------
                 // find ip of server by dns if associated
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(tServer.DomainNameServer) == true);
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Find IP from Server (NWDServerDomain)"))

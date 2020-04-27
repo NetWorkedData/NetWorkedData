@@ -893,7 +893,7 @@ namespace NetWorkedData
                     // set found internalkey
                     rReturnObject.InternalKey = tCopy;
                     // Update Data! become it's not a real insert but a copy!
-                    rReturnObject.AddonDuplicatedMe();
+                    rReturnObject.AddonDuplicateMe();
                     rReturnObject.UpdateDataOperation(sAutoDate);
                     // Insert Data as new Data!
                     rReturnObject.IndexInBase();

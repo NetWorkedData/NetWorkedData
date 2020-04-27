@@ -250,6 +250,15 @@ namespace NetWorkedData
                 tConstantsFile.AppendLine("$SQL_ARRAY_USR[] = '" + tServerDatabase.User.Replace("'", "\'") + "';");
                 tConstantsFile.AppendLine("$SQL_ARRAY_PSW[] = '" + tServerDatabase.Password.Replace("'", "\'") + "';");
                 tConstantsFile.AppendLine("$SQL_ARRAY_BSE[] = '" + tServerDatabase.Database.Replace("'", "\'") + "';");
+
+                tConstantsFile.AppendLine("// Constant for ServerDatabase " + tServerDatabase.Title);
+                tConstantsFile.AppendLine("$SQL_LIST['"+ tServerDatabase.NameID+ "']['host'] = '" + tServerDatabase.Host.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.NameID + "']['port'] = " + tServerDatabase.Port.ToString()+";");
+                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.NameID + "']['user'] = '" + tServerDatabase.User.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.NameID + "']['password'] = '" + tServerDatabase.Password.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.NameID + "']['database'] = '" + tServerDatabase.Database.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.NameID + "']['range'] = " + tServerDatabase.Range.Replace("'", "\'") + ";");
+                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.NameID + "']['maxuser'] = " + tServerDatabase.MaxUser.Replace("'", "\'") + ";");
             }
 
             tConstantsFile.AppendLine("//connection to mysql socket");

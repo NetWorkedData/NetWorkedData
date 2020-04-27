@@ -84,15 +84,32 @@ namespace NetWorkedData
             GUIContent tButtonTitle = null;
 
             //-----------------
-            tButtonTitle = new GUIContent("Open terminal", " open terminal or console on your desktop");
+            EditorGUI.HelpBox(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
+            tI += 2;
+            //tButtonTitle = new GUIContent("Open terminal", " open terminal or console on your desktop");
+            //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+            //{
+            //    // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
+            //    //FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
+            //    //System.Diagnostics.Process.Start(tFileInfo.FullName);
+            //    Application.OpenURL("/Applications/Utilities/");
+            //}
+            //tI++;
+            string tcommandKeyGen = "ssh-keygen -R [" + IP.GetValue() + "]:" + Port + " & ssh " + IP.GetValue() + " -l " + Root_User + " -p " + Port;
+            if (AdminInstalled)
+            {
+            tcommandKeyGen = "ssh-keygen -R [" + IP.GetValue() + "]:" + Port + " & ssh " + IP.GetValue() + " -l " + Admin_User + " -p " + Port;
+            }
+            tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
             {
-                // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
-                FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
-                System.Diagnostics.Process.Start(tFileInfo.FullName);
+                NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
             }
             tI++;
-
+            GUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), tcommandKeyGen);
+            tI += 2;
+            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+            tI++;
             //-----------------
             tButtonTitle = new GUIContent("Try connexion root", " try connexion with root");
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
