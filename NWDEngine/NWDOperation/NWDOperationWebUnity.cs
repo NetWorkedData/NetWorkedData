@@ -540,7 +540,8 @@ namespace NetWorkedData
                     if (ResultInfos.errorDesc != null)
                     {
 #if UNITY_EDITOR
-                        //EditorUtility.DisplayDialog("Error: " + ResultInfos.errorDesc.Code, "" + ResultInfos.errorDesc.Title + "\n" + ResultInfos.errorDesc.Description, "OK");
+                        DebugShowHeaderUploaded(tWWWForm.data);
+                        EditorUtility.DisplayDialog("Error: " + ResultInfos.errorDesc.Code, "" + ResultInfos.errorDesc.Title + "\n" + ResultInfos.errorDesc.Description, "OK");
 #endif
 
                         if (ResultInfos.errorInfos != null)
@@ -763,28 +764,28 @@ namespace NetWorkedData
             if (Environment.LogMode == true)
             {
 #if UNITY_EDITOR
-                //string tDebugRequestHeader = string.Empty;
-                //foreach (KeyValuePair<string, object> tEntry in HeaderParams)
-                //{
-                //    tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
-                //}
-                //NWDDebug.Log("*******************************************************************\n" +
-                //            "NWDOperationWebUnity UPLOADED " + name + "\n" +
-                //             "-------------------\n" +
-                //             "<b>Request URl :</b> " + Request.url + "\n" +
-                //             "-------------------\n" +
-                //             "<b>Headers :</b> \n" +
-                //             "-------------------\n" +
-                //             tDebugRequestHeader + "\n" +
-                //             "-------------------\n" +
-                //             "<b>Datas :</b> \n" +
-                //             "-------------------\n" +
-                //             Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty) + "\n" +
-                //             "-------------------\n" +
-                //             Encoding.UTF8.GetString(sData) + "\n" +
-                //             "-------------------\n" +
-                //             "*******************************************************************\n"
-                //);
+                string tDebugRequestHeader = string.Empty;
+                foreach (KeyValuePair<string, object> tEntry in HeaderParams)
+                {
+                    tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
+                }
+                NWDDebug.Log("*******************************************************************\n" +
+                            "NWDOperationWebUnity UPLOADED " + name + "\n" +
+                             "-------------------\n" +
+                             "<b>Request URl :</b> " + Request.url + "\n" +
+                             "-------------------\n" +
+                             "<b>Headers :</b> \n" +
+                             "-------------------\n" +
+                             tDebugRequestHeader + "\n" +
+                             "-------------------\n" +
+                             "<b>Datas :</b> \n" +
+                             "-------------------\n" +
+                             Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty) + "\n" +
+                             "-------------------\n" +
+                             Encoding.UTF8.GetString(sData) + "\n" +
+                             "-------------------\n" +
+                             "*******************************************************************\n"
+                );
 #endif
             }
         }

@@ -61,7 +61,7 @@ namespace NetWorkedData
             AddressPing = EditorGUILayout.TextField("Address Ping (8.8.8.8)", AddressPing);
 
             NWDGUILayout.SubSection("Server Params for " + Environment);
-            ServerHTTPS = EditorGUILayout.TextField("Server (https://…)", ServerHTTPS);
+            //ServerHTTPS = EditorGUILayout.TextField("Server (https://…)", ServerHTTPS);
             AllwaysSecureData = EditorGUILayout.Toggle("Allways Secure Data", AllwaysSecureData);
             LogMode = EditorGUILayout.Toggle("Log Mode", LogMode);
             LogInFileMode = EditorGUILayout.Toggle("Log in File Mode", LogInFileMode);
@@ -70,20 +70,20 @@ namespace NetWorkedData
             EditorGUI.EndDisabledGroup();
             WebTimeOut = EditorGUILayout.IntField("TimeOut request", WebTimeOut);
             EditorWebTimeOut = EditorGUILayout.IntField("Editor TimeOut request", EditorWebTimeOut);
-            SFTPBalanceLoad = EditorGUILayout.IntField("BalanceLoad", SFTPBalanceLoad);
+            LoadBalancingLimit = EditorGUILayout.IntField("BalanceLoad", LoadBalancingLimit);
 
-            NWDGUILayout.SubSection("MySQL for " + Environment);
-            ServerHost = EditorGUILayout.TextField("MySQL Host", ServerHost);
-            ServerUser = EditorGUILayout.TextField("MySQL user", ServerUser);
-            ServerPassword = EditorGUILayout.TextField("MySQL password", ServerPassword);
-            ServerBase = EditorGUILayout.TextField("MySQL base", ServerBase);
+            //NWDGUILayout.SubSection("MySQL for " + Environment);
+            //ServerHost = EditorGUILayout.TextField("MySQL Host", ServerHost);
+            //ServerUser = EditorGUILayout.TextField("MySQL user", ServerUser);
+            //ServerPassword = EditorGUILayout.TextField("MySQL password", ServerPassword);
+            //ServerBase = EditorGUILayout.TextField("MySQL base", ServerBase);
 
-            NWDGUILayout.SubSection("SFTP for " + Environment);
-            SFTPHost = EditorGUILayout.TextField("SFTP Host", SFTPHost);
-            SFTPPort = EditorGUILayout.IntField("SFTP Port", SFTPPort);
-            SFTPFolder = EditorGUILayout.TextField("SFTP Folder", SFTPFolder);
-            SFTPUser = EditorGUILayout.TextField("SFTP User ", SFTPUser);
-            SFTPPassword = EditorGUILayout.TextField("SFTP Password ", SFTPPassword);
+            //NWDGUILayout.SubSection("SFTP for " + Environment);
+            //SFTPHost = EditorGUILayout.TextField("SFTP Host", SFTPHost);
+            //SFTPPort = EditorGUILayout.IntField("SFTP Port", SFTPPort);
+            //SFTPFolder = EditorGUILayout.TextField("SFTP Folder", SFTPFolder);
+            //SFTPUser = EditorGUILayout.TextField("SFTP User ", SFTPUser);
+            //SFTPPassword = EditorGUILayout.TextField("SFTP Password ", SFTPPassword);
 
             NWDGUILayout.SubSection("Email to send forgotten code " + Environment);
             RescueEmail = EditorGUILayout.TextField("RescueEmail", RescueEmail);

@@ -33,19 +33,21 @@ namespace NetWorkedData
         [NWDInspectorGroupStart("Data Account Range")]
         [NWDNotEditable]
         public int Range { get; set; }
+        public int RangeMin { get; set; }
+        public int RangeMax { get; set; }
         public int UserMax { get; set; }
 
         //public NWDReferenceType<NWDServerDomain> Server { get; set; }
-        [NWDEntitled("Account Range Start")]
-        [NWDIntSlider(0,999)]
-        [NWDNotEditable]
-        [Obsolete]
-        public int AccountRangeStart { get; set; }
-        [NWDEntitled("Account Range Finish")]
-        [NWDIntSlider(0, 999)]
-        [NWDNotEditable]
-        [Obsolete]
-        public int AccountRangeEnd { get; set; }
+        //[NWDEntitled("Account Range Start")]
+        //[NWDIntSlider(0,999)]
+        //[NWDNotEditable]
+        //[Obsolete]
+        //public int AccountRangeStart { get; set; }
+        //[NWDEntitled("Account Range Finish")]
+        //[NWDIntSlider(0, 999)]
+        //[NWDNotEditable]
+        //[Obsolete]
+        //public int AccountRangeEnd { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Authentification MySQL")]

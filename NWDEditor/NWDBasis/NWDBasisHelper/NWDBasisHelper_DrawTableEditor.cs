@@ -1027,7 +1027,7 @@ namespace NetWorkedData
             }
             if (TableActions == true)
             {
-                tHeightTable = NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + (NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge) * 6;
+                tHeightTable = NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + (NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge) * 7;
             }
             rRect.height = tHeightAction + tHeightTable;
             rRect.y = sRect.height - rRect.height;
@@ -1069,6 +1069,8 @@ namespace NetWorkedData
             bool tReintegrateSelection = false;  //prevent GUIlayout error
             bool tResetTable = false;  //prevent GUIlayout error
             bool tCreateAllPHPForOnlyThisClassDEV = false; //prevent GUIlayout error
+            bool tCreateAllPHPForOnlyThisClassPREPROD = false; //prevent GUIlayout error
+            bool tCreateAllPHPForOnlyThisClassPROD = false; //prevent GUIlayout error
             //bool tCreateAllPHPForOnlyThisClass = false; //prevent GUIlayout error
             //bool tReintegrateOnlyThisClass = false; //prevent GUIlayout error
             //bool tDeleteOldModelOnlyThisClass = false; //prevent GUIlayout error
@@ -1395,175 +1397,194 @@ namespace NetWorkedData
 
                 GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tDevContent, NWDGUI.KTableSearchTitle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Sync table", NWDGUI.KTableSearchButton))
+                if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
                 {
-                    if (Application.isPlaying == true && kAccountDependent == false)
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Sync table", NWDGUI.KTableSearchButton))
                     {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Force Sync table", NWDGUI.KTableSearchButton))
-                {
-
-                    SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Pull table", NWDGUI.KTableSearchButton))
-                {
-                    if (Application.isPlaying == true && kAccountDependent == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    PullFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Force Pull table", NWDGUI.KTableSearchButton))
-                {
-                    if (Application.isPlaying == true && kAccountDependent == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
-                }
-                EditorGUI.EndDisabledGroup();
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-
-
-
-                EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
-                NWDGUI.BeginRedArea();
-                if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
-                {
-                    List<string> tReferencesList = new List<string>();
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
-                    {
-                        if (tKeyValue.Value == true)
+                        if (Application.isPlaying == true && kAccountDependent == false)
                         {
-                            tReferencesList.Add(tKeyValue.Key.Reference);
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                         }
+                        SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
                     }
-                    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
-                    tTypeAndReferences.Add(ClassType, tReferencesList);
-                    PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().DevEnvironment, tTypeAndReferences);
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Force Sync table", NWDGUI.KTableSearchButton))
+                    {
+
+                        SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Pull table", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        PullFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Force Pull table", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                    }
+                    EditorGUI.EndDisabledGroup();
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+
+
+                    EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
+                    NWDGUI.BeginRedArea();
+                    if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
+                    {
+                        List<string> tReferencesList = new List<string>();
+                        foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                        {
+                            if (tKeyValue.Value == true)
+                            {
+                                tReferencesList.Add(tKeyValue.Key.Reference);
+                            }
+                        }
+                        Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                        tTypeAndReferences.Add(ClassType, tReferencesList);
+                        PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().DevEnvironment, tTypeAndReferences);
+                    }
+                    EditorGUI.EndDisabledGroup();
+                    NWDGUI.EndRedArea();
                 }
-                EditorGUI.EndDisabledGroup();
-                NWDGUI.EndRedArea();
-
-
-
-
+                else
+                {
+                    tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge)*3;
+                    GUI.Label(tRect, "no config", NWDGUI.kNoConfigStyle);
+                }
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
                 tRect.y = tRectActionRight.y;
 
                 GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tPreprodContent, NWDGUI.KTableSearchTitle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                EditorGUI.BeginDisabledGroup(WebModelChanged);
-                if (GUI.Button(tRect, "Sync table", NWDGUI.KTableSearchButton))
+                if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
                 {
-                    if (Application.isPlaying == true && kAccountDependent == false)
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    EditorGUI.BeginDisabledGroup(WebModelChanged);
+                    if (GUI.Button(tRect, "Sync table", NWDGUI.KTableSearchButton))
                     {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Force Sync table", NWDGUI.KTableSearchButton))
-                {
-
-                    SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Pull table", NWDGUI.KTableSearchButton))
-                {
-                    if (Application.isPlaying == true && kAccountDependent == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    PullFromWebService(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Force Pull table", NWDGUI.KTableSearchButton))
-                {
-                    if (Application.isPlaying == true && kAccountDependent == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-                }
-                EditorGUI.EndDisabledGroup();
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-
-                EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
-                NWDGUI.BeginRedArea();
-                if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
-                {
-                    List<string> tReferencesList = new List<string>();
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
-                    {
-                        if (tKeyValue.Value == true)
+                        if (Application.isPlaying == true && kAccountDependent == false)
                         {
-                            tReferencesList.Add(tKeyValue.Key.Reference);
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                         }
+                        SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
                     }
-                    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
-                    tTypeAndReferences.Add(ClassType, tReferencesList);
-                    PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().PreprodEnvironment, tTypeAndReferences);
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Force Sync table", NWDGUI.KTableSearchButton))
+                    {
+
+                        SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Pull table", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        PullFromWebService(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Force Pull table", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                    }
+                    EditorGUI.EndDisabledGroup();
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+                    EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
+                    NWDGUI.BeginRedArea();
+                    if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
+                    {
+                        List<string> tReferencesList = new List<string>();
+                        foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                        {
+                            if (tKeyValue.Value == true)
+                            {
+                                tReferencesList.Add(tKeyValue.Key.Reference);
+                            }
+                        }
+                        Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                        tTypeAndReferences.Add(ClassType, tReferencesList);
+                        PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().PreprodEnvironment, tTypeAndReferences);
+                    }
+                    EditorGUI.EndDisabledGroup();
+                    NWDGUI.EndRedArea();
                 }
-                EditorGUI.EndDisabledGroup();
-                NWDGUI.EndRedArea();
+                else
+                {
+                    tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
+                    GUI.Label(tRect, "no config", NWDGUI.kNoConfigStyle);
+                }
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
                 tRect.y = tRectActionRight.y;
 
                 GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tProdContent, NWDGUI.KTableSearchTitle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                EditorGUI.BeginDisabledGroup(tDisableProd || WebModelChanged);
-                if (GUI.Button(tRect, "Sync table", NWDGUI.KTableSearchButton))
+                if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
                 {
-                    tSyncProd = true;
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Force Sync table", NWDGUI.KTableSearchButton))
-                {
-                    tSyncForceProd = true;
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Pull table", NWDGUI.KTableSearchButton))
-                {
-                    tPullProd = true;
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Force Pull table", NWDGUI.KTableSearchButton))
-                {
-                    tPullProdForce = true;
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                EditorGUI.EndDisabledGroup();
-                EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
-                NWDGUI.BeginRedArea();
-                if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
-                {
-                    List<string> tReferencesList = new List<string>();
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    EditorGUI.BeginDisabledGroup(tDisableProd || WebModelChanged);
+                    if (GUI.Button(tRect, "Sync table", NWDGUI.KTableSearchButton))
                     {
-                        if (tKeyValue.Value == true)
-                        {
-                            tReferencesList.Add(tKeyValue.Key.Reference);
-                        }
+                        tSyncProd = true;
                     }
-                    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
-                    tTypeAndReferences.Add(ClassType, tReferencesList);
-                    PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().ProdEnvironment, tTypeAndReferences);
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Force Sync table", NWDGUI.KTableSearchButton))
+                    {
+                        tSyncForceProd = true;
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Pull table", NWDGUI.KTableSearchButton))
+                    {
+                        tPullProd = true;
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Force Pull table", NWDGUI.KTableSearchButton))
+                    {
+                        tPullProdForce = true;
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    EditorGUI.EndDisabledGroup();
+                    EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
+                    NWDGUI.BeginRedArea();
+                    if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
+                    {
+                        List<string> tReferencesList = new List<string>();
+                        foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                        {
+                            if (tKeyValue.Value == true)
+                            {
+                                tReferencesList.Add(tKeyValue.Key.Reference);
+                            }
+                        }
+                        Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                        tTypeAndReferences.Add(ClassType, tReferencesList);
+                        PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().ProdEnvironment, tTypeAndReferences);
+                    }
+                    EditorGUI.EndDisabledGroup();
+                    NWDGUI.EndRedArea();
                 }
-                EditorGUI.EndDisabledGroup();
-                NWDGUI.EndRedArea();
-
+                else
+                {
+                    tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
+                    GUI.Label(tRect, "no config", NWDGUI.kNoConfigStyle);
+                }
             }
             if (TableActions == true)
             {
@@ -1658,14 +1679,14 @@ namespace NetWorkedData
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
                 tRect.y = tRectTableLeft.y;
                 // draw Replace WS in dev by sftp
-                GUI.Label(tRect, NWDConstants.K_APP_WS_RESET_WARNING + " " + NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000"), NWDGUI.KTableSearchTitle);
+                //GUI.Label(tRect, NWDConstants.K_APP_WS_RESET_WARNING + " " + NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000"), NWDGUI.KTableSearchTitle);
 
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_DEV_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
-                {
-                    tCreateAllPHPForOnlyThisClassDEV = true;
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                //tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                //if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_DEV_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                //{
+                //    tCreateAllPHPForOnlyThisClassDEV = true;
+                //}
+                //tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 //// draw Replace WS in all by sftp
                 //if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
                 //{
@@ -1690,167 +1711,208 @@ namespace NetWorkedData
                 tRect.y = tRectTableRight.y;
                 GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tDevContent, NWDGUI.KTableSearchTitle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                EditorGUI.BeginDisabledGroup(WebModelChanged);
-                NWDGUI.BeginRedArea();
-                if (GUI.Button(tRect, "Clean table", NWDGUI.KTableSearchButton))
+                if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
                 {
-                    if (Application.isPlaying == true && kAccountDependent == false)
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    NWDGUI.BeginRedArea();
+                    EditorGUI.BeginDisabledGroup(WebModelChanged);
+                    if (GUI.Button(tRect, "Clean table", NWDGUI.KTableSearchButton))
                     {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().DevEnvironment);
                     }
-                    SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Special", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Special);
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Upgrade", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Upgrade);
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Optimize", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Optimize);
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Indexes);
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    EditorGUI.EndDisabledGroup();
+                    if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_DEV_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                    {
+                        tCreateAllPHPForOnlyThisClassDEV = true;
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    NWDGUI.EndRedArea();
                 }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Special", NWDGUI.KTableSearchButton))
+                else
                 {
-                    if (Application.isPlaying == true && kAccountDependent == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Special);
+                    tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
+                    GUI.Label(tRect, "no config", NWDGUI.kNoConfigStyle);
                 }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Upgrade", NWDGUI.KTableSearchButton))
-                {
-                    if (Application.isPlaying == true && kAccountDependent == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Upgrade);
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Optimize", NWDGUI.KTableSearchButton))
-                {
-                    if (Application.isPlaying == true && kAccountDependent == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Optimize);
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
-                {
-                    if (Application.isPlaying == true && kAccountDependent == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Indexes);
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                NWDGUI.EndRedArea();
-                EditorGUI.EndDisabledGroup();
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
                 tRect.y = tRectTableRight.y;
                 GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tPreprodContent, NWDGUI.KTableSearchTitle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                EditorGUI.BeginDisabledGroup(WebModelChanged);
-                NWDGUI.BeginRedArea();
-                if (GUI.Button(tRect, "Clean table", NWDGUI.KTableSearchButton))
+                if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
                 {
-                    if (Application.isPlaying == true && kAccountDependent == false)
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    NWDGUI.BeginRedArea();
+                    EditorGUI.BeginDisabledGroup(WebModelChanged);
+                    if (GUI.Button(tRect, "Clean table", NWDGUI.KTableSearchButton))
                     {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
                     }
-                    SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Special", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Special);
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Upgrade", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Upgrade);
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Optimize", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Optimize);
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Indexes);
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    EditorGUI.EndDisabledGroup();
+
+                    if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_PREPROD_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                    {
+                        tCreateAllPHPForOnlyThisClassPREPROD = true;
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+                    NWDGUI.EndRedArea();
                 }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Special", NWDGUI.KTableSearchButton))
+                else
                 {
-                    if (Application.isPlaying == true && kAccountDependent == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Special);
+                    tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
+                    GUI.Label(tRect, "no config", NWDGUI.kNoConfigStyle);
                 }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Upgrade", NWDGUI.KTableSearchButton))
-                {
-                    if (Application.isPlaying == true && kAccountDependent == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Upgrade);
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Optimize", NWDGUI.KTableSearchButton))
-                {
-                    if (Application.isPlaying == true && kAccountDependent == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Optimize);
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
-                {
-                    if (Application.isPlaying == true && kAccountDependent == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Indexes);
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                NWDGUI.EndRedArea();
-                EditorGUI.EndDisabledGroup();
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
                 tRect.y = tRectTableRight.y;
                 GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tProdContent, NWDGUI.KTableSearchTitle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                EditorGUI.BeginDisabledGroup(WebModelChanged);
-                NWDGUI.BeginRedArea();
-                if (GUI.Button(tRect, "Clean table", NWDGUI.KTableSearchButton))
+                if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
                 {
-                    if (Application.isPlaying == true && kAccountDependent == false)
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    NWDGUI.BeginRedArea();
+                    EditorGUI.BeginDisabledGroup(WebModelChanged);
+                    if (GUI.Button(tRect, "Clean table", NWDGUI.KTableSearchButton))
                     {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        tSyncCleanProd = true;
                     }
-                    tSyncCleanProd = true;
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Special", NWDGUI.KTableSearchButton))
-                {
-                    if (Application.isPlaying == true && kAccountDependent == false)
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Special", NWDGUI.KTableSearchButton))
                     {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Special);
                     }
-                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Special);
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Upgrade", NWDGUI.KTableSearchButton))
-                {
-                    if (Application.isPlaying == true && kAccountDependent == false)
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Upgrade", NWDGUI.KTableSearchButton))
                     {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Upgrade);
                     }
-                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Upgrade);
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Optimize", NWDGUI.KTableSearchButton))
-                {
-                    if (Application.isPlaying == true && kAccountDependent == false)
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Optimize", NWDGUI.KTableSearchButton))
                     {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Optimize);
                     }
-                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Optimize);
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
-                {
-                    if (Application.isPlaying == true && kAccountDependent == false)
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
                     {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        if (Application.isPlaying == true && kAccountDependent == false)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Indexes);
                     }
-                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Indexes);
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                NWDGUI.EndRedArea();
-                EditorGUI.EndDisabledGroup();
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    EditorGUI.EndDisabledGroup();
 
+                    if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_PROD_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                    {
+                        tCreateAllPHPForOnlyThisClassPROD = true;
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    NWDGUI.EndRedArea();
+                }
+                else
+                {
+                    tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
+                    GUI.Label(tRect, "no config", NWDGUI.kNoConfigStyle);
+                }
             }
             // Page end!
             if (tDeleteSelection == true)
@@ -2128,6 +2190,18 @@ namespace NetWorkedData
             {
                 ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
                 NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                NWDEditorWindow.GenerateCSharpFile();
+            }
+            if (tCreateAllPHPForOnlyThisClassPREPROD == true)
+            {
+                ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                NWDEditorWindow.GenerateCSharpFile();
+            }
+            if (tCreateAllPHPForOnlyThisClassPROD == true)
+            {
+                ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
                 NWDEditorWindow.GenerateCSharpFile();
             }
             //NWEBenchmark.Finish();
@@ -2694,7 +2768,7 @@ namespace NetWorkedData
                 else
                 {
                     GUI.Label(tWindowRectInpsector, NWDConstants.K_EDITOR_NO_DATA_SELECTED, NWDGUI.kInspectorNoData);
-                    
+
                 }
                 NWDGUI.LineVertical(tWindowRectInpsector);
             }

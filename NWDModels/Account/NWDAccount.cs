@@ -17,6 +17,7 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [NWDInternalDescriptionNotEditable]
     [NWDClassUnityEditorOnlyAttribute]
     [NWDClassServerSynchronizeAttribute(false)]
     [NWDClassTrigrammeAttribute(NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM)]
@@ -26,10 +27,25 @@ namespace NetWorkedData
     public partial class NWDAccount : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Use to tag account reference as temporary reference, cluster need return a real account reference.
+        /// </summary>
         public const string K_ACCOUNT_TEMPORARY_SUFFIXE = "T";
+        /// <summary>
+        /// Use to tag account reference as certified reference, cluster returned this reference as unique.
+        /// </summary>
         public const string K_ACCOUNT_CERTIFIED_SUFFIXE = "C";
+        /// <summary>
+        /// Use to tag account reference as temporary reference to create a new user, cluster need return a real account reference.
+        /// </summary>
         public const string K_ACCOUNT_NEW_SUFFIXE = "Z";
-        //public const string K_ACCOUNT_SIGNED_SUFFIXE = "S";
+        /// <summary>
+        /// Use to tag account reference as fake account reference, cluster use this reference as real reference. It's reserved by editor mode.
+        /// </summary>
+        public const string K_ACCOUNT_FROM_EDITOR = "E";
+        /// <summary>
+        /// The trigramme of this class is always fixeddat 'ACC'.
+        /// </summary>
         public const string K_ACCOUNT_PREFIX_TRIGRAM = "ACC";
         //-------------------------------------------------------------------------------------------------------------
         const string K_LOGIN_INDEX = "LoginIndex";
@@ -59,6 +75,7 @@ namespace NetWorkedData
         public int Ban { get; set; }
         //[NWDTooltips("If account is froozen in iceberg")]
         //public bool Archived { get; set; }
+
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

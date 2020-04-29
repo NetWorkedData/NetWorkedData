@@ -68,19 +68,19 @@ namespace NetWorkedData
         public int IPBanTimer = 3600;
         public int IPBanMaxTentative = 3;
         public bool IPBanActive = true;
-        public int SFTPBalanceLoad = 50; // TODO : Rename LoadBalancingLimit
+        public int LoadBalancingLimit = 50; // TODO : Rename LoadBalancingLimit
 #if UNITY_EDITOR
         public NWDServerLanguage ServerLanguage = NWDServerLanguage.PHP;
         public string SaltServer = string.Empty;
-        public string RescueEmail = "no-reply@my-web-site.com";
         public int RescueDelay = 3600;
         public int RescueLoginLength = 12;
         public int RescuePasswordLength = 24;
 
         public string MailFrom = string.Empty;
 
-        [Obsolete] // TODO : Remove
-        public string MailReplyTo = string.Empty;
+        //[Obsolete] // TODO : Remove
+        //public string MailReplyTo = string.Empty;
+        public string RescueEmail = "no-reply@my-web-site.com";
 
         public bool MailBySMTP = false;
         public bool MailSSL = true;
@@ -90,19 +90,19 @@ namespace NetWorkedData
         public string MailUserName = "no-reply@my-web-site.com";
         public string MailPassword = "passwordFoMyLogin";
 
-        [Obsolete] // TODO : Remove
-        public string MailDomain = string.Empty;
-        [Obsolete] // TODO : Remove
-        public string MailAuthentication = "plain";
-        [Obsolete] // TODO : Remove
-        public string MailEnableStarttlsAuto = "true";
-        [Obsolete] // TODO : Remove
-        public string MailOpenSSLVerifyMode = "peer";
+        //[Obsolete] // TODO : Remove
+        //public string MailDomain = string.Empty;
+        //[Obsolete] // TODO : Remove
+        //public string MailAuthentication = "plain";
+        //[Obsolete] // TODO : Remove
+        //public string MailEnableStarttlsAuto = "true";
+        //[Obsolete] // TODO : Remove
+        //public string MailOpenSSLVerifyMode = "peer";
 
-        public string ServerHost = "localhost";
-        public string ServerUser = "user";
-        public string ServerPassword = string.Empty;
-        public string ServerBase = "myDatabase";
+        //public string ServerHost = "localhost";
+        //public string ServerUser = "user";
+        //public string ServerPassword = string.Empty;
+        //public string ServerBase = "myDatabase";
 #endif
         public bool LogMode = true;
         public bool LogInFileMode = true;
@@ -112,7 +112,7 @@ namespace NetWorkedData
 
         public int SaltFrequency = 300;
         public string AddressPing = "8.8.8.8";
-        public string ServerHTTPS = "https://www.my-web-site.com/";
+        //public string ServerHTTPS = "https://www.my-web-site.com/";
         public bool AllwaysSecureData = false;
         //public string FacebookAppID = string.Empty;
         //public string FacebookAppSecret = string.Empty;
@@ -143,7 +143,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string GetServerHTTPS()
         {
-            string rReturn = ServerHTTPS;
+            //string rReturn = ServerHTTPS;
+            string rReturn = GetConfigurationServerHTTPS();
             NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
             if (tAccountInfos != null)
             {
@@ -158,7 +159,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string GetConfigurationServerHTTPS()
         {
-            return "https://" + NWDToolbox.CleanDNS(ServerHTTPS);
+            //return "https://" + NWDToolbox.CleanDNS(ServerHTTPS);
+            string rReturn = "https://localhost";
+            foreach (NWDServerDomain tDomain in NWDBasisHelper.GetRawDatas<NWDServerDomain>())
+            {
+                if (tDomain.ValidInEnvironment(this))
+                {
+                    rReturn = "https://" + NWDToolbox.CleanDNS(tDomain.ServerDNS);
+                    break;
+                }
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -166,7 +177,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDAppEnvironment()
         {
-            PlayerAccountReference = NWDToolbox.GenerateUniqueID();
+            PlayerAccountReference = NWDToolbox.GenerateUniqueAccountID();
             FormatVerification();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -326,10 +337,10 @@ namespace NetWorkedData
             {
                 SaltFrequency = UnityEngine.Random.Range(400, 800);
             }
-            if (ServerPassword == string.Empty)
-            {
-                ServerPassword = NWDToolbox.RandomString(16);
-            }
+            //if (ServerPassword == string.Empty)
+            //{
+            //    ServerPassword = NWDToolbox.RandomString(16);
+            //}
             if (AdminKey == string.Empty)
             {
                 AdminKey = NWDToolbox.RandomString(16);

@@ -67,16 +67,16 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDServerAuthentication GetConfigurationServerSFTP(NWDAppEnvironment sEnvironment)
-        {
-            NWDServerAuthentication rReturn = new NWDServerAuthentication(sEnvironment.SFTPHost, sEnvironment.SFTPPort, sEnvironment.SFTPFolder, sEnvironment.SFTPUser, sEnvironment.SFTPPassword);
-            return rReturn;
-        }
+        //public static NWDServerAuthentication GetConfigurationServerSFTP(NWDAppEnvironment sEnvironment)
+        //{
+        //    NWDServerAuthentication rReturn = new NWDServerAuthentication(sEnvironment.SFTPHost, sEnvironment.SFTPPort, sEnvironment.SFTPFolder, sEnvironment.SFTPUser, sEnvironment.SFTPPassword);
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static NWDServerAuthentication[] GetAllConfigurationServerSFTP(NWDAppEnvironment sEnvironment)
         {
             List<NWDServerAuthentication> rReturn = new List<NWDServerAuthentication>();
-            rReturn.Add(GetConfigurationServerSFTP(sEnvironment));
+            //rReturn.Add(GetConfigurationServerSFTP(sEnvironment));
             foreach (NWDServerServices tSFTP in NWDBasisHelper.GetRawDatas<NWDServerServices>())
             {
                 NWDServerAuthentication tConn = tSFTP.GetServerSFTP(sEnvironment);

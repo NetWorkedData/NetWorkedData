@@ -409,6 +409,40 @@ namespace NetWorkedData
             return AplhaNumericCleanerRgx.Replace(sString, string.Empty);
         }
         //-------------------------------------------------------------------------------------------------------------
+        static Regex AplhaNumericToNumericRgx = new Regex("[^a-zA-Z0-9]");
+        //-------------------------------------------------------------------------------------------------------------
+        public static string AplhaNumericToNumeric(string sString)
+        {
+          string rReturn  = AplhaNumericToNumericRgx.Replace(sString, string.Empty).ToUpper();
+            rReturn = rReturn.Replace("A", "1");
+            rReturn = rReturn.Replace("B", "2");
+            rReturn = rReturn.Replace("C", "7");
+            rReturn = rReturn.Replace("D", "8");
+            rReturn = rReturn.Replace("E", "5");
+            rReturn = rReturn.Replace("F", "4");
+            rReturn = rReturn.Replace("G", "6");
+            rReturn = rReturn.Replace("H", "9");
+            rReturn = rReturn.Replace("I", "1");
+            rReturn = rReturn.Replace("J", "4");
+            rReturn = rReturn.Replace("K", "3");
+            rReturn = rReturn.Replace("L", "5");
+            rReturn = rReturn.Replace("M", "7");
+            rReturn = rReturn.Replace("N", "8");
+            rReturn = rReturn.Replace("O", "6");
+            rReturn = rReturn.Replace("P", "5");
+            rReturn = rReturn.Replace("Q", "6");
+            rReturn = rReturn.Replace("R", "4");
+            rReturn = rReturn.Replace("S", "9");
+            rReturn = rReturn.Replace("T", "4");
+            rReturn = rReturn.Replace("U", "1");
+            rReturn = rReturn.Replace("V", "1");
+            rReturn = rReturn.Replace("W", "4");
+            rReturn = rReturn.Replace("X", "9");
+            rReturn = rReturn.Replace("Y", "1");
+            rReturn = rReturn.Replace("Z", "9");
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         static Regex SaltCleanerRgx = new Regex("[^a-zA-Z0-9 -_\\(\\)\\[\\]\\,\\;\\:\\!\\.]");
         //-------------------------------------------------------------------------------------------------------------
         public static string SaltCleaner(string sString)
@@ -595,15 +629,39 @@ namespace NetWorkedData
 #endif
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Generate unique Temporary USER ID
+        /// Generate unique Temporary USER ID for the device or the editor. Limit creation of account infos in editor
         /// </summary>
-        public static string GenerateUniqueID(bool isTemporaryAccount = true)
+        public static string GenerateUniqueAccountID(bool isTemporaryAccount = true)
         {
             string rReturn = string.Empty;
             int tUnixCurrentTime = Timestamp();
             int tTime = tUnixCurrentTime - 1492710000;
-            rReturn = NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).ClassTrigramme + NWEConstants.K_MINUS + UnityEngine.Random.Range(000, 999).ToString("000") + NWEConstants.K_MINUS + tTime.ToString() + NWEConstants.K_MINUS + UnityEngine.Random.Range(1000000, 9999999).ToString();
+            // remove random temporary
+            
+            //rReturn = NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).ClassTrigramme + NWEConstants.K_MINUS + UnityEngine.Random.Range(000, 999).ToString("000") + NWEConstants.K_MINUS + tTime.ToString() + NWEConstants.K_MINUS + UnityEngine.Random.Range(1000000, 9999999).ToString();
 
+            // use Device ID
+            string tReferenceMiddle = "9";
+            string tReferenceEnd = "9";
+
+            if (Application.isPlaying == true)
+            {
+                tReferenceMiddle += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("4l5" + SystemInfo.deviceUniqueIdentifier + "7t6").ToUpper().Substring(0, 9));
+                tReferenceEnd += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("1h5" + SystemInfo.deviceUniqueIdentifier + "4s5").ToUpper().Substring(0,6));
+            }
+            else if (Application.isEditor == true)
+            {
+                tReferenceMiddle += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("e5" + SystemInfo.deviceUniqueIdentifier + "7ve").ToUpper().Substring(0, 9)); ;
+                tReferenceEnd += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("7v5" + SystemInfo.deviceUniqueIdentifier + "8m7").ToUpper().Substring(0, 6));
+            }
+            else
+            {
+                tReferenceMiddle += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("475" + SystemInfo.deviceUniqueIdentifier + "7u7").ToUpper().Substring(0, 9));
+                tReferenceEnd += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("4r8" + SystemInfo.deviceUniqueIdentifier + "6r8").ToUpper().Substring(0, 6));
+            }
+            rReturn = NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).ClassTrigramme + NWEConstants.K_MINUS + "00000" + NWEConstants.K_MINUS + tReferenceMiddle + NWEConstants.K_MINUS + tReferenceEnd;
+
+            // I had temporary or new account
             if (isTemporaryAccount)
             {
                 rReturn += NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE;

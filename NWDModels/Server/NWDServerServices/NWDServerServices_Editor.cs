@@ -152,6 +152,7 @@ namespace NetWorkedData
                     }
                 }
                 tI++;
+
                 //-----------------
                 EditorGUI.BeginDisabledGroup(UserInstalled == true);
                 tButtonTitle = new GUIContent("Install User", "Install User");
@@ -270,6 +271,7 @@ namespace NetWorkedData
                 });
                 }
                 tI++;
+
                 //-----------------
                 tButtonTitle = new GUIContent("Try User connexion", " try connexion with user");
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
@@ -282,7 +284,6 @@ namespace NetWorkedData
                 tI++;
 
                 //-----------------
-
                 tButtonTitle = new GUIContent("default html", " try connexion to index.html");
                 if (GUI.Button(tMatrix[0, tI], tButtonTitle))
                 {
@@ -294,7 +295,6 @@ namespace NetWorkedData
                     Application.OpenURL("http://" + tServer.DomainNameServer + "/phpinfo.php");
                 }
                 tI++;
-
 
                 tButtonTitle = new GUIContent("WS html", " try connexion to index.html");
                 if (GUI.Button(tMatrix[0, tI], tButtonTitle))
@@ -320,24 +320,45 @@ namespace NetWorkedData
                 tI++;
 
                 //-----------------
+                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                tI++;
+
+                //-----------------
+                string tCerbot = "certbot --agree-tos --no-eff-email --apache --redirect --email " + Email + " -d " + tServerDomain.ServerDNS + "";
+                EditorGUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]),"Try cerbot", tCerbot);
+                tI++;
+
+                //-----------------
                 tButtonTitle = new GUIContent("Try certbot SSL", " try connexion to generate certbot ssl (lest's encrypt)");
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 {
                     tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
                         //"certbot --agree-tos --no-eff-email --apache --redirect --email " + Email + " -d " + tServerDomain.ServerDNS + "",
-                        "certbot --agree-tos --no-eff-email --apache --redirect --email " + Email + " -d " + tServerDomain.ServerDNS + "",
+                        tCerbot,
                     });
                 }
                 tI++;
 
+                //-----------------
+                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                tI++;
 
                 //-----------------
-                string tURL = "sftp://" + User + ":"+Password.GetValue()+"@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + Folder;
-                tButtonTitle = new GUIContent("Try open sftp direct", tURL);
+                string tURLAdmin = "sftp://" + tServer.Admin_User + ":" + tServer.Admin_Password.GetValue() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/";
+                tButtonTitle = new GUIContent("Try sftp ADMIN directly", tURLAdmin);
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 {
-                    NWEClipboard.CopyToClipboard(Password.GetValue());
+                    //NWEClipboard.CopyToClipboard(Password.GetValue());
+                    Application.OpenURL(tURLAdmin);
+                }
+                tI++;
+                //-----------------
+                string tURL = "sftp://" + User + ":"+Password.GetValue()+"@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + Folder;
+                tButtonTitle = new GUIContent("Try sftp directly", tURL);
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    //NWEClipboard.CopyToClipboard(Password.GetValue());
                     Application.OpenURL(tURL);
                 }
                 tI++;

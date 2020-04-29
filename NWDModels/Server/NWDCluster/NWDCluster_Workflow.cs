@@ -215,6 +215,8 @@ namespace NetWorkedData
             {
                 tServerServices.UpdateDataIfModified();
             }
+
+            NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void InstanceMethodExample()

@@ -137,7 +137,7 @@ namespace NetWorkedData
                         //tCommandList.Add("sed -i '$ a bind-address = 127.0.0.1' /etc/mysql/mariadb.conf.d/50-server.cnf");
                         tCommandList.Add("sed -i 's/^.*bind-address .*$/bind-address = 127.0.0.1/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
                     }
-                        tCommandList.Add("/etc/init.d/mysql start");
+                    tCommandList.Add("/etc/init.d/mysql start");
                     if (PhpMyAdmin == true)
                     {
                         tCommandList.Add("echo \"<color=red> -> install apache</color>\"");
@@ -239,13 +239,166 @@ namespace NetWorkedData
 
                 if (GUI.Button(tMatrix[0, tI], "http://xxx/phpmyadmin/"))
                 {
-                    Application.OpenURL("http://" + MySQLIP.GetValue() + "/phpmyadmin/");
+                    string tURL = "http://" + MySQLIP.GetValue() + "/phpmyadmin/?pma_username=" + MySQLUser + "&pma_password=" + MySQLPassword.GetValue() + "";
+                    Application.OpenURL(tURL);
                 }
                 if (GUI.Button(tMatrix[1, tI], "https://xxx/phpmyadmin/"))
                 {
-                    Application.OpenURL("https://" + MySQLIP.GetValue() + "/phpmyadmin/");
+                    string tURL = "https://" + MySQLIP.GetValue() + "/phpmyadmin/?pma_username=" + MySQLUser + "&pma_password=" + MySQLPassword.GetValue() + "";
+                    Application.OpenURL(tURL);
                 }
                 tI++;
+
+
+
+                //-----------------
+                string tURLAdmin = "sftp://" + tServer.Admin_User + ":" + tServer.Admin_Password.GetValue() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/";
+                tButtonTitle = new GUIContent("Try sftp ADMIN directly", tURLAdmin);
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    //NWEClipboard.CopyToClipboard(Password.GetValue());
+                    Application.OpenURL(tURLAdmin);
+                }
+                tI++;
+
+                //-----------------
+                tButtonTitle = new GUIContent("restart phpmyadmin", " try to fix bug in login");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    List<string> tCommandList = new List<string>();
+                    //tCommandList.Add("/etc/init.d/apache2 restart");
+                    tCommandList.Add("/etc/init.d/apache2 restart");
+                    tCommandList.Add("/etc/init.d/mysql restart");
+                    tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
+                }
+                tI++;
+
+                //-----------------
+                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                tI++;
+
+                //-----------------
+                NWDGUI.BeginRedArea();
+                tButtonTitle = new GUIContent("Flush account Database ", " TODO ");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    if (EditorUtility.DisplayDialog("WARNING", "YOU WILL DELETE ALL DATAS OF PLAYERS!", "YES", "CANCEL"))
+                    {
+                        List<string> tCommandList = new List<string>();
+                        List<string> tTableList = new List<string>();
+                        foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+                        {
+                            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                            if (Dev == true)
+                            {
+                                tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().DevEnvironment));
+                            }
+                            if (Preprod == true)
+                            {
+                                tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().PreprodEnvironment));
+                            }
+                            if (Prod == true)
+                            {
+                                tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().ProdEnvironment));
+                            }
+                        }
+                        foreach (string tTable in tTableList)
+                        {
+                            tCommandList.Add("echo \"<color=orange> -> delete " + tTable + "</color>\"");
+                            //tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"USE " + MySQLBase + "; DROP TABLE " + MySQLBase + "." + tTable + ";\"");
+                            tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"USE " + MySQLBase + "; DELETE FROM " + MySQLBase + "." + tTable + ";\"");
+                        }
+                        tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
+                    }
+                }
+                NWDGUI.EndRedArea();
+                tI++;
+
+                //-----------------
+                NWDServerDatas tServerDatasOrg = ServerOriginal.GetRawData();
+                EditorGUI.BeginDisabledGroup(tServerDatasOrg == null);
+                {
+                    //-----------------
+                    tButtonTitle = new GUIContent("Flush editor Database ", " TODO ");
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        List<string> tCommandList = new List<string>();
+                        List<string> tTableList = new List<string>();
+                        foreach (Type tType in NWDDataManager.SharedInstance().mTypeNotAccountDependantList)
+                        {
+                            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                            if (Dev == true)
+                            {
+                                tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().DevEnvironment));
+                            }
+                            if (Preprod == true)
+                            {
+                                tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().PreprodEnvironment));
+                            }
+                            if (Prod == true)
+                            {
+                                tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().ProdEnvironment));
+                            }
+                        }
+                        foreach (string tTable in tTableList)
+                        {
+                            tCommandList.Add("echo \"<color=orange> -> delete " + tTable + "</color>\"");
+                            //tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"USE " + MySQLBase + "; DROP TABLE " + MySQLBase + "." + tTable + ";\"");
+                            tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"USE " + MySQLBase + "; DELETE FROM " + MySQLBase + "." + tTable + ";\"");
+                        }
+                        tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
+                    }
+                    tI++;
+
+                    //-----------------
+                    tButtonTitle = new GUIContent("Replace Database from original", " delete and copy editor table ");
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        if (tServerDatasOrg != null)
+                        {
+                            NWDServer tServerOriginal = tServerDatasOrg.Server.GetRawData();
+                            List<string> tCommandList = new List<string>();
+                            List<string> tCommandListAnother = new List<string>();
+
+                            List<string> tTableList = new List<string>();
+                            foreach (Type tType in NWDDataManager.SharedInstance().mTypeNotAccountDependantList)
+                            {
+                                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                                if (Dev == true)
+                                {
+                                    tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().DevEnvironment));
+                                }
+                                if (Preprod == true)
+                                {
+                                    tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().PreprodEnvironment));
+                                }
+                                if (Prod == true)
+                                {
+                                    tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().ProdEnvironment));
+                                }
+                            }
+                            foreach (string tTable in tTableList)
+                            {
+                                tCommandList.Add("echo \"<color=orange> -> delete " + tTable + "</color>\"");
+                                tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"USE " + MySQLBase + "; DROP TABLE " + MySQLBase + "." + tTable + ";\"");
+
+                                tCommandListAnother.Add("echo \"<color=orange> -> dump and copy " + tTable + "</color>\"");
+                                string tCommandDump = "mysqldump -u " + tServerDatasOrg.MySQLUser + " -p'" + tServerDatasOrg.MySQLPassword.GetValue() + "' " + tServerDatasOrg.MySQLBase + " " + tTable + " " +
+                            " | mysql -h " + MySQLIP.GetValue() + " -u " + MySQLUser + " -p'" + MySQLPassword.GetValue() + "' " + MySQLBase + "";
+                                tCommandListAnother.Add(tCommandDump);
+                            }
+
+                            tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
+                            tServerOriginal.ExecuteSSH(tButtonTitle.text, tCommandListAnother);
+                        }
+                    }
+                    tI++;
+                    //-----------------
+                }
+                EditorGUI.EndDisabledGroup();
+                //-----------------
+
+
 
                 //}
                 //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Find IP from Server (NWDServerDomain)"))
@@ -314,25 +467,25 @@ namespace NetWorkedData
 
 
 
-                tI += 11;
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Push force dev editor data"))
-                {
-                    //TODO : push data ...
-                }
-                tI++;
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Push force preprod editor data"))
-                {
-                    //TODO : push data ...
-                }
-                tI++;
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Push force prod editor data"))
-                {
-                    //TODO : push data ...
-                }
-                tI++;
+                //tI += 11;
+                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Push force dev editor data"))
+                //{
+                //    //TODO : push data ...
+                //}
+                //tI++;
+                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Push force preprod editor data"))
+                //{
+                //    //TODO : push data ...
+                //}
+                //tI++;
+                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Push force prod editor data"))
+                //{
+                //    //TODO : push data ...
+                //}
+                //tI++;
 
-                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-                tI++;
+                //NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                //tI++;
             }
             /*
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for dev"))
