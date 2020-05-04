@@ -98,6 +98,7 @@ namespace NetWorkedData
             {
 
                 GUI.Label(tMatrix[0, tI++], "To associate with device", NWDGUI.kBoldLabelStyle);
+                // start
                 EditorGUI.BeginDisabledGroup(SignStatus == NWDAccountSignAction.Associated);
                 if (GUI.Button(tMatrix[0, tI++], "Associate Editor Secret Key", NWDGUI.kMiniButtonStyle))
                 {
@@ -108,6 +109,8 @@ namespace NetWorkedData
                     RegisterDevicePlayer();
                 }
                 EditorGUI.EndDisabledGroup();
+                // end
+
                 NWDGUI.Separator(tMatrix[0, tI++]);
                 GUI.Label(tMatrix[0, tI++], "To associate with standard account", NWDGUI.kBoldLabelStyle);
                 Email = EditorGUI.TextField(tMatrix[0, tI++], "Email", Email);
@@ -119,6 +122,7 @@ namespace NetWorkedData
                 EditorGUI.LabelField(tMatrix[0, tI++], "futur RescueHash", GetRescueEmailHash(Email));
                 EditorGUI.LabelField(tMatrix[0, tI++], "futur LoginHash", GetLoginHash(Login));
 
+                // start
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password) || SignStatus == NWDAccountSignAction.Associated);
                 if (GUI.Button(tMatrix[0, tI++], "Associate Email Password", NWDGUI.kMiniButtonStyle))
                 {
@@ -126,6 +130,9 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDAccountSign) });
                 }
                 EditorGUI.EndDisabledGroup();
+                // end
+
+                // start
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Login) || SignStatus == NWDAccountSignAction.Associated);
                 if (GUI.Button(tMatrix[0, tI++], "Associate Login Password Email", NWDGUI.kMiniButtonStyle))
                 {
@@ -133,6 +140,9 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDAccountSign) });
                 }
                 EditorGUI.EndDisabledGroup();
+                // end
+
+                // start
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Email) || SignStatus != NWDAccountSignAction.Associated);
                 if (GUI.Button(tMatrix[0, tI++], "Rescue by Email", NWDGUI.kMiniButtonStyle))
                 {
@@ -140,7 +150,9 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().AddWebRequestRescue(Email);
                 }
                 EditorGUI.EndDisabledGroup();
+                // end
 
+                // start
                 EditorGUI.BeginDisabledGroup(SignStatus != NWDAccountSignAction.Associated);
                 if (GUI.Button(tMatrix[0, tI++], "Associate Delete", NWDGUI.kMiniButtonStyle))
                 {
@@ -148,8 +160,9 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDAccountSign) });
                 }
                 EditorGUI.EndDisabledGroup();
+                // end 
 
-
+                // start
                 //EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Login) ||
                 //    string.IsNullOrEmpty(Password)  ||
                 //    string.IsNullOrEmpty(Email)
@@ -182,10 +195,13 @@ namespace NetWorkedData
 
                 }
                 //EditorGUI.EndDisabledGroup();
+                // end
 
                 NWDGUI.Separator(tMatrix[0, tI++]);
                 GUI.Label(tMatrix[0, tI++], "To associate with social token", NWDGUI.kBoldLabelStyle);
                 Social = EditorGUI.TextField(tMatrix[0, tI++], "Social", Social);
+
+                // start
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Social));
                 if (GUI.Button(tMatrix[0, tI++], "Associate FacebookID", NWDGUI.kMiniButtonStyle))
                 {
@@ -196,15 +212,22 @@ namespace NetWorkedData
                     RegisterSocialNetwork(Social, NWDAccountSignType.Google);
                 }
                 EditorGUI.EndDisabledGroup();
+                // end
+
+                // start
                 EditorGUI.BeginDisabledGroup(SignStatus != NWDAccountSignAction.Associated);
                 if (GUI.Button(tMatrix[0, tI++], "Associate Delete", NWDGUI.kMiniButtonStyle))
                 {
                     RegisterDelete();
                     NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDAccountSign) });
                 }
-                EditorGUI.BeginDisabledGroup(SignStatus != NWDAccountSignAction.Associated);
+                EditorGUI.EndDisabledGroup();
+                // end
+
                 NWDGUI.Separator(tMatrix[0, tI++]);
                 GUI.Label(tMatrix[0, tI++], "Test the sign", NWDGUI.kBoldLabelStyle);
+
+                // start
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(SignHash));
                 if (GUI.Button(tMatrix[0, tI++], "Test Sign in", NWDGUI.kMiniButtonStyle))
                 {
@@ -227,6 +250,8 @@ namespace NetWorkedData
                 //    NWDDataManager.SharedInstance().AddWebRequestSignOut();
                 //}
                 EditorGUI.EndDisabledGroup();
+                // end
+
                 NWDGUI.Separator(tMatrix[0, tI++]);
                 GUI.Label(tMatrix[0, tI++], "Hard or not hard sign ?", NWDGUI.kBoldLabelStyle);
                 if (GUI.Button(tMatrix[0, tI++], "Crack estimation", NWDGUI.kMiniButtonStyle))

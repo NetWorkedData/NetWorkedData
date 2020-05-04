@@ -317,6 +317,17 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static NWDAccountSign[] GetCorporateDatasAllState(string sAccountReference = null)
+        {
+            List<NWDAccountSign> tSignList = NWDBasisHelper.GetCorporateDatasList<NWDAccountSign>(sAccountReference);
+            List<NWDAccountSign> rReturn = new List<NWDAccountSign>();
+            foreach (NWDAccountSign tSign in tSignList)
+            {
+               rReturn.Add(tSign);
+            }
+            return rReturn.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountSign[] GetCorporateDatasAssociated(string sAccountReference = null)
         {
             List<NWDAccountSign> tSignList = NWDBasisHelper.GetCorporateDatasList<NWDAccountSign>(sAccountReference);

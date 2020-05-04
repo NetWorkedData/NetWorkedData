@@ -83,7 +83,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonEditor(Rect sRect)
         {
-            NWDAccountSign[] tSigns = NWDAccountSign.GetCorporateDatasAssociated(Reference);
+            NWDAccountSign[] tSigns = NWDAccountSign.GetCorporateDatasAllState(Reference);
             int tRow = tSigns.Length;
             Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 20);
             int tI = 0;
@@ -138,9 +138,12 @@ namespace NetWorkedData
                     }
                 }
                 EditorGUI.BeginDisabledGroup(tActive);
-                if (GUI.Button(tMatrix[0, tI], new GUIContent("Sign with " + tSign.SignType.ToString() + " " + string.Join(" ", tEnvironment), tSign.SignHash), NWDGUI.kMiniButtonStyle))
+                if (tSign.SignStatus == NWDAccountSignAction.Associated)
                 {
-                    NWDDataManager.SharedInstance().AddWebRequestSignIn(tSign.SignHash);
+                    if (GUI.Button(tMatrix[0, tI], new GUIContent("Sign with " + tSign.SignType.ToString() + " " + string.Join(" ", tEnvironment), tSign.SignHash), NWDGUI.kMiniButtonStyle))
+                    {
+                        NWDDataManager.SharedInstance().AddWebRequestSignIn(tSign.SignHash);
+                    }
                 }
                 EditorGUI.EndDisabledGroup();
                 if (GUI.Button(tMatrix[1, tI], new GUIContent("Edit", tSign.SignHash), NWDGUI.kMiniButtonStyle))
