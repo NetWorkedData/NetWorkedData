@@ -31,7 +31,7 @@ namespace NetWorkedData
         }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccount : NWDBasis
+    public partial class NWDAccount : NWDBasisAccountRestricted
     {
         //-------------------------------------------------------------------------------------------------------------
         const string ServerFakeAccount = "ACC-999-123456789-123456789" + K_ACCOUNT_TEMPORARY_SUFFIXE;

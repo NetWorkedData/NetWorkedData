@@ -30,7 +30,7 @@ namespace NetWorkedData
     /// acquisition statut or some particular values (A, B, C, etc.).
     /// It's a generic class for traditionla game.
     /// </summary>
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("UOW")]
     [NWDClassDescriptionAttribute("User Ownership descriptions Class")]
     [NWDClassMenuNameAttribute("User Ownership")]

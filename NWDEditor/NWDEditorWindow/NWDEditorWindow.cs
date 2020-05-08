@@ -176,6 +176,12 @@ namespace NetWorkedData
 
                 GUILayout.BeginHorizontal();
                 GUILayout.FlexibleSpace();
+                GUILayout.Label("NeWeeDy!");
+                GUILayout.FlexibleSpace();
+                GUILayout.EndHorizontal();
+                GUILayout.Space(10.0F);
+                GUILayout.BeginHorizontal();
+                GUILayout.FlexibleSpace();
                 GUILayout.Label("...compile in progress...");
                 GUILayout.FlexibleSpace();
                 GUILayout.EndHorizontal();

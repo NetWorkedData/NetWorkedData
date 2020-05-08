@@ -26,7 +26,7 @@ namespace NetWorkedData
         LocalPreference = 2,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("PRK")]
     [NWDClassDescriptionAttribute("Preference Key")]
     [NWDClassMenuNameAttribute("Preference Key")]

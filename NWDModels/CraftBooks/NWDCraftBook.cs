@@ -28,7 +28,7 @@ namespace NetWorkedData
         }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("CFB")]
     [NWDClassDescriptionAttribute("CraftBook Recipes descriptions Class")]
     [NWDClassMenuNameAttribute("CraftBook")]

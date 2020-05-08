@@ -54,7 +54,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("ITG")]
     [NWDClassDescriptionAttribute("Item Group descriptions Class")]
     [NWDClassMenuNameAttribute("Item Group")]

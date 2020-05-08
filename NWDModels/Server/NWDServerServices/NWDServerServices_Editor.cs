@@ -28,7 +28,7 @@ namespace NetWorkedData
     // doc to read to finish script : https://www.cyberciti.biz/tips/how-do-i-enable-remote-access-to-mysql-database-server.html
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDServerServices : NWDBasis
+    public partial class NWDServerServices : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditorHeight(float sWidth)

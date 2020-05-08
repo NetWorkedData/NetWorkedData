@@ -30,7 +30,7 @@ namespace NetWorkedData
         Java = 20, // for futur evolution
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAppConfiguration
+    public partial class NWDAppConfiguration : NWDApp
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

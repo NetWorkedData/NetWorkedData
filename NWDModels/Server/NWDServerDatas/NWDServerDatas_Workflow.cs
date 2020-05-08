@@ -19,7 +19,7 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDServerDatas : NWDBasis
+    public partial class NWDServerDatas : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDServerDatas()
@@ -81,9 +81,9 @@ namespace NetWorkedData
                     }
                 }
             }
-            if (ServerOriginal.GetRawData() == this)
+            if (ServerEditorOriginal.GetRawData() == this)
             {
-                ServerOriginal.SetData(null);
+                ServerEditorOriginal.SetData(null);
             }
             Range = tNexRange;
             if (UserMax < -1)
@@ -94,26 +94,100 @@ namespace NetWorkedData
             {
                 UserMax = 500000;
             }
+            // check for range
+            tTest = false;
 
+            
+            // determine free range :
+            List<int> MinRangeList = new List<int>();
+            List<int> MaxRangeList = new List<int>();
+            /*
+            List<NWDServerDatas> tRangeUsed = new List<NWDServerDatas>();
+            foreach (NWDServerDatas tServerDatas in BasisHelper().Datas)
+            {
+                if (tServerDatas != this)
+                {
+                    tRangeUsed.Add(tServerDatas);
+                    if (tServerDatas.RangeMin < kRangeMin)
+                    {
+                        tServerDatas.RangeMin = kRangeMin;
+                    }
+                    if (tServerDatas.RangeMin >= kRangeMax)
+                    {
+                        tServerDatas.RangeMin = kRangeMax - 1;
+                    }
+                    if (tServerDatas.RangeMax <= RangeMin)
+                    {
+                        tServerDatas.RangeMax = RangeMin + 1;
+                    }
+                    if (tServerDatas.RangeMax > kRangeMax)
+                    {
+                        tServerDatas.RangeMax = kRangeMax;
+                    }
+                    tServerDatas.UpdateDataIfModified();
+                }
+            }
+            // sort by range and create free range 
+            tRangeUsed.Sort((x, y) => x.RangeMin.CompareTo(y.RangeMin));
+            int tCountRange = tRangeUsed.Count + 1;
+            MinRangeList.Add(kRangeMin);
+            foreach (NWDServerDatas tServerDatas in tRangeUsed)
+            {
+                MaxRangeList.Add(tServerDatas.RangeMin);
+                MinRangeList.Add(tServerDatas.RangeMax);
+            }
+            MaxRangeList.Add(kRangeMax);
 
+            tTest = false;
+            for (int tI = 0; tI < MinRangeList.Count; tI++)
+            {
+                if (RangeMin > MinRangeList[tI] && RangeMin < MaxRangeList[tI] && RangeMax > MinRangeList[tI] && RangeMax < MaxRangeList[tI] && RangeMax > RangeMin)
+                {
+                    tTest = true;
+                    break;
+                }
+            }
+            if (tTest == false)
+            {
+                // use the first free range ?
+                for (int tI = 0; tI < MinRangeList.Count; tI++)
+                {
+                    if (MinRangeList[tI] != MaxRangeList[tI])
+                    {
+                        RangeMin = MinRangeList[tI];
+                        RangeMax = MaxRangeList[tI];
+                        tTest = true;
+                        break;
+                    }
+                }
+            }
+            
+    */
+            if (RangeMin < kRangeMin)
+            {
+                RangeMin = kRangeMin;
+            }
+            if (RangeMin >= kRangeMax)
+            {
+                RangeMin = kRangeMax - 1;
+            }
 
-            if (RangeMin < 1000)
+            if (RangeMax <= RangeMin)
             {
-                RangeMin = 1000;
+                RangeMax = RangeMin + 1;
             }
-            if (RangeMin > 9998)
+            if (RangeMax > kRangeMax)
             {
-                RangeMin = 9998;
+                RangeMax = kRangeMax;
             }
-
-            if (RangeMax < RangeMin)
+            /*
+            if (tTest == false)
             {
-                RangeMax = RangeMin+1;
+                // ok ... no place ... dont use this database
+                RangeMin = 0;
+                RangeMax = 0;
             }
-            if (RangeMax > 9999)
-            {
-                RangeMax = 9999;
-            }
+            */
 
             List<string> tDescription = new List<string>();
             DevSyncActive(Dev);

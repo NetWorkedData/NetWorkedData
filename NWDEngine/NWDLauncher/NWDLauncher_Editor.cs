@@ -56,7 +56,7 @@ namespace NetWorkedData
             // create table editor
             CreateTableEditorStandard();
             // load editor data
-            LoadDataEditorStandard(NWDBasisBundle.ALL);
+            LoadDataEditorStandard(NWDBundle.ALL);
             // index all data editor
             IndexEditorStandard();
 
@@ -67,7 +67,7 @@ namespace NetWorkedData
             // create table account
             CreateTableAccountStandard();
             // load account data account
-            LoadDataAccountStandard(NWDBasisBundle.ALL);
+            LoadDataAccountStandard(NWDBundle.ALL);
             // index all data
             IndexAccountStandard();
 
@@ -105,7 +105,14 @@ namespace NetWorkedData
             Type[] tAllHelperDTypes = (from Type type in tAllTypes where type.IsSubclassOf(typeof(NWDBasisHelper)) select type).ToArray();
             foreach (Type tType in tAllNWDTypes)
             {
-                if (tType != typeof(NWDBasis) && tType != typeof(NWDBundledBasis) && tType.IsGenericType == false)
+                if (tType != typeof(NWDBasis) &&
+                    tType != typeof(NWDBasisBundled) &&
+                    tType != typeof(NWDBasisUnsynchronize) &&
+                    tType != typeof(NWDBasisAccountUnsynchronize) &&
+                    tType != typeof(NWDBasisAccountDependent) &&
+                    tType != typeof(NWDBasisAccountRestricted) &&
+                    tType != typeof(NWDBasisGameSaveDependent) &&
+                    tType.IsGenericType == false)
                 {
                     if (AllNetWorkedDataTypes.Contains(tType) == false)
                     {
@@ -219,7 +226,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        private static void LoadDataEditorStandard(NWDBasisBundle sBundle)
+        private static void LoadDataEditorStandard(NWDBundle sBundle)
         {
             if (ActiveBenchmark)
             {
@@ -285,7 +292,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        private static void LoadDataAccountStandard(NWDBasisBundle sBundle)
+        private static void LoadDataAccountStandard(NWDBundle sBundle)
         {
             if (ActiveBenchmark)
             {

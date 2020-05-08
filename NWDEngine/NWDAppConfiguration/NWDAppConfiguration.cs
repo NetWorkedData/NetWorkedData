@@ -412,6 +412,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ServerEnvironmentCheck()
         {
+#if UNITY_EDITOR
             NWDBasisHelper tServerHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDServer));
             NWDBasisHelper tServerClusterHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDCluster));
             NWDBasisHelper tServerDatasHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDServerDatas));
@@ -420,23 +421,23 @@ namespace NetWorkedData
 
             if (tServerHelper.IsLoaded() == false)
             {
-                tServerHelper.LoadFromDatabaseByBundle(NWDBasisBundle.ALL, false);
+                tServerHelper.LoadFromDatabaseByBundle(NWDBundle.ALL, false);
             }
             if (tServerDatasHelper.IsLoaded() == false)
             {
-                tServerDatasHelper.LoadFromDatabaseByBundle(NWDBasisBundle.ALL, false);
+                tServerDatasHelper.LoadFromDatabaseByBundle(NWDBundle.ALL, false);
             }
             if (tServerServicesHelper.IsLoaded() == false)
             {
-                tServerServicesHelper.LoadFromDatabaseByBundle(NWDBasisBundle.ALL, false);
+                tServerServicesHelper.LoadFromDatabaseByBundle(NWDBundle.ALL, false);
             }
             if (tServerClusterHelper.IsLoaded() == false)
             {
-                tServerClusterHelper.LoadFromDatabaseByBundle(NWDBasisBundle.ALL, false);
+                tServerClusterHelper.LoadFromDatabaseByBundle(NWDBundle.ALL, false);
             }
             if (tServerClusterHelper.IsLoaded() == false)
             {
-                tServerDomainsHelper.LoadFromDatabaseByBundle(NWDBasisBundle.ALL, false);
+                tServerDomainsHelper.LoadFromDatabaseByBundle(NWDBundle.ALL, false);
             }
 
             DevServerServicesState = false;
@@ -496,6 +497,8 @@ namespace NetWorkedData
                     ProdServerDataState = true;
                 }
             }
+            NWDAppEnvironmentSync.Refresh();
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         private bool DevServerServicesState = false;

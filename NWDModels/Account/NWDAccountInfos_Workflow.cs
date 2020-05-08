@@ -24,7 +24,7 @@ using NotificationType = UnityEngine.iOS.NotificationType;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountInfos : NWDBasis
+    public partial class NWDAccountInfos : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountInfos() { }

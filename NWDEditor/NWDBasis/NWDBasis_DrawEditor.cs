@@ -685,9 +685,9 @@ namespace NetWorkedData
                     }
                 }
 
-                if (BasisHelper().ClassType.IsSubclassOf(typeof(NWDBundledBasis)))
+                if (BasisHelper().ClassType.IsSubclassOf(typeof(NWDBasisBundled)))
                 {
-                    NWDBundledBasis tThis = (NWDBundledBasis)this;
+                    NWDBasisBundled tThis = (NWDBasisBundled)this;
                     NWEDataTypeEnum tBundle = tThis.Bundle.ControlField(tR, NWDConstants.K_APP_TABLE_SEARCH_BUNDLE, !CanBeEdit);
                     if (tBundle.Value != tThis.Bundle.Value)
                     {

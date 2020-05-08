@@ -338,7 +338,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_SEARCH_REFERENCE = "Reference";
         public const string K_APP_TABLE_SEARCH_NAME = "Internal Key";
         public const string K_APP_TABLE_SEARCH_DESCRIPTION = "Internal Desc.";
-        public const string K_APP_TABLE_SEARCHACCOUNTDEPENDENT = "Account Dep.";
+        public const string K_APP_TABLE_SEARCHACCOUNTDEPENDENT = "Sync Type";
         public const string K_APP_TABLE_SEARCH_TAG = "Internal Tag";
         public const string K_APP_TABLE_SEARCH_CHECKLIST = "Check List";
         public const string K_APP_TABLE_SEARCH_BUNDLE = "Bundle List";

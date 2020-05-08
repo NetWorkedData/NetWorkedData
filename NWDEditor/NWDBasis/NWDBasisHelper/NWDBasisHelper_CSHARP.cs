@@ -78,10 +78,10 @@ namespace NetWorkedData
                     rReturn.AppendLine("public partial class " + tHelperName + " : NWDHelper<" + ClassNamePHP + ">");
                     rReturn.AppendLine("{");
 
-                    NWDClassUnityEditorOnlyAttribute tServerOnlyAttribut = (NWDClassUnityEditorOnlyAttribute)ClassType.GetCustomAttribute(typeof(NWDClassUnityEditorOnlyAttribute), true);
-                    // not override for editor only (special class)
-                    if (tServerOnlyAttribut == null)
-                    {
+                    //NWDClassUnityEditorOnlyAttribute tServerOnlyAttribut = (NWDClassUnityEditorOnlyAttribute)ClassType.GetCustomAttribute(typeof(NWDClassUnityEditorOnlyAttribute), true);
+                    //// not override for editor only (special class)
+                    //if (tServerOnlyAttribut == null)
+                    //{
                         rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
                         rReturn.AppendLine("protected override NWDTypeClass CreateInstance_Bypass(bool sInsertInNetWorkedData, bool sStupid, PropertyInfo[] sPropertyInfo)");
                         rReturn.AppendLine("{");
@@ -135,7 +135,7 @@ namespace NetWorkedData
                         rReturn.AppendLine("};");
                         rReturn.AppendLine("return rReturn;");
                         rReturn.AppendLine("}");
-                    }
+                    //}
                     rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
                     rReturn.AppendLine("public override void InitHelper(Type sType, bool sBase = false)");
                     rReturn.AppendLine("{");
@@ -163,6 +163,7 @@ namespace NetWorkedData
                     //rReturn.AppendLine("Debug.Log(\"PLAYING MODE InitHelper()\");");
                     //rReturn.AppendLine("NWEBenchmark.Start();");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassType) + " = typeof(" + ClassNamePHP + ");");
+                    rReturn.AppendLine(NWDToolbox.PropertyName(() => BasisType) + " = "+typeof(NWDBasisType).Name+ "."+ BasisType.ToString()+ ";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassTableName) + " = \"" + ClassTableName + "\";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassName) + " = \"" + ClassName + "\";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassNamePHP) + " = \"" + ClassNamePHP + "\";");

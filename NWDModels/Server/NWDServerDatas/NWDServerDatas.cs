@@ -17,23 +17,31 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //[NWDInternalKeyNotEditable]
-    [NWDClassUnityEditorOnlyAttribute]
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassUnityEditorOnlyAttribute]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("SSD")]
     [NWDClassDescriptionAttribute("Server Datas descriptions Class")]
     [NWDClassMenuNameAttribute("Server Datas")]
     [NWDInternalDescriptionNotEditable]
-    public partial class NWDServerDatas : NWDBasis
+    public partial class NWDServerDatas : NWDBasisUnsynchronize
     {
+        //-------------------------------------------------------------------------------------------------------------
+        public const string RangeEditor = "0000";
+        const int kRangeMin = 1000;
+        const int kRangeMax = 9990;
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Server SSH")]
         public NWDReferenceType<NWDServer> Server { get; set; }
+        [NWDInspectorGroupEnd]
+
         [NWDInspectorGroupStart("Data Account Range")]
         [NWDNotEditable]
         public int Range { get; set; }
+        [NWDIntSlider(kRangeMin, kRangeMax)]
         public int RangeMin { get; set; }
+        [NWDIntSlider(kRangeMin, kRangeMax)]
         public int RangeMax { get; set; }
         public int UserMax { get; set; }
 
@@ -95,8 +103,11 @@ namespace NetWorkedData
         //[NWDInspectorGroupStart("Install Server Options")]
         //public NWDServerDistribution Distribution { get; set; }
         //[NWDInspectorGroupEnd]
-        [NWDInspectorGroupStart("Copy editor base from ...")]
-        public NWDReferenceType<NWDServerDatas> ServerOriginal { get; set; }
+        [NWDInspectorGroupStart("Copy base from ...")]
+        public NWDReferenceType<NWDServerDatas> ServerEditorOriginal { get; set; }
+        [NWDTooltips("Use for special operation")]
+        public NWDReferenceType<NWDServerDatas> ServerAccountOriginal { get; set; }
+        [NWDInspectorGroupEnd]
         [NWDNotEditable]
         [NWDInspectorGroupStart("Server Environment Actif")]
         [NWDNotEditable]

@@ -65,7 +65,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("CAT")]
     [NWDClassDescriptionAttribute("This class is used to reccord the category available in the game")]
     [NWDClassMenuNameAttribute("Category")]

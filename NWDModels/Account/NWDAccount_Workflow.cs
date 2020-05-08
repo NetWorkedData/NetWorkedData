@@ -27,7 +27,7 @@ namespace NetWorkedData
         None = 9,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccount : NWDBasis
+    public partial class NWDAccount : NWDBasisAccountRestricted
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccount() { }
@@ -73,17 +73,19 @@ namespace NetWorkedData
         public override string NewReference()
         {
             string rReturn = string.Empty;
-            NWDServerDatabaseAuthentication[] tServerDatas = NWDServerDatas.GetAllConfigurationServerDatabase(NWDAppEnvironment.SelectedEnvironment());
-            if (tServerDatas.Length > 1)
-            {
-                tServerDatas.ShuffleList();
-            }
-            string tRangeServer = "0000";
-            if (tServerDatas.Length > 1)
-            {
-                NWDServerDatabaseAuthentication tServerData = tServerDatas[0];
-                tRangeServer = UnityEngine.Random.Range(tServerData.RangeMin, tServerData.RangeMax).ToString();
-            }
+#if UNITY_EDITOR
+            string tRangeServer = NWDServerDatas.RangeEditor;
+            // not necessary  beacuse editor account must be exceptional
+            //NWDServerDatabaseAuthentication[] tServerDatas = NWDServerDatas.GetAllConfigurationServerDatabase(NWDAppEnvironment.SelectedEnvironment());
+            //if (tServerDatas.Length > 1)
+            //{
+            //    tServerDatas.ShuffleList();
+            //}
+            //if (tServerDatas.Length > 1)
+            //{
+            //    NWDServerDatabaseAuthentication tServerData = tServerDatas[0];
+            //    tRangeServer = UnityEngine.Random.Range(tServerData.RangeMin, tServerData.RangeMax).ToString();
+            //}
             bool tValid = false;
             while (tValid == false)
             {
@@ -92,6 +94,7 @@ namespace NetWorkedData
                 rReturn = K_ACCOUNT_PREFIX_TRIGRAM + NWEConstants.K_MINUS + tRangeServer + NWEConstants.K_MINUS + tReferenceMiddle + NWEConstants.K_MINUS + UnityEngine.Random.Range(100000, 999999).ToString() + K_ACCOUNT_FROM_EDITOR;
                 tValid = TestReference(rReturn);
             }
+#endif
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -179,6 +179,15 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDInspectorGroupEnd()]
+        [NWDInspectorGroupStart("Access Range")]
+        [NWDNotEditable]
+        [NWDCertified]
+        //[NWDHidden]
+        public int RangeAccess
+        {
+            get; set;
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The current state of the writing for this object.
@@ -610,10 +619,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class NWDClassUnityEditorOnlyAttribute : Attribute
-    {
-    }
+    //[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    //public class NWDClassUnityEditorOnlyAttribute : Attribute
+    //{
+    //}
 #if UNITY_EDITOR
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
@@ -633,18 +642,18 @@ namespace NetWorkedData
     }
 #endif
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class NWDClassServerSynchronizeAttribute : Attribute
-    {
-        //-------------------------------------------------------------------------------------------------------------
-        public bool ServerSynchronize;
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDClassServerSynchronizeAttribute(bool sServerSynchronize)
-        {
-            this.ServerSynchronize = sServerSynchronize;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-    }
+    //[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    //public class NWDClassServerSynchronizeAttribute : Attribute
+    //{
+    //    //-------------------------------------------------------------------------------------------------------------
+    //    public bool ServerSynchronize;
+    //    //-------------------------------------------------------------------------------------------------------------
+    //    public NWDClassServerSynchronizeAttribute(bool sServerSynchronize)
+    //    {
+    //        this.ServerSynchronize = sServerSynchronize;
+    //    }
+    //    //-------------------------------------------------------------------------------------------------------------
+    //}
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class NWDClassDescriptionAttribute : Attribute

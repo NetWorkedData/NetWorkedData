@@ -28,7 +28,7 @@ namespace NetWorkedData
     // doc to read to finish script : https://www.cyberciti.biz/tips/how-do-i-enable-remote-access-to-mysql-database-server.html
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDServerDatas : NWDBasis
+    public partial class NWDServerDatas : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditorHeight(float sWidth)
@@ -315,7 +315,7 @@ namespace NetWorkedData
                 tI++;
 
                 //-----------------
-                NWDServerDatas tServerDatasOrg = ServerOriginal.GetRawData();
+                NWDServerDatas tServerDatasOrg = ServerEditorOriginal.GetRawData();
                 EditorGUI.BeginDisabledGroup(tServerDatasOrg == null);
                 {
                     //-----------------

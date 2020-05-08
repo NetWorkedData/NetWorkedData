@@ -51,7 +51,7 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public IEnumerator AsyncReloadAllObjectsEditor(NWDBasisBundle sBundle)
+        public IEnumerator AsyncReloadAllObjectsEditor(NWDBundle sBundle)
         {
             if (NWDLauncher.ActiveBenchmark)
             {
@@ -84,7 +84,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ReloadAllObjectsByClassEditor(int sCounter, NWDBasisBundle sBundle)
+        public bool ReloadAllObjectsByClassEditor(int sCounter, NWDBundle sBundle)
         {
             bool rReturn = false;
             if (sCounter >= 0 && sCounter < mTypeNotAccountDependantList.Count)
@@ -96,7 +96,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ReloadAllObjectsEditor(NWDBasisBundle sBundle)
+        public void ReloadAllObjectsEditor(NWDBundle sBundle)
         {
             if (NWDLauncher.ActiveBenchmark)
             {
@@ -132,7 +132,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public IEnumerator AsyncReloadAllObjectsAccount(NWDBasisBundle sBundle)
+        public IEnumerator AsyncReloadAllObjectsAccount(NWDBundle sBundle)
         {
             if (NWDLauncher.ActiveBenchmark)
             {
@@ -167,7 +167,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ReloadAllObjectsByClassAccount(int sCounter, NWDBasisBundle sBundle)
+        public bool ReloadAllObjectsByClassAccount(int sCounter, NWDBundle sBundle)
         {
             bool rReturn = false;
             if (sCounter >= 0 && sCounter < mTypeAccountDependantList.Count)
@@ -180,7 +180,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ReloadAllObjectsAccount(NWDBasisBundle sBundle)
+        public void ReloadAllObjectsAccount(NWDBundle sBundle)
         {
             if (NWDLauncher.ActiveBenchmark)
             {
@@ -297,7 +297,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ReloadAllObjects(NWDBasisBundle sBundle)
+        public void ReloadAllObjects(NWDBundle sBundle)
         {
             ReloadAllObjectsEditor(sBundle);
             ReloadAllObjectsAccount(sBundle);

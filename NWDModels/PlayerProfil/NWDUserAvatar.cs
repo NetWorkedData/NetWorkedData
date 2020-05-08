@@ -41,7 +41,7 @@ namespace NetWorkedData
     }
 #endif
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("UAV")]
     [NWDClassDescriptionAttribute("Avatar composer for user")]
     [NWDClassMenuNameAttribute("User Avatar")]

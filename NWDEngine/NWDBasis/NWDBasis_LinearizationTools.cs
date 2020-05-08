@@ -246,6 +246,7 @@ namespace NetWorkedData
             tValues[3] = "";
             tValues[4] = "";
             tValues[5] = "";
+            tValues[6] = "";
             tValues[tValues.Length - 1] = "";
             return string.Join("", tValues);
         }

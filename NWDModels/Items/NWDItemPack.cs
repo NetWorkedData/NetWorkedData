@@ -17,7 +17,7 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("ITP")]
     [NWDClassDescriptionAttribute("Item Pack descriptions Class")]
     [NWDClassMenuNameAttribute("Item Pack")]

@@ -17,13 +17,13 @@
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassUnityEditorOnlyAttribute]
-    [NWDClassServerSynchronizeAttribute(false)]
+    //[NWDClassUnityEditorOnlyAttribute]
+    ////[NWDClassServerSynchronizeAttribute(false)]
     [NWDClassTrigrammeAttribute("RQT")]
     [NWDClassDescriptionAttribute("RequestToken descriptions Class")]
     [NWDClassMenuNameAttribute("RequestToken")]
     [NWDClassClusterAttribute(1, 6)]
-    public partial class NWDRequestToken : NWDBasis
+    public partial class NWDRequestToken : NWDBasisAccountRestricted
     {
         //-------------------------------------------------------------------------------------------------------------
         const string K_TOKEN_INDEX = "TokenIndex";
@@ -34,7 +34,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //[Indexed(K_TOKEN_INDEX, 0)]
         [NWDCertified]
-        public NWDReferenceType<NWDAccount> UUIDHash
+        public string UUIDHash
         {
             get; set;
         }

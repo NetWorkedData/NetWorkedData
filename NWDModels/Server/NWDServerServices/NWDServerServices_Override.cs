@@ -19,7 +19,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDServerServices : NWDBasis
+    public partial class NWDServerServices : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

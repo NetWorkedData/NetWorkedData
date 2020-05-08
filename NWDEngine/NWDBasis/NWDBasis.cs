@@ -21,17 +21,17 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBundledBasis : NWDBasis
+    public partial class NWDBasisBundled : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDBundledBasis() { }
+        public NWDBasisBundled() { }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDBundledBasis(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
+        public NWDBasisBundled(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
         //-------------------------------------------------------------------------------------------------------------
         [NWDNotEditable]
         [NWDCertified]
         [NWDHidden]
-        public NWDBasisBundle Bundle
+        public NWDBundle Bundle
         {
             get; set;
         }
@@ -41,7 +41,6 @@ namespace NetWorkedData
     public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
-
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

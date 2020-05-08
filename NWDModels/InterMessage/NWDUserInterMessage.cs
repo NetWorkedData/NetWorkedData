@@ -17,7 +17,7 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("UIM")]
     [NWDClassDescriptionAttribute("Post message to user to user ")]
     [NWDClassMenuNameAttribute("User Inter Message")]

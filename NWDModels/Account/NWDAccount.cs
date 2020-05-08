@@ -18,13 +18,13 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDInternalDescriptionNotEditable]
-    [NWDClassUnityEditorOnlyAttribute]
-    [NWDClassServerSynchronizeAttribute(false)]
+    //[NWDClassUnityEditorOnlyAttribute]
+    //[NWDClassServerSynchronizeAttribute(false)]
     [NWDClassTrigrammeAttribute(NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM)]
     [NWDClassDescriptionAttribute("Account descriptions Class")]
     [NWDClassMenuNameAttribute("Account")]
     [NWDClassClusterAttribute(1, 2)]
-    public partial class NWDAccount : NWDBasis
+    public partial class NWDAccount : NWDBasisAccountRestricted
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

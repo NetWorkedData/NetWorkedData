@@ -22,7 +22,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("BDL")]
     [NWDClassDescriptionAttribute("Asset Bundle Unity Managament")]
     [NWDClassMenuNameAttribute("Asset Bundle")]

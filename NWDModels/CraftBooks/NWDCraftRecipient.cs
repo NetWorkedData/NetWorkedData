@@ -23,7 +23,7 @@ namespace NetWorkedData
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("CFR")]
     [NWDClassDescriptionAttribute("Craft Recipient descriptions Class")]
     [NWDClassMenuNameAttribute("Craft Recipient")]

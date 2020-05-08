@@ -18,13 +18,13 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDInternalKeyNotEditable]
-    [NWDClassUnityEditorOnlyAttribute]
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassUnityEditorOnlyAttribute]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("SSS")]
     [NWDClassDescriptionAttribute("Server Services descriptions Class")]
     [NWDClassMenuNameAttribute("Server Services")]
     [NWDInternalDescriptionNotEditable]
-    public partial class NWDServerServices : NWDBasis
+    public partial class NWDServerServices : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR

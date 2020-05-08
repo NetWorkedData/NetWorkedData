@@ -32,7 +32,7 @@ namespace NetWorkedData
     // doc to read to finish script : https://www.cyberciti.biz/tips/how-do-i-enable-remote-access-to-mysql-database-server.html
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDServer : NWDBasis
+    public partial class NWDServer : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
         const string K_GITLAB_URL_MASTER = "gitlab.hephaiscode.com/Server/AutoSaveInstallSH/raw/master/";

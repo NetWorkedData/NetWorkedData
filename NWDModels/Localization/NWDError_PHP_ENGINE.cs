@@ -231,7 +231,7 @@ namespace NetWorkedData
         {
             if (sEnvironment.LogMode == true)
             {
-                return FUNCTIONPHP_log + "('error in mysqli request : ('. " + sConnexion + "->errno.')'. " + NWD.K_SQL_CON + "->error.'  in : '." + sQueryRef + ".'.', __FILE__, __FUNCTION__, __LINE__);" + "\n";
+                return FUNCTIONPHP_log + "('error in mysqli request : ('. " + sConnexion + "->errno.')'." + sConnexion + "->error.'  in : '." + sQueryRef + ".'.', __FILE__, __FUNCTION__, __LINE__);";//  + "\n";
             }
             else
             {

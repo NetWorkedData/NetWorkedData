@@ -27,7 +27,7 @@ namespace NetWorkedData
         Masked = 9,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("UNW")]
     [NWDClassDescriptionAttribute("User statut on Network")]
     [NWDClassMenuNameAttribute("User Net Working")]

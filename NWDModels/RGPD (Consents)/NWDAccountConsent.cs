@@ -17,7 +17,7 @@
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("ACS")]
     [NWDClassDescriptionAttribute("Account Consent for RGPD")]
     [NWDClassMenuNameAttribute("Account Consent")]

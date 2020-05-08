@@ -25,7 +25,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
         public override void  ErrorRegenerate()
         {
-            //NWDError.CreateGenericError(ClassNamePHP, ClassTrigramme + "01", "your error 01", "your description", "OK", NWDErrorType.InGame, NWDBundledBasisTag.TagInternal);
+            //NWDError.CreateGenericError(ClassNamePHP, ClassTrigramme + "01", "your error 01", "your description", "OK", NWDErrorType.InGame, NWDBasisBundledTag.TagInternal);
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------

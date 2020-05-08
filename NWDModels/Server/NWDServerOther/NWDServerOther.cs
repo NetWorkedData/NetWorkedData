@@ -27,12 +27,12 @@ namespace NetWorkedData
         GitLab = 99,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassUnityEditorOnlyAttribute]
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassUnityEditorOnlyAttribute]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("SSO")]
     [NWDClassDescriptionAttribute("Server Other descriptions Class")]
     [NWDClassMenuNameAttribute("Server Other")]
-    public partial class NWDServerOther : NWDBasis
+    public partial class NWDServerOther : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
         const string ServerTypeProperty = "ServerType";

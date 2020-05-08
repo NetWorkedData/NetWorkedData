@@ -26,14 +26,14 @@ namespace NetWorkedData
     /// <summary>
     /// NWDCluster class. This class is use for (complete description here).
     /// </summary>
-    [NWDClassUnityEditorOnlyAttribute]
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassUnityEditorOnlyAttribute]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("CLS")]
     [NWDClassDescriptionAttribute("Cluster")]
     [NWDClassMenuNameAttribute("Cluster")]
     //[NWDInternalKeyNotEditableAttribute]
     [NWDInternalDescriptionNotEditable]
-    public partial class NWDCluster : NWDBasis
+    public partial class NWDCluster : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
 //#if UNITY_EDITOR

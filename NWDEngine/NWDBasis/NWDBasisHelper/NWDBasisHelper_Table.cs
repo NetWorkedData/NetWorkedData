@@ -276,11 +276,11 @@ namespace NetWorkedData
         public string CreateIndexBundleSQLite(NWDSQLiteTableState sState)
         {
             StringBuilder tQuery = new StringBuilder();
-            if (ClassType.IsSubclassOf(typeof(NWDBundledBasis)))
+            if (ClassType.IsSubclassOf(typeof(NWDBasisBundled)))
             {
                 if (sState == NWDSQLiteTableState.Create || sState == NWDSQLiteTableState.Migrate)
                 {
-                    tQuery.AppendLine("CREATE INDEX IF NOT EXISTS `" + ClassNamePHP + "_Bundle` ON `" + ClassNamePHP + "` (`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDBundledBasis>().Bundle) + "`);");
+                    tQuery.AppendLine("CREATE INDEX IF NOT EXISTS `" + ClassNamePHP + "_Bundle` ON `" + ClassNamePHP + "` (`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDBasisBundled>().Bundle) + "`);");
                 }
             }
             return tQuery.ToString();
@@ -594,9 +594,9 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void LoadFromDatabaseByBundle(NWDBasisBundle sBundle, bool sOverrideMemory)
+        public virtual void LoadFromDatabaseByBundle(NWDBundle sBundle, bool sOverrideMemory)
         {
-            if (sBundle != NWDBasisBundle.ALL && ClassType.IsSubclassOf(typeof(NWDBundledBasis)))
+            if (sBundle != NWDBundle.ALL && ClassType.IsSubclassOf(typeof(NWDBasisBundled)))
             {
                 LoadFromDatabase("WHERE `Bundle` = \"" + sBundle.ToLong() + "\"", sOverrideMemory);
             }
@@ -610,7 +610,7 @@ namespace NetWorkedData
         {
             if (IsLoaded() == false)
             {
-                LoadFromDatabaseByBundle(NWDBasisBundle.ALL, true);
+                LoadFromDatabaseByBundle(NWDBundle.ALL, true);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

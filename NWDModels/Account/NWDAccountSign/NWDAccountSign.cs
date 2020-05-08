@@ -70,13 +70,13 @@ namespace NetWorkedData
     /// NWDAccountSign class. This class is use for (complete description here).
     /// </summary>
     [NWDInternalKeyNotEditable]
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("SKD")]
     [NWDClassDescriptionAttribute("Account Sign to connect by hash of sign")]
     [NWDClassMenuNameAttribute("Account Sign")]
     [NWDForceSecureData]
     [NWDClassClusterAttribute(3, 32)]
-    public partial class NWDAccountSign : NWDBasis
+    public partial class NWDAccountSign : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         public const string K_NO_HASH = "-";

@@ -35,7 +35,7 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public delegate void NWDErrorBlock(NWDError sError);
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute(NWDError.ErrorTrigram)]
     [NWDClassDescriptionAttribute("Error descriptions Class")]
     [NWDClassMenuNameAttribute("Errors")]

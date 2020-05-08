@@ -1154,8 +1154,117 @@ namespace NetWorkedData
             tFile.AppendLine("return $tRandomString;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
-
+            //---------------------------------------
             tFile.AppendLine("function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResult, $sReference, $sNeverEmpty = true)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_PHP_TIME_SYNC + ", $UserRange;");
+            tFile.AppendLine("$rModified = false;");
+            tFile.AppendLine("$tQuery = 'SELECT `'.$sColumnOrign.'`, `'.$sColumUniqueResult.'`, `Reference` FROM `'.$sTable.'` WHERE `Reference` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sReference).'\\'';");
+            tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
+            tFile.AppendLine("if (!$tResult)");
+            tFile.AppendLine("{");
+            //tFile.AppendLine("errorDeclaration('UPVFV00', 'error in select other UniqueNickname already install');");
+            //tFile.AppendLine("error('UPVFV00',true, __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if ($tResult->num_rows == 1)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("while($tRow = $tResult->fetch_array())");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if ($tRow[$sColumnOrign] == '' && $sNeverEmpty == true)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tRow[$sColumnOrign] = RandomString(10);");
+            tFile.AppendLine("}");
+            tFile.AppendLine("$tOrigin = str_replace('#','',$tRow[$sColumnOrign]);");
+            //tFile.AppendLine("$tOrigin = str_replace(' ','-',$tOrigin);");
+            tFile.AppendLine("$tNick = $tOrigin.'#???';");
+            tFile.AppendLine("$tNickArray = explode('#',$tRow[$sColumUniqueResult]);");
+            tFile.AppendLine("if (count($tNickArray)==2)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tCodeAc = $tNickArray[1];");
+            tFile.AppendLine("if (preg_match ('/^([0-9]{1,12})$/', $tCodeAc))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tNick = $tNickArray[0];");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("// error ");
+            tFile.AppendLine("}");
+            tFile.AppendLine("$tTested = false;");
+            tFile.AppendLine("$tSize = 3;");
+            tFile.AppendLine("if ($tOrigin == $tNick)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("// Nothing to do ? perhaps ... I test");
+            tFile.AppendLine("$tQueryTest = 'SELECT `'.$sColumUniqueResult.'` FROM `'.$sTable.'` WHERE `'.$sColumUniqueResult.'` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($tRow[$sColumUniqueResult]).'\\'';");
+            tFile.AppendLine("$tResultTest = " + NWD.K_SQL_CON + "->query($tQueryTest);");
+            tFile.AppendLine("if (!$tResultTest)");
+            tFile.AppendLine("{");
+            //tFile.AppendLine("errorDeclaration('UPVFV01', 'error in select other UniqueNickname already install');");
+            //tFile.AppendLine("error('UPVFV01',true, __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if ($tResultTest->num_rows == 1)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tTested = true;");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("if ($tTested == false)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("// I need change for an unique nickname");
+            tFile.AppendLine("while ($tTested == false)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tPinCode = $UserRange.'-'.CodeRandomSizable($tSize++);");
+            tFile.AppendLine("$tQueryTestUnique = 'SELECT `'.$sColumUniqueResult.'` FROM `'.$sTable.'` WHERE `'.$sColumUniqueResult.'` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($tOrigin).'#'.$tPinCode.'\\'';");
+            tFile.AppendLine("$tResultTestUnique = " + NWD.K_SQL_CON + "->query($tQueryTestUnique);");
+            tFile.AppendLine("if (!$tResultTestUnique)");
+            tFile.AppendLine("{");
+            //tFile.AppendLine("errorDeclaration('UPVFV02', 'error in select other UniqueNickname already install');");
+            //tFile.AppendLine("error('UPVFV02',true, __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if ($tResultTestUnique->num_rows == 0)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tTested = true;");
+            tFile.AppendLine("$rModified = true;");
+            tFile.AppendLine("// Ok I have a good PinCode I update");
+            tFile.AppendLine("$tQueryUpdate = 'UPDATE `'.$sTable.'` SET `DM` = \\''." + NWD.K_PHP_TIME_SYNC + ".'\\', `'.$sColumnOrign.'` = \\''." + NWD.K_SQL_CON + "->real_escape_string($tOrigin).'\\', `'.$sColumUniqueResult.'` = \\''." + NWD.K_SQL_CON + "->real_escape_string($tOrigin).'#'.$tPinCode.'\\' WHERE `Reference` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sReference).'\\'';");
+            tFile.AppendLine("$tResultUpdate = " + NWD.K_SQL_CON + "->query($tQueryUpdate);");
+            tFile.AppendLine("if (!$tResultUpdate)");
+            tFile.AppendLine("{");
+            //tFile.AppendLine("errorDeclaration('UPVFV03', 'error in updtae reference object pincode');");
+            //tFile.AppendLine("error('UPVFV03',true, __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("//pincode is update");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            //tFile.AppendLine("errorDeclaration('UPVFV04', 'error in select multiple reference or no reference (!=1)');");
+            //tFile.AppendLine("error('UPVFV04',true, __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("return $rModified;");
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            //---------------------------------------
+            tFile.AppendLine("function UniquePropertyValueFromGlobalValue($sTable, $sColumnOrign, $sColumUniqueResult, $sReference, $sNeverEmpty = true)");
             tFile.AppendLine("{");
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_PHP_TIME_SYNC + ";");
             tFile.AppendLine("$rModified = false;");
@@ -1220,6 +1329,7 @@ namespace NetWorkedData
             tFile.AppendLine("while ($tTested == false)");
             tFile.AppendLine("{");
             tFile.AppendLine("$tPinCode = CodeRandomSizable($tSize++);");
+            // TODO LOOKING FOR IT IN ALL DATABASE 
             tFile.AppendLine("$tQueryTestUnique = 'SELECT `'.$sColumUniqueResult.'` FROM `'.$sTable.'` WHERE `'.$sColumUniqueResult.'` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($tOrigin).'#'.$tPinCode.'\\'';");
             tFile.AppendLine("$tResultTestUnique = " + NWD.K_SQL_CON + "->query($tQueryTestUnique);");
             tFile.AppendLine("if (!$tResultTestUnique)");
@@ -1246,6 +1356,7 @@ namespace NetWorkedData
             tFile.AppendLine("else");
             tFile.AppendLine("{");
             tFile.AppendLine("//pincode is update");
+            // TODO BREAK THE LOOP
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
@@ -1265,11 +1376,14 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
-            sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_STATIC_FUNCTIONS_PHP, tFileFormatted);
+        sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_STATIC_FUNCTIONS_PHP, tFileFormatted);
             //NWEBenchmark.Finish();
         }
-        //-------------------------------------------------------------------------------------------------------------
-        private void CreatePHP_StaticRequestFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
+    //-------------------------------------------------------------------------------------------------------------
+
+
+    //-------------------------------------------------------------------------------------------------------------
+    private void CreatePHP_StaticRequestFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             //NWEBenchmark.Start();
             StringBuilder tFile = new StringBuilder(string.Empty);
