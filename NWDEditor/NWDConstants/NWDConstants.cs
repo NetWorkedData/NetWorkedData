@@ -338,7 +338,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_SEARCH_REFERENCE = "Reference";
         public const string K_APP_TABLE_SEARCH_NAME = "Internal Key";
         public const string K_APP_TABLE_SEARCH_DESCRIPTION = "Internal Desc.";
-        public const string K_APP_TABLE_SEARCHACCOUNTDEPENDENT = "Account Dep.";
+        public const string K_APP_TABLE_SEARCHACCOUNTDEPENDENT = "Sync Type";
         public const string K_APP_TABLE_SEARCH_TAG = "Internal Tag";
         public const string K_APP_TABLE_SEARCH_CHECKLIST = "Check List";
         public const string K_APP_TABLE_SEARCH_BUNDLE = "Bundle List";
@@ -427,7 +427,9 @@ namespace NetWorkedData
 
         public const string K_APP_WS_RESET_WARNING = "Warning WS";
         public const string K_APP_WS_PHP_TOOLS = "Replace WS XXXX";
-        public const string K_APP_WS_PHP_DEV_TOOLS = "Replace WS XXXX Dev";
+        public const string K_APP_WS_PHP_DEV_TOOLS = "Replace WS XXXX";
+        public const string K_APP_WS_PHP_PREPROD_TOOLS = "Replace WS XXXX";
+        public const string K_APP_WS_PHP_PROD_TOOLS = "Replace WS XXXX";
         public const string K_APP_WS_MODEL_TOOLS = "REINTEGRATE MODEL";
         public const string K_APP_WS_DELETE_OLD_MODEL_TOOLS = "DELETE OLDS MODELS";
         public const string K_APP_TABLE_ADD_ZONE = "New object";

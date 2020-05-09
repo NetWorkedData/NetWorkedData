@@ -39,7 +39,7 @@ namespace NetWorkedData
         Vector2 ScrollPosition = Vector2.zero;
         //-------------------------------------------------------------------------------------------------------------
 
-        bool ClassUnityEditorOnly = false;
+        //bool ClassUnityEditorOnly = false;
         bool ClassSynchronize = true;
         bool ClassUnityConnection = true;
 
@@ -85,14 +85,14 @@ namespace NetWorkedData
             string tClassExamplePath = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/NWDExample.cs";
             string tClassExample = File.ReadAllText(tClassExamplePath);
             // replace template by this params
-            if (ClassUnityEditorOnly == false)
-            {
-                tClassExample = tClassExample.Replace("//["+typeof(NWDClassUnityEditorOnlyAttribute).Name+"]", "[" + typeof(NWDClassUnityEditorOnlyAttribute).Name + "]");
-            }
-            if (ClassSynchronize == false)
-            {
-                tClassExample = tClassExample.Replace("[" +typeof(NWDClassServerSynchronizeAttribute).Name+"(true)]", "["+typeof(NWDClassServerSynchronizeAttribute).Name+"(false)]");
-            }
+            //if (ClassUnityEditorOnly == false)
+            //{
+            //    tClassExample = tClassExample.Replace("//["+typeof(NWDClassUnityEditorOnlyAttribute).Name+"]", "[" + typeof(NWDClassUnityEditorOnlyAttribute).Name + "]");
+            //}
+            //if (ClassSynchronize == false)
+            //{
+            //    tClassExample = tClassExample.Replace("[" +typeof(NWDClassServerSynchronizeAttribute).Name+"(true)]", "["+typeof(NWDClassServerSynchronizeAttribute).Name+"(false)]");
+            //}
             tClassExample = tClassExample.Replace("NWDExample_Tri", ClassNameTrigramme);
             tClassExample = tClassExample.Replace("NWDExample_Description", ClassNameDescription);
             tClassExample = tClassExample.Replace("NWDExample_MenuName", ClassNameMenuName);
@@ -211,7 +211,7 @@ namespace NetWorkedData
                 }
             }
             tListOfclass.Insert(0, "  ");
-            tListOfclass.Insert(0, typeof(NWDBundledBasis).Name);
+            tListOfclass.Insert(0, typeof(NWDBasisBundled).Name);
             tListOfclass.Insert(0, typeof(NWDBasis).Name);
             //NWEBenchmark.Finish();
         }
@@ -237,7 +237,7 @@ namespace NetWorkedData
             NWDGUILayout.HelpBox("Helper to create a new NWDBasis herited class. NWDBasis is the class of data in NetWorkedData framework.");
             // futur class infos
             NWDGUILayout.SubSection("Class informations");
-            ClassUnityEditorOnly = EditorGUILayout.Toggle("Only for unity Editor", ClassUnityEditorOnly);
+            //ClassUnityEditorOnly = EditorGUILayout.Toggle("Only for unity Editor", ClassUnityEditorOnly);
             ClassSynchronize = EditorGUILayout.Toggle("Synchronize on servers", ClassSynchronize);
             ClassUnityConnection = EditorGUILayout.Toggle("Connection in GameObject", ClassUnityConnection);
             ClassName = EditorGUILayout.TextField("Name ", ClassName);

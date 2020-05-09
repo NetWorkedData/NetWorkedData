@@ -23,7 +23,7 @@ namespace NetWorkedData
     // Connect by property Something
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /*
-    public partial class NWDSomething : NWDBundledBasis
+    public partial class NWDSomething : NWDBasisBundled
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDSomething()
@@ -38,12 +38,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWBBenchmarkResult : NWDBundledBasis
+    public partial class NWBBenchmarkResult : NWDBasisBundled
     {
         NWDReferenceType<NWDSomething> SomethingReference { set; get; }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWBBenchmarkResult : NWDBundledBasis
+    public partial class NWBBenchmarkResult : NWDBasisBundled
     {
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDLevel, NWBBenchmarkResult> kLevelIndex = new NWDIndex<NWDLevel, NWBBenchmarkResult>();

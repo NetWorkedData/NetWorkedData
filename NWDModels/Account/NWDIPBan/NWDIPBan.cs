@@ -25,7 +25,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDIPBan class. This class is use for (complete description here).
     /// </summary>
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("IPB")]
     [NWDClassDescriptionAttribute("IP banned")]
     [NWDClassMenuNameAttribute("IP Ban")]

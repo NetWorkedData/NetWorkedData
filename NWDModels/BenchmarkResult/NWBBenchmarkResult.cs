@@ -22,13 +22,13 @@ namespace NetWorkedData
     public partial class NWBBenchmarkResultHelper : NWDHelper<NWBBenchmarkResult>
     {
     }
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("BMR")]
     [NWDClassDescriptionAttribute("Benchmark Result")]
     [NWDClassMenuNameAttribute("Benchmark Result")]
     //[NWDInternalKeyNotEditableAttribute]
     //[NWDInternalDescriptionNotEditable]
-    public partial class NWBBenchmarkResult : NWDBundledBasis
+    public partial class NWBBenchmarkResult : NWDBasisBundled
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Properties

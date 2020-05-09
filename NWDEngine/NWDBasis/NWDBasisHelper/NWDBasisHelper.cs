@@ -18,8 +18,50 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDBasisType : int
+    {
+        /// <summary>
+        /// not synchronizable instance 
+        /// </summary>
+        UnsyncClass = -1,
+        /// <summary>
+        /// synchronizable instance by editor
+        /// </summary>
+        EditorClass = 0,
+        /// <summary>
+        /// synchronizable instance by account
+        /// </summary>
+        AccountClass = 1,
+        /// <summary>
+        /// synchronizable instance by accounts with gamesave 
+        /// </summary>
+        AccountGameSaveClass = 2,
+        /// <summary>
+        /// unsynchronizable instance with account limit in device
+        /// </summary>
+        AccountUnsyncClass = 3,
+        /// <summary>
+        /// unsynchronizable instance with account limit in device but sync in editor
+        /// </summary>
+        AccountRestrictedClass = 4,
+        /// <summary>
+        /// synchronizable instance by multi account
+        /// </summary>
+        MultiAccountClass = 6, // TODO Cluster development
+        /// <summary>
+        /// synchronizable instance by multi accounts with gamesave 
+        /// </summary>
+        MultiAccountGameSaveClass = 7, // TODO Cluster development
+        /// <summary>
+        /// Not defined : It's impossible!
+        /// </summary>
+        NotDefine = 99,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasisHelper
     {
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDBasisType BasisType;
         //-------------------------------------------------------------------------------------------------------------
         public PropertyInfo[] PropertiesArray;
         public PropertyInfo[] NWDDataPropertiesArray;
@@ -134,18 +176,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDHelper<K> : NWDBasisHelper where K : NWDBasis, new()
-    {
-        //-------------------------------------------------------------------------------------------------------------
-        public override List<Type> OverrideClasseInThisSync()
-        {
-            List<Type> rReturn = new List<Type> { typeof(K) };
-            //Debug.Log("New_OverrideClasseInThisSync first override : " + string.Join(" ", rReturn));
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -215,12 +245,54 @@ namespace NetWorkedData
         public virtual void InitHelper(Type sType, bool sBase = false)
         {
             NWEBenchmark.Start();
-            bool tServerSynchronize = true;
-            if (sType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true).Length > 0)
+
+            bool rAccountConnected = false;
+
+            // define type class and synchronizable option
+            BasisType =  NWDBasisType.EditorClass;
+            if (sType.IsSubclassOf(typeof(NWDBasisUnsynchronize)))
             {
-                NWDClassServerSynchronizeAttribute tServerSynchronizeAttribut = (NWDClassServerSynchronizeAttribute)sType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true)[0];
-                tServerSynchronize = tServerSynchronizeAttribut.ServerSynchronize;
+                BasisType = NWDBasisType.UnsyncClass;
+                rAccountConnected = true; // to reccord in AccountDatabase
+                ClassSynchronize = false;
             }
+            else if (sType.IsSubclassOf(typeof(NWDBasisAccountDependent)))
+            {
+                BasisType = NWDBasisType.AccountClass;
+                rAccountConnected = true;  // to reccord in AccountDatabase
+                ClassSynchronize = true;
+            }
+            else if (sType.IsSubclassOf(typeof(NWDBasisGameSaveDependent)))
+            {
+                BasisType = NWDBasisType.AccountGameSaveClass;
+                rAccountConnected = true;  // to reccord in AccountDatabase
+                ClassSynchronize = true;
+            }
+            else if (sType.IsSubclassOf(typeof(NWDBasisAccountUnsynchronize)))
+            {
+                BasisType = NWDBasisType.AccountUnsyncClass;
+                rAccountConnected = true;  // to reccord in AccountDatabase
+                ClassSynchronize = true;
+            }
+            else if (sType.IsSubclassOf(typeof(NWDBasisAccountRestricted)))
+            {
+                BasisType = NWDBasisType.AccountRestrictedClass;
+                rAccountConnected = true;  // to reccord in AccountDatabase
+                ClassSynchronize = false;
+            }
+            else 
+            {
+                BasisType = NWDBasisType.EditorClass;
+                ClassSynchronize = true;
+            }
+
+
+            //if (sType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true).Length > 0)
+            //{
+            //    NWDClassServerSynchronizeAttribute tServerSynchronizeAttribut = (NWDClassServerSynchronizeAttribute)sType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true)[0];
+            //    tServerSynchronize = tServerSynchronizeAttribut.ServerSynchronize;
+            //}
+
             string tClassTrigramme = "XXX";
             if (sType.GetCustomAttributes(typeof(NWDClassTrigrammeAttribute), true).Length > 0)
             {
@@ -264,7 +336,6 @@ namespace NetWorkedData
             ClassTrigramme = tClassTrigramme;
             ClassMenuName = tMenuName;
             ClassDescription = tDescription;
-            ClassSynchronize = tServerSynchronize;
             //NWEBenchmark.Step();
             // TODO:  ... too long! that take 0.006s ... it's too much!
             foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
@@ -301,7 +372,6 @@ namespace NetWorkedData
             //NWEBenchmark.Step();
             PrefLoad();
             // NWEBenchmark.Step();
-            bool rAccountConnected = false;
             bool rAssetConnected = false;
             bool rLockedObject = true;
             List<PropertyInfo> tPropertyList = new List<PropertyInfo>();
@@ -313,11 +383,11 @@ namespace NetWorkedData
             ClassGameDependentProperties = null;
             GameSaveMethod = null;
             // exception for NWDAccount table
-            NWDClassUnityEditorOnlyAttribute tServerOnlyAttribut = (NWDClassUnityEditorOnlyAttribute)sType.GetCustomAttribute(typeof(NWDClassUnityEditorOnlyAttribute), true);
-            if (tServerOnlyAttribut != null)
-            {
-                rAccountConnected = true;
-            }
+            //NWDClassUnityEditorOnlyAttribute tServerOnlyAttribut = (NWDClassUnityEditorOnlyAttribute)sType.GetCustomAttribute(typeof(NWDClassUnityEditorOnlyAttribute), true);
+            //if (tServerOnlyAttribut != null)
+            //{
+            //    rAccountConnected = true;
+            //}
             // NWEBenchmark.Step();
             PropertiesArray = sType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             List<PropertyInfo> tDataPropertiesArray = new List<PropertyInfo>();
@@ -533,6 +603,8 @@ namespace NetWorkedData
             NWDBasisHelper tTypeInfos = null;
             if (sType.IsSubclassOf(typeof(NWDTypeClass)))
             {
+
+
                 if (TypesDictionary.ContainsKey(sType))
                 {
                     Debug.LogWarning(sType.Name + " already in TypesDictionary");

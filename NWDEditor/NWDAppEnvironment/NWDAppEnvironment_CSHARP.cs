@@ -80,7 +80,7 @@ namespace NetWorkedData
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.EditorWebTimeOut) + " = " + EditorWebTimeOut.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SaltFrequency) + " = " + SaltFrequency.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AddressPing) + " = \"" + AddressPing.Replace("\"", "\\\"") + "\";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ServerHTTPS) + " = \"" + ServerHTTPS.Replace("\"", "\\\"") + "\";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ServerHTTPS) + " = \"" + ServerHTTPS.Replace("\"", "\\\"") + "\";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AllwaysSecureData) + " = " + AllwaysSecureData.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.BuildDate) + " = \"" + BuildDate.Replace("\"", "\\\"") + "\";");
             //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.FacebookAppID) + " = \"" + FacebookAppID.Replace("\"", "\\\"") + "\";");
@@ -103,7 +103,7 @@ namespace NetWorkedData
                                                                 NWDToolbox.FloatToString(CartridgeColor.a) + "F);");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.LogMode) + " = " + LogMode.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.LogInFileMode) + " = " + LogInFileMode.ToString().ToLower() + ";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPBalanceLoad) + " = " + SFTPBalanceLoad.ToString() + ";");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.LoadBalancingLimit) + " = " + LoadBalancingLimit.ToString() + ";");
             //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RuntimeDefineDictionary) + " = new Dictionary<long, string>();");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RuntimeDefineDictionary) + ".Clear();");
             foreach (KeyValuePair<long, string> tKeyValue in RuntimeDefineDictionary)
@@ -121,16 +121,16 @@ namespace NetWorkedData
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.IPBanTimer) + " = " + IPBanTimer.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.IPBanActive) + " = " + IPBanActive.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ServerLanguage) + " = " + ServerLanguage.GetType().Name + "." + ServerLanguage.ToString() + ";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPHost) + " = \"" + SFTPHost.Replace("\"", "\\\"") + "\";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPPort) + " = " + SFTPPort.ToString() + ";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPFolder) + " = \"" + SFTPFolder.Replace("\"", "\\\"") + "\";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPUser) + " = \"" + SFTPUser.Replace("\"", "\\\"") + "\";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPPassword) + " = \"" + SFTPPassword.Replace("\"", "\\\"") + "\";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPHost) + " = \"" + SFTPHost.Replace("\"", "\\\"") + "\";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPPort) + " = " + SFTPPort.ToString() + ";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPFolder) + " = \"" + SFTPFolder.Replace("\"", "\\\"") + "\";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPUser) + " = \"" + SFTPUser.Replace("\"", "\\\"") + "\";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPPassword) + " = \"" + SFTPPassword.Replace("\"", "\\\"") + "\";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SaltServer) + " = \"" + SaltServer.Replace("\"", "\\\"") + "\";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ServerHost) + " = \"" + ServerHost.Replace("\"", "\\\"") + "\";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ServerUser) + " = \"" + ServerUser.Replace("\"", "\\\"") + "\";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ServerPassword) + " = \"" + ServerPassword.Replace("\"", "\\\"") + "\";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ServerBase) + " = \"" + ServerBase.Replace("\"", "\\\"") + "\";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ServerHost) + " = \"" + ServerHost.Replace("\"", "\\\"") + "\";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ServerUser) + " = \"" + ServerUser.Replace("\"", "\\\"") + "\";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ServerPassword) + " = \"" + ServerPassword.Replace("\"", "\\\"") + "\";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ServerBase) + " = \"" + ServerBase.Replace("\"", "\\\"") + "\";");
             if (AdminInPlayer == false)
             {
                 rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminKey) + " = \"" + AdminKey.Replace("\"", "\\\"") + "\";");

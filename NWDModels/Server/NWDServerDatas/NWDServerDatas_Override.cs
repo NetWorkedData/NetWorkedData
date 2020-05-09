@@ -19,7 +19,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDServerDatas : NWDBasis
+    public partial class NWDServerDatas : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -48,6 +48,7 @@ namespace NetWorkedData
         public override void AddonInsertMe()
         {
             base.AddonInsertMe();
+            CheckInformations();
             // do something when object will be inserted
             // TODO verif if method is call in good place in good timing
         }
@@ -69,39 +70,53 @@ namespace NetWorkedData
         public override void AddonUpdateMe()
         {
             base.AddonUpdateMe();
-            MySQLUser = NWDToolbox.UnixCleaner(MySQLUser);
-            MySQLBase = NWDToolbox.UnixCleaner(MySQLBase);
-            //if (Root_MysqlPassword != null)
+            CheckInformations();
+            //MySQLUser = NWDToolbox.UnixCleaner(MySQLUser);
+            //MySQLBase = NWDToolbox.UnixCleaner(MySQLBase);
+            //if (Range < 1)
             //{
-            //    Root_MysqlPassword.SetValue(NWDToolbox.UnixCleaner(Root_MysqlPassword.GetValue()));
+            //    Range = 1; // 0 is reserved by old system without cluster
             //}
-            //Admin_User = NWDToolbox.UnixCleaner(Admin_User);
-            //if (Admin_Password != null)
+            //int tNexRange = Range;
+            //bool tTest = false;
+            //while (tTest == false)
             //{
-            //    Admin_Password.SetValue(NWDToolbox.UnixCleaner(Admin_Password.GetValue()));
+            //    tTest = true;
+            //    foreach (NWDServerDatas tServerDatas in BasisHelper().Datas)
+            //    {
+            //        if (tServerDatas != this)
+            //        {
+            //            if (tServerDatas.Range == tNexRange)
+            //            {
+            //                tNexRange++;
+            //                tTest = false;
+            //                break;
+            //            }
+            //        }
+            //    }
             //}
-            //Root_User = NWDToolbox.UnixCleaner(Root_User);
-            //if (Root_Password != null)
+            //Range = tNexRange;
+            //if (UserMax < 1)
             //{
-            //    Root_Password.SetValue(NWDToolbox.UnixCleaner(Root_Password.GetValue()));
+            //    UserMax = 1;
             //}
-            List<string> tDescription = new List<string>();
-            DevSyncActive(Dev);
-            PreprodSyncActive(Preprod);
-            ProdSyncActive(Prod);
-            if (Dev == true)
-            {
-                tDescription.Add(NWDAppConfiguration.SharedInstance().DevEnvironment.Environment);
-            }
-            if (Preprod == true)
-            {
-                tDescription.Add(NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment);
-            }
-            if (Prod == true)
-            {
-                tDescription.Add(NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment);
-            }
-            InternalDescription = string.Join(" / ", tDescription);
+            //List<string> tDescription = new List<string>();
+            //DevSyncActive(Dev);
+            //PreprodSyncActive(Preprod);
+            //ProdSyncActive(Prod);
+            //if (Dev == true)
+            //{
+            //    tDescription.Add(NWDAppConfiguration.SharedInstance().DevEnvironment.Environment);
+            //}
+            //if (Preprod == true)
+            //{
+            //    tDescription.Add(NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment);
+            //}
+            //if (Prod == true)
+            //{
+            //    tDescription.Add(NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment);
+            //}
+            //InternalDescription = string.Join(" / ", tDescription);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -131,6 +146,7 @@ namespace NetWorkedData
         public override void AddonDuplicateMe()
         {
             base.AddonDuplicateMe();
+            CheckInformations();
             // do something when object will be dupplicate
             // TODO verif if method is call in good place in good timing
         }
@@ -141,7 +157,7 @@ namespace NetWorkedData
         public override void AddonDuplicatedMe()
         {
             base.AddonDuplicatedMe();
-            NWDCluster.CheckAllCluster();
+            CheckInformations();
             // do something when object will be dupplicate
             // TODO verif if method is call in good place in good timing
         }

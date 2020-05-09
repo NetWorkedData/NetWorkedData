@@ -287,7 +287,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         // DEV 
-        #region DEV
+#region DEV
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_DEV_SFTP_WEBSERVICE, false, 9100)]
         public static void DevCreatePHPWitoutIncrement_SFTP()
@@ -327,9 +327,9 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         // 
-        #endregion
+#endregion
         //PREPROD
-        #region PREPROD
+#region PREPROD
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_PREPROD_SFTP_WEBSERVICE, false, 9100)]
         public static void PreprodCreatePHPWitoutIncrement_SFTP()
@@ -369,9 +369,9 @@ namespace NetWorkedData
             NWDAppEnvironmentSync.SharedInstance().Flush(NWDAppConfiguration.SharedInstance().DevEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //PROD
-        #region PROD
+#region PROD
         //-------------------------------------------------------------------------------------------------------------
         //[MenuItem (NWDConstants.K_MENU_BASE+NWDConstants.K_MENU_PROD, false, 9103)]
         //-------------------------------------------------------------------------------------------------------------
@@ -428,9 +428,9 @@ namespace NetWorkedData
             NWDAppEnvironmentSync.SharedInstance().Flush(NWDAppConfiguration.SharedInstance().ProdEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //LOCALS
-        #region LOCAL
+#region LOCAL
         //-------------------------------------------------------------------------------------------------------------
         //[MenuItem (NWDConstants.K_MENU_BASE+NWDConstants.K_MENU_LOCAL, false, 9200)]
         //-------------------------------------------------------------------------------------------------------------
@@ -446,7 +446,7 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().CreateAllTablesLocalAccount();
             NWDDataManager.SharedInstance().CreateAllTablesLocalEditor();
 
-            NWDDataManager.SharedInstance().ReloadAllObjects(NWDBasisBundle.ALL);
+            NWDDataManager.SharedInstance().ReloadAllObjects(NWDBundle.ALL);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_LOCAL_RECREATE_INDEX_TABLE, false, 9201)]
@@ -462,7 +462,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_LOCAL_RELOAD_DATAS, false, 9202)]
         public static void ReloadAllDatas()
         {
-            NWDDataManager.SharedInstance().ReloadAllObjects(NWDBasisBundle.ALL);
+            NWDDataManager.SharedInstance().ReloadAllObjects(NWDBundle.ALL);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_LOCAL_CLEAN_TRASHED_DATAS, false, 9203)]
@@ -470,7 +470,7 @@ namespace NetWorkedData
         {
             NWDDataManager.SharedInstance().CleanAllTablesLocalAccount();
             NWDDataManager.SharedInstance().CleanAllTablesLocalEditor();
-            NWDDataManager.SharedInstance().ReloadAllObjects(NWDBasisBundle.ALL);
+            NWDDataManager.SharedInstance().ReloadAllObjects(NWDBundle.ALL);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_LOCAL_PURGE_DATAS, false, 9203)]
@@ -478,7 +478,7 @@ namespace NetWorkedData
         {
             NWDDataManager.SharedInstance().PurgeAllTablesLocalAccount();
             NWDDataManager.SharedInstance().PurgeAllTablesLocalEditor();
-            NWDDataManager.SharedInstance().ReloadAllObjects(NWDBasisBundle.ALL);
+            NWDDataManager.SharedInstance().ReloadAllObjects(NWDBundle.ALL);
         }
         //-------------------------------------------------------------------------------------------------------------
         //[MenuItem(NWDConstants.K_MENU_LOCAL_UPDATE_DATAS, false, 9204)]
@@ -494,7 +494,7 @@ namespace NetWorkedData
         {
             NWDDataManager.SharedInstance().ResetAllTablesLocalAccount();
             NWDDataManager.SharedInstance().ResetAllTablesLocalEditor();
-            NWDDataManager.SharedInstance().ReloadAllObjects(NWDBasisBundle.ALL);
+            NWDDataManager.SharedInstance().ReloadAllObjects(NWDBundle.ALL);
         }
         //-------------------------------------------------------------------------------------------------------------
         //[MenuItem(NWDConstants.K_MENU_LOCAL_DECONNECT_ACCOUNT_DATAS, false, 9303)]
@@ -585,7 +585,7 @@ namespace NetWorkedData
             }
             NWDDataManager.SharedInstance().DataQueueExecute();
         }
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
         static bool kBlock = false;
         //-------------------------------------------------------------------------------------------------------------

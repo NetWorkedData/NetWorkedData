@@ -19,7 +19,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWBBenchmarkResult : NWDBundledBasis
+    public partial class NWBBenchmarkResult : NWDBasisBundled
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

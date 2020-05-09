@@ -24,7 +24,7 @@ using NotificationType = UnityEngine.iOS.NotificationType;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountInfos : NWDBasis
+    public partial class NWDAccountInfos : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountInfos() { }
@@ -59,7 +59,7 @@ namespace NetWorkedData
                     if (tServer.BalanceLoad > sAvg)
                     {
                         tChangeServer = false;
-                        Debug.Log("NOT CHANGE SERVER " + NWDAppEnvironment.SelectedEnvironment().SFTPBalanceLoad + " > " + sAvg);
+                        Debug.Log("NOT CHANGE SERVER " + NWDAppEnvironment.SelectedEnvironment().LoadBalancingLimit + " > " + sAvg);
                     }
                     else
                     {
@@ -68,14 +68,14 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    if (NWDAppEnvironment.SelectedEnvironment().SFTPBalanceLoad > sAvg)
+                    if (NWDAppEnvironment.SelectedEnvironment().LoadBalancingLimit > sAvg)
                     {
                         tChangeServer = false;
-                        Debug.Log("NOT CHANGE DEFAULT SERVER " + NWDAppEnvironment.SelectedEnvironment().SFTPBalanceLoad + " > " + sAvg);
+                        Debug.Log("NOT CHANGE DEFAULT SERVER " + NWDAppEnvironment.SelectedEnvironment().LoadBalancingLimit + " > " + sAvg);
                     }
                     else
                     {
-                        Debug.Log("CHANGE DEFAULT SERVER " + NWDAppEnvironment.SelectedEnvironment().SFTPBalanceLoad + " < " + sAvg);
+                        Debug.Log("CHANGE DEFAULT SERVER " + NWDAppEnvironment.SelectedEnvironment().LoadBalancingLimit + " < " + sAvg);
                     }
                 }
                 if (tChangeServer == true)

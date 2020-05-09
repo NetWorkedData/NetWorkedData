@@ -139,7 +139,7 @@ namespace NetWorkedData
             NWENotificationManager.SharedInstance().RemoveAll();
             //
             NWDLauncher.ResetLauncher();
-            Debug.LogWarning("NWDDataManager.SharedInstance() will be destroyed!");
+            //Debug.LogWarning("NWDDataManager.SharedInstance() will be destroyed!");
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool TestSaltMemorizationForAllClass()

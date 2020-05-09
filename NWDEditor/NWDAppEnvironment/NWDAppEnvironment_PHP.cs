@@ -61,7 +61,7 @@ namespace NetWorkedData
                 {
                     tFilesAndDatas.Add(DBFolder(sWriteOnDisk) + tKeyValue.Key, tKeyValue.Value);
                 }
-                Dictionary<string, string> tResultAddOn = NWDBasisHelper.FindTypeInfos(tType).CreatePHPAddonFiles(this,  sWriteOnDisk);
+                Dictionary<string, string> tResultAddOn = NWDBasisHelper.FindTypeInfos(tType).CreatePHPAddonFiles(this, sWriteOnDisk);
                 foreach (KeyValuePair<string, string> tKeyValue in tResultAddOn)
                 {
                     tFilesAndDatas.Add(tKeyValue.Key, tKeyValue.Value);
@@ -239,19 +239,36 @@ namespace NetWorkedData
             //tConstantsFile.AppendLine("$SMTP_OPENSSL = '" + MailOpenSSLVerifyMode.Trim().Replace("'", "\'") + "';");
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("// CONSTANT TO CONNECT TO SQL DATABASE");
-            tConstantsFile.AppendLine("$SQL_HOT = '" + ServerHost.Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("$SQL_USR = '" + ServerUser.Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("$SQL_PSW = '" + ServerPassword.Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("$SQL_BSE = '" + ServerBase.Replace("'", "\'") + "';");
+            //tConstantsFile.AppendLine("$SQL_HOT = '" + ServerHost.Replace("'", "\'") + "';");
+            //tConstantsFile.AppendLine("$SQL_USR = '" + ServerUser.Replace("'", "\'") + "';");
+            //tConstantsFile.AppendLine("$SQL_PSW = '" + ServerPassword.Replace("'", "\'") + "';");
+            //tConstantsFile.AppendLine("$SQL_BSE = '" + ServerBase.Replace("'", "\'") + "';");
             foreach (NWDServerDatabaseAuthentication tServerDatabase in NWDServerDatas.GetAllConfigurationServerDatabase(this))
             {
                 tConstantsFile.AppendLine("$SQL_ARRAY_HOT[] = '" + tServerDatabase.Host.Replace("'", "\'") + "';");
-                tConstantsFile.AppendLine("$SQL_ARRAY_PRT[] = '" + tServerDatabase.Port.ToString()+"';");
+                tConstantsFile.AppendLine("$SQL_ARRAY_PRT[] = '" + tServerDatabase.Port.ToString() + "';");
                 tConstantsFile.AppendLine("$SQL_ARRAY_USR[] = '" + tServerDatabase.User.Replace("'", "\'") + "';");
                 tConstantsFile.AppendLine("$SQL_ARRAY_PSW[] = '" + tServerDatabase.Password.Replace("'", "\'") + "';");
                 tConstantsFile.AppendLine("$SQL_ARRAY_BSE[] = '" + tServerDatabase.Database.Replace("'", "\'") + "';");
-            }
 
+                tConstantsFile.AppendLine("// Constant for ServerDatabase " + tServerDatabase.Title);
+
+                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['title'] = '" + tServerDatabase.Title.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['id'] = '" + tServerDatabase.NameID.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['host'] = '" + tServerDatabase.Host.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['port'] = " + tServerDatabase.Port.ToString() + ";");
+                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['user'] = '" + tServerDatabase.User.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['password'] = '" + tServerDatabase.Password.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['database'] = '" + tServerDatabase.Database.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['maxuser'] = " + tServerDatabase.MaxUser.Replace("'", "\'") + ";");
+                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['max'] = " + tServerDatabase.RangeMax.ToString() + ";");
+                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['min'] = " + tServerDatabase.RangeMin.ToString() + ";");
+            }
+            if (LogMode==true)
+            {
+                tConstantsFile.AppendLine("// add random for test");
+                tConstantsFile.AppendLine("shuffle($SQL_LIST);");
+            }
             tConstantsFile.AppendLine("//connection to mysql socket");
             tConstantsFile.AppendLine("" + NWD.K_SQL_CON + " = '';");
             tConstantsFile.AppendLine("" + NWD.K_SQL_CON + "DB = '';");
@@ -820,8 +837,8 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(tType))
                 {
-                tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-                tFile.AppendLine(NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_GET_DATAS() + " (0, $uuid);");
+                    tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+                    tFile.AppendLine(NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_GET_DATAS() + " (0, $uuid);");
                 }
             }
 

@@ -25,7 +25,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDCluster : NWDBasis
+    public partial class NWDCluster : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -36,7 +36,7 @@ namespace NetWorkedData
         public override bool AddonEdited(bool sNeedBeUpdate)
         {
             // do base
-            bool tNeedBeUpdate =  base.AddonEdited(sNeedBeUpdate);
+            bool tNeedBeUpdate = base.AddonEdited(sNeedBeUpdate);
             if (tNeedBeUpdate == true)
             {
                 // do something
@@ -52,7 +52,7 @@ namespace NetWorkedData
         {
             // Height calculate for the interface addon for editor
             float tYadd = base.AddonEditorHeight(sWidth);
-            tYadd += NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 20);
+            tYadd += NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 100);
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -64,7 +64,96 @@ namespace NetWorkedData
         public override void AddonEditor(Rect sRect)
         {
             base.AddonEditor(sRect);
-            Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 20);
+            Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 100);
+            int tI = 0;
+            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+            tI++;
+
+            EditorGUI.HelpBox(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
+            tI += 2;
+
+            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+            tI++;
+
+            GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Services", NWDGUI.kBoldLabelStyle);
+            tI++;
+
+            foreach (NWDServerServices tServices in Services.GetRawDatas())
+            {
+                GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tServices.InternalKey);
+                tI++;
+                GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "(" + tServices.InternalDescription + ")", NWDGUI.kItalicLabelStyle);
+                tI++;
+                GUIContent tButtonTitle = null;
+                NWDServer tServer = tServices.Server.GetRawData();
+                string tcommandKeyGen = "ssh-keygen -R [" + tServer.IP.GetValue() + "]:" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServices.User + " -p " + tServer.Port;
+                tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
+                }
+                tI++;
+
+                string tURL = "sftp://" + tServices.User + ":" + tServices.Password.GetValue() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + tServices.Folder;
+                tButtonTitle = new GUIContent("Try sftp directly", tURL);
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    //NWEClipboard.CopyToClipboard(tServices.Password.GetValue());
+                    Application.OpenURL(tURL);
+                }
+                tI++;
+
+            }
+
+            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+            tI++;
+
+            GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Databases", NWDGUI.kBoldLabelStyle);
+            tI++;
+
+            foreach (NWDServerDatas tServices in DataBases.GetRawDatas())
+            {
+                GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tServices.InternalKey);
+                tI++;
+                GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "(" + tServices.InternalDescription + ")", NWDGUI.kItalicLabelStyle);
+                tI++;
+                GUIContent tButtonTitle = null;
+                NWDServer tServer = tServices.Server.GetRawData();
+                string tcommandKeyGen = "ssh-keygen -R [" + tServer.IP.GetValue() + "]:" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Admin_User + " -p " + tServer.Port;
+                tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
+                }
+                tI++;
+
+               //if (tServices.External==true)
+               // {
+               //     string tURL = "mysql://" + tServices.MySQLUser + ":" + tServices.MySQLPassword.GetValue() + "@" + tServices.MySQLIP.GetValue() + ":" + tServices.MySQLPort;
+               //     tButtonTitle = new GUIContent("Try mysql directly", tURL);
+               //     if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+               //     {
+               //         //NWEClipboard.CopyToClipboard(tServices.MySQLPassword.GetValue());
+               //         Application.OpenURL(tURL);
+               //     }
+               //     tI++;
+               // }
+                if (tServices.PhpMyAdmin == true)
+                {
+                    //string tURL = "https://" + tServices.MySQLUser + ":" + tServices.MySQLPassword.GetValue() + "@" + tServices.MySQLIP.GetValue() + "/phpmyadmin/";
+                    string tURL = "https://" + tServices.MySQLIP.GetValue() + "/phpmyadmin/?pma_username=" + tServices.MySQLUser + "&pma_password=" + tServices.MySQLPassword.GetValue() + "";
+  tButtonTitle = new GUIContent("Try PhpMyAdmin directly", tURL);
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        NWEClipboard.CopyToClipboard(tServices.MySQLPassword.GetValue());
+                        Application.OpenURL(tURL);
+                    }
+                    tI++;
+                }
+
+            }
+
+
             // Draw the interface addon for editor
         }
         //-------------------------------------------------------------------------------------------------------------

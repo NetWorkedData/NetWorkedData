@@ -31,7 +31,7 @@ namespace NetWorkedData
         //Instagram = 4,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("VRS")]
     [NWDClassDescriptionAttribute("Version of game with limit and block for obsolete version. \n" +
                                   "Integrate the links to store to download this version or new version. \n" +

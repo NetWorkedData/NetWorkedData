@@ -329,6 +329,7 @@ namespace NetWorkedData
                 rReturnList.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().ProdSync));
                 rReturnList.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().InError));
                 rReturnList.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().WebModel));
+                rReturnList.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().RangeAccess));
 
                 // not include in integrity
                 //rReturn.Remove("WebServiceVersion");
@@ -339,10 +340,11 @@ namespace NetWorkedData
                 rReturnList.Insert(3, NWDToolbox.PropertyName(() => NWDExample.Fictive().DevSync));
                 rReturnList.Insert(4, NWDToolbox.PropertyName(() => NWDExample.Fictive().PreprodSync));
                 rReturnList.Insert(5, NWDToolbox.PropertyName(() => NWDExample.Fictive().ProdSync));
-                //rReturnList.Insert(6, "ServerHash");
-                //rReturnList.Insert(7, "ServerLog");
-                //rReturnList.Insert(8, "InError");
-                //rReturnList.Insert(9, "ID");
+                rReturnList.Insert(6, NWDToolbox.PropertyName(() => NWDExample.Fictive().RangeAccess));
+                //rReturnList.Insert(7, "ServerHash");
+                //rReturnList.Insert(8, "ServerLog");
+                //rReturnList.Insert(9, "InError");
+                //rReturnList.Insert(10, "ID");
 
                 //rReturnList.Add("ID");
                 rReturnList.Add(NWDToolbox.PropertyName(() => NWDExample.Fictive().WebModel));
@@ -430,6 +432,7 @@ namespace NetWorkedData
             rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().DevSync));
             rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().PreprodSync));
             rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().ProdSync));
+            rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().RangeAccess));
             return rReturn;
         }
 #if UNITY_EDITOR
@@ -445,6 +448,7 @@ namespace NetWorkedData
             rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().ProdSync));
             rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().DM));
             rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().DD));
+            rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().RangeAccess));
             return rReturn;
         }//-------------------------------------------------------------------------------------------------------------
         public bool ModelDegraded()

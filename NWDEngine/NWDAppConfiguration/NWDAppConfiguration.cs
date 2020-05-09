@@ -410,6 +410,124 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void ServerEnvironmentCheck()
+        {
+#if UNITY_EDITOR
+            NWDBasisHelper tServerHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDServer));
+            NWDBasisHelper tServerClusterHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDCluster));
+            NWDBasisHelper tServerDatasHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDServerDatas));
+            NWDBasisHelper tServerServicesHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDServerServices));
+            NWDBasisHelper tServerDomainsHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDServerDomain));
+
+            if (tServerHelper.IsLoaded() == false)
+            {
+                tServerHelper.LoadFromDatabaseByBundle(NWDBundle.ALL, false);
+            }
+            if (tServerDatasHelper.IsLoaded() == false)
+            {
+                tServerDatasHelper.LoadFromDatabaseByBundle(NWDBundle.ALL, false);
+            }
+            if (tServerServicesHelper.IsLoaded() == false)
+            {
+                tServerServicesHelper.LoadFromDatabaseByBundle(NWDBundle.ALL, false);
+            }
+            if (tServerClusterHelper.IsLoaded() == false)
+            {
+                tServerClusterHelper.LoadFromDatabaseByBundle(NWDBundle.ALL, false);
+            }
+            if (tServerClusterHelper.IsLoaded() == false)
+            {
+                tServerDomainsHelper.LoadFromDatabaseByBundle(NWDBundle.ALL, false);
+            }
+
+            DevServerServicesState = false;
+            DevServerDataState = false;
+            DevServerDomainState = false;
+            PreprodServerServiceState = false;
+            PreprodServerDataState = false;
+            PreprodServerDomainState = false;
+            ProdServerServiceState = false;
+            ProdServerDataState = false;
+            ProdServerDomainState = false;
+
+            foreach (NWDServerDomain tServerDomain in tServerDomainsHelper.Datas)
+            {
+                if (tServerDomain.Dev == true)
+                {
+                    DevServerDomainState = true;
+                }
+                if (tServerDomain.Preprod == true)
+                {
+                    PreprodServerDomainState = true;
+                }
+                if (tServerDomain.Prod == true)
+                {
+                    ProdServerDomainState = true;
+                }
+            }
+
+            foreach (NWDServerServices tServerDomain in tServerServicesHelper.Datas)
+            {
+                if (tServerDomain.Dev == true)
+                {
+                    DevServerServicesState = true;
+                }
+                if (tServerDomain.Preprod == true)
+                {
+                    PreprodServerServiceState = true;
+                }
+                if (tServerDomain.Prod == true)
+                {
+                    ProdServerServiceState = true;
+                }
+            }
+
+            foreach (NWDServerDatas tServerData in tServerDatasHelper.Datas)
+            {
+                if (tServerData.Dev == true)
+                {
+                    DevServerDataState = true;
+                }
+                if (tServerData.Preprod == true)
+                {
+                    PreprodServerDataState = true;
+                }
+                if (tServerData.Prod == true)
+                {
+                    ProdServerDataState = true;
+                }
+            }
+            NWDAppEnvironmentSync.Refresh();
+#endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private bool DevServerServicesState = false;
+        private bool DevServerDataState = false;
+        private bool DevServerDomainState = false;
+        //-------------------------------------------------------------------------------------------------------------
+        public bool DevServerIsActive()
+        {
+            return DevServerServicesState && DevServerDataState && DevServerDomainState;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private bool PreprodServerServiceState = false;
+        private bool PreprodServerDataState = false;
+        private bool PreprodServerDomainState = false;
+        //-------------------------------------------------------------------------------------------------------------
+        public bool PreprodServerIsActive()
+        {
+            return PreprodServerServiceState && PreprodServerDataState && PreprodServerDomainState;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private bool ProdServerServiceState = false;
+        private bool ProdServerDataState = false;
+        private bool ProdServerDomainState = false;
+        //-------------------------------------------------------------------------------------------------------------
+        public bool ProdServerIsActive()
+        {
+            return ProdServerServiceState && ProdServerDataState && ProdServerDomainState;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         // Determine the default mode
         // sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
         public static NWDWritingMode WritingMode(NWDWritingMode sWritingMode)

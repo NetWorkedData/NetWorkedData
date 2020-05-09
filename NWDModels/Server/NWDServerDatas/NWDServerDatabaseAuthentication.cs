@@ -29,16 +29,31 @@ namespace NetWorkedData
     public class NWDServerDatabaseAuthentication
     {
         //-------------------------------------------------------------------------------------------------------------
+        public string Title;
+        public string NameID;
+        public string Range;
+        public string MaxUser;
         public string Host;
         public int Port;
         public string Database;
         public string User;
         public string Password;
+        public int RangeMax;
+        public int RangeMin;
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public NWDServerDatabaseAuthentication(string sHost, int sPort, string sDatabase, string sUser, string sPassword)
+        public NWDServerDatabaseAuthentication(string sTitle, string sNameID, string sRange, int sRangeMin, int sRangeMax, string sMaxUser, string sHost, int sPort, string sDatabase, string sUser, string sPassword)
         {
+            //----- for debug notion
+            Title = sTitle;
+            //----- for cluster notion
+            NameID = sNameID;
+            Range = sRange;
+            RangeMin = sRangeMin;
+            RangeMax = sRangeMax;
+            MaxUser = sMaxUser;
+            //-----
             Host = NWDToolbox.CleanDNS(sHost);
             Port = sPort;
             Database = sDatabase;

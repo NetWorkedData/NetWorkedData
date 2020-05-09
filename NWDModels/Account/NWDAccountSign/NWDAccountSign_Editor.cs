@@ -26,7 +26,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountSign : NWDBasis
+    public partial class NWDAccountSign : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

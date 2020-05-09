@@ -28,14 +28,8 @@ namespace NetWorkedData
     // doc to read to finish script : https://www.cyberciti.biz/tips/how-do-i-enable-remote-access-to-mysql-database-server.html
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDServerServices : NWDBasis
+    public partial class NWDServerServices : NWDBasisUnsynchronize
     {
-        //-------------------------------------------------------------------------------------------------------------
-        const string K_GITLAB_URL_MASTER = "gitlab.hephaiscode.com/Server/AutoSaveInstallSH/raw/master/";
-        const string K_OUTPUT_FOLDER = "/etc/hephaiscode/";
-        const string K_SERVER_INSTALL = "server_installer_";
-        const string K_WEBSERVICE_ADD = "webservice_add_";
-        const string K_WEBSERVICE_REMOVE = "webservice_remove_";
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditorHeight(float sWidth)
         {
@@ -56,15 +50,27 @@ namespace NetWorkedData
             if (tServer != null)
             {
                 //-----------------
-                tButtonTitle = new GUIContent("Open terminal", " open terminal or console on your desktop");
+                EditorGUI.HelpBox(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
+                tI+=2;
+                //tButtonTitle = new GUIContent("Open terminal", " open terminal or console on your desktop");
+                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                //{
+                //    // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
+                //    FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
+                //    System.Diagnostics.Process.Start(tFileInfo.FullName);
+                //}
+                //tI++;
+                string tcommandKeyGen = "ssh-keygen -R [" + tServer.IP.GetValue() + "]:" + tServer.Port +" & ssh "+ tServer.IP.GetValue() + " -l "+User+" -p "+ tServer.Port;
+                tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 {
-                    // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
-                    FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
-                    System.Diagnostics.Process.Start(tFileInfo.FullName);
+                    NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
                 }
                 tI++;
-
+                GUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI+1]), tcommandKeyGen);
+                tI += 2;
+                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                tI++;
 
                 //-----------------
                 tButtonTitle = new GUIContent("Try connexion", " try connexion with root or admin");
@@ -146,6 +152,7 @@ namespace NetWorkedData
                     }
                 }
                 tI++;
+
                 //-----------------
                 EditorGUI.BeginDisabledGroup(UserInstalled == true);
                 tButtonTitle = new GUIContent("Install User", "Install User");
@@ -264,6 +271,7 @@ namespace NetWorkedData
                 });
                 }
                 tI++;
+
                 //-----------------
                 tButtonTitle = new GUIContent("Try User connexion", " try connexion with user");
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
@@ -276,7 +284,6 @@ namespace NetWorkedData
                 tI++;
 
                 //-----------------
-
                 tButtonTitle = new GUIContent("default html", " try connexion to index.html");
                 if (GUI.Button(tMatrix[0, tI], tButtonTitle))
                 {
@@ -288,7 +295,6 @@ namespace NetWorkedData
                     Application.OpenURL("http://" + tServer.DomainNameServer + "/phpinfo.php");
                 }
                 tI++;
-
 
                 tButtonTitle = new GUIContent("WS html", " try connexion to index.html");
                 if (GUI.Button(tMatrix[0, tI], tButtonTitle))
@@ -314,230 +320,49 @@ namespace NetWorkedData
                 tI++;
 
                 //-----------------
+                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                tI++;
+
+                //-----------------
+                string tCerbot = "certbot --agree-tos --no-eff-email --apache --redirect --email " + Email + " -d " + tServerDomain.ServerDNS + "";
+                EditorGUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]),"Try cerbot", tCerbot);
+                tI++;
+
+                //-----------------
                 tButtonTitle = new GUIContent("Try certbot SSL", " try connexion to generate certbot ssl (lest's encrypt)");
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 {
                     tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
                         //"certbot --agree-tos --no-eff-email --apache --redirect --email " + Email + " -d " + tServerDomain.ServerDNS + "",
-                        "certbot --agree-tos --no-eff-email --apache --redirect --email " + Email + " -d " + tServerDomain.ServerDNS + "",
+                        tCerbot,
                     });
                 }
                 tI++;
 
-                //GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), tServer.TextCommandResult);
-            }
-
-
-
-
-
-            /*
-            //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Find IP from Server (NWDServerDomain)"))
-            //{
-            //    string tLocalIP = "0.0.0.0";
-            //    NWDServerDomain tDomain = ServerDomain.GetRawData();
-            //    if (tDomain != null)
-            //    {
-            //        foreach (IPAddress tIP in Dns.GetHostAddresses(tDomain.ServerDNS))
-            //        {
-            //            if (tIP.AddressFamily == AddressFamily.InterNetwork)
-            //            {
-            //                tLocalIP = tIP.ToString();
-            //            }
-            //        }
-            //        IP.SetValue(tLocalIP);
-            //    }
-            //    else
-            //    {
-            //        IP.SetValue("0.0.0.0");
-            //    }
-
-            //}
-            //tI++;
-
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Test SFTP"))
-            {
-                NWEBenchmark.Start("test benchmark");
-                NWDServerAuthentication tServerAuthentication = GetServerSFTP(NWDAppConfiguration.SharedInstance().DevEnvironment);
-                if (tServerAuthentication.ConnectSFTP())
-                {
-                    NWEBenchmark.Start("test benchmark test");
-                    tServerAuthentication.TestSFTPWrite();
-                    NWEBenchmark.Finish("test benchmark test");
-                    tServerAuthentication.DeconnectSFTP();
-                }
-                NWEBenchmark.Finish("test benchmark");
-            }
-            tI++;
-
-            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-            tI++;
-
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Open Terminal"))
-            {
-                // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
-                FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
-                System.Diagnostics.Process.Start(tFileInfo.FullName);
-            }
-            tI++;
-            if (Server != null)
-            {
-                NWDServer tServer = Server.GetRawData();
-                if (tServer != null)
-                {
-                    if (tServer.IP != null && tServer.Root_Password != null && tServer.Admin_Password != null)
-                    {
-                        GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install Server SSH");
-                        tI++;
-                        GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallServerSSH(tServer));
-                        tI += 11;
-
-                        GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install Server Apache command");
-                        tI++;
-
-                        GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallServerApache(tServer));
-                        tI += 11;
-
-                    }
-                }
-                if (GUI.Button(tMatrix[0, tI], "http://" + tServer.IP.GetValue()))
-                {
-                    Application.OpenURL("http://" + tServer.IP.GetValue());
-                }
-                if (GUI.Button(tMatrix[1, tI], "https://" + tServer.IP.GetValue()))
-                {
-                    Application.OpenURL("https://" + tServer.IP.GetValue());
-                }
-                tI++;
-
-                if (GUI.Button(tMatrix[0, tI], "http://" + "… phpinfo"))
-                {
-                    Application.OpenURL("http://" + tServer.IP.GetValue() + "/phpinfo.php");
-                }
-                if (GUI.Button(tMatrix[1, tI], "https://" + "… phpinfo"))
-                {
-                    Application.OpenURL("https://" + tServer.IP.GetValue() + "/phpinfo.php");
-                }
-                tI++;
-            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-            tI++;
-
-            NWDServerDomain tServerDNS = ServerDomain.GetRawData();
-            if (tServerDNS != null)
-            {
-                if (string.IsNullOrEmpty(tServerDNS.ServerDNS) == false)
-                {
-
-                    GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Zone DNS");
-                    tI++;
-                    GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), NWDServerInstall.CommandDNS(tServerDNS.ServerDNS, tServer.IP.GetValue()));
-                    tI++;
-                    if (GUI.Button(tMatrix[0, tI], "http://" + tServerDNS.ServerDNS))
-                    {
-                        Application.OpenURL("http://" + tServerDNS.ServerDNS);
-                    }
-                    if (GUI.Button(tMatrix[1, tI], "https://" + tServerDNS.ServerDNS))
-                    {
-                        Application.OpenURL("https://" + tServerDNS.ServerDNS);
-                    }
-                    tI++;
-
-                    NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-                    tI++;
-
-                    GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install WebService command");
-                    tI++;
-                    GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallWebService(Server.GetRawData(), tServerDNS.ServerDNS, tServer.Admin_User, tServer.Admin_Password.GetValue(), Folder, Email));
-                    tI += 11;
-
-                    if (tServerDNS.Dev == true)
-                    {
-                        if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Upload dev files"))
-                        {
-                            NWDServerAuthentication tCon = GetServerSFTP(NWDAppConfiguration.SharedInstance().DevEnvironment);
-                            if (tCon != null)
-                            {
-                                NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, false, tCon);
-                            }
-                        }
-                        tI++;
-                    }
-                    if (tServerDNS.Preprod == true)
-                    {
-                        if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Upload preprod files"))
-                        {
-                            NWDServerAuthentication tCon = GetServerSFTP(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-                            if (tCon != null)
-                            {
-                                NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, false, tCon);
-                            }
-                        }
-                        tI++;
-                    }
-                    if (tServerDNS.Prod == true)
-                    {
-                        if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Upload prod files"))
-                        {
-                            NWDServerAuthentication tCon = GetServerSFTP(NWDAppConfiguration.SharedInstance().ProdEnvironment);
-                            if (tCon != null)
-                            {
-                                NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, false, tCon);
-                            }
-                        }
-                        tI++;
-                    }
-                }
-
-                }
+                //-----------------
                 NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
                 tI++;
 
-                /*
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for dev"))
+                //-----------------
+                string tURLAdmin = "sftp://" + tServer.Admin_User + ":" + tServer.Admin_Password.GetValue() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/";
+                tButtonTitle = new GUIContent("Try sftp ADMIN directly", tURLAdmin);
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 {
-                    NWDAppEnvironment tDev = NWDAppConfiguration.SharedInstance().DevEnvironment;
-                    tDev.ServerHTTPS = "https://" + tServerDNS.ServerDNS;
-                    tDev.SFTPHost = tServerDNS.ServerDNS;
-                    tDev.SFTPBalanceLoad = tServerDNS.BalanceLoad;
-                    tDev.SFTPPort = Port;
-                    tDev.SFTPFolder = Folder;
-                    tDev.SFTPUser = User;
-                    tDev.SFTPPassword = Password.GetValue();
-                    NWDAppEnvironmentConfigurationManager.Refresh();
+                    //NWEClipboard.CopyToClipboard(Password.GetValue());
+                    Application.OpenURL(tURLAdmin);
                 }
                 tI++;
-
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for preprod"))
+                //-----------------
+                string tURL = "sftp://" + User + ":"+Password.GetValue()+"@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + Folder;
+                tButtonTitle = new GUIContent("Try sftp directly", tURL);
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 {
-                    NWDAppEnvironment tPreprod = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
-                    tPreprod.ServerHTTPS = "https://" + tServerDNS.ServerDNS;
-                    tPreprod.SFTPHost = tServerDNS.ServerDNS;
-                    tPreprod.SFTPBalanceLoad = tServerDNS.BalanceLoad;
-                    tPreprod.SFTPPort = Port;
-                    tPreprod.SFTPFolder = Folder;
-                    tPreprod.SFTPUser = User;
-                    tPreprod.SFTPPassword = Password.GetValue();
-                    NWDAppEnvironmentConfigurationManager.Refresh();
+                    //NWEClipboard.CopyToClipboard(Password.GetValue());
+                    Application.OpenURL(tURL);
                 }
                 tI++;
-
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for prod"))
-                {
-                    NWDAppEnvironment tProd = NWDAppConfiguration.SharedInstance().ProdEnvironment;
-                    tProd.ServerHTTPS = "https://" + tServerDNS.ServerDNS;
-                    tProd.SFTPHost = tServerDNS.ServerDNS;
-                    tProd.SFTPBalanceLoad = tServerDNS.BalanceLoad;
-                    tProd.SFTPPort = Port;
-                    tProd.SFTPFolder = Folder;
-                    tProd.SFTPUser = User;
-                    tProd.SFTPPassword = Password.GetValue();
-                    NWDAppEnvironmentConfigurationManager.Refresh();
-                }
-                tI++;
-
             }
-            */
         }
         //-------------------------------------------------------------------------------------------------------------
     }

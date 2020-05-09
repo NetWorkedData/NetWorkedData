@@ -62,6 +62,7 @@ namespace NetWorkedData
         /// <summary>
         /// WEB01 no network.
         /// </summary>
+        public const string NWDError_DISKFULL = "sql" + NWEConstants.K_MINUS + "SQL99";
         public const string NWDError_ERR01 = "ERR" + NWEConstants.K_MINUS + "ERR01";
         public const string NWDError_RESC04 = "ERR" + NWEConstants.K_MINUS + "RESC04";
         public const string NWDError_RESC03 = "ERR" + NWEConstants.K_MINUS + "RESC03";

@@ -27,11 +27,11 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(false)]// ALLWAYS FALSE! Never sync this data! It's local only
+    ////[NWDClassServerSynchronizeAttribute(false)]// ALLWAYS FALSE! Never sync this data! It's local only
     [NWDClassTrigrammeAttribute("BSP")]
     [NWDClassDescriptionAttribute("Basis Preferences Class! Never use by yourself in game!")]
     [NWDClassMenuNameAttribute("Basis Preferences")]
-    public partial class NWDBasisPreferences : NWDBasis
+    public partial class NWDBasisPreferences : NWDBasisAccountUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDCertified]

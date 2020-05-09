@@ -685,9 +685,9 @@ namespace NetWorkedData
                     }
                 }
 
-                if (BasisHelper().ClassType.IsSubclassOf(typeof(NWDBundledBasis)))
+                if (BasisHelper().ClassType.IsSubclassOf(typeof(NWDBasisBundled)))
                 {
-                    NWDBundledBasis tThis = (NWDBundledBasis)this;
+                    NWDBasisBundled tThis = (NWDBasisBundled)this;
                     NWEDataTypeEnum tBundle = tThis.Bundle.ControlField(tR, NWDConstants.K_APP_TABLE_SEARCH_BUNDLE, !CanBeEdit);
                     if (tBundle.Value != tThis.Bundle.Value)
                     {
@@ -712,16 +712,21 @@ namespace NetWorkedData
                 //}
 
 
+                bool tDisableDev = false;
+                bool tDisablePreprod = false;
                 bool tDisableProd = false;
                 if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType()))
                 {
+                    tDisableDev = true;
+                    tDisablePreprod = true;
                     tDisableProd = true;
                 }
                 if (AccountDependent() == true)
                 {
+                    tDisableDev = true;
+                    tDisablePreprod = true;
                     tDisableProd = true;
                 }
-
                 Rect[] tSyncRect = NWDGUI.DiviseArea(tR, 3, false);
                 // Toogle Dev Prepprod Prod and operation associated
                 float tWidthTiers = tR.width / 3.0f;
@@ -730,13 +735,45 @@ namespace NetWorkedData
                 {
                     tDevLockAnalyze = true;
                 }
-                bool tDevLock = EditorGUI.ToggleLeft(tSyncRect[0], "Dev", tDevLockAnalyze);
+                //if (tDisableDev == true)
+                //{
+                //    tDevLockAnalyze = false;
+                //}
+                EditorGUI.BeginDisabledGroup(tDisableDev);
+                bool tDevLock = tDevLockAnalyze;
+                if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
+                {
+                    tDevLock = EditorGUI.ToggleLeft(tSyncRect[0], "Dev", tDevLockAnalyze);
+                }
+                else
+                {
+                    GUI.Label(tSyncRect[0], "no Dev");
+                }
+                EditorGUI.EndDisabledGroup();
+
+
                 bool tPreprodLockAnalyze = false;
                 if (PreprodSync >= 0)
                 {
                     tPreprodLockAnalyze = true;
                 }
-                bool tPreprodLock = EditorGUI.ToggleLeft(tSyncRect[1], "Preprod", tPreprodLockAnalyze);
+                //if (tDisablePreprod == true)
+                //{
+                //    tPreprodLockAnalyze = false;
+                //}
+                EditorGUI.BeginDisabledGroup(tDisablePreprod);
+                bool tPreprodLock = tPreprodLockAnalyze;
+                if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
+                {
+                    tPreprodLock = EditorGUI.ToggleLeft(tSyncRect[1], "Preprod", tPreprodLockAnalyze);
+                }
+                else
+                {
+                    GUI.Label(tSyncRect[1], "no Preprod");
+                }
+                EditorGUI.EndDisabledGroup();
+
+
                 bool tProdLockAnalyze = false;
                 if (ProdSync >= 0)
                 {
@@ -747,7 +784,15 @@ namespace NetWorkedData
                     tProdLockAnalyze = false;
                 }
                 EditorGUI.BeginDisabledGroup(tDisableProd);
-                bool tProdLock = EditorGUI.ToggleLeft(tSyncRect[2], "Prod", tProdLockAnalyze);
+                bool tProdLock = tProdLockAnalyze;
+                if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
+                {
+                    tProdLock = EditorGUI.ToggleLeft(tSyncRect[2], "Prod", tProdLockAnalyze);
+                }
+                else
+                {
+                    GUI.Label(tSyncRect[2], "no Prod");
+                }
                 EditorGUI.EndDisabledGroup();
                 if (tDevLockAnalyze != tDevLock)
                 {

@@ -33,7 +33,7 @@ namespace NetWorkedData
         Eternal = 30, // not deletable by user
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("MES")]
     [NWDClassDescriptionAttribute("Message descriptions Class")]
     [NWDClassMenuNameAttribute("Messages")]

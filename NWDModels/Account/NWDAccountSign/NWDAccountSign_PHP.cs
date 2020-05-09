@@ -70,12 +70,12 @@ namespace NetWorkedData
                     sScript.Append("$tQueryRequest .= ' ) AND `" + tSignReference + "` != \\''." + NWD.K_SQL_CON + "->real_escape_string($tReference).'\\' ");
                     sScript.Append("AND `AC` = 1");
                     sScript.AppendLine(";';");
-                    sScript.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryRequest"));
+                    sScript.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryRequest", NWD.K_SQL_CON));
                     sScript.AppendLine("$tResultRequest = " + NWD.K_SQL_CON + "->query($tQueryRequest);");
                     sScript.AppendLine("if (!$tResultRequest)");
                     sScript.AppendLine("{");
                     {
-                        sScript.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryRequest"));
+                        sScript.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryRequest", NWD.K_SQL_CON));
                         sScript.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER, ClassNamePHP));
                     }
                     sScript.AppendLine("}");

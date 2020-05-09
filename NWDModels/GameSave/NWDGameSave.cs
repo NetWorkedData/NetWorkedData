@@ -23,7 +23,7 @@ namespace NetWorkedData
         GameSave = 1,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("GSV")]
     [NWDClassDescriptionAttribute("Game Save")]
     [NWDClassMenuNameAttribute("Game Save")]

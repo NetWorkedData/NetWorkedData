@@ -38,7 +38,7 @@ namespace NetWorkedData
             }
             if (string.IsNullOrEmpty(PlayerAccountReference))
             {
-                PlayerAccountReference = NWDToolbox.GenerateUniqueID();
+                PlayerAccountReference = NWDToolbox.GenerateUniqueAccountID(true);
             }
             else
             {
@@ -62,7 +62,7 @@ namespace NetWorkedData
             RequesToken = NWDBasisPreferences.GetString(kRequesTokenKey, this, string.Empty, false);
             if (string.IsNullOrEmpty(PlayerAccountReference))
             {
-                PlayerAccountReference = NWDToolbox.GenerateUniqueID();
+                PlayerAccountReference = NWDToolbox.GenerateUniqueAccountID(true);
                 RequesToken = string.Empty;
                 SavePreferences();
             }
@@ -80,7 +80,7 @@ namespace NetWorkedData
             }
             SavePreferences();
             NWDDataManager.SharedInstance().DataQueueExecute();
-            PlayerAccountReference = NWDToolbox.GenerateUniqueID(withTemporaryAccount);
+            PlayerAccountReference = NWDToolbox.GenerateUniqueAccountID(withTemporaryAccount);
             RequesToken = string.Empty;
             SavePreferences();
             if (withTemporaryAccount == false)

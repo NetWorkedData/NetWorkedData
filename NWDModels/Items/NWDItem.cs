@@ -41,7 +41,7 @@ namespace NetWorkedData
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("ITM")]
     [NWDClassDescriptionAttribute("Item descriptions Class")]
     [NWDClassMenuNameAttribute("Item")]

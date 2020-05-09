@@ -60,6 +60,7 @@ namespace NetWorkedData
 
             NWDError.CreateGenericError(NWDError.NWDError_UIG00, "ID", "error in unique generate", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError(NWDError.NWDError_SQL00, "SQL", "error SQL CONNEXION IMPOSSIBLE", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError(NWDError.NWDError_DISKFULL, "SQL", "error SQL ... no place for new user", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
             NWDError.CreateGenericError(NWDError.NWDError_HEA01, "header error", "os is empty", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError(NWDError.NWDError_HEA02, "header error", "version is empty", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);

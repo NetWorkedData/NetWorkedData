@@ -19,7 +19,7 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDServer : NWDBasis
+    public partial class NWDServer : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDServer()

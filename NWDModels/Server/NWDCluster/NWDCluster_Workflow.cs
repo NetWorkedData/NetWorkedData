@@ -20,7 +20,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDCluster : NWDBasis
+    public partial class NWDCluster : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
@@ -29,6 +29,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public void CheckAllCluster()
         {
+#if UNITY_EDITOR
             foreach (NWDServerDomain tServerDomains in NWDBasisHelper.FindTypeInfos(typeof(NWDServerDomain)).Datas)
             {
                 tServerDomains.Dev = false;
@@ -215,6 +216,8 @@ namespace NetWorkedData
             {
                 tServerServices.UpdateDataIfModified();
             }
+            NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public void InstanceMethodExample()

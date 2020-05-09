@@ -63,10 +63,10 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("$tQuery = 'SELECT * FROM `"+NWDBasisHelper.TableNamePHP<NWDVersion>(sEnvironment)+"` WHERE `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().Version)+"` = \\''.$SQL_CON->real_escape_string($sVersion).'\\' AND `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().Buildable)+"` = 1 AND `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().ActiveProd)+"` = 1 AND `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().XX)+"` = 0 AND `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().AC)+"` = 1;';");
             tFile.AppendLine("}");
-            tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
+            tFile.AppendLine("$tResult = "+ NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery", NWD.K_SQL_CON));
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_GVA00));
             tFile.AppendLine("}");
             tFile.AppendLine("else");

@@ -131,7 +131,7 @@ namespace NetWorkedData
                         bool isDict = t.IsGenericType && t.GetGenericTypeDefinition().IsAssignableFrom(typeof(Dictionary<,>));
                         if (!isDict)
                         {
-                                Debug.LogWarning("Key: " + tKey + " with value: " + tValue + " not parse!");
+                                //Debug.LogWarning("Key: " + tKey + " with value: " + tValue + " not parse!");
                         }
                         break;
                 }

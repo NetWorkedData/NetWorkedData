@@ -227,11 +227,11 @@ namespace NetWorkedData
         //    return FUNCTIONPHP_errorInfos + "('" + sCode.Replace("'", "\\'") + "', '" + sInfos.Replace("'", "\\'") + "')";
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public static string PHP_ErrorSQL(NWDAppEnvironment sEnvironment, string sQueryRef)
+        public static string PHP_ErrorSQL(NWDAppEnvironment sEnvironment, string sQueryRef, string sConnexion)
         {
             if (sEnvironment.LogMode == true)
             {
-                return FUNCTIONPHP_log + "('error in mysqli request : ('. " + NWD.K_SQL_CON + "->errno.')'. " + NWD.K_SQL_CON + "->error.'  in : '." + sQueryRef + ".'.', __FILE__, __FUNCTION__, __LINE__);" + "\n";
+                return FUNCTIONPHP_log + "('error in mysqli request : ('. " + sConnexion + "->errno.')'." + sConnexion + "->error.'  in : '." + sQueryRef + ".'.', __FILE__, __FUNCTION__, __LINE__);";//  + "\n";
             }
             else
             {
@@ -263,10 +263,10 @@ namespace NetWorkedData
             tFile.Append("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDError>().Reference) + "` = \\''.$SQL_CON->real_escape_string($sErrorReference).'\\' ");
             tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDError>().AC) + "` = 1;");
             tFile.AppendLine("';");
-            tFile.AppendLine("$tResultError = $SQL_CON->query($tQueryError);");
+            tFile.AppendLine("$tResultError = "+ NWD.K_SQL_CON + "->query($tQueryError);");
             tFile.AppendLine("if (!$tResultError)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryError"));
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryError", NWD.K_SQL_CON));
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_ERR01));
             tFile.AppendLine("}");
             tFile.AppendLine("else");

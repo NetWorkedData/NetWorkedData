@@ -23,7 +23,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("PRM")]
     [NWDClassDescriptionAttribute("Parameters of game. You can use this class to create Parameters of your game. \n" +
                                    "Parameters are set for all user. Use InternalKey to find them and use them. \n" +

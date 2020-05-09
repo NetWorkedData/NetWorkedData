@@ -17,7 +17,7 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[NWDClassServerSynchronizeAttribute(true)]
+	//[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("KWD")]
     [NWDClassDescriptionAttribute("This class is used to reccord the keyword available in the game")]
     [NWDClassMenuNameAttribute("Keyword")]

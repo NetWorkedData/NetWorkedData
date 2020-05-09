@@ -406,7 +406,7 @@ namespace NetWorkedData
             tFile.AppendLine("// FINISH");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// prevent include from function for exit (typical example: error('XXX', true);)");
-            tFile.AppendLine("global $NWD_SLT_TMP, " + NWD.K_SQL_CON + ", $NWD_TMA, $RRR_LOG, $REP, $WSBUILD, " + NWD.K_PHP_TIME_SYNC + ", $REF_NEEDED, $ACC_NEEDED, " + NWD.K_ENV + ", $NWD_SHA_VEC, $NWD_SHA_SEC, $NWD_SLT_STR, $NWD_SLT_END;");
+            tFile.AppendLine("global $admin," + NWD.K_SQL_CON_EDITOR + ", $NWD_SLT_TMP, " + NWD.K_SQL_CON + ", $NWD_TMA, $RRR_LOG, $REP, $WSBUILD, " + NWD.K_PHP_TIME_SYNC + ", $REF_NEEDED, $ACC_NEEDED, " + NWD.K_ENV + ", $NWD_SHA_VEC, $NWD_SHA_SEC, $NWD_SLT_STR, $NWD_SLT_END;");
             tFile.AppendLine(NWD.K_CommentSeparator);
             if (LogMode == true)
             {
@@ -418,8 +418,26 @@ namespace NetWorkedData
             tFile.AppendLine("// web-services build");
             tFile.AppendLine("respondAdd('wsbuild',$WSBUILD);");
             tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("//disconnect mysql");
-            tFile.AppendLine("mysqli_close(" + NWD.K_SQL_CON + ");");
+            tFile.AppendLine("//disconnect mysql for editor");
+            tFile.AppendLine("if ($admin == true)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine("foreach(" + NWD.K_SQL_CON_EDITOR + " as $tRange=>$Connexion)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("mysqli_close($Connexion);");
+                }
+                tFile.AppendLine("}");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine("//disconnect mysql for account");
+
+            tFile.AppendLine(" if (isset(" + NWD.K_SQL_CON + "))");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine("mysqli_close(" + NWD.K_SQL_CON + ");");
+            }
+            tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// Insert error if necessary");
             tFile.AppendLine("" + NWDError.FUNCTIONPHP_errorResult + "();");
@@ -524,29 +542,29 @@ namespace NetWorkedData
             tFile.AppendLine("{");
 
 
-//            tFile.AppendLine("set_include_path(\".\".PATH_SEPARATOR. ($UserDir = dirname($_SERVER['DOCUMENT_ROOT'])). \"/pear/php\".PATH_SEPARATOR.get_include_path());");
-//            tFile.AppendLine("require_once \"Mail.php\"; ");
+            //            tFile.AppendLine("set_include_path(\".\".PATH_SEPARATOR. ($UserDir = dirname($_SERVER['DOCUMENT_ROOT'])). \"/pear/php\".PATH_SEPARATOR.get_include_path());");
+            //            tFile.AppendLine("require_once \"Mail.php\"; ");
 
-//            tFile.AppendLine("$host = "ssl://smtp.dreamhost.com";
-//tFile.AppendLine("$username = "youremail@example.com";");
-//            tFile.AppendLine("$password = "your email password";");
-//            tFile.AppendLine("$port = "465";");
-//            tFile.AppendLine("$to = "address_form_will_send_TO@example.com";");
-//            tFile.AppendLine("$email_from = $sEmailFrom;");
-//tFile.AppendLine("$email_subject = "Subject Line Here: ";");
-//            tFile.AppendLine("$email_body = "whatever you like";");
-//$tFile.AppendLine("email_address = "reply -to@example.com";");
-//            tFile.AppendLine("$headers = array('From' => $email_from, 'To' => $to, 'Subject' => $email_subject, 'Reply-To' => $email_address);");
-//            tFile.AppendLine("$smtp = Mail::factory('smtp', array('host' => $host, 'port' => $port, 'auth' => true, 'username' => $username, 'password' => $password));");
-//            tFile.AppendLine("$mail = $smtp->send($to, $headers, $email_body);");
-//            tFile.AppendLine("if (PEAR::isError($mail))");
-//            tFile.AppendLine(" {");
-//            tFile.AppendLine("echo(" < p>". $mail->getMessage(). "</p> ");");
-//            tFile.AppendLine("}");
-//            tFile.AppendLine("else");
-//            tFile.AppendLine("{");
-//            tFile.AppendLine("echo(" < p>Message successfully sent!</p> ");");
-//            tFile.AppendLine(" }");
+            //            tFile.AppendLine("$host = "ssl://smtp.dreamhost.com";
+            //tFile.AppendLine("$username = "youremail@example.com";");
+            //            tFile.AppendLine("$password = "your email password";");
+            //            tFile.AppendLine("$port = "465";");
+            //            tFile.AppendLine("$to = "address_form_will_send_TO@example.com";");
+            //            tFile.AppendLine("$email_from = $sEmailFrom;");
+            //tFile.AppendLine("$email_subject = "Subject Line Here: ";");
+            //            tFile.AppendLine("$email_body = "whatever you like";");
+            //$tFile.AppendLine("email_address = "reply -to@example.com";");
+            //            tFile.AppendLine("$headers = array('From' => $email_from, 'To' => $to, 'Subject' => $email_subject, 'Reply-To' => $email_address);");
+            //            tFile.AppendLine("$smtp = Mail::factory('smtp', array('host' => $host, 'port' => $port, 'auth' => true, 'username' => $username, 'password' => $password));");
+            //            tFile.AppendLine("$mail = $smtp->send($to, $headers, $email_body);");
+            //            tFile.AppendLine("if (PEAR::isError($mail))");
+            //            tFile.AppendLine(" {");
+            //            tFile.AppendLine("echo(" < p>". $mail->getMessage(). "</p> ");");
+            //            tFile.AppendLine("}");
+            //            tFile.AppendLine("else");
+            //            tFile.AppendLine("{");
+            //            tFile.AppendLine("echo(" < p>Message successfully sent!</p> ");");
+            //            tFile.AppendLine(" }");
 
 
 
@@ -573,9 +591,9 @@ namespace NetWorkedData
                 tFile.AppendLine("'port' => $SMTP_PORT, ");
                 if (MailAuth == true)
                 {
-                tFile.AppendLine("'auth' => true, ");
-                tFile.AppendLine("'username' => $SMTP_USER, ");
-                tFile.AppendLine("'password' => $SMTP_PSW));");
+                    tFile.AppendLine("'auth' => true, ");
+                    tFile.AppendLine("'username' => $SMTP_USER, ");
+                    tFile.AppendLine("'password' => $SMTP_PSW));");
                 }
                 //tFile.AppendLine("if (PEAR::isError($mail_object->send($sEmail, $headers, $sMessage)))");
                 tFile.AppendLine("if ($mail_object->send($sEmail, $headers, $sMessage))");
@@ -759,7 +777,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$tQuery"));
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$tQuery", NWD.K_SQL_CON));
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
@@ -782,38 +800,58 @@ namespace NetWorkedData
             tFile.AppendLine("function referenceSecondRandom ($sPrefix)");
             tFile.AppendLine("{");
             tFile.AppendLine("global " + NWD.K_PHP_TIME_SYNC + ";");
+            tFile.AppendLine("global $UserRange;");
             tFile.AppendLine("$tTime = " + NWD.K_PHP_TIME_SYNC + "-1492711200; // Timestamp unix format");
-            tFile.AppendLine("return $sPrefix.'-'.str_pad(rand(000, 999), 3, '0').'-'.$tTime.'-'.rand ( 100000 , 999999 ).'C'; // C for Certify");
+            tFile.AppendLine("return $sPrefix.'-'.$UserRange.'-'.$tTime.'-'.rand ( 100000 , 999999 ).'C'; // C for Certify");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
             tFile.AppendLine("function referenceSecondGenerate ($sPrefix, $sTable, $sColumn)");
             tFile.AppendLine("{");
-            tFile.AppendLine("global " + NWD.K_SQL_CON + ";");
-            tFile.AppendLine("$tReference = referenceSecondRandom($sPrefix);");
-            tFile.AppendLine("$tTested = false;");
-            tFile.AppendLine("while ($tTested == false)");
-            tFile.AppendLine("{");
-            tFile.AppendLine("$tQuery = 'SELECT `'.$sColumn.'` FROM `'.$sTable.'` WHERE `'.$sColumn.'` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($tReference).'\\';';");
-            tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
-            tFile.AppendLine("if (!$tResult)");
-            tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$tQuery"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
-            tFile.AppendLine("}");
-            tFile.AppendLine("else");
-            tFile.AppendLine("{");
-            tFile.AppendLine("if ($tResult->num_rows == 0)");
-            tFile.AppendLine("{");
-            tFile.AppendLine("$tTested = true;");
-            tFile.AppendLine("}");
-            tFile.AppendLine("else");
-            tFile.AppendLine("{");
-            tFile.AppendLine("$tReference = referenceSecondRandom();");
-            tFile.AppendLine("}");
-            tFile.AppendLine("}");
-            tFile.AppendLine("}");
-            tFile.AppendLine("return $tReference;");
+            {
+                tFile.AppendLine("global " + NWD.K_SQL_CON + ";");
+                tFile.AppendLine("global $UserRange;");
+
+                tFile.AppendLine("// TODO replace by selected range ");
+                //tFile.AppendLine("$RangeMin = 000;");
+                //tFile.AppendLine("$RangeMax = 999;");
+                tFile.AppendLine("$tReference = referenceSecondRandom($sPrefix);");
+                tFile.AppendLine("$tTested = false;");
+                tFile.AppendLine("while ($tTested == false)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("$tQuery = 'SELECT `'.$sColumn.'` FROM `'.$sTable.'` WHERE `'.$sColumn.'` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($tReference).'\\';';");
+
+                    tFile.AppendLine("// TODO replace by selected range connexion");
+                    tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
+                    tFile.AppendLine("if (!$tResult)");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$tQuery", NWD.K_SQL_CON));
+                        tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("else");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("if ($tResult->num_rows == 0)");
+                        tFile.AppendLine("{");
+                        {
+                            tFile.AppendLine("$tTested = true;");
+                        }
+                        tFile.AppendLine("}");
+                        tFile.AppendLine("else");
+                        tFile.AppendLine("{");
+                        {
+                            tFile.AppendLine("$tReference = referenceSecondRandom($sPrefix);");
+                        }
+                        tFile.AppendLine("}");
+                    }
+                    tFile.AppendLine("}");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("return $tReference;");
+            }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
@@ -1116,8 +1154,117 @@ namespace NetWorkedData
             tFile.AppendLine("return $tRandomString;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
-
+            //---------------------------------------
             tFile.AppendLine("function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResult, $sReference, $sNeverEmpty = true)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_PHP_TIME_SYNC + ", $UserRange;");
+            tFile.AppendLine("$rModified = false;");
+            tFile.AppendLine("$tQuery = 'SELECT `'.$sColumnOrign.'`, `'.$sColumUniqueResult.'`, `Reference` FROM `'.$sTable.'` WHERE `Reference` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sReference).'\\'';");
+            tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
+            tFile.AppendLine("if (!$tResult)");
+            tFile.AppendLine("{");
+            //tFile.AppendLine("errorDeclaration('UPVFV00', 'error in select other UniqueNickname already install');");
+            //tFile.AppendLine("error('UPVFV00',true, __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if ($tResult->num_rows == 1)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("while($tRow = $tResult->fetch_array())");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if ($tRow[$sColumnOrign] == '' && $sNeverEmpty == true)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tRow[$sColumnOrign] = RandomString(10);");
+            tFile.AppendLine("}");
+            tFile.AppendLine("$tOrigin = str_replace('#','',$tRow[$sColumnOrign]);");
+            //tFile.AppendLine("$tOrigin = str_replace(' ','-',$tOrigin);");
+            tFile.AppendLine("$tNick = $tOrigin.'#???';");
+            tFile.AppendLine("$tNickArray = explode('#',$tRow[$sColumUniqueResult]);");
+            tFile.AppendLine("if (count($tNickArray)==2)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tCodeAc = $tNickArray[1];");
+            tFile.AppendLine("if (preg_match ('/^([0-9]{1,12})$/', $tCodeAc))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tNick = $tNickArray[0];");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("// error ");
+            tFile.AppendLine("}");
+            tFile.AppendLine("$tTested = false;");
+            tFile.AppendLine("$tSize = 3;");
+            tFile.AppendLine("if ($tOrigin == $tNick)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("// Nothing to do ? perhaps ... I test");
+            tFile.AppendLine("$tQueryTest = 'SELECT `'.$sColumUniqueResult.'` FROM `'.$sTable.'` WHERE `'.$sColumUniqueResult.'` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($tRow[$sColumUniqueResult]).'\\'';");
+            tFile.AppendLine("$tResultTest = " + NWD.K_SQL_CON + "->query($tQueryTest);");
+            tFile.AppendLine("if (!$tResultTest)");
+            tFile.AppendLine("{");
+            //tFile.AppendLine("errorDeclaration('UPVFV01', 'error in select other UniqueNickname already install');");
+            //tFile.AppendLine("error('UPVFV01',true, __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if ($tResultTest->num_rows == 1)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tTested = true;");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("if ($tTested == false)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("// I need change for an unique nickname");
+            tFile.AppendLine("while ($tTested == false)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tPinCode = $UserRange.'-'.CodeRandomSizable($tSize++);");
+            tFile.AppendLine("$tQueryTestUnique = 'SELECT `'.$sColumUniqueResult.'` FROM `'.$sTable.'` WHERE `'.$sColumUniqueResult.'` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($tOrigin).'#'.$tPinCode.'\\'';");
+            tFile.AppendLine("$tResultTestUnique = " + NWD.K_SQL_CON + "->query($tQueryTestUnique);");
+            tFile.AppendLine("if (!$tResultTestUnique)");
+            tFile.AppendLine("{");
+            //tFile.AppendLine("errorDeclaration('UPVFV02', 'error in select other UniqueNickname already install');");
+            //tFile.AppendLine("error('UPVFV02',true, __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if ($tResultTestUnique->num_rows == 0)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tTested = true;");
+            tFile.AppendLine("$rModified = true;");
+            tFile.AppendLine("// Ok I have a good PinCode I update");
+            tFile.AppendLine("$tQueryUpdate = 'UPDATE `'.$sTable.'` SET `DM` = \\''." + NWD.K_PHP_TIME_SYNC + ".'\\', `'.$sColumnOrign.'` = \\''." + NWD.K_SQL_CON + "->real_escape_string($tOrigin).'\\', `'.$sColumUniqueResult.'` = \\''." + NWD.K_SQL_CON + "->real_escape_string($tOrigin).'#'.$tPinCode.'\\' WHERE `Reference` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sReference).'\\'';");
+            tFile.AppendLine("$tResultUpdate = " + NWD.K_SQL_CON + "->query($tQueryUpdate);");
+            tFile.AppendLine("if (!$tResultUpdate)");
+            tFile.AppendLine("{");
+            //tFile.AppendLine("errorDeclaration('UPVFV03', 'error in updtae reference object pincode');");
+            //tFile.AppendLine("error('UPVFV03',true, __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("//pincode is update");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            //tFile.AppendLine("errorDeclaration('UPVFV04', 'error in select multiple reference or no reference (!=1)');");
+            //tFile.AppendLine("error('UPVFV04',true, __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("return $rModified;");
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            //---------------------------------------
+            tFile.AppendLine("function UniquePropertyValueFromGlobalValue($sTable, $sColumnOrign, $sColumUniqueResult, $sReference, $sNeverEmpty = true)");
             tFile.AppendLine("{");
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_PHP_TIME_SYNC + ";");
             tFile.AppendLine("$rModified = false;");
@@ -1182,6 +1329,7 @@ namespace NetWorkedData
             tFile.AppendLine("while ($tTested == false)");
             tFile.AppendLine("{");
             tFile.AppendLine("$tPinCode = CodeRandomSizable($tSize++);");
+            // TODO LOOKING FOR IT IN ALL DATABASE 
             tFile.AppendLine("$tQueryTestUnique = 'SELECT `'.$sColumUniqueResult.'` FROM `'.$sTable.'` WHERE `'.$sColumUniqueResult.'` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($tOrigin).'#'.$tPinCode.'\\'';");
             tFile.AppendLine("$tResultTestUnique = " + NWD.K_SQL_CON + "->query($tQueryTestUnique);");
             tFile.AppendLine("if (!$tResultTestUnique)");
@@ -1208,6 +1356,7 @@ namespace NetWorkedData
             tFile.AppendLine("else");
             tFile.AppendLine("{");
             tFile.AppendLine("//pincode is update");
+            // TODO BREAK THE LOOP
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
@@ -1227,11 +1376,14 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
-            sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_STATIC_FUNCTIONS_PHP, tFileFormatted);
+        sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_STATIC_FUNCTIONS_PHP, tFileFormatted);
             //NWEBenchmark.Finish();
         }
-        //-------------------------------------------------------------------------------------------------------------
-        private void CreatePHP_StaticRequestFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
+    //-------------------------------------------------------------------------------------------------------------
+
+
+    //-------------------------------------------------------------------------------------------------------------
+    private void CreatePHP_StaticRequestFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             //NWEBenchmark.Start();
             StringBuilder tFile = new StringBuilder(string.Empty);
@@ -1258,10 +1410,10 @@ namespace NetWorkedData
             tFile.AppendLine("if (headerValue ('version', '" + NWD.K_WEB_HEADER_VERSION_KEY + "', $ereg_version, '" + NWDError.GetErrorDomainCode(NWDError.NWDError_HEA02).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_HEA12).Code + "')) // test if version is ok");
             tFile.AppendLine("{");
             tFile.AppendLine("// I must prevent admin mode in table creation");
-            tFile.AppendLine("global $admin;");
+            //tFile.AppendLine("global $admin;");
+            //tFile.AppendLine("headerBrutalValue ('adminHash', '" + NWD.AdminHashKey + "');");
+            //tFile.AppendLine("$admin = adminHashTest ($adminHash, $NWD_ADM_KEY, $NWD_SLT_TMP);");
             tFile.AppendLine("global $HeaderUUID;");
-            tFile.AppendLine("headerBrutalValue ('adminHash', '" + NWD.AdminHashKey + "');");
-            tFile.AppendLine("$admin = adminHashTest ($adminHash, $NWD_ADM_KEY, $NWD_SLT_TMP);");
             tFile.AppendLine("if ($admin==true)");
             tFile.AppendLine("{");
             tFile.AppendLine("$versionValid = true;");
@@ -1887,17 +2039,101 @@ namespace NetWorkedData
             tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_FUNCTIONS_PHP + "');");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// connect MYSQL");
-            tFile.AppendLine("" + NWD.K_SQL_CON + " = new mysqli($SQL_HOT,$SQL_USR,$SQL_PSW, $SQL_BSE);");
-            tFile.AppendLine("if (" + NWD.K_SQL_CON + "->connect_errno)");
+
+            tFile.AppendLine("// connect for editor");
+            tFile.AppendLine("global $admin, " + NWD.K_SQL_CON_EDITOR + ";");
+            tFile.AppendLine(NWD.K_SQL_CON_EDITOR + " = array();");
+            tFile.AppendLine("headerBrutalValue ('adminHash', '" + NWD.AdminHashKey + "');");
+            tFile.AppendLine("$admin = adminHashTest ($adminHash, $NWD_ADM_KEY, $NWD_SLT_TMP);");
+            tFile.AppendLine("if ($admin == true)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SQL00));
-            tFile.AppendLine("include_once ('" + NWD.K_STATIC_FINISH_PHP + "');");
-            tFile.AppendLine("exit;");
+            {
+                tFile.AppendLine("foreach ($SQL_LIST as $tRange => $tValue)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("" + NWD.K_SQL_CON_EDITOR + "[$tRange] = new mysqli($tValue['host'], $tValue['user'], $tValue['password'], $tValue['database'], $tValue['port']);");
+                    tFile.AppendLine("if (" + NWD.K_SQL_CON_EDITOR + "[$tRange]->connect_errno)");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SQL00));
+                        tFile.AppendLine("include_once ('" + NWD.K_STATIC_FINISH_PHP + "');");
+                        tFile.AppendLine("exit;");
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("else");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine(NWDError.PHP_log(this, "'.$tRange.' connexion success on '.$tValue['title'].' => '.$tValue['id'].'"));
+                    }
+                    tFile.AppendLine("}");
+                }
+                tFile.AppendLine("}");
+            }
+            tFile.AppendLine("}");
+
+            tFile.AppendLine("// connect for account");
+            tFile.AppendLine("global $UserRange;");
+            tFile.AppendLine("// determine account Database");
+            tFile.AppendLine("// TODO : dertermine account Database and use the good range!");
+
+            tFile.AppendLine("$tAccountMySQL = reset($SQL_LIST);"); // remember, use string for ereg extraction from UUID
+
+            tFile.AppendLine("$tAccountForRange = isset($_SERVER['HTTP_'.strtoupper('" + NWD.K_WEB_UUID_KEY + "')]) ? $_SERVER['HTTP_'.strtoupper('" + NWD.K_WEB_UUID_KEY + "')] : '';");
+            tFile.AppendLine(NWDError.PHP_log(this, " ok your account is '.$tAccountForRange.'"));
+            tFile.AppendLine("if (TestTemporaryAccount($tAccountForRange))");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine("// TODO : if account is temporary : check the first/random database with usermax under limit!");
+                tFile.AppendLine(NWDError.PHP_log(this, " ok your account is temporary"));
+                tFile.AppendLine("$tAccountMySQL = reset($SQL_LIST); // not random for this moment;");
+                tFile.AppendLine("$UserRange = mt_rand($tAccountMySQL['min'], $tAccountMySQL['max']);// not use, just to test the possible");
+                tFile.AppendLine(NWDError.PHP_log(this, " ok your account is temporary and your can perhaps be '.$UserRange.'"));
+            }
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
-            tFile.AppendLine("// analyze request");
-            tFile.AppendLine("include_once ('" + NWD.K_STATIC_REQUEST_PHP + "');");
+            {
+                tFile.AppendLine("// TODO : if account is not temporary : check the good database!");
+                tFile.AppendLine("preg_match('/" + NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM + "\\-([0-9]*)\\-[0-9]*\\-[0-9]*/', $tAccountForRange, $tMatches);");
+                tFile.AppendLine("$UserRange = $tMatches[1];");
+                tFile.AppendLine(NWDError.PHP_log(this, " ok your account is certified and your range is : '.$UserRange.'"));
+                tFile.AppendLine("foreach ($SQL_LIST as $tRange => $tValue)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("if ($UserRange >= $tValue['min'] && $UserRange <= $tValue['max'])");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("$tAccountMySQL = $tValue;");
+                        tFile.AppendLine("break;");
+                    }
+                    tFile.AppendLine("}");
+                }
+                tFile.AppendLine("}");
+            }
+            tFile.AppendLine("}");
+
+            tFile.AppendLine(NWDError.PHP_log(this, "database usable is '.$tAccountMySQL['title'].' => '.$tAccountMySQL['id'].'"));
+
+            //tFile.AppendLine("$tRange = '1';"); // remember, use string for ereg extraction from UUID
+            ////tFile.AppendLine("" + NWD.K_SQL_CON + " = new mysqli($SQL_HOT, $SQL_USR, $SQL_PSW, $SQL_BSE);");
+            //tFile.AppendLine("" + NWD.K_SQL_CON + " = new mysqli($SQL_LIST[$tRange]['host'], $SQL_LIST[$tRange]['user'], $SQL_LIST[$tRange]['password'], $SQL_LIST[$tRange]['database'], $SQL_LIST[$tRange]['port']);");
+
+            tFile.AppendLine("" + NWD.K_SQL_CON + " = new mysqli($tAccountMySQL['host'], $tAccountMySQL['user'], $tAccountMySQL['password'], $tAccountMySQL['database'], $tAccountMySQL['port']);");
+
+            tFile.AppendLine("if (" + NWD.K_SQL_CON + "->connect_errno)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SQL00));
+                tFile.AppendLine("include_once ('" + NWD.K_STATIC_FINISH_PHP + "');");
+                tFile.AppendLine("exit;");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine("// analyze request");
+                tFile.AppendLine("include_once ('" + NWD.K_STATIC_REQUEST_PHP + "');");
+            }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("?>");
@@ -2080,6 +2316,7 @@ namespace NetWorkedData
             tFile.AppendLine("$return = false;");
             tFile.AppendLine("if ($errStringIfempty != '')");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_log(this, " error with '.$key.' !"));
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
             //tFile.AppendLine("errorInfos($errStringIfempty,'Value validity of `'.$key.'` (=`'.$value.'`) is empty and it is not possible');");
             tFile.AppendLine("}");
@@ -2093,6 +2330,7 @@ namespace NetWorkedData
             tFile.AppendLine("$return = false;");
             tFile.AppendLine("if ($errStringifInvalid != '')");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_log(this, " error with '.$key.' !"));
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
             //tFile.AppendLine("errorInfos($errStringifInvalid,'Value validity of `'.$key.'` (=`'.$value.'`) is not complicent with regular expression rules');");
             tFile.AppendLine("}");

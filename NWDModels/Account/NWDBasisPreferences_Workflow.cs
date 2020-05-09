@@ -28,7 +28,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasisPreferences : NWDBasis
+    public partial class NWDBasisPreferences : NWDBasisAccountUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDBasisPreferences()

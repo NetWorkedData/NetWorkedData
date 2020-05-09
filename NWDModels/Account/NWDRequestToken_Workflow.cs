@@ -29,7 +29,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDRequestToken : NWDBasis
+    public partial class NWDRequestToken : NWDBasisAccountRestricted
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDRequestToken()
@@ -48,7 +48,7 @@ namespace NetWorkedData
         {
             if (kCurrent != null)
             {
-                if (kCurrent.UUIDHash.GetReference() != NWDAccount.CurrentReference())
+                if (kCurrent.UUIDHash != NWDAccount.CurrentReference())
                 {
                     kCurrent = null;
                 }
@@ -60,7 +60,7 @@ namespace NetWorkedData
                 {
                     NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
                     tResquestToken = NWDBasisHelper.NewData<NWDRequestToken>();
-                    tResquestToken.UUIDHash.SetReference(NWDAccount.CurrentReference());
+                    tResquestToken.UUIDHash = NWDAccount.CurrentReference();
                     tResquestToken.Tag = NWDBasisTag.TagUserCreated;
                     tResquestToken.SaveData();
                 }

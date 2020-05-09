@@ -23,17 +23,17 @@ using NotificationType = UnityEngine.iOS.NotificationType;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("AIF")]
     [NWDClassDescriptionAttribute("General Account Informations")]
     [NWDClassMenuNameAttribute("Account Infos")]
     [NWDClassClusterAttribute(1, 2)]
-    public partial class NWDAccountInfos : NWDBasis
+    public partial class NWDAccountInfos : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
 
         [NWDInspectorGroupStart("Player Informations")]
-        public NWDReferenceType<NWDAccount> Account { get; set; }
+        //public NWDReferenceType<NWDAccount> Account { get; set; }
         public NWDReferenceType<NWDAccountAvatar> Avatar { get; set; }
         public NWDReferenceType<NWDAccountNickname> Nickname { get; set; }
         public NWDReferenceFreeType<NWDGameSave> CurrentGameSave { get; set; }

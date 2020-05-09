@@ -39,6 +39,7 @@ namespace NetWorkedData
         public const string K_WS_SYNCHRONISATION = "synchronization.php";
         public const string K_WS_ENGINE = "engine.php";
         public const string K_SQL_CON = "$SQL_CON";
+        public const string K_SQL_CON_EDITOR = "$SQL_CON_EDITOR";
         public const string K_ENV = "$ENV";
         public const string K_NWD_SLT_SRV = "$NWD_SLT_SRV";
         public const string K_PHP_TIME_SYNC = "$TIME_SYNC";

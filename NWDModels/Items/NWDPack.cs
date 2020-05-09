@@ -30,7 +30,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
+    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("PCK")]
     [NWDClassDescriptionAttribute("Pack descriptions Class")]
     [NWDClassMenuNameAttribute("Pack")]

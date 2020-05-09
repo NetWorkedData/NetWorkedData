@@ -29,10 +29,10 @@ namespace NetWorkedData
             {
                 NWEBenchmark.Start();
             }
-            NWDBasisBundle tBasisBundle = NWDBasisBundle.None;
+            NWDBundle tBasisBundle = NWDBundle.None;
             if (NWDAppConfiguration.SharedInstance().BundleDatas == false)
             {
-                tBasisBundle = NWDBasisBundle.ALL;
+                tBasisBundle = NWDBundle.ALL;
             }
             StepSum = 12 +
                 NWDAppConfiguration.SharedInstance().LauncherClassEditorStep + // load editor class
@@ -104,17 +104,29 @@ namespace NetWorkedData
             Type[] tAllHelperDTypes = (from Type type in tAllTypes where type.IsSubclassOf(typeof(NWDBasisHelper)) select type).ToArray();
             foreach (Type tType in tAllNWDTypes)
             {
-                if (tType != typeof(NWDBasis) && tType != typeof(NWDBundledBasis) && tType.IsGenericType == false)
+                if (tType != typeof(NWDBasis) &&
+                    tType != typeof(NWDBasisBundled) &&
+                    tType != typeof(NWDBasisUnsynchronize) &&
+                    tType != typeof(NWDBasisAccountUnsynchronize) &&
+                    tType != typeof(NWDBasisAccountDependent) &&
+                    tType != typeof(NWDBasisAccountRestricted) &&
+                    tType != typeof(NWDBasisGameSaveDependent) &&
+                    tType.IsGenericType == false)
                 {
                     bool tEditorOnly = false;
-                    if (tType != typeof(NWDAccount))
+                    if (tType.IsSubclassOf(typeof(NWDBasisAccountRestricted)))
                     {
-                        if (tType.GetCustomAttributes(typeof(NWDClassUnityEditorOnlyAttribute), true).Length > 0)
-                        {
-                            tEditorOnly = true;
-                            NWEBenchmark.LogWarning("exclude " + tType.Name);
-                        }
+                        tEditorOnly = true;
+                        NWEBenchmark.LogWarning("exclude " + tType.Name);
                     }
+                    //if (tType != typeof(NWDAccount))
+                    //{
+                    //    if (tType.GetCustomAttributes(typeof(NWDClassUnityEditorOnlyAttribute), true).Length > 0)
+                    //    {
+                    //        tEditorOnly = true;
+                    //        NWEBenchmark.LogWarning("exclude " + tType.Name);
+                    //    }
+                    //}
                     if (tEditorOnly == false)
                     {
                         if (AllNetWorkedDataTypes.Contains(tType) == false)
