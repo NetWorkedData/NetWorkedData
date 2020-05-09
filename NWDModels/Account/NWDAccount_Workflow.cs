@@ -36,6 +36,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void Check()
         {
+            Account.SetValue(Reference);
             if (Reference.Contains(NWDAccount.K_ACCOUNT_FROM_EDITOR))
             {
                 if (DevSync >= 0)
@@ -76,16 +77,16 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             string tRangeServer = NWDServerDatas.RangeEditor;
             // not necessary  beacuse editor account must be exceptional
-            //NWDServerDatabaseAuthentication[] tServerDatas = NWDServerDatas.GetAllConfigurationServerDatabase(NWDAppEnvironment.SelectedEnvironment());
-            //if (tServerDatas.Length > 1)
-            //{
-            //    tServerDatas.ShuffleList();
-            //}
-            //if (tServerDatas.Length > 1)
-            //{
-            //    NWDServerDatabaseAuthentication tServerData = tServerDatas[0];
-            //    tRangeServer = UnityEngine.Random.Range(tServerData.RangeMin, tServerData.RangeMax).ToString();
-            //}
+            NWDServerDatabaseAuthentication[] tServerDatas = NWDServerDatas.GetAllConfigurationServerDatabase(NWDAppEnvironment.SelectedEnvironment());
+            if (tServerDatas.Length > 1)
+            {
+                tServerDatas.ShuffleList();
+            }
+            if (tServerDatas.Length > 1)
+            {
+                NWDServerDatabaseAuthentication tServerData = tServerDatas[0];
+                tRangeServer = UnityEngine.Random.Range(tServerData.RangeMin, tServerData.RangeMax).ToString();
+            }
             bool tValid = false;
             while (tValid == false)
             {
