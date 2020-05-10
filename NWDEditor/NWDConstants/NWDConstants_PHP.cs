@@ -68,6 +68,7 @@ namespace NetWorkedData
         public const string K_WEB_SIGN_UP_VALUE_Key = "sdkv";
         public const string K_WEB_SIGN_UP_RESCUE_Key = "sdkr";
         public const string K_WEB_SIGN_UP_LOGIN_Key = "sdkl";
+        public const string K_WEB_LOG_Key = "log";
 
         // if rescue
         public const string K_WEB_RESCUE_EMAIL_Key = "email";

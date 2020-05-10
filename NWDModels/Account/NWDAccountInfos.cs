@@ -53,35 +53,35 @@ namespace NetWorkedData
         public string AppleNotificationToken { get; set; }
         public string GoogleNotificationToken { get; set; }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAppEnvironmentPlayerStatut AccountType()
-        {
-            NWDAppEnvironmentPlayerStatut rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
-            if (Account.GetReference().Contains(NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE))
-            {
-                rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
-            }
-            else if (Account.GetReference().Contains(NWDAccount.K_ACCOUNT_NEW_SUFFIXE))
-            {
-                rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
-            }
-            else
-            {
-                rReturn = NWDAppEnvironmentPlayerStatut.Certified;
-                NWDAccountSign[] tSigns = NWDBasisHelper.GetCorporateDatas<NWDAccountSign>(Account.GetReference());
-                foreach(NWDAccountSign tSign in tSigns)
-                {
-                    if (tSign.SignType != NWDAccountSignType.None && tSign.SignType != NWDAccountSignType.DeviceID)
-                    {
-                        if (tSign.SignStatus == NWDAccountSignAction.Associated)
-                        {
-                            rReturn = NWDAppEnvironmentPlayerStatut.Signed;
-                            break;
-                        }
-                    }
-                }
-            }
-            return rReturn;
-        }
+        //public NWDAppEnvironmentPlayerStatut AccountType()
+        //{
+        //    NWDAppEnvironmentPlayerStatut rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
+        //    if (Account.GetReference().Contains(NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE))
+        //    {
+        //        rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
+        //    }
+        //    else if (Account.GetReference().Contains(NWDAccount.K_ACCOUNT_NEW_SUFFIXE))
+        //    {
+        //        rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
+        //    }
+        //    else
+        //    {
+        //        rReturn = NWDAppEnvironmentPlayerStatut.Certified;
+        //        NWDAccountSign[] tSigns = NWDBasisHelper.GetCorporateDatas<NWDAccountSign>(Account.GetReference());
+        //        foreach(NWDAccountSign tSign in tSigns)
+        //        {
+        //            if (tSign.SignType != NWDAccountSignType.None && tSign.SignType != NWDAccountSignType.DeviceID)
+        //            {
+        //                if (tSign.SignStatus == NWDAccountSignAction.Associated)
+        //                {
+        //                    rReturn = NWDAppEnvironmentPlayerStatut.Signed;
+        //                    break;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

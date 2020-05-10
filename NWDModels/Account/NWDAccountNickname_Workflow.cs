@@ -24,7 +24,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountNickname : NWDBasis
+    public partial class NWDAccountNickname : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         //public delegate void SyncNicknameBlock(bool error, NWDOperationResult result = null);

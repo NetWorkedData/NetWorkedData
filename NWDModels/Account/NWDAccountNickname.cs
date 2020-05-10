@@ -28,7 +28,7 @@ namespace NetWorkedData
         " It generate a UniqueNickname when synchronise on the cluster with the challenge selected.")]
     [NWDClassMenuNameAttribute("Account Nickname")]
     [NWDClassClusterAttribute(1, 10)]
-    public partial class NWDAccountNickname : NWDBasis
+    public partial class NWDAccountNickname : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

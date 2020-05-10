@@ -29,12 +29,11 @@ namespace NetWorkedData
             typeof(NWDCluster),
             typeof(NWDServer),
             typeof(NWDServerDomain),
-            typeof(NWDServer),
             typeof(NWDServerServices),
             typeof(NWDServerDatas),
             typeof(NWDServerOther),
-            typeof(NWDBasisPreferences),
-            typeof(NWDRequestToken),
+            //typeof(NWDBasisPreferences),
+            //typeof(NWDRequestToken),
             typeof(NWDIPBan),
         }
     )]

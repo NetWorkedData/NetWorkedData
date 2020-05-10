@@ -435,21 +435,25 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            //Debug.Log("<b>NWDGameDataManager Scene Loaded() </b>");
-            if (Application.isEditor == true)
+            switch (NWDLauncher.CompileAs())
             {
-                if (Application.isPlaying == true)
-                {
-                    Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
-                }
-                else
-                {
-                    Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
-                }
-            }
-            else
-            {
-                //Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=r-red>I AM NOT IN EDITOR</color>");
+                case NWDCompileType.Editor:
+                    {
+                        Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=green>I AM IN EDITOR</color> AND <color=red>PLAYMODE IS NOT PLAYING</color> ");
+
+                    }
+                    break;
+                case NWDCompileType.PlayMode:
+                    {
+                        Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=green>I AM IN EDITOR</color> BUT <color=green>PLAYMODE IS PLAYING</color>  ");
+
+                    }
+                    break;
+                case NWDCompileType.Runtime:
+                    {
+                        Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=red>I AM NOT IN EDITOR</color> AND <color=green>MODE RUNTIME IS PLAYING</color> ");
+                    }
+                    break;
             }
         }
         //-------------------------------------------------------------------------------------------------------------

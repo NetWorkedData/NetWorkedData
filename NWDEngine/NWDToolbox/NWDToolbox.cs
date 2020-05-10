@@ -388,7 +388,7 @@ namespace NetWorkedData
             return EmailCleanerRgx.Replace(sString, string.Empty);
         }
         //-------------------------------------------------------------------------------------------------------------
-        static Regex UnixCleanerRgx = new Regex("[^a-zA-Z0-9-_]");
+        static Regex UnixCleanerRgx = new Regex("[^a-zA-Z0-9_]");
         //-------------------------------------------------------------------------------------------------------------
         public static string UnixCleaner(string sString)
         {
@@ -644,20 +644,26 @@ namespace NetWorkedData
             string tReferenceMiddle = "9";
             string tReferenceEnd = "9";
 
-            if (Application.isPlaying == true)
+            switch (NWDLauncher.CompileAs())
             {
-                tReferenceMiddle += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("4l5" + SystemInfo.deviceUniqueIdentifier + "7t6").ToUpper().Substring(0, 9));
-                tReferenceEnd += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("1h5" + SystemInfo.deviceUniqueIdentifier + "4s5").ToUpper().Substring(0,6));
-            }
-            else if (Application.isEditor == true)
-            {
-                tReferenceMiddle += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("e5" + SystemInfo.deviceUniqueIdentifier + "7ve").ToUpper().Substring(0, 9)); ;
-                tReferenceEnd += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("7v5" + SystemInfo.deviceUniqueIdentifier + "8m7").ToUpper().Substring(0, 6));
-            }
-            else
-            {
-                tReferenceMiddle += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("475" + SystemInfo.deviceUniqueIdentifier + "7u7").ToUpper().Substring(0, 9));
-                tReferenceEnd += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("4r8" + SystemInfo.deviceUniqueIdentifier + "6r8").ToUpper().Substring(0, 6));
+                case NWDCompileType.Editor:
+                    {
+                        tReferenceMiddle += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("e5" + SystemInfo.deviceUniqueIdentifier + "7ve").ToUpper().Substring(0, 9)); ;
+                        tReferenceEnd += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("7v5" + SystemInfo.deviceUniqueIdentifier + "8m7").ToUpper().Substring(0, 6));
+                    }
+                    break;
+                case NWDCompileType.PlayMode:
+                    {
+                        tReferenceMiddle += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("475" + SystemInfo.deviceUniqueIdentifier + "7u7").ToUpper().Substring(0, 9));
+                        tReferenceEnd += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("4r8" + SystemInfo.deviceUniqueIdentifier + "6r8").ToUpper().Substring(0, 6));
+                    }
+                    break;
+                case NWDCompileType.Runtime:
+                    {
+                        tReferenceMiddle += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("4l5" + SystemInfo.deviceUniqueIdentifier + "7t6").ToUpper().Substring(0, 9));
+                        tReferenceEnd += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("1h5" + SystemInfo.deviceUniqueIdentifier + "4s5").ToUpper().Substring(0, 6));
+                    }
+                    break;
             }
             rReturn = NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).ClassTrigramme + NWEConstants.K_MINUS + "00000" + NWEConstants.K_MINUS + tReferenceMiddle + NWEConstants.K_MINUS + tReferenceEnd;
 

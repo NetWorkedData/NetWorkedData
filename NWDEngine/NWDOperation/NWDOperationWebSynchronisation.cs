@@ -196,17 +196,9 @@ namespace NetWorkedData
             bool tSync = true;
             //NWDAccountInfos tAccountInfos = NWDBasisHelper.GetCorporateFirstData<NWDAccountInfos>(Environment.PlayerAccountReference, null);
             NWDAppEnvironment.SetEnvironment(Environment);
-            NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
-            if (tAccountInfos == null)
+            if (Environment.CurrentAccountIsCertified() == false)
             {
                 tSync = false;
-            }
-            else
-            {
-                if (tAccountInfos.AccountType() == NWDAppEnvironmentPlayerStatut.Temporary)
-                {
-                    tSync = false;
-                }
             }
             if (tSync == true)
             {

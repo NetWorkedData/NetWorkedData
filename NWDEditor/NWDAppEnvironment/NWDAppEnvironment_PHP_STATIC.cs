@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:20:22
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -23,380 +17,6 @@ namespace NetWorkedData
     public partial class NWDAppEnvironment
     {
         //-------------------------------------------------------------------------------------------------------------
-        //private void CreatePHP_StaticAccountFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
-        //{
-        //    //NWEBenchmark.Start();
-
-        //    string tSignAccountKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Account);
-        //    string tSignHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash);
-        //    string tRescueHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash);
-        //    string tAC = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().AC);
-        //    string tReference = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Reference);
-        //    string tBan = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Ban);
-
-
-        //    StringBuilder tFile = new StringBuilder(string.Empty);
-        //    tFile.AppendLine("<?php");
-        //    tFile.AppendLine(Headlines());
-        //    tFile.AppendLine("// ACCOUNT");
-        //    tFile.AppendLine(NWD.K_CommentSeparator);
-
-        //    tFile.AppendLine("$ereg_action = '/^("+NWDOperationWebAccountAction.rescue.ToString()+"|"+NWDOperationWebAccountAction.signout.ToString()+"|"+NWDOperationWebAccountAction.signin.ToString()+")$/';");
-        //    tFile.AppendLine("$ereg_email = '/^([A-Z0-9a-z\\.\\_\\%\\+\\-]+@[A-Z0-9a-z\\.\\_\\%\\+\\-]+\\.[A-Za-z]{2,6})$/';");
-        //    tFile.AppendLine("$ereg_password = '/^(.{24,64})$/';");
-        //    tFile.AppendLine(NWD.K_CommentSeparator);
-        //    tFile.AppendLine("if (!"+NWDError.PHP_errorDetected()+"())");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("if (paramValue('action', 'action', $ereg_action, 'ACC01', 'ACC02')) // test if action is valid");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("if ($action == '"+NWDOperationWebAccountAction.rescue.ToString()+"')");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("if ($action == '"+NWDOperationWebAccountAction.signin.ToString()+"')");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("if (paramValue('shs', '"+NWD.K_WEB_SIGN_Key+"', $ereg_password, 'SHS01', 'SHS01'))");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("myLog('shs : '.$shs.'', __FILE__, __FUNCTION__, __LINE__);");
-        //    tFile.AppendLine("$tQuerySign = 'SELECT `"+tSignAccountKey+"` FROM `'."+NWD.K_ENV+".'_"+NWDBasisHelper.BasisHelper<NWDAccountSign>().ClassNamePHP+"` WHERE `"+tSignHashKey+"` = \\''."+NWD.K_SQL_CON+"->real_escape_string($shs).'\\' AND `"+tSignHashKey+"` != \\'\\' AND `"+tAC+"` = 1;';");
-        //    tFile.AppendLine("$tResultSign = "+NWD.K_SQL_CON+"->query($tQuerySign);");
-        //    tFile.AppendLine("if (!$tResultSign)");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.' in : '.$tQuerySign.'', __FILE__, __FUNCTION__, __LINE__);");
-        //    tFile.AppendLine("error('SGN15', true, __FILE__, __FUNCTION__, __LINE__);");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("else");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("if ($tResultSign->num_rows == 0)");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("error('SGN16',true, __FILE__, __FUNCTION__, __LINE__);");
-        //    tFile.AppendLine("myLog('shs : '.$shs.' NO Row', __FILE__, __FUNCTION__, __LINE__);");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine(" else if ($tResultSign->num_rows == 1)");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine(" // ok I have one user");
-        //    tFile.AppendLine("while ($tRowSign = $tResultSign->fetch_array())");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("myLog('shs : '.$shs.' find One Row', __FILE__, __FUNCTION__, __LINE__); ");
-        //    tFile.AppendLine("// I get the password uuid hash");
-        //    tFile.AppendLine("$tQuery = 'SELECT `"+tReference+"`, `"+tBan+"` FROM `'."+NWD.K_ENV+".'_"+NWDBasisHelper.BasisHelper<NWDAccount>().ClassNamePHP+"` WHERE `"+tReference+"` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tRowSign['"+tSignAccountKey+"']).'\\' AND `"+tAC+"` = 1;';");
-        //    tFile.AppendLine("$tResult = "+NWD.K_SQL_CON+"->query($tQuery);");
-        //    tFile.AppendLine("if (!$tResult)");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.' in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
-        //    tFile.AppendLine("error('SGN15',true, __FILE__, __FUNCTION__, __LINE__);");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("else");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("if ($tResult->num_rows == 0)");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("// unknow user");
-        //    tFile.AppendLine("error('SGN16',true, __FILE__, __FUNCTION__, __LINE__);");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("else if ($tResult->num_rows == 1)");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("// ok I have one user");
-        //    tFile.AppendLine("while ($tRow = $tResult->fetch_array())");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("if ($tRow['"+tBan+"'] > 0)");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("$ban = true;");
-        //    tFile.AppendLine("error('ACC98',true, __FILE__, __FUNCTION__, __LINE__);");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("else");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("AccountIsSigned();");
-        //    tFile.AppendLine("if ($uuid != $tRow['"+tReference+"'])");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("respondNeedReloadData();");
-        //    tFile.AppendLine("respondUUID($tRow['"+tReference+"']);");
-        //    tFile.AppendLine("respondAdd('newuser', true);");
-        //    tFile.AppendLine("respondAdd('"+NWDOperationWebAccountAction.signin.ToString()+"', true);");
-        //    //tFile.AppendLine("respondAdd('sign', 'loginpassword');");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("else");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("error('SGN17');");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("$uuid = $tRow['"+tReference+"'];");
-        //    tFile.AppendLine("$token = NWDRequestTokenReset($uuid); // reset connexion to zero");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("else //or more than one user with this sign … strange… I push an error, user must be unique for unique sign");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("// to much users ...");
-        //    tFile.AppendLine("error('SGN18',true, __FILE__, __FUNCTION__, __LINE__);");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("mysqli_free_result($tResult);");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("else //or more than one user with this email … strange… I push an error, user must be unique");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("// to much users ...");
-        //    tFile.AppendLine("error('SGN18', true, __FILE__, __FUNCTION__, __LINE__);");
-        //    tFile.AppendLine("myLog('shs : '.$shs.' Too Mush Row', __FILE__, __FUNCTION__, __LINE__);");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("mysqli_free_result($tResultSign);");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("//---- SIGN OUT ----");
-        //    tFile.AppendLine("// I sign in with the good value");
-        //    tFile.AppendLine("if ($action == 'signout')");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("NWDRequestTokenReset ($uuid); // reset connexion to zero");
-        //    tFile.AppendLine("respondAdd('"+NWDOperationWebAccountAction.signout.ToString()+"', true);");
-        //    tFile.AppendLine("AccountAnonymousNeeded(false);");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine(NWD.K_CommentSeparator);
-        //    tFile.AppendLine("// Ok I create a permanent account if temporary");
-        //    tFile.AppendLine("AccountAnonymeGenerate();");
-        //    tFile.AppendLine(NWD.K_CommentSeparator);
-        //    tFile.AppendLine("if ($ban == true)");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("error('ACC99',true, __FILE__, __FUNCTION__, __LINE__);");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine(NWD.K_CommentSeparator);
-        //    tFile.AppendLine("?>");
-        //    string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
-        //    sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_STATIC_ACCOUNT_PHP, tFileFormatted);
-        //    //NWEBenchmark.Finish();
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //private void CreatePHP_StaticErrorFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
-        //{
-        //    //NWEBenchmark.Start();
-        //    StringBuilder tFile = new StringBuilder(string.Empty);
-        //    tFile.AppendLine("<?php");
-        //    tFile.AppendLine(Headlines());
-        //    tFile.AppendLine("// ERROR");
-        //    tFile.AppendLine(NWD.K_CommentSeparator);
-        //    tFile.AppendLine("// Declaration");
-        //    tFile.AppendLine("errorDeclaration('UIG00', 'error in unique generate');");
-        //    tFile.AppendLine("// sql error");
-        //    tFile.AppendLine("errorDeclaration('SQL00', 'error SQL CONNEXION IMPOSSIBLE');");
-        //    tFile.AppendLine("// header error");
-        //    tFile.AppendLine("errorDeclaration('HEA01', 'os is empty');");
-        //    tFile.AppendLine("errorDeclaration('HEA11', 'os is invalid');");
-        //    tFile.AppendLine("errorDeclaration('HEA02', 'version is empty');");
-        //    tFile.AppendLine("errorDeclaration('HEA12', 'version is invalid');");
-        //    tFile.AppendLine("errorDeclaration('HEA03', 'lang is empty');");
-        //    tFile.AppendLine("errorDeclaration('HEA13', 'lang is invalid');");
-        //    tFile.AppendLine("errorDeclaration('HEA04', 'uuid is empty');");
-        //    tFile.AppendLine("errorDeclaration('HEA14', 'uuid is invalid');");
-        //    tFile.AppendLine("errorDeclaration('HEA05', 'hash is empty');");
-        //    tFile.AppendLine("errorDeclaration('HEA15', 'hash is invalid');");
-        //    tFile.AppendLine("errorDeclaration('HEA90', 'hash error');");
-        //    tFile.AppendLine("errorDeclaration('SHS01', 'Secret Key error');");
-        //    tFile.AppendLine("// param error");
-        //    tFile.AppendLine("errorDeclaration('PAR97', 'not json valid');");
-        //    tFile.AppendLine("errorDeclaration('PAR98', 'json digest is false');");
-        //    tFile.AppendLine("errorDeclaration('PAR99', 'json null');");
-        //    tFile.AppendLine("// version error");
-        //    tFile.AppendLine("errorDeclaration('GVA00', 'error in sql select Version');");
-        //    tFile.AppendLine("errorDeclaration('GVA99', 'block data');");
-        //    tFile.AppendLine("errorDeclaration('GVA01', 'stop : update app');");
-        //    tFile.AppendLine("errorDeclaration('GVA02', 'stop unknow version : update app');");
-        //    tFile.AppendLine("// Account error");
-        //    tFile.AppendLine("errorDeclaration('ACC01', 'action is empty');");
-        //    tFile.AppendLine("errorDeclaration('ACC02', 'action is invalid format');");
-        //    tFile.AppendLine("errorDeclaration('ACC03', 'appname is empty');");
-        //    tFile.AppendLine("errorDeclaration('ACC04', 'appname is invalid format');");
-        //    tFile.AppendLine("errorDeclaration('ACC05', 'appmail is empty');");
-        //    tFile.AppendLine("errorDeclaration('ACC06', 'appmail is invalid format');");
-        //    tFile.AppendLine("errorDeclaration('ACC10', 'email is empty');");
-        //    tFile.AppendLine("errorDeclaration('ACC40', 'email is invalid format');");
-        //    tFile.AppendLine("errorDeclaration('ACC11', 'password is empty');");
-        //    tFile.AppendLine("errorDeclaration('ACC41', 'password is invalid format');");
-        //    tFile.AppendLine("errorDeclaration('ACC12', 'confirm password is empty');");
-        //    tFile.AppendLine("errorDeclaration('ACC22', 'sign-up password is different to confirm password');");
-        //    tFile.AppendLine("errorDeclaration('ACC42', 'confirm password is invalid format');");
-        //    tFile.AppendLine("errorDeclaration('ACC13', 'old password is empty');");
-        //    tFile.AppendLine("errorDeclaration('ACC43', 'old password is invalid format');");
-        //    tFile.AppendLine("errorDeclaration('ACC14', 'new password is empty');");
-        //    tFile.AppendLine("errorDeclaration('ACC24', 'sign-up new password is different to confirm password');");
-        //    tFile.AppendLine("errorDeclaration('ACC44', 'new password is invalid format');");
-        //    tFile.AppendLine("errorDeclaration('ACC15', 'auuid is empty');");
-        //    tFile.AppendLine("errorDeclaration('ACC45', 'auuid is invalid format');");
-        //    tFile.AppendLine("errorDeclaration('ACC16', 'password is empty');");
-        //    tFile.AppendLine("errorDeclaration('ACC46', 'password is invalid format');");
-        //    tFile.AppendLine("errorDeclaration('ACC55', 'email or login unknow');");
-        //    tFile.AppendLine("errorDeclaration('ACC56', 'multi-account');");
-        //    tFile.AppendLine("errorDeclaration('ACC71', 'GoogleID is empty');");
-        //    tFile.AppendLine("errorDeclaration('ACC72', 'GoogleID is invalid format');");
-        //    tFile.AppendLine("errorDeclaration('ACC73', 'Google Graph error');");
-        //    tFile.AppendLine("errorDeclaration('ACC74', 'Google SDK error');");
-        //    tFile.AppendLine("errorDeclaration('ACC75', 'Google sql select error');");
-        //    tFile.AppendLine("errorDeclaration('ACC76', 'Google sql update error');");
-        //    tFile.AppendLine("errorDeclaration('ACC77', 'Google multi-account');");
-        //    tFile.AppendLine("errorDeclaration('ACC78', 'Google singin error already log with this account');");
-        //    tFile.AppendLine("errorDeclaration('ACC81', 'FacebookID is empty');");
-        //    tFile.AppendLine("errorDeclaration('ACC82', 'FacebookID is invalid format');");
-        //    tFile.AppendLine("errorDeclaration('ACC83', 'Facebook Graph error');");
-        //    tFile.AppendLine("errorDeclaration('ACC84', 'Facebook SDK error');");
-        //    tFile.AppendLine("errorDeclaration('ACC85', 'Facebook sql select error');");
-        //    tFile.AppendLine("errorDeclaration('ACC86', 'Facebook sql update error');");
-        //    tFile.AppendLine("errorDeclaration('ACC87', 'Facebook multi-account');");
-        //    tFile.AppendLine("errorDeclaration('ACC88', 'Facebook singin error already log with this account');");
-        //    tFile.AppendLine("errorDeclaration('ACC90', 'error in request select in Account');");
-        //    tFile.AppendLine("errorDeclaration('ACC91', 'error in request insert anonymous Account');");
-        //    tFile.AppendLine("errorDeclaration('ACC92', 'error in unknow account');");
-        //    tFile.AppendLine("errorDeclaration('ACC95', 'user is multiple');");
-        //    tFile.AppendLine("errorDeclaration('ACC99', 'user is banned');");
-        //    tFile.AppendLine("errorDeclaration('ACC98', 'user is banned, no sign-in');");
-        //    tFile.AppendLine("// Account sign error");
-        //    tFile.AppendLine("errorDeclaration('SGN01', 'sign-up error in select valid account');");
-        //    tFile.AppendLine("errorDeclaration('SGN02', 'sign-up error in select account by uuid');");
-        //    tFile.AppendLine("errorDeclaration('SGN03', 'sign-up error in update account');");
-        //    tFile.AppendLine("errorDeclaration('SGN04', 'sign-up error account already linked with another email');");
-        //    tFile.AppendLine("errorDeclaration('SGN05', 'sign-up error multi-account by uuid');");
-        //    tFile.AppendLine("errorDeclaration('SGN06', 'sign-up error account already linked with this email');");
-        //    tFile.AppendLine("errorDeclaration('SGN07', 'sign-up error another account already linked with this email');");
-        //    tFile.AppendLine("errorDeclaration('SGN08', 'sign-up error multi-account already linked with this email');");
-        //    tFile.AppendLine("errorDeclaration('SGN09', 'modify error in select valid account');");
-        //    tFile.AppendLine("errorDeclaration('SGN10', 'modify error unknow account');");
-        //    tFile.AppendLine("errorDeclaration('SGN11', 'sign-up error in update account');");
-        //    tFile.AppendLine("errorDeclaration('SGN12', 'modify error multi-account');");
-        //    tFile.AppendLine("errorDeclaration('SGN13', 'modify error in select valid account');");
-        //    tFile.AppendLine("errorDeclaration('SGN14', 'modify error email already use in another account');");
-        //    tFile.AppendLine("errorDeclaration('SGN15', 'singin error in request account ');");
-        //    tFile.AppendLine("errorDeclaration('SGN16', 'singin error no account ');");
-        //    tFile.AppendLine("errorDeclaration('SGN17', 'singin error already log with this account');");
-        //    tFile.AppendLine("errorDeclaration('SGN18', 'singin error multi-account ');");
-        //    tFile.AppendLine("errorDeclaration('SGN19', 'delete error in update account');");
-        //    //tFile.AppendLine("errorDeclaration('SGN25', 'signanonymous error in request account ');");
-        //    //tFile.AppendLine("errorDeclaration('SGN26', 'signanonymous error no account ');");
-        //    //tFile.AppendLine("errorDeclaration('SGN27', 'signanonymous error already log with this account');");
-        //    //tFile.AppendLine("errorDeclaration('SGN28', 'signanonymous error multi-account ');");
-        //    tFile.AppendLine("errorDeclaration('SGN33', 'signout impossible with anonymous account equal to restaured account');");
-        //    tFile.AppendLine("errorDeclaration('SGN70', 'rescue select error');");
-        //    tFile.AppendLine("errorDeclaration('SGN71', 'rescue unknow user');");
-        //    tFile.AppendLine("errorDeclaration('SGN72', 'rescue multi-user');");
-        //    tFile.AppendLine("errorDeclaration('SGN80', 'session select error');");
-        //    tFile.AppendLine("errorDeclaration('SGN81', 'impossible unknow user');");
-        //    tFile.AppendLine("errorDeclaration('SGN82', 'impossible multi-users');");
-        //    tFile.AppendLine("// Token error");
-        //    tFile.AppendLine("errorDeclaration('RQT01', 'error in request token creation');");
-        //    tFile.AppendLine("errorDeclaration('RQT11', 'new token is not in base');");
-        //    tFile.AppendLine("errorDeclaration('RQT12', 'error in token select');");
-        //    tFile.AppendLine("errorDeclaration('RQT13', 'error in token delete');");
-        //    tFile.AppendLine("errorDeclaration('RQT90', 'session not exists');");
-        //    tFile.AppendLine("errorDeclaration('RQT91', 'session expired');");
-        //    tFile.AppendLine("errorDeclaration('RQT92', 'token not in base');");
-        //    tFile.AppendLine("errorDeclaration('RQT93', 'too much tokens in base ... reconnect you');");
-        //    tFile.AppendLine("errorDeclaration('RQT94', 'too much tokens in base ... reconnect you');");
-        //    tFile.AppendLine("errorDeclaration('SERVER', 'error internal');");
-        //    tFile.AppendLine(NWD.K_CommentSeparator);
-        //    //tFile.AppendLine("// errors declared list");
-        //    //tFile.AppendLine("$ERR_LST;");
-        //    //tFile.AppendLine(NWD.K_CommentSeparator);
-        //    //tFile.AppendLine("// Use to declare an error use after");
-        //    //tFile.AppendLine("function errorDeclaration($sCode, $sDescription)");
-        //    //tFile.AppendLine("{");
-        //    //tFile.AppendLine("global $ERR_LST;");
-        //    //tFile.AppendLine("$ERR_LST[$sCode] = $sDescription;");
-        //    //tFile.AppendLine("}");
-        //    //tFile.AppendLine(NWD.K_CommentSeparator);
-        //    //tFile.AppendLine("// Use to insert error pre-declare in JSON's respond");
-        //    //tFile.AppendLine("function error($sCode, $sExit=true, $sfile='', $sfunction='', $sline='')");
-        //    //tFile.AppendLine("{");
-        //    //tFile.AppendLine("global $ERR_LST, $ERR_BOL, $ERR_COD, $ERR_DSC;");
-        //    //tFile.AppendLine("$ERR_BOL = true;");
-        //    //tFile.AppendLine("$ERR_COD = $sCode;");
-        //    //tFile.AppendLine("$ERR_DSC = $ERR_LST[$sCode];");
-        //    //tFile.AppendLine("myLogLineReturn();");
-        //    //tFile.AppendLine("myLog('error with code '.$sCode, $sfile, $sfunction, $sline);");
-        //    //tFile.AppendLine("myLogLineReturn();");
-        //    //tFile.AppendLine("if ($sExit==true)");
-        //    //tFile.AppendLine("{");
-        //    //tFile.AppendLine("include_once ('" + NWD.K_STATIC_FINISH_PHP + "');");
-        //    //tFile.AppendLine("exit;");
-        //    //tFile.AppendLine("}");
-        //    //tFile.AppendLine("else{");
-        //    //tFile.AppendLine("myLog('error without exit','','','');");
-        //    //tFile.AppendLine("}");
-        //    //tFile.AppendLine("}");
-        //    //tFile.AppendLine(NWD.K_CommentSeparator);
-        //    //tFile.AppendLine("// Use to insert error in JSON's respond");
-        //    //tFile.AppendLine("function errorInfos($sCode,$sInfos)");
-        //    //tFile.AppendLine("{");
-        //    //tFile.AppendLine("global $ERR_INF;");
-        //    //tFile.AppendLine("$ERR_INF = $sInfos;");
-        //    //tFile.AppendLine("error($sCode);");
-        //    //tFile.AppendLine("}");
-        //    //tFile.AppendLine(NWD.K_CommentSeparator);
-        //    //tFile.AppendLine("// return error in database");
-        //    //tFile.AppendLine("function errorReference($sReference)");
-        //    //tFile.AppendLine("{");
-        //    //tFile.AppendLine("global "+NWD.K_SQL_CON+", "+NWD.K_ENV+";");
-        //    //tFile.AppendLine("$tRow = '';");
-        //    //tFile.AppendLine("$tQuery = 'SELECT * FROM `'."+NWD.K_ENV+".'_NWDError` WHERE `Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sReference).'\\';';");
-        //    //tFile.AppendLine("// echo($tQuery);");
-        //    //tFile.AppendLine("$tResult = "+NWD.K_SQL_CON+"->query($tQuery);");
-        //    //tFile.AppendLine("if (!$tResult)");
-        //    //tFile.AppendLine("{");
-        //    //tFile.AppendLine("error('ERRx33');");
-        //    //tFile.AppendLine("}");
-        //    //tFile.AppendLine("else");
-        //    //tFile.AppendLine("{");
-        //    //tFile.AppendLine("if ($tResult->num_rows >= 1)");
-        //    //tFile.AppendLine("{");
-        //    //tFile.AppendLine("$tRow = $tResult->fetch_assoc();");
-        //    //tFile.AppendLine("}");
-        //    //tFile.AppendLine("}");
-        //    //tFile.AppendLine("mysqli_free_result($tResult);");
-        //    //tFile.AppendLine("return $tRow;");
-        //    //tFile.AppendLine("}");
-        //    //tFile.AppendLine(NWD.K_CommentSeparator);
-        //    //tFile.AppendLine("// return true if error in respond");
-        //    //tFile.AppendLine("function errorDetected()");
-        //    //tFile.AppendLine("{");
-        //    //tFile.AppendLine("global $ERR_BOL;");
-        //    //tFile.AppendLine("return $ERR_BOL;");
-        //    //tFile.AppendLine("}");
-        //    //tFile.AppendLine(NWD.K_CommentSeparator);
-        //    //tFile.AppendLine("// use to cancel error in respond");
-        //    //tFile.AppendLine("function errorCancel()");
-        //    //tFile.AppendLine("{");
-        //    //tFile.AppendLine("global $ERR_BOL, $ERR_COD, $ERR_DSC, $ERR_INF;");
-        //    //tFile.AppendLine("$ERR_BOL = false;");
-        //    //tFile.AppendLine("$ERR_COD = '';");
-        //    //tFile.AppendLine("$ERR_DSC = '';");
-        //    //tFile.AppendLine("$ERR_INF = '';");
-        //    //tFile.AppendLine("}");
-        //    //tFile.AppendLine(NWD.K_CommentSeparator);
-        //    //tFile.AppendLine("// insert keys and value in JSON's respond");
-        //    //tFile.AppendLine("function errorResult()");
-        //    //tFile.AppendLine("{");
-        //    //tFile.AppendLine("global $ERR_BOL, $ERR_COD, $ERR_DSC, $ERR_INF;");
-        //    //tFile.AppendLine("if ($ERR_BOL == true)");
-        //    //tFile.AppendLine("{");
-        //    //tFile.AppendLine("respondAdd('error', $ERR_BOL);");
-        //    //tFile.AppendLine("respondAdd('error_code',$ERR_COD);");
-        //    //tFile.AppendLine("respondAdd('error_description',$ERR_DSC);");
-        //    //tFile.AppendLine("if ($ERR_INF!='')");
-        //    //tFile.AppendLine("{");
-        //    //tFile.AppendLine("respondAdd('error_infos',$ERR_INF);");
-        //    //tFile.AppendLine("}");
-        //    //tFile.AppendLine("}");
-        //    //tFile.AppendLine("}");
-        //    //tFile.AppendLine(NWD.K_CommentSeparator);
-        //    //tFile.AppendLine("// insert keys and value in JSON's respond");
-        //    //tFile.AppendLine("function errorPossibilities()");
-        //    //tFile.AppendLine("{");
-        //    //tFile.AppendLine("global $ERR_LST;");
-        //    //tFile.AppendLine("respondAdd(errorPossibilities,$ERR_LST);");
-        //    //tFile.AppendLine("}");
-        //    //tFile.AppendLine(NWD.K_CommentSeparator);
-        //    tFile.AppendLine("?>");
-        //    string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
-        //    sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_STATIC_ERROR_PHP, tFileFormatted);
-        //    //NWEBenchmark.Finish();
-        //}
-        //-------------------------------------------------------------------------------------------------------------
         private void CreatePHP_StaticFinishFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             //NWEBenchmark.Start();
@@ -412,30 +32,16 @@ namespace NetWorkedData
             {
                 tFile.AppendLine("// add log");
                 tFile.AppendLine(NWDError.FUNCTIONPHP_respond + "();");
-                //tFile.AppendLine("respondAdd('log',$RRR_LOG);");
             }
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// web-services build");
             tFile.AppendLine("respondAdd('wsbuild',$WSBUILD);");
             tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("//disconnect mysql for editor");
-            tFile.AppendLine("if ($admin == true)");
+            tFile.AppendLine("//disconnect mysql");
+            tFile.AppendLine("foreach(" + NWD.K_SQL_CON_EDITOR + " as $tRange=>$tConnexion)");
             tFile.AppendLine("{");
             {
-                tFile.AppendLine("foreach(" + NWD.K_SQL_CON_EDITOR + " as $tRange=>$Connexion)");
-                tFile.AppendLine("{");
-                {
-                    tFile.AppendLine("mysqli_close($Connexion);");
-                }
-                tFile.AppendLine("}");
-            }
-            tFile.AppendLine("}");
-            tFile.AppendLine("//disconnect mysql for account");
-
-            tFile.AppendLine(" if (isset(" + NWD.K_SQL_CON + "))");
-            tFile.AppendLine("{");
-            {
-                tFile.AppendLine("mysqli_close(" + NWD.K_SQL_CON + ");");
+                tFile.AppendLine("mysqli_close($tConnexion);");
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -461,6 +67,10 @@ namespace NetWorkedData
             tFile.AppendLine("if (respondIsset('" + NWD.K_JSON_SECURE_KEY + "'))");
             tFile.AppendLine("{");
             tFile.AppendLine("header('" + NWEUnityWebService.SecureKey + ": " + NWEUnityWebService.SecureDigestKey + "');");
+            if (LogMode == true)
+            {
+                tFile.AppendLine("$REPSCR['" + NWD.K_WEB_LOG_Key + "'] = $REP['" + NWD.K_WEB_LOG_Key + "'];");
+            }
             tFile.AppendLine("$REPSCR['" + NWEUnityWebService.SecureKey + "'] = aes128Encrypt( $json, $NWD_SHA_SEC, $NWD_SHA_VEC);");
             tFile.AppendLine("$REPSCR['" + NWEUnityWebService.SecureDigestKey + "'] = sha1($NWD_SLT_STR.$REPSCR['" + NWEUnityWebService.SecureKey + "'].$NWD_SLT_END);");
             tFile.AppendLine("$json = json_encode($REPSCR);");
@@ -478,6 +88,7 @@ namespace NetWorkedData
         private void CreatePHP_StaticFunctionsFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
 
+            //NWEBenchmark.Start();
             string tSignAccountKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Account);
             string tSignHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash);
             string tRescueHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash);
@@ -486,255 +97,478 @@ namespace NetWorkedData
             string tBan = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Ban);
 
 
-            //NWEBenchmark.Start();
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
             tFile.AppendLine(Headlines());
             tFile.AppendLine("// Functions");
             tFile.AppendLine(NWD.K_CommentSeparator);
+            // --------------------------------------
             tFile.AppendLine("include_once ('" + NWD.K_STATIC_RESPOND_PHP + "');");
             tFile.AppendLine("include_once (" + NWDBasisHelper.BasisHelper<NWDError>().PHP_ENGINE_PATH(this) + ");");
             tFile.AppendLine("include_once ('" + NWD.K_STATIC_VALUES_PHP + "');");
             tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/NWDAccount/" + NWD.K_WS_SYNCHRONISATION + "');");
+
+            // --------------------------------------
+
+            tFile.AppendLine("include_once (" + NWDBasisHelper.BasisHelper<NWDAccount>().PHP_SYNCHRONISATION_PATH(this) + ");");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
+            // --------------------------------------
             tFile.AppendLine("// admin ?");
             tFile.AppendLine("$admin = false;");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
+            // --------------------------------------
             tFile.AppendLine("// ban account ?");
             tFile.AppendLine("$ban = false;");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
-            tFile.AppendLine("function GetLocalizableString($sString, $sLang='BASE')");
+            // --------------------------------------
+            tFile.AppendLine("function GetRangeAccessForAccount($sAccountReference)");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tLines = explode('•', $sString);");
-            tFile.AppendLine("foreach ($tLines as $tline)");
-            tFile.AppendLine("{");
-            tFile.AppendLine("$tKeyValues = explode(':', $tline);");
-            tFile.AppendLine("$tResult[$tKeyValues[0]] = $tKeyValues[1];");
-            tFile.AppendLine("}");
-            tFile.AppendLine("if (isset($tResult[$sLang]))");
-            tFile.AppendLine("{");
-            tFile.AppendLine("return UnprotectLocalizableString($tResult[$sLang]);");
-            tFile.AppendLine("}");
-            tFile.AppendLine("else if (isset($tResult['BASE']))");
-            tFile.AppendLine("{");
-            tFile.AppendLine("return UnprotectLocalizableString($tResult['BASE']);");
-            tFile.AppendLine("}");
-            tFile.AppendLine("else");
-            tFile.AppendLine("{");
-            tFile.AppendLine("return '';");
-            tFile.AppendLine("}");
-            tFile.AppendLine("}");
-            tFile.AppendLine(NWD.K_CommentSeparator);
-
-            tFile.AppendLine("function UnprotectLocalizableString($sString)");
-            tFile.AppendLine("{");
-            tFile.AppendLine("$tString =  str_replace('@1#','•',$sString);");
-            tFile.AppendLine("$tString =  str_replace('@2#',':',$tString);");
-            tFile.AppendLine("$tString =  str_replace('@3#','_',$tString);");
-            tFile.AppendLine("return $tString;");
-            tFile.AppendLine("}");
-            tFile.AppendLine(NWD.K_CommentSeparator);
-
-
-            tFile.AppendLine("function SendEmail($sSubject, $sMessage, $sEmail, $sEmailFrom)");
-            tFile.AppendLine("{");
-
-
-            //            tFile.AppendLine("set_include_path(\".\".PATH_SEPARATOR. ($UserDir = dirname($_SERVER['DOCUMENT_ROOT'])). \"/pear/php\".PATH_SEPARATOR.get_include_path());");
-            //            tFile.AppendLine("require_once \"Mail.php\"; ");
-
-            //            tFile.AppendLine("$host = "ssl://smtp.dreamhost.com";
-            //tFile.AppendLine("$username = "youremail@example.com";");
-            //            tFile.AppendLine("$password = "your email password";");
-            //            tFile.AppendLine("$port = "465";");
-            //            tFile.AppendLine("$to = "address_form_will_send_TO@example.com";");
-            //            tFile.AppendLine("$email_from = $sEmailFrom;");
-            //tFile.AppendLine("$email_subject = "Subject Line Here: ";");
-            //            tFile.AppendLine("$email_body = "whatever you like";");
-            //$tFile.AppendLine("email_address = "reply -to@example.com";");
-            //            tFile.AppendLine("$headers = array('From' => $email_from, 'To' => $to, 'Subject' => $email_subject, 'Reply-To' => $email_address);");
-            //            tFile.AppendLine("$smtp = Mail::factory('smtp', array('host' => $host, 'port' => $port, 'auth' => true, 'username' => $username, 'password' => $password));");
-            //            tFile.AppendLine("$mail = $smtp->send($to, $headers, $email_body);");
-            //            tFile.AppendLine("if (PEAR::isError($mail))");
-            //            tFile.AppendLine(" {");
-            //            tFile.AppendLine("echo(" < p>". $mail->getMessage(). "</p> ");");
-            //            tFile.AppendLine("}");
-            //            tFile.AppendLine("else");
-            //            tFile.AppendLine("{");
-            //            tFile.AppendLine("echo(" < p>Message successfully sent!</p> ");");
-            //            tFile.AppendLine(" }");
-
-
-
-            if (MailBySMTP == true)
             {
-                tFile.AppendLine("require_once \"Mail.php\";");
-                tFile.AppendLine("global $SMTP_HOST, $SMTP_PORT, $SMTP_FRO, $SMTP_USER, $SMTP_PSW;");
-                tFile.AppendLine("$headers['From'] = $sEmailFrom;");
-                tFile.AppendLine("$headers['To'] = $sEmail;");
-                tFile.AppendLine("$headers['Subject'] =$sSubject;");
-                tFile.AppendLine("$headers['Content-Type'] ='text/html';");
-                tFile.AppendLine("$headers['charset'] = \"utf-8\";");
-                tFile.AppendLine("$params['sendmail_path'] = '/usr/lib/sendmail';");
-                tFile.AppendLine("// Create the mail object using the Mail::factory method");
-                tFile.AppendLine("$mail_object = Mail::factory('smtp', array (");
-                if (MailAuth == true)
-                {
-                    tFile.AppendLine("'host' => 'ssl://'.$SMTP_HOST, ");
-                }
-                else
-                {
-                    tFile.AppendLine("'host' => $SMTP_HOST, ");
-                }
-                tFile.AppendLine("'port' => $SMTP_PORT, ");
-                if (MailAuth == true)
-                {
-                    tFile.AppendLine("'auth' => true, ");
-                    tFile.AppendLine("'username' => $SMTP_USER, ");
-                    tFile.AppendLine("'password' => $SMTP_PSW));");
-                }
-                //tFile.AppendLine("if (PEAR::isError($mail_object->send($sEmail, $headers, $sMessage)))");
-                tFile.AppendLine("if ($mail_object->send($sEmail, $headers, $sMessage))");
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("return explode('" + NWEConstants.K_MINUS + "',$sAccountReference)[1];");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            // --------------------------------------
+            tFile.AppendLine("function SetCurrentDatabaseForAccount($sAccountReference)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("$tRangeAccess = GetRangeAccessForAccount($sAccountReference);");
+                tFile.AppendLine("SetCurrentDatabase($tRangeAccess);");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            // --------------------------------------
+            tFile.AppendLine("function SetCurrentDatabase($sRangeAccess)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("global " + NWD.K_SQL_CON + ", $SQL_LIST, $SQL_CURRENT_RANGE, $SQL_CURRENT_ACCESSRANGE;");
+                tFile.AppendLine("$tRangeToUse = $SQL_CURRENT_RANGE;");
+                tFile.AppendLine("foreach ($SQL_LIST as $tRange => $tValue)");
                 tFile.AppendLine("{");
-                tFile.AppendLine(NWDError.PHP_log(this, "Email sent!"));
+                {
+                    tFile.AppendLine("if ($sRangeAccess >= $tValue['min'] && $sRangeAccess <= $tValue['max'])");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("$tRangeToUse = $tRange;");
+                        tFile.AppendLine("break;");
+                    }
+                    tFile.AppendLine("}");
+                }
+                tFile.AppendLine("}");
+
+                tFile.AppendLine("if ($tRangeToUse != $SQL_CURRENT_RANGE)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("$SQL_CURRENT_RANGE = $tRangeToUse;");
+                    tFile.AppendLine("$SQL_CURRENT_ACCESSRANGE = $sRangeAccess;");
+                    tFile.AppendLine(NWD.K_SQL_CON + " = GetDatabaseByRange($SQL_CURRENT_RANGE);");
+                }
+                tFile.AppendLine("}");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+            // --------------------------------------
+            tFile.AppendLine("function GetDatabaseByRange($sRange)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("global $SQL_LIST, " + NWD.K_SQL_CON_EDITOR + ";");
+                tFile.AppendLine("if (isset(" + NWD.K_SQL_CON_EDITOR + "[$sRange]) == false)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("" + NWD.K_SQL_CON_EDITOR + "[$sRange] = new mysqli($SQL_LIST[$sRange]['host'], $SQL_LIST[$sRange]['user'], $SQL_LIST[$sRange]['password'], $SQL_LIST[$sRange]['database'], $SQL_LIST[$sRange]['port']);");
+                    tFile.AppendLine("if (" + NWD.K_SQL_CON_EDITOR + "[$sRange]->connect_errno)");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine(NWDError.PHP_log(this, "Error in MySQL connexion on '.$SQL_LIST[$sRange]['host'].' for '.$SQL_LIST[$sRange]['user'].' with password •••••••••••• on database '.$SQL_LIST[$sRange]['database'].'"));
+                        tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SQL00));
+                        //tFile.AppendLine("include_once ('" + NWD.K_STATIC_FINISH_PHP + "');");
+                        //tFile.AppendLine("exit;");
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("else");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("$SQL_LIST[$sRange]['connexion'] = " + NWD.K_SQL_CON_EDITOR + "[$sRange];");
+                        tFile.AppendLine(NWDError.PHP_log(this, "'.$sRange.' connexion success on '.$SQL_LIST[$sRange]['title'].' => '.$SQL_LIST[$sRange]['id'].'"));
+                    }
+                    tFile.AppendLine("}");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("return " + NWD.K_SQL_CON_EDITOR + "[$sRange];");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+            // --------------------------------------
+            tFile.AppendLine("function GetDatabaseByRangeAccess($sRangeAccess)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("global " + NWD.K_SQL_CON + ", $SQL_LIST, " + NWD.K_SQL_CON_EDITOR + ", $SQL_CURRENT_ACCESSRANGE;");
+                tFile.AppendLine("$rConnexion = " + NWD.K_SQL_CON + ";");
+                tFile.AppendLine("if ($sRangeAccess != $SQL_CURRENT_ACCESSRANGE)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("foreach ($SQL_LIST as $tRange => $tValue)");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("if ($sRangeAccess >= $tValue['min'] && $sRangeAccess <= $tValue['max'])");
+                        tFile.AppendLine("{");
+                        {
+                            tFile.AppendLine("$rConnexion = GetDatabaseByRange($tRange);");
+                            tFile.AppendLine("break;");
+                        }
+                        tFile.AppendLine("}");
+                    }
+                    tFile.AppendLine("}");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("return $rConnexion;");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+            // --------------------------------------
+            tFile.AppendLine("function ConnectAllDatabases()");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("global $SQL_LIST, " + NWD.K_SQL_CON_EDITOR + ";");
+                tFile.AppendLine("global $K_ConnectAllDatabases;");
+                tFile.AppendLine("if (isset($K_ConnectAllDatabases) == false)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("$K_ConnectAllDatabases = true;");
+                    tFile.AppendLine("foreach ($SQL_LIST as $tRange => $tValue)");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("if (isset(" + NWD.K_SQL_CON_EDITOR + "[$tRange]) == false)");
+                        tFile.AppendLine("{");
+                        {
+                            tFile.AppendLine("" + NWD.K_SQL_CON_EDITOR + "[$tRange] = new mysqli($tValue['host'], $tValue['user'], $tValue['password'], $tValue['database'], $tValue['port']);");
+                            tFile.AppendLine("if (" + NWD.K_SQL_CON_EDITOR + "[$tRange]->connect_errno)");
+                            tFile.AppendLine("{");
+                            {
+                                tFile.AppendLine(NWDError.PHP_log(this, "Error in MySQL connexion on '.$tValue['host'].' for '.$tValue['user'].' with password •••••••••••• on database '.$tValue['database'].'"));
+                                tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SQL00));
+                                //tFile.AppendLine("include_once ('" + NWD.K_STATIC_FINISH_PHP + "');");
+                                //tFile.AppendLine("exit;");
+                            }
+                            tFile.AppendLine("}");
+                            tFile.AppendLine("else");
+                            tFile.AppendLine("{");
+                            {
+                                tFile.AppendLine("$SQL_LIST[$tRange]['connexion'] = " + NWD.K_SQL_CON_EDITOR + "[$tRange];");
+                                tFile.AppendLine(NWDError.PHP_log(this, "'.$tRange.' connexion success on '.$tValue['title'].' => '.$tValue['id'].'"));
+                            }
+                            tFile.AppendLine("}");
+                        }
+                        tFile.AppendLine("}");
+                    }
+                    tFile.AppendLine("}");
+                }
+                tFile.AppendLine("}");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+            // --------------------------------------
+            tFile.AppendLine("function SelectFromDatabase($sRangeAccess, $sSQL, $sErrorTag, $sInfos, $sExit)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("$tConnexion = GetDatabaseByRangeAccess($sRangeAccess);");
+                tFile.AppendLine("return SelectFromConnexion($tConnexion, $sSQL, $sErrorTag, $sInfos, $sExit);");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+            // --------------------------------------
+            tFile.AppendLine("function ExecuteInDatabase($sRangeAccess, $sSQL, $sErrorTag, $sInfos, $sExit)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("$tConnexion = GetDatabaseByRangeAccess($sRangeAccess);");
+                tFile.AppendLine("return ExecuteInConnexion($tConnexion, $sSQL, $sErrorTag, $sInfos, $sExit);");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+            // --------------------------------------
+            tFile.AppendLine("// return a array assoc structure: ");
+            tFile.AppendLine("// $rReturn['error']  : true or false");
+            tFile.AppendLine("// $rReturn['count']  : number of rows in all result");
+            tFile.AppendLine("// $rReturn['connexions'][x]  : the list of connexions use for the result of datas");
+            tFile.AppendLine("// $rReturn['datas'][x][y...]  : the list of datas by connexions index used for the result of datas");
+            tFile.AppendLine("function SelectFromConnexion($sCon, $sSQL, $sErrorTag, $sInfos, $sExit)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("$rReturn = array();");
+                tFile.AppendLine("$rReturn['error'] = false;");
+                tFile.AppendLine("$rReturn['count'] = 0;");
+                tFile.AppendLine("$rReturn['datas'] = array();");
+                tFile.AppendLine("$rReturn['connexions'] = array();");
+                tFile.AppendLine(NWDError.PHP_log(this, "select in connexion request  <b> '.$sSQL.' </b>"));
+                tFile.AppendLine("$tResult = $sCon->query($sSQL);");
+                tFile.AppendLine("if (!$tResult)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("$rReturn['error'] = true;");
+                    tFile.AppendLine("if ($sErrorTag != '') {error($sErrorTag, $sInfos, $sExit, __DIR__, __FILE__, __FUNCTION__, __LINE__);};");
+                    tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$sSQL", "$sCon"));
+                }
                 tFile.AppendLine("}");
                 tFile.AppendLine("else");
                 tFile.AppendLine("{");
-                tFile.AppendLine(NWDError.PHP_log(this, "Email error ... not send!"));
+                {
+                    tFile.AppendLine("$rReturn['datas'][0] = array();");
+                    tFile.AppendLine("$rReturn['connexions'][0] = $sCon;");
+                    tFile.AppendLine("while($tRow = $tResult->fetch_array())");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("$rReturn['count']++;");
+                        tFile.AppendLine("$rReturn['datas'][0][] = $tRow;");
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("mysqli_free_result($tResult);");
+                }
                 tFile.AppendLine("}");
-            }
-            else
-            {
-                tFile.AppendLine("global $NWD_APP_NAM;");
-                tFile.AppendLine("$headers = 'Reply-to: '.$sEmailFrom.''.\"\\n\";");
-                tFile.AppendLine("$headers .= 'From: \"'.$NWD_APP_NAM.'\" <'.$sEmailFrom.'>'.\"\\n\";");
-                tFile.AppendLine("$headers .= 'Return-path: '.$sEmailFrom.\"\\n\";");
-                tFile.AppendLine("$headers .= 'X-Mailer: PHP '.phpversion().\"\\n\";");
-                tFile.AppendLine("$headers .= 'X-Priority: 1 '.\"\\n\";");
-                tFile.AppendLine("mail($sEmail,$sSubject, $sMessage,$headers);");
+                tFile.AppendLine(NWDError.PHP_log(this, "result is '.json_encode($rReturn).'"));
+                tFile.AppendLine("return $rReturn;");
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
+            // --------------------------------------
+            tFile.AppendLine("// return succes : true or failed : false ");
+            tFile.AppendLine("function ExecuteInConnexion($sCon, $sSQL, $sErrorTag, $sInfos, $sExit)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("$rReturn = true;");
+                tFile.AppendLine(NWDError.PHP_log(this, "execute in connexion request  <b> '.$sSQL.' </b>"));
+                tFile.AppendLine("$tResult = $sCon->query($sSQL);");
+                tFile.AppendLine("if (!$tResult)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("if ($sErrorTag != '') {error($sErrorTag, $sInfos, $sExit, __DIR__, __FILE__, __FUNCTION__, __LINE__);};");
+                    tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$sSQL", "$sCon"));
+                    tFile.AppendLine("$rReturn = false;");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine(NWDError.PHP_log(this, "result is '.json_encode($rReturn).'"));
+                tFile.AppendLine("return $rReturn;");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
 
-            //tFile.AppendLine("function versionTest($sVersion)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("global "+NWD.K_ENV+";");
-            //tFile.AppendLine("global "+NWD.K_SQL_CON+";");
-            //tFile.AppendLine("global $admin;");
-            //tFile.AppendLine("$return = true;");
-            //tFile.AppendLine("$tTested = false;");
-            //tFile.AppendLine("//mylog('test version ' . $sVersion, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("if ("+NWD.K_ENV+"=='Dev')");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("$tQuery = 'SELECT * FROM `'."+NWD.K_ENV+".'_NWDVersion` WHERE `Version` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sVersion).'\\' AND `Buildable` = 1 AND `ActiveDev` = 1 AND `XX`= 0 AND `AC`= 1;';");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("else if ("+NWD.K_ENV+"=='Preprod')");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("$tQuery = 'SELECT * FROM `'."+NWD.K_ENV+".'_NWDVersion` WHERE `Version` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sVersion).'\\' AND `Buildable` = 1 AND `ActivePreprod` = 1 AND `XX`= 0 AND `AC`= 1;';");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("else if ("+NWD.K_ENV+"=='Prod')");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("$tQuery = 'SELECT * FROM `'."+NWD.K_ENV+".'_NWDVersion` WHERE `Version` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sVersion).'\\' AND `Buildable` = 1 AND `ActiveProd` = 1 AND `XX`= 0 AND `AC`= 1;';");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("$tResult = "+NWD.K_SQL_CON+"->query($tQuery);");
-            //tFile.AppendLine("if (!$tResult)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.' in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("error('GVA00',true, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("else");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("if ($tResult->num_rows == 1)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("//              mylog('OK ONE RESULT FOR VERSION REQUEST ' . $sVersion, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("while($tRow = $tResult->fetch_array())");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("if ($tRow['BlockDataUpdate'] == 1)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("//                      mylog('BUT BLOCK UPDATE DATAS' . $sVersion, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("error('GVA99',true, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("$return = false;");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("if ($tRow['BlockApplication'] == 1)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("//                      mylog('BUT FORCE UPDATE APP' . $sVersion, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("error('GVA01',true, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("respondAdd('AlertTitle',$tRow['AlertTitle']);");
-            //tFile.AppendLine("respondAdd('AlertMessage',$tRow['AlertMessage']);");
-            //tFile.AppendLine("respondAdd('AlertValidation',$tRow['AlertValidation']);");
-            //tFile.AppendLine("respondAdd('OSXStoreURL',$tRow['OSXStoreURL']);");
-            //tFile.AppendLine("respondAdd('IOSStoreURL',$tRow['IOSStoreURL']);");
-            //tFile.AppendLine("respondAdd('GooglePlayURL',$tRow['GooglePlayURL']);");
-            //tFile.AppendLine("$return = false;");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("else");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("//mylog('ERROR NO RESULT OR TOO MUCH RESULT FOR VERSION REQUEST ' . $sVersion, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("$return = false;");
-            //tFile.AppendLine("error('GVA02',true, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("respondAdd('AlertTitle',$tRow['AlertTitle']);");
-            //tFile.AppendLine("respondAdd('AlertMessage',$tRow['AlertMessage']);");
-            //tFile.AppendLine("respondAdd('AlertValidation',$tRow['AlertValidation']);");
-            //tFile.AppendLine("respondAdd('OSXStoreURL',$tRow['OSXStoreURL']);");
-            //tFile.AppendLine("respondAdd('IOSStoreURL',$tRow['IOSStoreURL']);");
-            //tFile.AppendLine("respondAdd('GooglePlayURL',$tRow['GooglePlayURL']);");
-            //tFile.AppendLine("$return = false;");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("return $return;");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine(NWD.K_CommentSeparator);
+            // --------------------------------------
 
-            //tFile.AppendLine("// log function");
-            //tFile.AppendLine("$RRR_LOG = '';");
-            //tFile.AppendLine("$RRR_LOG_CNT = 0;");
-            //tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("// return a array assoc structure: ");
+            tFile.AppendLine("// $rReturn['error']  : true or false");
+            tFile.AppendLine("// $rReturn['count']  : number of rows in all result");
+            tFile.AppendLine("// $rReturn['connexions'][x]  : the list of connexions use for the result of datas");
+            tFile.AppendLine("// $rReturn['datas'][x][y...]  : the list of datas by connexions index used for the result of datas");
+            tFile.AppendLine("function SelectFromAllDatabase($sSQL, $sErrorTag, $sInfos, $sExit)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("global " + NWD.K_SQL_CON_EDITOR + ";");
+                tFile.AppendLine("$rReturn = array();");
+                tFile.AppendLine("$rReturn['error'] = false;");
+                tFile.AppendLine("$rReturn['count'] = 0;");
+                tFile.AppendLine("$rReturn['datas'] = array();");
+                tFile.AppendLine("$rReturn['connexions'] = array();");
+                tFile.AppendLine("ConnectAllDatabases();");
+                tFile.AppendLine("$tI = 0;");
+                tFile.AppendLine("foreach (" + NWD.K_SQL_CON_EDITOR + " as $tRange => $tConnexion)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine(NWDError.PHP_log(this, "select in DB '.$tRange.' request  <b> '.$sSQL.' </b>"));
+                    tFile.AppendLine("$tResult = $tConnexion->query($sSQL);");
+                    tFile.AppendLine("if (!$tResult)");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("$rReturn['error'] = true;");
+                        tFile.AppendLine("if ($sErrorTag != '') {error($sErrorTag, $sInfos, $sExit, __DIR__, __FILE__, __FUNCTION__, __LINE__);};");
+                        tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$sSQL", "$tConnexion"));
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("else");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("$rReturn['datas'][$tI] = array();");
+                        tFile.AppendLine("$rReturn['connexions'][$tI] = $tConnexion;");
+                        tFile.AppendLine("while($tRow = $tResult->fetch_array())");
+                        tFile.AppendLine("{");
+                        {
+                            tFile.AppendLine("$rReturn['count']++;");
+                            tFile.AppendLine("$rReturn['datas'][$tI][] = $tRow;");
+                        }
+                        tFile.AppendLine("}");
+                        tFile.AppendLine("mysqli_free_result($tResult);");
+                        tFile.AppendLine("$tI++;");
+                    }
+                    tFile.AppendLine("}");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine(NWDError.PHP_log(this, "result is '.json_encode($rReturn).'"));
+                tFile.AppendLine("return $rReturn;");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
 
-            //tFile.AppendLine("function myLogLineReturn()");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("global $RRR_LOG,$RRR_LOG_CNT;");
-            //tFile.AppendLine("$RRR_LOG_CNT++;");
-            //tFile.AppendLine("$RRR_LOG.='\\r'.$RRR_LOG_CNT;");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine(NWD.K_CommentSeparator);
+            // --------------------------------------
+            tFile.AppendLine("// return succes : true or failed : false ");
+            tFile.AppendLine("function ExecuteInAllDatabase($sSQL, $sErrorTag, $sInfos, $sExit)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("global " + NWD.K_SQL_CON_EDITOR + ";");
+                tFile.AppendLine("$rReturn = true;");
+                tFile.AppendLine("ConnectAllDatabases();");
+                tFile.AppendLine("foreach (" + NWD.K_SQL_CON_EDITOR + " as $tRange => $tValue)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine(NWDError.PHP_log(this, "execute in DB '.$tRange.' request  <b> '.$sSQL.' </b>"));
+                    tFile.AppendLine("$tResult = $tValue->query($sSQL);");
+                    tFile.AppendLine("if (!$tResult)");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("if ($sErrorTag != '') {error($sErrorTag, $sInfos, $sExit, __DIR__, __FILE__, __FUNCTION__, __LINE__);};");
+                        tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$sSQL", "$tValue"));
+                        tFile.AppendLine("$rReturn = false;");
+                    }
+                    tFile.AppendLine("}");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine(NWDError.PHP_log(this, "result is '.json_encode($rReturn).'"));
+                tFile.AppendLine("return $rReturn;");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
 
-            //tFile.AppendLine("function myLog($sString, $sfile, $sfunction, $sline)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("global $RRR_LOG,$RRR_LOG_CNT;");
-            //tFile.AppendLine("$RRR_LOG_CNT++;");
-            //tFile.AppendLine("$sfile = basename($sfile);");
-            //tFile.AppendLine("$t = round(strlen($sfile)/4);");
-            //tFile.AppendLine("$r = 20-strlen($sfile);");
-            //tFile.AppendLine("$RRR_LOG.='\\r'.$RRR_LOG_CNT.' - '.$sfile.' ';");
-            //tFile.AppendLine("for ($i=$r;$i>0;$i--)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("$RRR_LOG.=' ';");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("if ($sfunction!='')");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("$eeee = $sfunction.'() line '.$sline;");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("else");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("$eeee = 'line '.$sline;");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("$r = 40-strlen($eeee);");
-            //tFile.AppendLine("$RRR_LOG.=$eeee;");
-            //tFile.AppendLine("for ($i=$r;$i>0;$i--)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("$RRR_LOG.=' ';");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("$RRR_LOG.=$sString;");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine(NWD.K_CommentSeparator);
+            // --------------------------------------
+            tFile.AppendLine("function GetLocalizableString($sString, $sLang='BASE')");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("$tLines = explode('•', $sString);");
+                tFile.AppendLine("foreach ($tLines as $tline)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("$tKeyValues = explode(':', $tline);");
+                    tFile.AppendLine("$tResult[$tKeyValues[0]] = $tKeyValues[1];");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("if (isset($tResult[$sLang]))");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("return UnprotectLocalizableString($tResult[$sLang]);");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("else if (isset($tResult['BASE']))");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("return UnprotectLocalizableString($tResult['BASE']);");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("else");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("return '';");
+                }
+                tFile.AppendLine("}");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
 
+            // --------------------------------------
+            tFile.AppendLine("function UnprotectLocalizableString($sString)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("$tString =  str_replace('@1#','•',$sString);");
+                tFile.AppendLine("$tString =  str_replace('@2#',':',$tString);");
+                tFile.AppendLine("$tString =  str_replace('@3#','_',$tString);");
+                tFile.AppendLine("return $tString;");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+            // --------------------------------------
+            tFile.AppendLine("function SendEmail($sSubject, $sMessage, $sEmail, $sEmailFrom)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                if (MailBySMTP == true)
+                {
+                    tFile.AppendLine("require_once \"Mail.php\";");
+                    tFile.AppendLine("global $SMTP_HOST, $SMTP_PORT, $SMTP_FRO, $SMTP_USER, $SMTP_PSW;");
+                    tFile.AppendLine("$headers['From'] = $sEmailFrom;");
+                    tFile.AppendLine("$headers['To'] = $sEmail;");
+                    tFile.AppendLine("$headers['Subject'] =$sSubject;");
+                    tFile.AppendLine("$headers['Content-Type'] ='text/html';");
+                    tFile.AppendLine("$headers['charset'] = \"utf-8\";");
+                    tFile.AppendLine("$params['sendmail_path'] = '/usr/lib/sendmail';");
+                    tFile.AppendLine("// Create the mail object using the Mail::factory method");
+                    tFile.AppendLine("$mail_object = Mail::factory('smtp', array (");
+                    if (MailAuth == true)
+                    {
+                        tFile.AppendLine("'host' => 'ssl://'.$SMTP_HOST, ");
+                    }
+                    else
+                    {
+                        tFile.AppendLine("'host' => $SMTP_HOST, ");
+                    }
+                    tFile.AppendLine("'port' => $SMTP_PORT, ");
+                    if (MailAuth == true)
+                    {
+                        tFile.AppendLine("'auth' => true, ");
+                        tFile.AppendLine("'username' => $SMTP_USER, ");
+                        tFile.AppendLine("'password' => $SMTP_PSW));");
+                    }
+                    //tFile.AppendLine("if (PEAR::isError($mail_object->send($sEmail, $headers, $sMessage)))");
+                    tFile.AppendLine("if ($mail_object->send($sEmail, $headers, $sMessage))");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine(NWDError.PHP_log(this, "Email sent!"));
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("else");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine(NWDError.PHP_log(this, "Email error ... not send!"));
+                    }
+                    tFile.AppendLine("}");
+                }
+                else
+                {
+                    tFile.AppendLine("global $NWD_APP_NAM;");
+                    tFile.AppendLine("$headers = 'Reply-to: '.$sEmailFrom.''.\"\\n\";");
+                    tFile.AppendLine("$headers .= 'From: \"'.$NWD_APP_NAM.'\" <'.$sEmailFrom.'>'.\"\\n\";");
+                    tFile.AppendLine("$headers .= 'Return-path: '.$sEmailFrom.\"\\n\";");
+                    tFile.AppendLine("$headers .= 'X-Mailer: PHP '.phpversion().\"\\n\";");
+                    tFile.AppendLine("$headers .= 'X-Priority: 1 '.\"\\n\";");
+                    tFile.AppendLine("mail($sEmail,$sSubject, $sMessage,$headers);");
+                }
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+            // --------------------------------------
             tFile.AppendLine("function adminHashTest ($sAdminHash, $sAdminKey, $sFrequence)");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine("$rReturn = false;");
             tFile.AppendLine("$temporalSalt = saltTemporal($sFrequence, 0);");
             tFile.AppendLine("$tHash = sha1($sAdminKey.$temporalSalt);");
@@ -758,16 +592,20 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
+            // --------------------------------------
             tFile.AppendLine("function referenceRandom ($sPrefix)");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine("global " + NWD.K_PHP_TIME_SYNC + ";");
             tFile.AppendLine("$tTime = " + NWD.K_PHP_TIME_SYNC + "-1492711200; // Timestamp unix format");
             tFile.AppendLine("return $sPrefix.'-'.$tTime.'-'.rand ( 100000 , 999999 ).'C'; // C for Certify");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
+            // --------------------------------------
             tFile.AppendLine("function referenceGenerate ($sPrefix, $sTable, $sColumn)");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ";");
             tFile.AppendLine("$tReference = referenceRandom($sPrefix);");
             tFile.AppendLine("$tTested = false;");
@@ -796,343 +634,70 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
-
-            tFile.AppendLine("function referenceSecondRandom ($sPrefix)");
-            tFile.AppendLine("{");
-            tFile.AppendLine("global " + NWD.K_PHP_TIME_SYNC + ";");
-            tFile.AppendLine("global $UserRange;");
-            tFile.AppendLine("$tTime = " + NWD.K_PHP_TIME_SYNC + "-1492711200; // Timestamp unix format");
-            tFile.AppendLine("return $sPrefix.'-'.$UserRange.'-'.$tTime.'-'.rand ( 100000 , 999999 ).'C'; // C for Certify");
-            tFile.AppendLine("}");
-            tFile.AppendLine(NWD.K_CommentSeparator);
-
-            tFile.AppendLine("function referenceSecondGenerate ($sPrefix, $sTable, $sColumn)");
-            tFile.AppendLine("{");
-            {
-                tFile.AppendLine("global " + NWD.K_SQL_CON + ";");
-                tFile.AppendLine("global $UserRange;");
-
-                tFile.AppendLine("// TODO replace by selected range ");
-                //tFile.AppendLine("$RangeMin = 000;");
-                //tFile.AppendLine("$RangeMax = 999;");
-                tFile.AppendLine("$tReference = referenceSecondRandom($sPrefix);");
-                tFile.AppendLine("$tTested = false;");
-                tFile.AppendLine("while ($tTested == false)");
-                tFile.AppendLine("{");
-                {
-                    tFile.AppendLine("$tQuery = 'SELECT `'.$sColumn.'` FROM `'.$sTable.'` WHERE `'.$sColumn.'` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($tReference).'\\';';");
-
-                    tFile.AppendLine("// TODO replace by selected range connexion");
-                    tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
-                    tFile.AppendLine("if (!$tResult)");
-                    tFile.AppendLine("{");
-                    {
-                        tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$tQuery", NWD.K_SQL_CON));
-                        tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
-                    }
-                    tFile.AppendLine("}");
-                    tFile.AppendLine("else");
-                    tFile.AppendLine("{");
-                    {
-                        tFile.AppendLine("if ($tResult->num_rows == 0)");
-                        tFile.AppendLine("{");
-                        {
-                            tFile.AppendLine("$tTested = true;");
-                        }
-                        tFile.AppendLine("}");
-                        tFile.AppendLine("else");
-                        tFile.AppendLine("{");
-                        {
-                            tFile.AppendLine("$tReference = referenceSecondRandom($sPrefix);");
-                        }
-                        tFile.AppendLine("}");
-                    }
-                    tFile.AppendLine("}");
-                }
-                tFile.AppendLine("}");
-                tFile.AppendLine("return $tReference;");
-            }
-            tFile.AppendLine("}");
-            tFile.AppendLine(NWD.K_CommentSeparator);
-
-            //tFile.AppendLine("// temporary account ?");
-            //tFile.AppendLine("// global $ACC_TMP, $ACC_NEED_USER_TRANSFERT;");
-            //tFile.AppendLine("$ACC_TMP = false;");
-            //tFile.AppendLine("$ACC_NEED_USER_TRANSFERT = false;");
-            //tFile.AppendLine(NWD.K_CommentSeparator);
-
-            //tFile.AppendLine("function AccountAnonymousNeeded($sUserTransfert=true)");
+            //// --------------------------------------
+            //tFile.AppendLine("function referenceSecondRandom ($sPrefix)");
             //tFile.AppendLine("{");
-            //tFile.AppendLine("global $ACC_TMP, $ACC_NEED_USER_TRANSFERT;");
-            //tFile.AppendLine("$ACC_TMP = true;");
-            //tFile.AppendLine("$ACC_NEED_USER_TRANSFERT = $sUserTransfert;");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine(NWD.K_CommentSeparator);
-            //tFile.AppendLine("function AccountIsSigned()");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("global $ACC_TMP;");
-            //tFile.AppendLine("$ACC_TMP = false;");
-            //tFile.AppendLine("}");
-
-            //tFile.AppendLine(NWD.K_CommentSeparator);
-
-            //tFile.AppendLine("function AccountAnonymeGenerate($sExit=true)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("global $ACC_TMP, "+NWD.K_PHP_TIME_SYNC+", $ACC_NEED_USER_TRANSFERT;");
-            //tFile.AppendLine("global $shs, $ereg_token;");
-            //tFile.AppendLine("global "+NWD.K_SQL_CON+";");
-            //tFile.AppendLine("global $token, $uuid;");
-            //tFile.AppendLine("global "+NWD.K_ENV+", $WSBUILD;");
-            //tFile.AppendLine("global $SQL_NWDAccount_WebService;");
-            //tFile.AppendLine("$rReturn = false;");
-            //tFile.AppendLine("if ($ACC_TMP == true)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("if (paramValue ('shs', '"+NWD.K_WEB_SIGN_Key+"', '/^(.{24,64})$/', 'SHS01', 'SHS02'))");
-            //tFile.AppendLine("{");
-            ////tFile.AppendLine("myLog('shs = '.$tNewSecretKey, __FILE__, __FUNCTION__, __LINE__);");
-            ////tFile.AppendLine("$tQuery = 'SELECT `Reference`, `Ban` FROM `'."+NWD.K_ENV+".'_NWDAccount` WHERE `SecretKey` = \\\'\'."+NWD.K_SQL_CON+"->real_escape_string($tNewSecretKey).\'\\\' AND `AC` = 1 AND `Email` = \\\'\\\' AND `FacebookID` = \\\'\\\' AND `GoogleID` = \\\'\\\';';");
-            ////tFile.AppendLine("$tResult = "+NWD.K_SQL_CON+"->query($tQuery);");
-            ////tFile.AppendLine("if (!$tResult)");
-            ////tFile.AppendLine("{");
-            ////tFile.AppendLine("myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.' in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
-            ////tFile.AppendLine("error('SGN15');");
-            ////tFile.AppendLine("}");
-            ////tFile.AppendLine("else");
-            ////tFile.AppendLine("{");
-            ////tFile.AppendLine("if ($tResult->num_rows == 0)");
-            ////tFile.AppendLine("{");
-            ////tFile.AppendLine("$ACC_TMP = true;");
-            ////tFile.AppendLine("}");
-            ////tFile.AppendLine("else if ($tResult->num_rows == 1)");
-            ////tFile.AppendLine("{");
-            ////tFile.AppendLine("$ACC_TMP = false;");
-            ////tFile.AppendLine("while ($tRow = $tResult->fetch_array())");
-            ////tFile.AppendLine("{");
-            ////tFile.AppendLine("if ($tRow['Ban'] > 0)");
-            ////tFile.AppendLine("{");
-            ////tFile.AppendLine("$ban = true;");
-            ////tFile.AppendLine("error('ACC98');");
-            ////tFile.AppendLine("}");
-            ////tFile.AppendLine("else");
-            ////tFile.AppendLine("{");
-            ////tFile.AppendLine("if ($uuid != $tRow['Reference'])");
-            ////tFile.AppendLine("{");
-            ////tFile.AppendLine("respondNeedReloadData();");
-            ////tFile.AppendLine("respondUUID($tRow['Reference']);");
-            ////tFile.AppendLine("respondAdd('sign', 'anonymous');");
-            ////tFile.AppendLine("}");
-            ////tFile.AppendLine("else");
-            ////tFile.AppendLine("{");
-            ////tFile.AppendLine("error('SGN17', true, __FILE__, __FUNCTION__, __LINE__);");
-            ////tFile.AppendLine("}");
-            ////tFile.AppendLine("$uuid = $tRow['Reference'];");
-            ////tFile.AppendLine("$token = NWDRequestTokenReset($uuid); // reset connexion to zero");
-            ////tFile.AppendLine(" }");
-            ////tFile.AppendLine("}");
-            ////tFile.AppendLine(" }");
-            ////tFile.AppendLine("else //or more than one user with this email … strange… I push an error, user must be unique");
-            ////tFile.AppendLine("{");
-            ////tFile.AppendLine("// to much users ...");
-            ////tFile.AppendLine("myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.' in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
-            ////tFile.AppendLine("error('SGN18');");
-            ////tFile.AppendLine("}");
-            ////tFile.AppendLine("mysqli_free_result($tResult);");
-            ////tFile.AppendLine("}");
-            //tFile.AppendLine("myLog('shs : '.$shs.'', __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("$tQuerySign = 'SELECT `"+tSignAccountKey+"` FROM `'."+NWD.K_ENV+".'_"+NWDBasisHelper.BasisHelper<NWDAccountSign>().ClassNamePHP+"` WHERE `"+tSignHashKey+"` = \\''."+NWD.K_SQL_CON+"->real_escape_string($shs).'\\' AND `"+tSignHashKey+"` != \\'\\' AND `"+tAC+"` = 1;';");
-            //tFile.AppendLine("$tResultSign = "+NWD.K_SQL_CON+"->query($tQuerySign);");
-            //tFile.AppendLine("if (!$tResultSign)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.' in : '.$tQuerySign.'', __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("error('SGN15', true, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("else");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("if ($tResultSign->num_rows == 0)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("$ACC_TMP = true;");
-            //tFile.AppendLine("// error('SGN16',true, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("myLog('shs : '.$shs.' NO Row', __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine(" else if ($tResultSign->num_rows == 1)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("$ACC_TMP = false;");
-            //tFile.AppendLine(" // ok I have one user");
-            //tFile.AppendLine("while ($tRowSign = $tResultSign->fetch_array())");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("myLog('shs : '.$shs.' find One Row', __FILE__, __FUNCTION__, __LINE__); ");
-            //tFile.AppendLine("// I get the password uuid hash");
-            //tFile.AppendLine("$tQuery = 'SELECT `"+tReference+"`, `"+tBan+"` FROM `'."+NWD.K_ENV+".'_"+NWDBasisHelper.BasisHelper<NWDAccount>().ClassNamePHP+"` WHERE `"+tReference+"` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tRowSign['"+tSignAccountKey+"']).'\\' AND `"+tAC+"` = 1;';");
-            //tFile.AppendLine("$tResult = "+NWD.K_SQL_CON+"->query($tQuery);");
-            //tFile.AppendLine("if (!$tResult)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.' in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("error('SGN15',true, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("else");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("if ($tResult->num_rows == 0)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("// unknow user");
-            //tFile.AppendLine("error('SGN16',true, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("else if ($tResult->num_rows == 1)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("// ok I have one user");
-            //tFile.AppendLine("while ($tRow = $tResult->fetch_array())");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("if ($tRow['"+tBan+"'] > 0)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("$ban = true;");
-            //tFile.AppendLine("error('ACC98',true, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("else");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("AccountIsSigned();");
-            //tFile.AppendLine("if ($uuid != $tRow['"+tReference+"'])");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("respondNeedReloadData();");
-            //tFile.AppendLine("respondUUID($tRow['"+tReference+"']);");
-            //tFile.AppendLine("respondAdd('"+NWDOperationWebAccountAction.signin.ToString()+"', true);");
-            ////tFile.AppendLine("respondAdd('sign', 'loginpassword');");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("else");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("error('SGN17',true, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("$uuid = $tRow['"+tReference+"'];");
-            //tFile.AppendLine("$token = NWDRequestTokenReset($uuid); // reset connexion to zero");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("else //or more than one user with this sign … strange… I push an error, user must be unique for unique sign");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("// to much users ...");
-            //tFile.AppendLine("error('SGN18');");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("mysqli_free_result($tResult);");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("else //or more than one user with this email … strange… I push an error, user must be unique");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("// to much users ...");
-            //tFile.AppendLine("error('SGN18', true, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("myLog('shs : '.$shs.' Too Mush Row', __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("mysqli_free_result($tResultSign);");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("if ($ACC_TMP == true)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("$tInternalKey = '';");
-            //tFile.AppendLine("$tInternalDescription = '';");
-            //tFile.AppendLine("$tNewUUID = referenceGenerate ('ACC', "+NWD.K_ENV+".'_NWDAccount', 'Reference');");
-            ////tFile.AppendLine("$tNewSecretKey = referenceGenerate ('SHS', "+NWD.K_ENV+".'_NWDAccount', 'SecretKey');");
-            //tFile.AppendLine("$tInsertSQL='';");
-            //tFile.AppendLine("$tInsertSQLValue='';");
-            //tFile.AppendLine("//`Reference`, `DM`, `DS`, `DevSync`, `PreprodSync`, `ProdSync`, `AC`, `AppleNotificationToken`, `Ban`, `DC`, `DD`,");
-            //tFile.AppendLine("// `Email`, `FacebookID`, `GoogleID`, `GoogleNotificationToken`, `InError`, ");
-            //tFile.AppendLine("//`InternalDescription`, `InternalKey`, `MinVersion`, `Password`, `Preview`, `SecretKey`, `Tag`, `UseInEnvironment`, `WebModel`, `XX`");
-            //tFile.AppendLine("$tInsertSQL.='INSERT INTO `'."+NWD.K_ENV+".'_NWDAccount` (';");
-            //tFile.AppendLine("$tInsertSQL.='`Reference`, '; $tInsertSQLValue.= '\\''."+NWD.K_SQL_CON+"->real_escape_string($tNewUUID).'\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`ServerHash`, ';$tInsertSQLValue.= '\\'\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`ServerLog`, ';$tInsertSQLValue.= '\\'\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`DM`, ';$tInsertSQLValue.= '\\''."+NWD.K_PHP_TIME_SYNC+".'\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`DS`, ';$tInsertSQLValue.= '\\''."+NWD.K_PHP_TIME_SYNC+".'\\', ';");
-            //tFile.AppendLine("if ("+NWD.K_ENV+" == 'Dev')");
-            //tFile.AppendLine("{");
-            ////tFile.AppendLine("$tInsertSQL.='`InternalKey`, ';$tInsertSQLValue.= '\\''."+NWD.K_SQL_CON+"->real_escape_string(md5($_SERVER['REMOTE_ADDR']).'-'.$WSBUILD.'-'."+NWD.K_PHP_TIME_SYNC+").'\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`InternalKey`, ';$tInsertSQLValue.= '\\'Anonymous Certified\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`InternalDescription`, ';$tInsertSQLValue.= '\\''."+NWD.K_SQL_CON+"->real_escape_string('Dev account').'\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`DevSync`, ';$tInsertSQLValue.= '\\''."+NWD.K_PHP_TIME_SYNC+".'\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`PreprodSync`, ';$tInsertSQLValue.= '\\'-1\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`ProdSync`, ';$tInsertSQLValue.= '\\'-1\\', ';");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("if ("+NWD.K_ENV+" == 'Preprod')");
-            //tFile.AppendLine("{");
-            ////tFile.AppendLine("$tInsertSQL.='`InternalKey`, ';$tInsertSQLValue.= '\\''."+NWD.K_SQL_CON+"->real_escape_string(md5($_SERVER['REMOTE_ADDR']).'-'.$WSBUILD.'-'."+NWD.K_PHP_TIME_SYNC+").'\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`InternalKey`, ';$tInsertSQLValue.= '\\'Anonymous Certified\\', ';");          
-            //tFile.AppendLine("$tInsertSQL.='`InternalDescription`, ';$tInsertSQLValue.= '\\''."+NWD.K_SQL_CON+"->real_escape_string('Preprod account').'\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`DevSync`, ';$tInsertSQLValue.= '\\'-1\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`PreprodSync`, ';$tInsertSQLValue.= '\\''."+NWD.K_PHP_TIME_SYNC+".'\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`ProdSync`, ';$tInsertSQLValue.= '\\'-1\\', ';");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("if ("+NWD.K_ENV+" == 'Prod')");
-            //tFile.AppendLine("{");
-            ////tFile.AppendLine("$tInsertSQL.='`InternalKey`, ';$tInsertSQLValue.= '\\''."+NWD.K_SQL_CON+"->real_escape_string(md5($_SERVER['REMOTE_ADDR']).'-'.$WSBUILD.'-'."+NWD.K_PHP_TIME_SYNC+").'\\', ';");
-            ////tFile.AppendLine("$tInsertSQL.='`InternalDescription`, ';$tInsertSQLValue.= '\\''."+NWD.K_SQL_CON+"->real_escape_string('Prod account').'\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`DevSync`, ';$tInsertSQLValue.= '\\'-1\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`PreprodSync`, ';$tInsertSQLValue.= '\\'-1\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`ProdSync`, ';$tInsertSQLValue.= '\\''."+NWD.K_PHP_TIME_SYNC+".'\\', ';");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("$tInsertSQL.='`AC`, ';$tInsertSQLValue.= '\\'1\\', ';");
-            ////tFile.AppendLine("$tInsertSQL.='`AppleNotificationToken`, ';$tInsertSQLValue.= '\\'\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`Ban`, ';$tInsertSQLValue.= '\\'0\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`DC`, ';$tInsertSQLValue.= '\\''."+NWD.K_PHP_TIME_SYNC+".'\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`DD`, ';$tInsertSQLValue.= '\\''."+NWD.K_PHP_TIME_SYNC+".'\\', '; ");
-            ////tFile.AppendLine("$tInsertSQL.='`Email`, ';$tInsertSQLValue.= '\\'\\', ';");
-            ////tFile.AppendLine("$tInsertSQL.='`FacebookID`, ';$tInsertSQLValue.= '\\'\\', ';");
-            ////tFile.AppendLine("$tInsertSQL.='`GoogleID`, ';$tInsertSQLValue.= '\\'\\', ';");
-            ////tFile.AppendLine("$tInsertSQL.='`GoogleNotificationToken`, ';$tInsertSQLValue.= '\\'\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`InError`, ';$tInsertSQLValue.= '\\'0\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`CheckList`, ';$tInsertSQLValue.= '\\'0\\', ';");
-            ////tFile.AppendLine("$tInsertSQL.='`MinVersion`, ';$tInsertSQLValue.= '\\'0.00.00\\', ';");
-            ////tFile.AppendLine("$tInsertSQL.='`Password`, ';$tInsertSQLValue.= '\\'\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`Preview`, ';$tInsertSQLValue.= '\\'\\', ';");
-            ////tFile.AppendLine("$tInsertSQL.='`SecretKey`, '; $tInsertSQLValue.= '\\''."+NWD.K_SQL_CON+"->real_escape_string($tNewSecretKey).'\\', ';");
-            ////tFile.AppendLine("$tInsertSQL.='`SecretKey`, '; $tInsertSQLValue.= '\\''."+NWD.K_SQL_CON+"->real_escape_string($shs).'\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`Tag`, ';$tInsertSQLValue.= '\\'19\\', '; // server created");
-            //tFile.AppendLine("$tInsertSQL.='`UseInEnvironment`, ';$tInsertSQLValue.= '\\'0\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`WebModel`, ';$tInsertSQLValue.= '\\''.$SQL_NWDAccount_WebService.'\\', ';");
-            //tFile.AppendLine("$tInsertSQL.='`XX` ';$tInsertSQLValue.= '\\'0\\'';");
-            //tFile.AppendLine("$tInsertSQL.=')';");
-            //tFile.AppendLine("$tInsertSQL.=' VALUES ('.$tInsertSQLValue.');';");
-            //tFile.AppendLine("$tInsert = "+NWD.K_SQL_CON+"->query($tInsertSQL);");
-            //tFile.AppendLine("if (!$tInsert)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("respondAdd('sql', $tInsertSQL);");
-            ////tFile.AppendLine("myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tInsertSQL.'', __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("error('ACC91',true, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("else");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("$uuid = $tNewUUID;");
-            //tFile.AppendLine("IntegrityNWDAccountReevalue ($uuid);");
-            //tFile.AppendLine("respondUUID($uuid);");
-            //tFile.AppendLine("respondAdd('newuser', true);");
-            //tFile.AppendLine("respondAdd('usertransfert', $ACC_NEED_USER_TRANSFERT);");
-            ////tFile.AppendLine("respondAdd('sign', 'anonymous');");
-            ////tFile.AppendLine("respondAdd('signkey', $tNewSecretKey);");
-            //tFile.AppendLine("respondAdd('reloaddatas', true);");
-            //tFile.AppendLine("NWDRequestTokenIsValid($uuid,'');");
-            //tFile.AppendLine("$rReturn = true;");
-            //tFile.AppendLine("$ACC_TMP = false;");
-            //tFile.AppendLine("if ($sExit==true)");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("include_once ('" + NWD.K_STATIC_FINISH_PHP + "');");
-            //tFile.AppendLine("exit;");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("else");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("myLog('Error shs = '.$shs, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("error('SHS01', true, __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("}");
-            //tFile.AppendLine("return $rReturn;");
+            //tFile.AppendLine("global " + NWD.K_PHP_TIME_SYNC + ";");
+            //tFile.AppendLine("global $UserRange;");
+            //tFile.AppendLine("$tTime = " + NWD.K_PHP_TIME_SYNC + "-1492711200; // Timestamp unix format");
+            //tFile.AppendLine("return $sPrefix.'-'.$UserRange.'-'.$tTime.'-'.rand ( 100000 , 999999 ).'C'; // C for Certify");
             //tFile.AppendLine("}");
             //tFile.AppendLine(NWD.K_CommentSeparator);
 
+            //// --------------------------------------
+            //tFile.AppendLine("function referenceSecondGenerate ($sPrefix, $sTable, $sColumn)");
+            //tFile.AppendLine("{");
+            //{
+            //    tFile.AppendLine("global " + NWD.K_SQL_CON + ";");
+            //    tFile.AppendLine("global $UserRange;");
 
+            //    tFile.AppendLine("// TODO replace by selected range ");
+            //    //tFile.AppendLine("$RangeMin = 000;");
+            //    //tFile.AppendLine("$RangeMax = 999;");
+            //    tFile.AppendLine("$tReference = referenceSecondRandom($sPrefix);");
+            //    tFile.AppendLine("$tTested = false;");
+            //    tFile.AppendLine("while ($tTested == false)");
+            //    tFile.AppendLine("{");
+            //    {
+            //        tFile.AppendLine("$tQuery = 'SELECT `'.$sColumn.'` FROM `'.$sTable.'` WHERE `'.$sColumn.'` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($tReference).'\\';';");
 
+            //        tFile.AppendLine("// TODO replace by selected range connexion");
+            //        tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
+            //        tFile.AppendLine("if (!$tResult)");
+            //        tFile.AppendLine("{");
+            //        {
+            //            tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$tQuery", NWD.K_SQL_CON));
+            //            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            //        }
+            //        tFile.AppendLine("}");
+            //        tFile.AppendLine("else");
+            //        tFile.AppendLine("{");
+            //        {
+            //            tFile.AppendLine("if ($tResult->num_rows == 0)");
+            //            tFile.AppendLine("{");
+            //            {
+            //                tFile.AppendLine("$tTested = true;");
+            //            }
+            //            tFile.AppendLine("}");
+            //            tFile.AppendLine("else");
+            //            tFile.AppendLine("{");
+            //            {
+            //                tFile.AppendLine("$tReference = referenceSecondRandom($sPrefix);");
+            //            }
+            //            tFile.AppendLine("}");
+            //        }
+            //        tFile.AppendLine("}");
+            //    }
+            //    tFile.AppendLine("}");
+            //    tFile.AppendLine("return $tReference;");
+            //}
+            //tFile.AppendLine("}");
+            //tFile.AppendLine(NWD.K_CommentSeparator);
 
-
-
-
+            // --------------------------------------
             tFile.AppendLine("function CodeRandomSizable (int $sSize)");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine("$tMin = 1;");
             tFile.AppendLine("while ($sSize>1)");
             tFile.AppendLine("{");
@@ -1144,7 +709,9 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
+            // --------------------------------------
             tFile.AppendLine("function RandomString($sLength = 10) {");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine("$tCharacters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';");
             tFile.AppendLine("$tCharactersLength = strlen($tCharacters);");
             tFile.AppendLine("$tRandomString = '';");
@@ -1154,9 +721,11 @@ namespace NetWorkedData
             tFile.AppendLine("return $tRandomString;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
             //---------------------------------------
             tFile.AppendLine("function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResult, $sReference, $sNeverEmpty = true)");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_PHP_TIME_SYNC + ", $UserRange;");
             tFile.AppendLine("$rModified = false;");
             tFile.AppendLine("$tQuery = 'SELECT `'.$sColumnOrign.'`, `'.$sColumUniqueResult.'`, `Reference` FROM `'.$sTable.'` WHERE `Reference` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sReference).'\\'';");
@@ -1263,9 +832,11 @@ namespace NetWorkedData
             tFile.AppendLine("return $rModified;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
             //---------------------------------------
             tFile.AppendLine("function UniquePropertyValueFromGlobalValue($sTable, $sColumnOrign, $sColumUniqueResult, $sReference, $sNeverEmpty = true)");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_PHP_TIME_SYNC + ";");
             tFile.AppendLine("$rModified = false;");
             tFile.AppendLine("$tQuery = 'SELECT `'.$sColumnOrign.'`, `'.$sColumUniqueResult.'`, `Reference` FROM `'.$sTable.'` WHERE `Reference` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sReference).'\\'';");
@@ -1374,16 +945,18 @@ namespace NetWorkedData
             tFile.AppendLine("return $rModified;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
+            // --------------------------------------
             tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
-        sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_STATIC_FUNCTIONS_PHP, tFileFormatted);
+            sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_STATIC_FUNCTIONS_PHP, tFileFormatted);
             //NWEBenchmark.Finish();
         }
-    //-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
 
 
-    //-------------------------------------------------------------------------------------------------------------
-    private void CreatePHP_StaticRequestFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
+        //-------------------------------------------------------------------------------------------------------------
+        private void CreatePHP_StaticRequestFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             //NWEBenchmark.Start();
             StringBuilder tFile = new StringBuilder(string.Empty);
@@ -1890,6 +1463,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function respondIsset($sKey)");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("return isset($REP[$sKey]);");
             tFile.AppendLine("}");
@@ -1897,6 +1471,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function respondAdd($sKey, $sValue)");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("$REP[$sKey] = $sValue;");
             tFile.AppendLine("}");
@@ -1904,6 +1479,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function respondRemove($sKey)");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("if (isset($REP[$sKey]))");
             tFile.AppendLine("{");
@@ -1914,6 +1490,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function respondUUID($sValue)");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine("global $REP, $uuid;");
             tFile.AppendLine("$uuid = $sValue;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_UUID_KEY + "'] = $sValue;");
@@ -1922,6 +1499,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function respondToken($sValue)");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine("global $REP, $token;");
             tFile.AppendLine("$token = $sValue;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_REQUEST_TOKEN_KEY + "'] = $sValue;");
@@ -1930,6 +1508,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function respondNeedReloadData()");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("$REP['reloaddatas'] = true;");
             tFile.AppendLine("}");
@@ -1937,6 +1516,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function respondNewUser()");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("$REP['newuser'] = true;");
             tFile.AppendLine("}");
@@ -2037,43 +1617,26 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// use functions library");
             tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_FUNCTIONS_PHP + "');");
+            //tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_REQUEST_PHP + "');");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// connect MYSQL");
 
             tFile.AppendLine("// connect for editor");
-            tFile.AppendLine("global $admin, " + NWD.K_SQL_CON_EDITOR + ";");
+            tFile.AppendLine("global $admin, " + NWD.K_SQL_CON_EDITOR + ", " + NWD.K_SQL_CON + ";");
             tFile.AppendLine(NWD.K_SQL_CON_EDITOR + " = array();");
             tFile.AppendLine("headerBrutalValue ('adminHash', '" + NWD.AdminHashKey + "');");
             tFile.AppendLine("$admin = adminHashTest ($adminHash, $NWD_ADM_KEY, $NWD_SLT_TMP);");
             tFile.AppendLine("if ($admin == true)");
             tFile.AppendLine("{");
             {
-                tFile.AppendLine("foreach ($SQL_LIST as $tRange => $tValue)");
-                tFile.AppendLine("{");
-                {
-                    tFile.AppendLine("" + NWD.K_SQL_CON_EDITOR + "[$tRange] = new mysqli($tValue['host'], $tValue['user'], $tValue['password'], $tValue['database'], $tValue['port']);");
-                    tFile.AppendLine("if (" + NWD.K_SQL_CON_EDITOR + "[$tRange]->connect_errno)");
-                    tFile.AppendLine("{");
-                    {
-                        tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SQL00));
-                        tFile.AppendLine("include_once ('" + NWD.K_STATIC_FINISH_PHP + "');");
-                        tFile.AppendLine("exit;");
-                    }
-                    tFile.AppendLine("}");
-                    tFile.AppendLine("else");
-                    tFile.AppendLine("{");
-                    {
-                        tFile.AppendLine(NWDError.PHP_log(this, "'.$tRange.' connexion success on '.$tValue['title'].' => '.$tValue['id'].'"));
-                    }
-                    tFile.AppendLine("}");
-                }
-                tFile.AppendLine("}");
+                tFile.AppendLine("ConnectAllDatabases();");
             }
             tFile.AppendLine("}");
 
             tFile.AppendLine("// connect for account");
-            tFile.AppendLine("global $UserRange;");
-            tFile.AppendLine("// determine account Database");
+            tFile.AppendLine("global $UserRange, $SQL_CURRENT_RANGE, $SQL_CURRENT_ACCESSRANGE;");
+            tFile.AppendLine("$SQL_CURRENT_RANGE = -1;");
+            tFile.AppendLine("$SQL_CURRENT_ACCESSRANGE = -1;");
             tFile.AppendLine("// TODO : dertermine account Database and use the good range!");
 
             tFile.AppendLine("$tAccountMySQL = reset($SQL_LIST);"); // remember, use string for ereg extraction from UUID
@@ -2112,29 +1675,22 @@ namespace NetWorkedData
             }
             tFile.AppendLine("}");
 
-            tFile.AppendLine(NWDError.PHP_log(this, "database usable is '.$tAccountMySQL['title'].' => '.$tAccountMySQL['id'].'"));
-
-            //tFile.AppendLine("$tRange = '1';"); // remember, use string for ereg extraction from UUID
-            ////tFile.AppendLine("" + NWD.K_SQL_CON + " = new mysqli($SQL_HOT, $SQL_USR, $SQL_PSW, $SQL_BSE);");
-            //tFile.AppendLine("" + NWD.K_SQL_CON + " = new mysqli($SQL_LIST[$tRange]['host'], $SQL_LIST[$tRange]['user'], $SQL_LIST[$tRange]['password'], $SQL_LIST[$tRange]['database'], $SQL_LIST[$tRange]['port']);");
-
-            tFile.AppendLine("" + NWD.K_SQL_CON + " = new mysqli($tAccountMySQL['host'], $tAccountMySQL['user'], $tAccountMySQL['password'], $tAccountMySQL['database'], $tAccountMySQL['port']);");
-
+            tFile.AppendLine("SetCurrentDatabase($UserRange);");
             tFile.AppendLine("if (" + NWD.K_SQL_CON + "->connect_errno)");
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SQL00));
-                tFile.AppendLine("include_once ('" + NWD.K_STATIC_FINISH_PHP + "');");
-                tFile.AppendLine("exit;");
+                //tFile.AppendLine("include_once ('" + NWD.K_STATIC_FINISH_PHP + "');");
+                //tFile.AppendLine("exit;");
             }
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
             {
-                tFile.AppendLine("// analyze request");
-                tFile.AppendLine("include_once ('" + NWD.K_STATIC_REQUEST_PHP + "');");
+                tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_REQUEST_PHP + "');");
             }
             tFile.AppendLine("}");
+
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());

@@ -1,32 +1,36 @@
 //=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:29:5
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
 using System;
 using System.Collections.Generic;
-
-using System.Collections;
-using System.IO;
-using System.Reflection;
-using System.Diagnostics;
-
 using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDCompileType : int
+    {
+        Runtime = 0,
+        PlayMode = 1,
+        Editor = 2,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDCompileTypeBypass : int
+    {
+        NoneBypass = 0,
+        Runtime = 1,
+        PlayMode = 3,
+        Editor = 4,
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDStatut
     {
@@ -106,6 +110,49 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public static partial class NWDLauncher
     {
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        public static NWDCompileTypeBypass kByPass = NWDCompileTypeBypass.NoneBypass;
+#endif
+        //-------------------------------------------------------------------------------------------------------------
+        static public NWDCompileType CompileAs()
+        {
+            NWDCompileType rReturn = NWDCompileType.Runtime;
+            if (Application.isEditor == true)
+            {
+                rReturn = NWDCompileType.Editor;
+                if (Application.isPlaying == true)
+                {
+                    rReturn = NWDCompileType.PlayMode;
+                }
+            }
+#if UNITY_EDITOR
+            switch (kByPass)
+            {
+                case NWDCompileTypeBypass.Editor:
+                    {
+                        rReturn = NWDCompileType.Editor;
+                    }
+                    break;
+                case NWDCompileTypeBypass.PlayMode:
+                    {
+                        rReturn = NWDCompileType.PlayMode;
+                    }
+                    break;
+                case NWDCompileTypeBypass.Runtime:
+                    {
+                        rReturn = NWDCompileType.Runtime;
+                    }
+                    break;
+                case NWDCompileTypeBypass.NoneBypass:
+                    {
+                        // return true value
+                    }
+                    break;
+            }
+#endif
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> AllNetWorkedDataTypes = new List<Type>();
         //-------------------------------------------------------------------------------------------------------------
@@ -238,28 +285,40 @@ namespace NetWorkedData
                 //tSW.Start();
                 Launched = true;
                 //NWDToolbox.EditorAndPlaying("NWDLauncher Launch()");
-                EditorByPass = false;
-#if UNITY_EDITOR
-                if (ActiveBenchmark)
+                EditorByPass = false; // TODO : remove this 
+//#if UNITY_EDITOR
+//                if (ActiveBenchmark)
+//                {
+//                    NWEBenchmark.Log("Pass in editor macro-block");
+//                }
+//#endif
+                switch (CompileAs())
                 {
-                    NWEBenchmark.Log("Pass in editor macro-block");
-                }
-#endif
-                if (Application.isEditor == true)
-                {
-                    if (ActiveBenchmark)
-                    {
-                        NWEBenchmark.Log("Launch in editor");
-                    }
-                    EditorByPass = true;
-                    if (Application.isPlaying == true)
-                    {
-                        if (ActiveBenchmark)
+                    case NWDCompileType.Editor:
                         {
-                            NWEBenchmark.Log("Launch as playmode");
+#if UNITY_EDITOR
+                            if (ActiveBenchmark)
+                            {
+                                NWEBenchmark.Log("Launch in editor");
+                            }
+                            EditorByPass = true;
+#endif
                         }
-                        EditorByPass = true;
-                    }
+                        break;
+                    case NWDCompileType.PlayMode:
+                        {
+                            if (ActiveBenchmark)
+                            {
+                                NWEBenchmark.Log("Launch as playmode");
+                            }
+                            EditorByPass = true;
+                        }
+                        break;
+                    case NWDCompileType.Runtime:
+                        {
+                            EditorByPass = false;
+                        }
+                        break;
                 }
                 if (EditorByPass == true)
                 {
@@ -353,7 +412,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                         EditorUtility.DisplayDialog("NetWorkedData Alert", "Your launcher return a empty list of type! It's not possible.", "OK");
 #endif
-                    rReturn = false;
+                        rReturn = false;
                     }
                 }
             }

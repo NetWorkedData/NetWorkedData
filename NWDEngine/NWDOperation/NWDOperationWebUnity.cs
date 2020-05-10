@@ -197,18 +197,23 @@ namespace NetWorkedData
             // change selected environement! automaticcally?!
             //NWDAccountInfos tAccountInfos = NWDBasisHelper.GetCorporateFirstData<NWDAccountInfos>(Environment.PlayerAccountReference, null);
             NWDAppEnvironment.SetEnvironment(Environment);
-            NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
-            if (tAccountInfos == null)
+            if (Environment.CurrentAccountIsCertified() == false)
             {
                 DataAddSecretDevicekey();
             }
-            else
-            {
-                if (tAccountInfos.AccountType() == NWDAppEnvironmentPlayerStatut.Temporary)
-                {
-                    DataAddSecretDevicekey();
-                }
-            }
+
+            //NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
+            //if (tAccountInfos == null)
+            //{
+            //    DataAddSecretDevicekey();
+            //}
+            //else
+            //{
+            //    if (tAccountInfos.AccountType() == NWDAppEnvironmentPlayerStatut.Temporary)
+            //    {
+            //        DataAddSecretDevicekey();
+            //    }
+            //}
             // I prepare the data
             DataUploadPrepare();
             // I insert the data
@@ -683,21 +688,25 @@ namespace NetWorkedData
             // create hash security
             string tHashValue = string.Format("{0}{1}{2}{3}{4}{5}", OS, Version, Lang, NWDToolbox.GenerateSALT(Environment.SaltFrequency), UUID, RequestToken);
             HeaderParams.Add(NWD.HashKey, NWESecurityTools.GenerateSha(tHashValue, NWESecurityShaTypeEnum.Sha1));
-#if UNITY_EDITOR
-            if (Application.isPlaying == false && Application.isEditor == true)
-            {
-                HeaderParams.Add(NWD.AdminHashKey, NWDToolbox.GenerateAdminHash(Environment.AdminKey, Environment.SaltFrequency));
 
-            }
-#else
-            /*if (NWDAppConfiguration.SharedInstance().AdminInPlayer())
+            switch (NWDLauncher.CompileAs())
             {
-                if (string.IsNullOrEmpty(Environment.AdminKey) == false)
-                {
-                    HeaderParams.Add(MWD.AdminHashKey, NWDToolbox.GenerateAdminHash(Environment.AdminKey, Environment.SaltFrequency));
-                }
-            }*/
+                case NWDCompileType.Editor:
+                    {
+#if UNITY_EDITOR
+                        HeaderParams.Add(NWD.AdminHashKey, NWDToolbox.GenerateAdminHash(Environment.AdminKey, Environment.SaltFrequency));
 #endif
+                    }
+                    break;
+                case NWDCompileType.PlayMode:
+                    {
+                    }
+                    break;
+                case NWDCompileType.Runtime:
+                    {
+                    }
+                    break;
+            }
             // insert dico of header in request header
             foreach (KeyValuePair<string, object> tEntry in HeaderParams)
             {

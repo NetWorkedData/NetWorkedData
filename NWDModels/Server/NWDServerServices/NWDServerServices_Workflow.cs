@@ -22,6 +22,9 @@ namespace NetWorkedData
     public partial class NWDServerServices : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
+        const string K_Public_Webservices = "Public_Webservices";
+        const string K_Email = "contact@me.com";
+        //-------------------------------------------------------------------------------------------------------------
         public NWDServerServices()
         {
             //Debug.Log("NWDServerConfig Constructor");
@@ -41,6 +44,8 @@ namespace NetWorkedData
             DevSync = -1;
             PreprodSync = -1;
             ProdSync = -1;
+            Folder = K_Public_Webservices;
+            Email = K_Email;
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDServerAuthentication GetServerSFTP(NWDAppEnvironment sEnvironment)

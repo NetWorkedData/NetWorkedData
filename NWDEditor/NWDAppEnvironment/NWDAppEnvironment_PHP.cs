@@ -245,14 +245,7 @@ namespace NetWorkedData
             //tConstantsFile.AppendLine("$SQL_BSE = '" + ServerBase.Replace("'", "\'") + "';");
             foreach (NWDServerDatabaseAuthentication tServerDatabase in NWDServerDatas.GetAllConfigurationServerDatabase(this))
             {
-                tConstantsFile.AppendLine("$SQL_ARRAY_HOT[] = '" + tServerDatabase.Host.Replace("'", "\'") + "';");
-                tConstantsFile.AppendLine("$SQL_ARRAY_PRT[] = '" + tServerDatabase.Port.ToString() + "';");
-                tConstantsFile.AppendLine("$SQL_ARRAY_USR[] = '" + tServerDatabase.User.Replace("'", "\'") + "';");
-                tConstantsFile.AppendLine("$SQL_ARRAY_PSW[] = '" + tServerDatabase.Password.Replace("'", "\'") + "';");
-                tConstantsFile.AppendLine("$SQL_ARRAY_BSE[] = '" + tServerDatabase.Database.Replace("'", "\'") + "';");
-
                 tConstantsFile.AppendLine("// Constant for ServerDatabase " + tServerDatabase.Title);
-
                 tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['title'] = '" + tServerDatabase.Title.Replace("'", "\'") + "';");
                 tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['id'] = '" + tServerDatabase.NameID.Replace("'", "\'") + "';");
                 tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['host'] = '" + tServerDatabase.Host.Replace("'", "\'") + "';");
@@ -607,6 +600,8 @@ namespace NetWorkedData
             tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_FUNCTIONS_PHP + "');");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// connect MYSQL");
+            //tFile.AppendLine(NWDError.PHP_log(sEnvironment, "Error in MySQL connexion on '.$tValue['host'].' for '.$tValue['user'].' with password ••••••••••••"));
+
             tFile.AppendLine("" + NWD.K_SQL_CON + " = new mysqli($SQL_HOT,$SQL_USR,$SQL_PSW, $SQL_BSE);");
             tFile.AppendLine("if (" + NWD.K_SQL_CON + "->connect_errno)");
             tFile.AppendLine("{");

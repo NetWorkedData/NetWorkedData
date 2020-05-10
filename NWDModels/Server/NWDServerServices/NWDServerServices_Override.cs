@@ -79,8 +79,22 @@ namespace NetWorkedData
                 }
             }
             Folder = NWDToolbox.UnixCleaner(Folder);
+            if (string.IsNullOrEmpty(Folder))
+            {
+                Folder = K_Public_Webservices;
+            }
+
+            if (string.IsNullOrEmpty(Email))
+            {
+                Email = K_Email;
+            }
 
             User = NWDToolbox.UnixCleaner(User);
+            if (string.IsNullOrEmpty(User))
+            {
+                User = "wsuser" + NWDToolbox.RandomStringAlpha(3).ToLower();
+            }
+
             if (Password != null)
             {
                 Password.SetValue(NWDToolbox.UnixCleaner(Password.GetValue()));

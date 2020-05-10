@@ -18,6 +18,12 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDAccountStatut
+    {
+        Temporary = 0,
+        Certified = 1,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDAccountEnvironment : int
     {
         InGame = 0, // player state (Prod)
@@ -33,6 +39,16 @@ namespace NetWorkedData
         public NWDAccount() { }
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccount(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool AccountIsCertified(string sReference)
+        {
+            bool rReturn = true;
+            if (sReference.EndsWith(NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE) || sReference.EndsWith(NWDAccount.K_ACCOUNT_NEW_SUFFIXE))
+            {
+                rReturn = false;
+            }
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
         private void Check()
         {

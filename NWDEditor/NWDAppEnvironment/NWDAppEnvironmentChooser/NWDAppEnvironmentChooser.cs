@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:20:16
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -14,7 +8,6 @@
 #if UNITY_EDITOR
 using System;
 using UnityEngine;
-using System.IO;
 using UnityEditor;
 
 //=====================================================================================================================
@@ -89,6 +82,25 @@ namespace NetWorkedData
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             this.minSize = new Vector2(300, 150);
             this.maxSize = new Vector2(300, 4096);
+            NWDGUILayout.Section("Mode bypass");
+
+            GUILayout.Label("In Dev");
+
+            NWDCompileTypeBypass tByPass = (NWDCompileTypeBypass) EditorGUILayout.EnumPopup("ByPass mode", NWDLauncher.kByPass);
+            if (tByPass!= NWDLauncher.kByPass)
+            {
+                NWDLauncher.kByPass = tByPass;
+                // repaint all windows
+                NWDEditorConfigurationManager.Refresh();
+                NWDAppConfigurationManager.Refresh();
+                NWDAppEnvironmentConfigurationManager.Refresh();
+                NWDModelManager.Refresh();
+                NWDAppEnvironmentSync.Refresh();
+            }
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.EnumPopup("Result mode", NWDLauncher.CompileAs());
+            EditorGUI.EndDisabledGroup();
+            NWDGUILayout.Section("Environment");
             int tTabSelected = -1;
             if (NWDAppConfiguration.SharedInstance().DevEnvironment.Selected == true)
             {
@@ -152,6 +164,15 @@ namespace NetWorkedData
             EditorGUILayout.LabelField("Secret Key editor", NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDeviceEditor(), EditorStyles.label);
             EditorGUILayout.LabelField("Secret Key player", NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevicePlayer(), EditorStyles.label);
             EditorGUILayout.LabelField("Account used", NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
+
+            if (NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference.Contains(NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE) == false)
+            {
+                if (GUILayout.Button("Reset session"))
+                {
+                    NWDAppEnvironmentSync.SharedInstance().Reset(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                }
+            }
+
             NWDAccount tAccount = null;
             string tAccountReference = NWDAccount.CurrentReference();
             if (NWDBasisHelper.BasisHelper<NWDAccount>().DatasByReference.ContainsKey(tAccountReference))

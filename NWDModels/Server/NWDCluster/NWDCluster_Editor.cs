@@ -86,22 +86,25 @@ namespace NetWorkedData
                 tI++;
                 GUIContent tButtonTitle = null;
                 NWDServer tServer = tServices.Server.GetRawData();
-                string tcommandKeyGen = "ssh-keygen -R [" + tServer.IP.GetValue() + "]:" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServices.User + " -p " + tServer.Port;
-                tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                if (tServer != null)
                 {
-                    NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
-                }
-                tI++;
+                    string tcommandKeyGen = "ssh-keygen -R [" + tServer.IP.GetValue() + "]:" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServices.User + " -p " + tServer.Port;
+                    tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
+                    }
+                    tI++;
 
-                string tURL = "sftp://" + tServices.User + ":" + tServices.Password.GetValue() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + tServices.Folder;
-                tButtonTitle = new GUIContent("Try sftp directly", tURL);
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                {
-                    //NWEClipboard.CopyToClipboard(tServices.Password.GetValue());
-                    Application.OpenURL(tURL);
+                    string tURL = "sftp://" + tServices.User + ":" + tServices.Password.GetValue() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + tServices.Folder;
+                    tButtonTitle = new GUIContent("Try sftp directly", tURL);
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        //NWEClipboard.CopyToClipboard(tServices.Password.GetValue());
+                        Application.OpenURL(tURL);
+                    }
+                    tI++;
                 }
-                tI++;
 
             }
 
@@ -119,30 +122,32 @@ namespace NetWorkedData
                 tI++;
                 GUIContent tButtonTitle = null;
                 NWDServer tServer = tServices.Server.GetRawData();
-                string tcommandKeyGen = "ssh-keygen -R [" + tServer.IP.GetValue() + "]:" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Admin_User + " -p " + tServer.Port;
-                tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                if (tServer != null)
                 {
-                    NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
+                    string tcommandKeyGen = "ssh-keygen -R [" + tServer.IP.GetValue() + "]:" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Admin_User + " -p " + tServer.Port;
+                    tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
+                    }
+                    tI++;
                 }
-                tI++;
-
-               //if (tServices.External==true)
-               // {
-               //     string tURL = "mysql://" + tServices.MySQLUser + ":" + tServices.MySQLPassword.GetValue() + "@" + tServices.MySQLIP.GetValue() + ":" + tServices.MySQLPort;
-               //     tButtonTitle = new GUIContent("Try mysql directly", tURL);
-               //     if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-               //     {
-               //         //NWEClipboard.CopyToClipboard(tServices.MySQLPassword.GetValue());
-               //         Application.OpenURL(tURL);
-               //     }
-               //     tI++;
-               // }
+                //if (tServices.External==true)
+                // {
+                //     string tURL = "mysql://" + tServices.MySQLUser + ":" + tServices.MySQLPassword.GetValue() + "@" + tServices.MySQLIP.GetValue() + ":" + tServices.MySQLPort;
+                //     tButtonTitle = new GUIContent("Try mysql directly", tURL);
+                //     if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                //     {
+                //         //NWEClipboard.CopyToClipboard(tServices.MySQLPassword.GetValue());
+                //         Application.OpenURL(tURL);
+                //     }
+                //     tI++;
+                // }
                 if (tServices.PhpMyAdmin == true)
                 {
                     //string tURL = "https://" + tServices.MySQLUser + ":" + tServices.MySQLPassword.GetValue() + "@" + tServices.MySQLIP.GetValue() + "/phpmyadmin/";
                     string tURL = "https://" + tServices.MySQLIP.GetValue() + "/phpmyadmin/?pma_username=" + tServices.MySQLUser + "&pma_password=" + tServices.MySQLPassword.GetValue() + "";
-  tButtonTitle = new GUIContent("Try PhpMyAdmin directly", tURL);
+                    tButtonTitle = new GUIContent("Try PhpMyAdmin directly", tURL);
                     if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                     {
                         NWEClipboard.CopyToClipboard(tServices.MySQLPassword.GetValue());

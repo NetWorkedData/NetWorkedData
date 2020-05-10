@@ -216,6 +216,11 @@ namespace NetWorkedData
         #endregion
         #region instance methods
         //-------------------------------------------------------------------------------------------------------------
+        public bool CurrentAccountIsCertified()
+        {
+            return NWDAccount.AccountIsCertified(PlayerAccountReference);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void CleanSecretKeyDevice()
         {
             WithSpecialSDKI = null;
@@ -223,18 +228,24 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string SecretKeyDevice()
         {
-            string rReturn;
-            if (Application.isPlaying == true)
+            string rReturn = "Hacker?";
+            switch (NWDLauncher.CompileAs())
             {
-                rReturn = SecretKeyDevicePlayer();
-            }
-            else if (Application.isEditor == true)
-            {
-                rReturn = SecretKeyDeviceEditor();
-            }
-            else
-            {
-                rReturn = "Hacker?";
+                case NWDCompileType.Editor:
+                    {
+                        rReturn = SecretKeyDeviceEditor();
+                    }
+                    break;
+                case NWDCompileType.PlayMode:
+                    {
+                        rReturn = SecretKeyDevicePlayer();
+                    }
+                    break;
+                case NWDCompileType.Runtime:
+                    {
+                        rReturn = SecretKeyDevicePlayer();
+                    }
+                    break;
             }
             if (string.IsNullOrEmpty(WithSpecialSDKI) == false)
             {

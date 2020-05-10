@@ -118,7 +118,7 @@ namespace NetWorkedData
                             // let's go... no error for this moment
                         }
                         break;
-                    case "log":
+                    case NWD.K_WEB_LOG_Key:
 #if UNITY_EDITOR
                         foreach (string tL in tValue.ToString().Split(new string[]{"\\r"}, StringSplitOptions.RemoveEmptyEntries))
                         {
