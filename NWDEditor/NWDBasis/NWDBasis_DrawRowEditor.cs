@@ -342,7 +342,8 @@ namespace NetWorkedData
                 StringRow = StringRow.Replace("  ", " ");
             }
 
-            Content = new GUIContent(InternalKey, PreviewTexture2D(), InternalDescription);
+            //Content = new GUIContent(InternalKey, PreviewTexture2D(), InternalDescription);
+            Content = new GUIContent(InternalKey, PreviewTexture2D(), Reference + " : " + InternalDescription);
 
             //NWEBenchmark.Finish();
         }

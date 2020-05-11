@@ -608,7 +608,7 @@ namespace NetWorkedData
                     {
                         tFile.AppendLine("$tConnexion = $tValue['connexion'];");
                         tFile.AppendLine("// have you place?");
-                        tFile.AppendLine("$tPlaceFree = $tValue['maxuser'];");
+                        tFile.AppendLine("$tPlacesUsedInDatabase = $tValue['maxuser'];");
                         tFile.AppendLine("$tQuery = 'SELECT COUNT(*) FROM " + NWDBasisHelper.BasisHelper<NWDAccount>().PHP_TABLENAME(sEnvironment) + ";';");
                         tFile.AppendLine("$tResult = $tConnexion->query($tQuery);");
                         tFile.AppendLine("if (!$tResult)");
@@ -624,13 +624,13 @@ namespace NetWorkedData
                             tFile.AppendLine("while($tRow = $tResult->fetch_array())");
                             tFile.AppendLine("{");
                             {
-                                tFile.AppendLine("$tPlaceFree = $tRow['COUNT(*)'];");
-                                tFile.AppendLine(NWDError.PHP_log(sEnvironment, " place use in database '.$tQuery.' = >  '.$tPlaceFree.'"));
+                                tFile.AppendLine("$tPlacesUsedInDatabase = $tRow['COUNT(*)'];");
+                                tFile.AppendLine(NWDError.PHP_log(sEnvironment, " place use in database '.$tQuery.' = >  '.$tPlacesUsedInDatabase.'"));
                             }
                             tFile.AppendLine("}");
                         }
                         tFile.AppendLine("}");
-                        tFile.AppendLine("if ($tPlaceFree < $tValue['maxuser'])");
+                        tFile.AppendLine("if ($tPlacesUsedInDatabase < $tValue['maxuser'])");
                         tFile.AppendLine("{");
                         {
                             tFile.AppendLine("$tFindPlace = true;");

@@ -1,26 +1,15 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:29:25
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
 #if UNITY_EDITOR
-using System;
-using System.Collections.Generic;
-using UnityEngine;
 using System.Text;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
-
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDVersionHelper : NWDHelper<NWDVersion>
     {
@@ -46,67 +35,78 @@ namespace NetWorkedData
 
             tFile.AppendLine("function versionTest($sVersion)");
             tFile.AppendLine("{");
-            tFile.AppendLine("global $ENV;");
-            tFile.AppendLine("global $SQL_CON;");
-            tFile.AppendLine("global $admin;");
-            tFile.AppendLine("$return = true;");
-            tFile.AppendLine("$tTested = false;");
-            tFile.AppendLine("if ($ENV=='Dev')");
-            tFile.AppendLine("{");
-            tFile.AppendLine("$tQuery = 'SELECT * FROM `"+NWDBasisHelper.TableNamePHP<NWDVersion>(sEnvironment)+"` WHERE `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().Version)+"` = \\''.$SQL_CON->real_escape_string($sVersion).'\\' AND `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().Buildable)+"` = 1 AND `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().ActiveDev)+"` = 1 AND `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().XX)+"` = 0 AND `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().AC)+"` = 1;';");
-            tFile.AppendLine("}");
-            tFile.AppendLine("else if ($ENV=='Preprod')");
-            tFile.AppendLine("{");
-            tFile.AppendLine("$tQuery = 'SELECT * FROM `"+NWDBasisHelper.TableNamePHP<NWDVersion>(sEnvironment)+"` WHERE `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().Version)+"` = \\''.$SQL_CON->real_escape_string($sVersion).'\\' AND `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().Buildable)+"` = 1 AND `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().ActivePreprod)+"` = 1 AND `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().XX)+"` = 0 AND `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().AC)+"` = 1;';");
-            tFile.AppendLine("}");
-            tFile.AppendLine("else if ($ENV=='Prod')");
-            tFile.AppendLine("{");
-            tFile.AppendLine("$tQuery = 'SELECT * FROM `"+NWDBasisHelper.TableNamePHP<NWDVersion>(sEnvironment)+"` WHERE `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().Version)+"` = \\''.$SQL_CON->real_escape_string($sVersion).'\\' AND `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().Buildable)+"` = 1 AND `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().ActiveProd)+"` = 1 AND `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().XX)+"` = 0 AND `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().AC)+"` = 1;';");
-            tFile.AppendLine("}");
-            tFile.AppendLine("$tResult = "+ NWD.K_SQL_CON + "->query($tQuery);");
-            tFile.AppendLine("if (!$tResult)");
-            tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery", NWD.K_SQL_CON));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_GVA00));
-            tFile.AppendLine("}");
-            tFile.AppendLine("else");
-            tFile.AppendLine("{");
-            tFile.AppendLine("if ($tResult->num_rows == 1)");
-            tFile.AppendLine("{");
-            tFile.AppendLine("while($tRow = $tResult->fetch_array())");
-            tFile.AppendLine("{");
-            tFile.AppendLine("if ($tRow['"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().BlockDataUpdate)+"'] == 1)");
-            tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_GVA99));
-            tFile.AppendLine("$return = false;");
-            tFile.AppendLine("}");
-            tFile.AppendLine("if ($tRow['"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().BlockApplication)+"'] == 1)");
-            tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_GVA01));
-            //tFile.AppendLine("respondAdd('"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().AlertTitle)+"',$tRow['"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().AlertTitle)+"']);");
-            //tFile.AppendLine("respondAdd('"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().AlertMessage)+"',$tRow['"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().AlertMessage)+"']);");
-            //tFile.AppendLine("respondAdd('"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().AlertValidation)+"',$tRow['"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().AlertValidation)+"']);");
-            tFile.AppendLine("respondAdd('"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().OSXStoreURL)+"',$tRow['"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().OSXStoreURL)+"']);");
-            tFile.AppendLine("respondAdd('"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().IOSStoreURL)+"',$tRow['"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().IOSStoreURL)+"']);");
-            tFile.AppendLine("respondAdd('"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().GooglePlayURL)+"',$tRow['"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().GooglePlayURL)+"']);");
-            tFile.AppendLine("$return = false;");
-            tFile.AppendLine("}");
-            tFile.AppendLine("}");
-            tFile.AppendLine("}");
-            tFile.AppendLine("else");
-            tFile.AppendLine("{");
-            tFile.AppendLine("$return = false;");
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_GVA02));
-            //tFile.AppendLine("respondAdd('"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().AlertTitle)+"',$tRow['"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().AlertTitle)+"']);");
-            //tFile.AppendLine("respondAdd('"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().AlertMessage)+"',$tRow['"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().AlertMessage)+"']);");
-            //tFile.AppendLine("respondAdd('"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().AlertValidation)+"',$tRow['"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().AlertValidation)+"']);");
-            tFile.AppendLine("respondAdd('"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().OSXStoreURL)+"',$tRow['"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().OSXStoreURL)+"']);");
-            tFile.AppendLine("respondAdd('"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().IOSStoreURL)+"',$tRow['"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().IOSStoreURL)+"']);");
-            tFile.AppendLine("respondAdd('"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().GooglePlayURL)+"',$tRow['"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDVersion>().GooglePlayURL)+"']);");
-            tFile.AppendLine("$return = false;");
-            tFile.AppendLine("}");
-            tFile.AppendLine("}");
-            tFile.AppendLine("return $return;");
+            {
+                tFile.AppendLine("$rReturn = true;");
+                tFile.AppendLine("$tConnexion = GetCurrentDatabase();");
+                if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
+                {
+                    tFile.AppendLine("$tQuery = 'SELECT * FROM `" + NWDBasisHelper.TableNamePHP<NWDVersion>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Version) + "` = \\''.$tConnexion->real_escape_string($sVersion).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Buildable) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().ActiveDev) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().XX) + "` = 0 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().AC) + "` = 1;';");
+                }
+                if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+                {
+                    tFile.AppendLine("$tQuery = 'SELECT * FROM `" + NWDBasisHelper.TableNamePHP<NWDVersion>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Version) + "` = \\''.$tConnexion->real_escape_string($sVersion).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Buildable) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().ActivePreprod) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().XX) + "` = 0 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().AC) + "` = 1;';");
+                }
+                if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+                {
+                    tFile.AppendLine("$tQuery = 'SELECT * FROM `" + NWDBasisHelper.TableNamePHP<NWDVersion>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Version) + "` = \\''.$tConnexion->real_escape_string($sVersion).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Buildable) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().ActiveProd) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().XX) + "` = 0 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().AC) + "` = 1;';");
+                }
+                tFile.AppendLine("$tResult = SelectFromConnexion($tConnexion, $tQuery, '', '', false);");
+                tFile.AppendLine("if ($tResult['error'] == true)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery", NWD.K_SQL_CON));
+                    tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_GVA00));
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("else");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("if ($tResult['count'] == 1)");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("foreach($tResult['connexions'] as $tConnexionKey => $tConnexionSub)");
+                        tFile.AppendLine("{");
+                        {
+                            tFile.AppendLine("foreach($tResult['datas'][$tConnexionKey] as $tRow)");
+                            tFile.AppendLine("{");
+                            {
+                                tFile.AppendLine("if ($tRow['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().BlockDataUpdate) + "'] == 1)");
+                                tFile.AppendLine("{");
+                                {
+                                    tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_GVA99));
+                                    tFile.AppendLine("$rReturn = false;");
+                                }
+                                tFile.AppendLine("}");
+                                tFile.AppendLine("if ($tRow['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().BlockApplication) + "'] == 1)");
+                                tFile.AppendLine("{");
+                                {
+                                    tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_GVA01));
+                                    tFile.AppendLine("respondAdd('" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().OSXStoreURL) + "',$tRow['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().OSXStoreURL) + "']);");
+                                    tFile.AppendLine("respondAdd('" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().IOSStoreURL) + "',$tRow['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().IOSStoreURL) + "']);");
+                                    tFile.AppendLine("respondAdd('" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().GooglePlayURL) + "',$tRow['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().GooglePlayURL) + "']);");
+                                    tFile.AppendLine("$rReturn = false;");
+                                }
+                                tFile.AppendLine("}");
+                            }
+                            tFile.AppendLine("}");
+                        }
+                        tFile.AppendLine("}");
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("else");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_GVA02));
+                        tFile.AppendLine("respondAdd('" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().OSXStoreURL) + "',$tRow['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().OSXStoreURL) + "']);");
+                        tFile.AppendLine("respondAdd('" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().IOSStoreURL) + "',$tRow['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().IOSStoreURL) + "']);");
+                        tFile.AppendLine("respondAdd('" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().GooglePlayURL) + "',$tRow['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().GooglePlayURL) + "']);");
+                        tFile.AppendLine("$rReturn = false;");
+                    }
+                    tFile.AppendLine("}");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("return $rReturn;");
+            }
             tFile.AppendLine("}");
 
             tFile.AppendLine(NWD.K_CommentSeparator);

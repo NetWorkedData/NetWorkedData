@@ -118,17 +118,17 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
-                tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ", " + PHP_CONSTANT_WEBSERVICE() + "," + PHP_CONSTANT_SIGN() + ";");
+                tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ", " + PHP_CONSTANT_WEBSERVICE() + ", " + PHP_CONSTANT_SIGN() + ";");
                 tFile.AppendLine("" + PHP_CONSTANT_SALT_A() + " = '" + SaltStart + "';");
                 tFile.AppendLine("" + PHP_CONSTANT_SALT_B() + " = '" + SaltEnd + "';");
                 tFile.AppendLine("" + PHP_CONSTANT_WEBSERVICE() + " = " + LastWebBuild + "; // last build for this model is " + LastWebBuild + " / " + NWDAppConfiguration.SharedInstance().WebBuild + "");
 
-                tFile.AppendLine("// Add sign of " + WebServiceOrder(LastWebBuild) + " ");
+                tFile.AppendLine("// Add sign of model, based on string : " + WebServiceOrder(LastWebBuild) + " ");
                 tFile.AppendLine("" + PHP_CONSTANT_SIGN() + " = '" + WebServiceSign(LastWebBuild) + "';");
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("//Run this function to install globals of theses datas!");
+            tFile.AppendLine("//Run function to install these global constants");
             tFile.AppendLine(PHP_FUNCTION_CONSTANTS() + "();");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("?>");
@@ -773,7 +773,6 @@ namespace NetWorkedData
             tFile.AppendLine("function " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvArray, $sIndexesAndValues)");
             tFile.AppendLine("{");
             {
-
                 tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
                 tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ";");
                 tFile.AppendLine("$sCsvList = $sCsvArray;");

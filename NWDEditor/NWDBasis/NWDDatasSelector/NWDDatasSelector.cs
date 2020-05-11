@@ -669,7 +669,8 @@ namespace NetWorkedData
                         GUIContent Content = tItem.Content;
                         if (Content == null)
                         {
-                            Content = new GUIContent(tItem.InternalKey, tItem.PreviewTexture2D(), tItem.InternalDescription);
+                            //Content = new GUIContent(tItem.InternalKey, tItem.PreviewTexture2D(), tItem.InternalDescription);
+                            Content = new GUIContent(tItem.InternalKey, tItem.PreviewTexture2D(), tItem.Reference + " : " + tItem.InternalDescription);
                         }
                         //GUIContent Content = tItem.Content;
                         if (ActualSelection == tItem.Reference)

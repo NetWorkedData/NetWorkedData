@@ -45,7 +45,7 @@ namespace NetWorkedData
             tFile.AppendLine("include_once (" + NWDBasisHelper.BasisHelper<NWDError>().PHP_CONSTANTS_PATH(sEnvironment) + ");");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
-
+            // --------------------------------------
             tFile.AppendLine("function RescueSignProceed($sEmail, $sLanguage, $sFyr)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
@@ -229,24 +229,7 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            // --------------------------------------
             tFile.AppendLine("function RescueSign($sEmail, $sLanguage)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
@@ -303,21 +286,7 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            // --------------------------------------
             tFile.AppendLine("function CreateAccountSign($sAccountReference, $sSDKt, $sSDKv, $sSDKr, $sSDKl)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
