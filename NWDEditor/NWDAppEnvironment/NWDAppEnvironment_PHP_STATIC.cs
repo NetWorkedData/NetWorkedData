@@ -127,52 +127,77 @@ namespace NetWorkedData
             tFile.AppendLine("function GetRangeAccessForAccount($sAccountReference)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine("global $SQL_CURRENT_DATABASE, $UserRange;");
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
-                tFile.AppendLine("return explode('" + NWEConstants.K_MINUS + "',$sAccountReference)[1];");
+                tFile.AppendLine("$rReturn = explode('" + NWEConstants.K_MINUS + "',$sAccountReference)[1];");
+                tFile.AppendLine("if ($rReturn == 0)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("$rReturn = $UserRange;");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("return $rReturn;");
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
             // --------------------------------------
-            tFile.AppendLine("function SetCurrentDatabaseForAccount($sAccountReference)");
+            tFile.AppendLine("function GetCurrentDatabase()");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine("global $SQL_CURRENT_DATABASE;");
+                tFile.AppendLine("return $SQL_CURRENT_DATABASE;");
+            }
+            tFile.AppendLine("}");
+            // --------------------------------------
+            tFile.AppendLine("function GetDatabaseForAccount($sAccountReference)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine("global $SQL_CURRENT_DATABASE, $SQL_CURRENT_ACCESSRANGE;");
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
                 tFile.AppendLine("$tRangeAccess = GetRangeAccessForAccount($sAccountReference);");
-                tFile.AppendLine("SetCurrentDatabase($tRangeAccess);");
+                tFile.AppendLine("if ($SQL_CURRENT_ACCESSRANGE != $tRangeAccess)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("$SQL_CURRENT_DATABASE = GetDatabaseByRangeAccess($tRangeAccess);");
+                    tFile.AppendLine("$SQL_CURRENT_ACCESSRANGE = $tRangeAccess;");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("return $SQL_CURRENT_DATABASE;");
+
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
             // --------------------------------------
-            tFile.AppendLine("function SetCurrentDatabase($sRangeAccess)");
-            tFile.AppendLine("{");
-            {
-                tFile.AppendLine(NWDError.PHP_logTrace(this));
-                tFile.AppendLine("global " + NWD.K_SQL_CON + ", $SQL_LIST, $SQL_CURRENT_RANGE, $SQL_CURRENT_ACCESSRANGE;");
-                tFile.AppendLine("$tRangeToUse = $SQL_CURRENT_RANGE;");
-                tFile.AppendLine("foreach ($SQL_LIST as $tRange => $tValue)");
-                tFile.AppendLine("{");
-                {
-                    tFile.AppendLine("if ($sRangeAccess >= $tValue['min'] && $sRangeAccess <= $tValue['max'])");
-                    tFile.AppendLine("{");
-                    {
-                        tFile.AppendLine("$tRangeToUse = $tRange;");
-                        tFile.AppendLine("break;");
-                    }
-                    tFile.AppendLine("}");
-                }
-                tFile.AppendLine("}");
+            //tFile.AppendLine("function SetCurrentDatabase($sRangeAccess)");
+            //tFile.AppendLine("{");
+            //{
+            //    tFile.AppendLine(NWDError.PHP_logTrace(this));
+            //    tFile.AppendLine("global " + NWD.K_SQL_CON + ", $SQL_LIST, $SQL_CURRENT_RANGE, $SQL_CURRENT_ACCESSRANGE;");
+            //    tFile.AppendLine("$tRangeToUse = $SQL_CURRENT_RANGE;");
+            //    tFile.AppendLine("foreach ($SQL_LIST as $tRange => $tValue)");
+            //    tFile.AppendLine("{");
+            //    {
+            //        tFile.AppendLine("if ($sRangeAccess >= $tValue['min'] && $sRangeAccess <= $tValue['max'])");
+            //        tFile.AppendLine("{");
+            //        {
+            //            tFile.AppendLine("$tRangeToUse = $tRange;");
+            //            tFile.AppendLine("break;");
+            //        }
+            //        tFile.AppendLine("}");
+            //    }
+            //    tFile.AppendLine("}");
 
-                tFile.AppendLine("if ($tRangeToUse != $SQL_CURRENT_RANGE)");
-                tFile.AppendLine("{");
-                {
-                    tFile.AppendLine("$SQL_CURRENT_RANGE = $tRangeToUse;");
-                    tFile.AppendLine("$SQL_CURRENT_ACCESSRANGE = $sRangeAccess;");
-                    tFile.AppendLine(NWD.K_SQL_CON + " = GetDatabaseByRange($SQL_CURRENT_RANGE);");
-                }
-                tFile.AppendLine("}");
-            }
-            tFile.AppendLine("}");
-            tFile.AppendLine(NWD.K_CommentSeparator);
+            //    tFile.AppendLine("if ($tRangeToUse != $SQL_CURRENT_RANGE)");
+            //    tFile.AppendLine("{");
+            //    {
+            //        tFile.AppendLine("$SQL_CURRENT_RANGE = $tRangeToUse;");
+            //        tFile.AppendLine("$SQL_CURRENT_ACCESSRANGE = $sRangeAccess;");
+            //        tFile.AppendLine(NWD.K_SQL_CON + " = GetDatabaseByRange($SQL_CURRENT_RANGE);");
+            //    }
+            //    tFile.AppendLine("}");
+            //}
+            //tFile.AppendLine("}");
+            //tFile.AppendLine(NWD.K_CommentSeparator);
 
             // --------------------------------------
             tFile.AppendLine("function GetDatabaseByRange($sRange)");
@@ -212,8 +237,8 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
-                tFile.AppendLine("global " + NWD.K_SQL_CON + ", $SQL_LIST, " + NWD.K_SQL_CON_EDITOR + ", $SQL_CURRENT_ACCESSRANGE;");
-                tFile.AppendLine("$rConnexion = " + NWD.K_SQL_CON + ";");
+                tFile.AppendLine("global $SQL_LIST, $SQL_CURRENT_DATABASE, $SQL_CURRENT_ACCESSRANGE;");
+                tFile.AppendLine("$rConnexion = $SQL_CURRENT_DATABASE;");
                 tFile.AppendLine("if ($sRangeAccess != $SQL_CURRENT_ACCESSRANGE)");
                 tFile.AppendLine("{");
                 {
@@ -276,6 +301,28 @@ namespace NetWorkedData
                     tFile.AppendLine("}");
                 }
                 tFile.AppendLine("}");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+            // --------------------------------------
+            tFile.AppendLine("function SelectFromCurrentDatabase($sSQL, $sErrorTag, $sInfos, $sExit)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("$tConnexion = GetCurrentDatabase();");
+                tFile.AppendLine("return SelectFromConnexion($tConnexion, $sSQL, $sErrorTag, $sInfos, $sExit);");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+            // --------------------------------------
+            tFile.AppendLine("function ExecuteInCurrentDatabase($sSQL, $sErrorTag, $sInfos, $sExit)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("$tConnexion = GetCurrentDatabase();");
+                tFile.AppendLine("return ExecuteInConnexion($tConnexion, $sSQL, $sErrorTag, $sInfos, $sExit);");
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -1622,7 +1669,6 @@ namespace NetWorkedData
             tFile.AppendLine("// connect MYSQL");
 
             tFile.AppendLine("// connect for editor");
-            tFile.AppendLine("global $admin, " + NWD.K_SQL_CON_EDITOR + ", " + NWD.K_SQL_CON + ";");
             tFile.AppendLine(NWD.K_SQL_CON_EDITOR + " = array();");
             tFile.AppendLine("headerBrutalValue ('adminHash', '" + NWD.AdminHashKey + "');");
             tFile.AppendLine("$admin = adminHashTest ($adminHash, $NWD_ADM_KEY, $NWD_SLT_TMP);");
@@ -1634,13 +1680,8 @@ namespace NetWorkedData
             tFile.AppendLine("}");
 
             tFile.AppendLine("// connect for account");
-            tFile.AppendLine("global $UserRange, $SQL_CURRENT_RANGE, $SQL_CURRENT_ACCESSRANGE;");
-            tFile.AppendLine("$SQL_CURRENT_RANGE = -1;");
-            tFile.AppendLine("$SQL_CURRENT_ACCESSRANGE = -1;");
-            tFile.AppendLine("// TODO : dertermine account Database and use the good range!");
-
-            tFile.AppendLine("$tAccountMySQL = reset($SQL_LIST);"); // remember, use string for ereg extraction from UUID
-
+            //tFile.AppendLine("// TODO : dertermine account Database and use the good range!");
+            //tFile.AppendLine("$tAccountMySQL = reset($SQL_LIST);"); // remember, use string for ereg extraction from UUID
             tFile.AppendLine("$tAccountForRange = isset($_SERVER['HTTP_'.strtoupper('" + NWD.K_WEB_UUID_KEY + "')]) ? $_SERVER['HTTP_'.strtoupper('" + NWD.K_WEB_UUID_KEY + "')] : '';");
             tFile.AppendLine(NWDError.PHP_log(this, " ok your account is '.$tAccountForRange.'"));
             tFile.AppendLine("if (TestTemporaryAccount($tAccountForRange))");
@@ -1656,27 +1697,26 @@ namespace NetWorkedData
             tFile.AppendLine("else");
             tFile.AppendLine("{");
             {
-                tFile.AppendLine("// TODO : if account is not temporary : check the good database!");
+                tFile.AppendLine("// account is not temporary : check the good database!");
                 tFile.AppendLine("preg_match('/" + NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM + "\\-([0-9]*)\\-[0-9]*\\-[0-9]*/', $tAccountForRange, $tMatches);");
                 tFile.AppendLine("$UserRange = $tMatches[1];");
                 tFile.AppendLine(NWDError.PHP_log(this, " ok your account is certified and your range is : '.$UserRange.'"));
-                tFile.AppendLine("foreach ($SQL_LIST as $tRange => $tValue)");
-                tFile.AppendLine("{");
-                {
-                    tFile.AppendLine("if ($UserRange >= $tValue['min'] && $UserRange <= $tValue['max'])");
-                    tFile.AppendLine("{");
-                    {
-                        tFile.AppendLine("$tAccountMySQL = $tValue;");
-                        tFile.AppendLine("break;");
-                    }
-                    tFile.AppendLine("}");
-                }
-                tFile.AppendLine("}");
+                //tFile.AppendLine("foreach ($SQL_LIST as $tRange => $tValue)");
+                //tFile.AppendLine("{");
+                //{
+                //    tFile.AppendLine("if ($UserRange >= $tValue['min'] && $UserRange <= $tValue['max'])");
+                //    tFile.AppendLine("{");
+                //    {
+                //        tFile.AppendLine("$tAccountMySQL = $tValue;");
+                //        tFile.AppendLine("break;");
+                //    }
+                //    tFile.AppendLine("}");
+                //}
+                //tFile.AppendLine("}");
             }
             tFile.AppendLine("}");
-
-            tFile.AppendLine("SetCurrentDatabase($UserRange);");
-            tFile.AppendLine("if (" + NWD.K_SQL_CON + "->connect_errno)");
+            tFile.AppendLine("// connect database now");
+            tFile.AppendLine("if (GetDatabaseForAccount($tAccountForRange)->connect_errno)");
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SQL00));

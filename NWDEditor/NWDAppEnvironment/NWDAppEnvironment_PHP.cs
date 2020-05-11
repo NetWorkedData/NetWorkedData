@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:20:21
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -14,10 +8,7 @@
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
-//using BasicToolBox;
-using UnityEditor;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -287,6 +278,17 @@ namespace NetWorkedData
             tConstantsFile.AppendLine("$RTH = " + TokenHistoric.ToString() + ";");
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("$WSBUILD = " + NWDAppConfiguration.SharedInstance().WebBuild + ";");
+            tConstantsFile.AppendLine(NWD.K_CommentSeparator);
+            tConstantsFile.AppendLine("// global variables");
+            tConstantsFile.AppendLine("global $SQL_CURRENT_DATABASE, $SQL_CURRENT_ACCESSRANGE, $SQL_FAKE_ACCESSRANGE ;");
+            tConstantsFile.AppendLine("global " + NWD.K_SQL_CON_EDITOR + ";");
+            tConstantsFile.AppendLine("$SQL_CURRENT_DATABASE = NULL;");
+            tConstantsFile.AppendLine("$SQL_CURRENT_ACCESSRANGE = -1;");
+            //tConstantsFile.AppendLine("$SQL_FAKE_ACCESSRANGE = -1;");
+            tConstantsFile.AppendLine("global $UserRange;");
+            tConstantsFile.AppendLine("$UserRange = -1;");
+            tConstantsFile.AppendLine("global $admin;");
+            tConstantsFile.AppendLine("$admin = false;");
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tConstantsFile.ToString());

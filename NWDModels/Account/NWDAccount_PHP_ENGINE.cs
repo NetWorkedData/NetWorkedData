@@ -98,7 +98,7 @@ namespace NetWorkedData
                 tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
                 tFile.AppendLine("$rBan = false;");
                 // TODO TEST Mutlti Database 
-                tFile.AppendLine("$tConnexion = GetDatabaseByRangeAccess(GetRangeAccessForAccount($sReference));");
+                tFile.AppendLine("$tConnexion = GetDatabaseForAccount($sReference);");
                 tFile.AppendLine("$tQuery = 'SELECT `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Reference) + "`,`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Ban) + "` FROM `" + NWDBasisHelper.TableNamePHP<NWDAccount>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Reference) + "` = \\''.$tConnexion->real_escape_string($sReference).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().AC) + "` = 1;';");
 
                 tFile.AppendLine("$tResult = SelectFromAllDatabase($tQuery, '" + NWDError.GetErrorCode(NWDError.NWDError_ACC90) + "', '', true);");
@@ -243,7 +243,7 @@ namespace NetWorkedData
                 tFile.AppendLine("if (IPBanOk() == true)");
                 tFile.AppendLine("{");
                 {
-                    tFile.AppendLine("$tConnexion = GetDatabaseByRangeAccess(GetRangeAccessForAccount($uuid));");
+                    tFile.AppendLine("$tConnexion = GetDatabaseForAccount($uuid);");
                     tFile.Append("$tQuerySign = 'SELECT `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Account) + "`");
                     tFile.Append(" FROM `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "`");
                     tFile.Append(" WHERE ");
@@ -531,28 +531,21 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
 
             // --------------------------------------
-            tFile.AppendLine("function CreateAccountReference()");
+            tFile.AppendLine("function CreateAccountReference($sUserRange)");
             tFile.AppendLine("{");
             {
                 tFile.AppendLine("global " + NWD.K_PHP_TIME_SYNC + ";");
-                tFile.AppendLine("global $UserRange;");
                 tFile.AppendLine("$tTime = " + NWD.K_PHP_TIME_SYNC + "-1492711200; // Timestamp unix format");
-                tFile.AppendLine("return '" + NWDBasisHelper.BasisHelper<NWDAccount>().ClassTrigramme + "'.'" + NWEConstants.K_MINUS + "'.$UserRange.'" + NWEConstants.K_MINUS + "'.$tTime.'" + NWEConstants.K_MINUS + "'.rand ( 100000 , 999999 ).'" + NWDAccount.K_ACCOUNT_CERTIFIED_SUFFIXE + "'; // " + NWDAccount.K_ACCOUNT_CERTIFIED_SUFFIXE + " for Certify");
+                tFile.AppendLine("return '" + NWDBasisHelper.BasisHelper<NWDAccount>().ClassTrigramme + "'.'" + NWEConstants.K_MINUS + "'.$sUserRange.'" + NWEConstants.K_MINUS + "'.$tTime.'" + NWEConstants.K_MINUS + "'.rand ( 100000 , 999999 ).'" + NWDAccount.K_ACCOUNT_CERTIFIED_SUFFIXE + "'; // " + NWDAccount.K_ACCOUNT_CERTIFIED_SUFFIXE + " for Certify");
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
             // --------------------------------------
-            tFile.AppendLine("function CreateAccountUniqueReference ($sConnexion)");
+            tFile.AppendLine("function CreateAccountUniqueReference ($sConnexion, $sUserRange)");
             tFile.AppendLine("{");
             {
-                tFile.AppendLine("global " + NWD.K_SQL_CON + ";");
-                tFile.AppendLine("global $UserRange;");
-
-                tFile.AppendLine("// TODO replace by selected range ");
-                //tFile.AppendLine("$RangeMin = 000;");
-                //tFile.AppendLine("$RangeMax = 999;");
-                tFile.AppendLine("$tReference = CreateAccountReference();");
+                tFile.AppendLine("$tReference = CreateAccountReference($sUserRange);");
                 tFile.AppendLine("$tTested = false;");
                 tFile.AppendLine("while ($tTested == false)");
                 tFile.AppendLine("{");
@@ -578,7 +571,7 @@ namespace NetWorkedData
                         tFile.AppendLine("else");
                         tFile.AppendLine("{");
                         {
-                            tFile.AppendLine("$tReference = CreateAccountReference();");
+                            tFile.AppendLine("$tReference = CreateAccountReference($sUserRange);");
                         }
                         tFile.AppendLine("}");
                     }
@@ -608,6 +601,7 @@ namespace NetWorkedData
                     tFile.AppendLine("ConnectAllDatabases();"); // perhaps prefere a loop with a break ? // no I need check unicity in ALL database!
                     tFile.AppendLine("// loop sqlite");
                     tFile.AppendLine("$tConnexion = NULL;");
+                    tFile.AppendLine("$tUserRange= '0000';");
                     tFile.AppendLine("$tFindPlace = false;");
                     tFile.AppendLine("foreach ($SQL_LIST as $tRange => $tValue)");
                     tFile.AppendLine("{");
@@ -642,7 +636,7 @@ namespace NetWorkedData
                             tFile.AppendLine("$tFindPlace = true;");
                             tFile.AppendLine(NWDError.PHP_log(sEnvironment, " find place in '.$tValue['title'].' => '.$tValue['id'].' with usermax = '.$tValue['maxuser'].'"));
                             tFile.AppendLine("// Yes you have place ... good!");
-                            tFile.AppendLine("$UserRange = mt_rand($tValue['min'], $tValue['max']);// not use, just to test the possible");
+                            tFile.AppendLine("$tUserRange = mt_rand($tValue['min'], $tValue['max']);// not use, just to test the possible");
                             tFile.AppendLine("break;");
                         }
                         tFile.AppendLine("}");
@@ -662,7 +656,7 @@ namespace NetWorkedData
                     tFile.AppendLine("}");
                     tFile.AppendLine("$tInternalKey = '';");
                     tFile.AppendLine("$tInternalDescription = '';");
-                    tFile.AppendLine("$tNewUUID = CreateAccountUniqueReference ($tConnexion);");
+                    tFile.AppendLine("$tNewUUID = CreateAccountUniqueReference ($tConnexion, $tUserRange);");
 
                     //tFile.AppendLine("$tNewUUID = referenceSecondGenerate ('" + NWDBasisHelper.BasisHelper<NWDAccount>().ClassTrigramme + "', '" + NWDBasisHelper.TableNamePHP<NWDAccount>(sEnvironment) + "', '" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Reference) + "');");
                     tFile.AppendLine("$tInsertSQL='';");
@@ -670,7 +664,7 @@ namespace NetWorkedData
                     tFile.AppendLine("$tInsertSQL.='INSERT INTO `" + NWDBasisHelper.TableNamePHP<NWDAccount>(sEnvironment) + "` (';");
                     tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Reference) + "`, '; $tInsertSQLValue.= '\\''.$tConnexion->real_escape_string($tNewUUID).'\\', ';");
                     tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Account) + "`, '; $tInsertSQLValue.= '\\''.$tConnexion->real_escape_string($tNewUUID).'\\', ';");
-                    tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().RangeAccess) + "`, '; $tInsertSQLValue.= '\\''.$tConnexion->real_escape_string($UserRange).'\\', ';");
+                    tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().RangeAccess) + "`, '; $tInsertSQLValue.= '\\''.$tConnexion->real_escape_string($tUserRange).'\\', ';");
                     tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().ServerHash) + "`, '; $tInsertSQLValue.= '\\'\\', ';");
                     tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().ServerLog) + "`, '; $tInsertSQLValue.= '\\'\\', ';");
                     tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().DM) + "`, '; $tInsertSQLValue.= '\\''.$TIME_SYNC.'\\', ';");
