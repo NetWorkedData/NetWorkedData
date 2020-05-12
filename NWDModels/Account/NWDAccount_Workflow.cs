@@ -186,6 +186,23 @@ namespace NetWorkedData
             }
             NWEBenchmark.Finish();
         }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public static string GetUniqueReference(string UUID, Type sType)
+        {
+            string rReturn = UUID;
+            rReturn = rReturn.TrimEnd(K_ACCOUNT_CERTIFIED_SUFFIXE.ToCharArray(0, 1));
+            rReturn = rReturn.TrimEnd(K_ACCOUNT_FROM_EDITOR.ToCharArray(0, 1));
+            //rReturn = rReturn.Replace(K_ACCOUNT_PREFIX_TRIGRAM + "-", "");
+            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
+            rReturn = rReturn.Replace(K_ACCOUNT_PREFIX_TRIGRAM, tHelper.ClassTrigramme);
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string GetUniqueReferenceFromCurrentAccount<T>()
+        {
+            return GetUniqueReference(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference, typeof(T));
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

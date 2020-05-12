@@ -201,6 +201,13 @@ namespace NetWorkedData
                 tConstantsFile.AppendLine("ini_set ('display_errors', 1);");
             }
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
+            tConstantsFile.AppendLine("// CONSTANT FOR EREG");
+            tConstantsFile.AppendLine("$ereg_os = '/^(editor|unity|ios|osx|android|web|win|wp8|ps3|ps4|psp|switch)$/';");
+            tConstantsFile.AppendLine("$ereg_version = '/^([0-9]{1,2})+(\\.[0-9]{1,3})*$/';");
+            tConstantsFile.AppendLine("$ereg_lang = '/^([A-Z\\_\\-a-z]{2,7})$/';");
+            tConstantsFile.AppendLine("$ereg_UUID = '/^([A-Za-z0-9\\-]{15,48})$/';");
+            tConstantsFile.AppendLine("$ereg_hash = '/^(.*)$/';");
+            tConstantsFile.AppendLine("$ereg_token = '/^(.*)$/';");
             tConstantsFile.AppendLine("// CONSTANT FOR WEB");
             tConstantsFile.AppendLine("$NWD_FLOAT_FORMAT = " + NWDConstants.FloatSQLFormat + ";");
             tConstantsFile.AppendLine("$NWD_DOUBLE_FORMAT = " + NWDConstants.DoubleSQLFormat + ";");

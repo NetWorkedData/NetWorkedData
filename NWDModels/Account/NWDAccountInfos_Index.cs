@@ -70,15 +70,22 @@ namespace NetWorkedData
         /// </summary>
         /// <param name="sOldAccount"></param>
         /// <param name="sNewAccount"></param>
-        public static void ChangeCurrentData(string sOldAccount, string sNewAccount)
-        {
-            NWDAccountInfos tInfos = NWDBasisHelper.GetRawDataByReference<NWDAccountInfos>(sOldAccount);
-            if (tInfos != null)
-            {
-                tInfos.Reference = sNewAccount;
-                tInfos.SaveData();
-            }
-        }
+        //public static void ChangeCurrentData(string sOldAccount, string sNewAccount)
+        //{
+        //    // look for old data , delete on database, change reference, reccord on database
+        //    string tOldUniqueReference = NWDAccount.GetUniqueReference(sOldAccount, typeof(NWDAccountInfos));
+        //    Debug.Log(" I WILL DELETE THE REFERENCE " + tOldUniqueReference);
+        //    string tNewUniqueReference = NWDAccount.GetUniqueReference(sNewAccount, typeof(NWDAccountInfos));
+        //    Debug.Log(" I WILL REPLACE BY THE REFERENCE " + tNewUniqueReference);
+        //    NWDAccountInfos tInfos = NWDBasisHelper.GetRawDataByReference<NWDAccountInfos>(sOldAccount);
+        //    if (tInfos != null)
+        //    {
+        //        tInfos.DeleteData();
+        //        NWDDataManager.SharedInstance().DataQueueExecute();
+        //        tInfos.Reference = tNewUniqueReference;
+        //        tInfos.SaveData();
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Get the current account infos instance for the current account
@@ -86,16 +93,29 @@ namespace NetWorkedData
         /// <returns></returns>
         public static NWDAccountInfos CurrentData()
         {
+            Debug.Log("<color=red> ###### I NEED THE CURRENT DATA </color>");
             NWDAccountInfos tInfos = null;
             if (NWDBasisHelper.FindTypeInfos(typeof(NWDAccountInfos)).IsLoaded())
             {
-                //NWDAccountInfos tInfos = FindFirstDataByAccount(NWDAccount.CurrentReference(), true);
-                tInfos = NWDBasisHelper.GetRawDataByReference<NWDAccountInfos>(NWDAccount.CurrentReference());
-                if (tInfos == null && string.IsNullOrEmpty(NWDAccount.CurrentReference()) == false)
+                string tUniqueReference = NWDAccount.GetUniqueReferenceFromCurrentAccount<NWDAccountInfos>();
+                tInfos = NWDBasisHelper.GetRawDataByReference<NWDAccountInfos>(tUniqueReference);
+                if (tInfos == null && string.IsNullOrEmpty(tUniqueReference) == false)
                 {
-                    tInfos = NWDBasisHelper.NewDataWithReference<NWDAccountInfos>(NWDAccount.CurrentReference());
+                    tInfos = NWDBasisHelper.NewDataWithReference<NWDAccountInfos>(tUniqueReference);
                     tInfos.SaveData();
                 }
+                Debug.Log("<color=red> ###### I NEED THE CURRENT DATA  I RETURN " + tUniqueReference + "</color>");
+            }
+            return tInfos;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAccountInfos CurrentDataForAccount( string sAccountReference)
+        {
+            NWDAccountInfos tInfos = null;
+            if (NWDBasisHelper.FindTypeInfos(typeof(NWDAccountInfos)).IsLoaded())
+            {
+                string tUniqueReference = NWDAccount.GetUniqueReference(sAccountReference, typeof(NWDAccountInfos));
+                tInfos = NWDBasisHelper.GetRawDataByReference<NWDAccountInfos>(tUniqueReference);
             }
             return tInfos;
         }

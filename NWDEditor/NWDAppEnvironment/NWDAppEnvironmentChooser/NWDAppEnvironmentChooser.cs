@@ -9,6 +9,7 @@
 using System;
 using UnityEngine;
 using UnityEditor;
+using System.Collections.Generic;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -86,6 +87,21 @@ namespace NetWorkedData
 
             GUILayout.Label("In Dev");
 
+            EditorGUILayout.LabelField("DNS use", NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetServerHTTPS());
+            List<NWDServerDomain> tServerDNSList = NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetServerDNSList();
+            List<string> tServerList = new List<string>();
+            foreach (NWDServerDomain tDomain in tServerDNSList)
+            {
+                tServerList.Add(tDomain.InternalKey);
+            }
+            int tIndex = tServerDNSList.IndexOf(NWDAccountInfos.CurrentData().Server.GetReachableData());
+            int tNewIndex = EditorGUILayout.Popup("DNS", tIndex, tServerList.ToArray());
+            if (tNewIndex != tIndex)
+            {
+                NWDAccountInfos.CurrentData().Server.SetData(tServerDNSList[tNewIndex]);
+                NWDAccountInfos.CurrentData().SaveData();
+            }
+
             NWDCompileTypeBypass tByPass = (NWDCompileTypeBypass) EditorGUILayout.EnumPopup("ByPass mode", NWDLauncher.kByPass);
             if (tByPass!= NWDLauncher.kByPass)
             {
@@ -97,6 +113,9 @@ namespace NetWorkedData
                 NWDModelManager.Refresh();
                 NWDAppEnvironmentSync.Refresh();
             }
+
+
+
             EditorGUI.BeginDisabledGroup(true);
             EditorGUILayout.EnumPopup("Result mode", NWDLauncher.CompileAs());
             EditorGUI.EndDisabledGroup();

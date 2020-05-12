@@ -32,17 +32,9 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Connexion with player's Account (<see cref="NWDAccount"/>)
-        /// </summary>
-        [NWDInspectorHeader("Player Informations")]
-        [NWDCertified]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        /// <summary>
         /// The <see cref="Nickname"/> filled in the form by the player in his account
         /// </summary>
+        [NWDInspectorHeader("Informations")]
         [NWDCertified]
         public string Nickname
         {

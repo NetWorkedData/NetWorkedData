@@ -254,7 +254,7 @@ namespace NetWorkedData
                         NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS, this));
                     }
 #if UNITY_EDITOR
-                    Debug.Log(" request % " + (Request.uploadProgress*100.0F).ToString("F3"));
+                    Debug.Log(" request % " + (Request.uploadProgress * 100.0F).ToString("F3"));
 #endif
                     yield return null;
                 }
@@ -401,7 +401,7 @@ namespace NetWorkedData
                                         if (ResultInfos.isError)
                                         {
 
-                                           NWDError tNWDError_RQT90  = NWDError.GetErrorDomainCode(NWDError.NWDError_RQT90);
+                                            NWDError tNWDError_RQT90 = NWDError.GetErrorDomainCode(NWDError.NWDError_RQT90);
                                             NWDError tNWDError_RQT91 = NWDError.GetErrorDomainCode(NWDError.NWDError_RQT91);
                                             NWDError tNWDError_RQT92 = NWDError.GetErrorDomainCode(NWDError.NWDError_RQT92);
                                             NWDError tNWDError_RQT93 = NWDError.GetErrorDomainCode(NWDError.NWDError_RQT93);
@@ -840,9 +840,13 @@ namespace NetWorkedData
                 string tDebugResponseHeader = string.Empty;
                 if (Request != null)
                 {
-                    foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
+                    Dictionary<string, string> tResponseHeaders = Request.GetResponseHeaders();
+                    if (tResponseHeaders != null)
                     {
-                        tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , "; //, \n";
+                        foreach (KeyValuePair<string, string> tEntry in tResponseHeaders)
+                        {
+                            tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , "; //, \n";
+                        }
                     }
 
                     string tFileDebug = "*******************************************************************\n" +

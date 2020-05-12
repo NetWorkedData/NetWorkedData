@@ -172,6 +172,19 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public List<NWDServerDomain> GetServerDNSList()
+        {
+            List<NWDServerDomain> rList = new List<NWDServerDomain>();
+            foreach (NWDServerDomain tDomain in NWDBasisHelper.GetRawDatas<NWDServerDomain>())
+            {
+                if (tDomain.ValidInEnvironment(this))
+                {
+                    rList.Add(tDomain);
+                }
+            }
+            return rList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         #region constructor
         //-------------------------------------------------------------------------------------------------------------

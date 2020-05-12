@@ -44,9 +44,23 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void TryToChangeUserForAllObjects(string sOldUser, string sNewUser)
         {
-            //Debug.Log("##### TryToChangeUserForAllObjects");
             if (kAccountDependent == true)
             {
+                // look for old data , delete on database, change reference, reccord on database
+                string tOldUniqueReference = NWDAccount.GetUniqueReference(sOldUser, ClassType);
+                string tNewUniqueReference = NWDAccount.GetUniqueReference(sNewUser, ClassType);
+                Debug.Log("########### OK I WILL replace THE UNIQUE REFERENCE " + tOldUniqueReference);
+                NWDTypeClass tUniqueReference = GetDataByReference(sOldUser);
+                if (tUniqueReference != null)
+                {
+                    Debug.Log("###########  ... BY THE UNIQUE REFERENCE " + tNewUniqueReference);
+                    tUniqueReference.DeleteData();
+                    Debug.Log("###########  I deleteThe Data");
+                    NWDDataManager.SharedInstance().DataQueueExecute();
+                    tUniqueReference.Reference = tNewUniqueReference;
+                    tUniqueReference.InsertData();
+                    //tUniqueReference.EnableData();
+                }
                 foreach (NWDTypeClass tObject in Datas)
                 {
                     tObject.ChangeUser(sOldUser, sNewUser);

@@ -116,7 +116,7 @@ namespace NetWorkedData
                 sScript.AppendLine("else");
                 sScript.AppendLine("{");
                 {
-                    sScript.AppendLine("" + PHP_FUNCTION_GET_DATA_BY_REFERENCE() + " ($Connexion, $tReference);");
+                    sScript.AppendLine("" + PHP_FUNCTION_GET_DATA_BY_REFERENCE() + " ($tConnexion, $tReference);");
                     sScript.AppendLine("return;");
                 }
                 sScript.AppendLine("}");

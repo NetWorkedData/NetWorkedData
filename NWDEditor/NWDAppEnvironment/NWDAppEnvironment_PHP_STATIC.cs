@@ -370,7 +370,7 @@ namespace NetWorkedData
                 tFile.AppendLine("{");
                 {
                     tFile.AppendLine("$rReturn['error'] = true;");
-                    tFile.AppendLine("if ($sErrorTag != '') {error($sErrorTag, $sInfos, $sExit, __DIR__, __FILE__, __FUNCTION__, __LINE__);};");
+                    tFile.AppendLine("if ($sErrorTag != '') { error($sErrorTag, $sInfos, $sExit, __DIR__, __FILE__, __FUNCTION__, __LINE__);};");
                     tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$sSQL", "$sCon"));
                 }
                 tFile.AppendLine("}");
@@ -379,7 +379,7 @@ namespace NetWorkedData
                 {
                     tFile.AppendLine("$rReturn['datas'][0] = array();");
                     tFile.AppendLine("$rReturn['connexions'][0] = $sCon;");
-                    tFile.AppendLine("while($tRow = $tResult->fetch_array())");
+                    tFile.AppendLine("while($tRow = $tResult->fetch_assoc())");
                     tFile.AppendLine("{");
                     {
                         tFile.AppendLine("$rReturn['count']++;");
@@ -455,7 +455,7 @@ namespace NetWorkedData
                     {
                         tFile.AppendLine("$rReturn['datas'][$tI] = array();");
                         tFile.AppendLine("$rReturn['connexions'][$tI] = $tConnexion;");
-                        tFile.AppendLine("while($tRow = $tResult->fetch_array())");
+                        tFile.AppendLine("while($tRow = $tResult->fetch_assoc())");
                         tFile.AppendLine("{");
                         {
                             tFile.AppendLine("$rReturn['count']++;");
@@ -640,7 +640,7 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
 
             // --------------------------------------
-            tFile.AppendLine("function referenceRandom ($sPrefix)");
+            tFile.AppendLine("function referenceRandomGlobal ($sPrefix)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine("global " + NWD.K_PHP_TIME_SYNC + ";");
@@ -648,36 +648,99 @@ namespace NetWorkedData
             tFile.AppendLine("return $sPrefix.'-'.$tTime.'-'.rand ( 100000 , 999999 ).'C'; // C for Certify");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
-
             // --------------------------------------
-            tFile.AppendLine("function referenceGenerate ($sPrefix, $sTable, $sColumn)");
+            tFile.AppendLine("function referenceRandomWithRangeAccess ($sPrefix, $sRangeAccess)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_logTrace(this));
-            tFile.AppendLine("global " + NWD.K_SQL_CON + ";");
-            tFile.AppendLine("$tReference = referenceRandom($sPrefix);");
-            tFile.AppendLine("$tTested = false;");
-            tFile.AppendLine("while ($tTested == false)");
-            tFile.AppendLine("{");
-            tFile.AppendLine("$tQuery = 'SELECT `'.$sColumn.'` FROM `'.$sTable.'` WHERE `'.$sColumn.'` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($tReference).'\\';';");
-            tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
-            tFile.AppendLine("if (!$tResult)");
-            tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$tQuery", NWD.K_SQL_CON));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            tFile.AppendLine("global " + NWD.K_PHP_TIME_SYNC + ";");
+            tFile.AppendLine("$tTime = " + NWD.K_PHP_TIME_SYNC + "-1492711200; // Timestamp unix format");
+            tFile.AppendLine("return $sPrefix.'-'.$sRangeAccess.'-'.$tTime.'-'.rand ( 100000 , 999999 ).'C'; // C for Certify");
             tFile.AppendLine("}");
-            tFile.AppendLine("else");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+            // --------------------------------------
+            tFile.AppendLine("function referenceGenerateGlobal ($sPrefix, $sTable, $sColumn)");
             tFile.AppendLine("{");
-            tFile.AppendLine("if ($tResult->num_rows == 0)");
+            {
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("$tReference = referenceRandomGlobal($sPrefix);");
+                tFile.AppendLine("$tTested = false;");
+                tFile.AppendLine("$sConnexion = GetCurrentDatabase();");
+                tFile.AppendLine("while ($tTested == false)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("$tQuery = 'SELECT `'.$sColumn.'` FROM `'.$sTable.'` WHERE `'.$sColumn.'` LIKE \\''.$tConnexion->real_escape_string($tReference).'\\';';");
+                    tFile.AppendLine("$tResult = SelectFromAllDatabase($tQuery,'','','');");
+                    tFile.AppendLine("if ($tResult['error'] == true)");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$tQuery", "$tConnexion"));
+                        tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("else");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("if ($tResult['count'] == 0)");
+                        tFile.AppendLine("{");
+                        {
+                            tFile.AppendLine("$tTested = true;");
+                        }
+                        tFile.AppendLine("}");
+                        tFile.AppendLine("else");
+                        tFile.AppendLine("{");
+                        {
+                            tFile.AppendLine("$tReference = referenceRandomGlobal($sPrefix);");
+                        }
+                        tFile.AppendLine("}");
+                    }
+                    tFile.AppendLine("}");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("return $tReference;");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            // --------------------------------------
+            tFile.AppendLine("function referenceGenerateRange ($sConnexion, $sRangeAccess, $sPrefix, $sTable, $sColumn)");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tTested = true;");
-            tFile.AppendLine("}");
-            tFile.AppendLine("else");
-            tFile.AppendLine("{");
-            tFile.AppendLine("$tReference = referenceRandom();");
-            tFile.AppendLine("}");
-            tFile.AppendLine("}");
-            tFile.AppendLine("}");
-            tFile.AppendLine("return $tReference;");
+            {
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("$tReference = referenceRandomWithRangeAccess($sPrefix, $sRangeAccess);");
+                tFile.AppendLine("$tTested = false;");
+                tFile.AppendLine("while ($tTested == false)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("$tQuery = 'SELECT `'.$sColumn.'` FROM `'.$sTable.'` WHERE `'.$sColumn.'` LIKE \\''.$sConnexion->real_escape_string($tReference).'\\';';");
+                    tFile.AppendLine("$tResult = SelectFromConnexion($sConnexion, $tQuery,'','','');");
+                    tFile.AppendLine("if ($tResult['error'] == true)");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$tQuery", "$tConnexion"));
+                        tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("else");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("if ($tResult['count'] == 0)");
+                        tFile.AppendLine("{");
+                        {
+                            tFile.AppendLine("$tTested = true;");
+                        }
+                        tFile.AppendLine("}");
+                        tFile.AppendLine("else");
+                        tFile.AppendLine("{");
+                        {
+                            tFile.AppendLine("$tReference = referenceRandomWithRangeAccess($sPrefix, $sRangeAccess);");
+                        }
+                        tFile.AppendLine("}");
+                    }
+                    tFile.AppendLine("}");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("return $tReference;");
+            }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
@@ -1017,13 +1080,13 @@ namespace NetWorkedData
             tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDVersion>().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
             tFile.AppendLine("if (IPBanOk() == true)");
             tFile.AppendLine("{");
-            tFile.AppendLine("$ereg_os = '/^(editor|unity|ios|osx|android|web|win|wp8|ps3|ps4|psp|switch)$/';");
-            tFile.AppendLine("$ereg_version = '/^([0-9]{1,2})+(\\.[0-9]{1,3})*$/';");
-            tFile.AppendLine("$ereg_lang = '/^([A-Z\\_\\-a-z]{2,7})$/';");
-            tFile.AppendLine("$ereg_UUID = '/^([A-Za-z0-9\\-]{15,48})$/';");
-            //tFile.AppendLine("$ereg_hash = '/^([A-Za-z0-9\\-]{3,48})$/';");
-            tFile.AppendLine("$ereg_hash = '/^(.*)$/';");
-            tFile.AppendLine("$ereg_token = '/^(.*)$/';");
+            //tFile.AppendLine("$ereg_os = '/^(editor|unity|ios|osx|android|web|win|wp8|ps3|ps4|psp|switch)$/';");
+            //tFile.AppendLine("$ereg_version = '/^([0-9]{1,2})+(\\.[0-9]{1,3})*$/';");
+            //tFile.AppendLine("$ereg_lang = '/^([A-Z\\_\\-a-z]{2,7})$/';");
+            //tFile.AppendLine("$ereg_UUID = '/^([A-Za-z0-9\\-]{15,48})$/';");
+            ////tFile.AppendLine("$ereg_hash = '/^([A-Za-z0-9\\-]{3,48})$/';");
+            //tFile.AppendLine("$ereg_hash = '/^(.*)$/';");
+            //tFile.AppendLine("$ereg_token = '/^(.*)$/';");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("if (headerValue ('os', '" + NWD.K_WEB_HEADER_OS_KEY + "', $ereg_os, '" + NWDError.GetErrorDomainCode(NWDError.NWDError_HEA01).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_HEA11).Code + "')) // test if os infos is valid");
             tFile.AppendLine("{");
@@ -1682,55 +1745,49 @@ namespace NetWorkedData
             tFile.AppendLine("// connect for account");
             //tFile.AppendLine("// TODO : dertermine account Database and use the good range!");
             //tFile.AppendLine("$tAccountMySQL = reset($SQL_LIST);"); // remember, use string for ereg extraction from UUID
-            tFile.AppendLine("$tAccountForRange = isset($_SERVER['HTTP_'.strtoupper('" + NWD.K_WEB_UUID_KEY + "')]) ? $_SERVER['HTTP_'.strtoupper('" + NWD.K_WEB_UUID_KEY + "')] : '';");
-            tFile.AppendLine(NWDError.PHP_log(this, " ok your account is '.$tAccountForRange.'"));
-            tFile.AppendLine("if (TestTemporaryAccount($tAccountForRange))");
+            //tFile.AppendLine("$AccountForRange = isset($_SERVER['HTTP_'.strtoupper('" + NWD.K_WEB_UUID_KEY + "')]) ? $_SERVER['HTTP_'.strtoupper('" + NWD.K_WEB_UUID_KEY + "')] : '';");
+            tFile.AppendLine("if (headerValue ('AccountForRange', '" + NWD.K_WEB_UUID_KEY + "', $ereg_UUID, '" + NWDError.GetErrorDomainCode(NWDError.NWDError_HEA04).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_HEA14).Code + "')) // test UUID of headers");
             tFile.AppendLine("{");
             {
-                tFile.AppendLine("// TODO : if account is temporary : check the first/random database with usermax under limit!");
-                tFile.AppendLine(NWDError.PHP_log(this, " ok your account is temporary"));
-                tFile.AppendLine("$tAccountMySQL = reset($SQL_LIST); // not random for this moment;");
-                tFile.AppendLine("$UserRange = mt_rand($tAccountMySQL['min'], $tAccountMySQL['max']);// not use, just to test the possible");
-                tFile.AppendLine(NWDError.PHP_log(this, " ok your account is temporary and your can perhaps be '.$UserRange.'"));
+                tFile.AppendLine(NWDError.PHP_log(this, " ok your account is '.$AccountForRange.'"));
+                tFile.AppendLine("if (TestTemporaryAccount($AccountForRange))");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("// TODO : if account is temporary : check the first/random database with usermax under limit!");
+                    tFile.AppendLine(NWDError.PHP_log(this, " ok your account is temporary"));
+                    tFile.AppendLine("$tAccountMySQL = reset($SQL_LIST); // not random for this moment;");
+                    tFile.AppendLine("$UserRange = mt_rand($tAccountMySQL['min'], $tAccountMySQL['max']);// not use, just to test the possible");
+                    tFile.AppendLine(NWDError.PHP_log(this, " ok your account is temporary and your can perhaps be '.$UserRange.'"));
+                    tFile.AppendLine("$SQL_CURRENT_DATABASE = GetDatabaseByRangeAccess($UserRange);");
+                    tFile.AppendLine("$SQL_CURRENT_ACCESSRANGE = $UserRange;");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("else");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("// account is not temporary : check the good database!");
+                    tFile.AppendLine("preg_match('/" + NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM + "\\-([0-9]*)\\-[0-9]*\\-[0-9]*/', $AccountForRange, $tMatches);");
+                    tFile.AppendLine("$UserRange = $tMatches[1];");
+                    tFile.AppendLine(NWDError.PHP_log(this, " ok your account is certified and your range is : '.$UserRange.'"));
+                    tFile.AppendLine("$SQL_CURRENT_DATABASE = GetDatabaseByRangeAccess($UserRange);");
+                    tFile.AppendLine("$SQL_CURRENT_ACCESSRANGE = $UserRange;");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("// connect database now");
+                tFile.AppendLine("if ($SQL_CURRENT_DATABASE->connect_errno)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SQL00));
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("else");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_REQUEST_PHP + "');");
+                }
+                tFile.AppendLine("}");
             }
             tFile.AppendLine("}");
-            tFile.AppendLine("else");
-            tFile.AppendLine("{");
-            {
-                tFile.AppendLine("// account is not temporary : check the good database!");
-                tFile.AppendLine("preg_match('/" + NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM + "\\-([0-9]*)\\-[0-9]*\\-[0-9]*/', $tAccountForRange, $tMatches);");
-                tFile.AppendLine("$UserRange = $tMatches[1];");
-                tFile.AppendLine(NWDError.PHP_log(this, " ok your account is certified and your range is : '.$UserRange.'"));
-                //tFile.AppendLine("foreach ($SQL_LIST as $tRange => $tValue)");
-                //tFile.AppendLine("{");
-                //{
-                //    tFile.AppendLine("if ($UserRange >= $tValue['min'] && $UserRange <= $tValue['max'])");
-                //    tFile.AppendLine("{");
-                //    {
-                //        tFile.AppendLine("$tAccountMySQL = $tValue;");
-                //        tFile.AppendLine("break;");
-                //    }
-                //    tFile.AppendLine("}");
-                //}
-                //tFile.AppendLine("}");
-            }
-            tFile.AppendLine("}");
-            tFile.AppendLine("// connect database now");
-            tFile.AppendLine("if (GetDatabaseForAccount($tAccountForRange)->connect_errno)");
-            tFile.AppendLine("{");
-            {
-                tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SQL00));
-                //tFile.AppendLine("include_once ('" + NWD.K_STATIC_FINISH_PHP + "');");
-                //tFile.AppendLine("exit;");
-            }
-            tFile.AppendLine("}");
-            tFile.AppendLine("else");
-            tFile.AppendLine("{");
-            {
-                tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_REQUEST_PHP + "');");
-            }
-            tFile.AppendLine("}");
-
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());

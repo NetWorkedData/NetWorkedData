@@ -15,16 +15,11 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("AAV")]
     [NWDClassDescriptionAttribute("Avatar composer for account")]
     [NWDClassMenuNameAttribute("Account Avatar")]
-    public partial class NWDAccountAvatar : NWDBasis
+    public partial class NWDAccountAvatar : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupReset]
-        [NWDInspectorGroupStart("Account and final render")]
-        [NWDTooltips("The account reference of user")]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
+        [NWDInspectorGroupStart("Final render")]
         [NWDTooltips("Item used to render Avatar in simple game ")]
         public NWDReferenceType<NWDItem> RenderItem
         {

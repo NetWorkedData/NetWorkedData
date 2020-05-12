@@ -396,11 +396,12 @@ namespace NetWorkedData
         {
             Debug.Log("##### ChangeAllDatasForUserToAnotherUser " + sOldAccountReference + " to " + sNewAccountReference);
             NWDDataManager.SharedInstance().DataQueueExecute();
-            NWDAccountInfos.ChangeCurrentData(sOldAccountReference, sNewAccountReference);
+            //NWDAccountInfos.ChangeCurrentData(sOldAccountReference, sNewAccountReference);
             foreach (Type tType in mTypeList)
             {
                 NWDBasisHelper.FindTypeInfos(tType).TryToChangeUserForAllObjects(sOldAccountReference, sNewAccountReference);
             }
+            NWDDataManager.SharedInstance().DataQueueExecute();
             sEnvironment.PlayerAccountReference = sNewAccountReference;
             SavePreferences(sEnvironment);
         }

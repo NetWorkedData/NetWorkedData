@@ -121,7 +121,7 @@ namespace NetWorkedData
                         // insert for the moment! delete all after ... more simple to dev! ... 
                         tFile.AppendLine("$tDeadline = " + NWD.K_PHP_TIME_SYNC + " + " + sEnvironment.IPBanTimer.ToString() + ";");
                         
-                        tFile.AppendLine("$tReference = referenceGenerate ('" + NWDBasisHelper.BasisHelper<NWDIPBan>().ClassTrigramme + "', '" + NWDBasisHelper.TableNamePHP<NWDIPBan>(sEnvironment) + "', '" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDIPBan>().Reference) + "');");
+                        tFile.AppendLine("$tReference = referenceGenerateGlobal ('" + NWDBasisHelper.BasisHelper<NWDIPBan>().ClassTrigramme + "', '" + NWDBasisHelper.TableNamePHP<NWDIPBan>(sEnvironment) + "', '" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDIPBan>().Reference) + "');");
                         tFile.AppendLine("$tInsertSQL.='INSERT INTO `" + NWDBasisHelper.TableNamePHP<NWDIPBan>(sEnvironment) + "` (';");
                         tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDIPBan>().Reference) + "`, '; $tInsertSQLValue.= '\\''.$tReference.'\\', ';");
                         tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDIPBan>().ServerHash) + "`, '; $tInsertSQLValue.= '\\'\\', ';");
