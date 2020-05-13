@@ -237,6 +237,8 @@ namespace NetWorkedData
             //tConstantsFile.AppendLine("$SMTP_OPENSSL = '" + MailOpenSSLVerifyMode.Trim().Replace("'", "\'") + "';");
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("// CONSTANT TO CONNECT TO SQL DATABASE");
+            tConstantsFile.AppendLine("global $K_ConnectAllDatabases;");
+            tConstantsFile.AppendLine("$K_ConnectAllDatabases = false;");
             //tConstantsFile.AppendLine("$SQL_HOT = '" + ServerHost.Replace("'", "\'") + "';");
             //tConstantsFile.AppendLine("$SQL_USR = '" + ServerUser.Replace("'", "\'") + "';");
             //tConstantsFile.AppendLine("$SQL_PSW = '" + ServerPassword.Replace("'", "\'") + "';");

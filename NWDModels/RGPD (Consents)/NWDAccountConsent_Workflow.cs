@@ -17,7 +17,7 @@
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountConsent : NWDBasis
+    public partial class NWDAccountConsent : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountConsent()

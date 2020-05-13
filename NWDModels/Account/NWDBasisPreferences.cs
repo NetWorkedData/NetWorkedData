@@ -35,11 +35,6 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDCertified]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        [NWDCertified]
         public string Environment
         {
             get; set;

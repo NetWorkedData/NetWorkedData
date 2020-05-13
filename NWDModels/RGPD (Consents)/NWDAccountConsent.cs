@@ -21,16 +21,9 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("ACS")]
     [NWDClassDescriptionAttribute("Account Consent for RGPD")]
     [NWDClassMenuNameAttribute("Account Consent")]
-    public partial class NWDAccountConsent : NWDBasis
+    public partial class NWDAccountConsent : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStart("Account")]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        [NWDInspectorGroupEnd()]
-        
         [NWDInspectorGroupStart("Consent")]
         public NWDReferenceType<NWDConsent> Consent
         {

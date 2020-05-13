@@ -55,21 +55,6 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Connexion with player's Account (<see cref="NWDAccount"/>)
-        /// </summary>
-        [NWDInspectorHeader("Player Informations")]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        /// <summary>
-        /// Connexion with player's GameSave (<see cref="NWDGameSave"/>)
-        /// </summary>
-        public NWDReferenceType<NWDGameSave> GameSave
-        {
-            get; set;
-        }
-        /// <summary>
         /// The <see cref="Nickname"/> filled in the form by the player in his <see cref="NWDGameSave"/>
         /// </summary>
         public string Nickname

@@ -23,11 +23,10 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("APR")]
     [NWDClassDescriptionAttribute("Account Preference")]
     [NWDClassMenuNameAttribute("Account Preference")]
-    public partial class NWDAccountPreference : NWDBasis
+    public partial class NWDAccountPreference : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Connection")]
-        public NWDReferenceType<NWDAccount> Account {get; set; }
         public NWDReferenceType<NWDPreferenceKey> PreferenceKey
         {
             get; set;

@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:50:32
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -21,10 +15,8 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserPreference : NWDBasis
+    public partial class NWDUserPreference : NWDBasisGameSaveDependent
     {
-
-
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDPreferenceKey, NWDUserPreference> kAchievementKeyIndex = new NWDIndex<NWDPreferenceKey, NWDUserPreference>();
         //-------------------------------------------------------------------------------------------------------------

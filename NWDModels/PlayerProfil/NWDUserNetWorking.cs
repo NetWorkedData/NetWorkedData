@@ -38,14 +38,6 @@ namespace NetWorkedData
     public partial class NWDUserNetWorking : NWDBasisGameSaveDependent
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDGameSave> GameSave
-        {
-            get; set;
-        }
         public NWDDateTimeType NextUpdate
         {
             get; set;

@@ -43,7 +43,6 @@ namespace NetWorkedData
             tFile.AppendLine("function RescueSignProceed($sEmail, $sLanguage, $sFyr)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
-            tFile.AppendLine("global $SQL_CON;");
             tFile.AppendLine("global $ENV, $WSBUILD, $HTTP_URL, $NWD_APP_NAM, $NWD_RES_MAIL, $NWD_SLT_STR, $NWD_SLT_END;");
             tFile.AppendLine("global $admin, $uuid;");
             tFile.AppendLine("$tErrorReference = '" + NWDError.GetErrorDomainCode(NWDError.NWDError_RescuePageError).Reference + "';");
@@ -289,7 +288,7 @@ namespace NetWorkedData
             tFile.AppendLine("$rReturn = false;");
             tFile.AppendLine("global $ACC_TMP, $TIME_SYNC, $ACC_NEED_USER_TRANSFERT;");
             tFile.AppendLine("global $shs, $ereg_token;");
-            tFile.AppendLine("global $SQL_LIST, " + NWD.K_SQL_CON + ", " + NWD.K_SQL_CON_EDITOR + ";");
+            tFile.AppendLine("global $SQL_LIST, " + NWD.K_SQL_CON_EDITOR + ";");
             tFile.AppendLine("global $ENV, $WSBUILD;");
             tFile.AppendLine("$sSDKt = str_replace('%','',str_replace('_','',$sSDKt));");
             tFile.AppendLine("$sSDKv = str_replace('%','',str_replace('_','',$sSDKv));");
@@ -389,9 +388,6 @@ namespace NetWorkedData
                 tFile.AppendLine("}");
             }
             tFile.AppendLine("}");
-
-            tFile.AppendLine("$tConnexion = " + NWD.K_SQL_CON_EDITOR + "[$tRangeToUse];");
-            tFile.AppendLine("" + NWD.K_SQL_CON + " = " + NWD.K_SQL_CON_EDITOR + "[$tRangeToUse];");
 
             tFile.AppendLine("$tResult = $tConnexion->query($tInsertSQL);");
             tFile.AppendLine("if (!$tResult)");
