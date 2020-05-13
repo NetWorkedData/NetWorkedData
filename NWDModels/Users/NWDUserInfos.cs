@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:42:20
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -35,13 +29,10 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("General User Informations")]
     [NWDClassMenuNameAttribute("User Infos")]
     [NWDClassClusterAttribute(1, 32)]
-    public partial class NWDUserInfos : NWDBasis
+    public partial class NWDUserInfos : NWDBasisGameSaveDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Player Informations")]
-        [NWDTooltips("")]
-        public NWDReferenceType<NWDAccount> Account { get; set; }
-        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
         public NWDDateTimeType LastSignIn { get; set; }
         [NWDInspectorGroupEnd]
 

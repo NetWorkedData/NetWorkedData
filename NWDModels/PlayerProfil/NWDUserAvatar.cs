@@ -21,7 +21,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserInfos : NWDBasis
+    public partial class NWDUserInfos : NWDBasisGameSaveDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupOrder("Player Informations", 4)]
@@ -49,7 +49,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
     [NWDWindowOwner(typeof(NWDUserWindow))]
 #endif
-    public partial class NWDUserAvatar : NWDBasis
+    public partial class NWDUserAvatar : NWDBasisGameSaveDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupReset]

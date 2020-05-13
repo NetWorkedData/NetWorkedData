@@ -19,7 +19,7 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserNetWorking : NWDBasis
+    public partial class NWDUserNetWorking : NWDBasisGameSaveDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserNetWorking()

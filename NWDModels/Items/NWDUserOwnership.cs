@@ -34,14 +34,12 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UOW")]
     [NWDClassDescriptionAttribute("User Ownership descriptions Class")]
     [NWDClassMenuNameAttribute("User Ownership")]
-    public partial class NWDUserOwnership : NWDBasis
+    public partial class NWDUserOwnership : NWDBasisGameSaveDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Ownership", true, true, true)]
-        public NWDReferenceType<NWDAccount> Account { get; set; }
-        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
         public NWDReferenceType<NWDItem> Item { get; set; }
         [NWDInspectorGroupEnd]
 

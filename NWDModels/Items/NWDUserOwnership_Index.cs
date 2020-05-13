@@ -36,7 +36,7 @@ namespace NetWorkedData
         }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserOwnership : NWDBasis
+    public partial class NWDUserOwnership : NWDBasisGameSaveDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDItem, NWDUserOwnership> kAchievementKeyIndex = new NWDIndex<NWDItem, NWDUserOwnership>();

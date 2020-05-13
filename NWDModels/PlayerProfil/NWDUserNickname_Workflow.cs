@@ -20,7 +20,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserNickname : NWDBasis
+    public partial class NWDUserNickname : NWDBasisGameSaveDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         public delegate void SyncNicknameBlock(bool error, NWDOperationResult result = null);

@@ -35,7 +35,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
     [NWDWindowOwner(typeof(NWDUserWindow))]
 #endif
-    public partial class NWDUserNetWorking : NWDBasis
+    public partial class NWDUserNetWorking : NWDBasisGameSaveDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferenceType<NWDAccount> Account

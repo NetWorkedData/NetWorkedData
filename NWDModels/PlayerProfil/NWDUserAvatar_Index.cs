@@ -18,7 +18,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserAvatar : NWDBasis
+    public partial class NWDUserAvatar : NWDBasisGameSaveDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDGameSave,NWDUserAvatar> kIndex = new NWDIndex<NWDGameSave, NWDUserAvatar>();

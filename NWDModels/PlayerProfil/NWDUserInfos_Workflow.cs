@@ -24,7 +24,7 @@ using NotificationType = UnityEngine.iOS.NotificationType;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserInfos : NWDBasis
+    public partial class NWDUserInfos : NWDBasisGameSaveDependent
     {
         //=============================================================================================================
         // PUBLIC STATIC METHOD
