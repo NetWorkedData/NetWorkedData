@@ -28,13 +28,9 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("Game Save")]
     [NWDClassMenuNameAttribute("Game Save")]
     [NWDClassClusterAttribute(1, 32)]
-    public partial class NWDGameSave : NWDBasis
+    public partial class NWDGameSave : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
         public string Name
         {
             get; set;

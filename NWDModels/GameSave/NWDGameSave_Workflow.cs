@@ -13,7 +13,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDGameSave : NWDBasis
+    public partial class NWDGameSave : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDGameSave()

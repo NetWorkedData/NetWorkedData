@@ -18,7 +18,7 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDGameSave : NWDBasis
+    public partial class NWDGameSave : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         public static NWDGameSave CurrentData()

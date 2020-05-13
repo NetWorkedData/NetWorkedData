@@ -28,12 +28,11 @@ namespace NetWorkedData
     [NWDClassMenuNameAttribute("Benchmark Result")]
     //[NWDInternalKeyNotEditableAttribute]
     //[NWDInternalDescriptionNotEditable]
-    public partial class NWBBenchmarkResult : NWDBasisBundled
+    public partial class NWBBenchmarkResult : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
-        public NWDReferenceType<NWDAccount> Account { get; set; }
         public NWDDateTimeType HistoricDate { get; set; }
         public string Builder { get; set; }
         public string CompileOn { get; set; }

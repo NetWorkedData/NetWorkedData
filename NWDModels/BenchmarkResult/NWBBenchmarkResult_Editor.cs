@@ -25,7 +25,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWBBenchmarkResult : NWDBasisBundled
+    public partial class NWBBenchmarkResult : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
