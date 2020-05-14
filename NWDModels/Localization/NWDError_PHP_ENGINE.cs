@@ -267,6 +267,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        [Obsolete] //TODO delete 
         public static string PHP_ErrorSQL(NWDAppEnvironment sEnvironment, string sQueryRef, string sConnexion)
         {
             string rReturn = string.Empty;

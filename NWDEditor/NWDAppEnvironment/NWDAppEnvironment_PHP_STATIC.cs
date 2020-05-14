@@ -149,29 +149,20 @@ namespace NetWorkedData
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
-            // --------------------------------------
-            //tFile.AppendLine("function GetCurrentDatabase()");
-            //tFile.AppendLine("{");
-            //{
-            //    tFile.AppendLine("global $SQL_CURRENT_DATABASE;");
-            //    tFile.AppendLine("return $SQL_CURRENT_DATABASE;");
-            //}
-            //tFile.AppendLine("}");
-            //tFile.AppendLine(NWD.K_CommentSeparator);
 
             // --------------------------------------
-            tFile.AppendLine("function GetDatabaseForAccount($sAccountReference)");
+            tFile.AppendLine("function GetConnexionForAccount($sAccountReference)");
             tFile.AppendLine("{");
             {
                 tFile.AppendLine("global $SQL_CURRENT_DATABASE, $SQL_CURRENT_ACCESSRANGE;");
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
                 tFile.AppendLine("$tRangeAccess = GetRangeAccessForAccount($sAccountReference);");
-                tFile.AppendLine("return GetDatabaseByRangeAccess($tRangeAccess);");
+                tFile.AppendLine("return GetConnexionByRangeAccess($tRangeAccess);");
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
             // --------------------------------------
-            tFile.AppendLine("function GetDatabaseByRange($sRange)");
+            tFile.AppendLine("function GetConnexionByRange($sRange)");
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
@@ -204,7 +195,7 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
 
             // --------------------------------------
-            tFile.AppendLine("function GetDatabaseByRangeAccess($sRangeAccess)");
+            tFile.AppendLine("function GetConnexionByRangeAccess($sRangeAccess)");
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
@@ -219,7 +210,7 @@ namespace NetWorkedData
                         tFile.AppendLine("if ($sRangeAccess >= $tValue['min'] && $sRangeAccess <= $tValue['max'])");
                         tFile.AppendLine("{");
                         {
-                            tFile.AppendLine("$rConnexion = GetDatabaseByRange($tRange);");
+                            tFile.AppendLine("$rConnexion = GetConnexionByRange($tRange);");
                             tFile.AppendLine("break;");
                         }
                         tFile.AppendLine("}");
@@ -277,45 +268,45 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
 
             // --------------------------------------
-            tFile.AppendLine("function SelectFromCurrentDatabase($sSQL, $sErrorTag, $sInfos, $sExit)");
+            tFile.AppendLine("function SelectFromCurrentConnexion($sSQL)");
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
-                tFile.AppendLine("global $SQL_CURRENT_DATABASE");
-                tFile.AppendLine("return SelectFromConnexion($SQL_CURRENT_DATABASE, $sSQL, $sErrorTag, $sInfos, $sExit);");
+                tFile.AppendLine("global $SQL_CURRENT_DATABASE;");
+                tFile.AppendLine("return SelectFromConnexion($SQL_CURRENT_DATABASE, $sSQL);");
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
             // --------------------------------------
-            tFile.AppendLine("function ExecuteInCurrentDatabase($sSQL, $sErrorTag, $sInfos, $sExit)");
+            tFile.AppendLine("function ExecuteInCurrentConnexion($sSQL)");
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
-                tFile.AppendLine("global $SQL_CURRENT_DATABASE");
-                tFile.AppendLine("return ExecuteInConnexion($SQL_CURRENT_DATABASE, $sSQL, $sErrorTag, $sInfos, $sExit);");
+                tFile.AppendLine("global $SQL_CURRENT_DATABASE;");
+                tFile.AppendLine("return ExecuteInConnexion($SQL_CURRENT_DATABASE, $sSQL);");
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
             // --------------------------------------
-            tFile.AppendLine("function SelectFromDatabase($sRangeAccess, $sSQL, $sErrorTag, $sInfos, $sExit)");
+            tFile.AppendLine("function SelectFromConnexionRangeAccess($sRangeAccess, $sSQL)");
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
-                tFile.AppendLine("$tConnexion = GetDatabaseByRangeAccess($sRangeAccess);");
-                tFile.AppendLine("return SelectFromConnexion($tConnexion, $sSQL, $sErrorTag, $sInfos, $sExit);");
+                tFile.AppendLine("$tConnexion = GetConnexionByRangeAccess($sRangeAccess);");
+                tFile.AppendLine("return SelectFromConnexion($tConnexion, $sSQL);");
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
             // --------------------------------------
-            tFile.AppendLine("function ExecuteInDatabase($sRangeAccess, $sSQL, $sErrorTag, $sInfos, $sExit)");
+            tFile.AppendLine("function ExecuteInConnexionRangeAccess($sRangeAccess, $sSQL)");
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
-                tFile.AppendLine("$tConnexion = GetDatabaseByRangeAccess($sRangeAccess);");
-                tFile.AppendLine("return ExecuteInConnexion($tConnexion, $sSQL, $sErrorTag, $sInfos, $sExit);");
+                tFile.AppendLine("$tConnexion = GetConnexionByRangeAccess($sRangeAccess);");
+                tFile.AppendLine("return ExecuteInConnexion($tConnexion, $sSQL);");
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -323,10 +314,12 @@ namespace NetWorkedData
             // --------------------------------------
             tFile.AppendLine("// return a array assoc structure: ");
             tFile.AppendLine("// $rReturn['error']  : true or false");
+            tFile.AppendLine("// $rReturn['errno']  : the error no ($sCon->errno)");
+            tFile.AppendLine("// $rReturn['error_log']  : the error explain ($sCon->error)");
             tFile.AppendLine("// $rReturn['count']  : number of rows in all result");
             tFile.AppendLine("// $rReturn['connexions'][x]  : the list of connexions use for the result of datas");
             tFile.AppendLine("// $rReturn['datas'][x][y...]  : the list of datas by connexions index used for the result of datas");
-            tFile.AppendLine("function SelectFromConnexion($sCon, $sSQL, $sErrorTag, $sInfos, $sExit)");
+            tFile.AppendLine("function SelectFromConnexion($sCon, $sSQL)");
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
@@ -335,14 +328,17 @@ namespace NetWorkedData
                 tFile.AppendLine("$rReturn['count'] = 0;");
                 tFile.AppendLine("$rReturn['datas'] = array();");
                 tFile.AppendLine("$rReturn['connexions'] = array();");
+                tFile.AppendLine("$rReturn['errno'] = -1;");
+                tFile.AppendLine("$rReturn['error_log'] = '';");
                 tFile.AppendLine(NWDError.PHP_log(this, "select in connexion request  <b> '.$sSQL.' </b>"));
                 tFile.AppendLine("$tResult = $sCon->query($sSQL);");
                 tFile.AppendLine("if (!$tResult)");
                 tFile.AppendLine("{");
                 {
                     tFile.AppendLine("$rReturn['error'] = true;");
-                    tFile.AppendLine("if ($sErrorTag != '') { error($sErrorTag, $sInfos, $sExit, __DIR__, __FILE__, __FUNCTION__, __LINE__);};");
-                    tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$sSQL", "$sCon"));
+                    tFile.AppendLine("$rReturn['errno'] = $sCon->errno;");
+                    tFile.AppendLine("$rReturn['error_log'] = 'error in mysqli request : ('.$sCon->errno.') '.$sCon->error.'in '.$sSQL;");
+                    tFile.AppendLine("return $rReturn;");
                 }
                 tFile.AppendLine("}");
                 tFile.AppendLine("else");
@@ -367,20 +363,26 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
 
             // --------------------------------------
-            tFile.AppendLine("// return succes : true or failed : false ");
-            tFile.AppendLine("function ExecuteInConnexion($sCon, $sSQL, $sErrorTag, $sInfos, $sExit)");
+            tFile.AppendLine("// return a array assoc structure: ");
+            tFile.AppendLine("// $rReturn['error']  : true or false");
+            tFile.AppendLine("// $rReturn['errno']  : the error no ($sCon->errno)");
+            tFile.AppendLine("// $rReturn['error_log']  : the error explain ($sCon->error)");
+            tFile.AppendLine("function ExecuteInConnexion($sCon, $sSQL)");
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
-                tFile.AppendLine("$rReturn = true;");
-                tFile.AppendLine(NWDError.PHP_log(this, "execute in connexion request  <b> '.$sSQL.' </b>"));
+                tFile.AppendLine("$rReturn = array();");
+                tFile.AppendLine("$rReturn['error'] = false;");
+                tFile.AppendLine("$rReturn['errno'] = -1;");
+                tFile.AppendLine("$rReturn['error_log'] = '';");
                 tFile.AppendLine("$tResult = $sCon->query($sSQL);");
                 tFile.AppendLine("if (!$tResult)");
                 tFile.AppendLine("{");
                 {
-                    tFile.AppendLine("if ($sErrorTag != '') {error($sErrorTag, $sInfos, $sExit, __DIR__, __FILE__, __FUNCTION__, __LINE__);};");
-                    tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$sSQL", "$sCon"));
-                    tFile.AppendLine("$rReturn = false;");
+                    tFile.AppendLine("$rReturn['error'] = true;");
+                    tFile.AppendLine("$rReturn['errno'] = $sCon->errno;");
+                    tFile.AppendLine("$rReturn['error_log'] = 'error in mysqli request : ('.$sCon->errno.') '.$sCon->error.'in '.$sSQL;");
+                    tFile.AppendLine("return $rReturn;");
                 }
                 tFile.AppendLine("}");
                 tFile.AppendLine(NWDError.PHP_log(this, "result is '.json_encode($rReturn).'"));
@@ -393,16 +395,20 @@ namespace NetWorkedData
 
             tFile.AppendLine("// return a array assoc structure: ");
             tFile.AppendLine("// $rReturn['error']  : true or false");
+            tFile.AppendLine("// $rReturn['errno']  : the error no ($tConnexion->errno)");
+            tFile.AppendLine("// $rReturn['error_log']  : the error explain ($tConnexion->error)");
             tFile.AppendLine("// $rReturn['count']  : number of rows in all result");
             tFile.AppendLine("// $rReturn['connexions'][x]  : the list of connexions use for the result of datas");
             tFile.AppendLine("// $rReturn['datas'][x][y...]  : the list of datas by connexions index used for the result of datas");
-            tFile.AppendLine("function SelectFromAllDatabase($sSQL, $sErrorTag, $sInfos, $sExit)");
+            tFile.AppendLine("function SelectFromAllConnexions($sSQL)");
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
                 tFile.AppendLine("global " + NWD.K_SQL_CON_EDITOR + ";");
                 tFile.AppendLine("$rReturn = array();");
                 tFile.AppendLine("$rReturn['error'] = false;");
+                tFile.AppendLine("$rReturn['errno'] = -1;");
+                tFile.AppendLine("$rReturn['error_log'] = '';");
                 tFile.AppendLine("$rReturn['count'] = 0;");
                 tFile.AppendLine("$rReturn['datas'] = array();");
                 tFile.AppendLine("$rReturn['connexions'] = array();");
@@ -417,8 +423,9 @@ namespace NetWorkedData
                     tFile.AppendLine("{");
                     {
                         tFile.AppendLine("$rReturn['error'] = true;");
-                        tFile.AppendLine("if ($sErrorTag != '') {error($sErrorTag, $sInfos, $sExit, __DIR__, __FILE__, __FUNCTION__, __LINE__);};");
-                        tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$sSQL", "$tConnexion"));
+                        tFile.AppendLine("$rReturn['errno'] = $tConnexion->errno;");
+                        tFile.AppendLine("$rReturn['error_log'] = 'error in mysqli request : ('.$tConnexion->errno.') '.$tConnexion->error.'in '.$sSQL;");
+                        tFile.AppendLine("return $rReturn;");
                     }
                     tFile.AppendLine("}");
                     tFile.AppendLine("else");
@@ -446,25 +453,32 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
 
             // --------------------------------------
-            tFile.AppendLine("// return succes : true or failed : false ");
-            tFile.AppendLine("function ExecuteInAllDatabase($sSQL, $sErrorTag, $sInfos, $sExit)");
+            tFile.AppendLine("// return a array assoc structure: ");
+            tFile.AppendLine("// $rReturn['error']  : true or false");
+            tFile.AppendLine("// $rReturn['errno']  : the error no ($tConnexion->errno)");
+            tFile.AppendLine("// $rReturn['error_log']  : the error explain ($tConnexion->error)");
+            tFile.AppendLine("function ExecuteInAllConnexions($sSQL)");
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
                 tFile.AppendLine("global " + NWD.K_SQL_CON_EDITOR + ";");
-                tFile.AppendLine("$rReturn = true;");
+                tFile.AppendLine("$rReturn = array();");
+                tFile.AppendLine("$rReturn['error'] = false;");
+                tFile.AppendLine("$rReturn['errno'] = -1;");
+                tFile.AppendLine("$rReturn['error_log'] = '';");
                 tFile.AppendLine("ConnectAllDatabases();");
-                tFile.AppendLine("foreach (" + NWD.K_SQL_CON_EDITOR + " as $tRange => $tValue)");
+                tFile.AppendLine("foreach (" + NWD.K_SQL_CON_EDITOR + " as $tRange => $tConnexion)");
                 tFile.AppendLine("{");
                 {
                     tFile.AppendLine(NWDError.PHP_log(this, "execute in DB '.$tRange.' request  <b> '.$sSQL.' </b>"));
-                    tFile.AppendLine("$tResult = $tValue->query($sSQL);");
+                    tFile.AppendLine("$tResult = $tConnexion->query($sSQL);");
                     tFile.AppendLine("if (!$tResult)");
                     tFile.AppendLine("{");
                     {
-                        tFile.AppendLine("if ($sErrorTag != '') {error($sErrorTag, $sInfos, $sExit, __DIR__, __FILE__, __FUNCTION__, __LINE__);};");
-                        tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$sSQL", "$tValue"));
-                        tFile.AppendLine("$rReturn = false;");
+                        tFile.AppendLine("$rReturn['error'] = true;");
+                        tFile.AppendLine("$rReturn['errno'] = $tConnexion->errno;");
+                        tFile.AppendLine("$rReturn['error_log'] = 'error in mysqli request : ('.$tConnexion->errno.') '.$tConnexion->error.'in '.$sSQL;");
+                        tFile.AppendLine("return $rReturn;");
                     }
                     tFile.AppendLine("}");
                 }
@@ -652,10 +666,11 @@ namespace NetWorkedData
                 tFile.AppendLine("{");
                 {
                     tFile.AppendLine("$tQuery = 'SELECT `'.$sColumn.'` FROM `'.$sTable.'` WHERE `'.$sColumn.'` LIKE \\''.EscapeString($tReference).'\\';';");
-                    tFile.AppendLine("$tResult = SelectFromAllDatabase($tQuery, '" + NWDError.GetErrorCode(NWDError.NWDError_SERVER) + "', __FUNCTION__, true);");
+                    tFile.AppendLine("$tResult = SelectFromAllConnexions($tQuery);");
                     tFile.AppendLine("if ($tResult['error'] == true)");
                     tFile.AppendLine("{");
                     {
+                        tFile.AppendLine(NWDError.PHP_log(this, "'.$tResult['error_log'].'"));
                         tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
                     }
                     tFile.AppendLine("}");
@@ -693,10 +708,11 @@ namespace NetWorkedData
                 tFile.AppendLine("{");
                 {
                     tFile.AppendLine("$tQuery = 'SELECT `'.$sColumn.'` FROM `'.$sTable.'` WHERE `'.$sColumn.'` LIKE \\''.EscapeString($tReference).'\\';';");
-                    tFile.AppendLine("$tResult = SelectFromConnexion($sConnexion, $tQuery, '" + NWDError.GetErrorCode(NWDError.NWDError_SERVER) + "', __FUNCTION__, true);");
+                    tFile.AppendLine("$tResult = SelectFromConnexion($sConnexion, $tQuery);");
                     tFile.AppendLine("if ($tResult['error'] == true)");
                     tFile.AppendLine("{");
                     {
+                        tFile.AppendLine(NWDError.PHP_log(this, "'.$tResult['error_log'].'"));
                         tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
                     }
                     tFile.AppendLine("}");
@@ -792,19 +808,20 @@ namespace NetWorkedData
                 tFile.AppendLine("if ($sGlobal == true)");
                 tFile.AppendLine("{");
                 {
-                tFile.AppendLine("$tResult = SelectFromAllDatabase($tQuery, '" + NWDError.GetErrorCode(NWDError.NWDError_SERVER) + "', __FUNCTION__, true);");
+                tFile.AppendLine("$tResult = SelectFromAllConnexions($tQuery);");
                 }
                 tFile.AppendLine("}");
                 tFile.AppendLine("else");
                 tFile.AppendLine("{");
                 {
-                    tFile.AppendLine("$tResult = SelectFromConnexion($sConnexion, $tQuery, '" + NWDError.GetErrorCode(NWDError.NWDError_SERVER) + "', __FUNCTION__, true);");
+                    tFile.AppendLine("$tResult = SelectFromConnexion($sConnexion, $tQuery);");
                 }
                 tFile.AppendLine("}");
 
                 tFile.AppendLine("if ($tResult['error'] == true)");
                 tFile.AppendLine("{");
                 {
+                    tFile.AppendLine(NWDError.PHP_log(this, "'.$tResult['error_log'].'"));
                     tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
                 }
                 tFile.AppendLine("}");
@@ -858,18 +875,19 @@ namespace NetWorkedData
                                     tFile.AppendLine("if ($sGlobal == true)");
                                     tFile.AppendLine("{");
                                     {
-                                        tFile.AppendLine("$tResultTest = SelectFromAllDatabase($tQueryTest, '" + NWDError.GetErrorCode(NWDError.NWDError_SERVER) + "', __FUNCTION__, true);");
+                                        tFile.AppendLine("$tResultTest = SelectFromAllConnexions($tQueryTest);");
                                     }
                                     tFile.AppendLine("}");
                                     tFile.AppendLine("else");
                                     tFile.AppendLine("{");
                                     {
-                                        tFile.AppendLine("$tResultTest = SelectFromConnexion($sConnexion, $tQueryTest, '" + NWDError.GetErrorCode(NWDError.NWDError_SERVER) + "', __FUNCTION__, true);");
+                                        tFile.AppendLine("$tResultTest = SelectFromConnexion($sConnexion, $tQueryTest);");
                                     }
                                     tFile.AppendLine("}");
                                     tFile.AppendLine("if ($tResultTest['error'] == true)");
                                     tFile.AppendLine("{");
                                     {
+                                        tFile.AppendLine(NWDError.PHP_log(this, "'.$tResultTest['error_log'].'"));
                                         tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
                                     }
                                     tFile.AppendLine("}");
@@ -911,19 +929,20 @@ namespace NetWorkedData
                                         tFile.AppendLine("if ($sGlobal == true)");
                                         tFile.AppendLine("{");
                                         {
-                                            tFile.AppendLine("$tResultTestUnique = SelectFromAllDatabase($tQueryTestUnique, '" + NWDError.GetErrorCode(NWDError.NWDError_SERVER) + "', __FUNCTION__, true);");
+                                            tFile.AppendLine("$tResultTestUnique = SelectFromAllConnexions($tQueryTestUnique);");
                                         }
                                         tFile.AppendLine("}");
                                         tFile.AppendLine("else");
                                         tFile.AppendLine("{");
                                         {
-                                            tFile.AppendLine("$tResultTestUnique = SelectFromConnexion($sConnexion, $tQueryTestUnique, '" + NWDError.GetErrorCode(NWDError.NWDError_SERVER) + "', __FUNCTION__, true);");
+                                            tFile.AppendLine("$tResultTestUnique = SelectFromConnexion($sConnexion, $tQueryTestUnique);");
                                         }
                                         tFile.AppendLine("}");
 
                                         tFile.AppendLine("if ($tResultTestUnique['error'] == true)");
                                         tFile.AppendLine("{");
                                         {
+                                            tFile.AppendLine(NWDError.PHP_log(this, "'.$tResultTestUnique['error_log'].'"));
                                             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
                                         }
                                         tFile.AppendLine("}");
@@ -940,7 +959,7 @@ namespace NetWorkedData
                                                 tFile.AppendLine("if ($sGlobal == true)");
                                                 tFile.AppendLine("{");
                                                 {
-                                                    tFile.AppendLine("$tResultUpdate = ExecuteInAllDatabase($tQueryUpdate, '" + NWDError.GetErrorCode(NWDError.NWDError_SERVER) + "', __FUNCTION__, true);");
+                                                    tFile.AppendLine("$tResultUpdate = ExecuteInAllConnexions($tQueryUpdate, '" + NWDError.GetErrorCode(NWDError.NWDError_SERVER) + "', __FUNCTION__, true);");
                                                 }
                                                 tFile.AppendLine("}");
                                                 tFile.AppendLine("else");
@@ -949,9 +968,10 @@ namespace NetWorkedData
                                                     tFile.AppendLine("$tResultUpdate = ExecuteInConnexion($sConnexion, $tQueryUpdate, '" + NWDError.GetErrorCode(NWDError.NWDError_SERVER) + "', __FUNCTION__, true);");
                                                 }
                                                 tFile.AppendLine("}");
-                                                tFile.AppendLine("if ($tResultUpdate == false)");
+                                                tFile.AppendLine("if ($tResultUpdate['error'] == true)");
                                                 tFile.AppendLine("{");
                                                 {
+                                                    tFile.AppendLine(NWDError.PHP_log(this, "'.$tResultUpdate['error_log'].'"));
                                                     tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
                                                 }
                                                 tFile.AppendLine("}");
@@ -1691,7 +1711,7 @@ namespace NetWorkedData
                     tFile.AppendLine("$tAccountMySQL = reset($SQL_LIST); // not random for this moment;");
                     tFile.AppendLine("$UserRange = mt_rand($tAccountMySQL['min'], $tAccountMySQL['max']);// not use, just to test the possible");
                     tFile.AppendLine(NWDError.PHP_log(this, " ok your account is temporary and your can perhaps be '.$UserRange.'"));
-                    tFile.AppendLine("$SQL_CURRENT_DATABASE = GetDatabaseByRangeAccess($UserRange);");
+                    tFile.AppendLine("$SQL_CURRENT_DATABASE = GetConnexionByRangeAccess($UserRange);");
                     tFile.AppendLine("$SQL_CURRENT_ACCESSRANGE = $UserRange;");
                 }
                 tFile.AppendLine("}");
@@ -1702,7 +1722,7 @@ namespace NetWorkedData
                     tFile.AppendLine("preg_match('/" + NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM + "\\-([0-9]*)\\-[0-9]*\\-[0-9]*/', $AccountForRange, $tMatches);");
                     tFile.AppendLine("$UserRange = $tMatches[1];");
                     tFile.AppendLine(NWDError.PHP_log(this, " ok your account is certified and your range is : '.$UserRange.'"));
-                    tFile.AppendLine("$SQL_CURRENT_DATABASE = GetDatabaseByRangeAccess($UserRange);");
+                    tFile.AppendLine("$SQL_CURRENT_DATABASE = GetConnexionByRangeAccess($UserRange);");
                     tFile.AppendLine("$SQL_CURRENT_ACCESSRANGE = $UserRange;");
                 }
                 tFile.AppendLine("}");

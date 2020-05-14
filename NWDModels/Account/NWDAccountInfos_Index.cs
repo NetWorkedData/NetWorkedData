@@ -93,7 +93,7 @@ namespace NetWorkedData
         /// <returns></returns>
         public static NWDAccountInfos CurrentData()
         {
-            Debug.Log("<color=red> ###### I NEED THE CURRENT DATA </color>");
+            //Debug.Log("<color=red> ###### I NEED THE CURRENT DATA </color>");
             NWDAccountInfos tInfos = null;
             if (NWDBasisHelper.FindTypeInfos(typeof(NWDAccountInfos)).IsLoaded())
             {
@@ -104,7 +104,7 @@ namespace NetWorkedData
                     tInfos = NWDBasisHelper.NewDataWithReference<NWDAccountInfos>(tUniqueReference);
                     tInfos.SaveData();
                 }
-                Debug.Log("<color=red> ###### I NEED THE CURRENT DATA  I RETURN " + tUniqueReference + "</color>");
+                //Debug.Log("<color=red> ###### I NEED THE CURRENT DATA  I RETURN " + tUniqueReference + "</color>");
             }
             return tInfos;
         }
