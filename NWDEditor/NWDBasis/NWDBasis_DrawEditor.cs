@@ -668,7 +668,8 @@ namespace NetWorkedData
                     UpdateDataEditor();
                 }
 
-                if (BasisHelper().kAccountDependent == false)
+                //if (BasisHelper().kAccountDependent == false)
+                if (BasisHelper().TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                 {
                     if (CheckList == null)
                     {
@@ -721,7 +722,8 @@ namespace NetWorkedData
                     tDisablePreprod = true;
                     tDisableProd = true;
                 }
-                if (AccountDependent() == true)
+                //if (AccountDependent() == true)
+                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
                 {
                     tDisableDev = true;
                     tDisablePreprod = true;

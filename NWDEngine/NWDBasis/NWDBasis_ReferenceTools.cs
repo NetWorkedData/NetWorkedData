@@ -159,8 +159,9 @@ namespace NetWorkedData
         /// <returns>The reference.</returns>
         public override string NewReference()
         {
-            if (AccountDependent() == true)
-            {
+            //if (AccountDependent() == true)
+                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+                {
                 return NewReferenceFromUUID(NWDAccount.CurrentReference());
             }
             else

@@ -164,8 +164,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DeleteUser(NWDAppEnvironment sEnvironment)
         {
-            if (kAccountDependent == true)
-            {
+            //if (kAccountDependent == true)
+            if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+                {
                 // reset last sync to zero
                 SynchronizationSetNewTimestamp(sEnvironment, 0); // set to 0 ... only for data AccountDependent, so that's not affect the not connected data (game's data)
                                                                  // delete all datas for this user

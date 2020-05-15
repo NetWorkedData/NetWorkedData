@@ -45,9 +45,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public int SynchronizationGetLastTimestamp(NWDAppEnvironment sEnvironment)
         {
-            int rReturn = NWDBasisPreferences.GetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, 0, kAccountDependent);
+            bool tAccountDependent = false;
+            if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+            {
+                tAccountDependent = true;
+            }
+                int rReturn = NWDBasisPreferences.GetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, 0, tAccountDependent);
             // Modified by the version of bundle
-            if (kAccountDependent == false)
+            if (tAccountDependent == false)
             {
                 int tTimestampMin = NWDAppConfiguration.SharedInstance().SelectedEnvironment().BuildTimestamp;
                 if (tTimestampMin > rReturn)
@@ -67,7 +72,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void  SynchronizationSetNewTimestamp(NWDAppEnvironment sEnvironment, int sNewTimestamp)
         {
-            NWDBasisPreferences.SetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, sNewTimestamp, kAccountDependent);
+            //NWDBasisPreferences.SetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, sNewTimestamp, kAccountDependent);
+            NWDBasisPreferences.SetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, sNewTimestamp, TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

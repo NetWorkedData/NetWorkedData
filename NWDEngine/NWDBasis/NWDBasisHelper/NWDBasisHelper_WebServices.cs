@@ -42,7 +42,8 @@ namespace NetWorkedData
                 sInfos.RowAddedCounter++;
                 tObject = NewDataFromWeb(sEnvironment, sDataArray, tReference);
                 //AddObjectInListOfEdition(tObject);
-                if (kAccountDependent == true)
+                //if (kAccountDependent == true)
+                if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
                 {
                     if (tObject.IsTrashed() == true && NWDAppConfiguration.SharedInstance().AutoDeleteTrashDatas == true)
                     {
@@ -63,7 +64,8 @@ namespace NetWorkedData
                 // BUT I NEED ANY WAY TO REWRITE THE SYNC DATE!!!!
                 // TO DO use Unity Editor to switch write  before or not ?
                 tObject.UpdateDataFromWeb(sEnvironment, sDataArray);
-                if (kAccountDependent == true)
+                //if (kAccountDependent == true)
+                if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
                 {
                     if (tObject.IsTrashed() == true && NWDAppConfiguration.SharedInstance().AutoDeleteTrashDatas == true)
                     {
@@ -137,7 +139,8 @@ namespace NetWorkedData
                 //LoadDataToSync(sEnvironment);
             }
             bool tSync = true;
-            if (Application.isPlaying && kAccountDependent != true)
+            //if (Application.isPlaying && kAccountDependent != true)
+            if (Application.isPlaying && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             {
                 tSync = false;
             }
@@ -520,7 +523,8 @@ namespace NetWorkedData
             //NWDAppEnvironmentSync.SharedInstance().StartProcess(sEnvironment);
             if (Application.isPlaying == true)
             {
-                if (Application.isPlaying == true && kAccountDependent == false)
+                //if (Application.isPlaying == true && kAccountDependent == false)
+                if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                 {
                     EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                 }

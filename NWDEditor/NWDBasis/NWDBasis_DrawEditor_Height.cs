@@ -117,8 +117,9 @@ namespace NetWorkedData
                 tH += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                 // Tag management
                 tH += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-                if (BasisHelper().kAccountDependent == false)
-                {
+                //if (BasisHelper().kAccountDependent == false)
+                    if (BasisHelper().TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                    {
                     tH += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                 }
                 // Toogle Dev Prepprod Prod and operation associated

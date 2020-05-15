@@ -377,8 +377,9 @@ namespace NetWorkedData
                 - NWDGUI.KTableReferenceWidth
                 - NWDGUI.KTableRowWebModelWidth
                 - NWDGUI.kTableIconWidth * 5;
-            if (kAccountDependent == false)
-            {
+            //if (kAccountDependent == false)
+                if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                {
                 tRect.width -= NWDGUI.kTableIconWidth;
             }
             if (tRect.width < NWDGUI.KTableSearchWidth)
@@ -423,8 +424,9 @@ namespace NetWorkedData
             }
             tRect.x += tRect.width;
 
-            if (kAccountDependent == false)
-            {
+            //if (kAccountDependent == false)
+                if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                {
                 tRect.width = NWDGUI.kTableIconWidth;
                 if (GUI.Button(tRect, "Check", NWDGUI.KTableHeaderIcon))
                 {
@@ -752,7 +754,9 @@ namespace NetWorkedData
                 GUI.Label(tRect, NWDConstants.K_APP_TABLE_FILTER_ZONE, NWDGUI.KTableSearchTitle);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // draw accounts popup
-                EditorGUI.BeginDisabledGroup(!kAccountDependent);
+                //if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+                    //EditorGUI.BeginDisabledGroup(!kAccountDependent);
+                    EditorGUI.BeginDisabledGroup(TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent);
 
                 if (NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).Datas.Count < tMaxForMenuOrTextField)
                 {
@@ -854,8 +858,9 @@ namespace NetWorkedData
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
 
-                EditorGUI.BeginDisabledGroup(kAccountDependent);
-                m_SearchCheckList = (NetWorkedData.NWDBasisCheckList)m_SearchCheckList.ControlField(tRect, NWDConstants.K_APP_TABLE_SEARCH_CHECKLIST, kAccountDependent);
+                //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                    EditorGUI.BeginDisabledGroup(TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent);
+                m_SearchCheckList = (NetWorkedData.NWDBasisCheckList)m_SearchCheckList.ControlField(tRect, NWDConstants.K_APP_TABLE_SEARCH_CHECKLIST, TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent);
                 EditorGUI.EndDisabledGroup();
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
@@ -1088,7 +1093,8 @@ namespace NetWorkedData
             {
                 tDisableProd = true;
             }
-            if (kAccountDependent == true)
+            //if (kAccountDependent == true)
+            if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
             {
                 tDisableProd = true;
             }
@@ -1406,7 +1412,7 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         if (GUI.Button(tRect, "Sync table", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1421,7 +1427,7 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         if (GUI.Button(tRect, "Pull table", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1430,7 +1436,7 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         if (GUI.Button(tRect, "Force Pull table", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1487,7 +1493,7 @@ namespace NetWorkedData
                         EditorGUI.BeginDisabledGroup(WebModelChanged);
                         if (GUI.Button(tRect, "Sync table", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1502,7 +1508,7 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         if (GUI.Button(tRect, "Pull table", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1511,7 +1517,7 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         if (GUI.Button(tRect, "Force Pull table", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1771,7 +1777,7 @@ namespace NetWorkedData
                         EditorGUI.BeginDisabledGroup(WebModelChanged);
                         if (GUI.Button(tRect, "Clean table", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1780,7 +1786,7 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         if (GUI.Button(tRect, "Special", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1789,7 +1795,7 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         if (GUI.Button(tRect, "Upgrade", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1798,7 +1804,7 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         if (GUI.Button(tRect, "Optimize", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1807,7 +1813,7 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1848,7 +1854,7 @@ namespace NetWorkedData
                         EditorGUI.BeginDisabledGroup(WebModelChanged);
                         if (GUI.Button(tRect, "Clean table", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1857,7 +1863,7 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         if (GUI.Button(tRect, "Special", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1866,7 +1872,7 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         if (GUI.Button(tRect, "Upgrade", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1875,7 +1881,7 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         if (GUI.Button(tRect, "Optimize", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1884,7 +1890,7 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1928,7 +1934,7 @@ namespace NetWorkedData
                         EditorGUI.BeginDisabledGroup(WebModelChanged);
                         if (GUI.Button(tRect, "Clean table", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1937,7 +1943,7 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         if (GUI.Button(tRect, "Special", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1946,7 +1952,7 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         if (GUI.Button(tRect, "Upgrade", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1955,7 +1961,7 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         if (GUI.Button(tRect, "Optimize", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -1964,7 +1970,7 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
                         {
-                            if (Application.isPlaying == true && kAccountDependent == false)
+                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                             {
                                 EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                             }
@@ -2168,7 +2174,7 @@ namespace NetWorkedData
             }
             if (tPullProd == true)
             {
-                if (Application.isPlaying == true && kAccountDependent == false)
+                if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                 {
                     EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
                 }
@@ -2176,7 +2182,7 @@ namespace NetWorkedData
             }
             if (tPullProdForce == true)
             {
-                if (Application.isPlaying == true && kAccountDependent == false)
+                if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                 {
                     EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
                 }
@@ -2185,7 +2191,7 @@ namespace NetWorkedData
 
             if (tSyncProd == true)
             {
-                if (Application.isPlaying == true && kAccountDependent == false)
+                if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                 {
                     EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
                 }
@@ -2195,7 +2201,7 @@ namespace NetWorkedData
             if (tSyncForceProd == true)
             {
 
-                if (Application.isPlaying == true && kAccountDependent == false)
+                if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                 {
                     EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
                 }
@@ -2204,7 +2210,7 @@ namespace NetWorkedData
             if (tSyncCleanProd == true)
             {
 
-                if (Application.isPlaying == true && kAccountDependent == false)
+                if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                 {
                     EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
                 }
@@ -2213,7 +2219,7 @@ namespace NetWorkedData
             if (tSyncSpecialProd == true)
             {
 
-                if (Application.isPlaying == true && kAccountDependent == false)
+                if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                 {
                     EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
                 }

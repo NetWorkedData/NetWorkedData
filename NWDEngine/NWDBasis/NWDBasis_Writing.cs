@@ -296,8 +296,9 @@ namespace NetWorkedData
             }
             WebModel = WebModelToUse();
             this.DS = 0;
-            if (AccountDependent() == true)
-            {
+            //if (AccountDependent() == true)
+                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+                {
                 if (NWDAppConfiguration.SharedInstance().IsDevEnvironement() == true)
                 {
                     DevSync = 0;
@@ -327,8 +328,9 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             // Debug.Log("NWDBasis InsertDataProceed()");
-            if (AccountDependent())
-            {
+            //if (AccountDependent())
+                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+                {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
                     IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, New_SQLInsertOrReplace());
@@ -352,8 +354,9 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             Debug.Log("NWDBasis InsertDataProceedWithTransaction()");
-            if (AccountDependent())
-            {
+            //if (AccountDependent())
+                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+                {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
                     IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
@@ -577,8 +580,9 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             //Debug.Log("NWDBasis UpdateDataProceed()");
-            if (AccountDependent())
-            {
+            //if (AccountDependent())
+                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+                {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
                     IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, New_SQLInsertOrReplace());
@@ -602,8 +606,9 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             //Debug.Log("NWDBasis UpdateDataProceedWithTransaction()");
-            if (AccountDependent())
-            {
+            //if (AccountDependent())
+                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+                {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
                     IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
@@ -835,8 +840,9 @@ namespace NetWorkedData
         public override void DeleteDataProceed()
         {
             //NWEBenchmark.Start();
-            if (AccountDependent())
-            {
+            //if (AccountDependent())
+                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+                {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
                     IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, New_SQLDelete());
@@ -860,7 +866,8 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             //Debug.Log("NWDBasis DeleteDataProceedWithTransaction()");
-            if (AccountDependent())
+            //if (AccountDependent())
+            if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {

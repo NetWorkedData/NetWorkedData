@@ -1081,8 +1081,9 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
-            if (kAccountDependent == true)
-            {
+            //if (kAccountDependent == true)
+                if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+                {
                 tFile.AppendLine("$tRow = NULL;");
                 tFile.AppendLine("foreach($tResult['connexions'] as $tConnexionKey => $tConnexionSub)");
                 tFile.AppendLine("{");
@@ -1152,7 +1153,8 @@ namespace NetWorkedData
 
             tFile.AppendLine("// Update is finished!");
 
-            if (kAccountDependent == true)
+            //if (kAccountDependent == true)
+            if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
             {
                 tFile.AppendLine("}");
             }

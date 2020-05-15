@@ -174,7 +174,7 @@ namespace NetWorkedData
 
                     //rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassSynchronize) + " = " + ClassSynchronize.ToString().ToLower() + ";");
                     //rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassGameSaveDependent) + " = " + ClassGameSaveDependent.ToString().ToLower() + ";");
-                    rReturn.AppendLine(NWDToolbox.PropertyName(() => kAccountDependent) + " = " + kAccountDependent.ToString().ToLower() + ";");
+                    //rReturn.AppendLine(NWDToolbox.PropertyName(() => kAccountDependent) + " = " + kAccountDependent.ToString().ToLower() + ";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => kLockedObject) + " = " + kLockedObject.ToString().ToLower() + ";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => kAssetDependent) + " = " + kAssetDependent.ToString().ToLower() + ";");
 
@@ -191,17 +191,17 @@ namespace NetWorkedData
 
 
 
-                    rReturn.AppendLine(NWDToolbox.PropertyName(() => kAccountDependentProperties) + ".Clear();");
-                    foreach (PropertyInfo tProp in kAccountDependentProperties)
-                    {
-                        rReturn.AppendLine(NWDToolbox.PropertyName(() => kAccountDependentProperties) + ".Add(ClassType.GetProperty(\"" + tProp.Name + "\"));");
-                    }
+                    //rReturn.AppendLine(NWDToolbox.PropertyName(() => kAccountDependentProperties) + ".Clear();");
+                    //foreach (PropertyInfo tProp in kAccountDependentProperties)
+                    //{
+                    //    rReturn.AppendLine(NWDToolbox.PropertyName(() => kAccountDependentProperties) + ".Add(ClassType.GetProperty(\"" + tProp.Name + "\"));");
+                    //}
 
-                    rReturn.AppendLine(NWDToolbox.PropertyName(() => kAccountConnectedProperties) + ".Clear();");
-                    foreach (PropertyInfo tProp in kAccountConnectedProperties)
-                    {
-                        rReturn.AppendLine(NWDToolbox.PropertyName(() => kAccountConnectedProperties) + ".Add(ClassType.GetProperty(\"" + tProp.Name + "\"));");
-                    }
+                    //rReturn.AppendLine(NWDToolbox.PropertyName(() => kAccountConnectedProperties) + ".Clear();");
+                    //foreach (PropertyInfo tProp in kAccountConnectedProperties)
+                    //{
+                    //    rReturn.AppendLine(NWDToolbox.PropertyName(() => kAccountConnectedProperties) + ".Add(ClassType.GetProperty(\"" + tProp.Name + "\"));");
+                    //}
 
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => kAssetDependentProperties) + ".Clear();");
                     foreach (PropertyInfo tProp in kAssetDependentProperties)
@@ -236,11 +236,11 @@ namespace NetWorkedData
                     //    rReturn.AppendLine(NWDToolbox.PropertyName(() => GameSaveMethod) + " = ClassType.GetMethod(\"" + GameSaveMethod.Name + "\");");
                     //}
 
-                    rReturn.AppendLine(NWDToolbox.PropertyName(() => AccountMethodDico) + ".Clear();");
-                    foreach (KeyValuePair<PropertyInfo, MethodInfo> tPropertyMethodInfo in AccountMethodDico)
-                    {
-                        rReturn.AppendLine(NWDToolbox.PropertyName(() => AccountMethodDico) + ".Add(ClassType.GetProperty(\"" + tPropertyMethodInfo.Key.Name + "\"),ClassType.GetMethod(\"" + tPropertyMethodInfo.Value.Name + "\"));");
-                    }
+                    //rReturn.AppendLine(NWDToolbox.PropertyName(() => AccountMethodDico) + ".Clear();");
+                    //foreach (KeyValuePair<PropertyInfo, MethodInfo> tPropertyMethodInfo in AccountMethodDico)
+                    //{
+                    //    rReturn.AppendLine(NWDToolbox.PropertyName(() => AccountMethodDico) + ".Add(ClassType.GetProperty(\"" + tPropertyMethodInfo.Key.Name + "\"),ClassType.GetMethod(\"" + tPropertyMethodInfo.Value.Name + "\"));");
+                    //}
                     // NWDHelper override finish
                     if (tApp.OverrideCacheMethodEverywhere == false)
                     {

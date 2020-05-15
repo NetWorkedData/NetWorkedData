@@ -121,8 +121,9 @@ namespace NetWorkedData
             {
                 tDisableProd = true;
             }
-            if (AccountDependent() == true)
-            {
+            //if (AccountDependent() == true)
+                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+                {
                 tDisableProd = true;
             }
 
@@ -256,7 +257,7 @@ namespace NetWorkedData
                     AnalyzeProdSync = KSyncDanger;
                 }
             }
-            if (BasisHelper().kAccountDependent == false)
+            if (BasisHelper().TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             {
                 if (CheckList == null)
                 {
@@ -411,7 +412,7 @@ namespace NetWorkedData
                 - NWDGUI.KTableRowWebModelWidth
                 - NWDGUI.KTableReferenceWidth;
 
-            if (BasisHelper().kAccountDependent == false)
+            if (BasisHelper().TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             {
                 tRect.width -= NWDGUI.kTableIconWidth;
             }
@@ -427,7 +428,7 @@ namespace NetWorkedData
             GUI.Label(tRect, ModelInfos, NWDGUI.KTableRowStatut);
             tRect.x += NWDGUI.KTableRowWebModelWidth;
             // draw check
-            if (BasisHelper().kAccountDependent == false)
+            if (BasisHelper().TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             {
                 tRect.width = NWDGUI.kTableIconWidth;
                 GUI.Label(tRect, ImageChecklist, NWDGUI.KTableRowIcon);

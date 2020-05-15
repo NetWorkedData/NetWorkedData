@@ -125,7 +125,8 @@ namespace NetWorkedData
             tTransfertList.Clear();
             IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
             //SQLiteConnection Connector = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-            if (kAccountDependent == false)
+            //if (kAccountDependent == false)
+            if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             {
                 //Connector = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
                 tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
@@ -187,7 +188,8 @@ namespace NetWorkedData
 
             List<string> tQuery = new List<string>();
             IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
-            if (kAccountDependent == false)
+            //if (kAccountDependent == false)
+            if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             {
                 tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
             }
@@ -639,7 +641,8 @@ namespace NetWorkedData
 #endif
             //ResetDatas();
             IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
-            if (kAccountDependent == false)
+            //if (kAccountDependent == false)
+            if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             {
                 tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
             }
@@ -764,7 +767,8 @@ namespace NetWorkedData
             ResetDatas();
             // delete indexes and table
             IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
-            if (kAccountDependent == false)
+            //if (kAccountDependent == false)
+            if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             {
                 tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
             }
@@ -829,7 +833,8 @@ namespace NetWorkedData
             ResetDatas();
             // delete all datas on table
             IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
-            if (kAccountDependent == false)
+            //if (kAccountDependent == false)
+            if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             {
                 tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
             }
@@ -859,7 +864,8 @@ namespace NetWorkedData
             ResetDatas();
             // delete indexes and table
             IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
-            if (kAccountDependent == false)
+            //if (kAccountDependent == false)
+            if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             {
                 tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
             }
@@ -896,7 +902,8 @@ namespace NetWorkedData
             ResetDatas();
             // delete indexes and table
             IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
-            if (kAccountDependent == false)
+            //if (kAccountDependent == false)
+            if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             {
                 tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
             }

@@ -205,10 +205,10 @@ namespace NetWorkedData
         //public PropertyInfo ClassGameDependentProperties;
         //public MethodInfo GameSaveMethod;
         //-------------------------------------------------------------------------------------------------------------
-        public bool kAccountDependent = false;
-        public List<PropertyInfo> kAccountDependentProperties = new List<PropertyInfo>();
-        public List<PropertyInfo> kAccountConnectedProperties = new List<PropertyInfo>();
-        public Dictionary<PropertyInfo, MethodInfo> AccountMethodDico = new Dictionary<PropertyInfo, MethodInfo>();
+        //public bool kAccountDependent = false;
+        //public List<PropertyInfo> kAccountDependentProperties = new List<PropertyInfo>();
+        //public List<PropertyInfo> kAccountConnectedProperties = new List<PropertyInfo>();
+        //public Dictionary<PropertyInfo, MethodInfo> AccountMethodDico = new Dictionary<PropertyInfo, MethodInfo>();
         //-------------------------------------------------------------------------------------------------------------
         public bool kAssetDependent;
         public List<PropertyInfo> kAssetDependentProperties = new List<PropertyInfo>();
@@ -495,12 +495,12 @@ namespace NetWorkedData
             }
             NWEBenchmark.Step();
             NWDDataPropertiesArray = tDataPropertiesArray.ToArray();
-            kAccountDependent = rAccountConnected;
+            //kAccountDependent = rAccountConnected;
             // reccord class' object is account dependent properties
-            kAccountDependentProperties = tPropertyList;
+            //kAccountDependentProperties = tPropertyList;
             // reccord class' object is account connected properties
-            kAccountConnectedProperties = tPropertyListConnected;
-            AccountMethodDico = tAccountMethodList;
+            //kAccountConnectedProperties = tPropertyListConnected;
+            //AccountMethodDico = tAccountMethodList;
             // reccord if class' object is locked for editor
 #if UNITY_EDITOR
             rLockedObject = false;
@@ -544,7 +544,8 @@ namespace NetWorkedData
             {
                 NWDDataManager.SharedInstance().mTypeList.Add(ClassType);
             }
-            if (kAccountDependent)
+            //if (kAccountDependent)
+            if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
             {
                 if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(ClassType) == false)
                 {
