@@ -242,7 +242,7 @@ namespace NetWorkedData
             //EditorGUI.EndDisabledGroup();
             NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
             // Database editor informations
-            string tDatabasePathEditor = NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseEditorName();
+            string tDatabasePathEditor = NWD.K_StreamingAssets + "/" + NWDDataManager.SharedInstance().DatabaseEditorName();
             NWDGUILayout.SubSection("Databases editor config for all environments");
             EditorGUILayout.LabelField("Editor path ", tDatabasePathEditor);
             EditorGUILayout.LabelField("Editor hash salt", NWDAppConfiguration.SharedInstance().EditorPass);

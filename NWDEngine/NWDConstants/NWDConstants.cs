@@ -25,13 +25,17 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWD
     {
-
         //-------------------------------------------------------------------------------------------------------------
+        public const string K_DatabaseDeviceName = "DeviceDB.prp";
+        public const string K_DatabaseEditorName = "EditorDB.prp";
+        //-------------------------------------------------------------------------------------------------------------
+        public const string K_StreamingAssets = "StreamingAssets";
+        public const string K_Assets = "Assets";
         public const string K_Resources = "Resources";
         //-------------------------------------------------------------------------------------------------------------
-        public const string K_DevEnvironment = "K_DevEnvironment";
-        public const string K_PreprodEnvironment = "K_PreprodEnvironment";
-        public const string K_ProdEnvironment = "K_ProdEnvironment";
+        //public const string K_DevEnvironment = "Dev";
+        //public const string K_PreprodEnvironment = "Preprod";
+        //public const string K_ProdEnvironment = "Prod";
         //-------------------------------------------------------------------------------------------------------------
         public static string K_ReturnLine = "\n";
         public static string K_CommentSeparator = "//--------------------";

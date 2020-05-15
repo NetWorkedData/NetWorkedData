@@ -272,9 +272,9 @@ namespace NetWorkedData
         {
             DateTime tDateTime = DateTime.UtcNow;
             string tDateTimeFormated = tDateTime.Year + "-" + tDateTime.Month + "-" + tDateTime.Day + "_" + tDateTime.Hour + "-" + tDateTime.Minute + "-" + tDateTime.Second + "_UTC";
-            string tBDDName = NWDDataManager.SharedInstance().DatabaseNameEditor.Replace(".prp", "_" + tDateTimeFormated + ".prp-save");
+            string tBDDName = NWD.K_DatabaseEditorName.Replace(".prp", "_" + tDateTimeFormated + ".prp-save");
 
-            string tPathOriginal = "Assets/" + NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseNameEditor;
+            string tPathOriginal = "Assets/" + NWD.K_StreamingAssets + "/" + NWD.K_DatabaseEditorName;
             string tPathFinal = "DatabaseSaved/" + tBDDName;
 
             if (!Directory.Exists("DatabaseSaved"))

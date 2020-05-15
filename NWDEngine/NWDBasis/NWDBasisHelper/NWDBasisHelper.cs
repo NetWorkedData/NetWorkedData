@@ -344,6 +344,7 @@ namespace NetWorkedData
             ClassTrigramme = tClassTrigramme;
             NWEBenchmark.Step();
             // TODO:  ... too long! that take 0.006s ... it's too much!
+
             foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
             {
                 if (tMethod.GetCustomAttributes(typeof(NWDIndexInMemory), true).Length > 0)
@@ -375,6 +376,8 @@ namespace NetWorkedData
                     }
                 }
             }
+
+
             //NWEBenchmark.Step();
             PrefLoad();
             // NWEBenchmark.Step();
@@ -545,7 +548,7 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().mTypeList.Add(ClassType);
             }
             //if (kAccountDependent)
-            if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+            if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent || TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount)
             {
                 if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(ClassType) == false)
                 {
@@ -567,6 +570,8 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(ClassType);
                 }
             }
+
+
             if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
             {
                 if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(ClassType) == false)

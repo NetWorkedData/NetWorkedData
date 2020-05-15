@@ -126,7 +126,8 @@ namespace NetWorkedData
             IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
             //SQLiteConnection Connector = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
             //if (kAccountDependent == false)
-            if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+            //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+            if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 //Connector = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
                 tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
@@ -189,7 +190,8 @@ namespace NetWorkedData
             List<string> tQuery = new List<string>();
             IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
             //if (kAccountDependent == false)
-            if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+            //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+            if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
             }
@@ -331,7 +333,7 @@ namespace NetWorkedData
             // clean object not mine!
             foreach (NWDTypeClass tObject in Datas)
             {
-                if (tObject.IsReacheableBy(null,null) == false)
+                if (tObject.IsReacheableBy(null, null) == false)
                 {
                     tObjectsListToDelete.Add(tObject);
                 }
@@ -642,7 +644,8 @@ namespace NetWorkedData
             //ResetDatas();
             IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
             //if (kAccountDependent == false)
-            if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+            //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+            if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
             }
@@ -690,44 +693,66 @@ namespace NetWorkedData
             //{
             //    NWEBenchmark.Step();
             //}
-            IntPtr stmtc = SQLite3.Prepare2(tConnectorHandle, "SELECT `" + string.Join("`, `", tColumnList) + "` FROM `" + ClassNamePHP + "` " + sWhere + ";");
-            //if (NWDLauncher.ActiveBenchmark)
-            //{
-            //    NWEBenchmark.Step();
-            //}
-            while (SQLite3.Step(stmtc) == SQLite3.Result.Row)
+            string tSQL = "SELECT `" + string.Join("`, `", tColumnList) + "` FROM `" + ClassNamePHP + "` " + sWhere + ";";
+            try
             {
-                string tReferenceFromDataBase = SQLite3.ColumnString(stmtc, tReferenceIndex);
-                if (DatasByReference.ContainsKey(tReferenceFromDataBase) == false)
+                IntPtr stmtc = SQLite3.Prepare2(tConnectorHandle, tSQL);
+
+                //if (NWDLauncher.ActiveBenchmark)
+                //{
+                //    NWEBenchmark.Step();
+                //}
+                while (SQLite3.Step(stmtc) == SQLite3.Result.Row)
                 {
-                    // create new one object
-                    var tD = CreateInstance_Bypass(false, true, tPropTypeArrayToCreate);
-                    for (int tI = 0; tI < tProplist.Length; tI++)
+                    string tReferenceFromDataBase = SQLite3.ColumnString(stmtc, tReferenceIndex);
+                    if (DatasByReference.ContainsKey(tReferenceFromDataBase) == false)
                     {
-                        ReadCol(tPropTypelist[tI], tProplist[tI], stmtc, tI, tD);
-                    }
-                    tD.LoadedFromDatabase();
-                }
-                else
-                {
-                    if (sOverrideMemory == true)
-                    {
-                        // restaure data value!
-                        var tD = DatasByReference[tReferenceFromDataBase];
+                        // create new one object
+                        var tD = CreateInstance_Bypass(false, true, tPropTypeArrayToCreate);
                         for (int tI = 0; tI < tProplist.Length; tI++)
                         {
                             ReadCol(tPropTypelist[tI], tProplist[tI], stmtc, tI, tD);
                         }
                         tD.LoadedFromDatabase();
                     }
+                    else
+                    {
+                        if (sOverrideMemory == true)
+                        {
+                            // restaure data value!
+                            var tD = DatasByReference[tReferenceFromDataBase];
+                            for (int tI = 0; tI < tProplist.Length; tI++)
+                            {
+                                ReadCol(tPropTypelist[tI], tProplist[tI], stmtc, tI, tD);
+                            }
+                            tD.LoadedFromDatabase();
+                        }
+                    }
+                    tCount++;
                 }
-                tCount++;
+                //if (NWDLauncher.ActiveBenchmark)
+                //{
+                //    NWEBenchmark.Step();
+                //}
+                SQLite3.Finalize(stmtc);
             }
-            //if (NWDLauncher.ActiveBenchmark)
-            //{
-            //    NWEBenchmark.Step();
-            //}
-            SQLite3.Finalize(stmtc);
+            catch
+            {
+                Debug.LogWarning("LoadFromDatabase IN ERROR from " + ClassNamePHP + "  with "+ tSQL + "");
+                Debug.LogWarning("error message : "+SQLite3.GetErrmsg(tConnectorHandle));
+                if (tConnectorHandle == NWDDataManager.SharedInstance().SQLiteAccountHandle)
+                {
+                    Debug.LogWarning("tried on account database from " + ClassNamePHP + " !");
+                }
+                else if (tConnectorHandle == NWDDataManager.SharedInstance().SQLiteEditorHandle)
+                {
+                    Debug.LogWarning("tried on editor database from " + ClassNamePHP + " !");
+                }
+                else
+                {
+                    Debug.LogWarning("tried on unknow database from " + ClassNamePHP + " !");
+                }
+            }
             DatasLoaded = true;
             //if (NWDLauncher.ActiveBenchmark)
             //{
@@ -768,7 +793,8 @@ namespace NetWorkedData
             // delete indexes and table
             IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
             //if (kAccountDependent == false)
-            if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+            //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+            if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
             }
@@ -834,7 +860,8 @@ namespace NetWorkedData
             // delete all datas on table
             IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
             //if (kAccountDependent == false)
-            if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+            //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+            if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
             }
@@ -865,7 +892,8 @@ namespace NetWorkedData
             // delete indexes and table
             IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
             //if (kAccountDependent == false)
-            if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+            //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+            if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
             }
@@ -903,7 +931,8 @@ namespace NetWorkedData
             // delete indexes and table
             IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
             //if (kAccountDependent == false)
-            if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+            //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+            if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 tConnectorHandle = NWDDataManager.SharedInstance().SQLiteEditorHandle;
             }

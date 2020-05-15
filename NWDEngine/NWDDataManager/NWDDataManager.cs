@@ -35,15 +35,15 @@ namespace NetWorkedData
         public bool DataAccountConnected = false;
         public bool DataAccountConnectionInProgress = false;
         public bool DataAccountLoaded = false;
-        public string DatabaseNameAccount = "Account.prp";  // TODO rename DataEditorBasename by  replace by DataEditorPath()
+        //public string DatabaseNameAccount = "Account.prp";  // TODO rename DataEditorBasename by  replace by DataAccountPath()
         //public SQLiteConnection SQLiteConnectionAccount;    // TODO rename SQLiteAccountConnection
         public IntPtr SQLiteAccountHandle;
         //-------------------------------------------------------------------------------------------------------------
         public bool DataEditorConnected = false;
         public bool DataEditorConnectionInProgress = false;
         public bool DataEditorLoaded = false;
-        public string DatabasePathEditor = "StreamingAssets";       // TODO remove and use const!?
-        public string DatabaseNameEditor = "NWDDatabaseEditor.prp"; // TODO rename DataEditorBasename by  replace by DataEditorPath()
+        //public string DatabasePathEditor = "StreamingAssets";       // TODO remove and use const!?
+        //public string DatabaseNameEditor = "NWDDatabaseEditor.prp"; // TODO rename DataEditorBasename by  replace by DataEditorPath()
         //public SQLiteConnection SQLiteConnectionEditor;             // TODO rename SQLiteEditorConnection
         public IntPtr SQLiteEditorHandle;
         //-------------------------------------------------------------------------------------------------------------

@@ -297,8 +297,8 @@ namespace NetWorkedData
             WebModel = WebModelToUse();
             this.DS = 0;
             //if (AccountDependent() == true)
-                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
-                {
+            if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+            {
                 if (NWDAppConfiguration.SharedInstance().IsDevEnvironement() == true)
                 {
                     DevSync = 0;
@@ -329,7 +329,8 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             // Debug.Log("NWDBasis InsertDataProceed()");
             //if (AccountDependent())
-                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+            //if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+            if (BasisHelper().TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount)
                 {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
@@ -338,7 +339,7 @@ namespace NetWorkedData
                     SQLite3.Finalize(stmt);
                 }
             }
-            else
+            else if (BasisHelper().TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
@@ -355,8 +356,9 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             Debug.Log("NWDBasis InsertDataProceedWithTransaction()");
             //if (AccountDependent())
-                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
-                {
+            //if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+            if (BasisHelper().TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount)
+            {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
                     IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
@@ -370,7 +372,7 @@ namespace NetWorkedData
                     SQLite3.Finalize(stmt);
                 }
             }
-            else
+            else if (BasisHelper().TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
@@ -581,8 +583,9 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             //Debug.Log("NWDBasis UpdateDataProceed()");
             //if (AccountDependent())
-                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
-                {
+            //if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+            if (BasisHelper().TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount)
+            {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
                     IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, New_SQLInsertOrReplace());
@@ -590,7 +593,7 @@ namespace NetWorkedData
                     SQLite3.Finalize(stmt);
                 }
             }
-            else
+            else if (BasisHelper().TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
@@ -607,8 +610,9 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             //Debug.Log("NWDBasis UpdateDataProceedWithTransaction()");
             //if (AccountDependent())
-                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
-                {
+            //if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+            if (BasisHelper().TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount)
+            {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
                     IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
@@ -622,7 +626,7 @@ namespace NetWorkedData
                     SQLite3.Finalize(stmt);
                 }
             }
-            else
+            else if (BasisHelper().TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
@@ -841,8 +845,9 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             //if (AccountDependent())
-                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
-                {
+            //if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+            if (BasisHelper().TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount)
+            {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
                     IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, New_SQLDelete());
@@ -850,7 +855,7 @@ namespace NetWorkedData
                     SQLite3.Finalize(stmt);
                 }
             }
-            else
+            else if (BasisHelper().TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
@@ -867,7 +872,8 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             //Debug.Log("NWDBasis DeleteDataProceedWithTransaction()");
             //if (AccountDependent())
-            if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+            //if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+            if (BasisHelper().TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount)
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
@@ -882,7 +888,7 @@ namespace NetWorkedData
                     SQLite3.Finalize(stmt);
                 }
             }
-            else
+            else if(BasisHelper().TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
