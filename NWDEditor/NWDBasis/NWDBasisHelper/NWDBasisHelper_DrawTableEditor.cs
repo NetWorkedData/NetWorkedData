@@ -1704,6 +1704,25 @@ namespace NetWorkedData
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
                 tRect.y = tRectTableLeft.y;
+                float tWidthToRestaure = tRect.width;
+                tRect.width = tRect.width * 2;
+                GUI.Label(tRect, TemplateHelper.GetBaseClassToString(), NWDGUI.kBoldLabelStyle);
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                GUI.Label(tRect, TemplateHelper.GetClassToString(), NWDGUI.kBoldLabelStyle);
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+                GUI.Label(tRect, TemplateHelper.GetDeviceDatabase().ToString(), NWDGUI.kItalicLabelStyle);
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                GUI.Label(tRect, TemplateHelper.GetSynchronizable().ToString(), NWDGUI.kItalicLabelStyle);
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                GUI.Label(tRect, TemplateHelper.GetBundlisable().ToString(), NWDGUI.kItalicLabelStyle);
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                GUI.Label(tRect, TemplateHelper.GetAccountDependent().ToString(), NWDGUI.kItalicLabelStyle);
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                GUI.Label(tRect, TemplateHelper.GetGamesaveDependent().ToString(), NWDGUI.kItalicLabelStyle);
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                tRect.width = tWidthToRestaure;
+
                 // draw Replace WS in dev by sftp
                 //GUI.Label(tRect, NWDConstants.K_APP_WS_RESET_WARNING + " " + NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000"), NWDGUI.KTableSearchTitle);
 

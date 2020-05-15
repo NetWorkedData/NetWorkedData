@@ -25,6 +25,14 @@ namespace NetWorkedData
             tFile.AppendLine(Headlines());
             tFile.AppendLine("// FINISH");
             tFile.AppendLine(NWD.K_CommentSeparator);
+            if (LogMode == true)
+            {
+                tFile.AppendLine("//Insert logs for acces database debug");
+                tFile.AppendLine("global $SQL_ACCESS_COUNT;");
+                tFile.AppendLine("global $SQL_ACCESS_SQL;");
+                tFile.AppendLine("respondAdd('SQL_ACCESS_COUNT', $SQL_ACCESS_COUNT);");
+                tFile.AppendLine("respondAdd('SQL_ACCESS_SQL', $SQL_ACCESS_SQL);");
+            }
             tFile.AppendLine("// prevent include from function for exit (typical example: error('XXX', true);)");
             tFile.AppendLine("global $admin," + NWD.K_SQL_CON_EDITOR + ", $NWD_SLT_TMP, $NWD_TMA, $RRR_LOG, $REP, $WSBUILD, " + NWD.K_PHP_TIME_SYNC + ", $REF_NEEDED, $ACC_NEEDED, " + NWD.K_ENV + ", $NWD_SHA_VEC, $NWD_SHA_SEC, $NWD_SLT_STR, $NWD_SLT_END;");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -323,6 +331,14 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
+
+                if (LogMode == true)
+                {
+                tFile.AppendLine("global $SQL_ACCESS_COUNT;");
+                tFile.AppendLine("global $SQL_ACCESS_SQL;");
+                tFile.AppendLine("$SQL_ACCESS_COUNT++;");
+                tFile.AppendLine("$SQL_ACCESS_SQL[] = $sSQL;");
+                }
                 tFile.AppendLine("$rReturn = array();");
                 tFile.AppendLine("$rReturn['error'] = false;");
                 tFile.AppendLine("$rReturn['count'] = 0;");
@@ -371,6 +387,13 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
+                if (LogMode == true)
+                {
+                    tFile.AppendLine("global $SQL_ACCESS_COUNT;");
+                    tFile.AppendLine("global $SQL_ACCESS_SQL;");
+                    tFile.AppendLine("$SQL_ACCESS_COUNT++;");
+                    tFile.AppendLine("$SQL_ACCESS_SQL[] = $sSQL;");
+                }
                 tFile.AppendLine("$rReturn = array();");
                 tFile.AppendLine("$rReturn['error'] = false;");
                 tFile.AppendLine("$rReturn['errno'] = -1;");
@@ -417,6 +440,13 @@ namespace NetWorkedData
                 tFile.AppendLine("foreach (" + NWD.K_SQL_CON_EDITOR + " as $tRange => $tConnexion)");
                 tFile.AppendLine("{");
                 {
+                    if (LogMode == true)
+                    {
+                        tFile.AppendLine("global $SQL_ACCESS_COUNT;");
+                        tFile.AppendLine("global $SQL_ACCESS_SQL;");
+                        tFile.AppendLine("$SQL_ACCESS_COUNT++;");
+                        tFile.AppendLine("$SQL_ACCESS_SQL[] = $tRange.' => '.$sSQL;");
+                    }
                     tFile.AppendLine(NWDError.PHP_log(this, "select in DB '.$tRange.' request  <b> '.$sSQL.' </b>"));
                     tFile.AppendLine("$tResult = $tConnexion->query($sSQL);");
                     tFile.AppendLine("if (!$tResult)");
@@ -470,6 +500,13 @@ namespace NetWorkedData
                 tFile.AppendLine("foreach (" + NWD.K_SQL_CON_EDITOR + " as $tRange => $tConnexion)");
                 tFile.AppendLine("{");
                 {
+                    if (LogMode == true)
+                    {
+                        tFile.AppendLine("global $SQL_ACCESS_COUNT;");
+                        tFile.AppendLine("global $SQL_ACCESS_SQL;");
+                        tFile.AppendLine("$SQL_ACCESS_COUNT++;");
+                        tFile.AppendLine("$SQL_ACCESS_SQL[] = $tRange.' => '.$sSQL;");
+                    }
                     tFile.AppendLine(NWDError.PHP_log(this, "execute in DB '.$tRange.' request  <b> '.$sSQL.' </b>"));
                     tFile.AppendLine("$tResult = $tConnexion->query($sSQL);");
                     tFile.AppendLine("if (!$tResult)");

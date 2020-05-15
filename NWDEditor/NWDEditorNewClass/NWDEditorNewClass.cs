@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:22:47
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -40,7 +34,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 
         //bool ClassUnityEditorOnly = false;
-        bool ClassSynchronize = true;
+        //bool ClassSynchronize = true;
         bool ClassUnityConnection = true;
 
         string ClassBase = "NWDBasis";
@@ -68,6 +62,7 @@ namespace NetWorkedData
 
         List<string> tListOfType = new List<string>();
         List<string> tListOfclass = new List<string>();
+        NWDTemplateHelper TemplateHelper = new NWDTemplateHelper();
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Generate the new class. It's not Magic, it's Sciences! (and a little bit of magic :-p )
@@ -210,7 +205,36 @@ namespace NetWorkedData
                     tListOfType.Add(tCC + "<K>/" + tTypeName);
                 }
             }
+            // Remove essentiel from normal proposition
+            tListOfclass.Remove(typeof(NWDAccount).Name);
+            tListOfclass.Remove(typeof(NWDAccountInfos).Name);
+            tListOfclass.Remove(typeof(NWDAccountSign).Name);
+            tListOfclass.Remove(typeof(NWDRequestToken).Name);
+            tListOfclass.Remove(typeof(NWDIPBan).Name);
+            tListOfclass.Remove(typeof(NWDVersion).Name);
+            tListOfclass.Remove(typeof(NWDError).Name);
+            tListOfclass.Remove(typeof(NWDExample).Name);
+            tListOfclass.Remove(typeof(NWDBasisPreferences).Name);
+
+            // Remove essentiel from normal proposition
+            tListOfclass.Remove(typeof(NWDCluster).Name);
+            tListOfclass.Remove(typeof(NWDServer).Name);
+            tListOfclass.Remove(typeof(NWDServerDatas).Name);
+            tListOfclass.Remove(typeof(NWDServerServices).Name);
+            tListOfclass.Remove(typeof(NWDServerOther).Name);
+            tListOfclass.Remove(typeof(NWDServerDomain).Name);
+
+            // Add essentiel to normal proposition
             tListOfclass.Insert(0, "  ");
+            tListOfclass.Insert(0, typeof(NWDBasisAccountUnsynchronize).Name);
+            tListOfclass.Insert(0, typeof(NWDBasisUnsynchronize).Name);
+            //tListOfclass.Insert(0, typeof(NWDBasisAccountShared).Name);
+            //tListOfclass.Insert(0, typeof(NWDBasisGameSaveShared).Name);
+            //tListOfclass.Insert(0, typeof(NWDBasisAccountPublish).Name);
+            //tListOfclass.Insert(0, typeof(NWDBasisGameSavePublish).Name);
+            tListOfclass.Insert(0, typeof(NWDBasisGameSaveDependent).Name);
+            tListOfclass.Insert(0, typeof(NWDBasisAccountDependent).Name);
+            //tListOfclass.Insert(0, typeof(NWDBasisAccountRestricted).Name); // not accessible to create Data in framework
             tListOfclass.Insert(0, typeof(NWDBasisBundled).Name);
             tListOfclass.Insert(0, typeof(NWDBasis).Name);
             //NWEBenchmark.Finish();
@@ -238,8 +262,24 @@ namespace NetWorkedData
             // futur class infos
             NWDGUILayout.SubSection("Class informations");
             //ClassUnityEditorOnly = EditorGUILayout.Toggle("Only for unity Editor", ClassUnityEditorOnly);
-            ClassSynchronize = EditorGUILayout.Toggle("Synchronize on servers", ClassSynchronize);
+            //ClassSynchronize = EditorGUILayout.Toggle("Synchronize on servers", ClassSynchronize);
+            int tBaseIndex = tListOfclass.IndexOf(ClassBase);
+            tBaseIndex = EditorGUILayout.Popup("Base", tBaseIndex, tListOfclass.ToArray());
+            if (tBaseIndex >= 0 && tBaseIndex < tListOfclass.Count)
+            {
+                ClassBase = tListOfclass[tBaseIndex];
+            }
+            TemplateHelper.SetClassType(Type.GetType("NetWorkedData."+ClassBase));
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.EnumPopup("Device Database", TemplateHelper.GetDeviceDatabase());
+            EditorGUILayout.EnumPopup("Synchronizable", TemplateHelper.GetSynchronizable());
+            EditorGUILayout.EnumPopup("Bundlisable", TemplateHelper.GetBundlisable());
+            EditorGUILayout.EnumPopup("Account Dependent", TemplateHelper.GetAccountDependent());
+            EditorGUILayout.EnumPopup("Gamesave Dependent", TemplateHelper.GetGamesaveDependent());
+            EditorGUI.EndDisabledGroup();
+
             ClassUnityConnection = EditorGUILayout.Toggle("Connection in GameObject", ClassUnityConnection);
+
             ClassName = EditorGUILayout.TextField("Name ", ClassName);
             ClassName = tRegExpression.Replace(ClassName, string.Empty);
             if (ClassName.Length < 3)
@@ -264,12 +304,6 @@ namespace NetWorkedData
                 {
                     EditorGUILayout.LabelField(" ", "class name is Ok!");
                 }
-            }
-            int tBaseIndex = tListOfclass.IndexOf(ClassBase);
-            tBaseIndex = EditorGUILayout.Popup("Base", tBaseIndex, tListOfclass.ToArray());
-            if (tBaseIndex >= 0 && tBaseIndex < tListOfclass.Count)
-            {
-                ClassBase = tListOfclass[tBaseIndex];
             }
             ClassNameTrigramme = EditorGUILayout.TextField("Trigramme", ClassNameTrigramme);
             ClassNameTrigramme = tRegExpression.Replace(ClassNameTrigramme, string.Empty);
@@ -298,7 +332,7 @@ namespace NetWorkedData
                 }
             }
             NWDGUILayout.SubSection("Class description");
-            ClassNameDescription = EditorGUILayout.TextField("Description", ClassNameDescription);
+            ClassNameDescription = EditorGUILayout.TextField("Description", ClassNameDescription, GUILayout.Height(80.0F));
             ClassNameDescription = ClassNameDescription.Replace("\\", string.Empty);
             NWDGUILayout.SubSection("Menu in interface");
             // futur class menu name

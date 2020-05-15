@@ -241,10 +241,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<Type, NWDBasisHelper> TypesDictionary = new Dictionary<Type, NWDBasisHelper>();
         public static Dictionary<string, NWDBasisHelper> StringsDictionary = new Dictionary<string, NWDBasisHelper>(new StringIndexKeyComparer());
+
+        public NWDTemplateHelper TemplateHelper = new NWDTemplateHelper();
         //-------------------------------------------------------------------------------------------------------------
         public virtual void InitHelper(Type sType, bool sBase = false)
         {
             NWEBenchmark.Start();
+
+            TemplateHelper.SetClassType(sType);
 
             bool rAccountConnected = false;
 

@@ -200,6 +200,14 @@ namespace NetWorkedData
                 tConstantsFile.AppendLine("error_reporting (E_ALL);");
                 tConstantsFile.AppendLine("ini_set ('display_errors', 1);");
             }
+            if (LogMode == true)
+            {
+                tConstantsFile.AppendLine("// GLOBAL FOR DATABASE ACCESS ANALYZE");
+                tConstantsFile.AppendLine("global $SQL_ACCESS_COUNT;");
+                tConstantsFile.AppendLine("global $SQL_ACCESS_SQL;");
+                tConstantsFile.AppendLine("$SQL_ACCESS_COUNT = 0;");
+                tConstantsFile.AppendLine("$SQL_ACCESS_SQL = array();");
+            }
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("// CONSTANT FOR EREG");
             tConstantsFile.AppendLine("$ereg_os = '/^(editor|unity|ios|osx|android|web|win|wp8|ps3|ps4|psp|switch)$/';");
