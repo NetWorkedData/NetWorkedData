@@ -47,12 +47,12 @@ namespace NetWorkedData
                 string tAccessPath = Application.dataPath;
                 if (Directory.Exists(tAccessPath + "/" + NWD.K_StreamingAssets) == false)
                 {
-                    AssetDatabase.CreateFolder("Assets", NWD.K_StreamingAssets);
-                    AssetDatabase.ImportAsset("Assets/" + NWD.K_StreamingAssets);
+                    AssetDatabase.CreateFolder(NWD.K_Assets, NWD.K_StreamingAssets);
+                    AssetDatabase.ImportAsset(NWD.K_Assets+"/" + NWD.K_StreamingAssets);
                     AssetDatabase.Refresh();
                 }
                 // path for base editor
-                string tDatabasePathEditor = "Assets/" + NWD.K_StreamingAssets + "/" + DatabaseEditorName();
+                string tDatabasePathEditor = NWD.K_Assets+"/" + NWD.K_StreamingAssets + "/" + DatabaseEditorName();
 #else
                 // Get saved App version from pref
                 // check if file exists in Application.persistentDataPath
@@ -85,13 +85,13 @@ namespace NetWorkedData
                     var tLoadDb = Application.dataPath + "/Raw/" + DatabaseEditorName();  // this is the path to your StreamingAssets in iOS
                     File.Copy(tLoadDb, tPathEditor);
 #elif (UNITY_STANDALONE_OSX)
-                    var tLoadDb = Application.dataPath + "/Resources/Data/StreamingAssets/" + DatabaseEditorName();
+                    var tLoadDb = Application.dataPath + "/"+K_Resources+"/Data/"+K_StreamingAssets+"/" + DatabaseEditorName();
                     File.Copy(tLoadDb, tPathEditor);
 #elif (UNITY_WP8 || UNITY_WINRT || UNITY_WSA_10_0 || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX)
-                    var tLoadDb = Application.dataPath + "/StreamingAssets/" + DatabaseEditorName();
+                    var tLoadDb = Application.dataPath + "/"+K_StreamingAssets+"/" + DatabaseEditorName();
                     File.Copy(tLoadDb, tPathEditor);
 #else
-                    var tLoadDb = Application.dataPath + "/Resources/StreamingAssets/" + DatabaseEditorName();
+                    var tLoadDb = Application.dataPath + "/"+K_Resources+"/"+K_StreamingAssets+"/" + DatabaseEditorName();
                     File.Copy(tLoadDb, tPathEditor);
 #endif
                     if (NWDLauncher.ActiveBenchmark)
@@ -170,7 +170,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             // path for base editor
             //rReturn = Application.dataPath + "/" + NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseAccountName();
-            rReturn = "Assets/" + DatabaseAccountName();
+            rReturn = NWD.K_Assets+"/" + DatabaseAccountName();
 #else
             rReturn = string.Format("{0}/{1}", Application.persistentDataPath, NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseAccountName());
 #endif

@@ -60,7 +60,7 @@ namespace NetWorkedData
             FileInfo tFileInfo = new FileInfo(ScriptFilePath);
             ScriptFolder = tFileInfo.Directory.ToString();
             ScriptFolder = ScriptFolder.Replace("\\", "/");
-            ScriptFolderFromAssets = "Assets" + ScriptFolder.Replace(Application.dataPath, string.Empty);
+            ScriptFolderFromAssets = NWD.K_Assets + ScriptFolder.Replace(Application.dataPath, string.Empty);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

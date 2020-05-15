@@ -256,9 +256,9 @@ namespace NetWorkedData
                 if (GUILayout.Button("Editor Database File and password copy to Clipboard"))
                 {
                     NWEClipboard.CopyToClipboard(NWDAppConfiguration.SharedInstance().GetEditorPass());
-                    EditorUtility.RevealInFinder("Assets/" + tDatabasePathEditor);
-                    EditorUtility.OpenWithDefaultApp("Assets/" + tDatabasePathEditor);
-                    Debug.LogWarning("DatabasePathEditor = Assets/" + tDatabasePathEditor);
+                    EditorUtility.RevealInFinder(NWD.K_Assets+"/" + tDatabasePathEditor);
+                    EditorUtility.OpenWithDefaultApp(NWD.K_Assets+"/" + tDatabasePathEditor);
+                    Debug.LogWarning("DatabasePathEditor = "+NWD.K_Assets+"/" + tDatabasePathEditor);
                     Debug.LogWarning("Editor pass result = " + NWDAppConfiguration.SharedInstance().GetEditorPass());
                 }
             }
@@ -266,9 +266,9 @@ namespace NetWorkedData
             {
                 if (GUILayout.Button("Editor Database File "))
                 {
-                    EditorUtility.RevealInFinder("Assets/" + tDatabasePathEditor);
-                    EditorUtility.OpenWithDefaultApp("Assets/" + tDatabasePathEditor);
-                    Debug.LogWarning("DatabasePathEditor = Assets/" + tDatabasePathEditor);
+                    EditorUtility.RevealInFinder(NWD.K_Assets+"/" + tDatabasePathEditor);
+                    EditorUtility.OpenWithDefaultApp(NWD.K_Assets+"/" + tDatabasePathEditor);
+                    Debug.LogWarning("DatabasePathEditor = "+ NWD.K_Assets + "/" + tDatabasePathEditor);
                 }
             }
             // Database account informations
