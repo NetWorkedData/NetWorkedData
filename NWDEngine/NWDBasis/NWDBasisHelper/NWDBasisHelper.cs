@@ -547,8 +547,17 @@ namespace NetWorkedData
             {
                 NWDDataManager.SharedInstance().mTypeList.Add(ClassType);
             }
-            //if (kAccountDependent)
-            if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent || TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount)
+
+            if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount)
+            {
+                    NWDDataManager.SharedInstance().ClassInDeviceDatabaseList.Add(ClassType);
+            }
+            if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
+            {
+                NWDDataManager.SharedInstance().ClassInEditorDatabaseList.Add(ClassType);
+            }
+
+            if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
             {
                 if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(ClassType) == false)
                 {
@@ -961,7 +970,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool AllDatabaseIsLoaded()
         {
-            return (NWDDataManager.SharedInstance().DataAccountLoaded == true && NWDDataManager.SharedInstance().DataEditorLoaded == true);
+            return (NWDDataManager.SharedInstance().DeviceDatabaseLoaded == true && NWDDataManager.SharedInstance().EditorDatabaseLoaded == true);
         }
         //-------------------------------------------------------------------------------------------------------------
         //public void UserChangedReloadDatas()

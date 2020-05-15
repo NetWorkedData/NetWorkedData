@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:27:10
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -16,11 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
 using UnityEngine;
-
-
-//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -66,22 +56,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public float PurcentLoaded()
         {
-            return (float)ClassDataLoaded / (float)ClassExpected;
+            return (float)ClassNumberLoaded / (float)ClassNumberExpected;
         }
         //-------------------------------------------------------------------------------------------------------------
         public float PurcentIndexed()
         {
-            return (float)ClassIndexation / (float)ClassExpected;
+            return (float)ClassNumberIndexation / (float)ClassNumberExpected;
         }
         //-------------------------------------------------------------------------------------------------------------
         public float PurcentEditorLoaded()
         {
-            return (float)ClassEditorDataLoaded / (float)ClassEditorExpected;
+            return (float)ClassInEditorDatabaseNumberLoaded / (float)ClassInEditorDatabaseRumberExpected;
         }
         //-------------------------------------------------------------------------------------------------------------
         public float PurcentAccountLoaded()
         {
-            return (float)ClassAccountDataLoaded / (float)ClassAccountExpected;
+            return (float)ClassInDeviceDatabaseNumberLoaded / (float)ClassInDeviceDatabaseNumberExpected;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

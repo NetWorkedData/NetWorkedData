@@ -331,7 +331,7 @@ namespace NetWorkedData
         void Awake()
         {
             //Debug.Log("NWDAutolocalized Awake()");
-            if (NWDDataManager.SharedInstance().DataEditorLoaded == false)
+            if (NWDDataManager.SharedInstance().EditorDatabaseLoaded == false)
             {
                 if (EmptyIfNotLoaded == true)
                 {

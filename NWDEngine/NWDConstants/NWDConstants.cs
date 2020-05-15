@@ -14,8 +14,10 @@ namespace NetWorkedData
     public partial class NWD
     {
         //-------------------------------------------------------------------------------------------------------------
-        public const string K_DatabaseDeviceName = "DeviceDB.prp";
-        public const string K_DatabaseEditorName = "EditorDB.prp";
+        public const string K_PlayerLanguageKey = "PlayerLanguageKey";
+        //-------------------------------------------------------------------------------------------------------------
+        public const string K_DeviceDatabaseName = "PRP_Device.prp";
+        public const string K_EditorDatabaseName = "PRP_EditorDB.prp";
         //-------------------------------------------------------------------------------------------------------------
         public const string K_StreamingAssets = "StreamingAssets";
         public const string K_Assets = "Assets";

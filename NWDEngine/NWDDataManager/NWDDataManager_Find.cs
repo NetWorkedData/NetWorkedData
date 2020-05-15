@@ -57,25 +57,25 @@ namespace NetWorkedData
             {
                 NWEBenchmark.Start();
             }
-            DataEditorLoaded = false;
-            while (DataEditorConnected == false)
+            EditorDatabaseLoaded = false;
+            while (EditorDatabaseConnected == false)
             {
                 yield return null;
             }
-            ClassEditorDataLoaded = 0;
-            while (ClassEditorDataLoaded < ClassEditorExpected)
+            ClassInEditorDatabaseNumberLoaded = 0;
+            while (ClassInEditorDatabaseNumberLoaded < ClassInEditorDatabaseRumberExpected)
             {
-                ReloadAllObjectsByClassEditor(ClassEditorDataLoaded, sBundle);
-                ClassEditorDataLoaded++;
-                ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
+                ReloadAllObjectsByClassEditor(ClassInEditorDatabaseNumberLoaded, sBundle);
+                ClassInEditorDatabaseNumberLoaded++;
+                ClassNumberLoaded = ClassInEditorDatabaseNumberLoaded + ClassInDeviceDatabaseNumberLoaded;
                 NWDLauncher.NotifyStep();
                 if (NWDLauncher.YieldValid())
                 {
                     yield return null;
                 }
             }
-            DataEditorLoaded = true;
-            PlayerLanguageLoad();
+            EditorDatabaseLoaded = true;
+            AccountLanguageLoad();
             //LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
             if (NWDLauncher.ActiveBenchmark)
@@ -87,9 +87,9 @@ namespace NetWorkedData
         public bool ReloadAllObjectsByClassEditor(int sCounter, NWDBundle sBundle)
         {
             bool rReturn = false;
-            if (sCounter >= 0 && sCounter < mTypeNotAccountDependantList.Count)
+            if (sCounter >= 0 && sCounter < ClassInEditorDatabaseList.Count)
             {
-                Type tType = mTypeNotAccountDependantList[sCounter];
+                Type tType = ClassInEditorDatabaseList[sCounter];
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.LoadFromDatabaseByBundle(sBundle, true);
             }
@@ -102,26 +102,26 @@ namespace NetWorkedData
             {
                 NWEBenchmark.Start();
             }
-            if (DataEditorConnected == true)
+            if (EditorDatabaseConnected == true)
             {
                 //NWEBenchmark.Start("LoadData");
-                DataEditorLoaded = false;
-                ClassEditorExpected = mTypeNotAccountDependantList.Count();
-                ClassEditorDataLoaded = 0;
+                EditorDatabaseLoaded = false;
+                ClassInEditorDatabaseRumberExpected = ClassInEditorDatabaseList.Count();
+                ClassInEditorDatabaseNumberLoaded = 0;
                 //double tBenchmark = 0.0F;
-                foreach (Type tType in mTypeNotAccountDependantList)
+                foreach (Type tType in ClassInEditorDatabaseList)
                 {
                     //NWEBenchmark.Start("LoadData " + tType.Name);
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                     tHelper.LoadFromDatabaseByBundle(sBundle, true);
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
-                    ClassEditorDataLoaded++;
-                    ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
+                    ClassInEditorDatabaseNumberLoaded++;
+                    ClassNumberLoaded = ClassInEditorDatabaseNumberLoaded + ClassInDeviceDatabaseNumberLoaded;
                     //tBenchmark += NWEBenchmark.Finish("LoadData " + tType.Name);
                 }
-                NWDDataManager.SharedInstance().DataEditorLoaded = true;
+                NWDDataManager.SharedInstance().EditorDatabaseLoaded = true;
                 //NWEBenchmark.Finish("LoadData", true, "with total = " + tBenchmark.ToString("F5") + "s in total");
-                PlayerLanguageLoad();
+                AccountLanguageLoad();
                 //LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
                 EditorRefresh();
                 //NWDLauncher.SetState(NWDStatut.DataEditorLoaded);
@@ -138,28 +138,28 @@ namespace NetWorkedData
             {
                 NWEBenchmark.Start();
             }
-            DataAccountLoaded = false;
-            while (DataAccountConnected == false)
+            DeviceDatabaseLoaded = false;
+            while (DeviceDatabaseConnected == false)
             {
                 yield return null;
             }
-            ClassAccountExpected = mTypeAccountDependantList.Count();
-            ClassAccountDataLoaded = 0;
-            while (ClassAccountDataLoaded < ClassAccountExpected)
+            ClassInDeviceDatabaseNumberExpected = mTypeAccountDependantList.Count();
+            ClassInDeviceDatabaseNumberLoaded = 0;
+            while (ClassInDeviceDatabaseNumberLoaded < ClassInDeviceDatabaseNumberExpected)
             {
-                ReloadAllObjectsByClassAccount(ClassAccountDataLoaded, sBundle);
-                ClassAccountDataLoaded++;
-                ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
+                ReloadAllObjectsByClassAccount(ClassInDeviceDatabaseNumberLoaded, sBundle);
+                ClassInDeviceDatabaseNumberLoaded++;
+                ClassNumberLoaded = ClassInEditorDatabaseNumberLoaded + ClassInDeviceDatabaseNumberLoaded;
                 NWDLauncher.NotifyStep();
                 if (NWDLauncher.YieldValid())
                 {
                     yield return null;
                 }
             }
-            DataAccountLoaded = true;
+            DeviceDatabaseLoaded = true;
             //Debug.Log("NWDDataManager AsyncReloadAllObjects() post notification Account is loaded and All Datas is loaded");
             LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
-            PlayerLanguageLoad();
+            AccountLanguageLoad();
             EditorRefresh();
             if (NWDLauncher.ActiveBenchmark)
             {
@@ -186,22 +186,22 @@ namespace NetWorkedData
             {
                 NWEBenchmark.Start();
             }
-            if (DataAccountConnected == true)
+            if (DeviceDatabaseConnected == true)
             {
-                DataAccountLoaded = false;
-                ClassAccountExpected = mTypeAccountDependantList.Count();
-                ClassAccountDataLoaded = 0;
-                foreach (Type tType in mTypeAccountDependantList)
+                DeviceDatabaseLoaded = false;
+                ClassInDeviceDatabaseNumberExpected = ClassInDeviceDatabaseList.Count();
+                ClassInDeviceDatabaseNumberLoaded = 0;
+                foreach (Type tType in ClassInDeviceDatabaseList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                     tHelper.LoadFromDatabaseByBundle(sBundle, true);
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
-                    ClassAccountDataLoaded++;
-                    ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
+                    ClassInDeviceDatabaseNumberLoaded++;
+                    ClassNumberLoaded = ClassInEditorDatabaseNumberLoaded + ClassInDeviceDatabaseNumberLoaded;
                 }
-                DataAccountLoaded = true;
+                DeviceDatabaseLoaded = true;
                 LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
-                PlayerLanguageLoad();
+                AccountLanguageLoad();
                 EditorRefresh();
             }
             if (NWDLauncher.ActiveBenchmark)
@@ -219,11 +219,11 @@ namespace NetWorkedData
             RowsCounterOp = 0;
             MethodCounterOp = 0;
             DatasIndexed = false;
-            ClassIndexation = 0;
-            while (ClassIndexation < ClassExpected)
+            ClassNumberIndexation = 0;
+            while (ClassNumberIndexation < ClassNumberExpected)
             {
-                NWDBasisHelper tHelper = IndexInMemoryAllObjectsByClass(ClassIndexation);
-                ClassIndexation++;
+                NWDBasisHelper tHelper = IndexInMemoryAllObjectsByClass(ClassNumberIndexation);
+                ClassNumberIndexation++;
                 NWDLauncher.NotifyStep();
                 if (NWDLauncher.YieldValid())
                 {

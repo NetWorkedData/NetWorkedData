@@ -97,7 +97,7 @@ namespace NetWorkedData
             }
             // add notification
             NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
-            NWDDataManager.SharedInstance().PlayerLanguageLoad();
+            NWDDataManager.SharedInstance().AccountLanguageLoad();
 #if UNITY_EDITOR
             NWDAppEnvironmentChooser.Refresh();
 #endif

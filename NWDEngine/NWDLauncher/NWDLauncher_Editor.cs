@@ -32,6 +32,9 @@ namespace NetWorkedData
             {
                 NWEBenchmark.Start();
             }
+            NWDDataManager.SharedInstance().ClassInDeviceDatabaseList.Clear();
+            NWDDataManager.SharedInstance().ClassInEditorDatabaseList.Clear();
+
 #if UNITY_EDITOR
             EditorUtility.ClearProgressBar();
 #endif
@@ -180,9 +183,9 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             NWDAppConfiguration.SharedInstance().RestaureTypesConfigurations();
             //NWEBenchmark.Finish();
-            NWDDataManager.SharedInstance().ClassEditorExpected = NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Count();
-            NWDDataManager.SharedInstance().ClassAccountExpected = NWDDataManager.SharedInstance().mTypeAccountDependantList.Count();
-            NWDDataManager.SharedInstance().ClassExpected = NWDDataManager.SharedInstance().ClassEditorExpected + NWDDataManager.SharedInstance().ClassAccountExpected;
+            NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected = NWDDataManager.SharedInstance().ClassInEditorDatabaseList.Count();
+            NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected = NWDDataManager.SharedInstance().ClassInDeviceDatabaseList.Count();
+            NWDDataManager.SharedInstance().ClassNumberExpected = NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected + NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected;
             State = NWDStatut.ClassRestaureFinish;
             if (ActiveBenchmark)
             {

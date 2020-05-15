@@ -80,10 +80,10 @@ namespace NetWorkedData
             yield return tWaitTime;
 
             StepSum = 12 +
-                NWDDataManager.SharedInstance().ClassEditorExpected + // load editor class
-                NWDDataManager.SharedInstance().ClassAccountExpected + // load account class
-                NWDDataManager.SharedInstance().ClassEditorExpected + // index editor class
-                NWDDataManager.SharedInstance().ClassAccountExpected + // index account class
+                NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected + // load editor class
+                NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected + // load account class
+                NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected + // index editor class
+                NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected + // index account class
                 0;
 
             NotifyEngineReady();

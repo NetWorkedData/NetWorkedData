@@ -62,7 +62,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void Start()
         {
-            if (NWDDataManager.SharedInstance().DataEditorLoaded == false)
+            if (NWDDataManager.SharedInstance().EditorDatabaseLoaded == false)
             {
                 NWENotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_LAUNCHER_EDITOR_READY, delegate (NWENotification sNotification)
                 {
@@ -174,7 +174,7 @@ namespace NetWorkedData
             {
                 if (ping.isDone)
                 {
-                    if (ping.time<0)
+                    if (ping.time < 0)
                     {
                         NetworkStatutChange(NWDNetworkState.OffLine);
                     }
@@ -186,7 +186,7 @@ namespace NetWorkedData
                     {
                         tFinishTimestamp = NWEDateHelper.ConvertToTimestamp(DateTime.Now);
                         tDelta = tFinishTimestamp - tStartTimestamp;
-                        Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " ("+AddressPing+") "+ ping.time + ": " + tDelta.ToString("F3") + " seconds");
+                        Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " (" + AddressPing + ") " + ping.time + ": " + tDelta.ToString("F3") + " seconds");
                     }
                     if (TestFinishedBlock != null)
                     {
@@ -280,7 +280,7 @@ namespace NetWorkedData
                             if (Request.isDone == true)
                             {
                                 NetworkStatutChange(NWDNetworkState.OnLine);
-                               //yield break;
+                                //yield break;
                             }
                             else
                             {
@@ -421,7 +421,7 @@ namespace NetWorkedData
                 NetworkState = sNewNetWorkStatut;
                 switch (NetworkState)
                 {
-                    case NWDNetworkState.Check :
+                    case NWDNetworkState.Check:
                         {
                             NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_NETWORK_CHECK, null));
                         }
@@ -437,11 +437,11 @@ namespace NetWorkedData
                         }
                         break;
                     case NWDNetworkState.Unknow:
-                    default :
+                    default:
                         {
                             NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_NETWORK_UNKNOW, null));
                         }
-                    break;
+                        break;
                 }
             }
         }

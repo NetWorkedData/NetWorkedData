@@ -59,7 +59,7 @@ namespace NetWorkedData
             //{
             //    NWDLocalization tLocalization = LocalizationReference.GetReachableData();
             //}
-            
+
             //Text
             if (TextBinding == true)
             {
@@ -226,7 +226,7 @@ namespace NetWorkedData
         void OnEnable()
         {
             //LocalizationReference.Log();
-            if (NWDDataManager.SharedInstance().DataEditorLoaded == false)
+            if (NWDDataManager.SharedInstance().EditorDatabaseLoaded == false)
             {
                 //Debug.Log("Data editor not loaded");
                 if (EmptyIfNotLoaded == true)

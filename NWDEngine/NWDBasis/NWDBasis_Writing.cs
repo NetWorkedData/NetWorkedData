@@ -331,10 +331,10 @@ namespace NetWorkedData
             //if (AccountDependent())
             //if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
             if (BasisHelper().TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount)
-                {
+            {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
-                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, New_SQLInsertOrReplace());
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, New_SQLInsertOrReplace());
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
                 }
@@ -361,13 +361,13 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
-                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "BEGIN TRANSACTION");
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
-                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, New_SQLInsertOrReplace());
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, New_SQLInsertOrReplace());
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
-                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "COMMIT");
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "COMMIT");
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
                 }
@@ -588,7 +588,7 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
-                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, New_SQLInsertOrReplace());
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, New_SQLInsertOrReplace());
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
                 }
@@ -615,13 +615,13 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
-                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "BEGIN TRANSACTION");
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
-                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, New_SQLInsertOrReplace());
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, New_SQLInsertOrReplace());
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
-                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "COMMIT");
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "COMMIT");
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
                 }
@@ -850,7 +850,7 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
-                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, New_SQLDelete());
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, New_SQLDelete());
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
                 }
@@ -877,18 +877,18 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
-                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "BEGIN TRANSACTION");
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
-                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, New_SQLDelete());
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, New_SQLDelete());
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
-                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "COMMIT");
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "COMMIT");
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
                 }
             }
-            else if(BasisHelper().TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
+            else if (BasisHelper().TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {

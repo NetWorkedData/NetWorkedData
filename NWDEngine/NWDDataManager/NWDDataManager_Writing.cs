@@ -259,7 +259,7 @@ namespace NetWorkedData
                 {
                     //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
                     //{
-                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "BEGIN TRANSACTION");
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
                     //NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -269,7 +269,7 @@ namespace NetWorkedData
                     IntPtr stmtE = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
                     SQLite3.Step(stmtE);
                     SQLite3.Finalize(stmtE);
-                        //NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+                    //NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
                     //}
                     foreach (NWDTypeClass tObject in sInsertDataQueuePool)
                     {
@@ -283,7 +283,7 @@ namespace NetWorkedData
                     }
                     //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
                     //{
-                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "COMMIT");
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "COMMIT");
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
                     //NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
@@ -443,7 +443,7 @@ namespace NetWorkedData
                 {
                     //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
                     //{
-                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "BEGIN TRANSACTION");
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
                     //NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -468,7 +468,7 @@ namespace NetWorkedData
                     }
                     //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
                     //{
-                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "COMMIT");
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "COMMIT");
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
                     //NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
@@ -614,7 +614,7 @@ namespace NetWorkedData
                 {
                     //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
                     //{
-                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "BEGIN TRANSACTION");
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
                     //NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -638,7 +638,7 @@ namespace NetWorkedData
                     }
                     //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
                     //{
-                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "COMMIT");
+                    stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "COMMIT");
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
                     //NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();

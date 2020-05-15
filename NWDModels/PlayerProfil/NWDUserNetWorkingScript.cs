@@ -43,7 +43,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void Start()
         {
-            if (NWDDataManager.SharedInstance().DataEditorLoaded == false)
+            if (NWDDataManager.SharedInstance().EditorDatabaseLoaded == false)
             {
                 NWENotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_LAUNCHER_EDITOR_READY, delegate (NWENotification sNotification)
                 {

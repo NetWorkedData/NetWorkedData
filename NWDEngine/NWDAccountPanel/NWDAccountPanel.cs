@@ -399,7 +399,7 @@ namespace NetWorkedData
                     tOptionsResult.Add(tKeyValue.Value);
                 }
             }
-            NWDDataManager.SharedInstance().PlayerLanguageSave(tOptionsResult[DropdownLocalizationList.value]);
+            NWDDataManager.SharedInstance().AccountLanguageSave(tOptionsResult[DropdownLocalizationList.value]);
             //Debug.Log("finish with NWDDataManager.SharedInstance().PlayerLanguage = " + NWDDataManager.SharedInstance().PlayerLanguage);
         }
         //-------------------------------------------------------------------------------------------------------------

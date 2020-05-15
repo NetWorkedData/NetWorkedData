@@ -1,12 +1,6 @@
 //=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:27:6
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -15,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-
 using System.Text;
 
 #if UNITY_EDITOR
@@ -39,9 +32,9 @@ namespace NetWorkedData
                 NWEBenchmark.Log("LibVersionNumber() = " + SQLite3.LibVersionNumber());
             }
             bool rReturn = false;
-            if (DataEditorConnected == false && DataEditorConnectionInProgress == false)
+            if (EditorDatabaseConnected == false && EditorDatabaseConnectionInProgress == false)
             {
-                DataEditorConnectionInProgress = true;
+                EditorDatabaseConnectionInProgress = true;
 #if UNITY_EDITOR
                 // create the good folder
                 string tAccessPath = Application.dataPath;
@@ -112,8 +105,8 @@ namespace NetWorkedData
 
                     DatabaseEditorOpenKey(tDatabasePathEditor);
 
-                    DataEditorConnected = true;
-                    DataEditorConnectionInProgress = false;
+                    EditorDatabaseConnected = true;
+                    EditorDatabaseConnectionInProgress = false;
                     //IntPtr stmtpragmaX = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA cipher_memory_security = OFF;");
                     //SQLite3.Step(stmtpragmaX);
                     //SQLite3.Finalize(stmtpragmaX);
@@ -147,11 +140,11 @@ namespace NetWorkedData
             }
             else
             {
-                if (DataEditorConnected == true)
+                if (EditorDatabaseConnected == true)
                 {
                     Debug.LogWarning("SQLiteConnectionEditor already connected");
                 }
-                if (DataEditorConnectionInProgress == true)
+                if (EditorDatabaseConnectionInProgress == true)
                 {
                     Debug.LogWarning("SQLiteConnectionEditor connexion in progress");
                 }
@@ -202,12 +195,12 @@ namespace NetWorkedData
             }
             bool rReturn = true;
             //Debug.LogWarning("ConnectToDatabaseAccount (" + sSurProtection + ")");
-            if (DataAccountConnected == false && DataAccountConnectionInProgress == false)
+            if (DeviceDatabaseConnected == false && DeviceDatabasConnectionInProgress == false)
             {
-                DataAccountConnectionInProgress = true;
+                DeviceDatabasConnectionInProgress = true;
                 string tDatabasePathAccount = PathDatabaseAccount();
                 byte[] tDatabasePathAsBytes = GetNullTerminatedUtf8(tDatabasePathAccount);
-                SQLite3.Result tResult = SQLite3.Open(tDatabasePathAsBytes, out SQLiteAccountHandle, (int)(SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create), IntPtr.Zero);
+                SQLite3.Result tResult = SQLite3.Open(tDatabasePathAsBytes, out SQLiteDeviceHandle, (int)(SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create), IntPtr.Zero);
                 if (tResult != SQLite3.Result.OK)
                 {
                     throw SQLiteException.New(tResult, string.Format("Could not open database file: {0} ({1})", tDatabasePathAccount, tResult));
@@ -216,15 +209,15 @@ namespace NetWorkedData
                 {
                     DatabaseAccountOpenKey(tDatabasePathAccount, sSurProtection);
 
-                    DataAccountConnected = true;
-                    DataAccountConnectionInProgress = false;
+                    DeviceDatabaseConnected = true;
+                    DeviceDatabasConnectionInProgress = false;
                     //IntPtr stmtpragmaX = SQLite3.Prepare2(SQLiteAccountHandle, "PRAGMA cipher_memory_security = OFF;");
                     //SQLite3.Step(stmtpragmaX);
                     //SQLite3.Finalize(stmtpragmaX);
-                    IntPtr stmtpragma = SQLite3.Prepare2(SQLiteAccountHandle, "PRAGMA synchronous = OFF;");
+                    IntPtr stmtpragma = SQLite3.Prepare2(SQLiteDeviceHandle, "PRAGMA synchronous = OFF;");
                     SQLite3.Step(stmtpragma);
                     SQLite3.Finalize(stmtpragma);
-                    IntPtr stmtpragmaB = SQLite3.Prepare2(SQLiteAccountHandle, "PRAGMA journal_mode = MEMORY");
+                    IntPtr stmtpragmaB = SQLite3.Prepare2(SQLiteDeviceHandle, "PRAGMA journal_mode = MEMORY");
                     SQLite3.Step(stmtpragmaB);
                     SQLite3.Finalize(stmtpragmaB);
                     //Sqlite3DatabaseHandle stmtpragmaC = SQLite3.Prepare2(SQLiteAccountHandle, "PRAGMA cache_size = 1000000");
@@ -252,11 +245,11 @@ namespace NetWorkedData
             }
             else
             {
-                if (DataAccountConnected == true)
+                if (DeviceDatabaseConnected == true)
                 {
                     Debug.LogWarning("SQLiteConnectionAccount already connected");
                 }
-                if (DataAccountConnectionInProgress == true)
+                if (DeviceDatabasConnectionInProgress == true)
                 {
                     Debug.LogWarning("SQLiteConnectionAccount connexion in progress");
                 }
@@ -295,12 +288,12 @@ namespace NetWorkedData
         public void CreateAllTablesLocalAccount()
         {
             //NWEBenchmark.Start();
-            IntPtr stmt = SQLite3.Prepare2(SQLiteAccountHandle, "BEGIN TRANSACTION");
+            IntPtr stmt = SQLite3.Prepare2(SQLiteDeviceHandle, "BEGIN TRANSACTION");
             SQLite3.Step(stmt);
             SQLite3.Finalize(stmt);
-            if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
+            if (DeviceDatabaseConnected == true && DeviceDatabasConnectionInProgress == false)
             {
-                foreach (Type tType in mTypeList)
+                foreach (Type tType in ClassInDeviceDatabaseList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                     if (tHelper.TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount)
@@ -309,7 +302,7 @@ namespace NetWorkedData
                         foreach (string tQuery in tHelper.CreateTableSQLite(tState))
                         {
                             Debug.Log(tQuery);
-                            stmt = SQLite3.Prepare2(SQLiteAccountHandle, tQuery);
+                            stmt = SQLite3.Prepare2(SQLiteDeviceHandle, tQuery);
                             SQLite3.Result tResult = SQLite3.Step(stmt);
                             if (tResult != SQLite3.Result.Done)
                             {
@@ -326,7 +319,7 @@ namespace NetWorkedData
                         string tIndexA = tHelper.CreateIndexSQLite(tState);
                         if (string.IsNullOrEmpty(tIndexA) == false)
                         {
-                            stmt = SQLite3.Prepare2(SQLiteAccountHandle, tIndexA);
+                            stmt = SQLite3.Prepare2(SQLiteDeviceHandle, tIndexA);
                             SQLite3.Result tResult = SQLite3.Step(stmt);
                             if (tResult != SQLite3.Result.Done)
                             {
@@ -343,7 +336,7 @@ namespace NetWorkedData
                         string tIndexC = tHelper.CreateIndexBundleSQLite(tState);
                         if (string.IsNullOrEmpty(tIndexC) == false)
                         {
-                            stmt = SQLite3.Prepare2(SQLiteAccountHandle, tIndexC);
+                            stmt = SQLite3.Prepare2(SQLiteDeviceHandle, tIndexC);
                             SQLite3.Result tResult = SQLite3.Step(stmt);
                             if (tResult != SQLite3.Result.Done)
                             {
@@ -362,7 +355,7 @@ namespace NetWorkedData
                             string tIndexB = tHelper.CreateIndexBundleSQLite(tState);
                             if (string.IsNullOrEmpty(tIndexB) == false)
                             {
-                                stmt = SQLite3.Prepare2(SQLiteAccountHandle, tIndexB);
+                                stmt = SQLite3.Prepare2(SQLiteDeviceHandle, tIndexB);
                                 SQLite3.Result tResult = SQLite3.Step(stmt);
                                 if (tResult != SQLite3.Result.Done)
                                 {
@@ -380,7 +373,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            stmt = SQLite3.Prepare2(SQLiteAccountHandle, "COMMIT");
+            stmt = SQLite3.Prepare2(SQLiteDeviceHandle, "COMMIT");
             SQLite3.Step(stmt);
             SQLite3.Finalize(stmt);
             //NWEBenchmark.Finish();
@@ -430,9 +423,9 @@ namespace NetWorkedData
             IntPtr stmt = SQLite3.Prepare2(SQLiteEditorHandle, "BEGIN TRANSACTION");
             SQLite3.Step(stmt);
             //SQLite3.Finalize(stmt);
-            if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
+            if (EditorDatabaseConnected == true && EditorDatabaseConnectionInProgress == false)
             {
-                foreach (Type tType in mTypeList)
+                foreach (Type tType in ClassInEditorDatabaseList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                     if (tHelper.TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
@@ -521,9 +514,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CleanAllTablesLocalEditor()
         {
-            if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
+            if (EditorDatabaseConnected == true && EditorDatabaseConnectionInProgress == false)
             {
-                foreach (Type tType in mTypeNotAccountDependantList)
+                foreach (Type tType in ClassInEditorDatabaseList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                     tHelper.CleanTable();
@@ -533,9 +526,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void PurgeAllTablesLocalEditor()
         {
-            if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
+            if (EditorDatabaseConnected == true && EditorDatabaseConnectionInProgress == false)
             {
-                foreach (Type tType in mTypeNotAccountDependantList)
+                foreach (Type tType in ClassInEditorDatabaseList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                     tHelper.PurgeTable();
@@ -545,9 +538,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ResetAllTablesLocalEditor()
         {
-            if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
+            if (EditorDatabaseConnected == true && EditorDatabaseConnectionInProgress == false)
             {
-                foreach (Type tType in mTypeNotAccountDependantList)
+                foreach (Type tType in ClassInEditorDatabaseList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                     tHelper.ResetTable();
@@ -558,14 +551,14 @@ namespace NetWorkedData
         public bool SQLiteConnectionEditorIsValid()
         {
             bool rReturn = true;
-            rReturn = DataEditorConnected;
+            rReturn = EditorDatabaseConnected;
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool SQLiteConnectionAccountIsValid()
         {
             bool rReturn = true;
-            rReturn = DataAccountConnected;
+            rReturn = DeviceDatabaseConnected;
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

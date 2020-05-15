@@ -123,7 +123,7 @@ namespace NetWorkedData
             tActualsList = new List<PropertyInfo>(ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance));
             tMigratePropertyList = new List<PropertyInfo>(ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance));
             tTransfertList.Clear();
-            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
+            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteDeviceHandle;
             //SQLiteConnection Connector = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
             //if (kAccountDependent == false)
             //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
@@ -188,7 +188,7 @@ namespace NetWorkedData
         {
 
             List<string> tQuery = new List<string>();
-            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
+            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteDeviceHandle;
             //if (kAccountDependent == false)
             //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
@@ -642,7 +642,7 @@ namespace NetWorkedData
             RowAnalyzed = false;
 #endif
             //ResetDatas();
-            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
+            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteDeviceHandle;
             //if (kAccountDependent == false)
             //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
@@ -740,7 +740,7 @@ namespace NetWorkedData
             {
                 Debug.LogWarning("LoadFromDatabase IN ERROR from " + ClassNamePHP + "  with "+ tSQL + "");
                 Debug.LogWarning("error message : "+SQLite3.GetErrmsg(tConnectorHandle));
-                if (tConnectorHandle == NWDDataManager.SharedInstance().SQLiteAccountHandle)
+                if (tConnectorHandle == NWDDataManager.SharedInstance().SQLiteDeviceHandle)
                 {
                     Debug.LogWarning("tried on account database from " + ClassNamePHP + " !");
                 }
@@ -791,7 +791,7 @@ namespace NetWorkedData
             // reset datas
             ResetDatas();
             // delete indexes and table
-            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
+            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteDeviceHandle;
             //if (kAccountDependent == false)
             //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
@@ -858,7 +858,7 @@ namespace NetWorkedData
             // reset datas
             ResetDatas();
             // delete all datas on table
-            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
+            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteDeviceHandle;
             //if (kAccountDependent == false)
             //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
@@ -890,7 +890,7 @@ namespace NetWorkedData
             // reset datas
             ResetDatas();
             // delete indexes and table
-            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
+            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteDeviceHandle;
             //if (kAccountDependent == false)
             //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
@@ -929,7 +929,7 @@ namespace NetWorkedData
             // reset datas
             ResetDatas();
             // delete indexes and table
-            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteAccountHandle;
+            IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteDeviceHandle;
             //if (kAccountDependent == false)
             //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
