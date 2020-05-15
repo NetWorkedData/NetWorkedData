@@ -79,7 +79,7 @@ namespace NetWorkedData
             NotifyStep(true);
             yield return tWaitTime;
 
-            StepSum = 12 +
+            StepSum = 13 +
                 NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected + // load editor class
                 NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected + // load account class
                 NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected + // index editor class
@@ -90,6 +90,9 @@ namespace NetWorkedData
 
             // connect editor
             tWaitTime = null;
+            AddIndexMethod();
+            NotifyStep(true);
+            yield return tWaitTime;
             ConnectEditorStandard();
             NotifyStep(true);
             yield return tWaitTime;

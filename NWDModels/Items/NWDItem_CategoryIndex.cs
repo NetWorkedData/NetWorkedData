@@ -19,13 +19,38 @@ using UnityEngine;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDClassServerSynchronizeAttribute(true)]
+    public class NWDItemIndexer : NWDIndexer
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        static public NWDIndex<NWDCategory, NWDItem> kCategoryIndex = new NWDIndex<NWDCategory, NWDItem>();
+        //-------------------------------------------------------------------------------------------------------------
+        static public NWDIndex<NWDCategory, NWDItem> kCategoryInverseIndex = new NWDIndex<NWDCategory, NWDItem>();
+        //-------------------------------------------------------------------------------------------------------------
+        static public void Install()
+        {
+            Debug.Log("NWDItemIndexer Install()");
+            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDUserOwnership));
+            //------------ in memory
+            tHelper.IndexInMemoryMethodList.Add(tHelper.ClassType.GetMethod("InsertInCategoryIndex"));
+            tHelper.DeindexInMemoryMethodList.Add(tHelper.ClassType.GetMethod("RemoveFromCategoryIndex"));
+            //------------ in memory
+            tHelper.IndexInMemoryMethodList.Add(tHelper.ClassType.GetMethod("InsertInCategoryInverseIndex"));
+            tHelper.DeindexInMemoryMethodList.Add(tHelper.ClassType.GetMethod("RemoveFromCategoryInverseIndex"));
+            //------------ in base
+            tHelper.IndexInBaseMethodList.Add(tHelper.ClassType.GetMethod("IndexInSQLCategorieItem"));
+            tHelper.DeindexInBaseMethodList.Add(tHelper.ClassType.GetMethod("DesindexInSQLCategorieItem"));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassTrigrammeAttribute("xxc")]
     [NWDClassDescriptionAttribute("index")]
     [NWDClassMenuNameAttribute("Index Categorie->Item")]
     public partial class NWDIndexCategorieItem : NWDEditorIndex<NWDIndexCategorieItem, NWDCategory, NWDItem>
     {
+
         //-------------------------------------------------------------------------------------------------------------
         public NWDIndexCategorieItem()
         {
@@ -52,7 +77,7 @@ namespace NetWorkedData
         /// <summary>
         /// New index with NWDNewIndex NWDBasis
         /// </summary>
-        [NWDIndexInBase]
+        //[NWDIndexInBase]
         public void IndexInSQLCategorieItem()
         {
             // Re-add ! but for wichn categories?
@@ -73,7 +98,7 @@ namespace NetWorkedData
         /// <summary>
         /// Remove from index with NWDNewIndex NWDBasis
         /// </summary>
-        [NWDDeindexInBase]
+        //[NWDDeindexInBase]
         public void DesindexInSQLCategorieItem()
         {
             NWDIndexCategorieItem.RemoveData(this);
@@ -86,11 +111,8 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 
-
         //-------------------------------------------------------------------------------------------------------------
-        static protected NWDIndex<NWDCategory, NWDItem> kCategoryIndex = new NWDIndex<NWDCategory, NWDItem>();
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInMemory]
+        //[NWDIndexInMemory]
         public void InsertInCategoryIndex()
         {
             // Re-add ! but for wichn categories?
@@ -105,15 +127,15 @@ namespace NetWorkedData
                     }
                 }
             }
-            kCategoryIndex.UpdateData(this, tCategoriesList.ToArray());
+            NWDItemIndexer.kCategoryIndex.UpdateData(this, tCategoriesList.ToArray());
             NWDIndexCategorieItem.UpdateData(this, tCategoriesList.ToArray());
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDDeindexInMemory]
+        //[NWDDeindexInMemory]
         public void RemoveFromCategoryIndex()
         {
             // Remove from the actual indexation
-            kCategoryIndex.RemoveData(this);
+            NWDItemIndexer.kCategoryIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static List<NWDItem> FindByCategory(NWDCategory sCategory)
@@ -121,14 +143,12 @@ namespace NetWorkedData
             List<NWDItem> rReturn = new List<NWDItem>();
             foreach (NWDCategory tCategories in sCategory.CascadeCategoryList.GetRawDatas())
             {
-                rReturn.AddRange(kCategoryIndex.RawDatasByKey(tCategories));
+                rReturn.AddRange(NWDItemIndexer.kCategoryIndex.RawDatasByKey(tCategories));
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static protected NWDIndex<NWDCategory, NWDItem> kCategoryInverseIndex = new NWDIndex<NWDCategory, NWDItem>();
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInMemory]
+        //[NWDIndexInMemory]
         public void InsertInCategoryInverseIndex()
         {
             // Re-add ! but for wichn categories?
@@ -147,19 +167,19 @@ namespace NetWorkedData
                 }
             }
             // Re-add !
-            kCategoryInverseIndex.UpdateData(this, tCategoriesList.ToArray());
+            NWDItemIndexer.kCategoryInverseIndex.UpdateData(this, tCategoriesList.ToArray());
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDDeindexInMemory]
+        //[NWDDeindexInMemory]
         public void RemoveFromCategoryInverseIndex()
         {
             // Remove from the actual indexation
-            kCategoryInverseIndex.RemoveData(this);
+            NWDItemIndexer.kCategoryInverseIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static List<NWDItem> FindByCategoryInverse(NWDCategory sCategory)
         {
-            return new List<NWDItem>(kCategoryInverseIndex.RawDatasByKey(sCategory));
+            return new List<NWDItem>(NWDItemIndexer.kCategoryInverseIndex.RawDatasByKey(sCategory));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

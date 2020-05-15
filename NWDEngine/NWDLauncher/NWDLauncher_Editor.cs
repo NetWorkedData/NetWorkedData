@@ -38,7 +38,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             EditorUtility.ClearProgressBar();
 #endif
-            StepSum = 12 +
+            StepSum = 13 +
                 NWDAppConfiguration.SharedInstance().LauncherClassEditorStep + // load editor class
                 NWDAppConfiguration.SharedInstance().LauncherClassAccountStep + // load account class
                 NWDAppConfiguration.SharedInstance().LauncherClassEditorStep + // load editor class
@@ -53,7 +53,7 @@ namespace NetWorkedData
             RestaureStandard();
 
             NotifyEngineReady();
-
+            AddIndexMethod();
             // connect editor
             ConnectEditorStandard();
             // create table editor
@@ -187,6 +187,29 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected = NWDDataManager.SharedInstance().ClassInDeviceDatabaseList.Count();
             NWDDataManager.SharedInstance().ClassNumberExpected = NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected + NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected;
             State = NWDStatut.ClassRestaureFinish;
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private static void AddIndexMethod()
+        {
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
+            State = NWDStatut.IndexMethodStart;
+            Type[] tAllTypes = Assembly.GetExecutingAssembly().GetTypes();
+            Type[] tAllHelperDTypes = (from Type type in tAllTypes where type.IsSubclassOf(typeof(NWDIndexer)) select type).ToArray();
+            foreach (Type tType in tAllHelperDTypes)
+            {
+                if (tType != typeof(NWDIndexer))
+                {
+                    tType.GetMethod("Install").Invoke(null, null);
+                }
+            }
+            State = NWDStatut.IndexMethodFinish;
             if (ActiveBenchmark)
             {
                 NWEBenchmark.Finish();

@@ -345,40 +345,40 @@ namespace NetWorkedData
             NWEBenchmark.Step();
             // TODO:  ... too long! that take 0.006s ... it's too much!
 
-            foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
-            {
-                if (tMethod.GetCustomAttributes(typeof(NWDIndexInMemory), true).Length > 0)
-                {
-                    if (IndexInMemoryMethodList.Contains(tMethod) == false)
-                    {
-                        IndexInMemoryMethodList.Add(tMethod);
-                    }
-                }
-                if (tMethod.GetCustomAttributes(typeof(NWDDeindexInMemory), true).Length > 0)
-                {
-                    if (DeindexInMemoryMethodList.Contains(tMethod) == false)
-                    {
-                        DeindexInMemoryMethodList.Add(tMethod);
-                    }
-                }
-                if (tMethod.GetCustomAttributes(typeof(NWDIndexInBase), true).Length > 0)
-                {
-                    if (IndexInBaseMethodList.Contains(tMethod) == false)
-                    {
-                        IndexInBaseMethodList.Add(tMethod);
-                    }
-                }
-                if (tMethod.GetCustomAttributes(typeof(NWDDeindexInBase), true).Length > 0)
-                {
-                    if (DeindexInBaseMethodList.Contains(tMethod) == false)
-                    {
-                        DeindexInBaseMethodList.Add(tMethod);
-                    }
-                }
-            }
+            //foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+            //{
+            //    if (tMethod.GetCustomAttributes(typeof(NWDIndexInMemory), true).Length > 0)
+            //    {
+            //        if (IndexInMemoryMethodList.Contains(tMethod) == false)
+            //        {
+            //            IndexInMemoryMethodList.Add(tMethod);
+            //        }
+            //    }
+            //    if (tMethod.GetCustomAttributes(typeof(NWDDeindexInMemory), true).Length > 0)
+            //    {
+            //        if (DeindexInMemoryMethodList.Contains(tMethod) == false)
+            //        {
+            //            DeindexInMemoryMethodList.Add(tMethod);
+            //        }
+            //    }
+            //    if (tMethod.GetCustomAttributes(typeof(NWDIndexInBase), true).Length > 0)
+            //    {
+            //        if (IndexInBaseMethodList.Contains(tMethod) == false)
+            //        {
+            //            IndexInBaseMethodList.Add(tMethod);
+            //        }
+            //    }
+            //    if (tMethod.GetCustomAttributes(typeof(NWDDeindexInBase), true).Length > 0)
+            //    {
+            //        if (DeindexInBaseMethodList.Contains(tMethod) == false)
+            //        {
+            //            DeindexInBaseMethodList.Add(tMethod);
+            //        }
+            //    }
+            //}
 
 
-            //NWEBenchmark.Step();
+            NWEBenchmark.Step();
             PrefLoad();
             // NWEBenchmark.Step();
             bool rAssetConnected = false;

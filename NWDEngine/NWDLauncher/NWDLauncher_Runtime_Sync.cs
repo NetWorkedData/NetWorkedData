@@ -34,7 +34,7 @@ namespace NetWorkedData
             {
                 tBasisBundle = NWDBundle.ALL;
             }
-            StepSum = 12 +
+            StepSum = 13 +
                 NWDAppConfiguration.SharedInstance().LauncherClassEditorStep + // load editor class
                 NWDAppConfiguration.SharedInstance().LauncherClassAccountStep + // load account class
                 NWDAppConfiguration.SharedInstance().LauncherClassEditorStep + // load editor class
@@ -51,6 +51,7 @@ namespace NetWorkedData
             NotifyEngineReady();
 
             // connect editor
+            AddIndexMethod();
             ConnectEditorStandard();
             // create table editor
             CreateTableEditorStandard();

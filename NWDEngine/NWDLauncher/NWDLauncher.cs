@@ -46,7 +46,10 @@ namespace NetWorkedData
         ClassDeclareFinish = 19,
 
         ClassRestaureStart = 21,
-        ClassRestaureFinish = 29,
+        ClassRestaureFinish = 22,
+
+        IndexMethodStart = 23,
+        IndexMethodFinish = 24,
 
         EngineReady = 30,
 

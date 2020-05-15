@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:29:11
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -17,10 +11,13 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDServerDistribution
+    {
+        debian9,
+        debian10,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDInternalKeyNotEditable]
-    //[NWDInternalDescriptionNotEditable]
-    //[NWDClassUnityEditorOnlyAttribute]
-    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("SSH")]
     [NWDClassDescriptionAttribute("Server descriptions Class")]
     [NWDClassMenuNameAttribute("Server")]
@@ -32,9 +29,8 @@ namespace NetWorkedData
         [NWDInspectorGroupStart("DNS use to find IP")]
         [NWDTooltips("Optional DNS of this server (not the public DNS, just usable DNS)")]
         public string DomainNameServer { get; set; }
-        //[NWDTooltips("Email for SSL certification")]
-        //public string Email { get; set; }
         [NWDInspectorGroupEnd]
+
         [NWDInspectorGroupStart("Authentification SSH / SFTP")]
         [NWDEntitled("SSH IP")]
         public NWDIPType IP { get; set; }
@@ -47,13 +43,6 @@ namespace NetWorkedData
         [NWDInspectorGroupEnd()]
 
         [NWDInspectorGroupStart("Server root and admmin")]
-        //public bool UserInstalled { get; set; }
-        //[NWDIf("UserInstalled",false)]
-        //[NWDEntitled("SSH User")]
-        //public string User { get; set; }
-        //[NWDIf("UserInstalled", false)]
-        //[NWDEntitled("SSH Password")]
-        //public NWDPasswordType Password { get; set; }
         public bool AdminInstalled { get; set; }
         [NWDIf("AdminInstalled", false)]
         [NWDEntitled("SSH Admin User")]
@@ -69,6 +58,7 @@ namespace NetWorkedData
         [NWDEntitled("SSH Root Password")]
         public NWDPasswordType Root_Password { get; set; }
         [NWDInspectorGroupEnd]
+
         [NWDInspectorGroupStart("Install Server Options")]
         public NWDServerDistribution Distribution { get; set; }
         //-------------------------------------------------------------------------------------------------------------

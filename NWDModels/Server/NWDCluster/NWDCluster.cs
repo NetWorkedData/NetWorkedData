@@ -1,12 +1,6 @@
 //=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:42:10
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -26,28 +20,22 @@ namespace NetWorkedData
     /// <summary>
     /// NWDCluster class. This class is use for (complete description here).
     /// </summary>
-    //[NWDClassUnityEditorOnlyAttribute]
-    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("CLS")]
     [NWDClassDescriptionAttribute("Cluster")]
     [NWDClassMenuNameAttribute("Cluster")]
-    //[NWDInternalKeyNotEditableAttribute]
     [NWDInternalDescriptionNotEditable]
     public partial class NWDCluster : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
-//#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupReset]
-        //[NWDInspectorGroupStart("Domains to use")]
-        //public NWDReferencesListType<NWDServerDomain> Domains { get; set; }
-        //[NWDInspectorGroupEnd]
+
         [NWDInspectorGroupStart("Servers")]
         [NWDNotEditable]
         public NWDReferencesListType<NWDServerDomain> Domains { get; set; }
         public NWDReferencesListType<NWDServerServices> Services { get; set; }
         public NWDReferencesListType<NWDServerDatas> DataBases { get; set; }
         [NWDInspectorGroupEnd]
+
         [NWDInspectorGroupStart("Server Environment Actif")]
         public bool Dev { get; set; }
         public bool Preprod { get; set; }
@@ -56,13 +44,12 @@ namespace NetWorkedData
         [NWDVeryLongString]
         public string Information { get; set; }
         [NWDInspectorGroupEnd]
+
         [NWDInspectorGroupStart("IP of Editor")]
         [NWDNotEditable]
         public bool LimitEditorByIP { get; set; }
         [NWDNotEditable]
         public NWDIPType EditorIP { get; set; }
-        //-------------------------------------------------------------------------------------------------------------
-        //#endif
         //-------------------------------------------------------------------------------------------------------------
         public NWDCluster()
         {
