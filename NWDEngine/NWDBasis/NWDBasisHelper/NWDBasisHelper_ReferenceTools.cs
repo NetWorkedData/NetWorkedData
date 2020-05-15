@@ -30,18 +30,6 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-//#if UNITY_EDITOR
-//        public void ChangeReferenceForAnotherInAllObjects(string sOldReference, string sNewReference)
-//        {
-//            //Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
-//            LoadFromDatabase(string.Empty, false);
-//            foreach (NWDTypeClass tObject in Datas)
-//            {
-//                tObject.ChangeReferenceForAnother(sOldReference, sNewReference);
-//            }
-//        }
-//#endif
-        //-------------------------------------------------------------------------------------------------------------
         public void TryToChangeUserForAllObjects(string sOldUser, string sNewUser)
         {
             Debug.Log("TryToChangeUserForAllObjects(string sOldUser, string sNewUser) in " + ClassNamePHP + "");
@@ -51,7 +39,7 @@ namespace NetWorkedData
                 string tOldUniqueReference = NWDAccount.GetUniqueReference(sOldUser, ClassType);
                 string tNewUniqueReference = NWDAccount.GetUniqueReference(sNewUser, ClassType);
                 Debug.Log("########### OK I WILL replace THE UNIQUE REFERENCE in "+ClassNamePHP+" for " + tOldUniqueReference);
-                NWDTypeClass tUniqueReference = GetDataByReference(sOldUser);
+                NWDTypeClass tUniqueReference = GetDataByReference(tOldUniqueReference);
                 if (tUniqueReference != null)
                 {
                     Debug.Log("###########  ... in " + ClassNamePHP + " for BY THE UNIQUE REFERENCE " + tNewUniqueReference);
