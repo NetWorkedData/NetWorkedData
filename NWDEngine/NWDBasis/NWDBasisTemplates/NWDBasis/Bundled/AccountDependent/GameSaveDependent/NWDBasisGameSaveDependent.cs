@@ -34,6 +34,34 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void PropertiesAutofill()
+        {
+            //Account.SetValue(NWDAccount.CurrentReference());
+            Account.SetValue(NWDGameSave.CurrentData().Account.GetValue());
+            GameSave.SetValue(NWDGameSave.CurrentData().Reference);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override bool IsReacheableBy(string sGameSaveReference, string sAccountReference = null)
+        {
+            if (sGameSaveReference == null)
+            {
+                return (Account.GetReference() == sAccountReference);
+            }
+            else if (sAccountReference == null)
+            {
+            return (GameSave.GetReference() == sGameSaveReference);
+            }
+            else
+            {
+                return (Account.GetReference() == sAccountReference && GameSave.GetReference() == sGameSaveReference); ;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override bool IsWritableBy(string sGameSaveReference, string sAccountReference = null)
+        {
+            return IsReacheableBy(sGameSaveReference, sAccountReference = null);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override void AddonInsertMe()
         {
             base.AddonInsertMe();
@@ -60,7 +88,16 @@ namespace NetWorkedData
             //only if data was not sync ... else it need to use the define GameSave
             if (DevSync <= 1 && ProdSync <= 1 && PreprodSync <= 1)
             {
-                GameSave.SetData(NWDGameSave.CurrentData());
+                if (Account != null)
+                {
+                    string[] tAccountExplode = Account.GetValue().Split(new char[] { '-' });
+                    if (tAccountExplode.Length > 1)
+                    {
+                        int tRange;
+                        int.TryParse(tAccountExplode[1], out tRange);
+                        RangeAccess = tRange;
+                    }
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------

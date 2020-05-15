@@ -6,6 +6,8 @@
 //=====================================================================================================================
 
 //=====================================================================================================================
+using UnityEngine;
+
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -27,6 +29,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDBasisAccountRestricted(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override bool IsReacheableBy(string sGameSaveReference, string sAccountReference = null)
+        {
+            return (Account.GetReference() == sAccountReference);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override bool IsWritableBy(string sGameSaveReference, string sAccountReference = null)
+        {
+            return (Account.GetReference() == sAccountReference);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void PropertiesAutofill()
+        {
+            Account.SetValue(NWDAccount.CurrentReference());
+            //GameSave.SetValue(NWDGameSave.CurrentData().Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonInsertMe()
@@ -55,16 +73,33 @@ namespace NetWorkedData
             //only if data was not sync ... else it need to use the define RangeAccess
             if (DevSync <= 1 && ProdSync <= 1 && PreprodSync <= 1)
             {
-                int tRange = 0;
                 if (Account != null)
                 {
                     string[] tAccountExplode = Account.GetValue().Split(new char[] { '-' });
                     if (tAccountExplode.Length > 1)
                     {
+                        int tRange;
                         int.TryParse(tAccountExplode[1], out tRange);
                         RangeAccess = tRange;
                     }
                 }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void ChangeUser(string sOldUser, string sNewUser)
+        {
+            Debug.Log("ChangeUser(string sOldUser, string sNewUser) in " + BasisHelper().ClassNamePHP);
+            if (IntegrityIsValid() == true)
+            {
+                if (Account.GetValue() == sOldUser)
+                {
+                    Account.SetValue(sNewUser);
+                    UpdateData();
+                }
+            }
+            else
+            {
+                Debug.Log("ChangeUser INTEGRITY ERROR " + Reference + "in " + BasisHelper().ClassNamePHP);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

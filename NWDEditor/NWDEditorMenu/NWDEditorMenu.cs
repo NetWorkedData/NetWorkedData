@@ -287,7 +287,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         // DEV 
-#region DEV
+        #region DEV
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_DEV_SFTP_WEBSERVICE, false, 9100)]
         public static void DevCreatePHPWitoutIncrement_SFTP()
@@ -327,9 +327,9 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         // 
-#endregion
+        #endregion
         //PREPROD
-#region PREPROD
+        #region PREPROD
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_PREPROD_SFTP_WEBSERVICE, false, 9100)]
         public static void PreprodCreatePHPWitoutIncrement_SFTP()
@@ -369,9 +369,9 @@ namespace NetWorkedData
             NWDAppEnvironmentSync.SharedInstance().Flush(NWDAppConfiguration.SharedInstance().DevEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
-#endregion
+        #endregion
         //PROD
-#region PROD
+        #region PROD
         //-------------------------------------------------------------------------------------------------------------
         //[MenuItem (NWDConstants.K_MENU_BASE+NWDConstants.K_MENU_PROD, false, 9103)]
         //-------------------------------------------------------------------------------------------------------------
@@ -428,9 +428,9 @@ namespace NetWorkedData
             NWDAppEnvironmentSync.SharedInstance().Flush(NWDAppConfiguration.SharedInstance().ProdEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
-#endregion
+        #endregion
         //LOCALS
-#region LOCAL
+        #region LOCAL
         //-------------------------------------------------------------------------------------------------------------
         //[MenuItem (NWDConstants.K_MENU_BASE+NWDConstants.K_MENU_LOCAL, false, 9200)]
         //-------------------------------------------------------------------------------------------------------------
@@ -585,7 +585,7 @@ namespace NetWorkedData
             }
             NWDDataManager.SharedInstance().DataQueueExecute();
         }
-#endregion
+        #endregion
         //-------------------------------------------------------------------------------------------------------------
         static bool kBlock = false;
         //-------------------------------------------------------------------------------------------------------------
@@ -691,7 +691,7 @@ namespace NetWorkedData
             NWDUnitTests.CleanUnitTests(false);
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_REINDEX_ALL_DATAS, false, 9999)]
+        [MenuItem(NWDConstants.K_MENU_REINDEX_ALL_DATAS, false, 9998)]
         public static void ReindexAllDatas()
         {
             NWEBenchmark.Start();
@@ -700,6 +700,45 @@ namespace NetWorkedData
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.IndexInBaseAllObjects();
                 tHelper.IndexInMemoryAllObjects();
+            }
+            NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_FLUSH_ACCOUNT_ALL_DATAS, false, 9999)]
+        public static void FLUSH_ACCOUNT_ALL_DATAS()
+        {
+            NWEBenchmark.Start();
+            NWDDataInspector.InspectNetWorkedData(null, true, false);
+            if (EditorUtility.DisplayDialog("WARNING", "YOU WILL DELETE ALL DATAS OF PLAYERS!", "YES", "CANCEL"))
+            {
+                NWDAppConfiguration.SharedInstance().DevEnvironment.ResetPreferences();
+                List<string> tTableList = new List<string>();
+                // reset database on local...and add for cluster
+                foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+                {
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                    if (tHelper.TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+                    {
+                        tHelper.SetObjectInEdition(null);
+                        tHelper.FlushTable();
+                        tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().DevEnvironment));
+                    }
+                }
+                // reset database on cluster...
+                foreach (NWDServerDatas tDatabaseServer in NWDBasisHelper.FindTypeInfos(typeof(NWDServerDatas)).Datas)
+                {
+                    if (tDatabaseServer.Dev == true)
+                    {
+                        List<string> tCommandList = new List<string>();
+                        foreach (string tTable in tTableList)
+                        {
+                            tCommandList.Add("echo \"<color=orange> -> delete " + tTable + "</color>\"");
+                            tCommandList.Add("mysql -u root -p\"" + tDatabaseServer.Root_MysqlPassword + "\" -e \"USE " + tDatabaseServer.MySQLBase + "; DELETE FROM " + tDatabaseServer.MySQLBase + "." + tTable + ";\"");
+                        }
+                        NWDServer tServer = tDatabaseServer.Server.GetRawData();
+                        tServer.ExecuteSSH("FlushAccount", tCommandList);
+                    }
+                }
             }
             NWEBenchmark.Finish();
         }

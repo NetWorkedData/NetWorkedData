@@ -147,7 +147,7 @@ namespace NetWorkedData
                 {
                     foreach (NWDBasis tObject in NWDBasisHelper.FindTypeInfos(tType).Datas)
                     {
-                        if (tObject.IsReacheableByAccount(sAccountReference))
+                        if (tObject.IsReacheableBy(null, sAccountReference))
                         {
                             if (tObject.UnTrashData())
                             {
@@ -174,7 +174,7 @@ namespace NetWorkedData
                 {
                     foreach (NWDBasis tObject in NWDBasisHelper.FindTypeInfos(tType).Datas)
                     {
-                        if (tObject.IsReacheableByAccount(sAccountReference))
+                        if (tObject.IsReacheableBy(null, sAccountReference))
                         {
                             if (tObject.TrashData())
                             {

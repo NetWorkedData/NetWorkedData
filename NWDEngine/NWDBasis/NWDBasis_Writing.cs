@@ -445,7 +445,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true, bool sWithCallBack = true)
         {
-            //NWEBenchmark.Start();
+            NWEBenchmark.Start();
             // Determine the default mode
             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
             // Verif if Systeme can use the thread (option in Environment)
@@ -524,13 +524,13 @@ namespace NetWorkedData
                 WritingPending = NWDWritingPending.UpdateInMemory;
                 NWDDataManager.SharedInstance().UpdateData(this, sWritingMode);
             }
-            //NWEBenchmark.Finish();
 
 #if UNITY_EDITOR
             RowAnalyze();
             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             NWDNodeEditor.ReAnalyzeIfNecessary(this);
 #endif
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void UpdateDataOperation(bool sAutoDate = true, bool sWebServiceUpgrade = true)

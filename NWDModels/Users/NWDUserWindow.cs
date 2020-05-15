@@ -31,7 +31,7 @@ namespace NetWorkedData
 #if NWD_MODULE_MARKETPLACES
             //typeof(NWDUserTransaction),
 #endif
-            typeof(NWDGameSave),
+            //typeof(NWDGameSave),
 		}
     )]
     public partial class NWDUserWindow : NWDBasisWindow<NWDUserWindow>

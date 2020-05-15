@@ -171,7 +171,7 @@ namespace NetWorkedData
                                                                  // delete all datas for this user
                 foreach (NWDTypeClass tObject in Datas)
                 {
-                    if (tObject.IsReacheableByAccount(NWDAccount.CurrentReference()))
+                    if (tObject.IsReacheableBy(null, NWDAccount.CurrentReference()))
                     {
                         tObject.DeleteData();
                     }

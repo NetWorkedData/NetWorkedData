@@ -29,6 +29,7 @@ namespace NetWorkedData
             typeof(NWDAccountNickname),
             typeof(NWDAccountAvatar),
             typeof(NWDAccountPreference),
+            typeof(NWDGameSave),
         }
     )]
     public class NWDAccountWindow : NWDBasisWindow<NWDAccountWindow>

@@ -1037,16 +1037,16 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tReference = $sCsvList[" + NWDBasisHelper.CSV_IndexOf<NWDExample>(NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference)) + "];");
+            tFile.AppendLine("$tReference = $sCsvList[" + CSV_IndexOf(NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference)) + "];");
             tFile.AppendLine("// find the good database");
             tFile.AppendLine(NWDError.PHP_log(sEnvironment, " I will try to update the data '.$tReference.'"));
 
 
             tFile.AppendLine("// find solution for pre calculate on server");
-            tFile.AppendLine("if ($sCsvList[" + NWDBasisHelper.CSV_IndexOf<NWDExample>(NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().XX)) + "] == 1)");
+            tFile.AppendLine("if ($sCsvList[" + CSV_IndexOf(NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().XX)) + "] == 1)");
             tFile.AppendLine("{");
             tFile.AppendLine("// replace XX by " + NWD.K_PHP_TIME_SYNC + "");
-            tFile.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACE() + "($sCsvList, " + NWDBasisHelper.CSV_IndexOf<NWDExample>(NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().XX)) + ", " + NWD.K_PHP_TIME_SYNC + ");");
+            tFile.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACE() + "($sCsvList, " + CSV_IndexOf(NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().XX)) + ", " + NWD.K_PHP_TIME_SYNC + ");");
             tFile.AppendLine("}");
             tFile.Append(AddonPhpPreCalculate(sEnvironment));
             tFile.AppendLine("$tQuery = 'SELECT `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference) + "`, `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DM) + "`, `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().XX) + "` FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference) + "` = \\''.EscapeString($tReference).'\\';';");

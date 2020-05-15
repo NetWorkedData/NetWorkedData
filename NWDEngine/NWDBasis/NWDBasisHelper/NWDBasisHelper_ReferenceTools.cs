@@ -30,32 +30,33 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
-        public void ChangeReferenceForAnotherInAllObjects(string sOldReference, string sNewReference)
-        {
-            //Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
-            LoadFromDatabase(string.Empty, false);
-            foreach (NWDTypeClass tObject in Datas)
-            {
-                tObject.ChangeReferenceForAnother(sOldReference, sNewReference);
-            }
-        }
-#endif
+//#if UNITY_EDITOR
+//        public void ChangeReferenceForAnotherInAllObjects(string sOldReference, string sNewReference)
+//        {
+//            //Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
+//            LoadFromDatabase(string.Empty, false);
+//            foreach (NWDTypeClass tObject in Datas)
+//            {
+//                tObject.ChangeReferenceForAnother(sOldReference, sNewReference);
+//            }
+//        }
+//#endif
         //-------------------------------------------------------------------------------------------------------------
         public void TryToChangeUserForAllObjects(string sOldUser, string sNewUser)
         {
-            if (kAccountDependent == true)
+            Debug.Log("TryToChangeUserForAllObjects(string sOldUser, string sNewUser) in " + ClassNamePHP + "");
+            if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
             {
                 // look for old data , delete on database, change reference, reccord on database
                 string tOldUniqueReference = NWDAccount.GetUniqueReference(sOldUser, ClassType);
                 string tNewUniqueReference = NWDAccount.GetUniqueReference(sNewUser, ClassType);
-                Debug.Log("########### OK I WILL replace THE UNIQUE REFERENCE " + tOldUniqueReference);
+                Debug.Log("########### OK I WILL replace THE UNIQUE REFERENCE in "+ClassNamePHP+" for " + tOldUniqueReference);
                 NWDTypeClass tUniqueReference = GetDataByReference(sOldUser);
                 if (tUniqueReference != null)
                 {
-                    Debug.Log("###########  ... BY THE UNIQUE REFERENCE " + tNewUniqueReference);
+                    Debug.Log("###########  ... in " + ClassNamePHP + " for BY THE UNIQUE REFERENCE " + tNewUniqueReference);
                     tUniqueReference.DeleteData();
-                    Debug.Log("###########  I deleteThe Data");
+                    Debug.Log("###########  I delete the Data in " + ClassNamePHP + " and reinsert it with new reference!");
                     NWDDataManager.SharedInstance().DataQueueExecute();
                     tUniqueReference.Reference = tNewUniqueReference;
                     tUniqueReference.InsertData();

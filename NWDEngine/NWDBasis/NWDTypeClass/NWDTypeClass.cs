@@ -374,31 +374,76 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool UnTrashable() { return XX <= 1; }
+
+
         //-------------------------------------------------------------------------------------------------------------
-        public virtual bool IsReacheableByGameSave(NWDGameSave sGameSave)
+        public virtual bool IsReacheableBy(string sGameSaveReference, string sAccountReference = null)
         {
             return true;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual bool VisibleByGameSave(string sGameSaveReference)
+        public virtual bool IsWritableBy(string sGameSaveReference, string sAccountReference = null)
         {
-            return true;
+            return false;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual bool VisibleByAccountByEqual(string sAccountReference)
-        {
-            return true;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual bool VisibleByAccount(string sAccountReference)
-        {
-            return true;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual bool IsReacheableByAccount(string sAccountReference = null)
-        {
-            return true;
-        }
+
+
+
+        ////-------------------------------------------------------------------------------------------------------------
+        //public bool IsReacheableByGameSave(NWDGameSave sGameSave)
+        //{
+        //    bool rReturn = false;
+        //    if (sGameSave!=null)
+        //    {
+        //        rReturn = IsReacheableByGamesave(sGameSave.Reference);
+        //    }
+        //    return true;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public virtual bool IsReacheableByGamesaveAndAccount(NWDGameSave sGameSave)
+        //{
+        //    bool rReturn = false;
+        //    if (sGameSave!=null)
+        //    {
+        //        rReturn = IsReacheableByGamesaveAndAccount(sGameSave.Reference, sGameSave.Account.GetReference());
+        //    }
+        //    return true;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public virtual bool IsReacheableByGamesave(string sGameSaveReference)
+        //{
+        //    return true;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public virtual bool IsReacheableByAccount(string sAccountReference = null)
+        //{
+        //    return true;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public virtual bool IsReacheableByGamesaveAndAccount(string sGameSaveReference, string sAccountReference = null)
+        //{
+        //    return IsReacheableByGamesave(sGameSaveReference) && IsReacheableByAccount(sAccountReference);
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public virtual bool IsWritableByAccount(string sAccountReference = null)
+        //{
+        //    return true;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public virtual bool VisibleByGameSave(string sGameSaveReference)
+        //{
+        //    return true;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public virtual bool VisibleByAccountByEqual(string sAccountReference)
+        //{
+        //    return true;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public virtual bool VisibleByAccount(string sAccountReference)
+        //{
+        //    return true;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public virtual void TrashAction() { }
         //-------------------------------------------------------------------------------------------------------------
@@ -465,7 +510,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void ChangeReferenceForAnother(string sOldReference, string sNewReference) { }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void ChangeUser(string sOldUser, string sNewUser) { }
+        public virtual void ChangeUser(string sOldUser, string sNewUser) {
+
+            Debug.Log("ChangeUser(string sOldUser, string sNewUser) VIRTUAL DO NOTHING");
+        }
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool IsLockedObject()
         {
@@ -502,6 +550,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void AddonDuplicateMe() { }
         public virtual void AddonDuplicatedMe() { }
+
+
+        //-------------------------------------------------------------------------------------------------------------
+        //public virtual bool IsReacheableByAccount(string sAccount)
+        //{
+        //    bool rReturn = true;
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         //public virtual void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         //{

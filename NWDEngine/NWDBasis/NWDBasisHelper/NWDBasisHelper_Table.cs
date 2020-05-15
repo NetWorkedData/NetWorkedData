@@ -329,7 +329,7 @@ namespace NetWorkedData
             // clean object not mine!
             foreach (NWDTypeClass tObject in Datas)
             {
-                if (tObject.IsReacheableByAccount() == false)
+                if (tObject.IsReacheableBy(null,null) == false)
                 {
                     tObjectsListToDelete.Add(tObject);
                 }
@@ -382,21 +382,21 @@ namespace NetWorkedData
                     {
                         if (m_SearchAccount == "-=-") // empty
                         {
-                            if (tObject.VisibleByAccountByEqual(string.Empty) == false)
+                            if (tObject.IsReacheableBy(null, string.Empty) == false)
                             {
                                 tOccurence = false;
                             }
                         }
                         else if (m_SearchAccount == "-+-") // not empty
                         {
-                            if (tObject.VisibleByAccountByEqual(string.Empty) == true)
+                            if (tObject.IsReacheableBy(null, string.Empty) == true)
                             {
                                 tOccurence = false;
                             }
                         }
                         else
                         {
-                            if (tObject.VisibleByAccount(m_SearchAccount) == false)
+                            if (tObject.IsReacheableBy(null, m_SearchAccount) == false)
                             {
                                 tOccurence = false;
                             }
@@ -424,21 +424,21 @@ namespace NetWorkedData
                 {
                     if (m_SearchGameSave == "-=-")
                     {
-                        if (tObject.VisibleByGameSave(string.Empty) == false)
+                        if (tObject.IsReacheableBy(string.Empty) == false)
                         {
                             tOccurence = false;
                         }
                     }
                     else if (m_SearchGameSave == "-+-")
                     {
-                        if (tObject.VisibleByGameSave(string.Empty) == true)
+                        if (tObject.IsReacheableBy(string.Empty) == true)
                         {
                             tOccurence = false;
                         }
                     }
                     else
                     {
-                        if (tObject.VisibleByGameSave(m_SearchGameSave) == false)
+                        if (tObject.IsReacheableBy(m_SearchGameSave) == false)
                         {
                             tOccurence = false;
                         }

@@ -292,62 +292,62 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void ChangeUser(string sOldUser, string sNewUser)
-        {
-            //Debug.Log("##### ChangeUser" + Reference + " sOldUser " + sOldUser + " sNewUser " + sNewUser);
-            if (IntegrityIsValid() == true)
-            {
-                if (AccountDependent() == true)
-                {
-                    //Debug.Log("##### NEED CHANGE THE ACCOUNT "+Reference + " Old integrity = "+ Integrity);
-                    foreach (PropertyInfo tProp in BasisHelper().kAccountConnectedProperties)
-                    {
-                        Type tTypeOfThis = tProp.PropertyType;
-                        if (tTypeOfThis != null)
-                        {
-                            if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)))
-                            {
-                                NWDReferenceSimple tTestChange = tProp.GetValue(this, null) as NWDReferenceSimple;
-                                if (tTestChange != null)
-                                {
-                                    tTestChange.ChangeReferenceForAnother(sOldUser, sNewUser);
-                                    tProp.SetValue(this, tTestChange, null);
-                                }
-                            }
+        //public override void ChangeUser(string sOldUser, string sNewUser)
+        //{
+        //    //Debug.Log("##### ChangeUser" + Reference + " sOldUser " + sOldUser + " sNewUser " + sNewUser);
+        //    if (IntegrityIsValid() == true)
+        //    {
+        //        if (AccountDependent() == true)
+        //        {
+        //            //Debug.Log("##### NEED CHANGE THE ACCOUNT "+Reference + " Old integrity = "+ Integrity);
+        //            foreach (PropertyInfo tProp in BasisHelper().kAccountConnectedProperties)
+        //            {
+        //                Type tTypeOfThis = tProp.PropertyType;
+        //                if (tTypeOfThis != null)
+        //                {
+        //                    if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)))
+        //                    {
+        //                        NWDReferenceSimple tTestChange = tProp.GetValue(this, null) as NWDReferenceSimple;
+        //                        if (tTestChange != null)
+        //                        {
+        //                            tTestChange.ChangeReferenceForAnother(sOldUser, sNewUser);
+        //                            tProp.SetValue(this, tTestChange, null);
+        //                        }
+        //                    }
 
-                            if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple)))
-                            {
-                                NWDReferenceMultiple tTestChange = tProp.GetValue(this, null) as NWDReferenceMultiple;
-                                if (tTestChange != null)
-                                {
-                                    tTestChange.ChangeReferenceForAnother(sOldUser, sNewUser);
-                                    tProp.SetValue(this, tTestChange, null);
-                                }
-                            }
+        //                    if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple)))
+        //                    {
+        //                        NWDReferenceMultiple tTestChange = tProp.GetValue(this, null) as NWDReferenceMultiple;
+        //                        if (tTestChange != null)
+        //                        {
+        //                            tTestChange.ChangeReferenceForAnother(sOldUser, sNewUser);
+        //                            tProp.SetValue(this, tTestChange, null);
+        //                        }
+        //                    }
 
-                            //NWDReferenceType<NWDAccount> tObject = tProp.GetValue(this, null) as NWDReferenceType<NWDAccount>;
-                            //if (tObject != null)
-                            //{
-                            //    tObject.ChangeReferenceForAnother(sOldUser, sNewUser);
-                            //}
-                        }
-                    }
-                    if (UpdateDataIfModified())
-                    {
-                        Debug.Log("##### ChangeUser success : " + BasisHelper().ClassNamePHP + " Reference = " + Reference);
-                    }
-                    //Debug.Log("##### NEED CHANGE THE ACCOUNT " + Reference + " Newintegrity = " + Integrity);
-                }
-                else
-                {
-                    Debug.Log("##### ChangeUser not account dependant");
-                }
-            }
-            else
-            {
-                Debug.Log("##### ChangeUser integrity false : " +BasisHelper().ClassNamePHP + " Reference = "+ Reference);
-            }
-        }
+        //                    //NWDReferenceType<NWDAccount> tObject = tProp.GetValue(this, null) as NWDReferenceType<NWDAccount>;
+        //                    //if (tObject != null)
+        //                    //{
+        //                    //    tObject.ChangeReferenceForAnother(sOldUser, sNewUser);
+        //                    //}
+        //                }
+        //            }
+        //            if (UpdateDataIfModified())
+        //            {
+        //                Debug.Log("##### ChangeUser success : " + BasisHelper().ClassNamePHP + " Reference = " + Reference);
+        //            }
+        //            //Debug.Log("##### NEED CHANGE THE ACCOUNT " + Reference + " Newintegrity = " + Integrity);
+        //        }
+        //        else
+        //        {
+        //            Debug.Log("##### ChangeUser not account dependant");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("##### ChangeUser integrity false : " +BasisHelper().ClassNamePHP + " Reference = "+ Reference);
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

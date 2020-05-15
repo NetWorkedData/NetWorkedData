@@ -17,51 +17,51 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDBasisType : int
-    {
-        /// <summary>
-        /// not synchronizable instance 
-        /// </summary>
-        UnsyncClass = -1,
-        /// <summary>
-        /// synchronizable instance by editor
-        /// </summary>
-        EditorClass = 0,
-        /// <summary>
-        /// synchronizable instance by account
-        /// </summary>
-        AccountClass = 1,
-        /// <summary>
-        /// synchronizable instance by accounts with gamesave 
-        /// </summary>
-        AccountGameSaveClass = 2,
-        /// <summary>
-        /// unsynchronizable instance with account limit in device
-        /// </summary>
-        AccountUnsyncClass = 3,
-        /// <summary>
-        /// unsynchronizable instance with account limit in device but sync in editor
-        /// </summary>
-        AccountRestrictedClass = 4,
-        /// <summary>
-        /// synchronizable instance by multi account
-        /// </summary>
-        MultiAccountClass = 6, // TODO Cluster development
-        /// <summary>
-        /// synchronizable instance by multi accounts with gamesave 
-        /// </summary>
-        MultiAccountGameSaveClass = 7, // TODO Cluster development
-        /// <summary>
-        /// Not defined : It's impossible!
-        /// </summary>
-        NotDefine = 99,
-    }
+    ////+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //public enum NWDBasisType : int
+    //{
+    //    /// <summary>
+    //    /// not synchronizable instance 
+    //    /// </summary>
+    //    UnsyncClass = -1,
+    //    /// <summary>
+    //    /// synchronizable instance by editor
+    //    /// </summary>
+    //    EditorClass = 0,
+    //    /// <summary>
+    //    /// synchronizable instance by account
+    //    /// </summary>
+    //    AccountClass = 1,
+    //    /// <summary>
+    //    /// synchronizable instance by accounts with gamesave 
+    //    /// </summary>
+    //    AccountGameSaveClass = 2,
+    //    /// <summary>
+    //    /// unsynchronizable instance with account limit in device
+    //    /// </summary>
+    //    AccountUnsyncClass = 3,
+    //    /// <summary>
+    //    /// unsynchronizable instance with account limit in device but sync in editor
+    //    /// </summary>
+    //    AccountRestrictedClass = 4,
+    //    /// <summary>
+    //    /// synchronizable instance by multi account
+    //    /// </summary>
+    //    MultiAccountClass = 6, // TODO Cluster development
+    //    /// <summary>
+    //    /// synchronizable instance by multi accounts with gamesave 
+    //    /// </summary>
+    //    MultiAccountGameSaveClass = 7, // TODO Cluster development
+    //    /// <summary>
+    //    /// Not defined : It's impossible!
+    //    /// </summary>
+    //    NotDefine = 99,
+    //}
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDBasisType BasisType;
+        //public NWDBasisType BasisType;
         //-------------------------------------------------------------------------------------------------------------
         public PropertyInfo[] PropertiesArray;
         public PropertyInfo[] NWDDataPropertiesArray;
@@ -187,11 +187,11 @@ namespace NetWorkedData
         public bool ClassLoaded = false;
         //-------------------------------------------------------------------------------------------------------------
         public Type ClassType = null;
-        public Type ConnexionType = null;
+        //public Type ConnexionType = null;
         public string ClassName = string.Empty;
         public string ClassNamePHP = string.Empty;
         public string TablePrefix = string.Empty;
-        public bool ClassSynchronize;
+        //public bool ClassSynchronize;
         public string ClassTrigramme = string.Empty;
         public string ClassDescription = string.Empty;
         public string ClassMenuName = string.Empty;
@@ -253,41 +253,41 @@ namespace NetWorkedData
             bool rAccountConnected = false;
 
             // define type class and synchronizable option
-            BasisType =  NWDBasisType.EditorClass;
+            //BasisType =  NWDBasisType.EditorClass;
             if (sType.IsSubclassOf(typeof(NWDBasisUnsynchronize)))
             {
-                BasisType = NWDBasisType.UnsyncClass;
+                //BasisType = NWDBasisType.UnsyncClass;
                 rAccountConnected = true; // to reccord in AccountDatabase
-                ClassSynchronize = false;
+                //ClassSynchronize = false;
             }
             else if (sType.IsSubclassOf(typeof(NWDBasisAccountDependent)))
             {
-                BasisType = NWDBasisType.AccountClass;
+                //BasisType = NWDBasisType.AccountClass;
                 rAccountConnected = true;  // to reccord in AccountDatabase
-                ClassSynchronize = true;
+                //ClassSynchronize = true;
             }
             else if (sType.IsSubclassOf(typeof(NWDBasisGameSaveDependent)))
             {
-                BasisType = NWDBasisType.AccountGameSaveClass;
+                //BasisType = NWDBasisType.AccountGameSaveClass;
                 rAccountConnected = true;  // to reccord in AccountDatabase
-                ClassSynchronize = true;
+                //ClassSynchronize = true;
             }
             else if (sType.IsSubclassOf(typeof(NWDBasisAccountUnsynchronize)))
             {
-                BasisType = NWDBasisType.AccountUnsyncClass;
+                //BasisType = NWDBasisType.AccountUnsyncClass;
                 rAccountConnected = true;  // to reccord in AccountDatabase
-                ClassSynchronize = true;
+                //ClassSynchronize = true;
             }
             else if (sType.IsSubclassOf(typeof(NWDBasisAccountRestricted)))
             {
-                BasisType = NWDBasisType.AccountRestrictedClass;
+                //BasisType = NWDBasisType.AccountRestrictedClass;
                 rAccountConnected = true;  // to reccord in AccountDatabase
-                ClassSynchronize = false;
+                //ClassSynchronize = false;
             }
             else 
             {
-                BasisType = NWDBasisType.EditorClass;
-                ClassSynchronize = true;
+                //BasisType = NWDBasisType.EditorClass;
+                //ClassSynchronize = true;
             }
 
 
@@ -307,6 +307,7 @@ namespace NetWorkedData
                     tClassTrigramme = "EEE";
                 }
             }
+#if UNITY_EDITOR
             string tDescription = "No description!";
             if (sType.GetCustomAttributes(typeof(NWDClassDescriptionAttribute), true).Length > 0)
             {
@@ -327,6 +328,9 @@ namespace NetWorkedData
                     tMenuName = sType.Name + " menu";
                 }
             }
+            ClassMenuName = tMenuName;
+            ClassDescription = tDescription;
+#endif
 
             //NWEBenchmark.Step();
             // insert basic infos
@@ -338,9 +342,7 @@ namespace NetWorkedData
             ClassNamePHP = rClassName;
             ClassPrefBaseKey = ClassNamePHP + "_";
             ClassTrigramme = tClassTrigramme;
-            ClassMenuName = tMenuName;
-            ClassDescription = tDescription;
-            //NWEBenchmark.Step();
+            NWEBenchmark.Step();
             // TODO:  ... too long! that take 0.006s ... it's too much!
             foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
             {
@@ -392,7 +394,7 @@ namespace NetWorkedData
             //{
             //    rAccountConnected = true;
             //}
-            // NWEBenchmark.Step();
+            NWEBenchmark.Step();
             PropertiesArray = sType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             List<PropertyInfo> tDataPropertiesArray = new List<PropertyInfo>();
             foreach (PropertyInfo tProp in sType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
@@ -491,7 +493,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            //NWEBenchmark.Step();
+            NWEBenchmark.Step();
             NWDDataPropertiesArray = tDataPropertiesArray.ToArray();
             kAccountDependent = rAccountConnected;
             // reccord class' object is account dependent properties
@@ -529,7 +531,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void InstallHelper()
         {
-            //NWEBenchmark.Start();
+            NWEBenchmark.Start();
             if (StringsDictionary.ContainsKey(ClassNamePHP))
             {
                 Debug.LogWarning(ClassNamePHP + " already in StringsDictionary!");
@@ -564,7 +566,7 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(ClassType);
                 }
             }
-            if (ClassSynchronize == true)
+            if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
             {
                 if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(ClassType) == false)
                 {
@@ -598,7 +600,7 @@ namespace NetWorkedData
             {
                 NWDDataManager.SharedInstance().mTypeLoadedList.Add(ClassType);
             }
-            //NWEBenchmark.Finish(true, "mixte mode " + ClassNamePHP);
+            NWEBenchmark.Finish(true, "mixte mode " + ClassNamePHP);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDBasisHelper Declare(Type sType, Type sTypeHelper)
@@ -697,7 +699,7 @@ namespace NetWorkedData
         {
             return "ClassName = '" + ClassName + "' " +
             "TrigrammeName = '" + ClassTrigramme + "' " +
-            "ServerSynchronize = '" + ClassSynchronize + "' " +
+            //"ServerSynchronize = '" + ClassSynchronize + "' " +
             "ClassDescription = '" + ClassDescription + "' " +
             "MenuName = '" + ClassMenuName + "' " +
             string.Empty;
@@ -936,7 +938,8 @@ namespace NetWorkedData
             DatasByInternalKey.Clear();
             DatasByReverseInternalKey.Clear();
 #if UNITY_EDITOR
-
+            SetObjectInEdition(null);
+            NWDDataInspector.InspectNetWorkedData(null, true, false);
             EditorTableDatas.Clear();
             EditorTableDatasSelected.Clear();
             EditorDatasMenu.Clear();

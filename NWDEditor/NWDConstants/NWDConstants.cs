@@ -169,6 +169,7 @@ namespace NetWorkedData
         public const string K_MENU_DEBUG_FOLDER = K_MENU_BASE + "/Show debug Folder File";
         public const string K_MENU_UNITTEST_CLEAN = K_MENU_BASE + "/Clean UnitTests Datas";
         public const string K_MENU_REINDEX_ALL_DATAS = K_MENU_BASE + "/Reindex all Datas";
+        public const string K_MENU_FLUSH_ACCOUNT_ALL_DATAS = K_MENU_BASE + "/FLUSH ALL ACCOUNT DATAS AND RESET CLUSTER";
 
         public const string K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE = "Version bundle";
         public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_REFERENCE = "Account Ref";

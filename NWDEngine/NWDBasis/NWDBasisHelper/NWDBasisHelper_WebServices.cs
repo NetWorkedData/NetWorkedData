@@ -277,7 +277,7 @@ namespace NetWorkedData
                         if (Application.isPlaying == true)
                         {
                             // TODO WARNING  ?
-                            if (tItem.IsReacheableByAccount())
+                            if (tItem.IsWritableBy(null, NWDAccount.CurrentReference()))
                             {
                                 sInfos.RowPushCounter++;
                                 tDatas.Add(tItem.CSVAssembly());
@@ -293,7 +293,10 @@ namespace NetWorkedData
                         // not in editor : playing mode only
                         if (kAccountDependent == true)
                         {
-                            tDatas.Add(tItem.CSVAssembly());
+                            if (tItem.IsWritableBy(null, NWDAccount.CurrentReference()))
+                            {
+                                tDatas.Add(tItem.CSVAssembly());
+                            }
                         }
 #endif 
                     }

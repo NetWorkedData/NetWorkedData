@@ -201,17 +201,17 @@ namespace NetWorkedData
             NWDError.CreateGenericError(NWDError.NWDError_XXx09, "Error in  model XXX", "error in sql Flush in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(NWDError.NWDError_XXx11, "Error in  model XXX", "error in sql add columns in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(NWDError.NWDError_XXx12, "Error in  model XXX", "error in sql alter columns in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(NWDError.NWDError_XXx31, "Error in  model XXX", "error in request insert new datas before update in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(NWDError.NWDError_XXx32, "Error in  model XXX", "error in request select datas to update in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(NWDError.NWDError_XXx33, "Error in  model XXX", "error in request select updatable datas in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(NWDError.NWDError_XXx38, "Error in  model XXX", "error in request update datas in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(NWDError.NWDError_XXx31, "Error in  model XXX", "error in request insert new datas before update in XXX (upgrade table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(NWDError.NWDError_XXx32, "Error in  model XXX", "error in request select datas to update in XXX (upgrade table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(NWDError.NWDError_XXx33, "Error in  model XXX", "error in request select updatable datas in XXX (upgrade table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(NWDError.NWDError_XXx38, "Error in  model XXX", "error in request update datas in XXX (upgrade table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(NWDError.NWDError_XXx39, "Error in  model XXX", "error more than one row for this reference in  XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(NWDError.NWDError_XXx40, "Error in  model XXX", "error in flush trashed in  XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(NWDError.NWDError_XXx91, "Error in  model XXX", "error update integrity in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(NWDError.NWDError_XXx91, "Error in  model XXX", "error update integrity in XXX (upgrade table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(NWDError.NWDError_XXx98, "Error in  model XXX", "error columns header sign in XXX (update webservice?)", "OK", NWDErrorType.UnityEditor, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(NWDError.NWDError_XXx99, "Error in  model XXX", "error columns number in XXX (update table?)", "OK", NWDErrorType.UnityEditor, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(NWDError.NWDError_XXx99, "Error in  model XXX", "error columns number in XXX (upgrade table?)", "OK", NWDErrorType.UnityEditor, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(NWDError.NWDError_XXx88, "Error in  model XXX", "integrity of one datas is false, break in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(NWDError.NWDError_XXx77, "Error in  model XXX", "error update log in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(NWDError.NWDError_XXx77, "Error in  model XXX", "error update log in XXX (upgrade table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

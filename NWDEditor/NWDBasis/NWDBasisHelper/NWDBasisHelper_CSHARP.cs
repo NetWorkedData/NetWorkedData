@@ -163,7 +163,7 @@ namespace NetWorkedData
                     //rReturn.AppendLine("Debug.Log(\"PLAYING MODE InitHelper()\");");
                     //rReturn.AppendLine("NWEBenchmark.Start();");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassType) + " = typeof(" + ClassNamePHP + ");");
-                    rReturn.AppendLine(NWDToolbox.PropertyName(() => BasisType) + " = "+typeof(NWDBasisType).Name+ "."+ BasisType.ToString()+ ";");
+                    //rReturn.AppendLine(NWDToolbox.PropertyName(() => BasisType) + " = "+typeof(NWDBasisType).Name+ "."+ BasisType.ToString()+ ";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassTableName) + " = \"" + ClassTableName + "\";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassName) + " = \"" + ClassName + "\";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassNamePHP) + " = \"" + ClassNamePHP + "\";");
@@ -172,7 +172,7 @@ namespace NetWorkedData
                     //rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassMenuName) + " = \"" + ClassMenuName + "\";");
                     //rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassDescription) + " = \"" + ClassDescription + "\";");
 
-                    rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassSynchronize) + " = " + ClassSynchronize.ToString().ToLower() + ";");
+                    //rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassSynchronize) + " = " + ClassSynchronize.ToString().ToLower() + ";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassGameSaveDependent) + " = " + ClassGameSaveDependent.ToString().ToLower() + ";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => kAccountDependent) + " = " + kAccountDependent.ToString().ToLower() + ";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => kLockedObject) + " = " + kLockedObject.ToString().ToLower() + ";");

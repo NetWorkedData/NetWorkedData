@@ -24,6 +24,15 @@ namespace NetWorkedData
     public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
+        public override bool IsReacheableBy(string sGameSaveReference, string sAccountReference = null)
+        {
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override bool IsWritableBy(string sGameSaveReference, string sAccountReference = null)
+        {
+            return false;
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -741,9 +741,9 @@ namespace NetWorkedData
                     m_SearchInternalDescription, NWDGUI.KTableSearchTextfield);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
-                EditorGUI.BeginDisabledGroup(true);
-                EditorGUI.EnumPopup(tRect, NWDConstants.K_APP_TABLE_SEARCHACCOUNTDEPENDENT, BasisType);
-                EditorGUI.EndDisabledGroup();
+                //EditorGUI.BeginDisabledGroup(true);
+                //EditorGUI.EnumPopup(tRect, NWDConstants.K_APP_TABLE_SEARCHACCOUNTDEPENDENT, BasisType);
+                //EditorGUI.EndDisabledGroup();
 
                 // Change column
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
@@ -1398,7 +1398,8 @@ namespace NetWorkedData
                 GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tDevContent, NWDGUI.KTableSearchTitle);
 
-                if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
+                //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
+                if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
                 {
                     if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
                     {
@@ -1477,7 +1478,8 @@ namespace NetWorkedData
                 GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tPreprodContent, NWDGUI.KTableSearchTitle);
 
-                if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
+                //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
+                if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
                 {
                     if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
                     {
@@ -1554,7 +1556,8 @@ namespace NetWorkedData
 
                 GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tProdContent, NWDGUI.KTableSearchTitle);
-                if (BasisType == NWDBasisType.EditorClass)
+                //if (BasisType == NWDBasisType.EditorClass)
+                if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                 {
                     if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
                     {
@@ -1758,8 +1761,9 @@ namespace NetWorkedData
                 GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tDevContent, NWDGUI.KTableSearchTitle);
 
-                if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
-                {
+                //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
+                    if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+                    {
                     if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
                     {
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
@@ -1834,8 +1838,9 @@ namespace NetWorkedData
                 tRect.y = tRectTableRight.y;
                 GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tPreprodContent, NWDGUI.KTableSearchTitle);
-                if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
-                {
+                //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
+                    if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+                    {
                     if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
                     {
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
@@ -1912,9 +1917,11 @@ namespace NetWorkedData
                 tRect.y = tRectTableRight.y;
                 GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tProdContent, NWDGUI.KTableSearchTitle);
-                if (BasisType == NWDBasisType.EditorClass)
-                {
-                    if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
+                //if (BasisType == NWDBasisType.EditorClass)
+                if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+
+                    {
+                        if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
                     {
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         NWDGUI.BeginRedArea();
