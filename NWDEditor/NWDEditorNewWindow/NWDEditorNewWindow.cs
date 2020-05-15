@@ -212,7 +212,7 @@ namespace NetWorkedData
             // create properties type
             List<string> tListOfType = new List<string>();
             tListOfType.Add(" ");
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
             {
                 tListOfType.Add(tType.Name);
             }

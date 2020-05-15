@@ -33,71 +33,75 @@ using UnityEditorInternal;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[SerializeField]
-	public class NWDSynchronizedClassesListType: NWEDataType
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDSynchronizedClassesListType ()
-		{
-			Value = string.Empty;
+    [SerializeField]
+    public class NWDSynchronizedClassesListType : NWEDataType
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDSynchronizedClassesListType()
+        {
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
             Value = string.Empty;
         }
-		//-------------------------------------------------------------------------------------------------------------
-		public bool ContainsClasse (string sClasse)
-		{
-			if (sClasse == null) {
-				return false;
-			}
-			return Value.Contains (sClasse);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void SetClasses (string[] sClasses)
-		{
-			List<string> tList = new List<string> ();
-			foreach (string tClasse in sClasses) {
-				tList.Add (tClasse);
-			}
-			string[] tNextValueArray = tList.Distinct ().ToArray ();
-			Value = string.Join (NWDConstants.kFieldSeparatorA, tNextValueArray);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void AddClasses (string[] sClasses)
-		{
-			List<string> tList = new List<string> ();
-			if (Value != null && Value != string.Empty) 
-			{
-				string[] tValueArray = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-				tList = new List<string> (tValueArray);
-			}
-			foreach (string tClasse in sClasses) {
-				tList.Add (tClasse);
-			}
-			string[] tNextValueArray = tList.Distinct ().ToArray ();
-			Value = string.Join (NWDConstants.kFieldSeparatorA, tNextValueArray);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void RemoveClasses (string[] sClasses)
-		{
-			List<string> tList = new List<string> ();
-			if (Value != null && Value != string.Empty) 
-			{
-				string[] tValueArray = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-				tList = new List<string> (tValueArray);
-			}
-			foreach (string tClasse in sClasses) {
-				tList.Remove (tClasse);
-			}
-			string[] tNextValueArray = tList.Distinct ().ToArray ();
-			Value = string.Join (NWDConstants.kFieldSeparatorA, tNextValueArray);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public string[] GetClasses ()
-		{
-			return Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+        //-------------------------------------------------------------------------------------------------------------
+        public bool ContainsClasse(string sClasse)
+        {
+            if (sClasse == null)
+            {
+                return false;
+            }
+            return Value.Contains(sClasse);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetClasses(string[] sClasses)
+        {
+            List<string> tList = new List<string>();
+            foreach (string tClasse in sClasses)
+            {
+                tList.Add(tClasse);
+            }
+            string[] tNextValueArray = tList.Distinct().ToArray();
+            Value = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void AddClasses(string[] sClasses)
+        {
+            List<string> tList = new List<string>();
+            if (Value != null && Value != string.Empty)
+            {
+                string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+                tList = new List<string>(tValueArray);
+            }
+            foreach (string tClasse in sClasses)
+            {
+                tList.Add(tClasse);
+            }
+            string[] tNextValueArray = tList.Distinct().ToArray();
+            Value = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void RemoveClasses(string[] sClasses)
+        {
+            List<string> tList = new List<string>();
+            if (Value != null && Value != string.Empty)
+            {
+                string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+                tList = new List<string>(tValueArray);
+            }
+            foreach (string tClasse in sClasses)
+            {
+                tList.Remove(tClasse);
+            }
+            string[] tNextValueArray = tList.Distinct().ToArray();
+            Value = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string[] GetClasses()
+        {
+            return Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
         }
         //-------------------------------------------------------------------------------------------------------------
         public List<Type> GetClassesTypeList()
@@ -131,7 +135,7 @@ namespace NetWorkedData
             {
                 kClassesPossibilities = new List<string>();
                 kClassesInvert = new Dictionary<string, Type>();
-                foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
+                foreach (Type tType in NWDDataManager.SharedInstance().ClassSynchronizeList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                     if (tHelper != null)
@@ -372,8 +376,8 @@ namespace NetWorkedData
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		#endif
-		//-------------------------------------------------------------------------------------------------------------
+#endif
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

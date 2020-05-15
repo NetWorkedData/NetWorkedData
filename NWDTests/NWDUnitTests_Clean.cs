@@ -30,7 +30,7 @@ namespace NetWorkedData
         public static void CleanUnitTests(bool sLocalDataOnly = true)
         {
             List<NWDTypeClass> tToDelete = new List<NWDTypeClass>();
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeLoadedList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 foreach (NWDTypeClass tObject in tHelper.Datas)

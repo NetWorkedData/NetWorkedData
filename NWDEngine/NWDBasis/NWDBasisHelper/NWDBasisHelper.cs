@@ -543,9 +543,9 @@ namespace NetWorkedData
             {
                 StringsDictionary.Add(ClassNamePHP, this);
             }
-            if (NWDDataManager.SharedInstance().mTypeList.Contains(ClassType) == false)
+            if (NWDDataManager.SharedInstance().ClassTypeList.Contains(ClassType) == false)
             {
-                NWDDataManager.SharedInstance().mTypeList.Add(ClassType);
+                NWDDataManager.SharedInstance().ClassTypeList.Add(ClassType);
             }
 
             if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount)
@@ -559,61 +559,61 @@ namespace NetWorkedData
 
             if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
             {
-                if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(ClassType) == false)
+                if (NWDDataManager.SharedInstance().ClassAccountDependentList.Contains(ClassType) == false)
                 {
-                    NWDDataManager.SharedInstance().mTypeAccountDependantList.Add(ClassType);
+                    NWDDataManager.SharedInstance().ClassAccountDependentList.Add(ClassType);
                 }
-                if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(ClassType) == true)
+                if (NWDDataManager.SharedInstance().ClassNotAccountDependentList.Contains(ClassType) == true)
                 {
-                    NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(ClassType);
+                    NWDDataManager.SharedInstance().ClassNotAccountDependentList.Remove(ClassType);
                 }
             }
             else
             {
-                if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(ClassType) == false)
+                if (NWDDataManager.SharedInstance().ClassNotAccountDependentList.Contains(ClassType) == false)
                 {
-                    NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Add(ClassType);
+                    NWDDataManager.SharedInstance().ClassNotAccountDependentList.Add(ClassType);
                 }
-                if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(ClassType) == true)
+                if (NWDDataManager.SharedInstance().ClassAccountDependentList.Contains(ClassType) == true)
                 {
-                    NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(ClassType);
+                    NWDDataManager.SharedInstance().ClassAccountDependentList.Remove(ClassType);
                 }
             }
 
 
             if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
             {
-                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(ClassType) == false)
+                if (NWDDataManager.SharedInstance().ClassSynchronizeList.Contains(ClassType) == false)
                 {
-                    NWDDataManager.SharedInstance().mTypeSynchronizedList.Add(ClassType);
+                    NWDDataManager.SharedInstance().ClassSynchronizeList.Add(ClassType);
                 }
-                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType) == true)
+                if (NWDDataManager.SharedInstance().ClassUnSynchronizeList.Contains(ClassType) == true)
                 {
-                    NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Remove(ClassType);
+                    NWDDataManager.SharedInstance().ClassUnSynchronizeList.Remove(ClassType);
                 }
             }
             else
             {
-                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(ClassType) == true)
+                if (NWDDataManager.SharedInstance().ClassSynchronizeList.Contains(ClassType) == true)
                 {
-                    NWDDataManager.SharedInstance().mTypeSynchronizedList.Remove(ClassType);
+                    NWDDataManager.SharedInstance().ClassSynchronizeList.Remove(ClassType);
                 }
-                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType) == false)
+                if (NWDDataManager.SharedInstance().ClassUnSynchronizeList.Contains(ClassType) == false)
                 {
-                    NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Add(ClassType);
+                    NWDDataManager.SharedInstance().ClassUnSynchronizeList.Add(ClassType);
                 }
             }
-            if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey(ClassTrigramme))
+            if (NWDDataManager.SharedInstance().ClassTrigramDictionary.ContainsKey(ClassTrigramme))
             {
-                Debug.LogWarning("ERROR in " + ClassType.AssemblyQualifiedName + ", this trigramme '" + ClassTrigramme + "' is already use by another class! (" + NWDDataManager.SharedInstance().mTrigramTypeDictionary[ClassTrigramme] + ")");
+                Debug.LogWarning("ERROR in " + ClassType.AssemblyQualifiedName + ", this trigramme '" + ClassTrigramme + "' is already use by another class! (" + NWDDataManager.SharedInstance().ClassTrigramDictionary[ClassTrigramme] + ")");
             }
             else
             {
-                NWDDataManager.SharedInstance().mTrigramTypeDictionary.Add(ClassTrigramme, ClassType);
+                NWDDataManager.SharedInstance().ClassTrigramDictionary.Add(ClassTrigramme, ClassType);
             }
-            if (NWDDataManager.SharedInstance().mTypeLoadedList.Contains(ClassType) == false)
+            if (NWDDataManager.SharedInstance().ClassTypeLoadedList.Contains(ClassType) == false)
             {
-                NWDDataManager.SharedInstance().mTypeLoadedList.Add(ClassType);
+                NWDDataManager.SharedInstance().ClassTypeLoadedList.Add(ClassType);
             }
             NWEBenchmark.Finish(true, "mixte mode " + ClassNamePHP);
         }

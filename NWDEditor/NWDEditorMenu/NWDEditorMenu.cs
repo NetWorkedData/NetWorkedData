@@ -292,7 +292,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_DEV_SFTP_WEBSERVICE, false, 9100)]
         public static void DevCreatePHPWitoutIncrement_SFTP()
         {
-            NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, false);
+            NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(NWDDataManager.SharedInstance().ClassTypeList, true, false);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_DEV_CREATE_TABLES, false, 9101)]
@@ -334,7 +334,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_PREPROD_SFTP_WEBSERVICE, false, 9100)]
         public static void PreprodCreatePHPWitoutIncrement_SFTP()
         {
-            NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, false);
+            NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(NWDDataManager.SharedInstance().ClassTypeList, true, false);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_PREPROD_CREATE_TABLES, false, 9104)]
@@ -378,7 +378,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_PROD_SFTP_WEBSERVICE, false, 9100)]
         public static void ProdCreatePHPWitoutIncrement_SFTP()
         {
-            NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, false);
+            NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(NWDDataManager.SharedInstance().ClassTypeList, true, false);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_PROD_CREATE_TABLES, false, 9107)]
@@ -437,7 +437,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_LOCAL_CREATE_TABLES, false, 9201)]
         public static void CreateTables()
         {
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
             {
                 NWDBasisHelper tBasisHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tBasisHelper.DropTable();
@@ -452,7 +452,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_LOCAL_RECREATE_INDEX_TABLE, false, 9201)]
         public static void RecreateAllIndexForAllTables()
         {
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
             {
                 NWDBasisHelper tBasisHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tBasisHelper.RecreateAllIndexForTable();
@@ -536,7 +536,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_LOCAL_INTEGRITY_TO_TRASHED, false, 9355)]
         public static void InterigrityErrorToTrahs()
         {
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
             {
                 NWDBasisHelper tBasisHelper = NWDBasisHelper.FindTypeInfos(tType);
 
@@ -564,7 +564,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_LOCAL_REINTEGRITATE_ALL_DATAS, false, 9355)]
         public static void ReinterigrityAllDatas()
         {
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
             {
                 NWDBasisHelper tBasisHelper = NWDBasisHelper.FindTypeInfos(tType);
 
@@ -668,7 +668,7 @@ namespace NetWorkedData
         {
             Dictionary<string, string> tListClassesTrigramme = new Dictionary<string, string>(new StringIndexKeyComparer());
             StringBuilder tText = new StringBuilder();
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
             {
                 NWDBasisHelper tData = NWDBasisHelper.FindTypeInfos(tType);
                 tListClassesTrigramme.Add(tData.ClassNamePHP, tData.ClassTrigramme);
@@ -695,7 +695,7 @@ namespace NetWorkedData
         public static void ReindexAllDatas()
         {
             NWEBenchmark.Start();
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.IndexInBaseAllObjects();
@@ -714,7 +714,7 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().DevEnvironment.ResetPreferences();
                 List<string> tTableList = new List<string>();
                 // reset database on local...and add for cluster
-                foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+                foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                     if (tHelper.TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)

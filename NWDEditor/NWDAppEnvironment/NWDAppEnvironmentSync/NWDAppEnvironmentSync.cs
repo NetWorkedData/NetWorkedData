@@ -845,7 +845,7 @@ namespace NetWorkedData
         {
             Debug.Log("OperationSynchroAllClasses () with Operation " + sOperation.ToString());
             //NWEBenchmark.Start(sOperation.ToString());
-            OperationSynchro(sEnvironment, NWDDataManager.SharedInstance().mTypeSynchronizedList, sForceSync, sPriority, sOperation);
+            OperationSynchro(sEnvironment, NWDDataManager.SharedInstance().ClassSynchronizeList, sForceSync, sPriority, sOperation);
             //NWEBenchmark.Finish(sOperation.ToString());       
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -19,7 +19,7 @@ namespace NetWorkedData
         public bool TestSaltMemorizationForAllClass()
         {
             bool rReturn = true;
-            foreach (Type tType in mTypeList)
+            foreach (Type tType in ClassTypeList)
             {
                 if (NWDBasisHelper.FindTypeInfos(tType).SaltValid == false)
                 {

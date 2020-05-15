@@ -1,12 +1,6 @@
 //=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:20:14
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -151,8 +145,8 @@ namespace NetWorkedData
             rReturn.AppendLine("{");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.WebFolder) + " = \"" + WebFolder + "\";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PurgeOldAccountDatabase) + " = " + PurgeOldAccountDatabase.ToString().ToLower() + ";");
-            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.LauncherClassAccountStep) + " = " + NWDDataManager.SharedInstance().mTypeAccountDependantList.Count() + ";");
-            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.LauncherClassEditorStep) + " = " + NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Count() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.LauncherClassAccountStep) + " = " + NWDDataManager.SharedInstance().ClassAccountDependentList.Count() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.LauncherClassEditorStep) + " = " + NWDDataManager.SharedInstance().ClassNotAccountDependentList.Count() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.WebFolder) + " = \"" + WebFolder + "\";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TablePrefixe) + " = \"" + TablePrefixe + "\";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.WebBuild) + " = " + WebBuild + ";");

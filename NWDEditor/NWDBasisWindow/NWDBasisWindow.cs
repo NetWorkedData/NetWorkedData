@@ -172,7 +172,7 @@ namespace NetWorkedData
                     List<Type> tTabTypeList = new List<Type>();
 
                     List<NWDBasisHelper> tHelperList = new List<NWDBasisHelper>();
-                    foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+                    foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
                     {
                         tHelperList.Add(NWDBasisHelper.FindTypeInfos(tType));
                     }
@@ -191,7 +191,7 @@ namespace NetWorkedData
                         mTabTypeList.Add(tType);
                     }
                 }
-                foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+                foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeLoadedList)
                 {
                     foreach (NWDWindowOwnerAttribute tOnwer in tType.GetCustomAttributes(typeof(NWDWindowOwnerAttribute), true))
                     {

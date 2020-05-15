@@ -1089,7 +1089,7 @@ namespace NetWorkedData
             //bool tCleanLocalTableWithAccount = false; //prevent GUIlayout error
             bool tDisableProd = false;
 
-            if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType))
+            if (NWDDataManager.SharedInstance().ClassUnSynchronizeList.Contains(ClassType))
             {
                 tDisableProd = true;
             }

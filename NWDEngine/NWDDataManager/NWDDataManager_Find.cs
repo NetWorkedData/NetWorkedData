@@ -32,7 +32,7 @@ namespace NetWorkedData
         public void EditorRefresh()
         {
 #if UNITY_EDITOR
-            foreach (Type tType in mTypeList)
+            foreach (Type tType in ClassTypeList)
             {
                 RepaintWindowsInManager(tType);
             }
@@ -42,7 +42,7 @@ namespace NetWorkedData
         public void RestaureObjectInEdition()
         {
 #if UNITY_EDITOR
-            foreach (Type tType in mTypeList)
+            foreach (Type tType in ClassTypeList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.RestaureObjectInEdition();
@@ -143,7 +143,7 @@ namespace NetWorkedData
             {
                 yield return null;
             }
-            ClassInDeviceDatabaseNumberExpected = mTypeAccountDependantList.Count();
+            ClassInDeviceDatabaseNumberExpected = ClassAccountDependentList.Count();
             ClassInDeviceDatabaseNumberLoaded = 0;
             while (ClassInDeviceDatabaseNumberLoaded < ClassInDeviceDatabaseNumberExpected)
             {
@@ -170,9 +170,9 @@ namespace NetWorkedData
         public bool ReloadAllObjectsByClassAccount(int sCounter, NWDBundle sBundle)
         {
             bool rReturn = false;
-            if (sCounter >= 0 && sCounter < mTypeAccountDependantList.Count)
+            if (sCounter >= 0 && sCounter < ClassAccountDependentList.Count)
             {
-                Type tType = mTypeAccountDependantList[sCounter];
+                Type tType = ClassAccountDependentList[sCounter];
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.LoadFromDatabaseByBundle(sBundle, true);
                 //tHelper.LoadFromDatabase();
@@ -250,13 +250,13 @@ namespace NetWorkedData
         public NWDBasisHelper IndexInMemoryAllObjectsByClass(int sCounter)
         {
             NWDBasisHelper tHelper = null;
-            if (sCounter >= 0 && sCounter < mTypeList.Count)
+            if (sCounter >= 0 && sCounter < ClassTypeList.Count)
             {
                 if (NWDLauncher.ActiveBenchmark)
                 {
                     NWEBenchmark.Start();
                 }
-                Type tType = mTypeList[sCounter];
+                Type tType = ClassTypeList[sCounter];
                 tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 int tRow = tHelper.IndexInMemoryAllObjects();
                 if (NWDLauncher.ActiveBenchmark)
@@ -280,7 +280,7 @@ namespace NetWorkedData
             RowsCounterOp = 0;
             MethodCounterOp = 0;
             DatasIndexed = false;
-            foreach (Type tType in mTypeList)
+            foreach (Type tType in ClassTypeList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 MethodCounterOp += tHelper.IndexInMemoryMethodList.Count;

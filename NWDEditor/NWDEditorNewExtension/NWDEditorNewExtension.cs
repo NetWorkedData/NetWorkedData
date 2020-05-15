@@ -159,7 +159,7 @@ namespace NetWorkedData
                 }
             }
             tListOfclass = new List<string>();
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
             {
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
                 if (tDatas != null)

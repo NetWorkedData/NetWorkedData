@@ -177,7 +177,7 @@ namespace NetWorkedData
             tErrorHelper.GenerateBasisError();
             // regenerate
             //NWDDataManager.SharedInstance().CreateErrorsAndMessagesEngine();
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.ErrorRegenerate();
@@ -343,7 +343,7 @@ namespace NetWorkedData
             tManagementFile.AppendLine("{");
             tManagementFile.AppendLine("global $PATH_BASE;");
             // I need include ALL tables management files to manage ALL tables
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
             {
                 string tClassName = NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP;
                 tManagementFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + tClassName + "/" + NWD.K_MANAGEMENT_FILE + "');");
@@ -393,7 +393,7 @@ namespace NetWorkedData
             tWebServices.AppendLine("if(TestBanAccount($uuid) == false)");
             tWebServices.AppendLine("{");
             // I need include ALL tables management files to manage ALL tables
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassSynchronizeList)
             {
                 tWebServices.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
                 tWebServices.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
@@ -405,7 +405,7 @@ namespace NetWorkedData
             {
 
                 tWebServices.AppendLine("if ($admin == true)\n{");
-                foreach (Type tType in NWDDataManager.SharedInstance().mTypeUnSynchronizedList)
+                foreach (Type tType in NWDDataManager.SharedInstance().ClassUnSynchronizeList)
                 {
                     tWebServices.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
                     tWebServices.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
@@ -688,7 +688,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if(TestBanAccount($uuid) == false)");
             tFile.AppendLine("{");
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassSynchronizeList)
             {
                 tFile.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
                 tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
@@ -847,9 +847,9 @@ namespace NetWorkedData
             //tFile.AppendLine("}");
             //}
 
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassAccountDependentList)
             {
-                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(tType))
+                if (NWDDataManager.SharedInstance().ClassSynchronizeList.Contains(tType))
                 {
                     tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
                     tFile.AppendLine(NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_GET_DATAS() + " (0, $uuid);");

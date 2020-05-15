@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:20:9
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -14,10 +8,8 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
 using UnityEditor;
 using System;
-//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -189,7 +181,7 @@ namespace NetWorkedData
             {
                 EditorGUI.BeginDisabledGroup(tWS.Key == 0);
                 bool tUnused = false;
-                foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+                foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
                 {
                     if (NWDBasisHelper.FindTypeInfos(tType).WebModelSQLOrder.ContainsKey(tWS.Key) == true)
                     {

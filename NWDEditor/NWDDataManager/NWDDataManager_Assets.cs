@@ -33,10 +33,10 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             //NWDDebug.Log("sOldPath = " + sOldPath + " to sNewPath " + sNewPath);
             string tProgressBarTitle = "NetWorkedData is looking for asset(s) in datas";
-			float tCountClass = mTypeList.Count + 2;
+			float tCountClass = ClassTypeList.Count + 2;
 			float tOperation = 1;
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Load all datas", tOperation++ / tCountClass);
-            foreach (Type tType in mTypeLoadedList)
+            foreach (Type tType in ClassTypeLoadedList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 if (tHelper.kAssetDependent == true)
@@ -48,7 +48,7 @@ namespace NetWorkedData
                 }
             }
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Prepare", tOperation++/tCountClass);
-			foreach( Type tType in mTypeList)
+			foreach( Type tType in ClassTypeList)
 			{
                 EditorUtility.DisplayProgressBar(tProgressBarTitle, "Change asset path in "+tType.Name+" objects", tOperation++/tCountClass);
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);

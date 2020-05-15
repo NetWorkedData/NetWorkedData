@@ -83,7 +83,7 @@ namespace NetWorkedData
                 {
                     sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
                 }
-                GameObject tGameObjectToSpawn = new GameObject(NWDToolbox.RandomStringUnix(16)+sName);
+                GameObject tGameObjectToSpawn = new GameObject(NWDToolbox.RandomStringUnix(16) + sName);
 #if UNITY_EDITOR
                 tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
 #else
@@ -128,7 +128,7 @@ namespace NetWorkedData
         {
             //go in secure
             SecureData = true;
-            Dictionary<string, object> tDataNotAccount = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas(ResultInfos, Environment, false, NWDDataManager.SharedInstance().mTypeSynchronizedList);
+            Dictionary<string, object> tDataNotAccount = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas(ResultInfos, Environment, false, NWDDataManager.SharedInstance().ClassSynchronizeList);
             Data = Data.Concat(tDataNotAccount).ToDictionary(x => x.Key, x => x.Value);
             // insert action
             if (Data.ContainsKey(NWD.K_WEB_ACTION_KEY))
@@ -225,7 +225,7 @@ namespace NetWorkedData
         public override void DataDownloadedCompute(NWDOperationResult sData)
         {
             //Debug.Log ("NWDOperationWebAccount DataDownloadedCompute start");
-            NWDDataManager.SharedInstance().SynchronizationPullClassesDatas(ResultInfos, Environment, sData, NWDDataManager.SharedInstance().mTypeAccountDependantList, NWDOperationSpecial.None);
+            NWDDataManager.SharedInstance().SynchronizationPullClassesDatas(ResultInfos, Environment, sData, NWDDataManager.SharedInstance().ClassAccountDependentList, NWDOperationSpecial.None);
             //Debug.Log ("NWDOperationWebAccount DataDownloadedCompute finish");
 #if UNITY_EDITOR
             NWDAppEnvironmentChooser.Refresh();

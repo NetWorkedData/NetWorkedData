@@ -85,7 +85,7 @@ namespace NetWorkedData
             tI++;
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_FILTER))
             {
-                foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+                foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeLoadedList)
                 {
                     NWDBasisHelper.FindTypeInfos(tType).m_SearchAccount = Reference;
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);

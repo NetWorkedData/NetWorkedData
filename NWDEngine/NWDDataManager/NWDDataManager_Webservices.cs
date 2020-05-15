@@ -90,25 +90,25 @@ namespace NetWorkedData
         public NWDOperationWebSynchronisation AddWebRequestNotAccountDependantSynchronization(bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestSynchronization");
-            return AddWebRequestSynchronizationWithBlock(mTypeNotAccountDependantList, null, null, null, null, sPriority, sEnvironment);
+            return AddWebRequestSynchronizationWithBlock(ClassNotAccountDependentList, null, null, null, null, sPriority, sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebSynchronisation AddWebRequestNotAccountDependantSynchronizationForce(bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestSynchronizationForce");
-            return AddWebRequestSynchronizationForceWithBlock(mTypeNotAccountDependantList, null, null, null, null, sPriority, sEnvironment);
+            return AddWebRequestSynchronizationForceWithBlock(ClassNotAccountDependentList, null, null, null, null, sPriority, sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebSynchronisation AddWebRequestAccountDependantSynchronization(bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestSynchronization");
-            return AddWebRequestSynchronizationWithBlock(mTypeAccountDependantList, null, null, null, null, sPriority, sEnvironment);
+            return AddWebRequestSynchronizationWithBlock(ClassAccountDependentList, null, null, null, null, sPriority, sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebSynchronisation AddWebRequestAccountDependantSynchronizationForce(bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestSynchronizationForce");
-            return AddWebRequestSynchronizationForceWithBlock(mTypeAccountDependantList, null, null, null, null, sPriority, sEnvironment);
+            return AddWebRequestSynchronizationForceWithBlock(ClassAccountDependentList, null, null, null, null, sPriority, sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebAccount AddWebRequestSignUp(NWDAccountSignType sSignType, string sSignHash, string sRescueHash, string sLoginHash, bool sPriority = true, NWDAppEnvironment sEnvironment = null)
@@ -144,7 +144,7 @@ namespace NetWorkedData
         {
             //Debug.Log ("AddWebRequestAllSynchronizationWithBlock");
             /*NWEOperationSynchronisation sOperation = */
-            return NWDOperationWebSynchronisation.AddOperation("Synchronization clean", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, null, false, sPriority, NWDOperationSpecial.Clean);
+            return NWDOperationWebSynchronisation.AddOperation("Synchronization clean", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, ClassSynchronizeList, null, false, sPriority, NWDOperationSpecial.Clean);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationWithBlock(
@@ -156,7 +156,7 @@ namespace NetWorkedData
         {
             //Debug.Log ("###### DEBUG ####### AddWebRequestAllSynchronizationWithBlock");
             /*NWEOperationSynchronisation sOperation = */
-            return NWDOperationWebSynchronisation.AddOperation("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, null, false, sPriority);
+            return NWDOperationWebSynchronisation.AddOperation("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, ClassSynchronizeList, null, false, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationForceWithBlock(
@@ -168,7 +168,7 @@ namespace NetWorkedData
         {
             //Debug.Log ("AddWebRequestAllSynchronizationForceWithBlock");
             /*NWEOperationSynchronisation sOperation = */
-            return NWDOperationWebSynchronisation.AddOperation("Synchronization force", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, null, true, sPriority);
+            return NWDOperationWebSynchronisation.AddOperation("Synchronization force", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, ClassSynchronizeList, null, true, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebSynchronisation AddWebRequestSynchronizationCleanWithBlock(List<Type> sTypeList,
@@ -397,7 +397,7 @@ namespace NetWorkedData
             Debug.Log("##### ChangeAllDatasForUserToAnotherUser " + sOldAccountReference + " to " + sNewAccountReference);
             NWDDataManager.SharedInstance().DataQueueExecute();
             //NWDAccountInfos.ChangeCurrentData(sOldAccountReference, sNewAccountReference);
-            foreach (Type tType in mTypeList)
+            foreach (Type tType in ClassTypeList)
             {
                 NWDBasisHelper.FindTypeInfos(tType).TryToChangeUserForAllObjects(sOldAccountReference, sNewAccountReference);
             }
@@ -413,7 +413,7 @@ namespace NetWorkedData
             // I must autoanalyze the Type of data?
             if (sTypeList == null)
             {
-                List<Type> tTypeList = SharedInstance().mTypeList;
+                List<Type> tTypeList = SharedInstance().ClassTypeList;
                 sTypeList = tTypeList;
             }
 
@@ -500,7 +500,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DeleteUser(NWDAppEnvironment sEnvironment)
         {
-            foreach (Type tType in mTypeList)
+            foreach (Type tType in ClassTypeList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.DeleteUser(sEnvironment);

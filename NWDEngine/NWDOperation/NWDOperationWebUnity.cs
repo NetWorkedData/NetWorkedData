@@ -92,7 +92,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                 tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
 #else
-            tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
+                tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
 #endif
                 rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebUnity>();
                 rReturn.GameObjectToSpawn = tGameObjectToSpawn;
@@ -487,7 +487,7 @@ namespace NetWorkedData
                                                         {
                                                             NWDGDPR.Log("Purge database from all old account informations. The old account will be deleted from this device...");
                                                             // I drop all table account connected?
-                                                            foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+                                                            foreach (Type tType in NWDDataManager.SharedInstance().ClassAccountDependentList)
                                                             {
                                                                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                                                                 tHelper.FlushTable();
@@ -634,7 +634,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             DestroyImmediate(GameObjectToSpawn);
 #else
-            Destroy (GameObjectToSpawn);
+            Destroy(GameObjectToSpawn);
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------

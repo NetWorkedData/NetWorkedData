@@ -141,7 +141,7 @@ namespace NetWorkedData
         public static void AccountUnTrash(string sAccountReference)
         {
             NWEBenchmark.Start();
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassAccountDependentList)
             {
                 if (tType != typeof(NWDAccount))
                 {
@@ -168,7 +168,7 @@ namespace NetWorkedData
         public static void AccountTrash(string sAccountReference)
         {
             NWEBenchmark.Start();
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassAccountDependentList)
             {
                 if (tType != typeof(NWDAccount))
                 {

@@ -131,7 +131,7 @@ namespace NetWorkedData
             {
                 kClassesPossibilities = new List<string>();
                 kClassesInvert = new Dictionary<string, Type>();
-                foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+                foreach (Type tType in NWDDataManager.SharedInstance().ClassAccountDependentList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                     if (tHelper != null)

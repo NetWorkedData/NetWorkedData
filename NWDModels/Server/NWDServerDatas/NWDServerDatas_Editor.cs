@@ -286,7 +286,7 @@ namespace NetWorkedData
                     {
                         List<string> tCommandList = new List<string>();
                         List<string> tTableList = new List<string>();
-                        foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+                        foreach (Type tType in NWDDataManager.SharedInstance().ClassAccountDependentList)
                         {
                             NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                             if (Dev == true)
@@ -324,7 +324,7 @@ namespace NetWorkedData
                     {
                         List<string> tCommandList = new List<string>();
                         List<string> tTableList = new List<string>();
-                        foreach (Type tType in NWDDataManager.SharedInstance().mTypeNotAccountDependantList)
+                        foreach (Type tType in NWDDataManager.SharedInstance().ClassNotAccountDependentList)
                         {
                             NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                             if (Dev == true)
@@ -361,7 +361,7 @@ namespace NetWorkedData
                             List<string> tCommandListAnother = new List<string>();
 
                             List<string> tTableList = new List<string>();
-                            foreach (Type tType in NWDDataManager.SharedInstance().mTypeNotAccountDependantList)
+                            foreach (Type tType in NWDDataManager.SharedInstance().ClassNotAccountDependentList)
                             {
                                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                                 if (Dev == true)

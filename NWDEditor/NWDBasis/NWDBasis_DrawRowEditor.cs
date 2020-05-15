@@ -117,7 +117,7 @@ namespace NetWorkedData
                     break;
             }
             bool tDisableProd = false;
-            if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType()))
+            if (NWDDataManager.SharedInstance().ClassUnSynchronizeList.Contains(ClassType()))
             {
                 tDisableProd = true;
             }

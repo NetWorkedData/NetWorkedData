@@ -32,7 +32,7 @@ namespace NetWorkedData
                                    "Web Service : " + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "\n" +
                                    "Account : " + tEnvironment.PlayerAccountReference + "\n" +
                                    "_______________\n";
-            foreach (Type tType in mTypeLoadedList)
+            foreach (Type tType in ClassTypeLoadedList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tInformations += " • " + tHelper.Informations();

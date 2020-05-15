@@ -716,7 +716,7 @@ namespace NetWorkedData
                 bool tDisableDev = false;
                 bool tDisablePreprod = false;
                 bool tDisableProd = false;
-                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType()))
+                if (NWDDataManager.SharedInstance().ClassUnSynchronizeList.Contains(ClassType()))
                 {
                     tDisableDev = true;
                     tDisablePreprod = true;

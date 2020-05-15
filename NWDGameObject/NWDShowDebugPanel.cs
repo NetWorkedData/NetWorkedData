@@ -72,7 +72,7 @@ namespace NetWorkedData
         {
             Debug.Log("NWDShowDebugPanel ParametersTestAction()");
 
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeLoadedList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
             Debug.Log(" class "+tHelper.ClassNamePHP+" row nb =" +tHelper.Datas.Count);

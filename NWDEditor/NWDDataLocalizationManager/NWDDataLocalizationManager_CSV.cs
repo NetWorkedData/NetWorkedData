@@ -27,12 +27,12 @@ namespace NetWorkedData
         {
             NWEBenchmark.Start();
             string tProgressBarTitle = "NetWorkedData Reorder localization";
-            float tCountClass = NWDDataManager.SharedInstance().mTypeList.Count + 1;
+            float tCountClass = NWDDataManager.SharedInstance().ClassTypeList.Count + 1;
             float tOperation = 1;
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Prepare operation", tOperation / tCountClass);
             tOperation++;
 
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
             {
                 EditorUtility.DisplayProgressBar(tProgressBarTitle, "Reorder localization in  " + tType.Name + " objects", tOperation / tCountClass);
                 tOperation++;
@@ -65,7 +65,7 @@ namespace NetWorkedData
                 // start to create file
                 string tFile = tHeaders;
                 // populate file by class result
-                foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+                foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                     tFile +=  tHelper.ExportLocalizationInCSV();
@@ -96,7 +96,7 @@ namespace NetWorkedData
 
                 if (tFile != null)
                 {
-                    foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+                    foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
                     {
                         NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                         tHelper.ImportAllLocalizations(tLanguageArray, tFileRows);

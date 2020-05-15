@@ -188,7 +188,7 @@ namespace NetWorkedData
                 }
             }
             tListOfclass = new List<string>();
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
             {
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
                 if (tDatas != null)
@@ -289,7 +289,7 @@ namespace NetWorkedData
             }
             else
             {
-                foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+                foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
                 {
                     if (tType.Name == ClassName)
                     {
@@ -321,10 +321,10 @@ namespace NetWorkedData
             else
             {
                 //  but Trigramme already exists ?
-                if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey(ClassNameTrigramme))
+                if (NWDDataManager.SharedInstance().ClassTrigramDictionary.ContainsKey(ClassNameTrigramme))
                 {
                     tCanCreate = false;
-                    EditorGUILayout.LabelField(" ", "trigramme already used by '" + NWDDataManager.SharedInstance().mTrigramTypeDictionary[ClassNameTrigramme].Name + "'!");
+                    EditorGUILayout.LabelField(" ", "trigramme already used by '" + NWDDataManager.SharedInstance().ClassTrigramDictionary[ClassNameTrigramme].Name + "'!");
                 }
                 else
                 {

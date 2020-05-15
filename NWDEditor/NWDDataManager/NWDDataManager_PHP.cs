@@ -25,14 +25,14 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             string tProgressBarTitle = "NetWorkedData Create error";
-            float tCountClass = mTypeList.Count + 1;
+            float tCountClass = ClassTypeList.Count + 1;
             float tOperation = 1;
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create general error index", tOperation / tCountClass);
             tOperation++;
 
             //CreateErrorsAndMessagesEngine();
 
-            foreach (Type tType in mTypeList)
+            foreach (Type tType in ClassTypeList)
             {
                 EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create " + tType.Name + " errors and messages", tOperation / tCountClass);
                 tOperation++;
@@ -226,7 +226,7 @@ namespace NetWorkedData
                     AssetDatabase.DeleteAsset(tOwnerServerFolderPath);
                 }
             }
-            sEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, sWriteOnDisk);
+            sEnvironment.CreatePHP(NWDDataManager.SharedInstance().ClassTypeList, true, sWriteOnDisk);
             NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppEnvironment.SelectedEnvironment());
             //NWEBenchmark.Finish();
         }
@@ -251,7 +251,7 @@ namespace NetWorkedData
             }
             foreach (NWDAppEnvironment tEnvironement in NWDAppConfiguration.SharedInstance().AllEnvironements())
             {
-                tEnvironement.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, sWriteOnDisk);
+                tEnvironement.CreatePHP(NWDDataManager.SharedInstance().ClassTypeList, true, sWriteOnDisk);
             }
             NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppEnvironment.SelectedEnvironment());
             //NWEBenchmark.Finish();
@@ -261,11 +261,11 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             string tProgressBarTitle = "NetWorkedData Models Resets";
-            float tCountClass = mTypeList.Count + 1;
+            float tCountClass = ClassTypeList.Count + 1;
             float tOperation = 1;
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Reset Model index", tOperation / tCountClass);
             tOperation++;
-            foreach (Type tType in mTypeList)
+            foreach (Type tType in ClassTypeList)
             {
                 EditorUtility.DisplayProgressBar(tProgressBarTitle, "Reset " + tType.Name + " model", tOperation / tCountClass);
                 tOperation++;

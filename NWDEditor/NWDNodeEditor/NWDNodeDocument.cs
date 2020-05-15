@@ -515,7 +515,7 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             AnalyzeStyleClasses = new Dictionary<string, NWDClasseAnalyseEnum>();
-            TypeList = NWDDataManager.SharedInstance().mTypeList;
+            TypeList = NWDDataManager.SharedInstance().ClassTypeList;
             TypeList.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
             foreach (Type tType in TypeList)
             {

@@ -92,7 +92,7 @@ namespace NetWorkedData
             TypeAndMin.Clear();
             TypeAndMax.Clear();
             //NWEBenchmark.Start();
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeNotAccountDependantList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassNotAccountDependentList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 if (tHelper != null)
@@ -105,7 +105,7 @@ namespace NetWorkedData
                     TypeAndQuantity.Add(tHelper, EditorPrefs.GetInt("cluster_test_" + tHelper.ClassNamePHP, TypeAndMin[tHelper]));
                 }
             }
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassAccountDependentList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 if (tHelper != null)

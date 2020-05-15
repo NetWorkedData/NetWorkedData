@@ -209,7 +209,7 @@ namespace NetWorkedData
                 }
                 if (GUILayout.Button(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_FILTER))
                 {
-                    foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+                    foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeLoadedList)
                     {
                         NWDBasisHelper.FindTypeInfos(tType).m_SearchAccount = tAccount.Reference;
                         NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
@@ -241,7 +241,7 @@ namespace NetWorkedData
                     EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_REFERENCE, tGameSaveReference);
                     if (GUILayout.Button(NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_FILTER))
                     {
-                        foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+                        foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeLoadedList)
                         {
                             NWDBasisHelper.FindTypeInfos(tType).m_SearchGameSave = tGameSaveReference;
                             NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);

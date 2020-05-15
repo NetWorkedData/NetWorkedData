@@ -22,6 +22,15 @@ namespace NetWorkedData
         private static NWDDataManager kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
+        /// The list of classes loaded in engine.
+        /// </summary>
+        public List<Type> ClassTypeLoadedList = new List<Type>();
+        /// <summary>
+        /// The list of all classes base on NWDBasis, usable in engine 
+        /// </summary>
+        public List<Type> ClassTypeList = new List<Type>();
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
         /// The list of Class <see cref="NWDBasis"/> reccord in the <see cref="NWD.K_DeviceDatabaseName"/>
         /// </summary>
         public List<Type> ClassInDeviceDatabaseList = new List<Type>();
@@ -102,15 +111,27 @@ namespace NetWorkedData
         /// </summary>
         public string PlayerLanguage = "en";
         //-------------------------------------------------------------------------------------------------------------
-        public List<Type> mTypeLoadedList = new List<Type>();                   // TODO rename ClassLoadedList
-        public List<Type> mTypeList = new List<Type>();                         // TODO rename ClassList
-
-
-        public List<Type> mTypeSynchronizedList = new List<Type>();             // TODO rename ClassSynchronizedList
-        public List<Type> mTypeUnSynchronizedList = new List<Type>();           // TODO rename ClassUnsynchronizedList
-        public List<Type> mTypeAccountDependantList = new List<Type>();         // TODO rename ClassAccountDependentList
-        public List<Type> mTypeNotAccountDependantList = new List<Type>();      // TODO rename ClassEditorDependentList
-        public Dictionary<string, Type> mTrigramTypeDictionary = new Dictionary<string, Type>(new StringIndexKeyComparer());
+        /// <summary>
+        /// The list of all classes synchronizable on cluster
+        /// </summary>
+        public List<Type> ClassSynchronizeList = new List<Type>();
+        /// <summary>
+        /// The list of all classes not synchronizable on cluster
+        /// </summary>
+        public List<Type> ClassUnSynchronizeList = new List<Type>();
+        /// <summary>
+        /// The list of all classes dependent of an account 
+        /// </summary>
+        public List<Type> ClassAccountDependentList = new List<Type>();
+        /// <summary>
+        /// The list of all classes not dependent of an account
+        /// </summary>
+        public List<Type> ClassNotAccountDependentList = new List<Type>();
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Dictionary to associate the good trigramm with the good class. It's easily to work with trigram in reference tahn juste number.
+        /// </summary>
+        public Dictionary<string, Type> ClassTrigramDictionary = new Dictionary<string, Type>(new StringIndexKeyComparer());
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -514,7 +514,7 @@ namespace NetWorkedData
             // Draw the interface addon for editor
             if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_FILTER))
             {
-                foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+                foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeLoadedList)
                 {
                     NWDBasisHelper.FindTypeInfos(tType).m_SearchAccount = Account.GetReference();
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
@@ -523,7 +523,7 @@ namespace NetWorkedData
             tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
             if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_FILTER))
             {
-                foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+                foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeLoadedList)
                 {
                     NWDBasisHelper.FindTypeInfos(tType).m_SearchGameSave = GameSave.GetReference();
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);

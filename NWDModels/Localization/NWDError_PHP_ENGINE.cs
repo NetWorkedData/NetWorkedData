@@ -137,7 +137,7 @@ namespace NetWorkedData
 
                     if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
                     {
-                        foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+                        foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
                         {
                             tFile.AppendLine("unset($REP['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']);");
                         }

@@ -90,7 +90,7 @@ namespace NetWorkedData
             TitleInit(NWDConstants.K_APP_MODEL_MANAGER_TITLE, typeof(NWDModelManager));
             TypeList.Clear();
             TypeErrorList.Clear();
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList.OrderBy(A => NWDBasisHelper.FindTypeInfos(A).ClassNamePHP))
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeLoadedList.OrderBy(A => NWDBasisHelper.FindTypeInfos(A).ClassNamePHP))
             {
                 TypeList.Add(tType);
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
