@@ -468,18 +468,18 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_LOCAL_CLEAN_TRASHED_DATAS, false, 9203)]
         public static void PurgeAllDatas()
         {
-            NWDDataManager.SharedInstance().CleanAllTablesLocalAccount();
+            //NWDDataManager.SharedInstance().CleanAllTablesLocalAccount();
             NWDDataManager.SharedInstance().CleanAllTablesLocalEditor();
             NWDDataManager.SharedInstance().ReloadAllObjects(NWDBundle.ALL);
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_LOCAL_PURGE_DATAS, false, 9203)]
-        public static void CleanAllDatas()
-        {
-            NWDDataManager.SharedInstance().PurgeAllTablesLocalAccount();
-            NWDDataManager.SharedInstance().PurgeAllTablesLocalEditor();
-            NWDDataManager.SharedInstance().ReloadAllObjects(NWDBundle.ALL);
-        }
+        //[MenuItem(NWDConstants.K_MENU_LOCAL_PURGE_DATAS, false, 9203)]
+        //public static void CleanAllDatas()
+        //{
+        //    NWDDataManager.SharedInstance().PurgeAllTablesLocalAccount();
+        //    NWDDataManager.SharedInstance().PurgeAllTablesLocalEditor();
+        //    NWDDataManager.SharedInstance().ReloadAllObjects(NWDBundle.ALL);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         //[MenuItem(NWDConstants.K_MENU_LOCAL_UPDATE_DATAS, false, 9204)]
         //public static void UpdateAllDatas()
@@ -492,7 +492,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_LOCAL_RESET_DATAS, false, 9205)]
         public static void ResetAllDatas()
         {
-            NWDDataManager.SharedInstance().ResetAllTablesLocalAccount();
+            //NWDDataManager.SharedInstance().ResetAllTablesLocalAccount();
             NWDDataManager.SharedInstance().ResetAllTablesLocalEditor();
             NWDDataManager.SharedInstance().ReloadAllObjects(NWDBundle.ALL);
         }

@@ -509,46 +509,53 @@ namespace NetWorkedData
             {
                 if (sData.IsEnable() == true)
                 {
-                    bool tInsert = true;
-                    if (kAccountDependent)
+                    string tGameSaveReference = null;
+                    if (sGameSave != null)
                     {
-                        if (sGameSave != null)
-                        {
-                            // test game save if necessary
-                            if (GameSaveMethod != null && sGameSave != null)
-                            {
-                                string tGameIndex = sGameSave.Reference;
-                                var tValue = ClassGameDependentProperties.GetValue(sData, null);
-                                if (tValue == null)
-                                {
-                                    tValue = string.Empty;
-                                }
-                                string tSaveIndex = GameSaveMethod.Invoke(tValue, null) as string;
-                                if (tSaveIndex != tGameIndex)
-                                {
-                                    tInsert = false;
-                                }
-                            }
-                        }
-                        if (tInsert == true && string.IsNullOrEmpty(sAccountReference) == false)
-                        {
-                            tInsert = false; // research by default false and true when found first solution
-                            foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in AccountMethodDico)
-                            {
-                                var tValue = tInfos.Key.GetValue(sData, null);
-                                if (tValue == null)
-                                {
-                                    tValue = string.Empty;
-                                }
-                                string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
-                                if (tAccountValue.Contains(sAccountReference))
-                                {
-                                    tInsert = true;
-                                    break; // I fonud one solution! this user can see this informations
-                                }
-                            }
-                        }
+                        tGameSaveReference = sGameSave.Reference;
                     }
+                    bool tInsert = sData.IsReacheableBy(tGameSaveReference, sAccountReference);
+
+                    //bool tInsert = true;
+                    //if (kAccountDependent)
+                    //{
+                    //    if (sGameSave != null)
+                    //    {
+                    //        // test game save if necessary
+                    //        if (GameSaveMethod != null && sGameSave != null)
+                    //        {
+                    //            string tGameIndex = sGameSave.Reference;
+                    //            var tValue = ClassGameDependentProperties.GetValue(sData, null);
+                    //            if (tValue == null)
+                    //            {
+                    //                tValue = string.Empty;
+                    //            }
+                    //            string tSaveIndex = GameSaveMethod.Invoke(tValue, null) as string;
+                    //            if (tSaveIndex != tGameIndex)
+                    //            {
+                    //                tInsert = false;
+                    //            }
+                    //        }
+                    //    }
+                    //    if (tInsert == true && string.IsNullOrEmpty(sAccountReference) == false)
+                    //    {
+                    //        tInsert = false; // research by default false and true when found first solution
+                    //        foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in AccountMethodDico)
+                    //        {
+                    //            var tValue = tInfos.Key.GetValue(sData, null);
+                    //            if (tValue == null)
+                    //            {
+                    //                tValue = string.Empty;
+                    //            }
+                    //            string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
+                    //            if (tAccountValue.Contains(sAccountReference))
+                    //            {
+                    //                tInsert = true;
+                    //                break; // I fonud one solution! this user can see this informations
+                    //            }
+                    //        }
+                    //    }
+                    //}
                     if (tInsert == true)
                     {
                         rReturn = sData;
@@ -571,46 +578,55 @@ namespace NetWorkedData
                 //if (sData.IsTrashed() == false || sData.IsEnable() == true || sData.TestIntegrityResult == true)
                 if (sData.IsEnable() == true)
                 {
-                    bool tInsert = true;
-                    if (BasisHelper<T>().kAccountDependent)
+                    string tGameSaveReference = null;
+                    if (sGameSave != null)
                     {
-                        if (sGameSave != null)
-                        {
-                            // test game save if necessary
-                            if (BasisHelper<T>().GameSaveMethod != null && sGameSave != null)
-                            {
-                                string tGameIndex = sGameSave.Reference;
-                                var tValue = BasisHelper<T>().ClassGameDependentProperties.GetValue(sData, null);
-                                if (tValue == null)
-                                {
-                                    tValue = string.Empty;
-                                }
-                                string tSaveIndex = BasisHelper<T>().GameSaveMethod.Invoke(tValue, null) as string;
-                                if (tSaveIndex != tGameIndex)
-                                {
-                                    tInsert = false;
-                                }
-                            }
-                        }
-                        if (tInsert == true && string.IsNullOrEmpty(sAccountReference) == false)
-                        {
-                            tInsert = false; // research by default false and true when found first solution
-                            foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in BasisHelper<T>().AccountMethodDico)
-                            {
-                                var tValue = tInfos.Key.GetValue(sData, null);
-                                if (tValue == null)
-                                {
-                                    tValue = string.Empty;
-                                }
-                                string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
-                                if (tAccountValue.Contains(sAccountReference))
-                                {
-                                    tInsert = true;
-                                    break; // I fonud one solution! this user can see this informations
-                                }
-                            }
-                        }
+                        tGameSaveReference = sGameSave.Reference;
                     }
+                    bool tInsert = sData.IsReacheableBy(tGameSaveReference, sAccountReference);
+
+                    //bool tInsert = true;
+                    //if (BasisHelper<T>().kAccountDependent)
+                    //{
+
+
+                    //    if (sGameSave != null)
+                    //    {
+                    //        // test game save if necessary
+                    //        if (BasisHelper<T>().GameSaveMethod != null && sGameSave != null)
+                    //        {
+                    //            string tGameIndex = sGameSave.Reference;
+                    //            var tValue = BasisHelper<T>().ClassGameDependentProperties.GetValue(sData, null);
+                    //            if (tValue == null)
+                    //            {
+                    //                tValue = string.Empty;
+                    //            }
+                    //            string tSaveIndex = BasisHelper<T>().GameSaveMethod.Invoke(tValue, null) as string;
+                    //            if (tSaveIndex != tGameIndex)
+                    //            {
+                    //                tInsert = false;
+                    //            }
+                    //        }
+                    //    }
+                    //    if (tInsert == true && string.IsNullOrEmpty(sAccountReference) == false)
+                    //    {
+                    //        tInsert = false; // research by default false and true when found first solution
+                    //        foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in BasisHelper<T>().AccountMethodDico)
+                    //        {
+                    //            var tValue = tInfos.Key.GetValue(sData, null);
+                    //            if (tValue == null)
+                    //            {
+                    //                tValue = string.Empty;
+                    //            }
+                    //            string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
+                    //            if (tAccountValue.Contains(sAccountReference))
+                    //            {
+                    //                tInsert = true;
+                    //                break; // I fonud one solution! this user can see this informations
+                    //            }
+                    //        }
+                    //    }
+                    //}
                     if (tInsert == true)
                     {
                         rReturn = sData;

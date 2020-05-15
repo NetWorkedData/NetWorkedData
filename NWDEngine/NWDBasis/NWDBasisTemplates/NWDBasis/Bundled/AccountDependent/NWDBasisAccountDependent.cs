@@ -54,28 +54,28 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void PropertiesAutofill()
         {
-            Debug.Log("PropertiesAutofill " + BasisHelper().ClassNamePHP);
+            //Debug.Log("PropertiesAutofill " + BasisHelper().ClassNamePHP);
             Account.SetValue(NWDAccount.CurrentReference());
             //GameSave.SetValue(NWDGameSave.CurrentData().Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonInsertMe()
         {
-            Debug.Log("AddonInsertMe " + BasisHelper().ClassNamePHP);
+            //Debug.Log("AddonInsertMe " + BasisHelper().ClassNamePHP);
             base.AddonInsertMe();
             AssignRange();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdateMe()
         {
-            Debug.Log("AddonUpdateMe " + BasisHelper().ClassNamePHP);
+            //Debug.Log("AddonUpdateMe " + BasisHelper().ClassNamePHP);
             base.AddonUpdateMe();
             AssignRange();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonDuplicateMe()
         {
-            Debug.Log("AddonDuplicateMe " + BasisHelper().ClassNamePHP);
+            //Debug.Log("AddonDuplicateMe " + BasisHelper().ClassNamePHP);
             base.AddonDuplicateMe();
             AssignRange();
         }
@@ -85,7 +85,7 @@ namespace NetWorkedData
         /// </summary>
         private void AssignRange()
         {
-            Debug.Log("AssignRange " + BasisHelper().ClassNamePHP);
+            //Debug.Log("AssignRange " + BasisHelper().ClassNamePHP);
             //only if data was not sync ... else it need to use the define RangeAccess
             if (DevSync <= 1 && ProdSync <= 1 && PreprodSync <= 1)
             {
@@ -100,12 +100,12 @@ namespace NetWorkedData
                     }
                 }
             }
-            Debug.Log("AssignRange RangeAccess = " + RangeAccess + "    " + BasisHelper().ClassNamePHP);
+            //Debug.Log("AssignRange RangeAccess = " + RangeAccess + "    " + BasisHelper().ClassNamePHP);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void ChangeUser(string sOldUser, string sNewUser)
         {
-            Debug.Log("ChangeUser(string sOldUser, string sNewUser) in " + BasisHelper().ClassNamePHP);
+            //Debug.Log("ChangeUser(string sOldUser, string sNewUser) in " + BasisHelper().ClassNamePHP);
             if (IntegrityIsValid() == true)
             {
                 if (Account.GetValue() == sOldUser)

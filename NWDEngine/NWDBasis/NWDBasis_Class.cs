@@ -59,10 +59,10 @@ namespace NetWorkedData
             return BasisHelper().kAccountDependent;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool GameSaveDependent()
-        {
-            return BasisHelper().ClassGameSaveDependent;
-        }
+        //public bool GameSaveDependent()
+        //{
+        //    return BasisHelper().ClassGameSaveDependent;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public bool IsClassLockedObject()
         {

@@ -380,43 +380,43 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void CleanAllTablesLocalAccount()
-        {
-            if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
-            {
-                foreach (Type tType in mTypeAccountDependantList)
-                {
-                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.CleanTable();
-                }
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void PurgeAllTablesLocalAccount()
-        {
-            if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
-            {
-                foreach (Type tType in mTypeAccountDependantList)
-                {
-                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.PurgeTable();
-                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_PurgeTable);
-                }
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void ResetAllTablesLocalAccount()
-        {
-            if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
-            {
-                foreach (Type tType in mTypeAccountDependantList)
-                {
-                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.ResetTable();
-                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ResetTable);
-                }
-            }
-        }
+        //public void CleanAllTablesLocalAccount()
+        //{
+        //    if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
+        //    {
+        //        foreach (Type tType in mTypeAccountDependantList)
+        //        {
+        //            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+        //            tHelper.CleanTable();
+        //        }
+        //    }
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void PurgeAllTablesLocalAccount()
+        //{
+        //    if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
+        //    {
+        //        foreach (Type tType in mTypeAccountDependantList)
+        //        {
+        //            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+        //            tHelper.PurgeTable();
+        //            //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_PurgeTable);
+        //        }
+        //    }
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void ResetAllTablesLocalAccount()
+        //{
+        //    if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
+        //    {
+        //        foreach (Type tType in mTypeAccountDependantList)
+        //        {
+        //            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+        //            tHelper.ResetTable();
+        //            //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ResetTable);
+        //        }
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void CreateAllTablesLocalEditor()
         {

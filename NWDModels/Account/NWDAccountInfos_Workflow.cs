@@ -34,7 +34,7 @@ namespace NetWorkedData
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
 #if UNITY_EDITOR
-            Debug.Log("NWDAccountInfos Initialization()");
+            //Debug.Log("NWDAccountInfos Initialization()");
             InternalKey = "AccountInfos : " + DateTime.Today.ToShortDateString();
             Tag = NWDBasisTag.TagTestForDev;
 #endif

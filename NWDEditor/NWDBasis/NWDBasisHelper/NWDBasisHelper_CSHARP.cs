@@ -173,7 +173,7 @@ namespace NetWorkedData
                     //rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassDescription) + " = \"" + ClassDescription + "\";");
 
                     //rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassSynchronize) + " = " + ClassSynchronize.ToString().ToLower() + ";");
-                    rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassGameSaveDependent) + " = " + ClassGameSaveDependent.ToString().ToLower() + ";");
+                    //rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassGameSaveDependent) + " = " + ClassGameSaveDependent.ToString().ToLower() + ";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => kAccountDependent) + " = " + kAccountDependent.ToString().ToLower() + ";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => kLockedObject) + " = " + kLockedObject.ToString().ToLower() + ";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => kAssetDependent) + " = " + kAssetDependent.ToString().ToLower() + ";");
@@ -227,14 +227,14 @@ namespace NetWorkedData
                         rReturn.AppendLine(NWDToolbox.PropertyName(() => IndexInBaseMethodList) + ".Add(ClassType.GetMethod(\"" + tMethodInfo.Name + "\"));");
                     }
 
-                    if (ClassGameDependentProperties != null)
-                    {
-                        rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassGameDependentProperties) + " = ClassType.GetProperty(\"" + ClassGameDependentProperties.Name + "\");");
-                    }
-                    if (GameSaveMethod != null)
-                    {
-                        rReturn.AppendLine(NWDToolbox.PropertyName(() => GameSaveMethod) + " = ClassType.GetMethod(\"" + GameSaveMethod.Name + "\");");
-                    }
+                    //if (ClassGameDependentProperties != null)
+                    //{
+                    //    rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassGameDependentProperties) + " = ClassType.GetProperty(\"" + ClassGameDependentProperties.Name + "\");");
+                    //}
+                    //if (GameSaveMethod != null)
+                    //{
+                    //    rReturn.AppendLine(NWDToolbox.PropertyName(() => GameSaveMethod) + " = ClassType.GetMethod(\"" + GameSaveMethod.Name + "\");");
+                    //}
 
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => AccountMethodDico) + ".Clear();");
                     foreach (KeyValuePair<PropertyInfo, MethodInfo> tPropertyMethodInfo in AccountMethodDico)

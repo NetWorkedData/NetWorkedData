@@ -29,7 +29,7 @@ namespace NetWorkedData
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
 #if UNITY_EDITOR
-            Debug.Log("NWDGameSave Initialization()");
+            //Debug.Log("NWDGameSave Initialization()");
             Name = " * GameSave " + DateTime.Today.ToShortDateString();
             InternalKey = "GameSave " + DateTime.Today.ToShortDateString();
             Tag = NWDBasisTag.TagTestForDev;

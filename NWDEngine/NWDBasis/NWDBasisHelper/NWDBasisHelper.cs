@@ -201,9 +201,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool kLockedObject; // false if account dependant but bypass in editor mode (allways false to authorize sync)
         //-------------------------------------------------------------------------------------------------------------
-        public bool ClassGameSaveDependent = false;
-        public PropertyInfo ClassGameDependentProperties;
-        public MethodInfo GameSaveMethod;
+        //public bool ClassGameSaveDependent = false;
+        //public PropertyInfo ClassGameDependentProperties;
+        //public MethodInfo GameSaveMethod;
         //-------------------------------------------------------------------------------------------------------------
         public bool kAccountDependent = false;
         public List<PropertyInfo> kAccountDependentProperties = new List<PropertyInfo>();
@@ -385,9 +385,9 @@ namespace NetWorkedData
             List<PropertyInfo> tAssetPropertyList = new List<PropertyInfo>();
             Dictionary<PropertyInfo, MethodInfo> tAccountMethodList = new Dictionary<PropertyInfo, MethodInfo>();
 
-            ClassGameSaveDependent = false;
-            ClassGameDependentProperties = null;
-            GameSaveMethod = null;
+            //ClassGameSaveDependent = false;
+            //ClassGameDependentProperties = null;
+            //GameSaveMethod = null;
             // exception for NWDAccount table
             //NWDClassUnityEditorOnlyAttribute tServerOnlyAttribut = (NWDClassUnityEditorOnlyAttribute)sType.GetCustomAttribute(typeof(NWDClassUnityEditorOnlyAttribute), true);
             //if (tServerOnlyAttribut != null)
@@ -432,13 +432,13 @@ namespace NetWorkedData
                                     Debug.Log("ignore account dependance for " + tTypeOfThis.Name +" in " + sType.Name);
                                 }
                             }
-                            if (tSubType == typeof(NWDGameSave))
-                            {
-                                ClassGameSaveDependent = true;
-                                ClassGameDependentProperties = tProp;
-                                MethodInfo tGameSaveMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
-                                GameSaveMethod = tGameSaveMethod;
-                            }
+                            //if (tSubType == typeof(NWDGameSave))
+                            //{
+                            //    ClassGameSaveDependent = true;
+                            //    ClassGameDependentProperties = tProp;
+                            //    MethodInfo tGameSaveMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
+                            //    GameSaveMethod = tGameSaveMethod;
+                            //}
                         }
                         else if (
                             tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple))

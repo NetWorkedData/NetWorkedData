@@ -184,18 +184,18 @@ namespace NetWorkedData
                     ResetIconByDefaultIcon();
                 }
 
-                EditorGUI.BeginDisabledGroup(!ClassGameSaveDependent);
-                if (GUILayout.Button("Purge accounts", EditorStyles.miniButton))
-                {
-                    if (EditorUtility.DisplayDialog(NWDConstants.K_PURGE_ALERT_TITLE,
-                            NWDConstants.K_PURGE_ALERT_MESSAGE,
-                            NWDConstants.K_PURGE_ALERT_OK,
-                            NWDConstants.K_PURGE_ALERT_CANCEL))
-                    {
-                        PurgeTable();
-                    }
-                }
-                EditorGUI.EndDisabledGroup();
+                //EditorGUI.BeginDisabledGroup(!ClassGameSaveDependent);
+                //if (GUILayout.Button("Purge accounts", EditorStyles.miniButton))
+                //{
+                //    if (EditorUtility.DisplayDialog(NWDConstants.K_PURGE_ALERT_TITLE,
+                //            NWDConstants.K_PURGE_ALERT_MESSAGE,
+                //            NWDConstants.K_PURGE_ALERT_OK,
+                //            NWDConstants.K_PURGE_ALERT_CANCEL))
+                //    {
+                //PurgeTable();
+                //    }
+                //}
+                //EditorGUI.EndDisabledGroup();
 
 
                 if (GUILayout.Button(NWDConstants.K_APP_WS_MODEL_TOOLS, NWDGUI.KTableSearchButton))

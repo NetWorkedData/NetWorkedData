@@ -252,7 +252,7 @@ namespace NetWorkedData
             WebServicesTools();
             HackTools();
             WritingDatabaseState();
-            DatasLocal();
+            //DatasLocal();
             NWDGUILayout.BigSpace();
             EditorGUILayout.EndScrollView();
             //NWEBenchmark.Finish();
@@ -787,35 +787,35 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DatasLocal()
-        {
-            //NWEBenchmark.Start();
-            NWDGUILayout.Section("Local datas");
-            if (GUILayout.Button("Clean all local tables", NWDGUI.KTableSearchButton))
-            {
-                if (EditorUtility.DisplayDialog(NWDConstants.K_CLEAN_ALERT_TITLE,
-                        NWDConstants.K_CLEAN_ALERT_MESSAGE,
-                        NWDConstants.K_CLEAN_ALERT_OK,
-                        NWDConstants.K_CLEAN_ALERT_CANCEL))
-                {
-                    NWDDataManager.SharedInstance().CleanAllTablesLocalAccount();
-                    NWDDataManager.SharedInstance().CleanAllTablesLocalEditor();
-                }
-            }
-            if (GUILayout.Button("Purge all local tables", NWDGUI.KTableSearchButton))
-            {
-                if (EditorUtility.DisplayDialog(NWDConstants.K_PURGE_ALERT_TITLE,
-                        NWDConstants.K_PURGE_ALERT_MESSAGE,
-                        NWDConstants.K_PURGE_ALERT_OK,
-                        NWDConstants.K_PURGE_ALERT_CANCEL))
-                {
-                    NWDDataManager.SharedInstance().PurgeAllTablesLocalAccount();
-                    NWDDataManager.SharedInstance().PurgeAllTablesLocalEditor();
-                }
-            }
-            GUILayout.Space(NWDGUI.kFieldMarge);
-            //NWEBenchmark.Finish();
-        }
+        //public void DatasLocal()
+        //{
+        //    //NWEBenchmark.Start();
+        //    NWDGUILayout.Section("Local datas");
+        //    if (GUILayout.Button("Clean all local tables", NWDGUI.KTableSearchButton))
+        //    {
+        //        if (EditorUtility.DisplayDialog(NWDConstants.K_CLEAN_ALERT_TITLE,
+        //                NWDConstants.K_CLEAN_ALERT_MESSAGE,
+        //                NWDConstants.K_CLEAN_ALERT_OK,
+        //                NWDConstants.K_CLEAN_ALERT_CANCEL))
+        //        {
+        //            NWDDataManager.SharedInstance().CleanAllTablesLocalAccount();
+        //            NWDDataManager.SharedInstance().CleanAllTablesLocalEditor();
+        //        }
+        //    }
+        //    if (GUILayout.Button("Purge all local tables", NWDGUI.KTableSearchButton))
+        //    {
+        //        if (EditorUtility.DisplayDialog(NWDConstants.K_PURGE_ALERT_TITLE,
+        //                NWDConstants.K_PURGE_ALERT_MESSAGE,
+        //                NWDConstants.K_PURGE_ALERT_OK,
+        //                NWDConstants.K_PURGE_ALERT_CANCEL))
+        //        {
+        //            NWDDataManager.SharedInstance().PurgeAllTablesLocalAccount();
+        //            NWDDataManager.SharedInstance().PurgeAllTablesLocalEditor();
+        //        }
+        //    }
+        //    GUILayout.Space(NWDGUI.kFieldMarge);
+        //    //NWEBenchmark.Finish();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void HackTools()
         {

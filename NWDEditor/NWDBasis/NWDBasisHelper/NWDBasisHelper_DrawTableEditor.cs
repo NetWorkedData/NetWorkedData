@@ -797,7 +797,7 @@ namespace NetWorkedData
                 // draw GameSave popup
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
-                EditorGUI.BeginDisabledGroup(!ClassGameSaveDependent);
+                EditorGUI.BeginDisabledGroup(TemplateHelper.GetGamesaveDependent() != NWDTemplateGameSaveDependent.NoGameSaveDependent);
 
                 if (NWDBasisHelper.FindTypeInfos(typeof(NWDGameSave)).Datas.Count < tMaxForMenuOrTextField)
                 {

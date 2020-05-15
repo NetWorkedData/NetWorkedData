@@ -18,28 +18,28 @@ namespace NetWorkedData
     public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override void PropertiesAutofill()
-        {
-            // if account dependent then insert the account reference value in all account depedent properties
-            NWDBasisHelper tHelper = BasisHelper();
-            foreach (PropertyInfo tPropInfo in tHelper.kAccountDependentProperties)
-            {
-                NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
-                tAtt.Value = NWDAccount.CurrentReference();
-                tPropInfo.SetValue(this, tAtt, null);
-            }
-            // if gamesave dependent then insert the gamesave reference in the good property 
-            if (tHelper.ClassGameSaveDependent == true)
-            {
-                NWDReferenceType<NWDGameSave> tAtt = new NWDReferenceType<NWDGameSave>();
-                if (NWDGameSave.CurrentData() != null)
-                {
-                    tAtt.SetReference(NWDGameSave.CurrentData().Reference);
-                }
-                PropertyInfo tPropInfo = tHelper.ClassGameDependentProperties;
-                tPropInfo.SetValue(this, tAtt, null);
-            }
-        }
+        //public override void PropertiesAutofill()
+        //{
+        //    // if account dependent then insert the account reference value in all account depedent properties
+        //    //NWDBasisHelper tHelper = BasisHelper();
+        //    //foreach (PropertyInfo tPropInfo in tHelper.kAccountDependentProperties)
+        //    //{
+        //    //    NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
+        //    //    tAtt.Value = NWDAccount.CurrentReference();
+        //    //    tPropInfo.SetValue(this, tAtt, null);
+        //    //}
+        //    //// if gamesave dependent then insert the gamesave reference in the good property 
+        //    //if (tHelper.ClassGameSaveDependent == true)
+        //    //{
+        //    //    NWDReferenceType<NWDGameSave> tAtt = new NWDReferenceType<NWDGameSave>();
+        //    //    if (NWDGameSave.CurrentData() != null)
+        //    //    {
+        //    //        tAtt.SetReference(NWDGameSave.CurrentData().Reference);
+        //    //    }
+        //    //    PropertyInfo tPropInfo = tHelper.ClassGameDependentProperties;
+        //    //    tPropInfo.SetValue(this, tAtt, null);
+        //    //}
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #region Duplicate Data
         //-------------------------------------------------------------------------------------------------------------
@@ -445,7 +445,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true, bool sWithCallBack = true)
         {
-            NWEBenchmark.Start();
+            //NWEBenchmark.Start();
             // Determine the default mode
             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
             // Verif if Systeme can use the thread (option in Environment)
@@ -530,7 +530,7 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             NWDNodeEditor.ReAnalyzeIfNecessary(this);
 #endif
-            NWEBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void UpdateDataOperation(bool sAutoDate = true, bool sWebServiceUpgrade = true)
