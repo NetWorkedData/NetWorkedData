@@ -60,9 +60,11 @@ namespace NetWorkedData
             //}
             string tKey = tEnvironment + NWDConstants.kFieldSeparatorA + sKey + NWDConstants.kFieldSeparatorA + tAccountReference;
             // Debug.Log("NWDBasisPreferences SelectDataForEngine() tKey = " + tKey);
-            NWDBasisPreferences rPref = NWDBasisHelper.GetRawDataByReference<NWDBasisPreferences>(tKey);
+            //NWDBasisPreferences rPref = NWDBasisHelper.GetRawDataByReference<NWDBasisPreferences>(tKey);
+            NWDBasisPreferences rPref = NWDBasisHelper.GetEditorDataByReference<NWDBasisPreferences>(tKey);
             if (rPref == null)
             {
+                Debug.Log("I need basis preferences with reference " + tKey);
                 rPref = NWDBasisHelper.NewDataWithReference<NWDBasisPreferences>(tKey);
                 rPref.DevSync = -1;
                 rPref.PreprodSync = -1;

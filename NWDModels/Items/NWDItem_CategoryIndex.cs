@@ -21,7 +21,7 @@ namespace NetWorkedData
 {
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDItemIndexer : NWDIndexer
+    public class NWDItemIndexer : NWDIndexer<NWDItem>
     {
         //-------------------------------------------------------------------------------------------------------------
         static public NWDIndex<NWDCategory, NWDItem> kCategoryIndex = new NWDIndex<NWDCategory, NWDItem>();
@@ -33,14 +33,14 @@ namespace NetWorkedData
             Debug.Log("NWDItemIndexer Install()");
             NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDUserOwnership));
             //------------ in memory
-            tHelper.IndexInMemoryMethodList.Add(tHelper.ClassType.GetMethod("InsertInCategoryIndex"));
-            tHelper.DeindexInMemoryMethodList.Add(tHelper.ClassType.GetMethod("RemoveFromCategoryIndex"));
-            //------------ in memory
-            tHelper.IndexInMemoryMethodList.Add(tHelper.ClassType.GetMethod("InsertInCategoryInverseIndex"));
-            tHelper.DeindexInMemoryMethodList.Add(tHelper.ClassType.GetMethod("RemoveFromCategoryInverseIndex"));
-            //------------ in base
-            tHelper.IndexInBaseMethodList.Add(tHelper.ClassType.GetMethod("IndexInSQLCategorieItem"));
-            tHelper.DeindexInBaseMethodList.Add(tHelper.ClassType.GetMethod("DesindexInSQLCategorieItem"));
+            //tHelper.IndexInMemoryMethodList.Add(tHelper.ClassType.GetMethod("InsertInCategoryIndex"));
+            //tHelper.DeindexInMemoryMethodList.Add(tHelper.ClassType.GetMethod("RemoveFromCategoryIndex"));
+            ////------------ in memory
+            //tHelper.IndexInMemoryMethodList.Add(tHelper.ClassType.GetMethod("InsertInCategoryInverseIndex"));
+            //tHelper.DeindexInMemoryMethodList.Add(tHelper.ClassType.GetMethod("RemoveFromCategoryInverseIndex"));
+            ////------------ in base
+            //tHelper.IndexInBaseMethodList.Add(tHelper.ClassType.GetMethod("IndexInSQLCategorieItem"));
+            //tHelper.DeindexInBaseMethodList.Add(tHelper.ClassType.GetMethod("DesindexInSQLCategorieItem"));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

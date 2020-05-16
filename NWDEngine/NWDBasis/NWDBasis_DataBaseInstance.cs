@@ -74,38 +74,42 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void IndexInBase()
         {
-            foreach (MethodInfo tMethod in BasisHelper().IndexInBaseMethodList)
-            {
-                tMethod.Invoke(this, null);
-                NWDDataManager.SharedInstance().IndexationCounterOp++;
-            }
+            BasisHelper().IndexInBaseData(this);
+            //foreach (MethodInfo tMethod in BasisHelper().IndexInBaseMethodList)
+            //{
+            //    tMethod.Invoke(this, null);
+            //    NWDDataManager.SharedInstance().IndexationCounterOp++;
+            //}
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void IndexInMemory()
         {
-            foreach (MethodInfo tMethod in BasisHelper().IndexInMemoryMethodList)
-            {
-                tMethod.Invoke(this, null);
-                NWDDataManager.SharedInstance().IndexationCounterOp++;
-            }
+            BasisHelper().IndexInMemoryData(this);
+            //foreach (MethodInfo tMethod in BasisHelper().IndexInMemoryMethodList)
+            //{
+            //    tMethod.Invoke(this, null);
+            //    NWDDataManager.SharedInstance().IndexationCounterOp++;
+            //}
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DeindexInBase()
         {
-            foreach (MethodInfo tMethod in BasisHelper().DeindexInBaseMethodList)
-            {
-                tMethod.Invoke(this, null);
-                NWDDataManager.SharedInstance().IndexationCounterOp++;
-            }
+            BasisHelper().DeindexInBaseData(this);
+            //foreach (MethodInfo tMethod in BasisHelper().DeindexInBaseMethodList)
+            //{
+            //    tMethod.Invoke(this, null);
+            //    NWDDataManager.SharedInstance().IndexationCounterOp++;
+            //}
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DeindexInMemory()
         {
-            foreach (MethodInfo tMethod in BasisHelper().DeindexInMemoryMethodList)
-            {
-                tMethod.Invoke(this, null);
-                NWDDataManager.SharedInstance().IndexationCounterOp++;
-            }
+            BasisHelper().DeindexInMemoryData(this);
+            //foreach (MethodInfo tMethod in BasisHelper().DeindexInMemoryMethodList)
+            //{
+            //    tMethod.Invoke(this, null);
+            //    NWDDataManager.SharedInstance().IndexationCounterOp++;
+            //}
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void InstanceInit()

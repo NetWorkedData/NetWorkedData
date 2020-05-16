@@ -74,7 +74,7 @@ namespace NetWorkedData
         {
             DataIndexed = false;
             int tRow = 0;
-            if (IndexInMemoryMethodList.Count > 0)
+            if (IndexerInMemoryList.Count > 0)
             {
                 foreach (NWDTypeClass tObject in Datas)
                 {
@@ -93,7 +93,7 @@ namespace NetWorkedData
         {
             DataIndexed = false;
             //int tRow = 0;
-            if (IndexInMemoryMethodList.Count > 0)
+            //if (IndexInMemoryMethodList.Count > 0)
             {
                 foreach (NWDTypeClass tObject in Datas)
                 {
@@ -226,11 +226,11 @@ namespace NetWorkedData
         public string SaltEnd = string.Empty;
         public bool SaltValid = false;
         //-------------------------------------------------------------------------------------------------------------
-        public List<MethodInfo> IndexInMemoryMethodList = new List<MethodInfo>();
-        public List<MethodInfo> DeindexInMemoryMethodList = new List<MethodInfo>();
-        //-------------------------------------------------------------------------------------------------------------
-        public List<MethodInfo> IndexInBaseMethodList = new List<MethodInfo>();
-        public List<MethodInfo> DeindexInBaseMethodList = new List<MethodInfo>();
+        //public List<MethodInfo> IndexInMemoryMethodList = new List<MethodInfo>();
+        //public List<MethodInfo> DeindexInMemoryMethodList = new List<MethodInfo>();
+        ////-------------------------------------------------------------------------------------------------------------
+        //public List<MethodInfo> IndexInBaseMethodList = new List<MethodInfo>();
+        //public List<MethodInfo> DeindexInBaseMethodList = new List<MethodInfo>();
         //-------------------------------------------------------------------------------------------------------------
         public int ClusterMin;
         public int ClusterMax;
@@ -342,7 +342,7 @@ namespace NetWorkedData
             ClassNamePHP = rClassName;
             ClassPrefBaseKey = ClassNamePHP + "_";
             ClassTrigramme = tClassTrigramme;
-            NWEBenchmark.Step();
+            //NWEBenchmark.Step();
             // TODO:  ... too long! that take 0.006s ... it's too much!
 
             //foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
@@ -378,7 +378,7 @@ namespace NetWorkedData
             //}
 
 
-            NWEBenchmark.Step();
+            //NWEBenchmark.Step();
             PrefLoad();
             // NWEBenchmark.Step();
             bool rAssetConnected = false;
@@ -397,7 +397,7 @@ namespace NetWorkedData
             //{
             //    rAccountConnected = true;
             //}
-            NWEBenchmark.Step();
+            //NWEBenchmark.Step();
             PropertiesArray = sType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             List<PropertyInfo> tDataPropertiesArray = new List<PropertyInfo>();
             foreach (PropertyInfo tProp in sType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
@@ -496,7 +496,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            NWEBenchmark.Step();
+            //NWEBenchmark.Step();
             NWDDataPropertiesArray = tDataPropertiesArray.ToArray();
             //kAccountDependent = rAccountConnected;
             // reccord class' object is account dependent properties

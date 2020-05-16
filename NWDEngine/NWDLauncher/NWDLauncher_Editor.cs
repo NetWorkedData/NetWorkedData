@@ -193,29 +193,6 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        private static void AddIndexMethod()
-        {
-            if (ActiveBenchmark)
-            {
-                NWEBenchmark.Start();
-            }
-            State = NWDStatut.IndexMethodStart;
-            Type[] tAllTypes = Assembly.GetExecutingAssembly().GetTypes();
-            Type[] tAllHelperDTypes = (from Type type in tAllTypes where type.IsSubclassOf(typeof(NWDIndexer)) select type).ToArray();
-            foreach (Type tType in tAllHelperDTypes)
-            {
-                if (tType != typeof(NWDIndexer))
-                {
-                    tType.GetMethod("Install").Invoke(null, null);
-                }
-            }
-            State = NWDStatut.IndexMethodFinish;
-            if (ActiveBenchmark)
-            {
-                NWEBenchmark.Finish();
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
         private static void ConnectEditorStandard()
         {
             if (ActiveBenchmark)

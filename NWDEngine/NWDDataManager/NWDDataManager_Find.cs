@@ -231,7 +231,8 @@ namespace NetWorkedData
                 }
                 if (tHelper != null)
                 {
-                    MethodCounterOp += tHelper.IndexInMemoryMethodList.Count;
+                    //MethodCounterOp += tHelper.IndexInMemoryMethodList.Count;
+                    MethodCounterOp += tHelper.IndexerInMemoryList.Count;
                     RowsCounterOp += tHelper.Datas.Count;
                 }
             }
@@ -283,7 +284,8 @@ namespace NetWorkedData
             foreach (Type tType in ClassTypeList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                MethodCounterOp += tHelper.IndexInMemoryMethodList.Count;
+                //MethodCounterOp += tHelper.IndexInMemoryMethodList.Count;
+                MethodCounterOp += tHelper.IndexerInMemoryList.Count;
                 RowsCounterOp += tHelper.Datas.Count;
                 tHelper.IndexInMemoryAllObjects();
             }

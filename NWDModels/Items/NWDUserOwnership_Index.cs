@@ -12,7 +12,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDUserOwnershipIndexer : NWDIndexer
+    public class NWDUserOwnershipIndexer : NWDIndexer<NWDUserOwnership>
     {
         //-------------------------------------------------------------------------------------------------------------
         static public NWDIndex<NWDItem, NWDUserOwnership> Index = new NWDIndex<NWDItem, NWDUserOwnership>();
@@ -21,8 +21,8 @@ namespace NetWorkedData
         {
             Debug.Log("NWDUserOwnershipIndexer Install()");
             NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDUserOwnership));
-            tHelper.IndexInMemoryMethodList.Add(tHelper.ClassType.GetMethod("InsertInLevelIndex"));
-            tHelper.DeindexInMemoryMethodList.Add(tHelper.ClassType.GetMethod("RemoveFromLevelIndex"));
+            //tHelper.IndexInMemoryMethodList.Add(tHelper.ClassType.GetMethod("InsertInLevelIndex"));
+            //tHelper.DeindexInMemoryMethodList.Add(tHelper.ClassType.GetMethod("RemoveFromLevelIndex"));
         }
         //-------------------------------------------------------------------------------------------------------------
     }
