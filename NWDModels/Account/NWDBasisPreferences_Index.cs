@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:29:30
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -19,7 +13,6 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -28,43 +21,45 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasisPreferences : NWDBasisAccountUnsynchronize
+    //public partial class NWDBasisPreferences : NWDBasisAccountUnsynchronize
+    public partial class NWDBasisPreferences : NWDBasisUnsynchronize
     {
-        //-------------------------------------------------------------------------------------------------------------
-        const string EDITOR = "EDITOR";
-        const string PLAYING = "PLAYING";
-        const string GENERAL = "GENERAL";
-        //const string TOKEN = "TOKEN";
         //-------------------------------------------------------------------------------------------------------------
         static public NWDBasisPreferences SelectDataForEngine(string sKey, NWDAppEnvironment sEnvironment, string sStringDefault, int sIntDefault = 0, bool sLimitByAccount = true)
         {
             string tAccountReference = string.Empty;
-            string tEnvironment = sEnvironment.Environment;
             if (sLimitByAccount)
             {
-                tAccountReference = sEnvironment.PlayerAccountReference;
-#if UNITY_EDITOR
-            if (Application.isPlaying == false)
-            {
-                tAccountReference = EDITOR;
-            }
-#endif
+                switch (NWDLauncher.CompileAs())
+                {
+                    case NWDCompileType.Editor:
+                        {
+                            //tAccountReference = NWDCompileType.Editor.ToString() + NWDConstants.kFieldSeparatorA + sEnvironment.PlayerAccountReference;
+                            tAccountReference = NWDCompileType.Editor.ToString();
+                        }
+                        break;
+                    case NWDCompileType.PlayMode:
+                        {
+                            tAccountReference = NWDCompileType.PlayMode.ToString() + NWDConstants.kFieldSeparatorA + sEnvironment.PlayerAccountReference;
+                        }
+                        break;
+                    case NWDCompileType.Runtime:
+                        {
+                            tAccountReference = NWDCompileType.Runtime.ToString() + NWDConstants.kFieldSeparatorA + sEnvironment.PlayerAccountReference;
+                        }
+                        break;
+                }
             }
             else
             {
-                tAccountReference = GENERAL;
+                tAccountReference = "General";
             }
-            //if (sKey == NWDAppEnvironment.kRequesTokenKey)
-            //{
-            //    tAccountReference = TOKEN;
-            //}
-            string tKey = tEnvironment + NWDConstants.kFieldSeparatorA + sKey + NWDConstants.kFieldSeparatorA + tAccountReference;
-            // Debug.Log("NWDBasisPreferences SelectDataForEngine() tKey = " + tKey);
-            //NWDBasisPreferences rPref = NWDBasisHelper.GetRawDataByReference<NWDBasisPreferences>(tKey);
-            NWDBasisPreferences rPref = NWDBasisHelper.GetEditorDataByReference<NWDBasisPreferences>(tKey);
+            string tKey = sEnvironment.Environment + NWDConstants.kFieldSeparatorA + sKey + NWDConstants.kFieldSeparatorA + tAccountReference;
+            //Debug.Log("I need basis preferences with reference " + tKey);
+            NWDBasisPreferences rPref = NWDBasisHelper.GetRawDataByReference<NWDBasisPreferences>(tKey);
             if (rPref == null)
             {
-                Debug.Log("I need basis preferences with reference " + tKey);
+                //Debug.Log("I need create basis preferences with reference " + tKey);
                 rPref = NWDBasisHelper.NewDataWithReference<NWDBasisPreferences>(tKey);
                 rPref.DevSync = -1;
                 rPref.PreprodSync = -1;
@@ -79,23 +74,9 @@ namespace NetWorkedData
                 }
                 rPref.IntValue = sIntDefault;
 #if UNITY_EDITOR
-                if (tAccountReference.Equals(EDITOR))
-                {
-                    rPref.InternalKey = EDITOR + NWDConstants.kFieldSeparatorA + sKey;
-                    rPref.Account = new NWDReferenceType<NWDAccount>();
-                }
-                else if (tAccountReference.Equals(GENERAL))
-                {
-                    rPref.InternalKey = GENERAL + NWDConstants.kFieldSeparatorA + sKey;
-                    rPref.Account = new NWDReferenceType<NWDAccount>();
-                }
-                else
-                {
-                    rPref.InternalKey = PLAYING + NWDConstants.kFieldSeparatorA + sKey;
-                }
-                rPref.InternalDescription = tEnvironment;
+                rPref.InternalKey = (sKey + " " + tAccountReference).Replace(NWDConstants.kFieldSeparatorA, " ").Replace("  ", " ");
+                rPref.InternalDescription = sEnvironment.Environment;
                 rPref.Tag = NWDBasisTag.TagAdminCreated;
-                rPref.Environment = tEnvironment;
 #else
                 rPref.Tag = NWDBasisTag.TagUserCreated;
 #endif

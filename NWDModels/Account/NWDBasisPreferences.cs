@@ -31,14 +31,15 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("BSP")]
     [NWDClassDescriptionAttribute("Basis Preferences Class! Never use by yourself in game!")]
     [NWDClassMenuNameAttribute("Basis Preferences")]
-    public partial class NWDBasisPreferences : NWDBasisAccountUnsynchronize
+    //public partial class NWDBasisPreferences : NWDBasisAccountUnsynchronize
+    public partial class NWDBasisPreferences : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDCertified]
-        public string Environment
-        {
-            get; set;
-        }
+        //[NWDCertified]
+        //public string Environment
+        //{
+        //    get; set;
+        //}
         [NWDCertified]
         public string StringValue
         {

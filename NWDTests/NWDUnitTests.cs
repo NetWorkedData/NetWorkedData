@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:24:53
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -74,7 +68,7 @@ namespace NetWorkedData
         public static T NewLocalData<T>(string sAddInternalKey = "") where T : NWDTypeClass, new()
         {
             T rObject = NWDBasisHelper.NewData<T>();
-            rObject.InternalKey = sAddInternalKey + " (UnitTest " + NWDToolbox.RandomStringCypher(8) + ")";
+            rObject.InternalKey = sAddInternalKey + " (UnitTest " + NWDToolbox.RandomStringCypher(24) + ")";
             SetUnitTestData(rObject);
             return rObject;
         }

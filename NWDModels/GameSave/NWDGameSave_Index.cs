@@ -32,7 +32,7 @@ namespace NetWorkedData
                     NWDGameSave tParty = NWDBasisHelper.GetRawDataByReference<NWDGameSave>(tAccountInfos.CurrentGameSave.GetReference());
                     if (tParty != null)
                     {
-                        if(tParty.Account.GetReference() == tAccountInfos.Account.GetReference())
+                        if (tParty.Account.GetReference() == tAccountInfos.Account.GetReference())
                         {
                             rParty = tParty;
                         }
@@ -59,10 +59,10 @@ namespace NetWorkedData
                         break;
                     }
                 }
-            }
-            if (rParty == null && tAccountInfos != null)
-            {
-                rParty = NewCurrent();
+                if (rParty == null && tAccountInfos != null)
+                {
+                    rParty = NewCurrent();
+                }
             }
             return rParty;
         }

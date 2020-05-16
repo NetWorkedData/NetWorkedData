@@ -126,6 +126,7 @@ namespace NetWorkedData
             // write file basis
             string tFilePath = tOwnerClassesFolderPath + "/" + ClassName + ".cs";
             File.WriteAllText(tFilePath, tClassExample);
+            AssetDatabase.ImportAsset(tFilePath);
             // write file connection with unity
             if (ClassUnityConnection == true)
             {
@@ -155,6 +156,8 @@ namespace NetWorkedData
             ClassNameProperties = new List<KeyValuePair<string, string>>();
             Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(tFilePath);
             EditorGUIUtility.PingObject(Selection.activeObject);
+
+            AssetDatabase.ImportAsset(tOwnerClassesFolderPath);
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

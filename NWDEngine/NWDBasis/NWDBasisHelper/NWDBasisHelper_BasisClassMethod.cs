@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:24:54
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -177,21 +171,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public static List<T> GetEditorDatasList<T>() where T : NWDTypeClass, new()
-        {
-            //NWEBenchmark.Start();
-            List<T> rReturn = BasisHelper<T>().Datas as List<T>;
-            //NWEBenchmark.Finish();
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static T[] GetEditorDatas<T>() where T : NWDTypeClass, new()
-        {
-            //NWEBenchmark.Start();
-            T[] rReturn = BasisHelper<T>().Datas.ToArray() as T[];
-            //NWEBenchmark.Finish();
-            return rReturn;
-        }
+        //public static List<T> GetEditorDatasList<T>() where T : NWDTypeClass, new()
+        //{
+        //    //NWEBenchmark.Start();
+        //    List<T> rReturn = BasisHelper<T>().Datas as List<T>;
+        //    //NWEBenchmark.Finish();
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static T[] GetEditorDatas<T>() where T : NWDTypeClass, new()
+        //{
+        //    //NWEBenchmark.Start();
+        //    T[] rReturn = BasisHelper<T>().Datas.ToArray() as T[];
+        //    //NWEBenchmark.Finish();
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static T GetEditorDataByReference<T>(string sReference, bool sTryOnDisk = false) where T : NWDTypeClass, new()
         {
@@ -423,77 +417,34 @@ namespace NetWorkedData
         #endregion
         #region REACHABLE Get datas for my account and my gamesave
         //-------------------------------------------------------------------------------------------------------------
-        public static List<T> GetReachableDatasList<T>(bool sLimitByGameSave = true) where T : NWDTypeClass, new()
+        public static List<T> GetReachableDatasList<T>() where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
-            NWDGameSave tGameSave = null;
-            if (sLimitByGameSave == true)
-            {
-                tGameSave = NWDGameSave.CurrentData();
-            }
-            //NWEBenchmark.Finish();
-            return GetCorporateDatasList<T>(NWDAccount.CurrentReference(), tGameSave);
+            return GetCorporateDatasList<T>(NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static T[] GetReachableDatas<T>(bool sLimitByGameSave = true) where T : NWDTypeClass, new()
+        public static T[] GetReachableDatas<T>() where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
-            NWDGameSave tGameSave = null;
-            if (sLimitByGameSave == true)
-            {
-                tGameSave = NWDGameSave.CurrentData();
-            }
-            //NWEBenchmark.Finish();
-            return GetCorporateDatas<T>(NWDAccount.CurrentReference(), tGameSave);
+            return GetCorporateDatas<T>(NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static T GetReachableFirstData<T>(bool sLimitByGameSave = true) where T : NWDTypeClass, new()
+        public static T GetReachableFirstData<T>() where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
-            NWDGameSave tGameSave = null;
-            if (sLimitByGameSave == true)
-            {
-                tGameSave = NWDGameSave.CurrentData();
-            }
-            //NWEBenchmark.Finish();
-            return GetCorporateFirstData<T>(NWDAccount.CurrentReference(), tGameSave);
+            return GetCorporateFirstData<T>(NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static T GetReachableDataByReference<T>(string sReference, bool sLimitByGameSave = true, bool sTryOnDisk = false) where T : NWDTypeClass, new()
+        public static T GetReachableDataByReference<T>(string sReference, bool sTryOnDisk = false) where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
-            NWDGameSave tGameSave = null;
-            if (sLimitByGameSave == true)
-            {
-                tGameSave = NWDGameSave.CurrentData();
-            }
-            //NWEBenchmark.Finish();
-            return GetCorporateDataByReference<T>(sReference, NWDAccount.CurrentReference(), tGameSave, sTryOnDisk);
+            return GetCorporateDataByReference<T>(sReference, NWDAccount.CurrentReference(), NWDGameSave.CurrentData(), sTryOnDisk);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static T[] GetReacheableDatasByInternalKey<T>(string sInternalKey, bool sLimitByGameSave = true) where T : NWDTypeClass, new()
+        public static T[] GetReacheableDatasByInternalKey<T>(string sInternalKey) where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
-            NWDGameSave tGameSave = null;
-            if (sLimitByGameSave == true)
-            {
-                tGameSave = NWDGameSave.CurrentData();
-            }
-            //NWEBenchmark.Finish();
-            return GetCorporateDatasByInternalKey<T>(sInternalKey, NWDAccount.CurrentReference(), tGameSave);
+            return GetCorporateDatasByInternalKey<T>(sInternalKey, NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static T GetReacheableFirstDataByInternalKey<T>(string sInternalKey, bool sLimitByGameSave = true) where T : NWDTypeClass, new()
+        public static T GetReacheableFirstDataByInternalKey<T>(string sInternalKey) where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
-            NWDGameSave tGameSave = null;
-            if (sLimitByGameSave == true)
-            {
-                tGameSave = NWDGameSave.CurrentData();
-            }
-            T rReturn = GetCorporateFirstDataByInternalKey<T>(sInternalKey, NWDAccount.CurrentReference(), tGameSave);
-            //NWEBenchmark.Finish();
-            return rReturn;
+            return GetCorporateFirstDataByInternalKey<T>(sInternalKey, NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -578,58 +529,61 @@ namespace NetWorkedData
                 //if (sData.IsTrashed() == false || sData.IsEnable() == true || sData.TestIntegrityResult == true)
                 if (sData.IsEnable() == true)
                 {
-                    string tGameSaveReference = null;
-                    if (sGameSave != null)
+                    if (sData.IntegrityIsValid())
                     {
-                        tGameSaveReference = sGameSave.Reference;
-                    }
-                    bool tInsert = sData.IsReacheableBy(tGameSaveReference, sAccountReference);
+                        string tGameSaveReference = null;
+                        if (sGameSave != null)
+                        {
+                            tGameSaveReference = sGameSave.Reference;
+                        }
+                        bool tInsert = sData.IsReacheableBy(tGameSaveReference, sAccountReference);
 
-                    //bool tInsert = true;
-                    //if (BasisHelper<T>().kAccountDependent)
-                    //{
+                        //bool tInsert = true;
+                        //if (BasisHelper<T>().kAccountDependent)
+                        //{
 
 
-                    //    if (sGameSave != null)
-                    //    {
-                    //        // test game save if necessary
-                    //        if (BasisHelper<T>().GameSaveMethod != null && sGameSave != null)
-                    //        {
-                    //            string tGameIndex = sGameSave.Reference;
-                    //            var tValue = BasisHelper<T>().ClassGameDependentProperties.GetValue(sData, null);
-                    //            if (tValue == null)
-                    //            {
-                    //                tValue = string.Empty;
-                    //            }
-                    //            string tSaveIndex = BasisHelper<T>().GameSaveMethod.Invoke(tValue, null) as string;
-                    //            if (tSaveIndex != tGameIndex)
-                    //            {
-                    //                tInsert = false;
-                    //            }
-                    //        }
-                    //    }
-                    //    if (tInsert == true && string.IsNullOrEmpty(sAccountReference) == false)
-                    //    {
-                    //        tInsert = false; // research by default false and true when found first solution
-                    //        foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in BasisHelper<T>().AccountMethodDico)
-                    //        {
-                    //            var tValue = tInfos.Key.GetValue(sData, null);
-                    //            if (tValue == null)
-                    //            {
-                    //                tValue = string.Empty;
-                    //            }
-                    //            string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
-                    //            if (tAccountValue.Contains(sAccountReference))
-                    //            {
-                    //                tInsert = true;
-                    //                break; // I fonud one solution! this user can see this informations
-                    //            }
-                    //        }
-                    //    }
-                    //}
-                    if (tInsert == true)
-                    {
-                        rReturn = sData;
+                        //    if (sGameSave != null)
+                        //    {
+                        //        // test game save if necessary
+                        //        if (BasisHelper<T>().GameSaveMethod != null && sGameSave != null)
+                        //        {
+                        //            string tGameIndex = sGameSave.Reference;
+                        //            var tValue = BasisHelper<T>().ClassGameDependentProperties.GetValue(sData, null);
+                        //            if (tValue == null)
+                        //            {
+                        //                tValue = string.Empty;
+                        //            }
+                        //            string tSaveIndex = BasisHelper<T>().GameSaveMethod.Invoke(tValue, null) as string;
+                        //            if (tSaveIndex != tGameIndex)
+                        //            {
+                        //                tInsert = false;
+                        //            }
+                        //        }
+                        //    }
+                        //    if (tInsert == true && string.IsNullOrEmpty(sAccountReference) == false)
+                        //    {
+                        //        tInsert = false; // research by default false and true when found first solution
+                        //        foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in BasisHelper<T>().AccountMethodDico)
+                        //        {
+                        //            var tValue = tInfos.Key.GetValue(sData, null);
+                        //            if (tValue == null)
+                        //            {
+                        //                tValue = string.Empty;
+                        //            }
+                        //            string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
+                        //            if (tAccountValue.Contains(sAccountReference))
+                        //            {
+                        //                tInsert = true;
+                        //                break; // I fonud one solution! this user can see this informations
+                        //            }
+                        //        }
+                        //    }
+                        //}
+                        if (tInsert == true)
+                        {
+                            rReturn = sData;
+                        }
                     }
                 }
             }

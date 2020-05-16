@@ -41,6 +41,13 @@ namespace NetWorkedData
         static Dictionary<string, string> FakeDevicePlayerHashDico = new Dictionary<string, string>();
         static Dictionary<string, string> FakeDeviceEditorHashDico = new Dictionary<string, string>();
         //-------------------------------------------------------------------------------------------------------------
+        public static string SetNewAccount()
+        {
+            string tNewAccount = NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM + NWEConstants.K_MINUS + "00000" + NWEConstants.K_MINUS + NWDToolbox.RandomStringNumeric(10) + NWEConstants.K_MINUS + NWDToolbox.RandomStringNumeric(7) + NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE;
+            NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference = tNewAccount;
+            return tNewAccount;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void FakeDevicePlayerReset()
         {
             FakeDevicePlayerHash = "PlaY3r-" + NWDToolbox.RandomStringUnix(NWDAppEnvironment.kSecretKeyDevicePlayerLength);

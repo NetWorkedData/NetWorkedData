@@ -43,7 +43,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountPreference GetByInternalKeyOrCreate(string sInternalKey, NWDMultiType sDefaultValue, string sInternalDescription = NWEConstants.K_EMPTY_STRING)
         {
-            NWDAccountPreference rObject = NWDBasisHelper.GetReacheableFirstDataByInternalKey<NWDAccountPreference>(sInternalKey,false);
+            NWDAccountPreference rObject = NWDBasisHelper.GetReacheableFirstDataByInternalKey<NWDAccountPreference>(sInternalKey);
             if (rObject == null)
             {
                 rObject = NWDBasisHelper.NewData<NWDAccountPreference>();

@@ -20,13 +20,6 @@ namespace NetWorkedData
         [NWDInspectorGroupReset()]
         [NWDInspectorGroupStart("Account Informations")]
         public NWDReferenceType<NWDAccount> Account { get; set; }
-        //[NWDNotEditable]
-        //[NWDCertified]
-        //[NWDHidden]
-        //public int RangeAccess
-        //{
-        //    get; set;
-        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Constructor basic.
@@ -44,11 +37,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override bool IsReacheableBy(string sGameSaveReference, string sAccountReference = null)
         {
+            if (string.IsNullOrEmpty(sAccountReference))
+            {
+                sAccountReference = NWDAccount.CurrentReference();
+            }
             return (Account.GetReference() == sAccountReference);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override bool IsWritableBy(string sGameSaveReference, string sAccountReference = null)
         {
+            if (string.IsNullOrEmpty(sAccountReference))
+            {
+                sAccountReference = NWDAccount.CurrentReference();
+            }
             return (Account.GetReference() == sAccountReference);
         }
         //-------------------------------------------------------------------------------------------------------------
