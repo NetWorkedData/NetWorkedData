@@ -190,9 +190,6 @@ namespace NetWorkedData
             */
 
             List<string> tDescription = new List<string>();
-            DevSyncActive(Dev);
-            PreprodSyncActive(Preprod);
-            ProdSyncActive(Prod);
             if (Dev == true)
             {
                 tDescription.Add(NWDAppConfiguration.SharedInstance().DevEnvironment.Environment);

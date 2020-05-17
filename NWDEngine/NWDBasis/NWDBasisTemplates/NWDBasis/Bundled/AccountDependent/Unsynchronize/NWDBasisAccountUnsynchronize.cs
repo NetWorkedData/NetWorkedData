@@ -9,9 +9,6 @@
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// This class is used for the <see cref="NWDBasisPreferences"/> only.
-    /// </summary>
     public partial class NWDBasisAccountUnsynchronize : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -21,6 +18,24 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDBasisAccountUnsynchronize(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonInsertMe()
+        {
+            DevSync = -1;
+            PreprodSync = -1;
+            ProdSync = -1;
+            DS = -1;
+            base.AddonInsertMe();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUpdateMe()
+        {
+            DevSync = -1;
+            PreprodSync = -1;
+            ProdSync = -1;
+            DS = -1;
+            base.AddonUpdateMe();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

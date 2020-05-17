@@ -21,13 +21,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public void CheckAllCluster()
         {
-            Debug.Log("NWDClusterAnalyzer CheckAllCluster()");
+            //Debug.Log("NWDClusterAnalyzer CheckAllCluster()");
 #if UNITY_EDITOR
             if (kInProgress == false)
             {
-                Debug.Log("NWDClusterAnalyzer start process!");
+                //Debug.Log("NWDClusterAnalyzer start process!");
                 kInProgress = true;
-                Debug.Log("NWDClusterAnalyzer load all datas for analyze!");
+                //Debug.Log("NWDClusterAnalyzer load all datas for analyze!");
                 NWDBasisHelper tNWDServerDomainHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDServerDomain));
                 if (tNWDServerDomainHelper.IsLoaded() == false)
                 {
@@ -48,7 +48,7 @@ namespace NetWorkedData
                 {
                     tNWDCluster.LoadFromDatabaseByBundle(NWDBundle.ALL, false);
                 }
-                Debug.Log("NWDClusterAnalyzer set false by default process!");
+                //Debug.Log("NWDClusterAnalyzer set false by default process!");
                 foreach (NWDServerDomain tServerDomains in tNWDServerDomainHelper.Datas)
                 {
                     tServerDomains.Dev = false;
@@ -67,18 +67,18 @@ namespace NetWorkedData
                     tServerServices.Preprod = false;
                     tServerServices.Prod = false;
                 }
-                Debug.Log("NWDClusterAnalyzer loop process!");
+                //Debug.Log("NWDClusterAnalyzer loop process!");
                 // Analyze each cluster
                 foreach (NWDCluster tCluster in tNWDCluster.Datas)
                 {
                     StringBuilder tInformations = new StringBuilder();
                     if (tCluster.IsEnable())
                     {
-                        Debug.Log("<b><color=red>Analyze</color> Cluster : " + tCluster.InternalKey + "</b>");
+                        //Debug.Log("<b><color=red>Analyze</color> Cluster : " + tCluster.InternalKey + "</b>");
                         tCluster.Domains.Flush();
                         foreach (NWDServerServices tServerServices in tCluster.Services.GetEditorDatas())
                         {
-                            Debug.Log("Analyze Cluster analyze tServerServices : " + tServerServices.InternalKey);
+                            //Debug.Log("Analyze Cluster analyze tServerServices : " + tServerServices.InternalKey);
                             if (tServerServices.IsEnable())
                             {
                                 if (tServerServices.ServerDomain != null)
@@ -86,30 +86,30 @@ namespace NetWorkedData
                                     NWDServerDomain tServerDomains = tServerServices.ServerDomain.GetEditorData() as NWDServerDomain;
                                     if (tServerDomains != null)
                                     {
-                                        Debug.Log("Analyze Cluster analyze  tServerDomains : " + tServerDomains.InternalKey);
+                                        //Debug.Log("Analyze Cluster analyze  tServerDomains : " + tServerDomains.InternalKey);
                                         if (tServerDomains.IsEnable())
                                         {
-                                            Debug.Log("Analyze Cluster add  domains : " + tServerDomains.InternalKey);
+                                            //Debug.Log("Analyze Cluster add  domains : " + tServerDomains.InternalKey);
                                             tCluster.Domains.AddData(tServerDomains);
                                         }
                                         else
                                         {
-                                            Debug.Log("Analyze Cluster domains : " + tServerDomains.InternalKey + " IS DISABLE ?");
+                                            //Debug.Log("Analyze Cluster domains : " + tServerDomains.InternalKey + " IS DISABLE ?");
                                         }
                                     }
                                     else
                                     {
-                                        Debug.Log("Analyze Cluster tServerDomains is NULL");
+                                        //Debug.Log("Analyze Cluster tServerDomains is NULL");
                                     }
                                 }
                                 else
                                 {
-                                    Debug.Log("Analyze Cluster tServerServices : " + tServerServices.InternalKey + " ServerDomain is NULL");
+                                    //Debug.Log("Analyze Cluster tServerServices : " + tServerServices.InternalKey + " ServerDomain is NULL");
                                 }
                             }
                             else
                             {
-                                Debug.Log("Analyze Cluster tServerServices : " + tServerServices.InternalKey + " IS DISABLE !?");
+                                //Debug.Log("Analyze Cluster tServerServices : " + tServerServices.InternalKey + " IS DISABLE !?");
                             }
                         }
                         if (tCluster.Dev == true)
@@ -126,28 +126,14 @@ namespace NetWorkedData
                                         {
                                             tInformations.AppendLine("    • " + tServerDomains.ServerDNS + " ");
                                             tServerDomains.Dev = true;
+                                            tServerDomains.DevSyncActive(true);
                                         }
                                     }
                                 }
                             }
-                            if (tCluster.DataBases.Count() > 0)
+                            if (tCluster.Services.Count() > 0)
                             {
-                                tInformations.AppendLine("  • Database used are : ");
-                                foreach (NWDServerDatas tServerDatas in tCluster.DataBases.GetEditorDatas())
-                                {
-                                    if (tServerDatas != null)
-                                    {
-                                        if (tServerDatas.IsEnable())
-                                        {
-                                            tInformations.AppendLine("    • " + tServerDatas.MySQLIP.ToString() + " ");
-                                            tServerDatas.Dev = true;
-                                        }
-                                    }
-                                }
-                            }
-                            if (tCluster.DataBases.Count() > 0)
-                            {
-                                tInformations.AppendLine("  • Service used are : ");
+                                tInformations.AppendLine("  • Services used are : ");
                                 foreach (NWDServerServices tServerServices in tCluster.Services.GetEditorDatas())
                                 {
                                     if (tServerServices != null)
@@ -163,6 +149,21 @@ namespace NetWorkedData
                                                     tServerServices.Dev = true;
                                                 }
                                             }
+                                        }
+                                    }
+                                }
+                            }
+                            if (tCluster.DataBases.Count() > 0)
+                            {
+                                tInformations.AppendLine("  • Databases used are : ");
+                                foreach (NWDServerDatas tServerDatas in tCluster.DataBases.GetEditorDatas())
+                                {
+                                    if (tServerDatas != null)
+                                    {
+                                        if (tServerDatas.IsEnable())
+                                        {
+                                            tInformations.AppendLine("    • " + tServerDatas.MySQLIP.ToString() + " ");
+                                            tServerDatas.Dev = true;
                                         }
                                     }
                                 }
@@ -183,28 +184,14 @@ namespace NetWorkedData
                                         {
                                             tInformations.AppendLine("    • " + tServerDomains.ServerDNS + " ");
                                             tServerDomains.Preprod = true;
+                                            tServerDomains.PreprodSyncActive(true);
                                         }
                                     }
                                 }
                             }
-                            if (tCluster.DataBases.Count() > 0)
+                            if (tCluster.Services.Count() > 0)
                             {
-                                tInformations.AppendLine("  • Database used are : ");
-                                foreach (NWDServerDatas tServerDatas in tCluster.DataBases.GetEditorDatas())
-                                {
-                                    if (tServerDatas != null)
-                                    {
-                                        if (tServerDatas.IsEnable())
-                                        {
-                                            tInformations.AppendLine("    • " + tServerDatas.MySQLIP.ToString() + " ");
-                                            tServerDatas.Preprod = true;
-                                        }
-                                    }
-                                }
-                            }
-                            if (tCluster.DataBases.Count() > 0)
-                            {
-                                tInformations.AppendLine("  • Service used are : ");
+                                tInformations.AppendLine("  • Services used are : ");
                                 foreach (NWDServerServices tServerServices in tCluster.Services.GetEditorDatas())
                                 {
                                     if (tServerServices != null)
@@ -220,6 +207,21 @@ namespace NetWorkedData
                                                     tServerServices.Preprod = true;
                                                 }
                                             }
+                                        }
+                                    }
+                                }
+                            }
+                            if (tCluster.DataBases.Count() > 0)
+                            {
+                                tInformations.AppendLine("  • Databases used are : ");
+                                foreach (NWDServerDatas tServerDatas in tCluster.DataBases.GetEditorDatas())
+                                {
+                                    if (tServerDatas != null)
+                                    {
+                                        if (tServerDatas.IsEnable())
+                                        {
+                                            tInformations.AppendLine("    • " + tServerDatas.MySQLIP.ToString() + " ");
+                                            tServerDatas.Preprod = true;
                                         }
                                     }
                                 }
@@ -240,28 +242,14 @@ namespace NetWorkedData
                                         {
                                             tInformations.AppendLine("    • " + tServerDomains.ServerDNS + " ");
                                             tServerDomains.Prod = true;
+                                            tServerDomains.ProdSyncActive(true);
                                         }
                                     }
                                 }
                             }
-                            if (tCluster.DataBases.Count() > 0)
+                            if (tCluster.Services.Count() > 0)
                             {
-                                tInformations.AppendLine("  • Database used are : ");
-                                foreach (NWDServerDatas tServerDatas in tCluster.DataBases.GetEditorDatas())
-                                {
-                                    if (tServerDatas != null)
-                                    {
-                                        if (tServerDatas.IsEnable())
-                                        {
-                                            tInformations.AppendLine("    • " + tServerDatas.MySQLIP.ToString() + " ");
-                                            tServerDatas.Prod = true;
-                                        }
-                                    }
-                                }
-                            }
-                            if (tCluster.DataBases.Count() > 0)
-                            {
-                                tInformations.AppendLine("  • Service used are : ");
+                                tInformations.AppendLine("  • Services used are : ");
                                 foreach (NWDServerServices tServerServices in tCluster.Services.GetEditorDatas())
                                 {
                                     if (tServerServices != null)
@@ -277,6 +265,21 @@ namespace NetWorkedData
                                                     tServerServices.Prod = true;
                                                 }
                                             }
+                                        }
+                                    }
+                                }
+                            }
+                            if (tCluster.DataBases.Count() > 0)
+                            {
+                                tInformations.AppendLine("  • Databases used are : ");
+                                foreach (NWDServerDatas tServerDatas in tCluster.DataBases.GetEditorDatas())
+                                {
+                                    if (tServerDatas != null)
+                                    {
+                                        if (tServerDatas.IsEnable())
+                                        {
+                                            tInformations.AppendLine("    • " + tServerDatas.MySQLIP.ToString() + " ");
+                                            tServerDatas.Prod = true;
                                         }
                                     }
                                 }
@@ -297,7 +300,7 @@ namespace NetWorkedData
                     }
                     tCluster.Information = tInformations.ToString();
                 }
-                Debug.Log("<b><color=red>Analyze Finish</color></b>");
+                //Debug.Log("<b><color=red>Analyze Finish</color></b>");
                 foreach (NWDServerDomain tServerDomains in tNWDServerDomainHelper.Datas)
                 {
                     tServerDomains.UpdateDataIfModified();
@@ -316,11 +319,11 @@ namespace NetWorkedData
                 }
                 NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
                 kInProgress = false;
-                Debug.Log("NWDClusterAnalyzer finished process!");
+                //Debug.Log("NWDClusterAnalyzer finished process!");
             }
             else
             {
-                Debug.Log("NWDClusterAnalyzer in progres...");
+                //Debug.Log("NWDClusterAnalyzer in progres...");
             }
 #endif
         }

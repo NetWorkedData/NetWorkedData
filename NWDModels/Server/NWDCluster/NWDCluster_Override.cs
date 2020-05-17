@@ -68,9 +68,6 @@ namespace NetWorkedData
             //#if UNITY_EDITOR
             // do something when object will be updated
             List<string> tDescription = new List<string>();
-            DevSyncActive(Dev);
-            PreprodSyncActive(Preprod);
-            ProdSyncActive(Prod);
             if (Dev == true)
             {
                 tDescription.Add(NWDAppConfiguration.SharedInstance().DevEnvironment.Environment);
