@@ -72,214 +72,228 @@ namespace NetWorkedData
                 foreach (NWDCluster tCluster in tNWDCluster.Datas)
                 {
                     StringBuilder tInformations = new StringBuilder();
-                    Debug.Log("<b><color=red>Analyze</color> Cluster : " + tCluster.InternalKey + "</b>");
-                    tCluster.Domains.Flush();
-                    foreach (NWDServerServices tServerServices in tCluster.Services.GetEditorDatas())
+                    if (tCluster.IsEnable())
                     {
-                        Debug.Log("Analyze Cluster analyze tServerServices : " + tServerServices.InternalKey);
-                        if (tServerServices.IsEnable())
+                        Debug.Log("<b><color=red>Analyze</color> Cluster : " + tCluster.InternalKey + "</b>");
+                        tCluster.Domains.Flush();
+                        foreach (NWDServerServices tServerServices in tCluster.Services.GetEditorDatas())
                         {
-                            if (tServerServices.ServerDomain != null)
+                            Debug.Log("Analyze Cluster analyze tServerServices : " + tServerServices.InternalKey);
+                            if (tServerServices.IsEnable())
                             {
-                                NWDServerDomain tServerDomains = tServerServices.ServerDomain.GetEditorData() as NWDServerDomain;
-                                if (tServerDomains != null)
+                                if (tServerServices.ServerDomain != null)
                                 {
-                                    Debug.Log("Analyze Cluster analyze  tServerDomains : " + tServerDomains.InternalKey);
-                                    if (tServerDomains.IsEnable())
+                                    NWDServerDomain tServerDomains = tServerServices.ServerDomain.GetEditorData() as NWDServerDomain;
+                                    if (tServerDomains != null)
                                     {
-                                        Debug.Log("Analyze Cluster add  domains : " + tServerDomains.InternalKey);
-                                        tCluster.Domains.AddData(tServerDomains);
+                                        Debug.Log("Analyze Cluster analyze  tServerDomains : " + tServerDomains.InternalKey);
+                                        if (tServerDomains.IsEnable())
+                                        {
+                                            Debug.Log("Analyze Cluster add  domains : " + tServerDomains.InternalKey);
+                                            tCluster.Domains.AddData(tServerDomains);
+                                        }
+                                        else
+                                        {
+                                            Debug.Log("Analyze Cluster domains : " + tServerDomains.InternalKey + " IS DISABLE ?");
+                                        }
                                     }
                                     else
                                     {
-                                        Debug.Log("Analyze Cluster domains : " + tServerDomains.InternalKey + " IS DISABLE ?");
+                                        Debug.Log("Analyze Cluster tServerDomains is NULL");
                                     }
                                 }
                                 else
                                 {
-                                    Debug.Log("Analyze Cluster tServerDomains is NULL");
+                                    Debug.Log("Analyze Cluster tServerServices : " + tServerServices.InternalKey + " ServerDomain is NULL");
                                 }
                             }
                             else
                             {
-                                Debug.Log("Analyze Cluster tServerServices : " + tServerServices.InternalKey + " ServerDomain is NULL");
+                                Debug.Log("Analyze Cluster tServerServices : " + tServerServices.InternalKey + " IS DISABLE !?");
                             }
+                        }
+                        if (tCluster.Dev == true)
+                        {
+                            tInformations.AppendLine("• Cluster in active in Dev Environment (" + NWDAppConfiguration.SharedInstance().DevEnvironment.Environment + ") ");
+                            if (tCluster.Domains.Count() > 0)
+                            {
+                                tInformations.AppendLine("  • DNS used are : ");
+                                foreach (NWDServerDomain tServerDomains in tCluster.Domains.GetEditorDatas())
+                                {
+                                    if (tServerDomains != null)
+                                    {
+                                        if (tServerDomains.IsEnable())
+                                        {
+                                            tInformations.AppendLine("    • " + tServerDomains.ServerDNS + " ");
+                                            tServerDomains.Dev = true;
+                                        }
+                                    }
+                                }
+                            }
+                            if (tCluster.DataBases.Count() > 0)
+                            {
+                                tInformations.AppendLine("  • Database used are : ");
+                                foreach (NWDServerDatas tServerDatas in tCluster.DataBases.GetEditorDatas())
+                                {
+                                    if (tServerDatas != null)
+                                    {
+                                        if (tServerDatas.IsEnable())
+                                        {
+                                            tInformations.AppendLine("    • " + tServerDatas.MySQLIP.ToString() + " ");
+                                            tServerDatas.Dev = true;
+                                        }
+                                    }
+                                }
+                            }
+                            if (tCluster.DataBases.Count() > 0)
+                            {
+                                tInformations.AppendLine("  • Service used are : ");
+                                foreach (NWDServerServices tServerServices in tCluster.Services.GetEditorDatas())
+                                {
+                                    if (tServerServices != null)
+                                    {
+                                        if (tServerServices.IsEnable())
+                                        {
+                                            NWDServerDomain tDomain = tServerServices.ServerDomain.GetEditorData() as NWDServerDomain;
+                                            if (tDomain != null)
+                                            {
+                                                if (tDomain.IsEnable())
+                                                {
+                                                    tInformations.AppendLine("    • " + tServerServices.InternalKey + " ");
+                                                    tServerServices.Dev = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            tInformations.AppendLine("");
+                        }
+                        if (tCluster.Preprod == true)
+                        {
+                            tInformations.AppendLine("• Cluster in active in Preprod Environment (" + NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment + ") ");
+                            if (tCluster.Domains.Count() > 0)
+                            {
+                                tInformations.AppendLine("  • DNS used are : ");
+                                foreach (NWDServerDomain tServerDomains in tCluster.Domains.GetEditorDatas())
+                                {
+                                    if (tServerDomains != null)
+                                    {
+                                        if (tServerDomains.IsEnable())
+                                        {
+                                            tInformations.AppendLine("    • " + tServerDomains.ServerDNS + " ");
+                                            tServerDomains.Preprod = true;
+                                        }
+                                    }
+                                }
+                            }
+                            if (tCluster.DataBases.Count() > 0)
+                            {
+                                tInformations.AppendLine("  • Database used are : ");
+                                foreach (NWDServerDatas tServerDatas in tCluster.DataBases.GetEditorDatas())
+                                {
+                                    if (tServerDatas != null)
+                                    {
+                                        if (tServerDatas.IsEnable())
+                                        {
+                                            tInformations.AppendLine("    • " + tServerDatas.MySQLIP.ToString() + " ");
+                                            tServerDatas.Preprod = true;
+                                        }
+                                    }
+                                }
+                            }
+                            if (tCluster.DataBases.Count() > 0)
+                            {
+                                tInformations.AppendLine("  • Service used are : ");
+                                foreach (NWDServerServices tServerServices in tCluster.Services.GetEditorDatas())
+                                {
+                                    if (tServerServices != null)
+                                    {
+                                        if (tServerServices.IsEnable())
+                                        {
+                                            NWDServerDomain tDomain = tServerServices.ServerDomain.GetEditorData() as NWDServerDomain;
+                                            if (tDomain != null)
+                                            {
+                                                if (tDomain.IsEnable())
+                                                {
+                                                    tInformations.AppendLine("    • " + tServerServices.InternalKey + " ");
+                                                    tServerServices.Preprod = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            tInformations.AppendLine("");
+                        }
+                        if (tCluster.Prod == true)
+                        {
+                            tInformations.AppendLine("• Cluster in active in Prod Environment (" + NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment + ") ");
+                            if (tCluster.Domains.Count() > 0)
+                            {
+                                tInformations.AppendLine("  • DNS used are : ");
+                                foreach (NWDServerDomain tServerDomains in tCluster.Domains.GetEditorDatas())
+                                {
+                                    if (tServerDomains != null)
+                                    {
+                                        if (tServerDomains.IsEnable())
+                                        {
+                                            tInformations.AppendLine("    • " + tServerDomains.ServerDNS + " ");
+                                            tServerDomains.Prod = true;
+                                        }
+                                    }
+                                }
+                            }
+                            if (tCluster.DataBases.Count() > 0)
+                            {
+                                tInformations.AppendLine("  • Database used are : ");
+                                foreach (NWDServerDatas tServerDatas in tCluster.DataBases.GetEditorDatas())
+                                {
+                                    if (tServerDatas != null)
+                                    {
+                                        if (tServerDatas.IsEnable())
+                                        {
+                                            tInformations.AppendLine("    • " + tServerDatas.MySQLIP.ToString() + " ");
+                                            tServerDatas.Prod = true;
+                                        }
+                                    }
+                                }
+                            }
+                            if (tCluster.DataBases.Count() > 0)
+                            {
+                                tInformations.AppendLine("  • Service used are : ");
+                                foreach (NWDServerServices tServerServices in tCluster.Services.GetEditorDatas())
+                                {
+                                    if (tServerServices != null)
+                                    {
+                                        if (tServerServices.IsEnable())
+                                        {
+                                            NWDServerDomain tDomain = tServerServices.ServerDomain.GetEditorData() as NWDServerDomain;
+                                            if (tDomain != null)
+                                            {
+                                                if (tDomain.IsEnable())
+                                                {
+                                                    tInformations.AppendLine("    • " + tServerServices.InternalKey + " ");
+                                                    tServerServices.Prod = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            tInformations.AppendLine("");
+                        }
+                    }
+                    else
+                    {
+                        if (tCluster.IsTrashed())
+                        {
+                            tInformations.AppendLine("This cluster is trashed!");
                         }
                         else
                         {
-                            Debug.Log("Analyze Cluster tServerServices : " + tServerServices.InternalKey + " IS DISABLE !?");
+                            tInformations.AppendLine("This cluster is disable!");
                         }
-                    }
-                    if (tCluster.Dev == true)
-                    {
-                        tInformations.AppendLine("• Cluster in active in Dev Environment (" + NWDAppConfiguration.SharedInstance().DevEnvironment.Environment + ") ");
-                        if (tCluster.Domains.Count() > 0)
-                        {
-                            tInformations.AppendLine("  • DNS used are : ");
-                            foreach (NWDServerDomain tServerDomains in tCluster.Domains.GetEditorDatas())
-                            {
-                                if (tServerDomains != null)
-                                {
-                                    if (tServerDomains.IsEnable())
-                                    {
-                                        tInformations.AppendLine("    • " + tServerDomains.ServerDNS + " ");
-                                        tServerDomains.Dev = true;
-                                    }
-                                }
-                            }
-                        }
-                        if (tCluster.DataBases.Count() > 0)
-                        {
-                            tInformations.AppendLine("  • Database used are : ");
-                            foreach (NWDServerDatas tServerDatas in tCluster.DataBases.GetEditorDatas())
-                            {
-                                if (tServerDatas != null)
-                                {
-                                    if (tServerDatas.IsEnable())
-                                    {
-                                        tInformations.AppendLine("    • " + tServerDatas.MySQLIP.ToString() + " ");
-                                        tServerDatas.Dev = true;
-                                    }
-                                }
-                            }
-                        }
-                        if (tCluster.DataBases.Count() > 0)
-                        {
-                            tInformations.AppendLine("  • Service used are : ");
-                            foreach (NWDServerServices tServerServices in tCluster.Services.GetEditorDatas())
-                            {
-                                if (tServerServices != null)
-                                {
-                                    if (tServerServices.IsEnable())
-                                    {
-                                        NWDServerDomain tDomain = tServerServices.ServerDomain.GetEditorData() as NWDServerDomain;
-                                        if (tDomain != null)
-                                        {
-                                            if (tDomain.IsEnable())
-                                            {
-                                                tInformations.AppendLine("    • " + tServerServices.InternalKey + " ");
-                                                tServerServices.Dev = true;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        tInformations.AppendLine("");
-                    }
-                    if (tCluster.Preprod == true)
-                    {
-                        tInformations.AppendLine("• Cluster in active in Preprod Environment (" + NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment + ") ");
-                        if (tCluster.Domains.Count() > 0)
-                        {
-                            tInformations.AppendLine("  • DNS used are : ");
-                            foreach (NWDServerDomain tServerDomains in tCluster.Domains.GetEditorDatas())
-                            {
-                                if (tServerDomains != null)
-                                {
-                                    if (tServerDomains.IsEnable())
-                                    {
-                                        tInformations.AppendLine("    • " + tServerDomains.ServerDNS + " ");
-                                        tServerDomains.Preprod = true;
-                                    }
-                                }
-                            }
-                        }
-                        if (tCluster.DataBases.Count() > 0)
-                        {
-                            tInformations.AppendLine("  • Database used are : ");
-                            foreach (NWDServerDatas tServerDatas in tCluster.DataBases.GetEditorDatas())
-                            {
-                                if (tServerDatas != null)
-                                {
-                                    if (tServerDatas.IsEnable())
-                                    {
-                                        tInformations.AppendLine("    • " + tServerDatas.MySQLIP.ToString() + " ");
-                                        tServerDatas.Preprod = true;
-                                    }
-                                }
-                            }
-                        }
-                        if (tCluster.DataBases.Count() > 0)
-                        {
-                            tInformations.AppendLine("  • Service used are : ");
-                            foreach (NWDServerServices tServerServices in tCluster.Services.GetEditorDatas())
-                            {
-                                if (tServerServices != null)
-                                {
-                                    if (tServerServices.IsEnable())
-                                    {
-                                        NWDServerDomain tDomain = tServerServices.ServerDomain.GetEditorData() as NWDServerDomain;
-                                        if (tDomain != null)
-                                        {
-                                            if (tDomain.IsEnable())
-                                            {
-                                                tInformations.AppendLine("    • " + tServerServices.InternalKey + " ");
-                                                tServerServices.Preprod = true;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        tInformations.AppendLine("");
-                    }
-                    if (tCluster.Prod == true)
-                    {
-                        tInformations.AppendLine("• Cluster in active in Prod Environment (" + NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment + ") ");
-                        if (tCluster.Domains.Count() > 0)
-                        {
-                            tInformations.AppendLine("  • DNS used are : ");
-                            foreach (NWDServerDomain tServerDomains in tCluster.Domains.GetEditorDatas())
-                            {
-                                if (tServerDomains != null)
-                                {
-                                    if (tServerDomains.IsEnable())
-                                    {
-                                        tInformations.AppendLine("    • " + tServerDomains.ServerDNS + " ");
-                                        tServerDomains.Prod = true;
-                                    }
-                                }
-                            }
-                        }
-                        if (tCluster.DataBases.Count() > 0)
-                        {
-                            tInformations.AppendLine("  • Database used are : ");
-                            foreach (NWDServerDatas tServerDatas in tCluster.DataBases.GetEditorDatas())
-                            {
-                                if (tServerDatas != null)
-                                {
-                                    if (tServerDatas.IsEnable())
-                                    {
-                                        tInformations.AppendLine("    • " + tServerDatas.MySQLIP.ToString() + " ");
-                                        tServerDatas.Prod = true;
-                                    }
-                                }
-                            }
-                        }
-                        if (tCluster.DataBases.Count() > 0)
-                        {
-                            tInformations.AppendLine("  • Service used are : ");
-                            foreach (NWDServerServices tServerServices in tCluster.Services.GetEditorDatas())
-                            {
-                                if (tServerServices != null)
-                                {
-                                    if (tServerServices.IsEnable())
-                                    {
-                                        NWDServerDomain tDomain = tServerServices.ServerDomain.GetEditorData() as NWDServerDomain;
-                                        if (tDomain != null)
-                                        {
-                                            if (tDomain.IsEnable())
-                                            {
-                                                tInformations.AppendLine("    • " + tServerServices.InternalKey + " ");
-                                                tServerServices.Prod = true;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        tInformations.AppendLine("");
                     }
                     tCluster.Information = tInformations.ToString();
                 }
