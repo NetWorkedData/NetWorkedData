@@ -298,7 +298,7 @@ namespace NetWorkedData
             List<K> rReturn = new List<K>();
             foreach (string tReference in GetReferences())
             {
-                K tObj = NWDBasisHelper.GetRawDataByReference<K>(tReference) as K;
+                K tObj = NWDBasisHelper.GetEditorDataByReference<K>(tReference) as K;
                 //if (tObj != null)
                 {
                     if (rReturn.Contains(tObj) == false)

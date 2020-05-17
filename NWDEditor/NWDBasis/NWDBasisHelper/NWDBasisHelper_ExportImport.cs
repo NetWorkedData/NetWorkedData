@@ -38,7 +38,7 @@ namespace NetWorkedData
             string tPath = EditorUtility.SaveFilePanel(
                 "Export Datas",
                 string.Empty,
-                ClassNamePHP + "."+ KExportExtension,
+                ClassNamePHP + "." + KExportExtension,
                 KExportExtension);
             if (string.IsNullOrEmpty(tPath) == false)
             {
@@ -78,12 +78,28 @@ namespace NetWorkedData
                 string tFile = File.ReadAllText(tPath);
                 if (tFile != null)
                 {
-                    Dictionary<string, object> tFileDico = (Dictionary<string, object>) NWEMiniJSON.Json.Deserialize(tFile);
+                    Dictionary<string, object> tFileDico = (Dictionary<string, object>)NWEMiniJSON.Json.Deserialize(tFile);
                     string tA = tFileDico[KClassKey] as string;
                     if (ClassNamePHP == tA)
                     {
                         string tB = tFileDico[KModelKey] as string;
-                        if (WebModelSQLOrder[LastWebBuild] == tB)
+                        bool tTryImport = false;
+                        if (WebModelSQLOrder.ContainsKey(LastWebBuild) == true)
+                        {
+                            if (WebModelSQLOrder[LastWebBuild] == tB)
+                            {
+                                tTryImport = true;
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                        else
+                        {
+                            tTryImport = true;
+                        }
+                        if (tTryImport)
                         {
                             // ok
                             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
@@ -127,7 +143,7 @@ namespace NetWorkedData
                     }
                     else
                     {
-                        EditorUtility.DisplayDialog(ClassNamePHP, "Not valid class in file!","Cancel");
+                        EditorUtility.DisplayDialog(ClassNamePHP, "Not valid class in file!", "Cancel");
                     }
                 }
                 NWDDataManager.SharedInstance().DataQueueExecute();

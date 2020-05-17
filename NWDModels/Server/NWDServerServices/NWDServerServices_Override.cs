@@ -60,7 +60,7 @@ namespace NetWorkedData
         public override void AddonInsertedMe()
         {
             base.AddonInsertedMe();
-            NWDCluster.CheckAllCluster();
+            NWDClusterAnalyzer.CheckAllCluster();
             // do something when object will be inserted
             // TODO verif if method is call in good place in good timing
         }
@@ -147,7 +147,7 @@ namespace NetWorkedData
         public override void AddonUpdatedMe()
         {
             base.AddonUpdatedMe();
-            NWDCluster.CheckAllCluster();
+            NWDClusterAnalyzer.CheckAllCluster();
             // do something when object finish to be updated
             // TODO verif if method is call in good place in good timing
         }
@@ -178,7 +178,7 @@ namespace NetWorkedData
         public override void AddonDuplicatedMe()
         {
             base.AddonDuplicatedMe();
-            NWDCluster.CheckAllCluster();
+            NWDClusterAnalyzer.CheckAllCluster();
             // do something when object will be dupplicate
             // TODO verif if method is call in good place in good timing
         }
@@ -189,7 +189,7 @@ namespace NetWorkedData
         public override void AddonEnableMe()
         {
             base.AddonEnableMe();
-            NWDCluster.CheckAllCluster();
+            NWDClusterAnalyzer.CheckAllCluster();
             // do something when object will be enabled
             // TODO verif if method is call in good place in good timing
         }
@@ -200,7 +200,7 @@ namespace NetWorkedData
         public override void AddonDisableMe()
         {
             base.AddonDisableMe();
-            NWDCluster.CheckAllCluster();
+            NWDClusterAnalyzer.CheckAllCluster();
             // do something when object will be disabled
             // TODO verif if method is call in good place in good timing
         }
@@ -211,7 +211,7 @@ namespace NetWorkedData
         public override void AddonTrashMe()
         {
             base.AddonTrashMe();
-            NWDCluster.CheckAllCluster();
+            NWDClusterAnalyzer.CheckAllCluster();
             // do something when object will be put in trash
             // TODO verif if method is call in good place in good timing
         }
@@ -222,7 +222,7 @@ namespace NetWorkedData
         public override void AddonUnTrashMe()
         {
             base.AddonUnTrashMe();
-            NWDCluster.CheckAllCluster();
+            NWDClusterAnalyzer.CheckAllCluster();
             // do something when object will be remove from trash
             // TODO verif if method is call in good place in good timing
         }
@@ -233,7 +233,7 @@ namespace NetWorkedData
         public override void AddonDeleteMe()
         {
             base.AddonDeleteMe();
-            NWDCluster.CheckAllCluster();
+            NWDClusterAnalyzer.CheckAllCluster();
             // do something when object will be delete from local base
         }
         //-------------------------------------------------------------------------------------------------------------

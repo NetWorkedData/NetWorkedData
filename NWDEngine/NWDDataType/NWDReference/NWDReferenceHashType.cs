@@ -162,7 +162,7 @@ namespace NetWorkedData
             List<K> rReturn = new List<K>();
             if (string.IsNullOrEmpty(Value) == false)
             {
-                K tObj = NWDBasisHelper.GetRawDataByReference<K>(Value) as K;
+                K tObj = NWDBasisHelper.GetEditorDataByReference<K>(Value) as K;
                 //if (tObj != null)
                 {
                     rReturn.Add(tObj);
@@ -176,7 +176,7 @@ namespace NetWorkedData
             K rReturn = null;
             if (string.IsNullOrEmpty(Value) == false)
             {
-                K tObj = NWDBasisHelper.GetRawDataByReference<K>(Value) as K;
+                K tObj = NWDBasisHelper.GetEditorDataByReference<K>(Value) as K;
                 //if (tObj != null)
                 {
                     rReturn = tObj;

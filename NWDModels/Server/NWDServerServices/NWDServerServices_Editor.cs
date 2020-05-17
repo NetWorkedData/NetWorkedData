@@ -51,7 +51,7 @@ namespace NetWorkedData
             {
                 //-----------------
                 EditorGUI.HelpBox(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
-                tI+=2;
+                tI += 2;
                 //tButtonTitle = new GUIContent("Open terminal", " open terminal or console on your desktop");
                 //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 //{
@@ -60,14 +60,14 @@ namespace NetWorkedData
                 //    System.Diagnostics.Process.Start(tFileInfo.FullName);
                 //}
                 //tI++;
-                string tcommandKeyGen = "ssh-keygen -R [" + tServer.IP.GetValue() + "]:" + tServer.Port +" & ssh "+ tServer.IP.GetValue() + " -l "+User+" -p "+ tServer.Port;
+                string tcommandKeyGen = "ssh-keygen -R [" + tServer.IP.GetValue() + "]:" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + User + " -p " + tServer.Port;
                 tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 {
                     NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
                 }
                 tI++;
-                GUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI+1]), tcommandKeyGen);
+                GUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), tcommandKeyGen);
                 tI += 2;
                 NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
                 tI++;
@@ -296,50 +296,54 @@ namespace NetWorkedData
                 }
                 tI++;
 
-                tButtonTitle = new GUIContent("WS html", " try connexion to index.html");
-                if (GUI.Button(tMatrix[0, tI], tButtonTitle))
+                if (tServerDomain != null)
                 {
-                    Application.OpenURL("http://" + tServerDomain.ServerDNS + "/index.html");
+                    tButtonTitle = new GUIContent("WS html", " try connexion to index.html");
+                    if (GUI.Button(tMatrix[0, tI], tButtonTitle))
+                    {
+                        Application.OpenURL("http://" + tServerDomain.ServerDNS + "/index.html");
+                    }
+                    tButtonTitle = new GUIContent("WS ssl html", " try connexion to index.html with ssl");
+                    if (GUI.Button(tMatrix[1, tI], tButtonTitle))
+                    {
+                        Application.OpenURL("https://" + tServerDomain.ServerDNS + "/index.html");
+                    }
+                    tI++;
+                    tButtonTitle = new GUIContent("WS phpinfo", " try connexion to phpinfo.php");
+                    if (GUI.Button(tMatrix[0, tI], tButtonTitle))
+                    {
+                        Application.OpenURL("http://" + tServerDomain.ServerDNS + "/phpinfo.php");
+                    }
+                    tButtonTitle = new GUIContent("WS ssl phpinfo", " try connexion to phpinfo.php with ssl");
+                    if (GUI.Button(tMatrix[1, tI], tButtonTitle))
+                    {
+                        Application.OpenURL("https://" + tServerDomain.ServerDNS + "/phpinfo.php");
+                    }
+                    tI++;
                 }
-                tButtonTitle = new GUIContent("WS ssl html", " try connexion to index.html with ssl");
-                if (GUI.Button(tMatrix[1, tI], tButtonTitle))
-                {
-                    Application.OpenURL("https://" + tServerDomain.ServerDNS + "/index.html");
-                }
-                tI++;
-                tButtonTitle = new GUIContent("WS phpinfo", " try connexion to phpinfo.php");
-                if (GUI.Button(tMatrix[0, tI], tButtonTitle))
-                {
-                    Application.OpenURL("http://" + tServerDomain.ServerDNS + "/phpinfo.php");
-                }
-                tButtonTitle = new GUIContent("WS ssl phpinfo", " try connexion to phpinfo.php with ssl");
-                if (GUI.Button(tMatrix[1, tI], tButtonTitle))
-                {
-                    Application.OpenURL("https://" + tServerDomain.ServerDNS + "/phpinfo.php");
-                }
-                tI++;
-
                 //-----------------
                 NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
                 tI++;
 
-                //-----------------
-                string tCerbot = "certbot --agree-tos --no-eff-email --apache --redirect --email " + Email + " -d " + tServerDomain.ServerDNS + "";
-                EditorGUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]),"Try cerbot", tCerbot);
-                tI++;
-
-                //-----------------
-                tButtonTitle = new GUIContent("Try certbot SSL", " try connexion to generate certbot ssl (lest's encrypt)");
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                if (tServerDomain != null)
                 {
-                    tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
-                {
+                    //-----------------
+                    string tCerbot = "certbot --agree-tos --no-eff-email --apache --redirect --email " + Email + " -d " + tServerDomain.ServerDNS + "";
+                    EditorGUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Try cerbot", tCerbot);
+                    tI++;
+                    //-----------------
+                    tButtonTitle = new GUIContent("Try certbot SSL", " try connexion to generate certbot ssl (lest's encrypt)");
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
+                        {
                         //"certbot --agree-tos --no-eff-email --apache --redirect --email " + Email + " -d " + tServerDomain.ServerDNS + "",
                         tCerbot,
-                    });
-                }
-                tI++;
+                        });
+                    }
+                    tI++;
 
+                }
                 //-----------------
                 NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
                 tI++;
@@ -354,7 +358,7 @@ namespace NetWorkedData
                 }
                 tI++;
                 //-----------------
-                string tURL = "sftp://" + User + ":"+Password.GetValue()+"@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + Folder;
+                string tURL = "sftp://" + User + ":" + Password.GetValue() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + Folder;
                 tButtonTitle = new GUIContent("Try sftp directly", tURL);
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 {
