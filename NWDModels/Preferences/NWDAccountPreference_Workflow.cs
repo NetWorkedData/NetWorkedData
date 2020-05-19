@@ -43,16 +43,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountPreference GetByInternalKeyOrCreate(string sInternalKey, NWDMultiType sDefaultValue, string sInternalDescription = NWEConstants.K_EMPTY_STRING)
         {
-            NWDAccountPreference rObject = NWDBasisHelper.GetReacheableFirstDataByInternalKey<NWDAccountPreference>(sInternalKey);
-            if (rObject == null)
+            NWDAccountPreference rObject = null;
+            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDAccountPreference));
+            if (tHelper != null)
             {
-                rObject = NWDBasisHelper.NewData<NWDAccountPreference>();
-                #if UNITY_EDITOR
-                rObject.InternalKey = sInternalKey;
-                rObject.InternalDescription = sInternalDescription;
-                #endif
-                rObject.Value = sDefaultValue;
-                rObject.SaveData();
+                if (tHelper.IsLoaded())
+                {
+                    rObject = NWDBasisHelper.GetReacheableFirstDataByInternalKey<NWDAccountPreference>(sInternalKey);
+                    if (rObject == null)
+                    {
+                        rObject = NWDBasisHelper.NewData<NWDAccountPreference>();
+                        rObject.InternalKey = sInternalKey;
+                        rObject.InternalDescription = sInternalDescription;
+                        rObject.Value = sDefaultValue;
+                        rObject.SaveData();
+                    }
+                }
             }
             return rObject;
         }
@@ -65,7 +71,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDMultiType GetEnter()
         {
-           return Value;
+            return Value;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -71,7 +71,7 @@ namespace NetWorkedData
             {
                 if (tAccountInfos.CurrentGameSave == null)
                 {
-                    tAccountInfos.CurrentGameSave = new NWDReferenceFreeType<NWDGameSave>();
+                    tAccountInfos.CurrentGameSave = new NWDReferenceType<NWDGameSave>();
                 }
                 tAccountInfos.CurrentGameSave.SetReference(Reference);
                 tAccountInfos.SaveData();

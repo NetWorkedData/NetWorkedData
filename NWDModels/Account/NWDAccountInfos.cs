@@ -36,7 +36,7 @@ namespace NetWorkedData
         //public NWDReferenceType<NWDAccount> Account { get; set; }
         public NWDReferenceType<NWDAccountAvatar> Avatar { get; set; }
         public NWDReferenceType<NWDAccountNickname> Nickname { get; set; }
-        public NWDReferenceFreeType<NWDGameSave> CurrentGameSave { get; set; }
+        public NWDReferenceType<NWDGameSave> CurrentGameSave { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Host")]

@@ -161,8 +161,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator ExecuteAsync()
         {
-            string tBenchmark = NWEBenchmark.GetKeyWihRandom();
-            NWEBenchmark.Start(tBenchmark);
+            //string tBenchmark = NWEBenchmark.GetKeyWihRandom();
+            //NWEBenchmark.Start(tBenchmark);
             //Debug.Log("NWDOperationWebUnity ExecuteAsync()");
             ResultInfos = new NWDOperationResult();
             // reinit benchmark stat values
@@ -254,13 +254,13 @@ namespace NetWorkedData
                         NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS, this));
                     }
 #if UNITY_EDITOR
-                    Debug.Log(" request % " + (Request.uploadProgress * 100.0F).ToString("F3"));
+                    //Debug.Log(" request % " + (Request.uploadProgress * 100.0F).ToString("F3"));
 #endif
                     yield return null;
                 }
 
 #if UNITY_EDITOR
-                Debug.Log(" request % " + (Request.uploadProgress * 100.0F).ToString("F3"));
+                //Debug.Log(" request % " + (Request.uploadProgress * 100.0F).ToString("F3"));
 #endif
 
                 if (Request.isNetworkError)
@@ -571,7 +571,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             NWDAppEnvironmentChooser.Refresh();
 #endif
-            NWEBenchmark.Finish(tBenchmark);
+            //NWEBenchmark.Finish(tBenchmark);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Cancel()

@@ -208,7 +208,10 @@ namespace NetWorkedData
                     {
                         if (NWDAppConfiguration.SharedInstance().BundleDatas == true)
                         {
+                            //if (AllBundleLoaded == false)
+                            {
                             LoadFromDatabase("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DM) + "` >= " + SynchronizationGetLastTimestamp(sEnvironment) + ";", false);
+                            }
                         }
                         foreach (NWDTypeClass tO in Datas)
                         {
@@ -294,14 +297,15 @@ namespace NetWorkedData
                         }
 #else
                         // not in editor : playing mode only
-                        if (kAccountDependent == true)
-                        {
+                        //if (kAccountDependent == true)
+                        if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+                            {
                             if (tItem.IsWritableBy(null, NWDAccount.CurrentReference()))
                             {
                                 tDatas.Add(tItem.CSVAssembly());
                             }
                         }
-#endif 
+#endif
                     }
                 }
                 // But I insert the datas only if I had one object or more to insert/update on the server

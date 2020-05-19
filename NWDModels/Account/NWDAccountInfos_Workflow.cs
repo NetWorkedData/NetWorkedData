@@ -59,7 +59,7 @@ namespace NetWorkedData
                     if (tServer.BalanceLoad > sAvg)
                     {
                         tChangeServer = false;
-                        Debug.Log("NOT CHANGE SERVER " + NWDAppEnvironment.SelectedEnvironment().LoadBalancingLimit + " > " + sAvg);
+                        //Debug.Log("NOT CHANGE SERVER " + NWDAppEnvironment.SelectedEnvironment().LoadBalancingLimit + " > " + sAvg);
                     }
                     else
                     {
@@ -71,7 +71,7 @@ namespace NetWorkedData
                     if (NWDAppEnvironment.SelectedEnvironment().LoadBalancingLimit > sAvg)
                     {
                         tChangeServer = false;
-                        Debug.Log("NOT CHANGE DEFAULT SERVER " + NWDAppEnvironment.SelectedEnvironment().LoadBalancingLimit + " > " + sAvg);
+                        //Debug.Log("NOT CHANGE DEFAULT SERVER " + NWDAppEnvironment.SelectedEnvironment().LoadBalancingLimit + " > " + sAvg);
                     }
                     else
                     {

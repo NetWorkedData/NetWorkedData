@@ -113,7 +113,7 @@ namespace NetWorkedData
             {
                 StartCount++;
                 cStartDico.Add(sKey, Watch.ElapsedMilliseconds);
-                if (cStartDico.ContainsKey(sKey) == true)
+                if (cStepDico.ContainsKey(sKey) == true)
                 {
                     cStepDico[sKey] = Watch.ElapsedMilliseconds;
                 }
@@ -160,7 +160,7 @@ namespace NetWorkedData
         public static double Finish(string sKey, bool sWithDebug = true, string sMoreInfos = "")
         {
             //long tStart = Watch.ElapsedMilliseconds;
-            if (cStartDico.ContainsKey(sKey) == true)
+            if (cStepDico.ContainsKey(sKey) == true)
             {
                 cStepDico[sKey] = Watch.ElapsedMilliseconds;
             }
@@ -237,7 +237,7 @@ namespace NetWorkedData
             {
                 UnityEngine.Debug.Log("benchmark : error '" + GetIndentation() + sKey + "' has no start value. " + sMoreInfos);
             }
-            if (cStartDico.ContainsKey(sKey) == true)
+            if (cStepDico.ContainsKey(sKey) == true)
             {
                 cStepDico[sKey] = Watch.ElapsedMilliseconds;
             }

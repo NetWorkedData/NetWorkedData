@@ -665,7 +665,7 @@ namespace NetWorkedData
                     }
                     break;
             }
-            rReturn = NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).ClassTrigramme + NWEConstants.K_MINUS + "00000" + NWEConstants.K_MINUS + tReferenceMiddle + NWEConstants.K_MINUS + tReferenceEnd;
+            rReturn = NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM + NWEConstants.K_MINUS + "00000" + NWEConstants.K_MINUS + tReferenceMiddle + NWEConstants.K_MINUS + tReferenceEnd;
 
             // I had temporary or new account
             if (isTemporaryAccount)

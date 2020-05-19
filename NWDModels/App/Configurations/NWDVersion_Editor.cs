@@ -37,7 +37,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void UpdateVersionBundle()
         {
-            //Debug.Log("NWDVersion UpdateVersionBundle()");
+            Debug.Log("NWDVersion UpdateVersionBundle()");
             if (NWDAppConfiguration.SharedInstance().IsDevEnvironement() == false &&
                 NWDAppConfiguration.SharedInstance().IsPreprodEnvironement() == false &&
                 NWDAppConfiguration.SharedInstance().IsProdEnvironement() == false
@@ -49,40 +49,45 @@ namespace NetWorkedData
             // I will change the last version of my App
             //string tVersionString = "0.00.00";
             string tVersionString = PlayerSettings.bundleVersion;
-            int tVersionInt = 0;
+            int tVersionInt = -1;
             //int.TryParse(tVersionString.Replace(".", string.Empty), out tVersionInt);
-            NWDVersion tMaxVersionObject = null;
+            //NWDVersion tMaxVersionObject = null;
             foreach (NWDVersion tVersionObject in NWDBasisHelper.BasisHelper<NWDVersion>().Datas)
             {
+                Debug.Log("Do this item be used ? : " + tVersionObject.InternalKey);
                 if (tVersionObject.IntegrityIsValid() == true && tVersionObject.AC == true && tVersionObject.Buildable == true)
                 {
                     if ((NWDAppConfiguration.SharedInstance().IsDevEnvironement() && tVersionObject.ActiveDev == true) ||
                         (NWDAppConfiguration.SharedInstance().IsPreprodEnvironement() && tVersionObject.ActivePreprod == true) ||
                         (NWDAppConfiguration.SharedInstance().IsProdEnvironement() && tVersionObject.ActiveProd == true))
                     {
+
+                        Debug.Log("YES USE : " + tVersionObject.InternalKey);
                         int tVersionInteger = 0;
                         int.TryParse(tVersionObject.Version.ToString().Replace(".", string.Empty), out tVersionInteger);
                         if (tVersionInt < tVersionInteger)
                         {
                             tVersionInt = tVersionInteger;
                             tVersionString = tVersionObject.Version.ToString();
-                            tMaxVersionObject = tVersionObject;
+                            //tMaxVersionObject = tVersionObject;
                         }
                     }
                 }
             }
-            if (tMaxVersionObject != null)
-            {
-                if (PlayerSettings.bundleVersion != tMaxVersionObject.Version.ToString())
-                {
-                    PlayerSettings.bundleVersion = tMaxVersionObject.Version.ToString();
-                }
-            }
-            else
+            //if (tMaxVersionObject != null)
+            //{
+            //    if (PlayerSettings.bundleVersion != tMaxVersionObject.Version.ToString())
+            //    {
+            //        PlayerSettings.bundleVersion = tMaxVersionObject.Version.ToString();
+            //    }
+            //}
+            //else
             {
                 if (PlayerSettings.bundleVersion != tVersionString)
                 {
                     PlayerSettings.bundleVersion = tVersionString;
+                    NWDAppEnvironmentChooser.Refresh();
+                    NWDAppEnvironmentSync.Refresh();
                 }
             }
         }

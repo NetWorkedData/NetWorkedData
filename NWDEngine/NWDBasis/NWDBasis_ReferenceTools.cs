@@ -73,7 +73,7 @@ namespace NetWorkedData
         public string UUIDTransformForReference(string sUUID)
         {
             string tUUID = NWEConstants.K_MINUS + sUUID;
-            tUUID = tUUID.Replace(NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).ClassTrigramme, string.Empty);
+            tUUID = tUUID.Replace(NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM, string.Empty);
             //tUUID = tUUID.Replace(NWDAccount.K_ACCOUNT_SIGNED_SUFFIXE, string.Empty);
             tUUID = tUUID.Replace(NWDAccount.K_ACCOUNT_CERTIFIED_SUFFIXE, string.Empty);
             //tUUID = tUUID.Replace (NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE, string.Empty); // Je ne remplace pas le T de l'accompte ... ainsi je verrai les References crée sur un compte temporaire non vérifié

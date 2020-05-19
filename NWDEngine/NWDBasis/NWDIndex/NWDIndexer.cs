@@ -152,7 +152,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void IndexData(NWDTypeClass sData)
         {
-            Debug.Log("<color=orange>### NWDItemByCatgeorieIndexer IndexData()</color>");
+            //Debug.Log("<color=orange>### NWDItemByCatgeorieIndexer IndexData()</color>");
             NWDItem tData = sData as NWDItem;
             List<NWDCategory> tCategoriesList = new List<NWDCategory>();
             if (tData.CategoryList != null)

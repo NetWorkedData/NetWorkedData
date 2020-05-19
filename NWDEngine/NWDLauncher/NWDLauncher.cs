@@ -6,6 +6,7 @@
 //=====================================================================================================================
 
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -289,12 +290,12 @@ namespace NetWorkedData
                 Launched = true;
                 //NWDToolbox.EditorAndPlaying("NWDLauncher Launch()");
                 EditorByPass = false; // TODO : remove this 
-//#if UNITY_EDITOR
-//                if (ActiveBenchmark)
-//                {
-//                    NWEBenchmark.Log("Pass in editor macro-block");
-//                }
-//#endif
+                                      //#if UNITY_EDITOR
+                                      //                if (ActiveBenchmark)
+                                      //                {
+                                      //                    NWEBenchmark.Log("Pass in editor macro-block");
+                                      //                }
+                                      //#endif
                 switch (CompileAs())
                 {
                     case NWDCompileType.Editor:

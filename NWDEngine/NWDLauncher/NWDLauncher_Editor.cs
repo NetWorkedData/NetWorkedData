@@ -28,6 +28,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private static void LaunchStandard()
         {
+            NWDEngineBenchmark.Watch.Start();
             //if (ActiveBenchmark)
             {
                 NWEBenchmark.Start();
@@ -52,8 +53,12 @@ namespace NetWorkedData
             // restaure models' param
             RestaureStandard();
 
+            NWDEngineBenchmark.WatchEngineLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
+
             NotifyEngineReady();
             AddIndexMethod();
+
+
             // connect editor
             ConnectEditorStandard();
             // create table editor
@@ -62,6 +67,8 @@ namespace NetWorkedData
             LoadDataEditorStandard(NWDBundle.ALL);
             // index all data editor
             IndexEditorStandard();
+
+            NWDEngineBenchmark.WatchEditorLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
 
             NotifyDataEditorReady();
 
@@ -74,12 +81,16 @@ namespace NetWorkedData
             // index all data
             IndexAccountStandard();
 
+            NWDEngineBenchmark.WatchAccountLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
+
             NotifyDataAccountReady();
 
             // Special NWDAppConfiguration loaded()
             NWDAppConfiguration.SharedInstance().Loaded();
             // Ready!
             Ready();
+
+            NWDEngineBenchmark.WatchFinalLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
 
             NotifyNetWorkedDataReady();
 
@@ -90,6 +101,7 @@ namespace NetWorkedData
                 TimeNWDFinish = NWEBenchmark.Finish();
                 //LauncherBenchmarkToMarkdown();
             }
+            NWDEngineBenchmark.Watch.Stop();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void EngineStandard()

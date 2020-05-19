@@ -56,7 +56,10 @@ namespace NetWorkedData
         public override void PropertiesAutofill()
         {
             //Debug.Log("PropertiesAutofill " + BasisHelper().ClassNamePHP);
-            Account.SetValue(NWDAccount.CurrentReference());
+            //if (Account != null)
+            //{
+                Account.SetValue(NWDAccount.CurrentReference());
+            //}
             //GameSave.SetValue(NWDGameSave.CurrentData().Reference);
         }
         //-------------------------------------------------------------------------------------------------------------

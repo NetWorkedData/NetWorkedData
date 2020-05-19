@@ -24,8 +24,6 @@ namespace NetWorkedData
     public partial class NWDServer : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("DNS use to find IP")]
         [NWDTooltips("Optional DNS of this server (not the public DNS, just usable DNS)")]
         public string DomainNameServer { get; set; }
@@ -61,8 +59,6 @@ namespace NetWorkedData
 
         [NWDInspectorGroupStart("Install Server Options")]
         public NWDServerDistribution Distribution { get; set; }
-        //-------------------------------------------------------------------------------------------------------------
-#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

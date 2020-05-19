@@ -1,17 +1,10 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:29:11
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
-#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 
@@ -205,6 +198,7 @@ namespace NetWorkedData
             InternalDescription = string.Join(" / ", tDescription);
         }
         //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
         public NWDServerDatabaseAuthentication GetServerDatabase(NWDAppEnvironment sEnvironment)
         {
             NWDServerDatabaseAuthentication rReturn = null;
@@ -216,12 +210,6 @@ namespace NetWorkedData
             }
             return rReturn;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //public static NWDServerDatabaseAuthentication GetConfigurationServerDatabase(NWDAppEnvironment sEnvironment)
-        //{
-        //    NWDServerDatabaseAuthentication rReturn = new NWDServerDatabaseAuthentication("Environment " + sEnvironment.Environment, sEnvironment.Environment, "0", "100000", sEnvironment.ServerHost, 555, sEnvironment.ServerBase, sEnvironment.ServerUser, sEnvironment.ServerPassword);
-        //    return rReturn;
-        //}
         //-------------------------------------------------------------------------------------------------------------
         public static NWDServerDatabaseAuthentication[] GetAllConfigurationServerDatabase(NWDAppEnvironment sEnvironment)
         {
@@ -237,9 +225,9 @@ namespace NetWorkedData
             }
             return rReturn.ToArray();
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
-#endif

@@ -47,6 +47,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static IEnumerator LaunchRuntimeAsync()
         {
+            NWDEngineBenchmark.Watch.Start();
             //if (ActiveBenchmark)
             {
                 NWEBenchmark.Start("Launch_Runtime_Async");
@@ -86,7 +87,10 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected + // index account class
                 0;
 
+            NWDEngineBenchmark.WatchEngineLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
             NotifyEngineReady();
+
+
 
             // connect editor
             tWaitTime = null;
@@ -109,6 +113,7 @@ namespace NetWorkedData
             //tWaitTime = NWDDataManager.SharedInstance().AsyncIndexAllObjects();
             //yield return tWaitTime;
 
+            NWDEngineBenchmark.WatchEditorLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
             NotifyDataEditorReady();
 
             // need account pincode
@@ -122,6 +127,7 @@ namespace NetWorkedData
             NotifyStep(true);
             yield return tWaitTime;
 
+            NWDEngineBenchmark.WatchAccountLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
             NotifyDataAccountReady();
             NotifyStep(true);
 
@@ -155,8 +161,9 @@ namespace NetWorkedData
                 LauncherBenchmarkToMarkdown();
                 NWBBenchmarkResult.CurrentData().BenchmarkNow();
             }
-
+            NWDEngineBenchmark.WatchFinalLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
             NotifyNetWorkedDataReady();
+            NWDEngineBenchmark.Watch.Stop();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static IEnumerator EngineRuntimeAsync()

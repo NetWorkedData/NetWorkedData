@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:29:11
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -40,7 +34,6 @@ namespace NetWorkedData
         const string K_SERVER_INSTALL = "server_installer_";
         const string K_WEBSERVICE_ADD = "webservice_add_";
         const string K_WEBSERVICE_REMOVE = "webservice_remove_";
-
         //-------------------------------------------------------------------------------------------------------------
         public const string K_SFTP_chroot = "sftp_chroot";
         //-------------------------------------------------------------------------------------------------------------

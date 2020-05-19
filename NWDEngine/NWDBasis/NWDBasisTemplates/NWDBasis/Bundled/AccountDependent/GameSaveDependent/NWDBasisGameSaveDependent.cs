@@ -36,9 +36,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void PropertiesAutofill()
         {
-            //Account.SetValue(NWDAccount.CurrentReference());
-            Account.SetValue(NWDGameSave.CurrentData().Account.GetValue());
-            GameSave.SetValue(NWDGameSave.CurrentData().Reference);
+            NWDGameSave tCurrentGameSave = NWDGameSave.CurrentData();
+            if (tCurrentGameSave != null)
+            {
+                if (tCurrentGameSave.Account.GetValue() != null)
+                {
+                    Account.SetValue(tCurrentGameSave.Account.GetValue());
+                }
+                else
+                {
+                    Account.SetValue(NWDAccount.CurrentReference());
+                }
+                GameSave.SetValue(tCurrentGameSave.Reference);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public override bool IsReacheableBy(string sGameSaveReference, string sAccountReference = null)
@@ -99,7 +109,13 @@ namespace NetWorkedData
             //only if data was not sync ... else it need to use the define GameSave
             if (DevSync <= 1 && ProdSync <= 1 && PreprodSync <= 1)
             {
-                GameSave.SetData(NWDGameSave.CurrentData());
+                //if (NWDGameSave.CurrentData() != null)
+                //{
+                //    if (GameSave != null)
+                //    {
+                        GameSave.SetData(NWDGameSave.CurrentData());
+                //    }
+                //}
             }
         }
         //-------------------------------------------------------------------------------------------------------------

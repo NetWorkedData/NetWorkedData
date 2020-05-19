@@ -37,24 +37,22 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             {
                 tFile.AppendLine("$rReturn = true;");
-                tFile.AppendLine("$tConnexion = GetCurrentDatabase();");
                 if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
                 {
-                    tFile.AppendLine("$tQuery = 'SELECT * FROM `" + NWDBasisHelper.TableNamePHP<NWDVersion>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Version) + "` = \\''.$tConnexion->real_escape_string($sVersion).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Buildable) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().ActiveDev) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().XX) + "` = 0 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().AC) + "` = 1;';");
+                    tFile.AppendLine("$tQuery = 'SELECT * FROM `" + NWDBasisHelper.TableNamePHP<NWDVersion>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Version) + "` = \\''.EscapeString($sVersion).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Buildable) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().ActiveDev) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().XX) + "` = 0 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().AC) + "` = 1;';");
                 }
                 if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
                 {
-                    tFile.AppendLine("$tQuery = 'SELECT * FROM `" + NWDBasisHelper.TableNamePHP<NWDVersion>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Version) + "` = \\''.$tConnexion->real_escape_string($sVersion).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Buildable) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().ActivePreprod) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().XX) + "` = 0 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().AC) + "` = 1;';");
+                    tFile.AppendLine("$tQuery = 'SELECT * FROM `" + NWDBasisHelper.TableNamePHP<NWDVersion>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Version) + "` = \\''.EscapeString($sVersion).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Buildable) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().ActivePreprod) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().XX) + "` = 0 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().AC) + "` = 1;';");
                 }
                 if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
                 {
-                    tFile.AppendLine("$tQuery = 'SELECT * FROM `" + NWDBasisHelper.TableNamePHP<NWDVersion>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Version) + "` = \\''.$tConnexion->real_escape_string($sVersion).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Buildable) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().ActiveProd) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().XX) + "` = 0 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().AC) + "` = 1;';");
+                    tFile.AppendLine("$tQuery = 'SELECT * FROM `" + NWDBasisHelper.TableNamePHP<NWDVersion>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Version) + "` = \\''.EscapeString($sVersion).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Buildable) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().ActiveProd) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().XX) + "` = 0 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().AC) + "` = 1;';");
                 }
-                tFile.AppendLine("$tResult = SelectFromConnexion($tConnexion, $tQuery, '', '', false);");
+                tFile.AppendLine("$tResult = SelectFromCurrentConnexion($tQuery, '', '', false);");
                 tFile.AppendLine("if ($tResult['error'] == true)");
                 tFile.AppendLine("{");
                 {
-                    tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery", NWD.K_SQL_CON));
                     tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_GVA00));
                 }
                 tFile.AppendLine("}");
