@@ -12,9 +12,9 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDDataManager
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		public void SavePreferences (NWDAppEnvironment sEnvironment)
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public void SavePreferences(NWDAppEnvironment sEnvironment)
         {
 #if UNITY_EDITOR
             NWDAppConfiguration.SharedInstance().DevEnvironment.SavePreferences();
@@ -23,10 +23,10 @@ namespace NetWorkedData
 #else
             sEnvironment.SavePreferences ();
 #endif
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void LoadPreferences (NWDAppEnvironment sEnvironment)
-		{
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void LoadPreferences(NWDAppEnvironment sEnvironment)
+        {
 #if UNITY_EDITOR
             NWDAppConfiguration.SharedInstance().DevEnvironment.LoadPreferences();
             NWDAppConfiguration.SharedInstance().PreprodEnvironment.LoadPreferences();
@@ -34,9 +34,9 @@ namespace NetWorkedData
 #else
             sEnvironment.LoadPreferences ();
 #endif
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void ResetPreferences (NWDAppEnvironment sEnvironment)
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ResetPreferences(NWDAppEnvironment sEnvironment)
         {
 #if UNITY_EDITOR
             NWDAppConfiguration.SharedInstance().DevEnvironment.ResetPreferences();
@@ -76,15 +76,23 @@ namespace NetWorkedData
                     NWEBenchmark.Start("account language");
                 }
                 NWDAccountPreference tAccountLanguage = NWDAccountPreference.GetByInternalKeyOrCreate(NWD.K_PlayerLanguageKey, new NWDMultiType(string.Empty));
-                if (tAccountLanguage.Value.GetStringValue() == string.Empty)
+                if (tAccountLanguage != null)
                 {
-                    tAccountLanguage.Value.SetStringValue(NWDDataLocalizationManager.SystemLanguageString());
-                    tAccountLanguage.UpdateData();
+                    tAccountLanguage.PropertiesPrevent(); // Auto fill the properties if necessary
+                    if (tAccountLanguage.Value.GetStringValue() == string.Empty)
+                    {
+                        tAccountLanguage.Value.SetStringValue(NWDDataLocalizationManager.SystemLanguageString());
+                        tAccountLanguage.UpdateData();
+                    }
+                    PlayerLanguage = tAccountLanguage.Value.GetStringValue();
                 }
-                PlayerLanguage = tAccountLanguage.Value.GetStringValue();
+                else
+                {
+                    Debug.LogWarning("NO NWDAccountPreference tAccountLanguage ... error in access ? or no datas loaded ? or another thing ?!");
+                }
                 if (NWDLauncher.ActiveBenchmark)
                 {
-                    NWEBenchmark.Finish("account language");
+                    NWEBenchmark.Finish("account language", true, "PlayerLanguage = " + PlayerLanguage + "");
                 }
             }
             else
@@ -96,7 +104,7 @@ namespace NetWorkedData
                 PlayerLanguage = NWEPrefsManager.ShareInstance().getString(NWD.K_PlayerLanguageKey, PlayerLanguage);
                 if (NWDLauncher.ActiveBenchmark)
                 {
-                    NWEBenchmark.Finish("device language");
+                    NWEBenchmark.Finish("device language", true, "PlayerLanguage bypass by NWEPrefsManager :  " + PlayerLanguage + ""); ;
                 }
             }
             PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);

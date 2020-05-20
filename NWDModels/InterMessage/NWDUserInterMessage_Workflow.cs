@@ -87,6 +87,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
+            if (PublicationDate==null)
+            {
+                PublicationDate = new NWDDateTimeType();
+            }
             PublicationDate.SetDateTime(DateTime.Now);
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -55,12 +55,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void PropertiesAutofill()
         {
-            //Debug.Log("PropertiesAutofill " + BasisHelper().ClassNamePHP);
-            //if (Account != null)
-            //{
-                Account.SetValue(NWDAccount.CurrentReference());
-            //}
-            //GameSave.SetValue(NWDGameSave.CurrentData().Reference);
+            base.PropertiesAutofill();
+            PropertiesMinimal();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void PropertiesMinimal()
+        {
+            if (Account == null)
+            {
+                Account = new NWDReferenceType<NWDAccount>();
+            }
+            Account.SetValue(NWDAccount.CurrentReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonInsertMe()
@@ -93,15 +98,16 @@ namespace NetWorkedData
             //only if data was not sync ... else it need to use the define RangeAccess
             if (DevSync <= 1 && ProdSync <= 1 && PreprodSync <= 1)
             {
-                if (Account != null)
+                if (Account == null)
                 {
-                    string[] tAccountExplode = Account.GetValue().Split(new char[] { '-' });
-                    if (tAccountExplode.Length > 1)
-                    {
-                        int tRange;
-                        int.TryParse(tAccountExplode[1], out tRange);
-                        RangeAccess = tRange;
-                    }
+                    Account = new NWDReferenceType<NWDAccount>();
+                }
+                string[] tAccountExplode = Account.GetValue().Split(new char[] { '-' });
+                if (tAccountExplode.Length > 1)
+                {
+                    int tRange;
+                    int.TryParse(tAccountExplode[1], out tRange);
+                    RangeAccess = tRange;
                 }
             }
             //Debug.Log("AssignRange RangeAccess = " + RangeAccess + "    " + BasisHelper().ClassNamePHP);

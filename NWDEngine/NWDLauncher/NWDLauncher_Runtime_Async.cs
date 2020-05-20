@@ -106,7 +106,7 @@ namespace NetWorkedData
             NotifyStep(true);
             yield return tWaitTime;
             // load editor data
-            tWaitTime = NWDDataManager.SharedInstance().AsyncReloadAllObjectsEditor(tBasisBundle);
+            tWaitTime = NWDDataManager.SharedInstance().AsyncReloadAllObjectsInEditorDatabase(tBasisBundle);
             NotifyStep(true);
             yield return tWaitTime;
             // index all data editor
@@ -132,7 +132,7 @@ namespace NetWorkedData
             NotifyStep(true);
 
             // load account data account
-            tWaitTime = NWDDataManager.SharedInstance().AsyncReloadAllObjectsAccount(tBasisBundle);
+            tWaitTime = NWDDataManager.SharedInstance().AsyncReloadAllObjectsInDeviceDatabase(tBasisBundle);
             yield return tWaitTime;
             // index all data
             tWaitTime = NWDDataManager.SharedInstance().AsyncIndexAllObjects();
@@ -159,7 +159,10 @@ namespace NetWorkedData
                 TimeFinish = Time.realtimeSinceStartup;
                 TimeNWDFinish = NWEBenchmark.Finish("Launch_Runtime_Async");
                 LauncherBenchmarkToMarkdown();
-                NWBBenchmarkResult.CurrentData().BenchmarkNow();
+                if (NWBBenchmarkResult.CurrentData() != null)
+                {
+                    NWBBenchmarkResult.CurrentData().BenchmarkNow();
+                }
             }
             NWDEngineBenchmark.WatchFinalLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
             NotifyNetWorkedDataReady();
@@ -176,12 +179,12 @@ namespace NetWorkedData
             Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
             AllNetWorkedDataTypes.Clear();
             BasisToHelperList.Clear();
-            NWEBenchmark.Start("get_refelexion");
+            //NWEBenchmark.Start("get_refelexion");
             List<Type> tTypeList = new List<Type>();
             Type[] tAllTypes = Assembly.GetExecutingAssembly().GetTypes();
             Type[] tAllNWDTypes = (from Type type in tAllTypes where type.IsSubclassOf(typeof(NWDTypeClass)) select type).ToArray();
             Type[] tAllHelperDTypes = (from Type type in tAllTypes where type.IsSubclassOf(typeof(NWDBasisHelper)) select type).ToArray();
-            NWEBenchmark.Finish("get_refelexion");
+            //NWEBenchmark.Finish("get_refelexion");
             foreach (Type tType in tAllNWDTypes)
             {
                 if (tType != typeof(NWDBasis) &&

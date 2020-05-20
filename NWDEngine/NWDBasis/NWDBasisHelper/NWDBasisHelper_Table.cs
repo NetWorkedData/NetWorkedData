@@ -546,10 +546,22 @@ namespace NetWorkedData
                 NWEDataType tV = tProp.GetValue(tD) as NWEDataType;
                 if (tV == null)
                 {
-                    tV = Activator.CreateInstance(tTypeOfThis) as NWEDataType;
-                    tProp.SetValue(tD, tV);
+                    string tVV = SQLite3.ColumnString(stmtc, i);
+                    if (string.IsNullOrEmpty(tVV) && NWDAppConfiguration.SharedInstance().NeverNullDataType == false)
+                    {
+                        // do nothing!
+                    }
+                    else
+                    {
+                        tV = Activator.CreateInstance(tTypeOfThis) as NWEDataType;
+                        tV.Value = tVV;
+                        tProp.SetValue(tD, tV);
+                    }
                 }
-                tV.Value = SQLite3.ColumnString(stmtc, i);
+                else
+                {
+                    tV.Value = SQLite3.ColumnString(stmtc, i);
+                }
                 return;
             }
             else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
@@ -653,7 +665,7 @@ namespace NetWorkedData
             List<PropertyInfo> tProplistA = new List<PropertyInfo>();
             List<Type> tPropTypelistA = new List<Type>();
             List<string> tColumnListA = new List<string>();
-            List<PropertyInfo> tPropTypelistToCreate = new List<PropertyInfo>();
+            //List<PropertyInfo> tPropTypelistToCreate = new List<PropertyInfo>();
 
             foreach (PropertyInfo tProp in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
@@ -662,33 +674,33 @@ namespace NetWorkedData
                 tPropTypelistA.Add(tProp.PropertyType);
                 tColumnListA.Add(tProp.Name);
 
-                if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataType)))
-                {
-                    tPropTypelistToCreate.Add(tProp);
-                }
-                else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeInt)))
-                {
-                    tPropTypelistToCreate.Add(tProp);
-                }
-                else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeEnum)))
-                {
-                    tPropTypelistToCreate.Add(tProp);
-                }
-                else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeMask)))
-                {
-                    tPropTypelistToCreate.Add(tProp);
-                }
-                else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeFloat)))
-                {
-                    tPropTypelistToCreate.Add(tProp);
-                }
+                //if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataType)))
+                //{
+                //    tPropTypelistToCreate.Add(tProp);
+                //}
+                //else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeInt)))
+                //{
+                //    tPropTypelistToCreate.Add(tProp);
+                //}
+                //else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeEnum)))
+                //{
+                //    tPropTypelistToCreate.Add(tProp);
+                //}
+                //else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeMask)))
+                //{
+                //    tPropTypelistToCreate.Add(tProp);
+                //}
+                //else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeFloat)))
+                //{
+                //    tPropTypelistToCreate.Add(tProp);
+                //}
             }
 
             PropertyInfo[] tProplist = tProplistA.ToArray();
             Type[] tPropTypelist = tPropTypelistA.ToArray();
             string[] tColumnList = tColumnListA.ToArray();
             int tReferenceIndex = Array.IndexOf(tColumnList, "Reference");
-            PropertyInfo[] tPropTypeArrayToCreate = tPropTypelistToCreate.ToArray();
+            //PropertyInfo[] tPropTypeArrayToCreate = tPropTypelistToCreate.ToArray();
             //if (NWDLauncher.ActiveBenchmark)
             //{
             //    NWEBenchmark.Step();
@@ -708,7 +720,8 @@ namespace NetWorkedData
                     if (DatasByReference.ContainsKey(tReferenceFromDataBase) == false)
                     {
                         // create new one object
-                        var tD = CreateInstance_Bypass(false, true, tPropTypeArrayToCreate);
+                        //var tD = CreateInstance_Bypass(false, true, tPropTypeArrayToCreate);
+                        var tD = CreateInstance_Bypass(false, true, null);
                         for (int tI = 0; tI < tProplist.Length; tI++)
                         {
                             ReadCol(tPropTypelist[tI], tProplist[tI], stmtc, tI, tD);
@@ -738,8 +751,8 @@ namespace NetWorkedData
             }
             catch
             {
-                Debug.LogWarning("LoadFromDatabase IN ERROR from " + ClassNamePHP + "  with "+ tSQL + "");
-                Debug.LogWarning("error message : "+SQLite3.GetErrmsg(tConnectorHandle));
+                Debug.LogWarning("LoadFromDatabase IN ERROR from " + ClassNamePHP + "  with " + tSQL + "");
+                Debug.LogWarning("error message : " + SQLite3.GetErrmsg(tConnectorHandle));
                 if (tConnectorHandle == NWDDataManager.SharedInstance().SQLiteDeviceHandle)
                 {
                     Debug.LogWarning("tried on account database from " + ClassNamePHP + " !");

@@ -49,7 +49,12 @@ namespace NetWorkedData
 #else
                 // Get saved App version from pref
                 // check if file exists in Application.persistentDataPath
+#if (UNITY_TVOS)
+                string tPathEditor = string.Format("{0}/{1}", Application.temporaryCachePath, DatabaseEditorName());
+#else
                 string tPathEditor = string.Format("{0}/{1}", Application.persistentDataPath, DatabaseEditorName());
+#endif
+
                 // if must be update by build version : delete old editor data!
                 if (UpdateBuildTimestamp() == true) // must update the editor base
                 {
@@ -74,17 +79,22 @@ namespace NetWorkedData
                     while (!tLoadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
                     // then save to Application.persistentDataPath
                     File.WriteAllBytes(tPathEditor, tLoadDb.bytes);
-#elif (UNITY_IOS || UNITY_TVOS)
+#elif (UNITY_IOS)
                     var tLoadDb = Application.dataPath + "/Raw/" + DatabaseEditorName();  // this is the path to your StreamingAssets in iOS
                     File.Copy(tLoadDb, tPathEditor);
+#elif (UNITY_TVOS)
+                    string tLoadDb = Application.dataPath + "/Raw/" + DatabaseEditorName();  // this is the path to your StreamingAssets in tvOS
+                    Debug.Log(" read file in " + tLoadDb);
+                    Debug.Log(" copy file to " + tPathEditor);
+                    File.Copy(tLoadDb, tPathEditor);
 #elif (UNITY_STANDALONE_OSX)
-                    var tLoadDb = Application.dataPath + "/"+K_Resources+"/Data/"+K_StreamingAssets+"/" + DatabaseEditorName();
+                    var tLoadDb = Application.dataPath + "/" + NWD.K_Resources + "/Data/"+NWD.K_StreamingAssets + "/" + DatabaseEditorName();
                     File.Copy(tLoadDb, tPathEditor);
 #elif (UNITY_WP8 || UNITY_WINRT || UNITY_WSA_10_0 || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX)
-                    var tLoadDb = Application.dataPath + "/"+K_StreamingAssets+"/" + DatabaseEditorName();
+                    var tLoadDb = Application.dataPath + "/" + NWD.K_StreamingAssets + "/" + DatabaseEditorName();
                     File.Copy(tLoadDb, tPathEditor);
 #else
-                    var tLoadDb = Application.dataPath + "/"+K_Resources+"/"+K_StreamingAssets+"/" + DatabaseEditorName();
+                    var tLoadDb = Application.dataPath + "/" + NWD.K_Resources+"/" + NWD.K_StreamingAssets + "/" + DatabaseEditorName();
                     File.Copy(tLoadDb, tPathEditor);
 #endif
                     if (NWDLauncher.ActiveBenchmark)
@@ -94,6 +104,8 @@ namespace NetWorkedData
                 }
                 string tDatabasePathEditor = tPathEditor;
 #endif
+                Debug.Log(" tDatabasePathEditor =  " + tDatabasePathEditor);
+
                 byte[] tDatabasePathAsBytes = GetNullTerminatedUtf8(tDatabasePathEditor);
                 SQLite3.Result tResult = SQLite3.Open(tDatabasePathAsBytes, out SQLiteEditorHandle, (int)(SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create), IntPtr.Zero);
                 if (tResult != SQLite3.Result.OK)
@@ -164,8 +176,11 @@ namespace NetWorkedData
             // path for base editor
             //rReturn = Application.dataPath + "/" + NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseAccountName();
             rReturn = NWD.K_Assets+"/" + DatabaseAccountName();
+#elif (UNITY_TVOS)
+            rReturn = string.Format("{0}/{1}", Application.temporaryCachePath, DatabaseAccountName());
 #else
-            rReturn = string.Format("{0}/{1}", Application.persistentDataPath, NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseAccountName());
+            rReturn = string.Format("{0}/{1}", Application.persistentDataPath, DatabaseAccountName());
+
 #endif
             //Debug.Log("<color=orange>PathDatabaseAccount return :" + rReturn + "</color>");
             return rReturn;

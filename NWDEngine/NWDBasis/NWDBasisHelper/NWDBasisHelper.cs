@@ -247,56 +247,7 @@ namespace NetWorkedData
         public virtual void InitHelper(Type sType, bool sBase = false)
         {
             NWEBenchmark.Start();
-
             TemplateHelper.SetClassType(sType);
-
-            bool rAccountConnected = false;
-
-            // define type class and synchronizable option
-            //BasisType =  NWDBasisType.EditorClass;
-            if (sType.IsSubclassOf(typeof(NWDBasisUnsynchronize)))
-            {
-                //BasisType = NWDBasisType.UnsyncClass;
-                rAccountConnected = true; // to reccord in AccountDatabase
-                //ClassSynchronize = false;
-            }
-            else if (sType.IsSubclassOf(typeof(NWDBasisAccountDependent)))
-            {
-                //BasisType = NWDBasisType.AccountClass;
-                rAccountConnected = true;  // to reccord in AccountDatabase
-                //ClassSynchronize = true;
-            }
-            else if (sType.IsSubclassOf(typeof(NWDBasisGameSaveDependent)))
-            {
-                //BasisType = NWDBasisType.AccountGameSaveClass;
-                rAccountConnected = true;  // to reccord in AccountDatabase
-                //ClassSynchronize = true;
-            }
-            else if (sType.IsSubclassOf(typeof(NWDBasisAccountUnsynchronize)))
-            {
-                //BasisType = NWDBasisType.AccountUnsyncClass;
-                rAccountConnected = true;  // to reccord in AccountDatabase
-                //ClassSynchronize = true;
-            }
-            else if (sType.IsSubclassOf(typeof(NWDBasisAccountRestricted)))
-            {
-                //BasisType = NWDBasisType.AccountRestrictedClass;
-                rAccountConnected = true;  // to reccord in AccountDatabase
-                //ClassSynchronize = false;
-            }
-            else 
-            {
-                //BasisType = NWDBasisType.EditorClass;
-                //ClassSynchronize = true;
-            }
-
-
-            //if (sType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true).Length > 0)
-            //{
-            //    NWDClassServerSynchronizeAttribute tServerSynchronizeAttribut = (NWDClassServerSynchronizeAttribute)sType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true)[0];
-            //    tServerSynchronize = tServerSynchronizeAttribut.ServerSynchronize;
-            //}
-
             string tClassTrigramme = "XXX";
             if (sType.GetCustomAttributes(typeof(NWDClassTrigrammeAttribute), true).Length > 0)
             {
@@ -427,7 +378,6 @@ namespace NetWorkedData
                                     tPropertyListConnected.Add(tProp);
                                     MethodInfo tMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
                                     tAccountMethodList.Add(tProp, tMethod);
-                                    rAccountConnected = true;
                                     rLockedObject = false;
                                 }
                                 else
@@ -463,7 +413,6 @@ namespace NetWorkedData
                                     tPropertyListConnected.Add(tProp);
                                     MethodInfo tMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
                                     tAccountMethodList.Add(tProp, tMethod);
-                                    rAccountConnected = true;
                                     rLockedObject = false;
                                 }
                                 else
@@ -534,7 +483,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void InstallHelper()
         {
-            NWEBenchmark.Start();
+            //NWEBenchmark.Start();
             if (StringsDictionary.ContainsKey(ClassNamePHP))
             {
                 Debug.LogWarning(ClassNamePHP + " already in StringsDictionary!");
@@ -548,9 +497,11 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().ClassTypeList.Add(ClassType);
             }
 
+            //Debug.Log("TemplateHelper.GetDeviceDatabase() = " + TemplateHelper.GetDeviceDatabase().ToString());
+
             if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount)
             {
-                    NWDDataManager.SharedInstance().ClassInDeviceDatabaseList.Add(ClassType);
+                NWDDataManager.SharedInstance().ClassInDeviceDatabaseList.Add(ClassType);
             }
             if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
@@ -615,7 +566,10 @@ namespace NetWorkedData
             {
                 NWDDataManager.SharedInstance().ClassTypeLoadedList.Add(ClassType);
             }
-            NWEBenchmark.Finish(true, "mixte mode " + ClassNamePHP);
+            //Debug.Log("ClassInEditorDatabaseRumberExpected = " + NWDDataManager.SharedInstance().ClassInEditorDatabaseList.Count);
+            //Debug.Log("ClassInDeviceDatabaseNumberExpected = " + NWDDataManager.SharedInstance().ClassInDeviceDatabaseList.Count);
+
+            //NWEBenchmark.Finish(true, "mixte mode " + ClassNamePHP);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDBasisHelper Declare(Type sType, Type sTypeHelper)

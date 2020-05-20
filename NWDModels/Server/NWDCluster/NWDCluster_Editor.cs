@@ -68,6 +68,7 @@ namespace NetWorkedData
 
             foreach (NWDServerServices tServices in Services.GetRawDatas())
             {
+                tServices.PropertiesPrevent();
                 GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tServices.InternalKey);
                 tI++;
                 GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "(" + tServices.InternalDescription + ")", NWDGUI.kItalicLabelStyle);
@@ -104,6 +105,7 @@ namespace NetWorkedData
 
             foreach (NWDServerDatas tServices in DataBases.GetRawDatas())
             {
+                tServices.PropertiesPrevent();
                 GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tServices.InternalKey);
                 tI++;
                 GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "(" + tServices.InternalDescription + ")", NWDGUI.kItalicLabelStyle);

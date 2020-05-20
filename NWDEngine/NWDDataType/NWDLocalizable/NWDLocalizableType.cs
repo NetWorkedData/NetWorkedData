@@ -135,6 +135,10 @@ namespace NetWorkedData
             {
                 rReturn = kSplitDico[sKey];
             }
+            else if (kSplitDico.ContainsKey(NWDAppConfiguration.SharedInstance().ProjetcLanguage))
+            {
+                rReturn = kSplitDico[NWDAppConfiguration.SharedInstance().ProjetcLanguage];
+            }
             else if (kSplitDico.ContainsKey(NWDDataLocalizationManager.kBaseDev))
             {
                 rReturn = kSplitDico[NWDDataLocalizationManager.kBaseDev];

@@ -82,32 +82,13 @@ namespace NetWorkedData
                     //// not override for editor only (special class)
                     //if (tServerOnlyAttribut == null)
                     //{
-                        rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
-                        rReturn.AppendLine("protected override NWDTypeClass CreateInstance_Bypass(bool sInsertInNetWorkedData, bool sStupid, PropertyInfo[] sPropertyInfo)");
-                        rReturn.AppendLine("{");
-                        //if (ClassType == typeof(NWDCategory))
-                        //{
-                        //    rReturn.AppendLine("Debug.Log(\"override NWDTypeClass CreateInstance_Bypass\");");
-                        //}
-                        //rReturn.AppendLine("" + ClassNamePHP + " rReturn = new " + ClassNamePHP + "(sInsertInNetWorkedData);");
-                        //foreach (PropertyInfo tProp in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-                        //{
-                        //    if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataType)) ||
-                        //    tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeInt)) ||
-                        //    tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeEnum)) ||
-                        //    tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeMask)) ||
-                        //    tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeFloat)))
-                        //    {
-                        //        if (tProp.PropertyType.IsGenericType)
-                        //        {
-                        //            rReturn.AppendLine("rReturn." + tProp.Name + " = new " + tProp.PropertyType.Name.Replace("`1", "<" + tProp.PropertyType.GenericTypeArguments[0].Name + ">") + "();");
-                        //        }
-                        //        else
-                        //        {
-                        //            rReturn.AppendLine("rReturn." + tProp.Name + " = new " + tProp.PropertyType.Name + "();");
-                        //        }
-                        //    }
-                        //}
+                    rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
+                    rReturn.AppendLine("protected override NWDTypeClass CreateInstance_Bypass(bool sInsertInNetWorkedData, bool sStupid, PropertyInfo[] sPropertyInfo)");
+                    rReturn.AppendLine("{");
+
+
+                    if (NWDAppConfiguration.SharedInstance().NeverNullDataType == true)
+                    {
                         rReturn.AppendLine("" + ClassNamePHP + " rReturn = new " + ClassNamePHP + "(sInsertInNetWorkedData) {");
                         foreach (PropertyInfo tProp in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                         {
@@ -124,7 +105,7 @@ namespace NetWorkedData
                                     {
                                         tArguments.Add(tTypeArg.Name);
                                     }
-                                    rReturn.AppendLine("" + tProp.Name + " = new " + tProp.PropertyType.Name.Replace("`"+ tArguments.Count + "", "<" + string.Join(", ", tArguments) + ">") + "(),");
+                                    rReturn.AppendLine("" + tProp.Name + " = new " + tProp.PropertyType.Name.Replace("`" + tArguments.Count + "", "<" + string.Join(", ", tArguments) + ">") + "(),");
                                 }
                                 else
                                 {
@@ -133,8 +114,14 @@ namespace NetWorkedData
                             }
                         }
                         rReturn.AppendLine("};");
-                        rReturn.AppendLine("return rReturn;");
-                        rReturn.AppendLine("}");
+                    }
+                    else
+                    {
+                        rReturn.AppendLine("" + ClassNamePHP + " rReturn = new " + ClassNamePHP + "(sInsertInNetWorkedData);");
+                        rReturn.AppendLine("rReturn.PropertiesMinimal();");
+                    }
+                    rReturn.AppendLine("return rReturn;");
+                    rReturn.AppendLine("}");
                     //}
                     rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
                     rReturn.AppendLine("public override void InitHelper(Type sType, bool sBase = false)");
@@ -156,12 +143,18 @@ namespace NetWorkedData
                     }
                     else
                     {
-
+                        rReturn.AppendLine("#if UNITY_EDITOR");
+                        rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassMenuName) + " = \"" + ClassMenuName + "\";");
+                        rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassDescription) + " = \"" + ClassDescription + "\";");
+                        rReturn.AppendLine("#endif");
                     }
+
+
                     // NWDHelper override start
                     //rReturn.AppendLine("base.InitHelper(sType);");
                     //rReturn.AppendLine("Debug.Log(\"PLAYING MODE InitHelper()\");");
                     //rReturn.AppendLine("NWEBenchmark.Start();");
+                    rReturn.AppendLine(NWDToolbox.PropertyName(() => TemplateHelper) + ".SetClassType(typeof(" + ClassNamePHP + "));");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassType) + " = typeof(" + ClassNamePHP + ");");
                     //rReturn.AppendLine(NWDToolbox.PropertyName(() => BasisType) + " = "+typeof(NWDBasisType).Name+ "."+ BasisType.ToString()+ ";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassTableName) + " = \"" + ClassTableName + "\";");
@@ -169,8 +162,6 @@ namespace NetWorkedData
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassNamePHP) + " = \"" + ClassNamePHP + "\";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassPrefBaseKey) + " = \"" + ClassPrefBaseKey + "\";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassTrigramme) + " = \"" + ClassTrigramme + "\";");
-                    //rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassMenuName) + " = \"" + ClassMenuName + "\";");
-                    //rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassDescription) + " = \"" + ClassDescription + "\";");
 
                     //rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassSynchronize) + " = " + ClassSynchronize.ToString().ToLower() + ";");
                     //rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassGameSaveDependent) + " = " + ClassGameSaveDependent.ToString().ToLower() + ";");
@@ -187,8 +178,14 @@ namespace NetWorkedData
                     {
                         tPropertiesArrayInString.Add("ClassType.GetProperty(\"" + tInf.Name + "\")");
                     }
-                    rReturn.AppendLine(NWDToolbox.PropertyName(() => PropertiesArray) + " = new PropertyInfo[]{"+string.Join(", ", tPropertiesArrayInString)+ "};");
+                    rReturn.AppendLine(NWDToolbox.PropertyName(() => PropertiesArray) + " = new PropertyInfo[]{" + string.Join(",\n ", tPropertiesArrayInString) + "};");
 
+                    List<string> tNWDPropertiesArrayInString = new List<string>();
+                    foreach (PropertyInfo tInf in NWDDataPropertiesArray)
+                    {
+                        tNWDPropertiesArrayInString.Add("ClassType.GetProperty(\"" + tInf.Name + "\")");
+                    }
+                    rReturn.AppendLine(NWDToolbox.PropertyName(() => NWDDataPropertiesArray) + " = new PropertyInfo[]{" + string.Join(",\n ", tNWDPropertiesArrayInString) + "};");
 
 
                     //rReturn.AppendLine(NWDToolbox.PropertyName(() => kAccountDependentProperties) + ".Clear();");

@@ -21,7 +21,6 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //public partial class NWDBasisPreferences : NWDBasisAccountUnsynchronize
     public partial class NWDBasisPreferences : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -55,11 +54,11 @@ namespace NetWorkedData
                 tAccountReference = "General";
             }
             string tKey = sEnvironment.Environment + NWDConstants.kFieldSeparatorA + sKey + NWDConstants.kFieldSeparatorA + tAccountReference;
-            //Debug.Log("I need basis preferences with reference " + tKey);
+            Debug.Log("I need basis NWDBasisPreferences with reference " + tKey);
             NWDBasisPreferences rPref = NWDBasisHelper.GetRawDataByReference<NWDBasisPreferences>(tKey);
             if (rPref == null)
             {
-                //Debug.Log("I need create basis preferences with reference " + tKey);
+                Debug.Log("I need create basis preferences with reference " + tKey);
                 rPref = NWDBasisHelper.NewDataWithReference<NWDBasisPreferences>(tKey);
                 rPref.DevSync = -1;
                 rPref.PreprodSync = -1;
@@ -81,6 +80,10 @@ namespace NetWorkedData
                 rPref.Tag = NWDBasisTag.TagUserCreated;
 #endif
                 rPref.SaveData();
+            }
+            else
+            {
+                Debug.Log("basis preferences with reference " + tKey + " exists ... I return it");
             }
             return rPref;
         }

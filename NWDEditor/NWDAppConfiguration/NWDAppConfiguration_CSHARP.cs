@@ -161,6 +161,7 @@ namespace NetWorkedData
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.RowDataIntegrity) + " = " + RowDataIntegrity.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PreloadDatas) + " = " + PreloadDatas.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.BundleDatas) + " = " + BundleDatas.ToString().ToLower() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.NeverNullDataType) + " = " + NeverNullDataType.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.AutoDeleteTrashDatas) + " = " + AutoDeleteTrashDatas.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.LauncherBenchmark) + " = " + LauncherBenchmark.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.LauncherFaster) + " = " + LauncherFaster.ToString() + ";");

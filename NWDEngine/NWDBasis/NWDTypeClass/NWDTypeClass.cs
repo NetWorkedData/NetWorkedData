@@ -538,6 +538,8 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void PropertiesAutofill() { }
+        public virtual void PropertiesPrevent() { }
+        public virtual void PropertiesMinimal() { }
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool InsertData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {

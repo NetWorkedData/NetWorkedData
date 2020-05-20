@@ -33,6 +33,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonEditor(Rect sRect)
         {
+            PropertiesPrevent();
             Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 100);
             int tI = 0;
             GUIStyle tSyleTextArea = new GUIStyle(GUI.skin.textArea);

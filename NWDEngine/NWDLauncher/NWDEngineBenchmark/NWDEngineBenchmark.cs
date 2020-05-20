@@ -5,6 +5,7 @@
 //
 //=====================================================================================================================
 
+using System;
 using System.Diagnostics;
 
 //=====================================================================================================================
@@ -83,7 +84,20 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string GetWatch()
         {
-            return "Engine:"+ GetWatchEngineLaunch() + " Editor datas:"+ GetWatchEditorLaunch() + " Account datas:" + GetWatchAccountLaunch() + " Final:" + GetWatchFinalLaunch() + " Total:" + GetWatchTotalLaunch();
+            long RowEditor = 0;
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassInEditorDatabaseList)
+            {
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                RowEditor += tHelper.Datas.Count;
+            }
+            long RowDevice= 0;
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassInDeviceDatabaseList)
+            {
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                RowDevice += tHelper.Datas.Count;
+            }
+
+            return "Engine:"+ GetWatchEngineLaunch() + " Editor datas:"+ GetWatchEditorLaunch() + "("+ RowEditor+" rows) Account datas:" + GetWatchAccountLaunch() + "(" + RowDevice + " rows) "+" Final:" + GetWatchFinalLaunch() + " Total:" + GetWatchTotalLaunch();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

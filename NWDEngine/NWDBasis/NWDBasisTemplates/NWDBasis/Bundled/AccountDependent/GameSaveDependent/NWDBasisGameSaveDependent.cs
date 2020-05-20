@@ -36,6 +36,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void PropertiesAutofill()
         {
+            base.PropertiesAutofill();
+            PropertiesMinimal();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void PropertiesMinimal()
+        {
+            base.PropertiesMinimal();
+            if (GameSave == null)
+            {
+                GameSave = new NWDReferenceType<NWDGameSave>();
+            }
             NWDGameSave tCurrentGameSave = NWDGameSave.CurrentData();
             if (tCurrentGameSave != null)
             {
@@ -109,13 +120,12 @@ namespace NetWorkedData
             //only if data was not sync ... else it need to use the define GameSave
             if (DevSync <= 1 && ProdSync <= 1 && PreprodSync <= 1)
             {
-                //if (NWDGameSave.CurrentData() != null)
-                //{
-                //    if (GameSave != null)
-                //    {
-                        GameSave.SetData(NWDGameSave.CurrentData());
-                //    }
-                //}
+
+                if (GameSave == null)
+                {
+                    GameSave = new NWDReferenceType<NWDGameSave>();
+                }
+                GameSave.SetData(NWDGameSave.CurrentData());
             }
         }
         //-------------------------------------------------------------------------------------------------------------

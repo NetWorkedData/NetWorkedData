@@ -24,15 +24,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool Log = false;
         public bool AutoClickNextButton = true;
+
+        public Text BundleVersion;
+        public Text EngineVersion;
+        public Text FramePerSeconds;
+
         public Button NextButton;
         public Button SyncSomeAccountButton;
         public Button SyncSomeEditorButton;
         public Button SyncAllButton;
-        public Text AccountText;
+
         public Text BenchmarkText;
-        public Text BundleVersion;
-        public Text EngineVersion;
-        public Text FramePerSeconds;
+        public Text AccountText;
+        public Text RequestTokenText;
 
         public TextMeshPro Counter;
         //-------------------------------------------------------------------------------------------------------------
@@ -100,6 +104,18 @@ namespace NetWorkedData
                 if (tAccountPreference!=null)
                 {
                 Counter.text = tAccountPreference.Value.GetIntValue().ToString();
+                }
+            }
+            if (RequestTokenText!=null)
+            {
+                string tRequestToken = NWDAppConfiguration.SharedInstance().SelectedEnvironment().RequesToken;
+                if (string.IsNullOrEmpty(tRequestToken))
+                {
+                    RequestTokenText.text = "--- empty request token ---";
+                }
+                else
+                {
+                RequestTokenText.text = NWDAppConfiguration.SharedInstance().SelectedEnvironment().RequesToken;
                 }
             }
         }

@@ -43,8 +43,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void PropertiesAutofill()
         {
+            base.PropertiesAutofill();
+            PropertiesMinimal();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void PropertiesMinimal()
+        {
+            if (Account == null)
+            {
+                Account = new NWDReferenceType<NWDAccount>();
+            }
             Account.SetValue(NWDAccount.CurrentReference());
-            //GameSave.SetValue(NWDGameSave.CurrentData().Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonInsertMe()
@@ -73,8 +82,10 @@ namespace NetWorkedData
             //only if data was not sync ... else it need to use the define RangeAccess
             if (DevSync <= 1 && ProdSync <= 1 && PreprodSync <= 1)
             {
-                if (Account != null)
+                if (Account == null)
                 {
+                    Account = new NWDReferenceType<NWDAccount>();
+                }
                     string[] tAccountExplode = Account.GetValue().Split(new char[] { '-' });
                     if (tAccountExplode.Length > 1)
                     {
@@ -82,7 +93,6 @@ namespace NetWorkedData
                         int.TryParse(tAccountExplode[1], out tRange);
                         RangeAccess = tRange;
                     }
-                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -91,6 +101,10 @@ namespace NetWorkedData
             Debug.Log("ChangeUser(string sOldUser, string sNewUser) in " + BasisHelper().ClassNamePHP);
             if (IntegrityIsValid() == true)
             {
+                if (Account == null)
+                {
+                    Account = new NWDReferenceType<NWDAccount>();
+                }
                 if (Account.GetValue() == sOldUser)
                 {
                     Account.SetValue(sNewUser);

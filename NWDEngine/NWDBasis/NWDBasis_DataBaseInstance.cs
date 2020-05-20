@@ -37,7 +37,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDBasis <K> NWDBasis Constructor inserted = " + NWDInserted.ToString());
             //Init your instance here
-            this.InitConstructor();
+            //this.InitConstructor();
             //Insert in NetWorkedData;
             NewNetWorkedData();
         }
@@ -52,16 +52,16 @@ namespace NetWorkedData
             else
             {
                 //Init your instance here
-                this.InitConstructor();
+                //this.InitConstructor();
                 //Insert in NetWorkedData;
                 NewNetWorkedData();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void InitConstructor()
-        {
-            Initialization();
-        }
+        //private void InitConstructor()
+        //{
+        //    Initialization();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void NewNetWorkedData()
         {
@@ -112,6 +112,91 @@ namespace NetWorkedData
             //}
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void PropertiesPrevent()
+        {
+            if (NWDAppConfiguration.SharedInstance().NeverNullDataType == false)
+            {
+                if (BasisHelper().NWDDataPropertiesArray != null)
+                {
+                    foreach (var tPropertyInfo in BasisHelper().NWDDataPropertiesArray)
+                    {
+                        Type tTypeOfThis = tPropertyInfo.PropertyType;
+                        if (tPropertyInfo.GetValue(this) == null)
+                        {
+                            NWEDataType tObject = (NWEDataType)Activator.CreateInstance(tTypeOfThis);
+                            tPropertyInfo.SetValue(this, tObject, null);
+                        }
+                    }
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void PropertiesAutofill()
+        {
+            base.PropertiesAutofill();
+            if (NWDAppConfiguration.SharedInstance().NeverNullDataType == true)
+            {
+                if (BasisHelper().NWDDataPropertiesArray != null)
+                {
+                    foreach (var tPropertyInfo in BasisHelper().NWDDataPropertiesArray)
+                    {
+                        Type tTypeOfThis = tPropertyInfo.PropertyType;
+                        if (tPropertyInfo.GetValue(this) == null)
+                        {
+                            object tObject = (object)Activator.CreateInstance(tTypeOfThis);
+                            tPropertyInfo.SetValue(this, tObject, null);
+                        }
+                        /*
+                        if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
+                        {
+                            if (tPropertyInfo.GetValue(this) == null)
+                            {
+                                NWEDataType tObject = (NWEDataType)Activator.CreateInstance(tTypeOfThis);
+                                tPropertyInfo.SetValue(this, tObject, null);
+                            }
+                        }
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
+                        {
+                            if (tPropertyInfo.GetValue(this) == null)
+                            {
+                                NWEDataTypeInt tObject = (NWEDataTypeInt)Activator.CreateInstance(tTypeOfThis);
+                                //tObject.SetLong(0);
+                                tPropertyInfo.SetValue(this, tObject, null);
+                            }
+                        }
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
+                        {
+                            if (tPropertyInfo.GetValue(this) == null)
+                            {
+                                NWEDataTypeFloat tObject = (NWEDataTypeFloat)Activator.CreateInstance(tTypeOfThis);
+                                //tObject.SetDouble(0);
+                                tPropertyInfo.SetValue(this, tObject, null);
+                            }
+                        }
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
+                        {
+                            if (tPropertyInfo.GetValue(this) == null)
+                            {
+                                NWEDataTypeEnum tObject = (NWEDataTypeEnum)Activator.CreateInstance(tTypeOfThis);
+                                //tObject.SetLong(0);
+                                tPropertyInfo.SetValue(this, tObject, null);
+                            }
+                        }
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
+                        {
+                            if (tPropertyInfo.GetValue(this) == null)
+                            {
+                                NWEDataTypeMask tObject = (NWEDataTypeMask)Activator.CreateInstance(tTypeOfThis);
+                                //tObject.SetLong(0);
+                                tPropertyInfo.SetValue(this, tObject, null);
+                            }
+                        }
+                        */
+                    }
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override void InstanceInit()
         {
             AC = true;
@@ -119,58 +204,16 @@ namespace NetWorkedData
             DC = DM;
             DS = 0;
             DD = 0;
-
             DevSync = 0;
             PreprodSync = 0;
             ProdSync = 0;
-
             ServerHash = string.Empty;
             ServerLog = string.Empty;
-
             InternalKey = string.Empty;
             InternalDescription = string.Empty;
             Preview = string.Empty;
-
             NWDBasisHelper tHelper = BasisHelper();
-
             WebModel = tHelper.LastWebBuild;
-            if (tHelper.NWDDataPropertiesArray != null)
-            {
-                foreach (var tPropertyInfo in tHelper.NWDDataPropertiesArray)
-                {
-                    Type tTypeOfThis = tPropertyInfo.PropertyType;
-                    if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
-                    {
-                        NWEDataType tObject = (NWEDataType)Activator.CreateInstance(tTypeOfThis);
-                        //tObject.SetValue(string.Empty);
-                        tPropertyInfo.SetValue(this, tObject, null);
-                    }
-                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
-                    {
-                        NWEDataTypeInt tObject = (NWEDataTypeInt)Activator.CreateInstance(tTypeOfThis);
-                        //tObject.SetLong(0);
-                        tPropertyInfo.SetValue(this, tObject, null);
-                    }
-                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
-                    {
-                        NWEDataTypeFloat tObject = (NWEDataTypeFloat)Activator.CreateInstance(tTypeOfThis);
-                        //tObject.SetDouble(0);
-                        tPropertyInfo.SetValue(this, tObject, null);
-                    }
-                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
-                    {
-                        NWEDataTypeEnum tObject = (NWEDataTypeEnum)Activator.CreateInstance(tTypeOfThis);
-                        //tObject.SetLong(0);
-                        tPropertyInfo.SetValue(this, tObject, null);
-                    }
-                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
-                    {
-                        NWEDataTypeMask tObject = (NWEDataTypeMask)Activator.CreateInstance(tTypeOfThis);
-                        //tObject.SetLong(0);
-                        tPropertyInfo.SetValue(this, tObject, null);
-                    }
-                }
-            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void WebserviceVersionCheckMe()

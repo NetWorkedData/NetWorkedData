@@ -148,6 +148,10 @@ namespace NetWorkedData
             NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
             if (tAccountInfos != null)
             {
+                if (tAccountInfos.Server == null)
+                {
+                    tAccountInfos.Server = new NWDReferenceType<NWDServerDomain>();
+                }
                 NWDServerDomain tServer = tAccountInfos.Server.GetReachableData();
                 if (tServer != null)
                 {

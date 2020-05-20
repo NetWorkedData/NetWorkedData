@@ -99,6 +99,7 @@ namespace NetWorkedData
         {
             foreach (NWDCategory tData in NWDBasisHelper.BasisHelper<NWDCategory>().Datas)
             {
+                tData.PropertiesPrevent();
                 tData.ChildrenCategoryList.Flush();
                 tData.CascadeCategoryList.Flush();
             }

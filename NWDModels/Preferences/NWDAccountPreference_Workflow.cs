@@ -1,18 +1,13 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:50:25
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
 
 using System;
+using UnityEngine;
 using System.Collections.Generic;
 //using BasicToolBox;
 //=====================================================================================================================
@@ -53,11 +48,16 @@ namespace NetWorkedData
                     if (rObject == null)
                     {
                         rObject = NWDBasisHelper.NewData<NWDAccountPreference>();
+                        rObject.PropertiesPrevent();
                         rObject.InternalKey = sInternalKey;
                         rObject.InternalDescription = sInternalDescription;
                         rObject.Value = sDefaultValue;
                         rObject.SaveData();
                     }
+                }
+                else
+                {
+                    Debug.LogWarning("tHelper for "+ tHelper.ClassNamePHP +  " is not loaded!");
                 }
             }
             return rObject;

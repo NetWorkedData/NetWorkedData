@@ -195,9 +195,12 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             NWDAppConfiguration.SharedInstance().RestaureTypesConfigurations();
             //NWEBenchmark.Finish();
-            NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected = NWDDataManager.SharedInstance().ClassInEditorDatabaseList.Count();
-            NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected = NWDDataManager.SharedInstance().ClassInDeviceDatabaseList.Count();
+            NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected = NWDDataManager.SharedInstance().ClassInEditorDatabaseList.Count;
+            //Debug.Log("NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected = " + NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected);
+            NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected = NWDDataManager.SharedInstance().ClassInDeviceDatabaseList.Count;
+            //Debug.Log("NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected = " + NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected);
             NWDDataManager.SharedInstance().ClassNumberExpected = NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected + NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected;
+            //Debug.Log("NWDDataManager.SharedInstance().ClassNumberExpected = " + NWDDataManager.SharedInstance().ClassNumberExpected);
             State = NWDStatut.ClassRestaureFinish;
             if (ActiveBenchmark)
             {
@@ -248,7 +251,7 @@ namespace NetWorkedData
                 NWEBenchmark.Start();
             }
             State = NWDStatut.DataEditorLoadStart;
-            NWDDataManager.SharedInstance().ReloadAllObjectsEditor(sBundle);
+            NWDDataManager.SharedInstance().ReloadAllObjectsInEditorDatabase(sBundle);
             State = NWDStatut.DataEditorLoadFinish;
             if (ActiveBenchmark)
             {
@@ -314,7 +317,7 @@ namespace NetWorkedData
                 NWEBenchmark.Start();
             }
             State = NWDStatut.DataAccountLoadStart;
-            NWDDataManager.SharedInstance().ReloadAllObjectsAccount(sBundle);
+            NWDDataManager.SharedInstance().ReloadAllObjectsInDeviceDatabase(sBundle);
             State = NWDStatut.DataAccountLoadFinish;
             if (ActiveBenchmark)
             {

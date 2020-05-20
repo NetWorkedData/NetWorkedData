@@ -184,9 +184,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CheckMyItems()
         {
+            PropertiesPrevent();
             List<NWDItem> tActualItems = ItemList.GetReachableDatasList();
             foreach (NWDItem tItem in NWDBasisHelper.BasisHelper<NWDItem>().Datas)
             {
+                tItem.PropertiesPrevent();
                 if (tActualItems.Contains(tItem))
                 {
                     if (tItem.ItemGroupList.GetReachableDatasList().Contains(this) == true)

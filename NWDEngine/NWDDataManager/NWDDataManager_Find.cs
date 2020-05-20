@@ -51,7 +51,7 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public IEnumerator AsyncReloadAllObjectsEditor(NWDBundle sBundle)
+        public IEnumerator AsyncReloadAllObjectsInEditorDatabase(NWDBundle sBundle)
         {
             if (NWDLauncher.ActiveBenchmark)
             {
@@ -65,7 +65,7 @@ namespace NetWorkedData
             ClassInEditorDatabaseNumberLoaded = 0;
             while (ClassInEditorDatabaseNumberLoaded < ClassInEditorDatabaseRumberExpected)
             {
-                ReloadAllObjectsByClassEditor(ClassInEditorDatabaseNumberLoaded, sBundle);
+                ReloadClassInEditorDatabase(ClassInEditorDatabaseNumberLoaded, sBundle);
                 ClassInEditorDatabaseNumberLoaded++;
                 ClassNumberLoaded = ClassInEditorDatabaseNumberLoaded + ClassInDeviceDatabaseNumberLoaded;
                 NWDLauncher.NotifyStep();
@@ -75,7 +75,7 @@ namespace NetWorkedData
                 }
             }
             EditorDatabaseLoaded = true;
-            AccountLanguageLoad();
+            //AccountLanguageLoad();
             //LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
             if (NWDLauncher.ActiveBenchmark)
@@ -84,7 +84,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ReloadAllObjectsByClassEditor(int sCounter, NWDBundle sBundle)
+        public bool ReloadClassInEditorDatabase(int sCounter, NWDBundle sBundle)
         {
             bool rReturn = false;
             if (sCounter >= 0 && sCounter < ClassInEditorDatabaseList.Count)
@@ -96,7 +96,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ReloadAllObjectsEditor(NWDBundle sBundle)
+        public void ReloadAllObjectsInEditorDatabase(NWDBundle sBundle)
         {
             if (NWDLauncher.ActiveBenchmark)
             {
@@ -106,7 +106,7 @@ namespace NetWorkedData
             {
                 //NWEBenchmark.Start("LoadData");
                 EditorDatabaseLoaded = false;
-                ClassInEditorDatabaseRumberExpected = ClassInEditorDatabaseList.Count();
+                ClassInEditorDatabaseRumberExpected = ClassInEditorDatabaseList.Count;
                 ClassInEditorDatabaseNumberLoaded = 0;
                 //double tBenchmark = 0.0F;
                 foreach (Type tType in ClassInEditorDatabaseList)
@@ -132,7 +132,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public IEnumerator AsyncReloadAllObjectsAccount(NWDBundle sBundle)
+        public IEnumerator AsyncReloadAllObjectsInDeviceDatabase(NWDBundle sBundle)
         {
             if (NWDLauncher.ActiveBenchmark)
             {
@@ -143,11 +143,11 @@ namespace NetWorkedData
             {
                 yield return null;
             }
-            ClassInDeviceDatabaseNumberExpected = ClassAccountDependentList.Count();
+            ClassInDeviceDatabaseNumberExpected = ClassInDeviceDatabaseList.Count;
             ClassInDeviceDatabaseNumberLoaded = 0;
             while (ClassInDeviceDatabaseNumberLoaded < ClassInDeviceDatabaseNumberExpected)
             {
-                ReloadAllObjectsByClassAccount(ClassInDeviceDatabaseNumberLoaded, sBundle);
+                ReloadClassInDeviceDatabase(ClassInDeviceDatabaseNumberLoaded, sBundle);
                 ClassInDeviceDatabaseNumberLoaded++;
                 ClassNumberLoaded = ClassInEditorDatabaseNumberLoaded + ClassInDeviceDatabaseNumberLoaded;
                 NWDLauncher.NotifyStep();
@@ -167,12 +167,12 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ReloadAllObjectsByClassAccount(int sCounter, NWDBundle sBundle)
+        public bool ReloadClassInDeviceDatabase(int sCounter, NWDBundle sBundle)
         {
             bool rReturn = false;
-            if (sCounter >= 0 && sCounter < ClassAccountDependentList.Count)
+            if (sCounter >= 0 && sCounter < ClassInDeviceDatabaseList.Count)
             {
-                Type tType = ClassAccountDependentList[sCounter];
+                Type tType = ClassInDeviceDatabaseList[sCounter];
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.LoadFromDatabaseByBundle(sBundle, true);
                 //tHelper.LoadFromDatabase();
@@ -180,7 +180,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ReloadAllObjectsAccount(NWDBundle sBundle)
+        public void ReloadAllObjectsInDeviceDatabase(NWDBundle sBundle)
         {
             if (NWDLauncher.ActiveBenchmark)
             {
@@ -189,7 +189,7 @@ namespace NetWorkedData
             if (DeviceDatabaseConnected == true)
             {
                 DeviceDatabaseLoaded = false;
-                ClassInDeviceDatabaseNumberExpected = ClassInDeviceDatabaseList.Count();
+                ClassInDeviceDatabaseNumberExpected = ClassInDeviceDatabaseList.Count;
                 ClassInDeviceDatabaseNumberLoaded = 0;
                 foreach (Type tType in ClassInDeviceDatabaseList)
                 {
@@ -301,8 +301,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllObjects(NWDBundle sBundle)
         {
-            ReloadAllObjectsEditor(sBundle);
-            ReloadAllObjectsAccount(sBundle);
+            ReloadAllObjectsInEditorDatabase(sBundle);
+            ReloadAllObjectsInDeviceDatabase(sBundle);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

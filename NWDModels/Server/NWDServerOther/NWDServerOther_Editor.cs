@@ -43,12 +43,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonEditor(Rect sRect)
         {
+            PropertiesPrevent();
             Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 100);
             int tI = 0;
-
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
-
             GUIContent tButtonTitle = null;
             NWDServer tServer = Server.GetRawData();
             if (tServer != null)

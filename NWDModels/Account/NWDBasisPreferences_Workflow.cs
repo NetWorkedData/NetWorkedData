@@ -44,28 +44,39 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public string GetString(string sKey, NWDAppEnvironment sEnvironment, string sDefault = null, bool sLimitByAccount = true)
         {
+            NWEBenchmark.Start();
             NWDBasisPreferences tPrefs = SelectDataForEngine(sKey, sEnvironment, sDefault, 0, sLimitByAccount);
+            string rReturn;
             if (tPrefs != null)
             {
-                return tPrefs.StringValue;
+                rReturn = tPrefs.StringValue;
             }
             else
             {
-                return sDefault;
+                rReturn = sDefault;
+                Debug.Log("NWDBasisPreferences GetString for key <b>" + sKey + "</b> Pref NOT FOUND!");
             }
+            Debug.Log ("NWDBasisPreferences GetString for <b>" + sKey + "</b> Value is '<b>" + (string.IsNullOrEmpty(rReturn) ? "NULL" : rReturn) + "</b>'.");
+            NWEBenchmark.Finish(true, "for key <b>"+ sKey + "</b> Value is '<b>" + (string.IsNullOrEmpty(rReturn)? "NULL":rReturn)+"</b>'.");
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         static public int GetInt(string sKey, NWDAppEnvironment sEnvironment, int sDefault = 0, bool sLimitByAccount = true)
         {
             NWDBasisPreferences tPrefs = SelectDataForEngine(sKey, sEnvironment, string.Empty, sDefault, sLimitByAccount);
+            int rReturn = sDefault;
             if (tPrefs != null)
             {
-                return tPrefs.IntValue;
+                rReturn = tPrefs.IntValue;
             }
             else
             {
-                return sDefault;
+                rReturn = sDefault;
+                Debug.Log("NWDBasisPreferences GetInt for key <b>" + sKey + "</b> Pref NOT FOUND!");
             }
+            Debug.Log("NWDBasisPreferences GetString for <b>" + sKey + "</b> Value is '<b>" + rReturn + "</b>'.");
+            NWEBenchmark.Finish(true, "for key <b>" + sKey + "</b> Value is '<b>" + rReturn + "</b>'.");
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         static public void SetString(string sKey, NWDAppEnvironment sEnvironment, string sValue, bool sLimitByAccount = true)
@@ -73,12 +84,13 @@ namespace NetWorkedData
             NWDBasisPreferences tPrefs = SelectDataForEngine(sKey, sEnvironment, sValue, 0, sLimitByAccount);
             if (tPrefs != null)
             {
-                //if (sLimitByAccount == false)
-                //{
-                //    tPrefs.Account = new NWDReferenceType<NWDAccount>();
-                //}
                 tPrefs.StringValue = sValue;
                 tPrefs.SaveData();
+                Debug.Log("NWDBasisPreferences SetString for <b>" + sKey + "</b> Value is '<b>" + sValue + "</b>'.");
+            }
+            else
+            {
+                Debug.Log("NWDBasisPreferences SetString for key <b>" + sKey + "</b> Pref NOT FOUND!");
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -87,12 +99,13 @@ namespace NetWorkedData
             NWDBasisPreferences tPrefs = SelectDataForEngine(sKey, sEnvironment, string.Empty, sValue, sLimitByAccount);
             if (tPrefs != null)
             {
-                //if (sLimitByAccount == false)
-                //{
-                //    tPrefs.Account = new NWDReferenceType<NWDAccount>();
-                //}
                 tPrefs.IntValue = sValue;
                 tPrefs.SaveData();
+                Debug.Log("NWDBasisPreferences SetInt for <b>" + sKey + "</b> Value is '<b>" + sValue + "</b>'.");
+            }
+            else
+            {
+                Debug.Log("NWDBasisPreferences SetInt for key <b>" + sKey + "</b> Pref NOT FOUND!");
             }
         }
         //-------------------------------------------------------------------------------------------------------------
