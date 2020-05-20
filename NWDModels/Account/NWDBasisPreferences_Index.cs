@@ -54,11 +54,11 @@ namespace NetWorkedData
                 tAccountReference = "General";
             }
             string tKey = sEnvironment.Environment + NWDConstants.kFieldSeparatorA + sKey + NWDConstants.kFieldSeparatorA + tAccountReference;
-            Debug.Log("I need basis NWDBasisPreferences with reference " + tKey);
+            //Debug.Log("I need basis NWDBasisPreferences with reference " + tKey);
             NWDBasisPreferences rPref = NWDBasisHelper.GetRawDataByReference<NWDBasisPreferences>(tKey);
             if (rPref == null)
             {
-                Debug.Log("I need create basis preferences with reference " + tKey);
+                //Debug.Log("I need create basis preferences with reference " + tKey);
                 rPref = NWDBasisHelper.NewDataWithReference<NWDBasisPreferences>(tKey);
                 rPref.DevSync = -1;
                 rPref.PreprodSync = -1;
@@ -83,7 +83,7 @@ namespace NetWorkedData
             }
             else
             {
-                Debug.Log("basis preferences with reference " + tKey + " exists ... I return it");
+                //Debug.Log("basis preferences with reference " + tKey + " exists ... I return it");
             }
             return rPref;
         }
