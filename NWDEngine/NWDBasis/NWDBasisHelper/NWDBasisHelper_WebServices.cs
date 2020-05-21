@@ -302,6 +302,7 @@ namespace NetWorkedData
                             {
                             if (tItem.IsWritableBy(null, NWDAccount.CurrentReference()))
                             {
+                                sInfos.RowPushCounter++;
                                 tDatas.Add(tItem.CSVAssembly());
                             }
                         }

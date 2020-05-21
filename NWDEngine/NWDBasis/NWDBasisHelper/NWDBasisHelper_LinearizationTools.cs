@@ -257,7 +257,7 @@ namespace NetWorkedData
             StringBuilder tAssembly = new StringBuilder();
             tAssembly.Append(sDataArray[0] + sDataArray[1]);
             int tMax = sDataArray.Count() - 1;
-            for (int i = 6; i < tMax; i++)
+            for (int i = 7; i < tMax; i++)
             {
                 tAssembly.Append(sDataArray[i]);
             }

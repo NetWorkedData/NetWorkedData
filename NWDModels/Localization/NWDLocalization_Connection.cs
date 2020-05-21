@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:33:47
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -19,7 +13,14 @@ namespace NetWorkedData {
     [Serializable]
     public class NWDLocalizationConnection : NWDConnection<NWDLocalization> {
         //-------------------------------------------------------------------------------------------------------------
-        public string GetLocalString(string sDefault = NWEConstants.K_EMPTY_STRING) { NWDLocalization tObject = GetReachableData(); if (tObject != null) { return GetReachableData().GetLocalString(); } return sDefault; }
+        public string GetLocalString(string sDefault = NWEConstants.K_EMPTY_STRING) {
+            NWDLocalization tObject = GetReachableData();
+            if (tObject != null)
+            {
+                return GetReachableData().GetLocalString();
+            }
+            return sDefault;
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

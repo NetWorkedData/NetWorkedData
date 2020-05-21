@@ -11,12 +11,13 @@ using System.Diagnostics;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-   
+
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public static class NWDEngineBenchmark
     {
         //-------------------------------------------------------------------------------------------------------------
         public static Stopwatch Watch = new Stopwatch();
+        // engine
         public static long WatchEngineLaunch;
         public static long WatchEditorLaunch;
         public static long WatchAccountLaunch;
@@ -90,14 +91,20 @@ namespace NetWorkedData
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 RowEditor += tHelper.Datas.Count;
             }
-            long RowDevice= 0;
+            long RowDevice = 0;
             foreach (Type tType in NWDDataManager.SharedInstance().ClassInDeviceDatabaseList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 RowDevice += tHelper.Datas.Count;
             }
 
-            return "Engine:"+ GetWatchEngineLaunch() + " Editor datas:"+ GetWatchEditorLaunch() + "("+ RowEditor+" rows) Account datas:" + GetWatchAccountLaunch() + "(" + RowDevice + " rows) "+" Final:" + GetWatchFinalLaunch() + " Total:" + GetWatchTotalLaunch();
+            string rReturn = "Engine:" + GetWatchEngineLaunch() +
+                " Editor datas:" + GetWatchEditorLaunch() + "(" + RowEditor + " rows)" +
+                " Account datas:" + GetWatchAccountLaunch() + "(" + RowDevice + " rows) " +
+                " Final:" + GetWatchFinalLaunch() +
+                " Total:" + GetWatchTotalLaunch() +
+                "";
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
