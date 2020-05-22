@@ -16,8 +16,8 @@ namespace NetWorkedData
         /// <summary>
         /// Data is editable by this account. This account can read, write (insert, update) and trash this data.
         /// </summary>
-        [NWDInspectorGroupReset()]
-        [NWDInspectorGroupStart("GameSave Informations")]
+        [NWDInspectorGroupOrder(NWD.InspectorBasisHeader,-2)]
+        [NWDCertified]
         public NWDReferenceType<NWDGameSave> GameSave { get; set; }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -120,7 +120,6 @@ namespace NetWorkedData
             //only if data was not sync ... else it need to use the define GameSave
             if (DevSync <= 1 && ProdSync <= 1 && PreprodSync <= 1)
             {
-
                 if (GameSave == null)
                 {
                     GameSave = new NWDReferenceType<NWDGameSave>();

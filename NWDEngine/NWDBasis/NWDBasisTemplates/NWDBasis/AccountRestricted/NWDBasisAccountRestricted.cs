@@ -16,9 +16,8 @@ namespace NetWorkedData
     /// </summary>
     public partial class NWDBasisAccountRestricted : NWDBasis
     {
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupReset()]
-        [NWDInspectorGroupStart("Account Informations")]
+        //--------------------------------------------------------------------------------------------------------------
+        [NWDInspectorGroupOrder(NWD.InspectorBasisHeader,-1)]
         [NWDCertified]
         [NWDNotEditable]
         public NWDReferenceType<NWDAccount> Account { get; set; }

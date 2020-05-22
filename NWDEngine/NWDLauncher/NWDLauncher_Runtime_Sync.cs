@@ -117,6 +117,10 @@ namespace NetWorkedData
                     tType != typeof(NWDBasisUnsynchronize) &&
                     tType != typeof(NWDBasisAccountUnsynchronize) &&
                     tType != typeof(NWDBasisAccountDependent) &&
+                    tType != typeof(NWDBasisAccountPublish) &&
+                    tType != typeof(NWDBasisAccountShared) &&
+                    tType != typeof(NWDBasisGameSavePublish) &&
+                    tType != typeof(NWDBasisGameSaveShared) &&
                     tType != typeof(NWDBasisAccountRestricted) &&
                     tType != typeof(NWDBasisGameSaveDependent) &&
                     tType.IsGenericType == false)

@@ -62,7 +62,7 @@ namespace NetWorkedData
             // find the owner classes folder
             string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder();
             Directory.CreateDirectory(tOwnerClassesFolderPath);
-            Directory.CreateDirectory(tOwnerClassesFolderPath + "/"+ WindowName);
+            Directory.CreateDirectory(tOwnerClassesFolderPath + "/" + WindowName);
             // write file
             string tFilePath = tOwnerClassesFolderPath + "/" + WindowName + "/" + WindowName + ".cs";
             File.WriteAllText(tFilePath, tClassExample);
@@ -89,28 +89,38 @@ namespace NetWorkedData
 
             // change meta
             TextureImporter tIconPathNewImporter = AssetImporter.GetAtPath(tIconPathNew) as TextureImporter;
-            tIconPathNewImporter.textureType = TextureImporterType.GUI;
-            tIconPathNewImporter.alphaSource = TextureImporterAlphaSource.FromInput;
-            tIconPathNewImporter.alphaIsTransparency = true;
-            //tIconPathNewImporter. // remove matte ?
-            var tIconPathNewImporterSerialized = new SerializedObject(tIconPathNewImporter);
-            tIconPathNewImporterSerialized.FindProperty("m_PSDRemoveMatte").boolValue = true;
-            tIconPathNewImporterSerialized.FindProperty("m_PSDShowRemoveMatteOption").boolValue = true; // this is not needed unless you want to show the option (and warning)
-            tIconPathNewImporterSerialized.ApplyModifiedProperties();
-
+            if (tIconPathNewImporter != null)
+            {
+                tIconPathNewImporter.textureType = TextureImporterType.GUI;
+                tIconPathNewImporter.alphaSource = TextureImporterAlphaSource.FromInput;
+                tIconPathNewImporter.alphaIsTransparency = true;
+                //tIconPathNewImporter. // remove matte ?
+                var tIconPathNewImporterSerialized = new SerializedObject(tIconPathNewImporter);
+                if (tIconPathNewImporterSerialized != null)
+                {
+                    tIconPathNewImporterSerialized.FindProperty("m_PSDRemoveMatte").boolValue = true;
+                    tIconPathNewImporterSerialized.FindProperty("m_PSDShowRemoveMatteOption").boolValue = true; // this is not needed unless you want to show the option (and warning)
+                    tIconPathNewImporterSerialized.ApplyModifiedProperties();
+                }
+            }
             AssetDatabase.WriteImportSettingsIfDirty(tIconPathNew);
 
             // change meta pro
             TextureImporter tIconPathNewProImporter = AssetImporter.GetAtPath(tIconPathNewPro) as TextureImporter;
-            tIconPathNewProImporter.textureType = TextureImporterType.GUI;
-            tIconPathNewProImporter.alphaSource = TextureImporterAlphaSource.FromInput;
-            tIconPathNewProImporter.alphaIsTransparency = true;
-            //tIconPathNewImporter. // remove matte ?
-            var tIconPathNewProImporterSerialized = new SerializedObject(tIconPathNewProImporter);
-            tIconPathNewProImporterSerialized.FindProperty("m_PSDRemoveMatte").boolValue = true;
-            tIconPathNewProImporterSerialized.FindProperty("m_PSDShowRemoveMatteOption").boolValue = true; // this is not needed unless you want to show the option (and warning)
-            tIconPathNewProImporterSerialized.ApplyModifiedProperties();
-
+            if (tIconPathNewProImporter != null)
+            {
+                tIconPathNewProImporter.textureType = TextureImporterType.GUI;
+                tIconPathNewProImporter.alphaSource = TextureImporterAlphaSource.FromInput;
+                tIconPathNewProImporter.alphaIsTransparency = true;
+                //tIconPathNewImporter. // remove matte ?
+                var tIconPathNewProImporterSerialized = new SerializedObject(tIconPathNewProImporter);
+                if (tIconPathNewProImporterSerialized != null)
+                {
+                    tIconPathNewProImporterSerialized.FindProperty("m_PSDRemoveMatte").boolValue = true;
+                    tIconPathNewProImporterSerialized.FindProperty("m_PSDShowRemoveMatteOption").boolValue = true; // this is not needed unless you want to show the option (and warning)
+                    tIconPathNewProImporterSerialized.ApplyModifiedProperties();
+                }
+            }
             AssetDatabase.WriteImportSettingsIfDirty(tIconPathNewPro);
 
             //NWEBenchmark.Finish();

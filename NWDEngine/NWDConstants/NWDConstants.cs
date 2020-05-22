@@ -14,6 +14,8 @@ namespace NetWorkedData
     public partial class NWD
     {
         //-------------------------------------------------------------------------------------------------------------
+        public const string InspectorBasisHeader = "Informations";
+        //-------------------------------------------------------------------------------------------------------------
         public const string K_PlayerLanguageKey = "PlayerLanguageKey";
         //-------------------------------------------------------------------------------------------------------------
         public const string K_DeviceDatabaseName = "PRP_Device.prp";

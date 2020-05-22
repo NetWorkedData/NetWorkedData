@@ -38,6 +38,15 @@ namespace NetWorkedData
         protected bool FromDatabase = false;
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupReset()]
+        [NWDInspectorGroupStart(NWD.InspectorBasisHeader)]
+        [NWDNotEditable]
+        [NWDCertified]
+        //[NWDHidden]
+        public int RangeAccess
+        {
+            get; set;
+        }
+        [NWDInspectorGroupEnd()]
         [NWDInspectorGroupStart(NWD.K_INSPECTOR_BASIS)]
         [NWDNotEditable]
         [NWDCertified]
@@ -176,15 +185,6 @@ namespace NetWorkedData
         [NWDNotEditable]
         [NWDCertified]
         public bool InError
-        {
-            get; set;
-        }
-        [NWDInspectorGroupEnd()]
-        [NWDInspectorGroupStart("Access Range")]
-        [NWDNotEditable]
-        [NWDCertified]
-        //[NWDHidden]
-        public int RangeAccess
         {
             get; set;
         }

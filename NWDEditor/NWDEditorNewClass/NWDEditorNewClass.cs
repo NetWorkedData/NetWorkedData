@@ -231,10 +231,10 @@ namespace NetWorkedData
             tListOfclass.Insert(0, "  ");
             tListOfclass.Insert(0, typeof(NWDBasisAccountUnsynchronize).Name);
             tListOfclass.Insert(0, typeof(NWDBasisUnsynchronize).Name);
-            //tListOfclass.Insert(0, typeof(NWDBasisAccountShared).Name);
-            //tListOfclass.Insert(0, typeof(NWDBasisGameSaveShared).Name);
-            //tListOfclass.Insert(0, typeof(NWDBasisAccountPublish).Name);
-            //tListOfclass.Insert(0, typeof(NWDBasisGameSavePublish).Name);
+            tListOfclass.Insert(0, typeof(NWDBasisAccountShared).Name);
+            tListOfclass.Insert(0, typeof(NWDBasisGameSaveShared).Name);
+            tListOfclass.Insert(0, typeof(NWDBasisAccountPublish).Name);
+            tListOfclass.Insert(0, typeof(NWDBasisGameSavePublish).Name);
             tListOfclass.Insert(0, typeof(NWDBasisGameSaveDependent).Name);
             tListOfclass.Insert(0, typeof(NWDBasisAccountDependent).Name);
             //tListOfclass.Insert(0, typeof(NWDBasisAccountRestricted).Name); // not accessible to create Data in framework

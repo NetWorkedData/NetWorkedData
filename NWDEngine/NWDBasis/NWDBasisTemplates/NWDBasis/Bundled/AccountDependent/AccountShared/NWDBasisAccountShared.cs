@@ -11,27 +11,28 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasisAccountDependent : NWDBasisBundled
+    public partial class NWDBasisAccountShared : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Data is editable by this account. This account can read, write (insert, update) and trash this data.
+        /// And this data is readeable by 
         /// </summary>
-        [NWDInspectorGroupOrder(NWD.InspectorBasisHeader,-9)]
+        [NWDInspectorGroupOrder(NWD.InspectorBasisHeader,-8)]
         [NWDCertified]
-        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferencesArrayType<NWDAccount> AccountsArray { get; set; }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Constructor basic.
         /// </summary>
-        public NWDBasisAccountDependent()
+        public NWDBasisAccountShared()
         {
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Constructor from database.
         /// </summary>
-        public NWDBasisAccountDependent(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDBasisAccountShared(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -41,7 +42,7 @@ namespace NetWorkedData
             {
                 sAccountReference = NWDAccount.CurrentReference();
             }
-            return (Account.GetReference() == sAccountReference);
+            return AccountsArray.ContainsReference(sAccountReference);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override bool IsWritableBy(string sGameSaveReference, string sAccountReference = null)
@@ -50,7 +51,7 @@ namespace NetWorkedData
             {
                 sAccountReference = NWDAccount.CurrentReference();
             }
-            return (Account.GetReference() == sAccountReference);
+            return AccountsArray.ContainsReference(sAccountReference);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void PropertiesAutofill()
@@ -61,9 +62,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void PropertiesMinimal()
         {
-            if (Account == null)
+            if (AccountsArray == null)
             {
-                Account = new NWDReferenceType<NWDAccount>();
+                AccountsArray = new NWDReferencesArrayType<NWDAccount>();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -101,7 +102,6 @@ namespace NetWorkedData
                 {
                     Account = new NWDReferenceType<NWDAccount>();
                 }
-                Account.SetValue(NWDAccount.CurrentReference());
                 string[] tAccountExplode = Account.GetValue().Split(new char[] { '-' });
                 if (tAccountExplode.Length > 1)
                 {
@@ -126,6 +126,8 @@ namespace NetWorkedData
                     NWDDataInspector.InspectNetWorkedData(null, true, false);
 #endif
                     Account.SetValue(sNewUser);
+                    AccountsArray.RemoveReferences(new string[] { sOldUser });
+                    AccountsArray.AddReferences(new string[] { sNewUser });
                     UpdateData();
                     AnalyzeData();
                 }

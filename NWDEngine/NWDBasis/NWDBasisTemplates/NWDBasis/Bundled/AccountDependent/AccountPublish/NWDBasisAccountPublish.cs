@@ -11,27 +11,28 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasisAccountDependent : NWDBasisBundled
+    public partial class NWDBasisAccountPublish : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Data is editable by this account. This account can read, write (insert, update) and trash this data.
+        /// And this data is readeable by 
         /// </summary>
-        [NWDInspectorGroupOrder(NWD.InspectorBasisHeader,-9)]
+        [NWDInspectorGroupOrder(NWD.InspectorBasisHeader,-8)]
         [NWDCertified]
-        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferencesArrayType<NWDAccount> ReaderAccountsArray { get; set; }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Constructor basic.
         /// </summary>
-        public NWDBasisAccountDependent()
+        public NWDBasisAccountPublish()
         {
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Constructor from database.
         /// </summary>
-        public NWDBasisAccountDependent(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDBasisAccountPublish(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -41,7 +42,7 @@ namespace NetWorkedData
             {
                 sAccountReference = NWDAccount.CurrentReference();
             }
-            return (Account.GetReference() == sAccountReference);
+            return ReaderAccountsArray.ContainsReference(sAccountReference);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override bool IsWritableBy(string sGameSaveReference, string sAccountReference = null)
@@ -61,9 +62,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void PropertiesMinimal()
         {
-            if (Account == null)
+            if (ReaderAccountsArray == null)
             {
-                Account = new NWDReferenceType<NWDAccount>();
+                ReaderAccountsArray = new NWDReferencesArrayType<NWDAccount>();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -101,7 +102,6 @@ namespace NetWorkedData
                 {
                     Account = new NWDReferenceType<NWDAccount>();
                 }
-                Account.SetValue(NWDAccount.CurrentReference());
                 string[] tAccountExplode = Account.GetValue().Split(new char[] { '-' });
                 if (tAccountExplode.Length > 1)
                 {
@@ -126,6 +126,8 @@ namespace NetWorkedData
                     NWDDataInspector.InspectNetWorkedData(null, true, false);
 #endif
                     Account.SetValue(sNewUser);
+                    ReaderAccountsArray.RemoveReferences(new string[] { sOldUser });
+                    ReaderAccountsArray.AddReferences(new string[] { sNewUser });
                     UpdateData();
                     AnalyzeData();
                 }

@@ -28,9 +28,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDBasisBundled(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDInspectorGroupOrder(NWD.InspectorBasisHeader, -1)]
         [NWDNotEditable]
         [NWDCertified]
-        [NWDHidden]
+        //[NWDHidden]
         public NWDBundle Bundle
         {
             get; set;

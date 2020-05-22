@@ -11,27 +11,28 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasisAccountDependent : NWDBasisBundled
+    public partial class NWDBasisGameSaveShared : NWDBasisAccountShared
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Data is editable by this account. This account can read, write (insert, update) and trash this data.
+        /// And this data is readeable by 
         /// </summary>
-        [NWDInspectorGroupOrder(NWD.InspectorBasisHeader,-9)]
+        [NWDInspectorGroupOrder(NWD.InspectorBasisHeader, -2)]
         [NWDCertified]
-        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferencesArrayType<NWDGameSave> GameSavesArray { get; set; }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Constructor basic.
         /// </summary>
-        public NWDBasisAccountDependent()
+        public NWDBasisGameSaveShared()
         {
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Constructor from database.
         /// </summary>
-        public NWDBasisAccountDependent(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDBasisGameSaveShared(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -41,7 +42,14 @@ namespace NetWorkedData
             {
                 sAccountReference = NWDAccount.CurrentReference();
             }
-            return (Account.GetReference() == sAccountReference);
+            if (sGameSaveReference == null)
+            {
+                return (Account.GetReference() == sAccountReference);
+            }
+            else
+            {
+                return (Account.GetReference() == sAccountReference && GameSavesArray.ContainsReference(sGameSaveReference));
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public override bool IsWritableBy(string sGameSaveReference, string sAccountReference = null)
@@ -50,7 +58,14 @@ namespace NetWorkedData
             {
                 sAccountReference = NWDAccount.CurrentReference();
             }
-            return (Account.GetReference() == sAccountReference);
+            if (sGameSaveReference == null)
+            {
+                return (Account.GetReference() == sAccountReference);
+            }
+            else
+            {
+                return (Account.GetReference() == sAccountReference && GameSavesArray.ContainsReference(sGameSaveReference));
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void PropertiesAutofill()
@@ -61,9 +76,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void PropertiesMinimal()
         {
-            if (Account == null)
+            base.PropertiesMinimal();
+            if (GameSavesArray == null)
             {
-                Account = new NWDReferenceType<NWDAccount>();
+                GameSavesArray = new NWDReferencesArrayType<NWDGameSave>();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -71,69 +87,39 @@ namespace NetWorkedData
         {
             //Debug.Log("AddonInsertMe " + BasisHelper().ClassNamePHP);
             base.AddonInsertMe();
-            AssignRange();
+            AssignGameSave();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdateMe()
         {
             //Debug.Log("AddonUpdateMe " + BasisHelper().ClassNamePHP);
             base.AddonUpdateMe();
-            AssignRange();
+            AssignGameSave();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonDuplicateMe()
         {
             //Debug.Log("AddonDuplicateMe " + BasisHelper().ClassNamePHP);
             base.AddonDuplicateMe();
-            AssignRange();
+            AssignGameSave();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Assign the good <see cref="RangeAccess"/> for this data for this <see cref="Account"/>
         /// </summary>
-        private void AssignRange()
+        private void AssignGameSave()
         {
             //Debug.Log("AssignRange " + BasisHelper().ClassNamePHP);
             //only if data was not sync ... else it need to use the define RangeAccess
             if (DevSync <= 1 && ProdSync <= 1 && PreprodSync <= 1)
             {
-                if (Account == null)
+                if (GameSavesArray == null)
                 {
-                    Account = new NWDReferenceType<NWDAccount>();
+                    GameSavesArray = new NWDReferencesArrayType<NWDGameSave>();
                 }
-                Account.SetValue(NWDAccount.CurrentReference());
-                string[] tAccountExplode = Account.GetValue().Split(new char[] { '-' });
-                if (tAccountExplode.Length > 1)
-                {
-                    int tRange;
-                    int.TryParse(tAccountExplode[1], out tRange);
-                    RangeAccess = tRange;
-                }
+                GameSavesArray.AddData(NWDGameSave.CurrentData());
             }
             //Debug.Log("AssignRange RangeAccess = " + RangeAccess + "    " + BasisHelper().ClassNamePHP);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void ChangeUser(string sOldUser, string sNewUser)
-        {
-            //Debug.Log("ChangeUser(string sOldUser, string sNewUser) in " + BasisHelper().ClassNamePHP);
-            if (IntegrityIsValid() == true)
-            {
-                if (Account.GetValue() == sOldUser)
-                {
-#if UNITY_EDITOR
-                    //prevent corrupt in 
-                    BasisHelper().SetObjectInEdition(null);
-                    NWDDataInspector.InspectNetWorkedData(null, true, false);
-#endif
-                    Account.SetValue(sNewUser);
-                    UpdateData();
-                    AnalyzeData();
-                }
-            }
-            else
-            {
-                Debug.Log("ChangeUser INTEGRITY ERROR " + Reference + "in " + BasisHelper().ClassNamePHP);
-            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }

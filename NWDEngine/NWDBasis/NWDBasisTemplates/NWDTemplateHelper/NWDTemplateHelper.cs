@@ -227,6 +227,38 @@ namespace NetWorkedData
                         AccountDependent = NWDTemplateAccountDependent.PublishAccountDependent;
                         GamesaveDependent = NWDTemplateGamesaveDependent.NoGamsesaveDependent;
                     }*/
+                    else if (ClassType.IsSubclassOf(typeof(NWDBasisGameSaveShared)) || ClassType == typeof(NWDBasisGameSaveShared))
+                    {
+                        DeviceDatabase = NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount;
+                        Synchronizable = NWDTemplateClusterDatabase.SynchronizableInClusterAccessRangeDatabase;
+                        Bundlisable = NWDTemplateBundlisable.Bundlisable;
+                        AccountDependent = NWDTemplateAccountDependent.ShareAccountDependent;
+                        GamesaveDependent = NWDTemplateGameSaveDependent.MultiGameSaveDependent;
+                    }
+                    else if (ClassType.IsSubclassOf(typeof(NWDBasisGameSavePublish)) || ClassType == typeof(NWDBasisGameSavePublish))
+                    {
+                        DeviceDatabase = NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount;
+                        Synchronizable = NWDTemplateClusterDatabase.SynchronizableInClusterAccessRangeDatabase;
+                        Bundlisable = NWDTemplateBundlisable.Bundlisable;
+                        AccountDependent = NWDTemplateAccountDependent.PublishAccountDependent;
+                        GamesaveDependent = NWDTemplateGameSaveDependent.MultiGameSaveDependent;
+                    }
+                    else if (ClassType.IsSubclassOf(typeof(NWDBasisAccountShared)) || ClassType == typeof(NWDBasisAccountShared))
+                    {
+                        DeviceDatabase = NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount;
+                        Synchronizable = NWDTemplateClusterDatabase.SynchronizableInClusterAccessRangeDatabase;
+                        Bundlisable = NWDTemplateBundlisable.Bundlisable;
+                        AccountDependent = NWDTemplateAccountDependent.ShareAccountDependent;
+                        GamesaveDependent = NWDTemplateGameSaveDependent.NoGameSaveDependent;
+                    }
+                    else if (ClassType.IsSubclassOf(typeof(NWDBasisAccountPublish)) || ClassType == typeof(NWDBasisAccountPublish))
+                    {
+                        DeviceDatabase = NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount;
+                        Synchronizable = NWDTemplateClusterDatabase.SynchronizableInClusterAccessRangeDatabase;
+                        Bundlisable = NWDTemplateBundlisable.Bundlisable;
+                        AccountDependent = NWDTemplateAccountDependent.PublishAccountDependent;
+                        GamesaveDependent = NWDTemplateGameSaveDependent.NoGameSaveDependent;
+                    }
                     else if (ClassType.IsSubclassOf(typeof(NWDBasisGameSaveDependent)) || ClassType == typeof(NWDBasisGameSaveDependent))
                     {
                         DeviceDatabase = NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount;
