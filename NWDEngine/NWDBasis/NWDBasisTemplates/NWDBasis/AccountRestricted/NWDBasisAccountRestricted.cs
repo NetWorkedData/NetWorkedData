@@ -20,6 +20,8 @@ namespace NetWorkedData
         [NWDInspectorGroupOrder(NWD.InspectorBasisHeader,-1)]
         [NWDCertified]
         [NWDNotEditable]
+        //[NWDIndexedAttribut(NWD.K_ACCOUNT_INDEX)]
+        [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
         public NWDReferenceType<NWDAccount> Account { get; set; }
         //-------------------------------------------------------------------------------------------------------------
         public NWDBasisAccountRestricted()

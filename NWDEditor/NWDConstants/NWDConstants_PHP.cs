@@ -19,11 +19,14 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         // SQL INDEXATION
-        public const string K_REFERENCE_INDEX = "ReferenceIndex";
+        //public const string K_REFERENCE_INDEX = "ReferenceIndex";
         public const string K_BASIS_INDEX = "BasisIndex";
-        public const string K_ACCOUNT_INDEX = "AccountIndex";
-        public const string K_INTERNAL_INDEX = "InternalIndex";
-        public const string K_EDITOR_INDEX = "EditorIndex";
+        //public const string K_ACCOUNT_INDEX = "AccountIndex";
+        //public const string K_INTERNAL_INDEX = "InternalIndex";
+        //public const string K_EDITOR_INDEX = "EditorIndex";
+
+        public const string K_REQUEST_TOKEN_INDEX = "TokenIndex";
+        public const string K_IP_BAN_INDEX = "IPBanIndex";
         //-------------------------------------------------------------------------------------------------------------
         // INSPECTOR GROUP
         public const string K_INSPECTOR_BASIS = "Basis";

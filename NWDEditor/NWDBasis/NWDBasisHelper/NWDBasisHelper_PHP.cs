@@ -354,7 +354,7 @@ namespace NetWorkedData
 
             Dictionary<string, List<PropertyInfo>> tIndexesDico = new Dictionary<string, List<PropertyInfo>>();
             tIndexesDico.Add(NWD.K_BASIS_INDEX, new List<PropertyInfo>());
-            tIndexesDico.Add(NWD.K_ACCOUNT_INDEX, new List<PropertyInfo>());
+            //tIndexesDico.Add(NWD.K_ACCOUNT_INDEX, new List<PropertyInfo>());
 
 
             foreach (PropertyInfo tPropertyInfo in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
@@ -372,31 +372,31 @@ namespace NetWorkedData
                             tIndexesDico[tAttribut.IndexName].Add(tPropertyInfo);
                         }
                     }
-                    Type tTypeOfThis = tPropertyInfo.PropertyType;
-                    if (tTypeOfThis.IsSubclassOf(typeof(NWDReference)) && tTypeOfThis.IsGenericType)
-                    {
-                        Type tSubType = tTypeOfThis.GetGenericArguments()[0];
-                        if (tSubType == typeof(NWDAccount) || tSubType == typeof(NWDGameSave))
-                        {
-                            if (tPropertyInfo.GetCustomAttribute(typeof(NWDDisableAccountDependence), true) == null)
-                            {
-                                if (tIndexesDico[NWD.K_BASIS_INDEX].Contains(tPropertyInfo) == false)
-                                {
-                                    tIndexesDico[NWD.K_BASIS_INDEX].Add(tPropertyInfo);
-                                }
-                            }
-                        }
-                        if (tSubType == typeof(NWDAccount))
-                        {
-                            if (tPropertyInfo.GetCustomAttribute(typeof(NWDDisableAccountDependence), true) == null)
-                            {
-                                if (tIndexesDico[NWD.K_ACCOUNT_INDEX].Contains(tPropertyInfo) == false)
-                                {
-                                    tIndexesDico[NWD.K_ACCOUNT_INDEX].Add(tPropertyInfo);
-                                }
-                            }
-                        }
-                    }
+                    //Type tTypeOfThis = tPropertyInfo.PropertyType;
+                    //if (tTypeOfThis.IsSubclassOf(typeof(NWDReference)) && tTypeOfThis.IsGenericType)
+                    //{
+                    //    Type tSubType = tTypeOfThis.GetGenericArguments()[0];
+                    //    if (tSubType == typeof(NWDAccount) || tSubType == typeof(NWDGameSave))
+                    //    {
+                    //        if (tPropertyInfo.GetCustomAttribute(typeof(NWDDisableAccountDependence), true) == null)
+                    //        {
+                    //            if (tIndexesDico[NWD.K_BASIS_INDEX].Contains(tPropertyInfo) == false)
+                    //            {
+                    //                tIndexesDico[NWD.K_BASIS_INDEX].Add(tPropertyInfo);
+                    //            }
+                    //        }
+                    //    }
+                    //    if (tSubType == typeof(NWDAccount))
+                    //    {
+                    //        if (tPropertyInfo.GetCustomAttribute(typeof(NWDDisableAccountDependence), true) == null)
+                    //        {
+                    //            if (tIndexesDico[NWD.K_ACCOUNT_INDEX].Contains(tPropertyInfo) == false)
+                    //            {
+                    //                tIndexesDico[NWD.K_ACCOUNT_INDEX].Add(tPropertyInfo);
+                    //            }
+                    //        }
+                    //    }
+                    //}
 
                     if (tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID)
                         && tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference)
@@ -415,7 +415,7 @@ namespace NetWorkedData
                             tFile.AppendLine("$tResult = $Connexion->query($tQuery);");
                             tFile.AppendLine("if (!$tResult)");
                             tFile.AppendLine("{");
-                            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery", "$Connexion"));
+                            //tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery", "$Connexion"));
                             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx11, ClassNamePHP));
                             tFile.AppendLine("}");
                         }
@@ -427,32 +427,13 @@ namespace NetWorkedData
                             tFile.AppendLine("$tResult = $Connexion->query($tQuery);");
                             tFile.AppendLine("if (!$tResult)");
                             tFile.AppendLine("{");
-                            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery", "$Connexion"));
+                            //tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery", "$Connexion"));
                             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx12, ClassNamePHP));
                             tFile.AppendLine("}");
                             tFile.AppendLine("}");
                         }
                     }
                 }
-
-                //tFile.AppendLine("/*");
-                //tFile.AppendLine("foreach(" + NWD.K_SQL_CON_EDITOR + " as $tRange=>$tConnexion)");
-                //tFile.AppendLine("{");
-                //{
-                //    tFile.AppendLine("foreach($tQueryArray as $tQ=>$tError)");
-                //    tFile.AppendLine("{");
-                //    {
-                //        tFile.AppendLine("$tR = $tConnexion->query($tQ);");
-                //        tFile.AppendLine("if (!$tR)");
-                //        tFile.AppendLine("{");
-                //        tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQ", "$tConnexion"));
-                //        tFile.AppendLine("error($tError, '" + ClassNamePHP + "', true, __DIR__, __FILE__, __FUNCTION__, __LINE__);");
-                //        tFile.AppendLine("}");
-                //    }
-                //    tFile.AppendLine("}");
-                //}
-                //tFile.AppendLine("}");
-                //tFile.AppendLine("*/");
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);

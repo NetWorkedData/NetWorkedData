@@ -55,7 +55,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
-        [NWDIndexedAttribut(NWD.K_REFERENCE_INDEX)]
+        //[NWDIndexedAttribut(NWD.K_REFERENCE_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         [NWDNotEditable]
@@ -77,7 +77,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDIndexedAttribut(NWD.K_INTERNAL_INDEX)]
+        //[NWDIndexedAttribut(NWD.K_INTERNAL_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         public string InternalKey
@@ -86,7 +86,7 @@ namespace NetWorkedData
         }
         [NWDNotEditable]
         [NWDCertified]
-        [NWDIndexedAttribut(NWD.K_INTERNAL_INDEX)]
+        //[NWDIndexedAttribut(NWD.K_INTERNAL_INDEX)]
         public string InternalDescription
         {
             get; set;
@@ -97,21 +97,22 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
+        //[NWDIndexedAttribut(NWD.K_REFERENCE_INDEX)]
+        //[NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         public bool AC
         {
             get; set;
         }
-        [NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
+        //[NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         public int DC
         {
             get; set;
         }
-        [NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
+        //[NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         public int DM
@@ -124,7 +125,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
+        //[NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         public int XX

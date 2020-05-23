@@ -20,6 +20,8 @@ namespace NetWorkedData
         /// </summary>
         [NWDInspectorGroupOrder(NWD.InspectorBasisHeader,-8)]
         [NWDCertified]
+        //[NWDIndexedAttribut(NWD.K_ACCOUNT_INDEX)]
+        [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
         public NWDReferencesArrayType<NWDAccount> ReaderAccountsArray { get; set; }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -118,6 +120,14 @@ namespace NetWorkedData
             //Debug.Log("ChangeUser(string sOldUser, string sNewUser) in " + BasisHelper().ClassNamePHP);
             if (IntegrityIsValid() == true)
             {
+                if (Account == null)
+                {
+                    Account = new NWDReferenceType<NWDAccount>();
+                }
+                if (ReaderAccountsArray == null)
+                {
+                    ReaderAccountsArray = new NWDReferencesArrayType<NWDAccount>();
+                }
                 if (Account.GetValue() == sOldUser)
                 {
 #if UNITY_EDITOR

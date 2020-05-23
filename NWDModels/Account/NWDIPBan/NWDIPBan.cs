@@ -28,11 +28,17 @@ namespace NetWorkedData
     public partial class NWDIPBan : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
         //PROPERTIES
-		public NWDIPType IP {get; set;}
+        [NWDAddIndexed(NWD.K_IP_BAN_INDEX,"AXC")]
+        [NWDIndexedAttribut(NWD.K_IP_BAN_INDEX)]
+        public NWDIPType IP {get; set;}
+        [NWDIndexedAttribut(NWD.K_IP_BAN_INDEX)]
 		public NWDDateTimeUtcType Deadline {get; set;}
+        [NWDIndexedAttribut(NWD.K_IP_BAN_INDEX)]
 		public int Counter {get; set;}
         //[NWDNotEditable]
+        [NWDIndexedAttribut(NWD.K_IP_BAN_INDEX)]
 		public int CounterMaximum {get; set;}
         //-------------------------------------------------------------------------------------------------------------
     }

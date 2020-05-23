@@ -66,6 +66,10 @@ namespace NetWorkedData
             GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Services", NWDGUI.kBoldLabelStyle);
             tI++;
 
+            if (Services == null)
+            {
+                Services = new NWDReferencesListType<NWDServerServices>();
+            }
             foreach (NWDServerServices tServices in Services.GetRawDatas())
             {
                 tServices.PropertiesPrevent();
@@ -102,7 +106,10 @@ namespace NetWorkedData
 
             GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Databases", NWDGUI.kBoldLabelStyle);
             tI++;
-
+            if (DataBases==null)
+            {
+                DataBases = new NWDReferencesListType<NWDServerDatas>();
+            }
             foreach (NWDServerDatas tServices in DataBases.GetRawDatas())
             {
                 tServices.PropertiesPrevent();

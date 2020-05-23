@@ -33,6 +33,10 @@ namespace NetWorkedData
             FuturPort = 22;
             Admin_User = "admin" + NWDToolbox.RandomStringAlpha(3).ToLower();
             Root_User = "root";
+            if (IP == null)
+            {
+                IP = new NWDIPType();
+            }
             IP.SetValue("192.168.0.1");
             // no sync please
             DevSync = -1;

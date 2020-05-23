@@ -19,6 +19,8 @@ namespace NetWorkedData
         /// </summary>
         [NWDInspectorGroupOrder(NWD.InspectorBasisHeader,-9)]
         [NWDCertified]
+        //[NWDIndexedAttribut(NWD.K_ACCOUNT_INDEX)]
+        [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
         public NWDReferenceType<NWDAccount> Account { get; set; }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

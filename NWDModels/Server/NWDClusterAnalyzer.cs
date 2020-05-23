@@ -71,6 +71,7 @@ namespace NetWorkedData
                 // Analyze each cluster
                 foreach (NWDCluster tCluster in tNWDCluster.Datas)
                 {
+                    tCluster.PropertiesPrevent();
                     StringBuilder tInformations = new StringBuilder();
                     if (tCluster.IsEnable())
                     {

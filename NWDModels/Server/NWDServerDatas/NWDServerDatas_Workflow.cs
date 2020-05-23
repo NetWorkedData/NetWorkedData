@@ -47,7 +47,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CheckInformations()
         {
-            PropertiesPrevent();
+            //PropertiesPrevent();
             MySQLUser = NWDToolbox.UnixCleaner(MySQLUser);
             MySQLBase = NWDToolbox.UnixCleaner(MySQLBase);
             if (Range < 1)
@@ -75,7 +75,10 @@ namespace NetWorkedData
                     }
                 }
             }
-
+            if (ServerEditorOriginal==null)
+            {
+                ServerEditorOriginal = new NWDReferenceType<NWDServerDatas>();
+            }
             if (ServerEditorOriginal.GetRawData() == this)
             {
                 ServerEditorOriginal.SetData(null);

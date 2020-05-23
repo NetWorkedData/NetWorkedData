@@ -26,14 +26,10 @@ namespace NetWorkedData
     public partial class NWDRequestToken : NWDBasisAccountRestricted
     {
         //-------------------------------------------------------------------------------------------------------------
-        const string K_TOKEN_INDEX = "TokenIndex";
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAddIndexed(K_TOKEN_INDEX,"AC")]
-        [NWDAddIndexed(K_TOKEN_INDEX, "DM")]
-        [NWDAddIndexed(K_TOKEN_INDEX, "DD")]
-        //-------------------------------------------------------------------------------------------------------------
         //[Indexed(K_TOKEN_INDEX, 0)]
         [NWDCertified]
+        [NWDAddIndexed(NWD.K_REQUEST_TOKEN_INDEX, "AC")]
+        [NWDIndexedAttribut(NWD.K_REQUEST_TOKEN_INDEX)]
         public string UUIDHash
         {
             get; set;
