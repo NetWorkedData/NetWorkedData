@@ -379,6 +379,39 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string PHP_BenchmarkStart(NWDAppEnvironment sEnvironment, string sKey = "'.__FUNCTION__.' <i>'.basename(__FILE__).'</i>")
+        {
+            string rReturn = string.Empty;
+            if (sEnvironment.LogMode == false)
+            {
+                rReturn = rReturn + "//";
+            }
+            rReturn = rReturn + "BenchmarkStart('"+sKey+"');";
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string PHP_BenchmarkStep(NWDAppEnvironment sEnvironment, string sInfos = "",  string sKey = "'.__FUNCTION__.' <i>'.basename(__FILE__).'</i>")
+        {
+            string rReturn = string.Empty;
+            if (sEnvironment.LogMode == false)
+            {
+                rReturn = rReturn + "//";
+            }
+            rReturn = rReturn + "BenchmarkStep('" + sKey + "', '"+ sInfos + "', __LINE__);";
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string PHP_BenchmarkFinish(NWDAppEnvironment sEnvironment, string sKey = "'.__FUNCTION__.' <i>'.basename(__FILE__).'</i>")
+        {
+            string rReturn = string.Empty;
+            if (sEnvironment.LogMode == false)
+            {
+                rReturn = rReturn + "//";
+            }
+            rReturn = rReturn + "BenchmarkFinish('" + sKey + "');";
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static string PHP_errorDetected()
         {
             return FUNCTIONPHP_errorDetected;

@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:29:27
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -32,8 +26,8 @@ namespace NetWorkedData
             typeof(NWDServerServices),
             typeof(NWDServerDatas),
             typeof(NWDServerOther),
-            //typeof(NWDBasisPreferences),
-            //typeof(NWDRequestToken),
+            typeof(NWDBasisPreferences),
+            typeof(NWDRequestToken),
             typeof(NWDIPBan),
         }
     )]

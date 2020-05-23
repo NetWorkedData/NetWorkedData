@@ -24,6 +24,8 @@ namespace NetWorkedData
             tFile.AppendLine("<?php");
             tFile.AppendLine(Headlines());
             tFile.AppendLine("// FINISH");
+            tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this, "Calculate"));
+            tFile.AppendLine(NWDError.PHP_BenchmarkStart(this, "Finish"));
             tFile.AppendLine(NWD.K_CommentSeparator);
             if (LogMode == true)
             {
@@ -60,6 +62,11 @@ namespace NetWorkedData
             tFile.AppendLine("respondAdd('" + NWD.K_JSON_AVG_KEY + "', intval(sys_getloadavg()[0]*100));");
             tFile.AppendLine("respondAdd('" + NWD.K_JSON_PERFORM_KEY + "',microtime(true)-$NWD_TMA);");
             tFile.AppendLine("respondAdd('" + NWD.K_JSON_PERFORM_REQUEST_KEY + "',microtime(true)-$_SERVER['REQUEST_TIME_FLOAT']);");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("// server benchmark");
+            tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this, "Finish"));
+            tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this, "All"));
+            tFile.AppendLine("BenchmarkResult();");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("//transform respond in JSON file");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -141,9 +148,146 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
 
             // --------------------------------------
+            tFile.AppendLine("function BenchmarkStart($sKey)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine("global $BenchmarkCount;");
+                tFile.AppendLine("global $BenchmarkDico;");
+                tFile.AppendLine("global $BenchmarkDicoStep;");
+                tFile.AppendLine("global $BenchmarkResult;");
+                tFile.AppendLine("if (isset($BenchmarkDico) == false) ");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("$BenchmarkDico = array();");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("if (isset($BenchmarkResult) == false) ");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("$BenchmarkResult = array();");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("$BenchmarkDico[$sKey] = microtime(true);");
+                tFile.AppendLine("$BenchmarkDicoStep[$sKey] = microtime(true);");
+                tFile.AppendLine("$R = '';");
+                tFile.AppendLine("for ($i = 0;$i <$BenchmarkCount;$i++){$R.= '|    ';}");
+                tFile.AppendLine("$BenchmarkResult[] = $R.' Start : '.$sKey;");
+                tFile.AppendLine("$BenchmarkCount++;");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            // --------------------------------------
+            tFile.AppendLine("function BenchmarkStep($sKey, $sInfos, $sLine)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine("global $BenchmarkCount;");
+                tFile.AppendLine("global $BenchmarkDico;");
+                tFile.AppendLine("global $BenchmarkDicoStep;");
+                tFile.AppendLine("global $BenchmarkResult;");
+                tFile.AppendLine("if (isset($BenchmarkDicoStep[$sKey]) == false) ");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("$BenchmarkResult[] = 'error no start for '.$sKey.' at line '.$sLine;");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("else");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("$R = '';");
+                    tFile.AppendLine("for ($i = 0;$i <$BenchmarkCount-1;$i++){$R.= '|    ';}");
+
+                    tFile.AppendLine("$BenchmarkResult[] = $R.'| '.$sInfos;");
+                    tFile.AppendLine("$tT = (microtime(true)-$BenchmarkDicoStep[$sKey]);");
+                    tFile.AppendLine("if ($tT < 0.001) ");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("$BenchmarkResult[] = $R.'- <color=green>'.number_format($tT,6).'s</color> Step : '.$sKey.' at line '.$sLine;");
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("else if ($tT < 0.01) ");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("$BenchmarkResult[] = $R.'- <color=orange>'.number_format($tT,6).'s</color> Step : '.$sKey.' at line '.$sLine;");
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("else");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("$BenchmarkResult[] = $R.'- <color=red>'.number_format($tT,6).'s</color> Step : '.$sKey.' at line '.$sLine;");
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("$BenchmarkResult[] = $R.'| ';");
+                    tFile.AppendLine("$BenchmarkDicoStep[$sKey] = microtime(true);");
+                }
+                tFile.AppendLine("}");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            // --------------------------------------
+            tFile.AppendLine("function BenchmarkFinish($sKey)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine("global $BenchmarkCount;");
+                tFile.AppendLine("global $BenchmarkDico;");
+                tFile.AppendLine("global $BenchmarkResult;");
+                tFile.AppendLine("if (isset($BenchmarkDico[$sKey]) == false) ");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("$BenchmarkResult[] = 'error no start for '.$sKey;");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("else");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("$BenchmarkCount--;");
+                    tFile.AppendLine("$R = '';");
+                    tFile.AppendLine("for ($i = 0;$i <$BenchmarkCount;$i++){$R.= '|    ';}");
+                    tFile.AppendLine("$BenchmarkResult[] = $R.'| ';");
+
+                    tFile.AppendLine("$tT = (microtime(true)-$BenchmarkDico[$sKey]);");
+                    tFile.AppendLine("if ($tT < 0.001) ");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("$BenchmarkResult[] = $R.'<color=green>'.number_format($tT,6).'s</color> Finish : '.$sKey;");
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("else if ($tT < 0.01) ");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("$BenchmarkResult[] = $R.'<color=orange>'.number_format($tT,6).'s</color> Finish : '.$sKey;");
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("else");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("$BenchmarkResult[] = $R.'<color=red>'.number_format($tT,6).'s</color> Finish : '.$sKey;");
+                    }
+                    tFile.AppendLine("}");
+                }
+                tFile.AppendLine("}");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            // --------------------------------------
+            tFile.AppendLine("function BenchmarkResult()");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine("global $BenchmarkResult;");
+                tFile.AppendLine("if (isset($BenchmarkResult) == true) ");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("respondAdd('"+ NWD.K_WEB_BENCHMARK_Key + "', $BenchmarkResult);");
+                }
+                tFile.AppendLine("}");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+            // --------------------------------------
             tFile.AppendLine("function GetRangeAccessForAccount($sAccountReference)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(this));
                 tFile.AppendLine("global $SQL_CURRENT_DATABASE, $UserRange;");
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
                 tFile.AppendLine("$rReturn = explode('" + NWEConstants.K_MINUS + "',$sAccountReference)[1];");
@@ -153,6 +297,7 @@ namespace NetWorkedData
                     tFile.AppendLine("$rReturn = $UserRange;");
                 }
                 tFile.AppendLine("}");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this));
                 tFile.AppendLine("return $rReturn;");
             }
             tFile.AppendLine("}");
@@ -162,9 +307,11 @@ namespace NetWorkedData
             tFile.AppendLine("function GetConnexionForAccount($sAccountReference)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(this));
                 tFile.AppendLine("global $SQL_CURRENT_DATABASE, $SQL_CURRENT_ACCESSRANGE;");
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
                 tFile.AppendLine("$tRangeAccess = GetRangeAccessForAccount($sAccountReference);");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this));
                 tFile.AppendLine("return GetConnexionByRangeAccess($tRangeAccess);");
             }
             tFile.AppendLine("}");
@@ -173,6 +320,7 @@ namespace NetWorkedData
             tFile.AppendLine("function GetConnexionByRange($sRange)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(this));
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
                 tFile.AppendLine("global $SQL_LIST, " + NWD.K_SQL_CON_EDITOR + ";");
                 tFile.AppendLine("if (isset(" + NWD.K_SQL_CON_EDITOR + "[$sRange]) == false)");
@@ -197,6 +345,7 @@ namespace NetWorkedData
                     tFile.AppendLine("}");
                 }
                 tFile.AppendLine("}");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this));
                 tFile.AppendLine("return " + NWD.K_SQL_CON_EDITOR + "[$sRange];");
             }
             tFile.AppendLine("}");
@@ -206,6 +355,7 @@ namespace NetWorkedData
             tFile.AppendLine("function GetConnexionByRangeAccess($sRangeAccess)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(this));
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
                 tFile.AppendLine("global $SQL_LIST, $SQL_CURRENT_DATABASE, $SQL_CURRENT_ACCESSRANGE;");
                 tFile.AppendLine("$rConnexion = $SQL_CURRENT_DATABASE;");
@@ -226,6 +376,7 @@ namespace NetWorkedData
                     tFile.AppendLine("}");
                 }
                 tFile.AppendLine("}");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this));
                 tFile.AppendLine("return $rConnexion;");
             }
             tFile.AppendLine("}");
@@ -235,6 +386,7 @@ namespace NetWorkedData
             tFile.AppendLine("function ConnectAllDatabases()");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(this));
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
                 tFile.AppendLine("global $SQL_LIST, " + NWD.K_SQL_CON_EDITOR + ";");
                 tFile.AppendLine("global $K_ConnectAllDatabases;");
@@ -271,6 +423,7 @@ namespace NetWorkedData
                     tFile.AppendLine("}");
                 }
                 tFile.AppendLine("}");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this));
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -279,8 +432,10 @@ namespace NetWorkedData
             tFile.AppendLine("function SelectFromCurrentConnexion($sSQL)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(this));
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
                 tFile.AppendLine("global $SQL_CURRENT_DATABASE;");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this));
                 tFile.AppendLine("return SelectFromConnexion($SQL_CURRENT_DATABASE, $sSQL);");
             }
             tFile.AppendLine("}");
@@ -290,8 +445,10 @@ namespace NetWorkedData
             tFile.AppendLine("function ExecuteInCurrentConnexion($sSQL)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(this));
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
                 tFile.AppendLine("global $SQL_CURRENT_DATABASE;");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this));
                 tFile.AppendLine("return ExecuteInConnexion($SQL_CURRENT_DATABASE, $sSQL);");
             }
             tFile.AppendLine("}");
@@ -312,8 +469,10 @@ namespace NetWorkedData
             tFile.AppendLine("function ExecuteInConnexionRangeAccess($sRangeAccess, $sSQL)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(this));
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
                 tFile.AppendLine("$tConnexion = GetConnexionByRangeAccess($sRangeAccess);");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this));
                 tFile.AppendLine("return ExecuteInConnexion($tConnexion, $sSQL);");
             }
             tFile.AppendLine("}");
@@ -330,6 +489,7 @@ namespace NetWorkedData
             tFile.AppendLine("function SelectFromConnexion($sCon, $sSQL)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(this));
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
 
                 if (LogMode == true)
@@ -373,6 +533,7 @@ namespace NetWorkedData
                 }
                 tFile.AppendLine("}");
                 tFile.AppendLine(NWDError.PHP_log(this, "result is '.json_encode($rReturn).'"));
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this));
                 tFile.AppendLine("return $rReturn;");
             }
             tFile.AppendLine("}");
@@ -386,6 +547,7 @@ namespace NetWorkedData
             tFile.AppendLine("function ExecuteInConnexion($sCon, $sSQL)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(this));
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
                 if (LogMode == true)
                 {
@@ -398,7 +560,9 @@ namespace NetWorkedData
                 tFile.AppendLine("$rReturn['error'] = false;");
                 tFile.AppendLine("$rReturn['errno'] = -1;");
                 tFile.AppendLine("$rReturn['error_log'] = '';");
+                tFile.AppendLine(NWDError.PHP_BenchmarkStep(this));
                 tFile.AppendLine("$tResult = $sCon->query($sSQL);");
+                tFile.AppendLine(NWDError.PHP_BenchmarkStep(this, "'.$sSQL.'"));
                 tFile.AppendLine("if (!$tResult)");
                 tFile.AppendLine("{");
                 {
@@ -408,7 +572,10 @@ namespace NetWorkedData
                     tFile.AppendLine("return $rReturn;");
                 }
                 tFile.AppendLine("}");
+                tFile.AppendLine(NWDError.PHP_BenchmarkStep(this));
                 tFile.AppendLine(NWDError.PHP_log(this, "result is '.json_encode($rReturn).'"));
+                tFile.AppendLine(NWDError.PHP_BenchmarkStep(this));
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this));
                 tFile.AppendLine("return $rReturn;");
             }
             tFile.AppendLine("}");
@@ -426,6 +593,7 @@ namespace NetWorkedData
             tFile.AppendLine("function SelectFromAllConnexions($sSQL)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(this));
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
                 tFile.AppendLine("global " + NWD.K_SQL_CON_EDITOR + ";");
                 tFile.AppendLine("$rReturn = array();");
@@ -477,6 +645,7 @@ namespace NetWorkedData
                 }
                 tFile.AppendLine("}");
                 tFile.AppendLine(NWDError.PHP_log(this, "result is '.json_encode($rReturn).'"));
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this));
                 tFile.AppendLine("return $rReturn;");
             }
             tFile.AppendLine("}");
@@ -490,6 +659,7 @@ namespace NetWorkedData
             tFile.AppendLine("function ExecuteInAllConnexions($sSQL)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(this));
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
                 tFile.AppendLine("global " + NWD.K_SQL_CON_EDITOR + ";");
                 tFile.AppendLine("$rReturn = array();");
@@ -521,6 +691,7 @@ namespace NetWorkedData
                 }
                 tFile.AppendLine("}");
                 tFile.AppendLine(NWDError.PHP_log(this, "result is '.json_encode($rReturn).'"));
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this));
                 tFile.AppendLine("return $rReturn;");
             }
             tFile.AppendLine("}");
@@ -1717,7 +1888,9 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// use functions library");
             tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_FUNCTIONS_PHP + "');");
-            //tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_REQUEST_PHP + "');");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine(NWDError.PHP_BenchmarkStart(this, "All"));
+            tFile.AppendLine(NWDError.PHP_BenchmarkStart(this, "Start"));
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// connect MYSQL");
 
@@ -1728,7 +1901,9 @@ namespace NetWorkedData
             tFile.AppendLine("if ($admin == true)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(this, "ConnectAllDataBase"));
                 tFile.AppendLine("ConnectAllDatabases();");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this, "ConnectAllDataBase"));
             }
             tFile.AppendLine("}");
 
@@ -1764,6 +1939,8 @@ namespace NetWorkedData
                 }
                 tFile.AppendLine("}");
                 tFile.AppendLine("// connect database now");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this, "Start"));
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(this, "Calculate"));
                 tFile.AppendLine("if ($SQL_CURRENT_DATABASE->connect_errno)");
                 tFile.AppendLine("{");
                 {

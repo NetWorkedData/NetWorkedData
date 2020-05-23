@@ -60,12 +60,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetData(Dictionary<string, object> sData)
         {
-            foreach(KeyValuePair<string, object> k in sData)
+            foreach (KeyValuePair<string, object> k in sData)
             {
                 string tKey = k.Key;
                 object tValue = k.Value;
 
-                switch(tKey)
+                switch (tKey)
                 {
                     case NWD.K_JSON_TIMESTAMP_KEY:
                         timestamp = int.Parse(tValue.ToString());
@@ -118,20 +118,29 @@ namespace NetWorkedData
                             // let's go... no error for this moment
                         }
                         break;
-                    case NWD.K_WEB_LOG_Key:
-#if UNITY_EDITOR
-                        foreach (string tL in tValue.ToString().Split(new string[]{"\\r"}, StringSplitOptions.RemoveEmptyEntries))
+                    case NWD.K_WEB_BENCHMARK_Key:
+//#if UNITY_EDITOR
+                        //Debug.Log("WS " + NWD.K_WEB_BENCHMARK_Key + " : " + tL); 
+                        foreach (string tL in tValue as List<object>)
                         {
-                            Debug.Log("WS log : "+tL);
+                            Debug.Log("WS " + NWD.K_WEB_BENCHMARK_Key + " : " + tL.ToString());
                         }
-#endif
+//#endif
+                        break;
+                    case NWD.K_WEB_LOG_Key:
+//#if UNITY_EDITOR
+                        foreach (string tL in tValue.ToString().Split(new string[] { "\\r" }, StringSplitOptions.RemoveEmptyEntries))
+                        {
+                            Debug.Log("WS " + NWD.K_WEB_LOG_Key + " : " + tL);
+                        }
+//#endif
                         break;
                     default:
                         Type t = tValue.GetType();
                         bool isDict = t.IsGenericType && t.GetGenericTypeDefinition().IsAssignableFrom(typeof(Dictionary<,>));
                         if (!isDict)
                         {
-                                //Debug.LogWarning("Key: " + tKey + " with value: " + tValue + " not parse!");
+                            //Debug.LogWarning("Key: " + tKey + " with value: " + tValue + " not parse!");
                         }
                         break;
                 }

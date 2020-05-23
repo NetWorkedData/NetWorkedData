@@ -25,7 +25,7 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-        NWDBasisHelperTableEngine TableEngine = NWDBasisHelperTableEngine.InnoDB;
+        NWDBasisHelperTableEngine TableEngine = NWDBasisHelperTableEngine.MyISAM;
         //-------------------------------------------------------------------------------------------------------------
         public string PHP_FUNCTION_CONSTANTS() { return ClassNamePHP + "Constants"; }
         public string PHP_FUNCTION_INTEGRITY_TEST() { return ClassNamePHP + "IntegrityTest"; }
@@ -109,6 +109,7 @@ namespace NetWorkedData
             tFile.AppendLine(sEnvironment.Headlines());
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// CONSTANTS");
+            tFile.AppendLine(NWDError.PHP_BenchmarkStart(sEnvironment,ClassNamePHP+"_CONSTANTS"));
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("include_once (" + NWDBasisHelper.PHP_FILE_FUNCTION_PATH(sEnvironment) + ");");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -130,6 +131,7 @@ namespace NetWorkedData
             tFile.AppendLine("//Run function to install these global constants");
             tFile.AppendLine(PHP_FUNCTION_CONSTANTS() + "();");
             tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine(NWDError.PHP_BenchmarkFinish(sEnvironment, ClassNamePHP + "_CONSTANTS"));
             tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
             rReturn.Add(ClassNamePHP + "/" + NWD.K_CONSTANTS_FILE, tFileFormatted);
@@ -1465,6 +1467,7 @@ namespace NetWorkedData
             tFile.AppendLine("// " + PHP_FUNCTION_SYNCHRONIZE() + "");
             tFile.AppendLine("function " + PHP_FUNCTION_SYNCHRONIZE() + " ($sJsonDico, $sAccountReference, $sAdmin)");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_BenchmarkStart(sEnvironment, PHP_FUNCTION_SYNCHRONIZE()));
 
             tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("$tAccountReferenceSure = str_replace('%','',str_replace('_','',$sAccountReference));");
@@ -1654,6 +1657,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx98, ClassNamePHP));
             tFile.AppendLine("}");
+            tFile.AppendLine(NWDError.PHP_BenchmarkFinish(sEnvironment, PHP_FUNCTION_SYNCHRONIZE()));
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 

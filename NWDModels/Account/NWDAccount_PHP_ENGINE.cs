@@ -46,6 +46,7 @@ namespace NetWorkedData
             tFile.AppendLine("function TestTemporaryAccount($sReference)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(sEnvironment));
                 tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
                 tFile.AppendLine("if (substr($sReference, -1) == '" + NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE + "')");
                 tFile.AppendLine("{");
@@ -65,6 +66,7 @@ namespace NetWorkedData
                     tFile.AppendLine("return false;");
                 }
                 tFile.AppendLine("}");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(sEnvironment));
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -74,6 +76,7 @@ namespace NetWorkedData
             tFile.AppendLine("function TestCreateAccount($sReference)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(sEnvironment));
                 tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
                 tFile.AppendLine("if (substr($sReference, -1) == '" + NWDAccount.K_ACCOUNT_NEW_SUFFIXE + "')");
                 tFile.AppendLine("{");
@@ -87,6 +90,7 @@ namespace NetWorkedData
                     tFile.AppendLine("return false;");
                 }
                 tFile.AppendLine("}");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(sEnvironment));
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -96,6 +100,7 @@ namespace NetWorkedData
             tFile.AppendLine("function TestBanAccount($sReference)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(sEnvironment));
                 tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
                 tFile.AppendLine("$rBan = false;");
                 tFile.AppendLine("$tQuery = 'SELECT `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Reference) + "`,`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Ban) + "` FROM `" + NWDBasisHelper.TableNamePHP<NWDAccount>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Reference) + "` = \\''.EscapeString($sReference).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().AC) + "` = 1;';");
@@ -162,6 +167,7 @@ namespace NetWorkedData
                     tFile.AppendLine("}");
                 }
                 tFile.AppendLine("}");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(sEnvironment));
                 tFile.AppendLine("return $rBan;");
             }
             tFile.AppendLine("}");
@@ -171,6 +177,7 @@ namespace NetWorkedData
             tFile.AppendLine("function FindSDKI($sSDKt, $sSDKv, $sSDKr, $sSDKl)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(sEnvironment));
                 tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
                 tFile.AppendLine("global $ENV, $WSBUILD;");
                 tFile.AppendLine("global $admin, $uuid;");
@@ -239,6 +246,7 @@ namespace NetWorkedData
                     tFile.AppendLine("}");
                 }
                 tFile.AppendLine("}");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(sEnvironment));
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -247,6 +255,7 @@ namespace NetWorkedData
             tFile.AppendLine("function FindAccount($sReference, $sSDKI, $sCanCreate = true)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(sEnvironment));
                 tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
                 tFile.AppendLine("global $SQL_CON;");
                 tFile.AppendLine("global $ENV, $WSBUILD;");
@@ -349,6 +358,7 @@ namespace NetWorkedData
                     tFile.AppendLine("}");
                 }
                 tFile.AppendLine("}");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(sEnvironment));
                 tFile.AppendLine("return $tReference;");
             }
             tFile.AppendLine("}");
@@ -358,8 +368,10 @@ namespace NetWorkedData
             tFile.AppendLine("function CreateAccountReference($sUserRange)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(sEnvironment));
                 tFile.AppendLine("global " + NWD.K_PHP_TIME_SYNC + ";");
                 tFile.AppendLine("$tTime = " + NWD.K_PHP_TIME_SYNC + "-1492711200; // Timestamp unix format");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(sEnvironment));
                 tFile.AppendLine("return '" + NWDBasisHelper.BasisHelper<NWDAccount>().ClassTrigramme + "'.'" + NWEConstants.K_MINUS + "'.$sUserRange.'" + NWEConstants.K_MINUS + "'.$tTime.'" + NWEConstants.K_MINUS + "'.rand ( 100000 , 999999 ).'" + NWDAccount.K_ACCOUNT_CERTIFIED_SUFFIXE + "'; // " + NWDAccount.K_ACCOUNT_CERTIFIED_SUFFIXE + " for Certify");
             }
             tFile.AppendLine("}");
@@ -369,6 +381,7 @@ namespace NetWorkedData
             tFile.AppendLine("function CreateAccountUniqueReference($sConnexion, $sUserRange)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(sEnvironment));
                 tFile.AppendLine("$tReference = CreateAccountReference($sUserRange);");
                 tFile.AppendLine("$tTested = false;");
                 tFile.AppendLine("while ($tTested == false)");
@@ -402,6 +415,7 @@ namespace NetWorkedData
                     tFile.AppendLine("}");
                 }
                 tFile.AppendLine("}");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(sEnvironment));
                 tFile.AppendLine("return $tReference;");
             }
             tFile.AppendLine("}");
@@ -411,6 +425,7 @@ namespace NetWorkedData
             tFile.AppendLine("function CreateAccount($sOldUUID, $sSDKt, $sSDKv, $sSDKr, $sSDKl)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(sEnvironment));
                 tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
                 tFile.AppendLine(NWDError.PHP_log(sEnvironment, "$sOldUUID = '.$sOldUUID.'"));
                 tFile.AppendLine("$rReturn = false;");
@@ -568,6 +583,7 @@ namespace NetWorkedData
                     tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_ACC97));
                 }
                 tFile.AppendLine("}");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(sEnvironment));
                 tFile.AppendLine("return $rReturn;");
             }
             tFile.AppendLine("}");

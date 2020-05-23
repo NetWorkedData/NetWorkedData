@@ -44,6 +44,7 @@ namespace NetWorkedData
             tFile.AppendLine("function IPBanOk()");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(sEnvironment));
                 tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
                 if (sEnvironment.IPBanActive == true)
                 {
@@ -77,6 +78,7 @@ namespace NetWorkedData
                         tFile.AppendLine("}");
                     }
                     tFile.AppendLine("}");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(sEnvironment));
                 }
                 tFile.AppendLine("return true;");
             }
@@ -87,6 +89,7 @@ namespace NetWorkedData
             tFile.AppendLine("function IPBanAdd()");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(sEnvironment));
                 tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
                 if (sEnvironment.IPBanActive == true)
                 {
@@ -226,6 +229,7 @@ namespace NetWorkedData
                     }
                     tFile.AppendLine("}");
                 }
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(sEnvironment));
             }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
