@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using UnityEngine;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -109,7 +110,7 @@ namespace NetWorkedData
             tFile.AppendLine(sEnvironment.Headlines());
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// CONSTANTS");
-            tFile.AppendLine(NWDError.PHP_BenchmarkStart(sEnvironment,ClassNamePHP+"_CONSTANTS"));
+            tFile.AppendLine(NWDError.PHP_BenchmarkStart(sEnvironment, ClassNamePHP + "_CONSTANTS"));
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("include_once (" + NWDBasisHelper.PHP_FILE_FUNCTION_PATH(sEnvironment) + ");");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -152,9 +153,9 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-
         private string PropertyInfoToSQLType(PropertyInfo sPropertyInfo)
         {
+            //Debug.Log("PropertyInfoToSQLType for " + sPropertyInfo.Name + "");
             string rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
             Type tTypeOfThis = sPropertyInfo.PropertyType;
 
@@ -180,13 +181,31 @@ namespace NetWorkedData
             }
             else if (tTypeOfThis == typeof(string) || tTypeOfThis == typeof(String))
             {
-                rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+                if (sPropertyInfo.GetCustomAttribute<NWDVarChar>() != null)
+                {
+                    NWDVarChar tNWDVarChar = sPropertyInfo.GetCustomAttribute<NWDVarChar>();
+                    //Debug.Log("Find NWDVarChar : " + tNWDVarChar.CharNumber + "");
+                    rReturn = "VARCHAR(" + tNWDVarChar.CharNumber.ToString() + ") CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+                }
+                else
+                {
+                    rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+                }
             }
             else
             {
                 if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
                 {
-                    rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+                    if (sPropertyInfo.GetCustomAttribute<NWDVarChar>() != null)
+                    {
+                        NWDVarChar tNWDVarChar = sPropertyInfo.GetCustomAttribute<NWDVarChar>();
+                        //Debug.Log("Find NWDVarChar : " + tNWDVarChar.CharNumber + "");
+                        rReturn = "VARCHAR(" + tNWDVarChar.CharNumber.ToString() + ") CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+                    }
+                    else
+                    {
+                        rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+                    }
                 }
                 else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
                 {
@@ -207,6 +226,7 @@ namespace NetWorkedData
             }
             return rReturn;
         }
+        //-------------------------------------------------------------------------------------------------------------
         private string PropertyInfoToSQLIndex(PropertyInfo sPropertyInfo)
         {
             string rReturn = " (24)";
@@ -1054,19 +1074,19 @@ namespace NetWorkedData
             {
                 tFile.AppendLine("$tInsertResult = ExecuteInAllConnexions($tInsert);");
             }
-                tFile.AppendLine("if ($tInsertResult['error'] == true)");
-                tFile.AppendLine("{");
-                {
-                    tFile.AppendLine(NWDError.PHP_log(sEnvironment, "'.$tInsertResult['error_log'].'"));
-                    tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx32, ClassNamePHP));
-                }
-                tFile.AppendLine("}");
+            tFile.AppendLine("if ($tInsertResult['error'] == true)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_log(sEnvironment, "'.$tInsertResult['error_log'].'"));
+                tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx32, ClassNamePHP));
+            }
+            tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
             //if (kAccountDependent == true)
-                if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
-                {
+            if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+            {
                 tFile.AppendLine("$tRow = NULL;");
                 tFile.AppendLine("foreach($tResult['connexions'] as $tConnexionKey => $tConnexionSub)");
                 tFile.AppendLine("{");
@@ -1364,7 +1384,7 @@ namespace NetWorkedData
                 tFile.AppendLine("if ($admin == false)");
                 tFile.AppendLine("{");
                 {
-                tFile.AppendLine("// we are not admin, just an player");
+                    tFile.AppendLine("// we are not admin, just an player");
                     tFile.AppendLine("$tQuery = $tQuery.' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().WebModel) + "` <= '.$WSBUILD.';';");
 
                     tFile.AppendLine("$tResult = SelectFromCurrentConnexion($tQuery);");
@@ -1398,7 +1418,7 @@ namespace NetWorkedData
                 tFile.AppendLine("else");
                 tFile.AppendLine("{");
                 {
-                tFile.AppendLine("// we are admin");
+                    tFile.AppendLine("// we are admin");
                     if (tINeedAdminAccount == false || tINeedMultiAccount == false)
                     {
                         tFile.AppendLine("$tResult = SelectFromAllConnexions($tQuery);");

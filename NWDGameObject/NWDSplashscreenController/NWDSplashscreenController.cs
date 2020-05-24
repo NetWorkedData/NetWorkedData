@@ -30,6 +30,7 @@ namespace NetWorkedData
         public Text FramePerSeconds;
 
         public Button NextButton;
+        public Button SyncCounterButton;
         public Button SyncSomeAccountButton;
         public Button SyncSomeEditorButton;
         public Button SyncAllButton;
@@ -38,7 +39,7 @@ namespace NetWorkedData
         public Text AccountText;
         public Text RequestTokenText;
 
-        public TextMeshPro Counter;
+        public TextMeshPro[] CountersArray;
         public Text SynchroTest;
         public NWDLocalizationConnection SynchroTextTest;
         //-------------------------------------------------------------------------------------------------------------
@@ -87,44 +88,50 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void OnGUI()
         {
-            if (AccountText != null)
+            if (NWDLauncher.GetState() > NWDStatut.ClassRestaureFinish)
             {
-                AccountText.text = NWDAccount.CurrentReference();
-            }
-            if (BenchmarkText != null)
-            {
-                BenchmarkText.text = NWDEngineBenchmark.GetWatch() + " " + LastSyncResultLog;
-            }
+                if (AccountText != null)
+                {
+                    AccountText.text = NWDAccount.CurrentReference();
+                }
+                if (BenchmarkText != null)
+                {
+                    BenchmarkText.text = NWDEngineBenchmark.GetWatch() + " " + LastSyncResultLog;
+                }
 
-            if (FramePerSeconds != null)
-            {
-                float msec = deltaTime * 1000.0f;
-                float fps = 1.0f / deltaTime;
-                FramePerSeconds.text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
-            }
-            if (Counter != null)
-            {
-                NWDAccountPreference tAccountPreference = NWDAccountPreference.GetByInternalKeyOrCreate("Test", new NWDMultiType(0));
-                if (tAccountPreference != null)
+                if (FramePerSeconds != null)
                 {
-                    Counter.text = tAccountPreference.Value.GetIntValue().ToString();
+                    float msec = deltaTime * 1000.0f;
+                    float fps = 1.0f / deltaTime;
+                    FramePerSeconds.text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
                 }
-            }
-            if (RequestTokenText != null)
-            {
-                string tRequestToken = NWDAppConfiguration.SharedInstance().SelectedEnvironment().RequesToken;
-                if (string.IsNullOrEmpty(tRequestToken))
+                foreach (TextMeshPro Counter in CountersArray)
                 {
-                    RequestTokenText.text = "--- empty request token ---";
+                    if (Counter != null)
+                    {
+                        NWDAccountPreference tAccountPreference = NWDAccountPreference.GetByInternalKeyOrCreate("Test", new NWDMultiType(0));
+                        if (tAccountPreference != null)
+                        {
+                            Counter.text = tAccountPreference.Value.GetIntValue().ToString();
+                        }
+                    }
                 }
-                else
+                if (RequestTokenText != null)
                 {
-                    RequestTokenText.text = NWDAppConfiguration.SharedInstance().SelectedEnvironment().RequesToken;
+                    string tRequestToken = NWDAppConfiguration.SharedInstance().SelectedEnvironment().RequesToken;
+                    if (string.IsNullOrEmpty(tRequestToken))
+                    {
+                        RequestTokenText.text = "--- empty request token ---";
+                    }
+                    else
+                    {
+                        RequestTokenText.text = NWDAppConfiguration.SharedInstance().SelectedEnvironment().RequesToken;
+                    }
                 }
-            }
-            if (SynchroTextTest!=null && SynchroTest!=null)
-            {
-                SynchroTest.text = SynchroTextTest.GetLocalString("error ?!");
+                if (SynchroTextTest != null && SynchroTest != null)
+                {
+                    SynchroTest.text = SynchroTextTest.GetLocalString("error ?!");
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -140,7 +147,7 @@ namespace NetWorkedData
                     double tUploadNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.UploadedDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.WebDateTime)) / 1000.0F;
                     double tDowloadNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.DownloadedDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.UploadedDateTime)) / 1000.0F;
                     double tComputeNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.FinishDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.DownloadedDateTime)) / 1000.0F;
-                    LastSyncResultLog = "\n<b>" +sTag + "</b>:" +
+                    LastSyncResultLog = "\n<b>" + sTag + "</b>:" +
                         "duration : " + tDurationNetMilliseconds.ToString("#0.000") + "s " +
                         "(network = " + (tUploadNetMilliseconds + tDowloadNetMilliseconds).ToString("#0.000") + " s) " +
                         "row pushed " + LastInfos.RowPushCounter.ToString() + "," +
@@ -157,14 +164,111 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SyncAll()
+        public void ChangeLanguage(string sCode)
+        {
+            NWDDataManager.SharedInstance().AccountLanguageSave(sCode);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void AlertTest()
+        {
+            NWDAlert.Alert(NWDError.GetErrorDomainCode("TEST", "001"), delegate (NWDMessageState sState)
+            {
+                if (sState == NWDMessageState.OK)
+                {
+                    Debug.Log("AlertTest() close with NWDMessageState.OK");
+                }
+                else
+                {
+                    Debug.LogWarning("AlertTest() close with BAD NWDMessageState ");
+                }
+            });
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void FakeToken()
+        {
+            NWDDialog.Dialog(NWDMessage.GetByReference("FakeToken"), delegate (NWDMessageState sState)
+            {
+                if (sState == NWDMessageState.OK)
+                {
+                    Debug.Log("FakeToken() close with NWDMessageState.OK");
+                    NWDAppConfiguration.SharedInstance().SelectedEnvironment().RequesToken = "Fakeee" + NWDToolbox.RandomStringUnix(24);
+                }
+                else if (sState == NWDMessageState.NOK)
+                {
+                    Debug.Log("FakeToken() close with NWDMessageState.NOK");
+                }
+                else
+                {
+                    Debug.LogWarning("FakeToken() close with BAD NWDMessageState");
+                }
+
+            });
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void FakeAccount()
+        {
+            NWDDialog.Dialog(NWDMessage.GetByReference("FakeAccount"), delegate (NWDMessageState sState)
+            {
+                if (sState == NWDMessageState.OK)
+                {
+                    Debug.Log("FakeAccount() close with NWDMessageState.OK");
+                    NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference = NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM + "-1234-" + NWDToolbox.RandomStringNumeric(8) + "-" + NWDToolbox.RandomStringNumeric(6) + "C";
+                }
+                else if (sState == NWDMessageState.NOK)
+                {
+                    Debug.Log("FakeAccount() close with NWDMessageState.NOK");
+                }
+                else
+                {
+                    Debug.LogWarning("FakeAccount() close with BAD NWDMessageState");
+                }
+
+            });
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ResetSession()
+        {
+            NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetPreferences();
+        }
+            //-------------------------------------------------------------------------------------------------------------
+            public void SyncAll()
         {
             Debug.Log("<color=red>!!!!!</color><color=orange>SyncAll</color>" + " state : " + NWDLauncher.GetState().ToString());
             NWDDataManager.SharedInstance().AddWebRequestAllSynchronizationWithBlock(
                 delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)
             {
                 WebLog("Sync All", sInfos);
+            },
+            delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)
+            {
+                NWDOperationResult tInfos = sInfos as NWDOperationResult;
+                NWDAlert.Alert(tInfos.errorDesc);
             });
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SyncCounterAccount()
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>SyncCounterAccount</color>" + " state : " + NWDLauncher.GetState().ToString());
+            // get an fictive Preference for this account
+            NWDAccountPreference tAccountPreference = NWDAccountPreference.GetByInternalKeyOrCreate("Test", new NWDMultiType(0));
+            // increment this value
+            tAccountPreference.Value.SetIntValue(tAccountPreference.Value.GetIntValue() + 1);
+            // save modification
+            tAccountPreference.SaveData();
+            // Please sync these classes on cluster 
+            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(new List<Type>(){
+                typeof(NWDAccountPreference),
+            },
+            delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)
+            {
+                WebLog("Sync Counter Account", sInfos);
+            },
+            delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)
+            {
+                NWDOperationResult tInfos = sInfos as NWDOperationResult;
+                NWDAlert.Alert(tInfos.errorDesc);
+            }
+            );
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SyncSomeAccount()
@@ -186,6 +290,11 @@ namespace NetWorkedData
             delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)
             {
                 WebLog("Sync Some Account", sInfos);
+            },
+            delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)
+            {
+                NWDOperationResult tInfos = sInfos as NWDOperationResult;
+                NWDAlert.Alert(tInfos.errorDesc);
             }
             );
         }
@@ -203,7 +312,13 @@ namespace NetWorkedData
             delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)
             {
                 WebLog("Sync Some Editor", sInfos);
-            });
+            },
+            delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)
+            {
+                NWDOperationResult tInfos = sInfos as NWDOperationResult;
+                NWDAlert.Alert(tInfos.errorDesc);
+            }
+            );
         }
         //-------------------------------------------------------------------------------------------------------------
     }

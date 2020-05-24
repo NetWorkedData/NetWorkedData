@@ -189,30 +189,30 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public void FlushTrash(NWDTypeClass sObject)
-        {
-            //Debug.Log ("Flush trash ... the delete this object if it's necessary");
-#if UNITY_EDITOR
-            if (sObject.XX > 0 && sObject.DevSync > 0 && sObject.PreprodSync > 0 && sObject.ProdSync > 0)
-            {
-                //              Debug.Log (sObject.Reference + "Must be trashed!");
-                //              RemoveObjectInListOfEdition (sObject);
-                //              if (IsObjectInEdition (sObject)) {
-                //                  SetObjectInEdition (null);
-                //              }
-                //              this.AddonDeleteMe();
-                //  NWDDataManager.SharedInstance().DeleteObjectDirect(this, AccountDependent());
-            }
-#else
-            if (sObject.XX > 0)
-            {
-                //Debug.Log (sObject.Reference + "Must be trashed!");
-                //RemoveObjectInListOfEdition (sObject);
-                //sObject.AddonDeleteMe();
-                //NWDDataManager.SharedInstance().DeleteObjectDirect(sObject, AccountDependent());
-            }
-#endif
-        }
+//        public void FlushTrash(NWDTypeClass sObject)
+//        {
+//            //Debug.Log ("Flush trash ... the delete this object if it's necessary");
+//#if UNITY_EDITOR
+//            if (sObject.XX > 0 && sObject.DevSync > 0 && sObject.PreprodSync > 0 && sObject.ProdSync > 0)
+//            {
+//                //              Debug.Log (sObject.Reference + "Must be trashed!");
+//                //              RemoveObjectInListOfEdition (sObject);
+//                //              if (IsObjectInEdition (sObject)) {
+//                //                  SetObjectInEdition (null);
+//                //              }
+//                //              this.AddonDeleteMe();
+//                //  NWDDataManager.SharedInstance().DeleteObjectDirect(this, AccountDependent());
+//            }
+//#else
+//            if (sObject.XX > 0)
+//            {
+//                //Debug.Log (sObject.Reference + "Must be trashed!");
+//                //RemoveObjectInListOfEdition (sObject);
+//                //sObject.AddonDeleteMe();
+//                //NWDDataManager.SharedInstance().DeleteObjectDirect(sObject, AccountDependent());
+//            }
+//#endif
+//        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

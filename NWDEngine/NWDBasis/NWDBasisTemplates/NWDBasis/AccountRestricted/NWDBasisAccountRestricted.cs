@@ -22,6 +22,7 @@ namespace NetWorkedData
         [NWDNotEditable]
         //[NWDIndexedAttribut(NWD.K_ACCOUNT_INDEX)]
         [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
+        [NWDVarChar(256)]
         public NWDReferenceType<NWDAccount> Account { get; set; }
         //-------------------------------------------------------------------------------------------------------------
         public NWDBasisAccountRestricted()

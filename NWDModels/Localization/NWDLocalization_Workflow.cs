@@ -71,6 +71,28 @@ namespace NetWorkedData
             return tText.Replace("<br>", Environment.NewLine);
         }
         //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        public static NWDLocalization EditorCreateIfNotExists(string sReferenceKey, string sBaseTextValue)
+        {
+            NWDLocalization rReturn = NWDBasisHelper.GetRawDataByReference<NWDLocalization>(sReferenceKey);
+            if (rReturn == null)
+            {
+                rReturn = NWDBasisHelper.NewDataWithReference<NWDLocalization>(sReferenceKey);
+                rReturn.TextValue.AddBaseString(sBaseTextValue);
+                rReturn.InternalKey = sReferenceKey;
+                rReturn.SaveData();
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#endif
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDLocalization GetByReference (string sReferenceKey)
+        {
+            NWDLocalization rReturn = NWDBasisHelper.GetRawDataByReference<NWDLocalization>(sReferenceKey);
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

@@ -59,6 +59,7 @@ namespace NetWorkedData
         [NWDNotEditable]
         [NWDCertified]
         [NWDNotEditable]
+        [NWDVarChar(256)]
         public string Reference
         {
             get; set;
@@ -80,12 +81,14 @@ namespace NetWorkedData
         //[NWDIndexedAttribut(NWD.K_INTERNAL_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
+        [NWDVarChar(256)]
         public string InternalKey
         {
             get; set;
         }
         [NWDNotEditable]
         [NWDCertified]
+        [NWDVarChar(256)]
         //[NWDIndexedAttribut(NWD.K_INTERNAL_INDEX)]
         public string InternalDescription
         {
@@ -93,6 +96,7 @@ namespace NetWorkedData
         }
         [NWDNotEditable]
         [NWDCertified]
+        [NWDVarChar(256)]
         public string Preview
         {
             get; set;
@@ -134,6 +138,7 @@ namespace NetWorkedData
         }
         [NWDNotEditable]
         [NWDCertified]
+        [NWDVarChar(256)]
         public string Integrity
         {
             get; set;
@@ -173,12 +178,14 @@ namespace NetWorkedData
         }
         [NWDNotEditable]
         [NWDCertified]
+        [NWDVarChar(256)]
         public string ServerHash
         {
             get; set;
         }
         [NWDNotEditable]
         [NWDCertified]
+        [NWDVarChar(256)]
         public string ServerLog
         {
             get; set;

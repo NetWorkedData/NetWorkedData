@@ -210,7 +210,7 @@ namespace NetWorkedData
                         {
                             //if (AllBundleLoaded == false)
                             {
-                            LoadFromDatabase("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DM) + "` >= " + SynchronizationGetLastTimestamp(sEnvironment) + ";", false);
+                                LoadFromDatabase("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DM) + "` >= " + SynchronizationGetLastTimestamp(sEnvironment) + ";", false);
                             }
                         }
                         foreach (NWDTypeClass tO in Datas)
@@ -365,6 +365,11 @@ namespace NetWorkedData
             }
             else
             {
+                // I try to use this data to ... insert/update/delete/... ?
+                bool tForceToUse = false;
+#if UNITY_EDITOR
+                tForceToUse = true;
+#endif
                 int tTimestampServer = sData.timestamp;
                 if (sSpecial == NWDOperationSpecial.None)
                 {
@@ -397,18 +402,13 @@ namespace NetWorkedData
                             {
                                 string tCsvValueString = tCsvValue as string;
 
-                                // I try to use this data to ... insert/update/delete/... ?
-                                bool tForceToUse = false;
-#if UNITY_EDITOR
-                                tForceToUse = true;
-#endif
                                 sInfos.RowPullCounter++;
                                 NWDTypeClass tObject = SynchronizationTryToUse(sInfos, sEnvironment, tCsvValueString, tForceToUse);
                                 // trash this object ?
-                                if (tObject != null)
-                                {
-                                    FlushTrash(tObject);
-                                }
+                                //if (tObject != null)
+                                //{
+                                //    FlushTrash(tObject);
+                                //}
                             }
 
                             rReturn = "YES";

@@ -60,6 +60,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetData(Dictionary<string, object> sData)
         {
+            //NWEBenchmark.Start();
             foreach (KeyValuePair<string, object> k in sData)
             {
                 string tKey = k.Key;
@@ -119,21 +120,26 @@ namespace NetWorkedData
                         }
                         break;
                     case NWD.K_WEB_BENCHMARK_Key:
-//#if UNITY_EDITOR
-                        //Debug.Log("WS " + NWD.K_WEB_BENCHMARK_Key + " : " + tL); 
-                        foreach (string tL in tValue as List<object>)
+                        //#if UNITY_EDITOR
+                        if (NWDAppConfiguration.SharedInstance().SelectedEnvironment().LogMode == true)
                         {
-                            Debug.Log("WS " + NWD.K_WEB_BENCHMARK_Key + " : " + tL.ToString());
+                            foreach (string tL in tValue as List<object>)
+                            {
+                                Debug.Log("WS " + NWD.K_WEB_BENCHMARK_Key + " : " + tL.ToString());
+                            }
                         }
-//#endif
+                        //#endif
                         break;
                     case NWD.K_WEB_LOG_Key:
-//#if UNITY_EDITOR
-                        foreach (string tL in tValue.ToString().Split(new string[] { "\\r" }, StringSplitOptions.RemoveEmptyEntries))
+                        //#if UNITY_EDITOR
+                        if (NWDAppConfiguration.SharedInstance().SelectedEnvironment().LogMode == true)
                         {
-                            Debug.Log("WS " + NWD.K_WEB_LOG_Key + " : " + tL);
+                            foreach (string tL in tValue.ToString().Split(new string[] { "\\r" }, StringSplitOptions.RemoveEmptyEntries))
+                            {
+                                Debug.Log("WS " + NWD.K_WEB_LOG_Key + " : " + tL);
+                            }
                         }
-//#endif
+                        //#endif
                         break;
                     default:
                         Type t = tValue.GetType();
@@ -145,13 +151,14 @@ namespace NetWorkedData
                         break;
                 }
             }
-
+            //NWEBenchmark.Step();
             if (isError)
             {
                 errorDesc = NWDError.FindDataByCode(errorCode) as NWDError;
             }
-
+            //NWEBenchmark.Step();
             param = new Dictionary<string, object>(sData);
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetError(NWDError sError)

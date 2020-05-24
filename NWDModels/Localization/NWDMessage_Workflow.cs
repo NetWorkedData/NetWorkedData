@@ -1,28 +1,13 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:33:56
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
 using System;
-
-//=====================================================================================================================
-//
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
-//
-// Read License-en or Licence-fr
-//
-//=====================================================================================================================
 using UnityEngine;
-//using BasicToolBox;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -44,6 +29,30 @@ namespace NetWorkedData
         {
             NWDUserNotification tNotification = new NWDUserNotification(this, sValidationbBlock, sCancelBlock);
             tNotification.Post();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        public static NWDMessage EditorCreateIfNotExists(string sReferenceKey, string sBaseTitle, string sBaseDescription, string sBaseValidation, string sBaseCancel)
+        {
+            NWDMessage rReturn = NWDBasisHelper.GetRawDataByReference<NWDMessage>(sReferenceKey);
+            if (rReturn == null)
+            {
+                rReturn = NWDBasisHelper.NewDataWithReference<NWDMessage>(sReferenceKey);
+                rReturn.Title.AddBaseString(sBaseTitle);
+                rReturn.Description.AddBaseString(sBaseDescription);
+                rReturn.Validation.AddBaseString(sBaseValidation);
+                rReturn.Cancel.AddBaseString(sBaseCancel);
+                rReturn.InternalKey = sReferenceKey; 
+                rReturn.SaveData();
+            }
+            return rReturn;
+        }
+#endif
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDMessage GetByReference(string sReferenceKey)
+        {
+            NWDMessage rReturn = NWDBasisHelper.GetRawDataByReference<NWDMessage>(sReferenceKey);
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

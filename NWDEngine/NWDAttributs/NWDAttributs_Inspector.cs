@@ -150,6 +150,19 @@ namespace NetWorkedData
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    public class NWDVarChar : Attribute
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public int CharNumber = 256;
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDVarChar(int sCharNumber = 256)
+        {
+            CharNumber = sCharNumber;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDNotVisible : Attribute
     {

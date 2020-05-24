@@ -28,7 +28,7 @@ namespace NetWorkedData
         {
             //if (NWDLauncher.ActiveBenchmark)
             //{
-            //    NWEBenchmark.Start();
+            //NWEBenchmark.Start();
             //}
             if (string.IsNullOrEmpty(PlayerAccountReference))
             {
@@ -42,7 +42,7 @@ namespace NetWorkedData
             }
             //if (NWDLauncher.ActiveBenchmark)
             //{
-            //    NWEBenchmark.Finish(true, "RequesToken = " + RequesToken);
+            //NWEBenchmark.Finish(true, "RequesToken = " + RequesToken);
             //}
         }
         //-------------------------------------------------------------------------------------------------------------

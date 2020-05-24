@@ -276,7 +276,7 @@ namespace NetWorkedData
                 tFile.AppendLine("if (isset($BenchmarkResult) == true) ");
                 tFile.AppendLine("{");
                 {
-                    tFile.AppendLine("respondAdd('"+ NWD.K_WEB_BENCHMARK_Key + "', $BenchmarkResult);");
+                    tFile.AppendLine("respondAdd('" + NWD.K_WEB_BENCHMARK_Key + "', $BenchmarkResult);");
                 }
                 tFile.AppendLine("}");
             }
@@ -494,10 +494,10 @@ namespace NetWorkedData
 
                 if (LogMode == true)
                 {
-                tFile.AppendLine("global $SQL_ACCESS_COUNT;");
-                tFile.AppendLine("global $SQL_ACCESS_SQL;");
-                tFile.AppendLine("$SQL_ACCESS_COUNT++;");
-                tFile.AppendLine("$SQL_ACCESS_SQL[] = $sSQL;");
+                    tFile.AppendLine("global $SQL_ACCESS_COUNT;");
+                    tFile.AppendLine("global $SQL_ACCESS_SQL;");
+                    tFile.AppendLine("$SQL_ACCESS_COUNT++;");
+                    tFile.AppendLine("$SQL_ACCESS_SQL[] = $sSQL;");
                 }
                 tFile.AppendLine("$rReturn = array();");
                 tFile.AppendLine("$rReturn['error'] = false;");
@@ -1016,7 +1016,7 @@ namespace NetWorkedData
                 tFile.AppendLine("if ($sGlobal == true)");
                 tFile.AppendLine("{");
                 {
-                tFile.AppendLine("$tResult = SelectFromAllConnexions($tQuery);");
+                    tFile.AppendLine("$tResult = SelectFromAllConnexions($tQuery);");
                 }
                 tFile.AppendLine("}");
                 tFile.AppendLine("else");
@@ -1122,7 +1122,7 @@ namespace NetWorkedData
                                         tFile.AppendLine("if ($sGlobal == true)");
                                         tFile.AppendLine("{");
                                         {
-                                        tFile.AppendLine("$tPinCode = $sRangeAccess.'-'.CodeRandomSizable($tSize++);");
+                                            tFile.AppendLine("$tPinCode = $sRangeAccess.'-'.CodeRandomSizable($tSize++);");
                                         }
                                         tFile.AppendLine("}");
                                         tFile.AppendLine("else");
@@ -1941,16 +1941,29 @@ namespace NetWorkedData
                 tFile.AppendLine("// connect database now");
                 tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this, "Start"));
                 tFile.AppendLine(NWDError.PHP_BenchmarkStart(this, "Calculate"));
-                tFile.AppendLine("if ($SQL_CURRENT_DATABASE->connect_errno)");
+                tFile.AppendLine("if (isset($SQL_CURRENT_DATABASE))");
                 tFile.AppendLine("{");
                 {
-                    tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SQL00));
+                    tFile.AppendLine("if ($SQL_CURRENT_DATABASE->connect_errno)");
+                    tFile.AppendLine("{");
+                    {
+                        //tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SQL00));
+                        tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_RQT91));
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("else");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_REQUEST_PHP + "');");
+                    }
+                    tFile.AppendLine("}");
                 }
                 tFile.AppendLine("}");
                 tFile.AppendLine("else");
                 tFile.AppendLine("{");
                 {
-                    tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_REQUEST_PHP + "');");
+                    //tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SQL00));
+                    tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_RQT91));
                 }
                 tFile.AppendLine("}");
             }

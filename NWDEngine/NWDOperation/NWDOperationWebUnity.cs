@@ -49,8 +49,8 @@ namespace NetWorkedData
     [ExecuteInEditMode]
     public partial class NWDOperationWebUnity : NWEOperation
     {
+        //-------------------------------------------------------------------------------------------------------------
         NWDOperationFinalStatut FinalStatut;
-
         //-------------------------------------------------------------------------------------------------------------
         //public static int kTimeOutOfRequest = 300;
         public GameObject GameObjectToSpawn;
@@ -219,6 +219,9 @@ namespace NetWorkedData
             // I insert the data
             WWWForm tWWWForm = InsertDataInRequest(ResultInfos);
             ResultInfos.OctetUpload = tWWWForm.data.Length;
+
+            //NWEBenchmark.Step(tBenchmark);
+
             using (Request = UnityWebRequest.Post(ServerBase(), tWWWForm))
             {
                 Request.downloadHandler = new DownloadHandlerBuffer();
@@ -263,6 +266,8 @@ namespace NetWorkedData
                 //Debug.Log(" request % " + (Request.uploadProgress * 100.0F).ToString("F3"));
 #endif
 
+                //NWEBenchmark.Step(tBenchmark);
+
                 if (Request.isNetworkError)
                 {
 #if UNITY_EDITOR
@@ -287,6 +292,7 @@ namespace NetWorkedData
                     }
                     if (Request.isDone == true)
                     {
+                        //NWEBenchmark.Step(tBenchmark);
                         string tDataConverted = Request.downloadHandler.text;
                         ResultInfos.DownloadedDateTime = DateTime.Now;
                         ResultInfos.FinishDateTime = ResultInfos.DownloadedDateTime;
@@ -297,6 +303,7 @@ namespace NetWorkedData
                         DebugShowHeaderDownloaded(tDataConverted);
                         // Debug Show Header Up vs Down
                         DebugShowHeaderTotal(tDataConverted);
+                        //NWEBenchmark.Step(tBenchmark);
                         // Check for error
                         if (tDataConverted.Equals(string.Empty))
                         {
@@ -305,9 +312,11 @@ namespace NetWorkedData
                             // Request Failed, send Invoke
                             //FailInvoke(Request.downloadProgress, ResultInfos);
                             FinalStatut = NWDOperationFinalStatut.Fail;
+                            //NWEBenchmark.Step(tBenchmark);
                         }
                         else
                         {
+                            //NWEBenchmark.Step(tBenchmark);
                             if (string.IsNullOrEmpty(Request.GetResponseHeader(NWD.K_OBSOLETE_HEADER_KEY)) == true)
                             {
                                 if (string.IsNullOrEmpty(Request.GetResponseHeader(NWD.K_MAINTENANCE_HEADER_KEY)) == true)
@@ -360,6 +369,7 @@ namespace NetWorkedData
                                                 ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_RQT98));
                                             }
                                         }
+                                        //NWEBenchmark.Step(tBenchmark);
                                         // Request in Progress, send Invoke
                                         ProgressInvoke(1.0f, ResultInfos);
                                         ResultInfos.SetData(tData);
@@ -397,6 +407,7 @@ namespace NetWorkedData
                                                 }
                                             }
                                         }
+                                        //NWEBenchmark.Step(tBenchmark);
                                         // Check if error
                                         if (ResultInfos.isError)
                                         {
@@ -460,6 +471,7 @@ namespace NetWorkedData
                                         }
                                         else
                                         {
+                                            //NWEBenchmark.Step(tBenchmark);
                                             Statut = NWEOperationState.Success;
                                             if (ResultInfos.isNewUser)
                                             {
@@ -508,6 +520,8 @@ namespace NetWorkedData
                                             {
                                                 Environment.PlayerAccountReference = ResultInfos.uuid;
                                             }
+
+                                            //NWEBenchmark.Step(tBenchmark);
                                             DataDownloadedCompute(ResultInfos);
 
                                             // Notification of a Download success
@@ -531,7 +545,9 @@ namespace NetWorkedData
                         }
                     }
                     // Save preference localy
+                    //NWEBenchmark.Step(tBenchmark);
                     Environment.SavePreferences();
+                    //NWEBenchmark.Step(tBenchmark);
 
                     // Notification of current Account have change
                     if (tUserChange == true)
@@ -540,6 +556,7 @@ namespace NetWorkedData
                     }
                 }
 
+                //NWEBenchmark.Step(tBenchmark);
                 if (ResultInfos.isError)
                 {
                     if (ResultInfos.errorDesc != null)
@@ -565,9 +582,10 @@ namespace NetWorkedData
                     //FailInvoke(Request.downloadProgress, ResultInfos);
                     FinalStatut = NWDOperationFinalStatut.Fail;
                 }
+                //NWEBenchmark.Step(tBenchmark);
                 Finish();
             }
-
+            //NWEBenchmark.Step(tBenchmark);
 #if UNITY_EDITOR
             NWDAppEnvironmentChooser.Refresh();
 #endif

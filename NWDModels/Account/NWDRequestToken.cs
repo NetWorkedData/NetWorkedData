@@ -24,12 +24,14 @@ namespace NetWorkedData
         [NWDAddIndexed(NWD.K_REQUEST_TOKEN_INDEX, "AC")]
         [NWDIndexedAttribut(NWD.K_REQUEST_TOKEN_INDEX)]
         [NWDCertified]
+        [NWDVarChar(256)]
         public string UUIDHash
         {
             get; set;
         }
         [NWDIndexedAttribut(K_TOKEN_DELETE_INDEX)]
         [NWDCertified]
+        [NWDVarChar(128)]
         public string Token
         {
             get; set;
