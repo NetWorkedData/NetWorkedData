@@ -246,7 +246,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void InitHelper(Type sType, bool sBase = false)
         {
-            NWEBenchmark.Start();
+            //NWEBenchmark.Start();
             TemplateHelper.SetClassType(sType);
             string tClassTrigramme = "XXX";
             if (sType.GetCustomAttributes(typeof(NWDClassTrigrammeAttribute), true).Length > 0)
@@ -478,7 +478,7 @@ namespace NetWorkedData
                 ClusterMax = 2048;
             }
             //NWEBenchmark.Step();
-            NWEBenchmark.Finish(true, ClassNamePHP);
+            //NWEBenchmark.Finish(true, ClassNamePHP);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void InstallHelper()

@@ -104,7 +104,7 @@ namespace NetWorkedData
                 }
                 string tDatabasePathEditor = tPathEditor;
 #endif
-                Debug.Log(" tDatabasePathEditor =  " + tDatabasePathEditor);
+                //Debug.Log(" tDatabasePathEditor =  " + tDatabasePathEditor);
 
                 byte[] tDatabasePathAsBytes = GetNullTerminatedUtf8(tDatabasePathEditor);
                 SQLite3.Result tResult = SQLite3.Open(tDatabasePathAsBytes, out SQLiteEditorHandle, (int)(SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create), IntPtr.Zero);
@@ -136,7 +136,7 @@ namespace NetWorkedData
                     //SQLite3.Finalize(stmtpragmaD);
 
                     if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment ||
-                            NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+                        NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
                     {
                         var fileInfo = new System.IO.FileInfo(tDatabasePathEditor);
                         if (IsSecure())

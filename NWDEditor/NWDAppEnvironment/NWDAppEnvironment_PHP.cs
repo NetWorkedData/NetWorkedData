@@ -886,13 +886,23 @@ namespace NetWorkedData
             }
             tFile.AppendLine("// BLANK");
             tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("// Determine the file tree path");
-            tFile.AppendLine("" + NWD.K_PATH_BASE + " = dirname(__DIR__);");
-            tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_CONSTANTS_FILE + "');");
-            tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_START_PHP + "');");
+            //tFile.AppendLine("// Determine the file tree path");
+            //tFile.AppendLine("" + NWD.K_PATH_BASE + " = dirname(__DIR__);");
+            //tFile.AppendLine(NWD.K_CommentSeparator);
+            //tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_CONSTANTS_FILE + "');");
+            //tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_START_PHP + "');");
             //tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_WS_INSIDE_FILE + "');");
-            tFile.AppendLine("mysqli_close (" + NWD.K_SQL_CON + ");");
+            //tFile.AppendLine("respondAdd('blank', 'true');");
+            //tFile.AppendLine("$json = json_encode($REP);");
+            //tFile.AppendLine("echo($json);");
+            //tFile.AppendLine("mysqli_close (" + NWD.K_SQL_CON + ");");
+
+            //tFile.AppendLine("respondAdd('" + NWD.K_JSON_PERFORM_REQUEST_KEY + "',microtime(true)-$_SERVER['REQUEST_TIME_FLOAT']);");
+            //tFile.AppendLine("echo(\"{\\\"blank\\\":\\\"true\\\", \\\"" + NWD.K_JSON_PERFORM_REQUEST_KEY + "\\\",\\\"microtime(true)-$_SERVER['REQUEST_TIME_FLOAT']\\\"}\");");
+            tFile.AppendLine("$REP['blank'] = 'true';");
+            tFile.AppendLine("$REP['" + NWD.K_JSON_PERFORM_REQUEST_KEY + "'] = microtime(true)-$_SERVER['REQUEST_TIME_FLOAT'];");
+            tFile.AppendLine("$json = json_encode($REP);");
+            tFile.AppendLine("echo($json);");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());

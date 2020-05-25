@@ -29,7 +29,7 @@ namespace NetWorkedData
         private static void LaunchStandard()
         {
             NWDEngineBenchmark.Watch.Start();
-            //if (ActiveBenchmark)
+            if (ActiveBenchmark)
             {
                 NWEBenchmark.Start();
             }
@@ -94,7 +94,7 @@ namespace NetWorkedData
 
             NotifyNetWorkedDataReady();
 
-            //if (ActiveBenchmark)
+            if (ActiveBenchmark)
             {
                 //TimeFinish = NWEBenchmark.SinceStartup();
                 TimeFinish = Time.realtimeSinceStartup;

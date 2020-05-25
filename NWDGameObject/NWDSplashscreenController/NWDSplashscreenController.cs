@@ -6,12 +6,14 @@
 //=====================================================================================================================
 
 using System;
+using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Networking;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -49,7 +51,7 @@ namespace NetWorkedData
         {
             if (Log == true)
             {
-                Debug.Log("<color=red>!!!!!</color><color=orange>Start</color>" + " state : " + NWDLauncher.GetState().ToString());
+                UnityEngine.Debug.Log("<color=red>!!!!!</color><color=orange>Start</color>" + " state : " + NWDLauncher.GetState().ToString());
             }
             if (NextButton != null)
             {
@@ -142,25 +144,16 @@ namespace NetWorkedData
                 if (sInfos.GetType() == typeof(NWDOperationResult))
                 {
                     NWDOperationResult LastInfos = sInfos as NWDOperationResult;
-                    double tDurationNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.FinishDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.PrepareDateTime)) / 1000.0F;
-                    double tPrepareNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.WebDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.PrepareDateTime)) / 1000.0F;
-                    double tUploadNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.UploadedDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.WebDateTime)) / 1000.0F;
-                    double tDowloadNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.DownloadedDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.UploadedDateTime)) / 1000.0F;
-                    double tComputeNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.FinishDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.DownloadedDateTime)) / 1000.0F;
-                    LastSyncResultLog = "\n<b>" + sTag + "</b>:" +
-                        "duration : " + tDurationNetMilliseconds.ToString("#0.000") + "s " +
-                        "(network = " + (tUploadNetMilliseconds + tDowloadNetMilliseconds).ToString("#0.000") + " s) " +
-                        "row pushed " + LastInfos.RowPushCounter.ToString() + "," +
-                        "row pulled " + LastInfos.RowPullCounter.ToString() + "";
+                    LastSyncResultLog = "\n<b>" + sTag + " </b>: " + LastInfos.Benchmark.GetLogString(LastInfos.perform) + ", rows pushed " + LastInfos.RowPushCounter + ", rows pulled " + LastInfos.RowPullCounter;
                 }
                 else
                 {
-                    LastSyncResultLog = "\n<b>" + sTag + "</b>:" + ": type error for infos";
+                    LastSyncResultLog = "\n<b>" + sTag + " </b>: " + ": type error for infos";
                 }
             }
             else
             {
-                LastSyncResultLog = "\n<b>" + sTag + "</b>:" + ": null infos";
+                LastSyncResultLog = "\n<b>" + sTag + " </b>: " + ": null infos";
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -175,11 +168,11 @@ namespace NetWorkedData
             {
                 if (sState == NWDMessageState.OK)
                 {
-                    Debug.Log("AlertTest() close with NWDMessageState.OK");
+                    //UnityEngine.Debug.Log("AlertTest() close with NWDMessageState.OK");
                 }
                 else
                 {
-                    Debug.LogWarning("AlertTest() close with BAD NWDMessageState ");
+                    //UnityEngine.Debug.LogWarning("AlertTest() close with BAD NWDMessageState ");
                 }
             });
         }
@@ -190,16 +183,16 @@ namespace NetWorkedData
             {
                 if (sState == NWDMessageState.OK)
                 {
-                    Debug.Log("FakeToken() close with NWDMessageState.OK");
+                    //UnityEngine.Debug.Log("FakeToken() close with NWDMessageState.OK");
                     NWDAppConfiguration.SharedInstance().SelectedEnvironment().RequesToken = "Fakeee" + NWDToolbox.RandomStringUnix(24);
                 }
                 else if (sState == NWDMessageState.NOK)
                 {
-                    Debug.Log("FakeToken() close with NWDMessageState.NOK");
+                    //UnityEngine.Debug.Log("FakeToken() close with NWDMessageState.NOK");
                 }
                 else
                 {
-                    Debug.LogWarning("FakeToken() close with BAD NWDMessageState");
+                    //UnityEngine.Debug.LogWarning("FakeToken() close with BAD NWDMessageState");
                 }
 
             });
@@ -211,16 +204,16 @@ namespace NetWorkedData
             {
                 if (sState == NWDMessageState.OK)
                 {
-                    Debug.Log("FakeAccount() close with NWDMessageState.OK");
+                    //UnityEngine.Debug.Log("FakeAccount() close with NWDMessageState.OK");
                     NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference = NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM + "-1234-" + NWDToolbox.RandomStringNumeric(8) + "-" + NWDToolbox.RandomStringNumeric(6) + "C";
                 }
                 else if (sState == NWDMessageState.NOK)
                 {
-                    Debug.Log("FakeAccount() close with NWDMessageState.NOK");
+                    //UnityEngine.Debug.Log("FakeAccount() close with NWDMessageState.NOK");
                 }
                 else
                 {
-                    Debug.LogWarning("FakeAccount() close with BAD NWDMessageState");
+                    //UnityEngine.Debug.LogWarning("FakeAccount() close with BAD NWDMessageState");
                 }
 
             });
@@ -230,15 +223,102 @@ namespace NetWorkedData
         {
             NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetPreferences();
         }
-            //-------------------------------------------------------------------------------------------------------------
-            public void SyncAll()
+        //-------------------------------------------------------------------------------------------------------------
+        public void BlankTest()
         {
-            Debug.Log("<color=red>!!!!!</color><color=orange>SyncAll</color>" + " state : " + NWDLauncher.GetState().ToString());
+            //UnityEngine.Debug.Log("<color=red>!!!!!</color><color=orange>Blank Test</color>" + " state : " + NWDLauncher.GetState().ToString());
+            NWDDataManager.SharedInstance().AddWebRequestBlankWithBlock(
+                delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)
+                {
+                    NWDOperationWebBlank tRequest = sOperation as NWDOperationWebBlank;
+                    WebLog("Blank Test " + tRequest.Request.url, sInfos);
+                },
+            delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)
+            {
+                NWDOperationResult tInfos = sInfos as NWDOperationResult;
+                NWDAlert.Alert(tInfos.errorDesc);
+            });
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void BlankTestSecond()
+        {
+            StartCoroutine(Upload());
+
+        }
+        IEnumerator Upload()
+        {
+            Stopwatch Watch = new Stopwatch();
+            Watch.Start();
+            WWWForm form = new WWWForm();
+            form.AddField("myField", "myData");
+            string tURLBlank = NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetConfigurationServerHTTPS() + "/"
+                + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "/"
+                + NWDAppConfiguration.SharedInstance().SelectedEnvironment().Environment + "/" + NWD.K_BLANK_PHP;
+            //using (UnityWebRequest www = UnityWebRequest.Post("https://simple.net-worked-data.ovh/NWDSample_0024/Dev/blank.php", form))
+            using (UnityWebRequest www = UnityWebRequest.Post(tURLBlank, form))
+            {
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    UnityEngine.Debug.Log(www.error);
+                    double tResult = (double)(Watch.ElapsedMilliseconds / 1000.0F);
+                    LastSyncResultLog = "\n<b> blank test " + tURLBlank + " second ERROR in </b> = " + tResult.ToString("#0.000") + "s /";
+                    Watch.Stop();
+                }
+                else
+                {
+                    double tResult = (double)(Watch.ElapsedMilliseconds / 1000.0F);
+                    LastSyncResultLog = "\n<b> blank test " + tURLBlank + " second </b> = " + tResult.ToString("#0.000") + "s";
+                    Watch.Stop();
+                    //UnityEngine.Debug.Log("Second upload complete "+tResult.ToString("#0.000")+"s !");
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void BlankTestThird()
+        {
+            Stopwatch Watch = new Stopwatch();
+            Watch.Start();
+            WWWForm form = new WWWForm();
+            form.AddField("myField", "myData");
+            string tURLBlank = NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetConfigurationServerHTTPS() + "/"
+                + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "/"
+                + NWDAppConfiguration.SharedInstance().SelectedEnvironment().Environment + "/" + NWD.K_BLANK_PHP;
+            using (UnityWebRequest www = UnityWebRequest.Post(tURLBlank, form))
+            {
+                www.SendWebRequest();
+
+                while (www.isDone == false)
+                {
+                }
+
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    UnityEngine.Debug.Log(www.error);
+                    double tResult = (double)(Watch.ElapsedMilliseconds / 1000.0F);
+                    LastSyncResultLog = "\n<b> blank test " + tURLBlank + "third ERROR in </b> = " + tResult.ToString("#0.000") + "s /";
+                    Watch.Stop();
+                }
+                else
+                {
+                    double tResult = (double)(Watch.ElapsedMilliseconds / 1000.0F);
+                    LastSyncResultLog = "\n<b> blank test " + tURLBlank + "third </b> = " + tResult.ToString("#0.000") + "s";
+                    Watch.Stop();
+                    //UnityEngine.Debug.Log("Third upload complete " + tResult.ToString("#0.000") + "s !");
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SyncAll()
+        {
+            //UnityEngine.Debug.Log("<color=red>!!!!!</color><color=orange>SyncAll</color>" + " state : " + NWDLauncher.GetState().ToString());
             NWDDataManager.SharedInstance().AddWebRequestAllSynchronizationWithBlock(
                 delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)
-            {
-                WebLog("Sync All", sInfos);
-            },
+                {
+                    NWDOperationWebSynchronisation tRequest = sOperation as NWDOperationWebSynchronisation;
+                    WebLog("Sync All " + tRequest.Request.url, sInfos);
+                },
             delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)
             {
                 NWDOperationResult tInfos = sInfos as NWDOperationResult;
@@ -248,7 +328,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SyncCounterAccount()
         {
-            Debug.Log("<color=red>!!!!!</color><color=orange>SyncCounterAccount</color>" + " state : " + NWDLauncher.GetState().ToString());
+            //UnityEngine.Debug.Log("<color=red>!!!!!</color><color=orange>SyncCounterAccount</color>" + " state : " + NWDLauncher.GetState().ToString());
             // get an fictive Preference for this account
             NWDAccountPreference tAccountPreference = NWDAccountPreference.GetByInternalKeyOrCreate("Test", new NWDMultiType(0));
             // increment this value
@@ -261,7 +341,8 @@ namespace NetWorkedData
             },
             delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)
             {
-                WebLog("Sync Counter Account", sInfos);
+                NWDOperationWebSynchronisation tRequest = sOperation as NWDOperationWebSynchronisation;
+                WebLog("Sync Counter Account " + tRequest.Request.url, sInfos);
             },
             delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)
             {
@@ -273,7 +354,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SyncSomeAccount()
         {
-            Debug.Log("<color=red>!!!!!</color><color=orange>SyncSomeAccount</color>" + " state : " + NWDLauncher.GetState().ToString());
+            //UnityEngine.Debug.Log("<color=red>!!!!!</color><color=orange>SyncSomeAccount</color>" + " state : " + NWDLauncher.GetState().ToString());
             // get an fictive Preference for this account
             NWDAccountPreference tAccountPreference = NWDAccountPreference.GetByInternalKeyOrCreate("Test", new NWDMultiType(0));
             // increment this value
@@ -289,7 +370,8 @@ namespace NetWorkedData
             },
             delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)
             {
-                WebLog("Sync Some Account", sInfos);
+                NWDOperationWebSynchronisation tRequest = sOperation as NWDOperationWebSynchronisation;
+                WebLog("Sync Some Account " + tRequest.Request.url, sInfos);
             },
             delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)
             {
@@ -301,7 +383,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SyncSomeEditor()
         {
-            Debug.Log("<color=red>!!!!!</color><color=orange>SyncSomeEditor</color>" + " state : " + NWDLauncher.GetState().ToString());
+            //UnityEngine.Debug.Log("<color=red>!!!!!</color><color=orange>SyncSomeEditor</color>" + " state : " + NWDLauncher.GetState().ToString());
             NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(new List<Type>() {
                 typeof(NWDItem),
                 typeof(NWDCategory),
@@ -311,7 +393,8 @@ namespace NetWorkedData
             },
             delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)
             {
-                WebLog("Sync Some Editor", sInfos);
+                NWDOperationWebSynchronisation tRequest = sOperation as NWDOperationWebSynchronisation;
+                WebLog("Sync Some Editor " + tRequest.Request.url, sInfos);
             },
             delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)
             {

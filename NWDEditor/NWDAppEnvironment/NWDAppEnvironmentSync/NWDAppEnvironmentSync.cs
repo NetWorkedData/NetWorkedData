@@ -299,6 +299,7 @@ namespace NetWorkedData
             bool tOperationUpgrade = false;
             bool tOperationOptimize = false;
             bool tOperationIndexes = false;
+            bool tOperationBlank = false;
             GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
             GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
             GUILayout.Label("Dev Database", NWDGUI.KTableSearchTitle);
@@ -351,6 +352,11 @@ namespace NetWorkedData
                 if (GUILayout.Button("Index all", NWDGUI.KTableSearchButton))
                 {
                     tOperationIndexes = true;
+                    tEnvironment = tDevEnvironment;
+                }
+                if (GUILayout.Button("blank", NWDGUI.KTableSearchButton))
+                {
+                    tOperationBlank = true;
                     tEnvironment = tDevEnvironment;
                 }
                 NWDGUI.EndRedArea();
@@ -427,6 +433,11 @@ namespace NetWorkedData
                     tOperationIndexes = true;
                     tEnvironment = tPreprodEnvironment;
                 }
+                if (GUILayout.Button("blank", NWDGUI.KTableSearchButton))
+                {
+                    tOperationBlank = true;
+                    tEnvironment = tPreprodEnvironment;
+                }
                 NWDGUI.EndRedArea();
                 GUILayout.Label("Preprod Database", NWDGUI.KTableSearchTitle);
                 GUILayout.Label(PreprodIcon, NWDGUI.KTableSearchIcon, GUILayout.Height(20));
@@ -501,6 +512,11 @@ namespace NetWorkedData
                     tOperationIndexes = true;
                     tEnvironment = tProdEnvironment;
                 }
+                if (GUILayout.Button("blank", NWDGUI.KTableSearchButton))
+                {
+                    tOperationBlank = true;
+                    tEnvironment = tProdEnvironment;
+                }
                 NWDGUI.EndRedArea();
                 GUILayout.Label("Prod Database", NWDGUI.KTableSearchTitle);
                 GUILayout.Label(ProdIcon, NWDGUI.KTableSearchIcon, GUILayout.Height(20));
@@ -566,6 +582,11 @@ namespace NetWorkedData
                 OperationSynchroAllClasses(tEnvironment, false, true, NWDOperationSpecial.Indexes);
                 GUIUtility.ExitGUI();
             }
+            if (tOperationBlank == true)
+            {
+                OperationSynchroBlank(tEnvironment);
+                GUIUtility.ExitGUI();
+            }
             if (tOperationSpecial == true)
             {
                 OperationSynchroAllClasses(tEnvironment, false, true, NWDOperationSpecial.Special);
@@ -581,11 +602,13 @@ namespace NetWorkedData
             {
                 LastInfos = new NWDOperationResult();
             }
-            double tDurationNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.FinishDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.PrepareDateTime)) / 1000.0F;
-            double tPrepareNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.WebDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.PrepareDateTime)) / 1000.0F;
-            double tUploadNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.UploadedDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.WebDateTime)) / 1000.0F;
-            double tDowloadNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.DownloadedDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.UploadedDateTime)) / 1000.0F;
-            double tComputeNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.FinishDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.DownloadedDateTime)) / 1000.0F;
+            //double tDurationNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.FinishDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.PrepareDateTime)) / 1000.0F;
+            //double tPrepareNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.WebDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.PrepareDateTime)) / 1000.0F;
+            //double tUploadNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.UploadedDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.WebDateTime)) / 1000.0F;
+            //double tDowloadNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.DownloadedDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.UploadedDateTime)) / 1000.0F;
+            //double tComputeNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.FinishDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.DownloadedDateTime)) / 1000.0F;
+
+
             NWDGUILayout.Section("Webservice " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + " last request");
             EditorGUILayout.LabelField("Webservice version", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
             EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE, PlayerSettings.bundleVersion, EditorStyles.label);
@@ -620,8 +643,8 @@ namespace NetWorkedData
             }
             if (SyncInfosTab == 0 || SyncInfosTab == 1)
             {
-                EditorGUILayout.LabelField("Data Prepare", tPrepareNetMilliseconds.ToString("#0.000") + " s");
-                EditorGUILayout.LabelField("Network Upload", tUploadNetMilliseconds.ToString("#0.000") + " s");
+                EditorGUILayout.LabelField("Data Prepare", (LastInfos.Benchmark.GetPrepareTime() / 1000.0F).ToString("#0.000") + " s");
+                //EditorGUILayout.LabelField("Network Upload", (LastInfos.Benchmark.GetUploadTime() / 1000.0F).ToString("#0.000") + " s");
             }
             if (SyncInfosTab == 0 || SyncInfosTab == 3)
             {
@@ -632,7 +655,15 @@ namespace NetWorkedData
             if (SyncInfosTab == 0 || SyncInfosTab == 1)
             {
                 EditorGUILayout.LabelField("Server Perform Request", LastInfos.performRequest.ToString("#0.000") + " s");
-                EditorGUILayout.LabelField("Network Download", (tDowloadNetMilliseconds - LastInfos.performRequest).ToString("#0.000") + " s");
+                EditorGUILayout.LabelField("Server Perform", LastInfos.perform.ToString("#0.000") + " s");
+                //EditorGUILayout.LabelField("Network Download", (LastInfos.Benchmark.GetDownloadTime() / 1000.0F).ToString("#0.000") + " s");
+                //EditorGUILayout.LabelField("Network Download", (tDowloadNetMilliseconds - LastInfos.performRequest).ToString("#0.000") + " s");
+                double tNetWork = LastInfos.Benchmark.GetUploadTime() + LastInfos.Benchmark.GetPerformTime() + LastInfos.Benchmark.GetDownloadTime() - LastInfos.perform;
+                if (tNetWork<0)
+                {
+                    tNetWork = 0; // network in progress... dont calculate!
+                }
+                EditorGUILayout.LabelField("Network Perform", (tNetWork / 1000.0F).ToString("#0.000") + " s");
             }
             if (SyncInfosTab == 0 || SyncInfosTab == 3)
             {
@@ -691,8 +722,8 @@ namespace NetWorkedData
             }
             if (SyncInfosTab == 0 || SyncInfosTab == 1)
             {
-                EditorGUILayout.LabelField("DataBase compute", tComputeNetMilliseconds.ToString("#0.000") + " s");
-                EditorGUILayout.LabelField("Sync duration", tDurationNetMilliseconds.ToString("#0.000") + " s", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("DataBase compute", (LastInfos.Benchmark.GetComputeTime() / 1000.0F).ToString("#0.000") + " s");
+                EditorGUILayout.LabelField("Sync duration", (LastInfos.Benchmark.GetTotalTime()/1000.0F).ToString("#0.000") + " s", EditorStyles.boldLabel);
             }
             GUILayout.Space(NWDGUI.kFieldMarge);
             //NWEBenchmark.Finish();
@@ -944,6 +975,12 @@ namespace NetWorkedData
                 NWDOperationWebManagement.AddOperation("App Table management Sync ", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sForceSync);
             }
             //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void OperationSynchroBlank(NWDAppEnvironment sEnvironment)
+        {
+            StartProcess(sEnvironment);
+            NWDOperationWebBlank.AddOperation("blank", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, true, true);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Reset(NWDAppEnvironment sEnvironment)

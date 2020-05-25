@@ -165,12 +165,13 @@ namespace NetWorkedData
             //NWEBenchmark.Start(tBenchmark);
             //Debug.Log("NWDOperationWebUnity ExecuteAsync()");
             ResultInfos = new NWDOperationResult();
+            ResultInfos.Benchmark.Start();
             // reinit benchmark stat values
-            ResultInfos.PrepareDateTime = DateTime.Now;
-            ResultInfos.WebDateTime = DateTime.Now;
-            ResultInfos.UploadedDateTime = DateTime.Now;
-            ResultInfos.DownloadedDateTime = DateTime.Now;
-            ResultInfos.FinishDateTime = DateTime.Now;
+            //ResultInfos.PrepareDateTime = DateTime.Now;
+            //ResultInfos.WebDateTime = DateTime.Now;
+            //ResultInfos.UploadedDateTime = DateTime.Now;
+            //ResultInfos.DownloadedDateTime = DateTime.Now;
+            //ResultInfos.FinishDateTime = DateTime.Now;
             ResultInfos.OctetUpload = 0.0F;
             ResultInfos.OctetDownload = 0.0F;
             ResultInfos.ClassPullCounter = 0;
@@ -224,6 +225,7 @@ namespace NetWorkedData
 
             using (Request = UnityWebRequest.Post(ServerBase(), tWWWForm))
             {
+                //Request.uploadHandler = new UploadHandler(tWWWForm);
                 Request.downloadHandler = new DownloadHandlerBuffer();
                 Request.timeout = Environment.WebTimeOut;
 #if UNITY_EDITOR
@@ -233,40 +235,41 @@ namespace NetWorkedData
                 // I put the header in my request
                 InsertHeaderInRequest();
                 // I send the data
-                ResultInfos.WebDateTime = DateTime.Now;
+                //ResultInfos.WebDateTime = DateTime.Now;
                 // Debug Show Header Uploaded
                 DebugShowHeaderUploaded(tWWWForm.data);
                 // Notification of an Upload start
                 NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_START, this));
+                //yield return Request.SendWebRequest();
+                ResultInfos.Benchmark.PrepareIsFinished();
                 Request.SendWebRequest();
                 while (!Request.isDone)
                 {
+                    //Debug.Log(" request Request.uploadProgress " + Request.uploadProgress.ToString("#0.000") + " Request.downloadProgress " + Request.downloadProgress.ToString("#0.000")); ;
                     Statut = NWEOperationState.InProgress;
                     ProgressInvoke(Request.downloadProgress, ResultInfos);
                     if (Request.uploadProgress < 1.0f)
                     {
                         // Notification of an Upload in progress
                         NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS, this));
-                        ResultInfos.UploadedDateTime = DateTime.Now;
-                        ResultInfos.DownloadedDateTime = ResultInfos.UploadedDateTime;
-                        ResultInfos.FinishDateTime = ResultInfos.UploadedDateTime;
+                    }
+                    if (Request.uploadProgress == 1.0F)
+                    {
+                        ResultInfos.Benchmark.UploadIsFinished();
+                    }
+                    if (Request.downloadProgress > 0.1f)
+                    {
+                        ResultInfos.Benchmark.PerformIsFinished();
+                        ResultInfos.Benchmark.UploadIsFinished();
                     }
                     if (Request.downloadProgress < 1.0f)
                     {
                         // Notification of an Download in progress
                         NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS, this));
                     }
-#if UNITY_EDITOR
-                    //Debug.Log(" request % " + (Request.uploadProgress * 100.0F).ToString("F3"));
-#endif
                     yield return null;
                 }
-
-#if UNITY_EDITOR
-                //Debug.Log(" request % " + (Request.uploadProgress * 100.0F).ToString("F3"));
-#endif
-
-                //NWEBenchmark.Step(tBenchmark);
+                //Debug.Log(" request Request.uploadProgress " + Request.uploadProgress.ToString("#0.000") + " Request.downloadProgress " + Request.downloadProgress.ToString("#0.000")); ;
 
                 if (Request.isNetworkError)
                 {
@@ -286,16 +289,18 @@ namespace NetWorkedData
                 }
                 else
                 {
+                    ResultInfos.Benchmark.UploadIsFinished();
+                    ResultInfos.Benchmark.PerformIsFinished();
+                    ResultInfos.Benchmark.DownloadIsFinished();
                     while (!Request.downloadHandler.isDone)
                     {
                         yield return null;
                     }
+                    //ResultInfos.Benchmark.DownloadIsFinished();
                     if (Request.isDone == true)
                     {
                         //NWEBenchmark.Step(tBenchmark);
                         string tDataConverted = Request.downloadHandler.text;
-                        ResultInfos.DownloadedDateTime = DateTime.Now;
-                        ResultInfos.FinishDateTime = ResultInfos.DownloadedDateTime;
                         ResultInfos.OctetDownload = tDataConverted.Length;
                         // Notification of an Download is done
                         NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, this));
@@ -312,6 +317,7 @@ namespace NetWorkedData
                             // Request Failed, send Invoke
                             //FailInvoke(Request.downloadProgress, ResultInfos);
                             FinalStatut = NWDOperationFinalStatut.Fail;
+                            DebugShowHeaderOnError(tDataConverted);
                             //NWEBenchmark.Step(tBenchmark);
                         }
                         else
@@ -597,7 +603,9 @@ namespace NetWorkedData
             //Debug.Log("NWDOperationWebUnity Cancel()");
             if (IsFinish == false)
             {
-                ResultInfos.FinishDateTime = DateTime.Now;
+                //ResultInfos.FinishDateTime = DateTime.Now;
+                ResultInfos.Benchmark.ComputeIsFinished();
+                ResultInfos.Benchmark.IsFinished();
                 Statut = NWEOperationState.Cancel;
                 NWDOperationResult tInfosCancel = new NWDOperationResult();
                 IsFinish = true;
@@ -616,7 +624,9 @@ namespace NetWorkedData
             //Debug.Log("NWDOperationWebUnity Finish()");
             if (IsFinish == false)
             {
-                ResultInfos.FinishDateTime = DateTime.Now;
+                //ResultInfos.FinishDateTime = DateTime.Now;
+                ResultInfos.Benchmark.ComputeIsFinished();
+                ResultInfos.Benchmark.IsFinished();
                 if (Statut == NWEOperationState.ReStart)
                 {
                     // I MUST RESTART THE REQUEST BECAUSE BEFORE I WAS TEMPORARY ACCOUNT
@@ -845,6 +855,53 @@ namespace NetWorkedData
 #endif
             }
         }
+
+        //-------------------------------------------------------------------------------------------------------------
+        private void DebugShowHeaderOnError(string sData)
+        {
+            string tDebugRequestHeader = string.Empty;
+            foreach (KeyValuePair<string, object> tEntry in HeaderParams)
+            {
+                tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , "; //, \n";
+            }
+            string tDebugResponseHeader = string.Empty;
+            if (Request != null)
+            {
+                Dictionary<string, string> tResponseHeaders = Request.GetResponseHeaders();
+                if (tResponseHeaders != null)
+                {
+                    foreach (KeyValuePair<string, string> tEntry in tResponseHeaders)
+                    {
+                        tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , "; //, \n";
+                    }
+                }
+                string tFileDebug = "*******************************************************************\n" +
+                                    "NWDOperationWebUnity UPLOAD VS DOWNLOADED " + name + "\n" +
+                                    "-------------------\n" +
+                                    "<b>Request URl :</b> " + Request.url + "\n" +
+                                    "-------------------\n" +
+                                    "<b>Headers UPLOAD :</b> \n" +
+                                    "-------------------\n" +
+                                    tDebugRequestHeader + "\n" +
+                                    "-------------------\n" +
+                                    "<b>Datas UPLOAD : </b> \n" +
+                                    "-------------------\n" +
+                                    Json.Serialize(Data) + "\n" +
+                                    "-------------------\n\n\n" +
+                                    "-------------------\n" +
+                                    "<b>Headers DOWNLOAD :</b> \n" +
+                                    "-------------------\n" +
+                                    tDebugResponseHeader + "\n" +
+                                    "-------------------\n" +
+                                    "<b>Datas DOWNLOAD : (" + ResultInfos.OctetDownload + ")</b> \n" +
+                                    "-------------------\n" +
+                                    sData.Replace("\\\\r", "\r\n") + "\n" +
+                                    "-------------------\n" +
+                                    "*******************************************************************\n";
+                Debug.Log(tFileDebug);
+            }
+        }
+
         //-------------------------------------------------------------------------------------------------------------
         private void DebugShowHeaderTotal(string sData)
         {

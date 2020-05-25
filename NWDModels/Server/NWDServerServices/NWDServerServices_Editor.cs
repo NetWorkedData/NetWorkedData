@@ -191,8 +191,8 @@ namespace NetWorkedData
                 // create virtual host without SSL
                 "echo \"<VirtualHost *:80>\" > /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
                 "sed -i '$ a ServerAdmin " + tServerDomain.ServerDNS + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a DocumentRoot /home/" + User + "/" + Folder + "_NoSSL"+ "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
                 "sed -i '$ a ServerName " + tServerDomain.ServerDNS + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
+                "sed -i '$ a ServerAlias " + tServerDomain.ServerDNS + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
                 "sed -i '$ a DocumentRoot /home/" + User + "/" + Folder + "_NoSSL"+ "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
                 "sed -i '$ a <Directory />' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
                 "sed -i '$ a AllowOverride All' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
@@ -262,7 +262,9 @@ namespace NetWorkedData
                     tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
                     "apache2ctl -S",
-                    "httpd -S",
+                    //"httpd -S",
+                    "a2query -m",
+
                 });
                 }
                 tI++;

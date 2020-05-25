@@ -39,11 +39,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, object> param { get; private set; }
         //-------------------------------------------------------------------------------------------------------------
-        public DateTime PrepareDateTime;
-        public DateTime WebDateTime;
-        public DateTime UploadedDateTime;
-        public DateTime DownloadedDateTime;
-        public DateTime FinishDateTime;
+        //public DateTime PrepareDateTime;
+        //public DateTime WebDateTime;
+        //public DateTime UploadedDateTime;
+        //public DateTime DownloadedDateTime;
+        //public DateTime FinishDateTime;
+        public NWDWebBenchmark Benchmark = new NWDWebBenchmark();
+
         public double OctetUpload = 0.0F;
         public double OctetDownload = 0.0F;
         public int ClassPullCounter = 0;
@@ -193,11 +195,12 @@ namespace NetWorkedData
 
             param = new Dictionary<string, object>();
 
-            PrepareDateTime = DateTime.Now;
-            WebDateTime = DateTime.Now;
-            UploadedDateTime = DateTime.Now;
-            DownloadedDateTime = DateTime.Now;
-            FinishDateTime = DateTime.Now;
+            //PrepareDateTime = DateTime.Now;
+            //WebDateTime = DateTime.Now;
+            //UploadedDateTime = DateTime.Now;
+            //DownloadedDateTime = DateTime.Now;
+            //FinishDateTime = DateTime.Now;
+
             OctetUpload = 0.0f;
             OctetDownload = 0.0f;
             ClassPullCounter = 0;
