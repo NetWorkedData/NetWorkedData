@@ -311,7 +311,8 @@ namespace NetWorkedData
                 tFile.AppendLine("$tInternalDescription = '';");
                 tFile.AppendLine("$tInsertSQL='';");
                 tFile.AppendLine("$tInsertSQLValue='';");
-                tFile.AppendLine("$tRangeAccess = explode('-',$sAccountReference)[1];");
+                //tFile.AppendLine("$tRangeAccess = explode('-',$sAccountReference)[1];");
+                tFile.AppendLine("$tRangeAccess = GetRangeAccessForAccount($sAccountReference);");
                 tFile.AppendLine("$tConnexion = GetConnexionByRangeAccess($tRangeAccess);");
                 // create a reference base on $sAccountReference and test if unique in database  ... more quickly 
                 tFile.AppendLine("$tReference = referenceGenerateRange ($tConnexion, $tRangeAccess, '" + NWDBasisHelper.BasisHelper<NWDAccountSign>().ClassTrigramme + "', '" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "', '" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Reference) + "');");
@@ -322,12 +323,12 @@ namespace NetWorkedData
                 tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().DM) + "`, '; $tInsertSQLValue.= '\\''.$TIME_SYNC.'\\', ';");
                 tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().DS) + "`, '; $tInsertSQLValue.= '\\''.$TIME_SYNC.'\\', ';");
 
-                tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Account) + "`, '; $tInsertSQLValue.= '\\''.$tConnexion->real_escape_string($sAccountReference).'\\', ';");
-                tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RangeAccess) + "`, '; $tInsertSQLValue.= '\\''.$tConnexion->real_escape_string($tRangeAccess).'\\', ';");
-                tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignType) + "`, '; $tInsertSQLValue.= '\\''.$tConnexion->real_escape_string($sSDKt).'\\', ';");
-                tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "`, ';$tInsertSQLValue.= '\\''.$tConnexion->real_escape_string($sSDKv).'\\', ';");
-                tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "`, ';$tInsertSQLValue.= '\\''.$tConnexion->real_escape_string($sSDKr).'\\', ';");
-                tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().LoginHash) + "`, ';$tInsertSQLValue.= '\\''.$tConnexion->real_escape_string($sSDKl).'\\', ';");
+                tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Account) + "`, '; $tInsertSQLValue.= '\\''.EscapeString($sAccountReference).'\\', ';");
+                tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RangeAccess) + "`, '; $tInsertSQLValue.= '\\''.EscapeString($tRangeAccess).'\\', ';");
+                tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignType) + "`, '; $tInsertSQLValue.= '\\''.EscapeString($sSDKt).'\\', ';");
+                tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "`, ';$tInsertSQLValue.= '\\''.EscapeString($sSDKv).'\\', ';");
+                tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "`, ';$tInsertSQLValue.= '\\''.EscapeString($sSDKr).'\\', ';");
+                tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().LoginHash) + "`, ';$tInsertSQLValue.= '\\''.EscapeString($sSDKl).'\\', ';");
                 tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignStatus) + "`, ';$tInsertSQLValue.= '\\'" + (int)NWDAccountSignAction.Associated + "\\', ';");
 
                 if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
@@ -365,48 +366,51 @@ namespace NetWorkedData
                 tFile.AppendLine("$tInsertSQL.=')';");
                 tFile.AppendLine("$tInsertSQL.=' VALUES ('.$tInsertSQLValue.');';");
 
-                tFile.AppendLine("// find the good database");
-                tFile.AppendLine("$tRangeToUse = 0;");
-                tFile.AppendLine("foreach ($SQL_LIST as $tRange => $tValue)");
-                tFile.AppendLine("{");
-                {
-                    tFile.AppendLine("if ($tRangeAccess >= $tValue['min'] && $tRangeAccess <= $tValue['max'])");
-                    tFile.AppendLine("{");
-                    {
-                        tFile.AppendLine("$tRangeToUse = $tRange;");
-                        tFile.AppendLine("if (isset(" + NWD.K_SQL_CON_EDITOR + "[$tRange]) == false)");
-                        tFile.AppendLine("{");
-                        {
-                            tFile.AppendLine("" + NWD.K_SQL_CON_EDITOR + "[$tRange] = new mysqli($tValue['host'], $tValue['user'], $tValue['password'], $tValue['database'], $tValue['port']);");
-                            tFile.AppendLine("if (" + NWD.K_SQL_CON_EDITOR + "[$tRange]->connect_errno)");
-                            tFile.AppendLine("{");
-                            {
-                                tFile.AppendLine(NWDError.PHP_log(sEnvironment, "Error in MySQL connexion on '.$tValue['host'].' for '.$tValue['user'].' with password •••••••••••• on database '.$tValue['database'].'"));
-                                tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SQL00));
-                                tFile.AppendLine("include_once ('" + NWD.K_STATIC_FINISH_PHP + "');");
-                                tFile.AppendLine("exit;");
-                            }
-                            tFile.AppendLine("}");
-                            tFile.AppendLine("else");
-                            tFile.AppendLine("{");
-                            {
-                                tFile.AppendLine(NWDError.PHP_log(sEnvironment, "'.$tRange.' connexion success on '.$tValue['title'].' => '.$tValue['id'].'"));
-                                tFile.AppendLine("$Connexion = " + NWD.K_SQL_CON_EDITOR + "[$tRange];");
-                            }
-                            tFile.AppendLine("}");
-                        }
-                        tFile.AppendLine("}");
-                        tFile.AppendLine("break;");
-                    }
-                    tFile.AppendLine("}");
-                }
-                tFile.AppendLine("}");
+                //tFile.AppendLine("// find the good database");
+                //tFile.AppendLine("$tRangeToUse = 0;");
+                //tFile.AppendLine("foreach ($SQL_LIST as $tRange => $tValue)");
+                //tFile.AppendLine("{");
+                //{
+                //    tFile.AppendLine("if ($tRangeAccess >= $tValue['min'] && $tRangeAccess <= $tValue['max'])");
+                //    tFile.AppendLine("{");
+                //    {
+                //        tFile.AppendLine("$tRangeToUse = $tRange;");
+                //        tFile.AppendLine("if (isset(" + NWD.K_SQL_CON_EDITOR + "[$tRange]) == false)");
+                //        tFile.AppendLine("{");
+                //        {
+                //            tFile.AppendLine("" + NWD.K_SQL_CON_EDITOR + "[$tRange] = new mysqli($tValue['host'], $tValue['user'], $tValue['password'], $tValue['database'], $tValue['port']);");
+                //            tFile.AppendLine("if (" + NWD.K_SQL_CON_EDITOR + "[$tRange]->connect_errno)");
+                //            tFile.AppendLine("{");
+                //            {
+                //                tFile.AppendLine(NWDError.PHP_log(sEnvironment, "Error in MySQL connexion on '.$tValue['host'].' for '.$tValue['user'].' with password •••••••••••• on database '.$tValue['database'].'"));
+                //                tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SQL00));
+                //                tFile.AppendLine("include_once ('" + NWD.K_STATIC_FINISH_PHP + "');");
+                //                tFile.AppendLine("exit;");
+                //            }
+                //            tFile.AppendLine("}");
+                //            tFile.AppendLine("else");
+                //            tFile.AppendLine("{");
+                //            {
+                //                tFile.AppendLine(NWDError.PHP_log(sEnvironment, "'.$tRange.' connexion success on '.$tValue['title'].' => '.$tValue['id'].'"));
+                //                tFile.AppendLine("$Connexion = " + NWD.K_SQL_CON_EDITOR + "[$tRange];");
+                //            }
+                //            tFile.AppendLine("}");
+                //        }
+                //        tFile.AppendLine("}");
+                //        tFile.AppendLine("break;");
+                //    }
+                //    tFile.AppendLine("}");
+                //}
+                //tFile.AppendLine("}");
+                //tFile.AppendLine("$tResult = $tConnexion->query($tInsertSQL);");
 
-                tFile.AppendLine("$tResult = $tConnexion->query($tInsertSQL);");
-                tFile.AppendLine("if (!$tResult)");
+                tFile.AppendLine("$tResult = SelectFromConnexion($tInsertSQL);");
+                //tFile.AppendLine("if (!$tResult)");
+                tFile.AppendLine("if ($tResult['error'] == true)");
                 tFile.AppendLine("{");
                 {
-                    tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tInsertSQL", "$tConnexion"));
+                    tFile.AppendLine(NWDError.PHP_log(sEnvironment, "'.$tResult['error_log'].'"));
+                    //tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tInsertSQL", "$tConnexion"));
                 }
                 tFile.AppendLine("}");
                 tFile.AppendLine("else");

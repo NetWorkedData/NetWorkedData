@@ -23,14 +23,15 @@ namespace NetWorkedData
         {
             StringBuilder rReturn = new StringBuilder();
             int tChallengeIndex = FakePropertyCSVindex(() => FakeData().ClusterChallenge);
+            int tRangeAccess = FakePropertyCSVindex(() => FakeData().RangeAccess);
             rReturn.AppendLine("if ($sCsvList[" + tChallengeIndex + "] == " + (int)NWDClusterChallenge.RangeAccess + ")");
             rReturn.AppendLine("{");
             {
-                rReturn.AppendLine("if (UniquePropertyValueFromValue('" + PHP_TABLENAME(sEnvironment) + "', '" + FakePropertyName(() => FakeData().Nickname) + "', '" + FakePropertyName(() => FakeData().UniqueNickname) + "', $tReference) == true)");
+                rReturn.AppendLine("if (UniquePropertyValueFromValue(GetConnexionByRangeAccess($sCsvList[" + tRangeAccess + "]), $sCsvList[" + tRangeAccess + "], '" + PHP_TABLENAME(sEnvironment) + "', '" + FakePropertyName(() => FakeData().Nickname) + "', '" + FakePropertyName(() => FakeData().UniqueNickname) + "', $tReference) == true)");
                 rReturn.AppendLine("{");
                 {
                     rReturn.AppendLine(NWDError.PHP_log(sEnvironment, "NWDClusterChallenge.RangeAccess"));
-                    rReturn.AppendLine(PHP_FUNCTION_INTEGRITY_REEVALUATE() + "($tReference);");
+                    rReturn.AppendLine(PHP_FUNCTION_INTEGRITY_REEVALUATE() + "(GetCurrentConnexion(), $tReference);");
                 }
                 rReturn.AppendLine("}");
             }
@@ -42,7 +43,7 @@ namespace NetWorkedData
                 rReturn.AppendLine("{");
                 {
                     rReturn.AppendLine(NWDError.PHP_log(sEnvironment, "NWDClusterChallenge.Global"));
-                    rReturn.AppendLine(PHP_FUNCTION_INTEGRITY_REEVALUATE() + "($tReference);");
+                    rReturn.AppendLine(PHP_FUNCTION_INTEGRITY_REEVALUATE() + "(GetCurrentConnexion(), $tReference);");
                 }
                 rReturn.AppendLine("}");
             }

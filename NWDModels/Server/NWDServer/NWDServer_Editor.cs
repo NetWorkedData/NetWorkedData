@@ -91,7 +91,7 @@ namespace NetWorkedData
             string tcommandKeyGen = "ssh-keygen -R [" + IP.GetValue() + "]:" + Port + " & ssh " + IP.GetValue() + " -l " + Root_User + " -p " + Port;
             if (AdminInstalled)
             {
-            tcommandKeyGen = "ssh-keygen -R [" + IP.GetValue() + "]:" + Port + " & ssh " + IP.GetValue() + " -l " + Admin_User + " -p " + Port;
+                tcommandKeyGen = "ssh-keygen -R [" + IP.GetValue() + "]:" + Port + " & ssh " + IP.GetValue() + " -l " + Admin_User + " -p " + Port;
             }
             tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
@@ -104,6 +104,12 @@ namespace NetWorkedData
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
             //-----------------
+            tButtonTitle = new GUIContent("Test security of SSH", "test security for this SSH config");
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+            {
+                Application.OpenURL("https://sshcheck.com/server/" + IP.GetValue() + "/" + Port.ToString() + "");
+            }
+            tI++;
             tButtonTitle = new GUIContent("Try connexion root", " try connexion with root");
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
             {
@@ -228,10 +234,18 @@ namespace NetWorkedData
             {
                 ExecuteSSH(this, tButtonTitle.text, new List<string>()
                 {
-                    "apt-get update",
-                    "apt-get -y install vim",
-                    "apt-get -y install whois",
-                    "apt-get -y install debconf-utils",
+                    "apt-get update", // do update
+                    "apt-get -y dist-upgrade", // do update
+
+                    "apt-get -y install ntp", // install system network time protocol daemon
+                    "systemctl status ntp", // check sync with world's time
+                    
+                    "apt-get -y install fail2ban", // install fail to ban to limit attack on ssh for example
+
+                    "apt-get -y install vim", // install vim editor
+                    "apt-get -y install whois", // install who is package
+                    "apt-get -y install debconf-utils", // install debian tools
+
                     "apt-get install locales",
                     "export LANGUAGE=en",
                     "export LC_CTYPE=en_US.UTF-8",

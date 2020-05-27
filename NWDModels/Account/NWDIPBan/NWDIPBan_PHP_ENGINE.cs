@@ -21,7 +21,7 @@ namespace NetWorkedData
         }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDIPBan : NWDBasis
+    public partial class NWDIPBan : NWDBasisAccountRestricted
     {
         //-------------------------------------------------------------------------------------------------------------
         public static string PhpEngine(NWDAppEnvironment sEnvironment)

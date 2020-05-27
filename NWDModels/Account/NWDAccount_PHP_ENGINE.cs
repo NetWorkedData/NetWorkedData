@@ -25,7 +25,7 @@ namespace NetWorkedData
     public partial class NWDAccount : NWDBasisAccountRestricted
     {
         //-------------------------------------------------------------------------------------------------------------
-        const string ServerFakeAccount = "ACC-0000-123456789-123456789" + K_ACCOUNT_TEMPORARY_SUFFIXE;
+        public const string ServerFakeAccount = NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM + "-0000-12345678f-12345678f" + K_ACCOUNT_TEMPORARY_SUFFIXE;
         //-------------------------------------------------------------------------------------------------------------
         public static string PhpEngine(NWDAppEnvironment sEnvironment)
         {
@@ -233,12 +233,11 @@ namespace NetWorkedData
                             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SGN07));
                         }
                         tFile.AppendLine("}");
-                        tFile.AppendLine("else //or more than one user with this email … strange… I push an error, user must be unique");
+                        tFile.AppendLine("else //or more than one user with this email … strange… push an error, user must be unique");
                         tFile.AppendLine("{");
                         {
                             tFile.AppendLine("// to much users ...");
-                            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "sSDKv : '.$sSDKv.' Too Mush Row"));
-                            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "sSDKr : '.$sSDKr.' Too Mush Row"));
+                            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "sSDKv : '.$sSDKv.' or sSDKr : '.$sSDKr.' return too much user rows!"));
                             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SGN18));
                         }
                         tFile.AppendLine("}");
@@ -287,8 +286,8 @@ namespace NetWorkedData
 
                         tFile.AppendLine("$tResultSign = SelectFromAllConnexions($tQuerySign);");
 
-                        tFile.AppendLine(NWDError.PHP_log(sEnvironment, "result = '.json_encode($tResultSign).'"));
-                        tFile.AppendLine(NWDError.PHP_log(sEnvironment, "result number = '.$tResultSign['count'].' ..."));
+                        //tFile.AppendLine(NWDError.PHP_log(sEnvironment, "result = '.json_encode($tResultSign).'"));
+                        //tFile.AppendLine(NWDError.PHP_log(sEnvironment, "result number = '.$tResultSign['count'].' ..."));
 
                         tFile.AppendLine("if ($tResultSign['error'] == true)");
                         tFile.AppendLine("{");
@@ -442,6 +441,7 @@ namespace NetWorkedData
                     tFile.AppendLine("$tConnexion = NULL;");
                     tFile.AppendLine("$tUserRange= '0000';");
                     tFile.AppendLine("$tFindPlace = false;");
+                    tFile.AppendLine("// Exception! Use the SQLI directly too break the loop!");
                     tFile.AppendLine("foreach ($SQL_LIST as $tRange => $tValue)");
                     tFile.AppendLine("{");
                     {

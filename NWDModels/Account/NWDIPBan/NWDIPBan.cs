@@ -16,18 +16,11 @@ namespace NetWorkedData
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// NWDIPBan class. This class is use for (complete description here).
-    /// </summary>
-    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("IPB")]
     [NWDClassDescriptionAttribute("IP banned")]
     [NWDClassMenuNameAttribute("IP Ban")]
-    [NWDClassClusterAttribute(1, 2048)]
-    //[NWDInternalKeyNotEditableAttribute]
-    public partial class NWDIPBan : NWDBasis
+    public partial class NWDIPBan : NWDBasisAccountRestricted
     {
-        //-------------------------------------------------------------------------------------------------------------
         //-------------------------------------------------------------------------------------------------------------
         //PROPERTIES
         [NWDAddIndexed(NWD.K_IP_BAN_INDEX,"AXC")]

@@ -37,87 +37,80 @@ namespace NetWorkedData
             int t_Index_RescueHashKey = CSV_IndexOf(tRescueHashKey);
             int t_Index_LoginHashKey = CSV_IndexOf(tLoginHashKey);
             int t_Index_InternalDescription = CSV_IndexOf(tInternalDescription);
-            StringBuilder sScript = new StringBuilder(string.Empty);
-            sScript.AppendLine("// analyze the sign ");
-            //sScript.AppendLine("if ($sCsvList[" + t_Index_XXKey + "] == 0)");
-            //sScript.AppendLine("{");
-            //{
-                sScript.AppendLine("if ($sCsvList[" + t_Index_SignActionKey + "] == " + ((int)NWDAccountSignAction.TryToAssociate).ToString() + ")");
-                sScript.AppendLine("{");
+            StringBuilder tFile = new StringBuilder(string.Empty);
+            tFile.AppendLine("// analyze the sign ");
+            tFile.AppendLine("if ($sCsvList[" + t_Index_SignActionKey + "] == " + ((int)NWDAccountSignAction.TryToAssociate).ToString() + ")");
+            tFile.AppendLine("{");
+            {
+                tFile.Append("$tQueryRequest = 'SELECT * FROM `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "` WHERE ");
+                tFile.AppendLine(" ( `" + tSignHashKey + "` = \\''.EscapeString($sCsvList[" + t_Index_SignHashKey + "]).'\\'';");
+                tFile.AppendLine("if ($sCsvList[" + t_Index_RescueHashKey + "]!='')");
+                tFile.AppendLine("{");
                 {
-                    sScript.Append("$tQueryRequest = 'SELECT * FROM `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "` WHERE ");
-                    sScript.AppendLine(" ( `" + tSignHashKey + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sCsvList[" + t_Index_SignHashKey + "]).'\\'';");
-                    sScript.AppendLine("if ($sCsvList[" + t_Index_RescueHashKey + "]!='')");
-                    sScript.AppendLine("{");
-                    {
-                        sScript.Append("$tQueryRequest .= ' OR `" + tRescueHashKey + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sCsvList[" + t_Index_RescueHashKey + "]).'\\'';");
+                    tFile.Append("$tQueryRequest .= ' OR `" + tRescueHashKey + "` = \\''.EscapeString($sCsvList[" + t_Index_RescueHashKey + "]).'\\'';");
 
-                    }
-                    sScript.AppendLine("}");
-                    sScript.AppendLine("if ($sCsvList[" + t_Index_LoginHashKey + "]!='')");
-                    sScript.AppendLine("{");
-                    {
-                        sScript.Append("$tQueryRequest .= ' OR `" + tLoginHashKey + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sCsvList[" + t_Index_LoginHashKey + "]).'\\'';");
-
-                    }
-                    sScript.AppendLine("}");
-                    sScript.Append("$tQueryRequest .= ' ) AND `" + tSignReference + "` != \\''." + NWD.K_SQL_CON + "->real_escape_string($tReference).'\\' ");
-                    sScript.Append("AND `AC` = 1");
-                    sScript.AppendLine(";';");
-                    sScript.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryRequest", NWD.K_SQL_CON));
-                    sScript.AppendLine("$tResultRequest = " + NWD.K_SQL_CON + "->query($tQueryRequest);");
-                    sScript.AppendLine("if (!$tResultRequest)");
-                    sScript.AppendLine("{");
-                    {
-                        sScript.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryRequest", NWD.K_SQL_CON));
-                        sScript.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER, ClassNamePHP));
-                    }
-                    sScript.AppendLine("}");
-                    sScript.AppendLine("else");
-                    sScript.AppendLine("{");
-                    {
-                        sScript.AppendLine("if ($tResultRequest->num_rows > 0)");
-                        sScript.AppendLine("{");
-                        {
-                            sScript.AppendLine("$sReplaces[" + t_Index_SignActionKey + "] = " + ((int)NWDAccountSignAction.ErrorAssociated).ToString() + ";");
-                            sScript.AppendLine("$sReplaces[" + t_Index_SignHashKey + "] = '';");
-                            sScript.AppendLine("$sReplaces[" + t_Index_RescueHashKey + "] = '';");
-                            sScript.AppendLine("$sReplaces[" + t_Index_InternalDescription + "] = 'Error';");
-                            sScript.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces);");
-                        }
-                        sScript.AppendLine("}");
-                        sScript.AppendLine("else");
-                        sScript.AppendLine("{");
-                        {
-                            sScript.AppendLine("$sReplaces[" + t_Index_SignActionKey + "]=" + ((int)NWDAccountSignAction.Associated).ToString() + ";");
-                            sScript.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces);");
-                        }
-                        sScript.AppendLine("}");
-                    }
-                    sScript.AppendLine("}");
                 }
-                sScript.AppendLine("}");
-                sScript.AppendLine("else if ($sCsvList[" + t_Index_SignActionKey + "] == " + ((int)NWDAccountSignAction.TryToDissociate).ToString() + ")");
-                sScript.AppendLine("{");
+                tFile.AppendLine("}");
+                tFile.AppendLine("if ($sCsvList[" + t_Index_LoginHashKey + "]!='')");
+                tFile.AppendLine("{");
                 {
-                    sScript.AppendLine("$sReplaces[" + t_Index_SignActionKey + "] = " + ((int)NWDAccountSignAction.Dissociated).ToString() + ";");
-                    sScript.AppendLine("$sReplaces[" + t_Index_SignHashKey + "] = '';");
-                    sScript.AppendLine("$sReplaces[" + t_Index_RescueHashKey + "] = '';");
-                    sScript.AppendLine("$sReplaces[" + t_Index_InternalDescription + "] = 'Dissociated';");
-                    sScript.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces);");
-                }
-                sScript.AppendLine("}");
-                sScript.AppendLine("else");
-                sScript.AppendLine("{");
-                {
-                    sScript.AppendLine("" + PHP_FUNCTION_GET_DATA_BY_REFERENCE() + " ($tConnexion, $tReference);");
-                    sScript.AppendLine("return;");
-                }
-                sScript.AppendLine("}");
-            //}
-            //sScript.AppendLine("}");
+                    tFile.Append("$tQueryRequest .= ' OR `" + tLoginHashKey + "` = \\''.EscapeString($sCsvList[" + t_Index_LoginHashKey + "]).'\\'';");
 
-            return sScript.ToString();
+                }
+                tFile.AppendLine("}");
+                tFile.Append("$tQueryRequest .= ' ) AND `" + tSignReference + "` != \\''.EscapeString($tReference).'\\' ");
+                tFile.Append("AND `AC` = 1");
+                tFile.AppendLine(";';");
+                tFile.AppendLine("$tResultRequest = SelectFromAllConnexions($tQueryRequest);");
+                tFile.AppendLine("if ($tResultRequest['error'] == true)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine(NWDError.PHP_log(sEnvironment, "'.$tResultRequest['error_log'].'"));
+                    tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER, ClassNamePHP));
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("else");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("if ($tResultRequest['count'] > 0)");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("$sReplaces[" + t_Index_SignActionKey + "] = " + ((int)NWDAccountSignAction.ErrorAssociated).ToString() + ";");
+                        tFile.AppendLine("$sReplaces[" + t_Index_SignHashKey + "] = '';");
+                        tFile.AppendLine("$sReplaces[" + t_Index_RescueHashKey + "] = '';");
+                        tFile.AppendLine("$sReplaces[" + t_Index_InternalDescription + "] = 'Error';");
+                        tFile.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces);");
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("else");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("$sReplaces[" + t_Index_SignActionKey + "]=" + ((int)NWDAccountSignAction.Associated).ToString() + ";");
+                        tFile.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces);");
+                    }
+                    tFile.AppendLine("}");
+                }
+                tFile.AppendLine("}");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine("else if ($sCsvList[" + t_Index_SignActionKey + "] == " + ((int)NWDAccountSignAction.TryToDissociate).ToString() + ")");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine("$sReplaces[" + t_Index_SignActionKey + "] = " + ((int)NWDAccountSignAction.Dissociated).ToString() + ";");
+                tFile.AppendLine("$sReplaces[" + t_Index_SignHashKey + "] = '';");
+                tFile.AppendLine("$sReplaces[" + t_Index_RescueHashKey + "] = '';");
+                tFile.AppendLine("$sReplaces[" + t_Index_InternalDescription + "] = 'Dissociated';");
+                tFile.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces);");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine("" + PHP_FUNCTION_GET_DATA_BY_REFERENCE() + " (GetCurrentConnexion(), $tReference);");
+                tFile.AppendLine("return;");
+            }
+            tFile.AppendLine("}");
+            return tFile.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

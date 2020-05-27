@@ -75,9 +75,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public const string K_NO_HASH = "-";
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStart("Informations")]
-        public NWDReferenceType<NWDAccount> Account { get; set; }
-        [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Sign Send")]
         [NWDNotEditable]
         public NWDAccountSignType SignType { get; set; }

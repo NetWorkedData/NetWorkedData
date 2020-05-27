@@ -783,7 +783,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             //tFile.AppendLine("$tOldUuid = $uuid;");
             //tFile.AppendLine("$tNewUuid = FindAccount($tOldUuid, $sdki, true);");
-            tFile.AppendLine("$tNewUuid = FindAccount(time().'" + NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE + "', $sdki, true);");
+            tFile.AppendLine("$tNewUuid = FindAccount('" + NWDAccount.ServerFakeAccount + "', $sdki, true);");
             //tFile.AppendLine("if ($tOldUuid != $tNewUuid)");
             tFile.AppendLine("if ($HeaderUUID != $tNewUuid)");
             tFile.AppendLine("{");

@@ -441,7 +441,7 @@ namespace NetWorkedData
                                                 tNWDError_RQT95 != null &&
                                                 tNWDError_RQT96 != null &&
                                                 tNWDError_RQT97 != null &&
-                                               tNWDError_RQT98 != null &&
+                                                tNWDError_RQT98 != null &&
                                                 tNWDError_RQT99 != null)
                                             {
                                                 if (ResultInfos.errorCode == tNWDError_RQT90.Code ||
@@ -451,8 +451,7 @@ namespace NetWorkedData
                                                     ResultInfos.errorCode == tNWDError_RQT94.Code ||
                                                     ResultInfos.errorCode == tNWDError_RQT95.Code ||
                                                     ResultInfos.errorCode == tNWDError_RQT96.Code ||
-                                                    ResultInfos.errorCode == tNWDError_RQT97.Code
-                                                    )
+                                                    ResultInfos.errorCode == tNWDError_RQT97.Code)
                                                 {
                                                     // Notification of a Session expired
                                                     NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_SESSION_EXPIRED, ResultInfos));
@@ -463,10 +462,8 @@ namespace NetWorkedData
                                                 {
                                                     if (ResultInfos.errorDesc != null)
                                                     {
-                                                        if (
-                                                            ResultInfos.errorCode == tNWDError_ACC98.Code ||
-                                                            ResultInfos.errorCode == tNWDError_ACC99.Code
-                                                            )
+                                                        if (ResultInfos.errorCode == tNWDError_ACC98.Code ||
+                                                            ResultInfos.errorCode == tNWDError_ACC99.Code)
                                                         {
                                                             // Notification of an Account Banned
                                                             NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_BANNED, ResultInfos));
@@ -898,7 +895,10 @@ namespace NetWorkedData
                                     sData.Replace("\\\\r", "\r\n") + "\n" +
                                     "-------------------\n" +
                                     "*******************************************************************\n";
-                Debug.Log(tFileDebug);
+                NWDDebug.Log(tFileDebug);
+//#if UNITY_EDITOR
+//                NWEClipboard.CopyToClipboard(tFileDebug);
+//#endif
             }
         }
 
@@ -963,6 +963,9 @@ namespace NetWorkedData
                         if (Environment.LogMode == true)
                         {
                             NWDDebug.Log(tFileDebug);
+//#if UNITY_EDITOR
+//                            NWEClipboard.CopyToClipboard(tFileDebug);
+//#endif
                         }
                     }
                 }
@@ -1023,6 +1026,9 @@ namespace NetWorkedData
                     if (Environment.LogMode == true)
                     {
                         NWDDebug.Log(tFileDebug);
+//#if UNITY_EDITOR
+//                        NWEClipboard.CopyToClipboard(tFileDebug);
+//#endif
                     }
                 }
             }

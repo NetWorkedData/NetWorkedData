@@ -429,6 +429,18 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
 
             // --------------------------------------
+            tFile.AppendLine("function GetCurrentConnexion()");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(this));
+                tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("global $SQL_CURRENT_DATABASE;");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this));
+                tFile.AppendLine("return $SQL_CURRENT_DATABASE;");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            // --------------------------------------
             tFile.AppendLine("function SelectFromCurrentConnexion($sSQL)");
             tFile.AppendLine("{");
             {
@@ -1004,6 +1016,9 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
             //---------------------------------------
+            string tGlobalChar = "#";
+            string tLocalCharA = "@";
+            string tLocalCharB = "_";
             tFile.AppendLine("function UnicityPropertyValueFromValue($sGlobal, $sConnexion, $sRangeAccess, $sTable, $sColumnOrign, $sColumUniqueResult, $sReference, $sNeverEmpty = true)");
             tFile.AppendLine("{");
             {
@@ -1051,17 +1066,27 @@ namespace NetWorkedData
                                     tFile.AppendLine("$tRow[$sColumnOrign] = RandomString(10);");
                                 }
                                 tFile.AppendLine("}");
-                                tFile.AppendLine("$tOrigin = str_replace('#','',$tRow[$sColumnOrign]);");
-                                tFile.AppendLine("$tNick = $tOrigin.'#???';");
-                                tFile.AppendLine("$tNickArray = explode('#',$tRow[$sColumUniqueResult]);");
-                                tFile.AppendLine("if (count($tNickArray)==2)");
+                                tFile.AppendLine("$tOrigin = str_replace('" + tGlobalChar + "', '', $tRow[$sColumnOrign]);");
+                                tFile.AppendLine("$tOrigin = str_replace('" + tLocalCharA + "', '', $tOrigin);");
+                                tFile.AppendLine("$tOrigin = str_replace('" + tLocalCharB + "', '', $tOrigin);");
+                                tFile.AppendLine("$tNick = $tOrigin.'???';");
+
+
+
+                                tFile.AppendLine("if ($sGlobal == true)");
                                 tFile.AppendLine("{");
                                 {
-                                    tFile.AppendLine("$tCodeAc = $tNickArray[1];");
-                                    tFile.AppendLine("if (preg_match ('/^([0-9]{1,12})$/', $tCodeAc))");
+                                    tFile.AppendLine("$tNickArray = explode('" + tGlobalChar + "', $tRow[$sColumUniqueResult]);");
+                                    tFile.AppendLine("if (count($tNickArray)==2)");
                                     tFile.AppendLine("{");
                                     {
-                                        tFile.AppendLine("$tNick = $tNickArray[0];");
+                                        tFile.AppendLine("$tCodeAc = $tNickArray[1];");
+                                        tFile.AppendLine("if (preg_match ('/^([0-9]{1,12})$/', $tCodeAc))");
+                                        tFile.AppendLine("{");
+                                        {
+                                            tFile.AppendLine("$tNick = $tNickArray[0];");
+                                        }
+                                        tFile.AppendLine("}");
                                     }
                                     tFile.AppendLine("}");
                                 }
@@ -1069,9 +1094,46 @@ namespace NetWorkedData
                                 tFile.AppendLine("else");
                                 tFile.AppendLine("{");
                                 {
-                                    tFile.AppendLine("// error ");
+                                    tFile.AppendLine("$tNickArray = explode('" + tLocalCharA + "', $tRow[$sColumUniqueResult]);");
+                                    tFile.AppendLine("if (count($tNickArray)==2)");
+                                    tFile.AppendLine("{");
+                                    {
+                                        tFile.AppendLine("$tCodeAc = $tNickArray[1];");
+                                        tFile.AppendLine("if (preg_match ('/^([0-9]{1,12})$/', $tCodeAc))");
+                                        tFile.AppendLine("{");
+                                        {
+                                            tFile.AppendLine("$tNick = $tNickArray[0];");
+                                        }
+                                        tFile.AppendLine("}");
+                                    }
+                                    tFile.AppendLine("}");
                                 }
                                 tFile.AppendLine("}");
+                                tFile.AppendLine("$tNick = str_replace('" + tGlobalChar + "', '', $tNick);");
+                                tFile.AppendLine("$tNick = str_replace('" + tLocalCharA + "', '', $tNick);");
+                                tFile.AppendLine("$tNick = str_replace('" + tLocalCharB + "', '', $tNick);");
+
+                                //tFile.AppendLine("$tNickArray = explode('#',$tRow[$sColumUniqueResult]);");
+                                //tFile.AppendLine("if (count($tNickArray)==2)");
+                                //tFile.AppendLine("{");
+                                //{
+                                //    tFile.AppendLine("$tCodeAc = $tNickArray[1];");
+                                //    tFile.AppendLine("if (preg_match ('/^([0-9]{1,12})$/', $tCodeAc))");
+                                //    tFile.AppendLine("{");
+                                //    {
+                                //        tFile.AppendLine("$tNick = $tNickArray[0];");
+                                //    }
+                                //    tFile.AppendLine("}");
+                                //}
+                                //tFile.AppendLine("}");
+                                //tFile.AppendLine("else");
+                                //tFile.AppendLine("{");
+                                //{
+                                //    tFile.AppendLine("// error ");
+                                //}
+                                //tFile.AppendLine("}");
+
+
                                 tFile.AppendLine("$tTested = false;");
                                 tFile.AppendLine("$tSize = 3;");
                                 tFile.AppendLine("if ($tOrigin == $tNick)");
@@ -1122,16 +1184,16 @@ namespace NetWorkedData
                                         tFile.AppendLine("if ($sGlobal == true)");
                                         tFile.AppendLine("{");
                                         {
-                                            tFile.AppendLine("$tPinCode = $sRangeAccess.'-'.CodeRandomSizable($tSize++);");
+                                            tFile.AppendLine("$tPinCode = '"+tGlobalChar+"'.CodeRandomSizable($tSize++);");
                                         }
                                         tFile.AppendLine("}");
                                         tFile.AppendLine("else");
                                         tFile.AppendLine("{");
                                         {
-                                            tFile.AppendLine("$tPinCode = CodeRandomSizable($tSize++);");
+                                            tFile.AppendLine("$tPinCode = '" + tLocalCharA + "'.$sRangeAccess.'" + tLocalCharB + "'.CodeRandomSizable($tSize++);");
                                         }
                                         tFile.AppendLine("}");
-                                        tFile.AppendLine("$tQueryTestUnique = 'SELECT `'.$sColumUniqueResult.'` FROM `'.$sTable.'` WHERE `'.$sColumUniqueResult.'` LIKE \\''.EscapeString($tOrigin).'#'.$tPinCode.'\\'';");
+                                        tFile.AppendLine("$tQueryTestUnique = 'SELECT `'.$sColumUniqueResult.'` FROM `'.$sTable.'` WHERE `'.$sColumUniqueResult.'` LIKE \\''.EscapeString($tOrigin).$tPinCode.'\\'';");
 
                                         tFile.AppendLine("$tResultTestUnique = array();");
                                         tFile.AppendLine("if ($sGlobal == true)");
@@ -1162,7 +1224,7 @@ namespace NetWorkedData
                                             {
                                                 tFile.AppendLine("$tTested = true;");
                                                 tFile.AppendLine("// Ok I have a good PinCode I update");
-                                                tFile.AppendLine("$tQueryUpdate = 'UPDATE `'.$sTable.'` SET `DM` = \\''." + NWD.K_PHP_TIME_SYNC + ".'\\', `'.$sColumnOrign.'` = \\''.EscapeString($tOrigin).'\\', `'.$sColumUniqueResult.'` = \\''.EscapeString($tOrigin).'#'.$tPinCode.'\\' WHERE `Reference` = \\''.EscapeString($sReference).'\\'';");
+                                                tFile.AppendLine("$tQueryUpdate = 'UPDATE `'.$sTable.'` SET `DM` = \\''." + NWD.K_PHP_TIME_SYNC + ".'\\', `'.$sColumnOrign.'` = \\''.EscapeString($tOrigin).'\\', `'.$sColumUniqueResult.'` = \\''.EscapeString($tOrigin).$tPinCode.'\\' WHERE `Reference` = \\''.EscapeString($sReference).'\\'';");
                                                 tFile.AppendLine("$tResultUpdate = false;");
                                                 tFile.AppendLine("if ($sGlobal == true)");
                                                 tFile.AppendLine("{");
