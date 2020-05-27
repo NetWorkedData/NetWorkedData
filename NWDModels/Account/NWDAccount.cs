@@ -12,8 +12,6 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDInternalDescriptionNotEditable]
-    //[NWDClassUnityEditorOnlyAttribute]
-    //[NWDClassServerSynchronizeAttribute(false)]
     [NWDClassTrigrammeAttribute(NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM)]
     [NWDClassDescriptionAttribute("Account descriptions Class")]
     [NWDClassMenuNameAttribute("Account")]

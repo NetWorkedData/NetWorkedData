@@ -11,7 +11,6 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("AAV")]
     [NWDClassDescriptionAttribute("Avatar composer for account")]
     [NWDClassMenuNameAttribute("Account Avatar")]
