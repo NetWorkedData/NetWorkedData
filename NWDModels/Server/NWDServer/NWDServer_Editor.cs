@@ -88,10 +88,10 @@ namespace NetWorkedData
             //    Application.OpenURL("/Applications/Utilities/");
             //}
             //tI++;
-            string tcommandKeyGen = "ssh-keygen -R [" + IP.GetValue() + "]:" + Port + " & ssh " + IP.GetValue() + " -l " + Root_User + " -p " + Port;
+            string tcommandKeyGen = "ssh-keygen -R " + IP.GetValue() + ":" + Port + " & ssh " + IP.GetValue() + " -l " + Root_User + " -p " + Port;
             if (AdminInstalled)
             {
-                tcommandKeyGen = "ssh-keygen -R [" + IP.GetValue() + "]:" + Port + " & ssh " + IP.GetValue() + " -l " + Admin_User + " -p " + Port;
+                tcommandKeyGen = "ssh-keygen -R " + IP.GetValue() + ":" + Port + " & ssh " + IP.GetValue() + " -l " + Admin_User + " -p " + Port;
             }
             tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
@@ -238,7 +238,7 @@ namespace NetWorkedData
                     "apt-get -y dist-upgrade", // do update
 
                     "apt-get -y install ntp", // install system network time protocol daemon
-                    "systemctl status ntp", // check sync with world's time
+                    //"systemctl status ntp", // check sync with world's time
                     
                     "apt-get -y install fail2ban", // install fail to ban to limit attack on ssh for example
 

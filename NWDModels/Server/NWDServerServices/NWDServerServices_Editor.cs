@@ -34,7 +34,7 @@ namespace NetWorkedData
         public override void AddonEditor(Rect sRect)
         {
             PropertiesPrevent();
-               Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 100);
+            Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 100);
             int tI = 0;
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
@@ -55,7 +55,7 @@ namespace NetWorkedData
                 //    System.Diagnostics.Process.Start(tFileInfo.FullName);
                 //}
                 //tI++;
-                string tcommandKeyGen = "ssh-keygen -R [" + tServer.IP.GetValue() + "]:" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + User + " -p " + tServer.Port;
+                string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + User + " -p " + tServer.Port;
                 tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 {
@@ -83,6 +83,8 @@ namespace NetWorkedData
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 {
                     List<string> tCommandList = new List<string>();
+
+
                     tCommandList.Add("echo \"<color=red> -> server update</color>\"");
                     tCommandList.Add("apt-get update");
                     tCommandList.Add("apt-get -y upgrade");
@@ -98,6 +100,10 @@ namespace NetWorkedData
                     tCommandList.Add("a2enmod ssl");
                     tCommandList.Add("a2enmod userdir");
                     tCommandList.Add("a2enmod suexec");
+                    if (tServer.Distribution == NWDServerDistribution.debian10)
+                    {
+                        tCommandList.Add("a2enmod http2");
+                    }
 
                     tCommandList.Add("echo \"<color=red> -> apache configure</color>\"");
                     tCommandList.Add("sed -i 's/\\/var\\/www/\\/home/g' /etc/apache2/suexec/www-data");
@@ -108,23 +114,48 @@ namespace NetWorkedData
                     tCommandList.Add("echo \"<color=red> -> apache restart</color>\"");
                     tCommandList.Add("systemctl restart apache2");
 
-                    tCommandList.Add("echo \"<color=red> -> install php</color>\"");
-                    tCommandList.Add("apt-get -y install php");
-                    //tCommandList.Add("apt-get -y install php-gd");
-                    //tCommandList.Add("apt-get -y install php-bz2");
-                    //tCommandList.Add("apt-get -y install php-tcpdf");
-                    tCommandList.Add("apt-get -y install php-mysql");
-                    tCommandList.Add("apt-get -y install php-curl");
-                    tCommandList.Add("apt-get -y install php-json");
-                    tCommandList.Add("apt-get -y install php-mcrypt");
-                    tCommandList.Add("apt-get -y install php-mbstring");
-                    tCommandList.Add("apt-get -y install php-gettext");
-                    tCommandList.Add("apt-get -y install php-zip");
-                    tCommandList.Add("apt-get -y install php-mail");
-                    tCommandList.Add("apt-get -y install php-pear");
-                    tCommandList.Add("apt-get -y install libapache2-mod-php");
-                    tCommandList.Add("pear install Net_SMTP");
+                    if (tServer.Distribution == NWDServerDistribution.debian9)
+                    {
+                        tCommandList.Add("echo \"<color=red> -> install php</color>\"");
+                        tCommandList.Add("apt-get -y install php");
+                        //tCommandList.Add("apt-get -y install php-gd");
+                        //tCommandList.Add("apt-get -y install php-bz2");
+                        //tCommandList.Add("apt-get -y install php-tcpdf");
+                        tCommandList.Add("apt-get -y install php-mysql");
+                        tCommandList.Add("apt-get -y install php-curl");
+                        tCommandList.Add("apt-get -y install php-json");
+                        tCommandList.Add("apt-get -y install php-mcrypt");
+                        tCommandList.Add("apt-get -y install php-mbstring");
+                        tCommandList.Add("apt-get -y install php-gettext");
+                        tCommandList.Add("apt-get -y install php-zip");
+                        tCommandList.Add("apt-get -y install php-mail");
+                        tCommandList.Add("apt-get -y install php-pear");
+                        tCommandList.Add("apt-get -y install libapache2-mod-php");
+                        tCommandList.Add("pear install Net_SMTP");
+                    }
+                    if (tServer.Distribution == NWDServerDistribution.debian10)
+                    {
+                        tCommandList.Add("echo \"<color=red> -> install php</color>\"");
+                        tCommandList.Add("apt-get -y install php7.3-fpm");
+                        tCommandList.Add("sudo a2dismod php7.3");
+                        tCommandList.Add("sudo a2enconf php7.3-fpm");
+                        tCommandList.Add("sudo a2enmod proxy_fcgi");
+                        tCommandList.Add("systemctl restart apache2");
+                        tCommandList.Add("apt-get -y install php-mysql");
+                        tCommandList.Add("apt-get -y install php-curl");
+                        tCommandList.Add("apt-get -y install php-json");
+                        tCommandList.Add("apt-get -y install php-mcrypt");
+                        tCommandList.Add("apt-get -y install php-mbstring");
+                        tCommandList.Add("apt-get -y install php-gettext");
+                        tCommandList.Add("apt-get -y install php-zip");
+                        tCommandList.Add("apt-get -y install php-mail");
+                        tCommandList.Add("apt-get -y install php-pear");
+                        tCommandList.Add("pear install Net_SMTP");
+                        tCommandList.Add("systemctl restart apache2");
 
+                    }
+
+                    tCommandList.Add("systemctl restart apache2");
                     tCommandList.Add("echo \"<color=red> -> php folder default</color>\"");
                     tCommandList.Add("chgrp -R www-data /var/www/html/");
                     tCommandList.Add("chmod 750 /var/www/html/");
@@ -155,8 +186,10 @@ namespace NetWorkedData
                 {
                     if (tServerDomain != null)
                     {
+                        string _NoSSL = "_NoSSL";
                         tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
+
                 "addgroup "+NWDServer.K_SFTP_chroot+"", // Add group exists",
                 "useradd --shell /bin/false " + User + "",
                 "echo " + User + ":" + Password + " | chpasswd",
@@ -176,11 +209,14 @@ namespace NetWorkedData
                 "chown -R " + User + ":www-data /home/" + User + "/" + Folder + "",
                 "chmod -R 750 /home/" + User + "/" + Folder + "",
 
-                "mkdir /home/" + User + "/" + Folder + "_NoSSL",
-                "echo $\"<?php echo phpinfo();?>\" > /home/" + User + "/" + Folder + "_NoSSL"+ "/phpinfo.php",
-                "echo $\"Hello " + tServerDomain.ServerDNS + ", please use SSL connexion!\" > /home/" + User + "/" + Folder + "_NoSSL"+ "/index.html",
-                "chown -R " + User + ":www-data /home/" + User + "/" + Folder + "_NoSSL"+ "",
-                "chmod -R 750 /home/" + User + "/" + Folder + "_NoSSL"+ "",
+
+
+
+                "mkdir /home/" + User + "/" + Folder + _NoSSL,
+                "echo $\"<?php echo phpinfo();?>\" > /home/" + User + "/" + Folder + _NoSSL+ "/phpinfo.php",
+                "echo $\"Hello " + tServerDomain.ServerDNS + ", please use SSL connexion!\" > /home/" + User + "/" + Folder + _NoSSL+ "/index.html",
+                "chown -R " + User + ":www-data /home/" + User + "/" + Folder + _NoSSL+ "",
+                "chmod -R 750 /home/" + User + "/" + Folder + _NoSSL+ "",
 
                 "/etc/init.d/apache2 stop",
 
@@ -190,14 +226,15 @@ namespace NetWorkedData
 
                 // create virtual host without SSL
                 "echo \"<VirtualHost *:80>\" > /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
+                "sed -i '$ a Protocols h2 http/1.1' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
                 "sed -i '$ a ServerAdmin " + tServerDomain.ServerDNS + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
                 "sed -i '$ a ServerName " + tServerDomain.ServerDNS + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
                 "sed -i '$ a ServerAlias " + tServerDomain.ServerDNS + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a DocumentRoot /home/" + User + "/" + Folder + "_NoSSL"+ "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
+                "sed -i '$ a DocumentRoot /home/" + User + "/" + Folder + _NoSSL+ "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
                 "sed -i '$ a <Directory />' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
                 "sed -i '$ a AllowOverride All' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
                 "sed -i '$ a </Directory>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a <Directory /home/" + User + "/" + Folder + "_NoSSL" + ">' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
+                "sed -i '$ a <Directory /home/" + User + "/" + Folder + _NoSSL + ">' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
                 "sed -i '$ a Options Indexes FollowSymLinks MultiViews' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
                 "sed -i '$ a AllowOverride all' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
                 "sed -i '$ a Require all granted' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
@@ -213,6 +250,7 @@ namespace NetWorkedData
                 "rm /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
 
                 "echo \"<VirtualHost *:443>\" > /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
+                "sed -i '$ a Protocols h2 http/1.1' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
                 "sed -i '$ a ServerAdmin " + tServerDomain.ServerDNS + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
                 "sed -i '$ a ServerName " + tServerDomain.ServerDNS + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
                 "sed -i '$ a ServerAlias " + tServerDomain.ServerDNS + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",

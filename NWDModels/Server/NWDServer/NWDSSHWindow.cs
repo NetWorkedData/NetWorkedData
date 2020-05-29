@@ -133,9 +133,13 @@ namespace NetWorkedData
 
             NWDGUILayout.Title("Console SSH");
             NWDGUILayout.Informations("To see the ssh command result!");
+            if (Server != null)
+            {
+                NWDGUILayout.Informations("Distribution is " + Server.Distribution.ToString());
+            }
             double tDeltaAbsolute = (DeltaAbsolute) / 1000.0F;
-            
-            NWDGUILayout.Section(ScriptTitle + "(executed in "+ tDeltaAbsolute.ToString("F3") + "s )");
+
+            NWDGUILayout.Section(ScriptTitle + "(executed in " + tDeltaAbsolute.ToString("F3") + "s )");
             NWDGUILayout.Line();
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             if (Server != null)
@@ -146,7 +150,7 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void ExecuteSSH(NWDServer sServer,string tScriptTitle, List<string> sCommandList, NWDSSHCommandBlock sCommandResultDelegate, int sAltPORT = -1, string sAltUser = null, string sAltPassword = null)
+        public static void ExecuteSSH(NWDServer sServer, string tScriptTitle, List<string> sCommandList, NWDSSHCommandBlock sCommandResultDelegate, int sAltPORT = -1, string sAltUser = null, string sAltPassword = null)
         {
             NWDSSHWindow.SharedInstanceFocus().Execute(sServer, tScriptTitle, sCommandList, sCommandResultDelegate, sAltPORT, sAltUser, sAltPassword);
         }

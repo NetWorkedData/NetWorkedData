@@ -81,7 +81,7 @@ namespace NetWorkedData
                 NWDServer tServer = tServices.Server.GetRawData();
                 if (tServer != null)
                 {
-                    string tcommandKeyGen = "ssh-keygen -R [" + tServer.IP.GetValue() + "]:" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServices.User + " -p " + tServer.Port;
+                    string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServices.User + " -p " + tServer.Port;
                     tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
                     if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                     {
@@ -121,7 +121,7 @@ namespace NetWorkedData
                 NWDServer tServer = tServices.Server.GetRawData();
                 if (tServer != null)
                 {
-                    string tcommandKeyGen = "ssh-keygen -R [" + tServer.IP.GetValue() + "]:" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Admin_User + " -p " + tServer.Port;
+                    string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Admin_User + " -p " + tServer.Port;
                     tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
                     if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                     {

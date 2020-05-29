@@ -158,7 +158,7 @@ namespace NetWorkedData
                 rReturn.TypeList = tReturnList;
                 rReturn.ForceSync = sForceSync;
                 rReturn.Special = sSpecial;
-                rReturn.SecureData = sEnvironment.AllwaysSecureData;
+                rReturn.SecureData = sEnvironment.AlwaysSecureData;
                 if (sTypeList != null)
                 {
                     foreach (Type tType in sTypeList)

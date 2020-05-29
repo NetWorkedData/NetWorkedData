@@ -62,7 +62,8 @@ namespace NetWorkedData
 
             NWDGUILayout.SubSection("Server Params for " + Environment);
             //ServerHTTPS = EditorGUILayout.TextField("Server (https://…)", ServerHTTPS);
-            AllwaysSecureData = EditorGUILayout.Toggle("Allways Secure Data", AllwaysSecureData);
+            AlwaysUseSSL = EditorGUILayout.Toggle("Always use HTTPS", AlwaysUseSSL);
+            AlwaysSecureData = EditorGUILayout.Toggle("Always Secure Data", AlwaysSecureData);
             LogMode = EditorGUILayout.Toggle("Log Mode", LogMode);
             LogInFileMode = EditorGUILayout.Toggle("Log in File Mode", LogInFileMode);
             EditorGUI.BeginDisabledGroup(true);

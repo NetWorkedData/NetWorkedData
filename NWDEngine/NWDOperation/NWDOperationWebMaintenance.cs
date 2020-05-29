@@ -74,18 +74,18 @@ namespace NetWorkedData
                 {
                     sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
                 }
-                GameObject tGameObjectToSpawn = new GameObject(NWDToolbox.RandomStringUnix(16)+sName);
+                GameObject tGameObjectToSpawn = new GameObject(NWDToolbox.RandomStringUnix(16) + sName);
 #if UNITY_EDITOR
                 tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
 #else
-            tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
+                tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
 #endif
                 rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebMaintenance>();
                 rReturn.GameObjectToSpawn = tGameObjectToSpawn;
                 rReturn.Environment = sEnvironment;
                 rReturn.QueueName = sEnvironment.Environment;
                 rReturn.ForceSync = sForceSync;
-                rReturn.SecureData = sEnvironment.AllwaysSecureData;
+                rReturn.SecureData = sEnvironment.AlwaysSecureData;
                 rReturn.InitBlock(sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock);
             }
             else

@@ -81,7 +81,8 @@ namespace NetWorkedData
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SaltFrequency) + " = " + SaltFrequency.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AddressPing) + " = \"" + AddressPing.Replace("\"", "\\\"") + "\";");
             //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ServerHTTPS) + " = \"" + ServerHTTPS.Replace("\"", "\\\"") + "\";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AllwaysSecureData) + " = " + AllwaysSecureData.ToString().ToLower() + ";");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AlwaysUseSSL) + " = " + AlwaysUseSSL.ToString().ToLower() + ";");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AlwaysSecureData) + " = " + AlwaysSecureData.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.BuildDate) + " = \"" + BuildDate.Replace("\"", "\\\"") + "\";");
             //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.FacebookAppID) + " = \"" + FacebookAppID.Replace("\"", "\\\"") + "\";");
             //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.FacebookAppSecret) + " = \"" + FacebookAppSecret.Replace("\"", "\\\"") + "\";");
