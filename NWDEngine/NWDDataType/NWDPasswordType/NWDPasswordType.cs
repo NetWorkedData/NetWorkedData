@@ -1,17 +1,9 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:29:0
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
-
 
 using System;
 using System.Collections;
@@ -39,14 +31,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDPasswordType()
         {
-            Value = NWDToolbox.RandomStringCypher(24);
+            //Value = NWDToolbox.RandomStringCypher(24);
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDPasswordType(string sValue = "")
         {
             if (string.IsNullOrEmpty(sValue))
             {
-                Value = "CHanGeYourPassWorDNow";
+                //Value = "CHanGeYourPassWorDNow";
+                Value = string.Empty;
             }
             else
             {
@@ -67,13 +61,13 @@ namespace NetWorkedData
                 Default();
             }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public int ToInt()
-        {
-            int rVersionInteger = 0;
-            int.TryParse(ToString().Replace(".", string.Empty), out rVersionInteger);
-            return rVersionInteger;
-        }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public int ToInt()
+        //{
+        //    int rVersionInteger = 0;
+        //    int.TryParse(ToString().Replace(".", string.Empty), out rVersionInteger);
+        //    return rVersionInteger;
+        //}
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------

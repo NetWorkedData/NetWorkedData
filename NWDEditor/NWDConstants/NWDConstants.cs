@@ -42,6 +42,7 @@ namespace NetWorkedData
         public static string K_DATA_SELECTOR_TITLE_FOR = "Selector for ";
         public static string K_LOCALIZATION_CONFIGURATION_TITLE = "Localization";
         public static string K_EDITOR_CONFIGURATION_TITLE = "Editor";
+        public static string K_PASSWORD_CONFIGURATION_TITLE = "Password";
 
         public static string K_ENVIRONMENTS_CONFIGURATION_TITLE = "Environments";
 
@@ -106,6 +107,7 @@ namespace NetWorkedData
         public const string K_MENU_CREATE_PHP_EXPORT_WEB_SITE = K_MENU_BASE + K_MENU_CREATE_PHP + "/Disk/Export files in folder uploadable";
         public const string K_MENU_CREATE_PHP_FILES_SFTP = K_MENU_BASE + K_MENU_CREATE_PHP + "/SFTP/Increment WebService, generate files and upload";
         public const string K_MENU_CREATE_PHP_FILES_NO_INCREMENT_WS_SFTP = K_MENU_BASE + K_MENU_CREATE_PHP + "/SFTP/Generate files and upload without increment WebService";
+        public const string K_MENU_CREDENTIALS = K_MENU_BASE + "Tools/editor credentials";
 
         public const string K_MENU_CREATE_CSHARP = "Creation of  files of workflow";
         public const string K_MENU_CREATE_CSHARP_FILES = K_MENU_BASE + K_MENU_CREATE_CSHARP + "/Create CSharp Files Workflow";

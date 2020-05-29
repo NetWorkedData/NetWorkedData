@@ -55,6 +55,7 @@ namespace NetWorkedData
         [NWDIf("RootForbidden", false)]
         [NWDEntitled("SSH Root Password")]
         public NWDPasswordType Root_Password { get; set; }
+        public NWDPasswordSecure Root_Password_sec { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Install Server Options")]

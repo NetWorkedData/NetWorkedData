@@ -177,27 +177,38 @@ namespace NetWorkedData
         public static string CryptAes(string sText, string sKey, string sVector, NWESecurityAesTypeEnum sAes = NWESecurityAesTypeEnum.Aes128)
         {
             string rParamB64 = string.Empty;
-            // Set AES bits size
-            Int32 aesSize = 128;
-            string tKey = KeyLengthFix(sKey, 24);
-            string tVector = KeyLengthFix(sVector, 16);
-            // Encrypt the string to an array of bytes.
-            byte[] encrypted = InternalCryptAes(sText, Encoding.ASCII.GetBytes(tKey), Encoding.ASCII.GetBytes(tVector), aesSize);
-            // Encode parameters
-            rParamB64 = Convert.ToBase64String(encrypted);
+            if (string.IsNullOrEmpty(sText) == false)
+            {
+                // Set AES bits size
+                Int32 aesSize = 128;
+                string tKey = KeyLengthFix(sKey, 24);
+                string tVector = KeyLengthFix(sVector, 16);
+                // Encrypt the string to an array of bytes.
+                byte[] encrypted = InternalCryptAes(sText, Encoding.ASCII.GetBytes(tKey), Encoding.ASCII.GetBytes(tVector), aesSize);
+                // Encode parameters
+                rParamB64 = Convert.ToBase64String(encrypted);
+            }
             return rParamB64;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string DecryptAes(string sText, string sKey, string sVector, NWESecurityAesTypeEnum sAes = NWESecurityAesTypeEnum.Aes128)
         {
             // Decode parameters
-            // Set AES bits size
-            Int32 aesSize = 128;
-            string tKey = KeyLengthFix(sKey, 24);
-            string tVector = KeyLengthFix(sVector, 16);
-            byte[] encrypted = Convert.FromBase64String(sText);
-            // Decrypt the string to an array of bytes.
-            return InternalDecryptAes(encrypted, Encoding.ASCII.GetBytes(tKey), Encoding.ASCII.GetBytes(tVector), aesSize);
+            if (string.IsNullOrEmpty(sText) == false)
+            {
+                // Set AES bits size
+                Int32 aesSize = 128;
+                string tKey = KeyLengthFix(sKey, 24);
+                string tVector = KeyLengthFix(sVector, 16);
+                //Debug.Log("sText = " + sText);
+                byte[] encrypted = Convert.FromBase64String(sText);
+                // Decrypt the string to an array of bytes.
+                return InternalDecryptAes(encrypted, Encoding.ASCII.GetBytes(tKey), Encoding.ASCII.GetBytes(tVector), aesSize);
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -275,29 +286,36 @@ namespace NetWorkedData
                 throw new ArgumentNullException("IV");
             }
             string rDecrypte = null;
-            using (Aes aes = new AesManaged())
+            try
             {
-                aes.Mode = CipherMode.ECB;
-                aes.Padding = PaddingMode.PKCS7;
-                aes.KeySize = sAesSize;
-                aes.BlockSize = sAesSize;
-                aes.Key = sKey;
-                aes.IV = sIV;
-                // Create a decrytor to perform the stream transform.
-                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-                // Create the streams used for decryption.
-                using (MemoryStream msDecrypt = new MemoryStream(sPlainText))
+                using (Aes aes = new AesManaged())
                 {
-                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                    aes.Mode = CipherMode.ECB;
+                    aes.Padding = PaddingMode.PKCS7;
+                    aes.KeySize = sAesSize;
+                    aes.BlockSize = sAesSize;
+                    aes.Key = sKey;
+                    aes.IV = sIV;
+                    // Create a decrytor to perform the stream transform.
+                    ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+                    // Create the streams used for decryption.
+                    using (MemoryStream msDecrypt = new MemoryStream(sPlainText))
                     {
-                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+                        using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                         {
-                            // Read the decrypted bytes from the decrypting stream
-                            // and place them in a string.
-                            rDecrypte = srDecrypt.ReadToEnd();
+                            using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+                            {
+                                // Read the decrypted bytes from the decrypting stream
+                                // and place them in a string.
+                                rDecrypte = srDecrypt.ReadToEnd();
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.ToString());
             }
             return rDecrypte;
         }

@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:22:46
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -222,6 +216,13 @@ namespace NetWorkedData
         public static void ModelsReset()
         {
             NWDDataManager.SharedInstance().ModelResetAllClass();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_CREDENTIALS, false, 1000)]
+        public static void EditorCredentialsManager()
+        {
+            NWDEditorCredentialsManager.SharedInstance().Show();
+            NWDEditorCredentialsManager.SharedInstance().Focus();
         }
         //-------------------------------------------------------------------------------------------------------------
         //		[MenuItem (NWDConstants.K_MENU_CREATE_CSHARP_FILES, false, 9022)]

@@ -1185,6 +1185,8 @@ namespace NetWorkedData
                 tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + "," + PHP_CONSTANT_WEBSERVICE() + ", " + NWD.K_PATH_BASE + ";");
                 tFile.AppendLine("global $REP;");
                 tFile.AppendLine("global $admin;");
+                // TODO improve this test
+                tFile.AppendLine("if ($sReference == ''){return;}");
                 //"$tPage = $sPage*$sLimit;" );
                 tFile.AppendLine("$tQuery = 'SELECT " + SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference) + "` = \\''.EscapeString($sReference).'\\'';");
                 tFile.AppendLine("if ($admin == false)");
@@ -1273,6 +1275,10 @@ namespace NetWorkedData
                 tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + "," + PHP_CONSTANT_WEBSERVICE() + ", " + NWD.K_PATH_BASE + ";");
                 tFile.AppendLine("global $REP;");
                 tFile.AppendLine("global $admin;");
+                // TODO improve this test
+                tFile.AppendLine("if (is_array($sReferences) == false){return;}");
+                //tFile.AppendLine("if ($sReferences == ''){return;}");
+
                 //"$tPage = $sPage*$sLimit;" );
                 tFile.AppendLine("$tQuery = 'SELECT " + SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference) + "` IN ( \\''.implode('\\', \\'', EscapeString($sReferences)).'\\')';");
                 tFile.AppendLine("if ($admin == false)");
