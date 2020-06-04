@@ -715,6 +715,9 @@ namespace NetWorkedData
                         {
                             tCertified = true;
                         }
+
+                        //tProperty.Tooltips += "\n Value = " + + "\n";
+
                         if (tCertified == false)
                         {
                             tProperty.Name = "<i> <color=orange>•</color>" + tProperty.Name + "</i>";

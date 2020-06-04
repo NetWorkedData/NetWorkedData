@@ -40,7 +40,7 @@ namespace NetWorkedData
         public int FuturPort { get; set; }
         [NWDInspectorGroupEnd()]
 
-        [NWDInspectorGroupStart("Server root and admmin")]
+        [NWDInspectorGroupStart("Admmin")]
         public bool AdminInstalled { get; set; }
         [NWDIf("AdminInstalled", false)]
         [NWDEntitled("SSH Admin User")]
@@ -48,6 +48,12 @@ namespace NetWorkedData
         [NWDIf("AdminInstalled", false)]
         [NWDEntitled("SSH Admin Password")]
         public NWDPasswordType Admin_Password { get; set; }
+        [NWDIf("AdminInstalled", false)]
+        [NWDEntitled("SSH Admin Password (AES)")]
+        public NWDSecurePassword Admin_Secure_Password { get; set; }
+        [NWDInspectorGroupEnd()]
+
+        [NWDInspectorGroupStart("Root")]
         public bool RootForbidden { get; set; }
         [NWDIf("RootForbidden", false)]
         [NWDEntitled("SSH Root User")]
@@ -55,7 +61,9 @@ namespace NetWorkedData
         [NWDIf("RootForbidden", false)]
         [NWDEntitled("SSH Root Password")]
         public NWDPasswordType Root_Password { get; set; }
-        public NWDPasswordSecure Root_Password_sec { get; set; }
+        [NWDIf("RootForbidden", false)]
+        [NWDEntitled("SSH Root Password (AES)")]
+        public NWDSecurePassword Root_Secure_Password { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Install Server Options")]

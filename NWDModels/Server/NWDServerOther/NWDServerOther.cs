@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:29:11
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -27,8 +21,6 @@ namespace NetWorkedData
         GitLab = 99,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDClassUnityEditorOnlyAttribute]
-    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("SSO")]
     [NWDClassDescriptionAttribute("Server Other descriptions Class")]
     [NWDClassMenuNameAttribute("Server Other")]
@@ -48,13 +40,13 @@ namespace NetWorkedData
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.GitLab, false)]
         public string GitLabEmail { get; set; }
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.GitLab, false)]
-        public string GitLabAWSAccessKeyID { get; set; }
+        public NWDSecurePassword GitLabAWSAccessKeyID { get; set; }
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.GitLab, false)]
-        public string GitLabAWSSecretAccessKey { get; set; }
+        public NWDSecurePassword GitLabAWSSecretAccessKey { get; set; }
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.GitLab, false)]
         public string GitLabAWSRegion { get; set; }
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.GitLab, false)]
-        public string GitLabAWSPassword { get; set; }
+        public NWDSecurePassword GitLabAWSPassword { get; set; }
 
 
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.Email, false)]
@@ -62,18 +54,18 @@ namespace NetWorkedData
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.Email, false)]
         public string Emaillogin { get; set; }
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.Email, false)]
-        public string EmailPassword { get; set; }
+        public NWDSecurePassword EmailPassword { get; set; }
 
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.WebServer, false)]
         public string WebDomainNameServer { get; set; }
 
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.Streaming, false)]
-        public string StreambDomainNameServer { get; set; }
+        public string StreamDomainNameServer { get; set; }
 
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.PushNotifications, false)]
-        public string AppleCertificat { get; set; }
+        public NWDSecurePassword AppleCertificat { get; set; }
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.PushNotifications, false)]
-        public string GoogleCertificat { get; set; }
+        public NWDSecurePassword GoogleCertificat { get; set; }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

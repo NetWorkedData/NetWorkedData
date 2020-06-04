@@ -1041,6 +1041,9 @@ namespace NetWorkedData
             tFile.AppendLine("else");
             tFile.AppendLine("{");
             tFile.AppendLine("$tReference = $sCsvList[" + CSV_IndexOf(NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference)) + "];");
+
+            tFile.AppendLine("if ($tReference == ''){return;}");
+
             tFile.AppendLine("// find the good database");
             tFile.AppendLine(NWDError.PHP_log(sEnvironment, " I will try to update the data '.$tReference.'"));
 

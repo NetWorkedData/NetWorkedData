@@ -32,15 +32,15 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [SerializeField]
-    public class NWDPasswordSecure : NWEDataType
+    public class NWDSecurePassword : NWEDataType
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDPasswordSecure()
+        public NWDSecurePassword()
         {
             Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDPasswordSecure(string sValue = "")
+        public NWDSecurePassword(string sValue = "")
         {
             if (string.IsNullOrEmpty(sValue))
             {
@@ -217,7 +217,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
-            NWDPasswordSecure tTemporary = new NWDPasswordSecure();
+            NWDSecurePassword tTemporary = new NWDSecurePassword();
             tTemporary.Value = Value;
             float tX = sPosition.x + EditorGUIUtility.labelWidth;
             float tWidth = sPosition.width - EditorGUIUtility.labelWidth + NWDGUI.kFieldMarge;

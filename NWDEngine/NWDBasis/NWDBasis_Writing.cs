@@ -953,6 +953,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string New_SQLInsertOrReplace()
         {
+            if (string.IsNullOrEmpty(Reference))
+            {
+                return string.Empty;
+            }
             NWDBasisHelper tHelper = BasisHelper();
             List<string> tKeys = new List<string>();
             List<string> tValues = new List<string>();
@@ -1067,6 +1071,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string New_SQLDelete()
         {
+            if (string.IsNullOrEmpty(Reference))
+            {
+                return string.Empty;
+            }
             NWDBasisHelper tHelper = BasisHelper();
             string tSignReference = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference);
             string rReturn = "DELETE FROM `" + tHelper.ClassNamePHP + "` WHERE `" + tSignReference + "` = \"" + Reference.Replace("\"", "\"\"") + "\";";

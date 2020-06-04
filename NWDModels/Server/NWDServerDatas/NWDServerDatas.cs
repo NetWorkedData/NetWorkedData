@@ -44,10 +44,14 @@ namespace NetWorkedData
         public string MySQLUser { get; set; }
         [NWDEntitled("MySQL Password")]
         public NWDPasswordType MySQLPassword { get; set; }
+        [NWDEntitled("MySQL Password (AES)")]
+        public NWDSecurePassword MySQLSecurePassword { get; set; }
         [NWDEntitled("MySQL Base")]
         public string MySQLBase { get; set; }
         [NWDEntitled("MySQL Root Password")]
         public NWDPasswordType Root_MysqlPassword { get; set; }
+        [NWDEntitled("MySQL Root Password (AES)")]
+        public NWDSecurePassword Root_MySQLSecurePassword { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Acces MySQL")]
