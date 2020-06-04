@@ -54,7 +54,7 @@ namespace NetWorkedData
             //NWDVersion tMaxVersionObject = null;
             foreach (NWDVersion tVersionObject in NWDBasisHelper.BasisHelper<NWDVersion>().Datas)
             {
-                Debug.Log("Do this item be used ? : " + tVersionObject.InternalKey);
+                //Debug.Log("Do this item be used ? : " + tVersionObject.InternalKey);
                 if (tVersionObject.IntegrityIsValid() == true && tVersionObject.AC == true && tVersionObject.Buildable == true)
                 {
                     if ((NWDAppConfiguration.SharedInstance().IsDevEnvironement() && tVersionObject.ActiveDev == true) ||
@@ -62,7 +62,7 @@ namespace NetWorkedData
                         (NWDAppConfiguration.SharedInstance().IsProdEnvironement() && tVersionObject.ActiveProd == true))
                     {
 
-                        Debug.Log("YES USE : " + tVersionObject.InternalKey);
+                        //Debug.Log("YES USE : " + tVersionObject.InternalKey);
                         int tVersionInteger = 0;
                         int.TryParse(tVersionObject.Version.ToString().Replace(".", string.Empty), out tVersionInteger);
                         if (tVersionInt < tVersionInteger)
