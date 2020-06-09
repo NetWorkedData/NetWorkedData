@@ -156,6 +156,22 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
+        /// On Disable action.
+        /// </summary>
+        private void OnDisable()
+        {
+            // for all NWDEditorWindow refresh
+
+            NWDEditorConfigurationManager.Refresh();
+            NWDAppConfigurationManager.Refresh();
+            NWDAppEnvironmentConfigurationManager.Refresh();
+            NWDModelManager.Refresh();
+            NWDAppEnvironmentSync.Refresh();
+            NWDAppEnvironmentChooser.Refresh();
+            NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
         ///  On GUI drawing.
         /// </summary>
         public override void OnPreventGUI()

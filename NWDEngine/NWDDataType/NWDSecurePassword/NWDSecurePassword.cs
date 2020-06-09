@@ -204,7 +204,7 @@ namespace NetWorkedData
                 }
                 catch (Exception e)
                 {
-                    Debug.Log(e.ToString());
+                    // Debug.Log(e.ToString());
                 }
             }
             return rDecrypte;
@@ -265,7 +265,12 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    EditorGUI.LabelField(new Rect(tX, sPosition.y, tWidth, NWDGUI.kLabelStyle.fixedHeight), "undisclosed secret");
+                    EditorGUI.LabelField(new Rect(tX, sPosition.y, tWidth, NWDGUI.kLabelStyle.fixedHeight), "Undisclosed secret");
+                    sPosition.y += NWDGUI.kLabelStyle.fixedHeight;
+                    if (GUI.Button(new Rect(tX, sPosition.y, tWidth, NWDGUI.kPopupStyle.fixedHeight), "Reset"))
+                    {
+                        tTemporary.Value = string.Empty;
+                    }
                 }
             }
             else
