@@ -73,15 +73,15 @@ namespace NetWorkedData
         public void SetDrawable(String sClassName, bool sBool)
         {
             string tKey = Key(sClassName);
-            EditorPrefs.HasKey(tKey);
-            EditorPrefs.SetBool(tKey, sBool);
+            NWDEditorPrefs.HasKey(tKey);
+            NWDEditorPrefs.SetBool(tKey, sBool);
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool GetDrawable(String sClassName)
         {
             string tKey = Key(sClassName);
-            EditorPrefs.HasKey(tKey);
-            return EditorPrefs.GetBool(tKey);
+            NWDEditorPrefs.HasKey(tKey);
+            return NWDEditorPrefs.GetBool(tKey);
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

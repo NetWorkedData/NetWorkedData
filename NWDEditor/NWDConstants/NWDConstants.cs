@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:22:31
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -75,6 +69,7 @@ namespace NetWorkedData
         public const string K_ALERT_IDEMOBI_MESSAGE = "NetWorkedData is an idéMobi module to create and manage datas in your game. You  can create your owner classes and manage like standard NetWorkedDatas";
         public const string K_ALERT_IDEMOBI_OK = "Thanks!";
         public const string K_ALERT_IDEMOBI_SEE_DOC = "See online docs";
+        public const string K_ALERT_IDEMOBI_SEE_WEBSITE = "See website";
         public const string K_ALERT_IDEMOBI_DOC_HTTP = "http://www.idemobi.com/networkeddata";
 
         //-------------------------------------------------------------------------------------------------------------

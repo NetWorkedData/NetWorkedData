@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:20:11
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -111,9 +105,9 @@ namespace NetWorkedData
 
             //General preferences
             NWDGUILayout.Section("User preferences");
-            EditorPrefs.SetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG, EditorGUILayout.ToggleLeft("Copy DebugLog In Clipoard", EditorPrefs.GetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG)));
-            EditorPrefs.SetString(NWDConstants.K_EDITOR_USER_BUILDER, EditorGUILayout.TextField("User builder name", EditorPrefs.GetString(NWDConstants.K_EDITOR_USER_BUILDER, "(user)")));
-            EditorPrefs.SetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, EditorGUILayout.IntSlider("Panel data width", EditorPrefs.GetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, 320), 300, 400));
+            NWDEditorPrefs.SetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG, EditorGUILayout.ToggleLeft("Copy DebugLog In Clipoard", NWDEditorPrefs.GetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG)));
+            NWDEditorPrefs.SetString(NWDConstants.K_EDITOR_USER_BUILDER, EditorGUILayout.TextField("User builder name", NWDEditorPrefs.GetString(NWDConstants.K_EDITOR_USER_BUILDER, "(user)")));
+            NWDEditorPrefs.SetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, EditorGUILayout.IntSlider("Panel data width", NWDEditorPrefs.GetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, 320), 300, 400));
 
             //General preferences
             NWDGUILayout.Section("General preferences");

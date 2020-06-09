@@ -25,12 +25,36 @@ namespace NetWorkedData
     public partial class NWDEditorNewClass : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        private static NWDEditorNewClass kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
         const int K_TRIGRAM_MIN = 2;
         const int K_TRIGRAM_MAX = 6;
         const int K_MENU_MIN = 3;
         const int K_MENU_MAX = 24;
         //-------------------------------------------------------------------------------------------------------------
         Vector2 ScrollPosition = Vector2.zero;
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDEditorNewClass SharedInstance()
+        {
+            //NWEBenchmark.Start();
+            if (kSharedInstance == null)
+            {
+                kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorNewClass)) as NWDEditorNewClass;
+            }
+            //NWEBenchmark.Finish();
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SharedInstanceFocus()
+        {
+            //NWEBenchmark.Start();
+            SharedInstance().ShowUtility();
+            SharedInstance().Focus();
+            //NWEBenchmark.Finish();
+        }
         //-------------------------------------------------------------------------------------------------------------
 
         //bool ClassUnityEditorOnly = false;

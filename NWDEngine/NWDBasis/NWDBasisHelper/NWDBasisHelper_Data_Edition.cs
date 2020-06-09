@@ -37,8 +37,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDTypeClass RestaureObjectInEdition()
         {
-            string tTypeEdited = EditorPrefs.GetString(K_EDITOR_LAST_TYPE_KEY);
-            string tLastReferenceEdited = EditorPrefs.GetString(K_EDITOR_LAST_REFERENCE_KEY);
+            string tTypeEdited = NWDEditorPrefs.GetString(K_EDITOR_LAST_TYPE_KEY);
+            string tLastReferenceEdited = NWDEditorPrefs.GetString(K_EDITOR_LAST_REFERENCE_KEY);
             NWDTypeClass rObject = ObjectInEditionReccord(tTypeEdited, tLastReferenceEdited);
             if (rObject != null)
             {
@@ -66,13 +66,13 @@ namespace NetWorkedData
             NWDTypeClass tObject = NWDDataInspector.ObjectInEdition() as NWDTypeClass;
             if (tObject == null)
             {
-                EditorPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, string.Empty);
-                EditorPrefs.SetString(K_EDITOR_LAST_REFERENCE_KEY, string.Empty);
+                NWDEditorPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, string.Empty);
+                NWDEditorPrefs.SetString(K_EDITOR_LAST_REFERENCE_KEY, string.Empty);
             }
             else
             {
-                EditorPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, NWDBasisHelper.FindTypeInfos(tObject.GetType()).ClassNamePHP);
-                EditorPrefs.SetString(K_EDITOR_LAST_REFERENCE_KEY, tObject.Reference);
+                NWDEditorPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, NWDBasisHelper.FindTypeInfos(tObject.GetType()).ClassNamePHP);
+                NWDEditorPrefs.SetString(K_EDITOR_LAST_REFERENCE_KEY, tObject.Reference);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -109,7 +109,7 @@ namespace NetWorkedData
                     mObjectInEdition = sObject;
                     if (mObjectInEdition != null)
                     {
-                        EditorPrefs.SetString(LastSelectedObjectKey(), mObjectInEdition.Reference);
+                    NWDEditorPrefs.SetString(LastSelectedObjectKey(), mObjectInEdition.Reference);
                         foreach (NWDTypeWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(sObject.GetType()))
                         {
                             tWindow.Focus();
@@ -119,7 +119,7 @@ namespace NetWorkedData
                     }
                     else
                     {
-                        EditorPrefs.SetString(LastSelectedObjectKey(), string.Empty);
+                    NWDEditorPrefs.SetString(LastSelectedObjectKey(), string.Empty);
                     }
                 }
                 else

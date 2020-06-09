@@ -34,6 +34,38 @@ namespace NetWorkedData
         GUIContent IconAndTitle;
         Vector2 ScrollPosition = Vector2.zero;
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        private static NWDEditorNewExtension kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the SharedInstance or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static NWDEditorNewExtension SharedInstance()
+        {
+            //NWEBenchmark.Start();
+            if (kSharedInstance == null)
+            {
+                kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorNewExtension)) as NWDEditorNewExtension;
+            }
+            //NWEBenchmark.Finish();
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show the SharedInstance of Editor Configuration Manager Window and focus on.
+        /// </summary>
+        /// <returns></returns>
+        public static void SharedInstanceFocus()
+        {
+            //NWEBenchmark.Start();
+            SharedInstance().ShowUtility();
+            SharedInstance().Focus();
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         string ClassBase = "NWDBasis";
         /// <summary>
         /// The futur name of the class.

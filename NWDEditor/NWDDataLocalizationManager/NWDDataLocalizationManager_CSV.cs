@@ -57,7 +57,7 @@ namespace NetWorkedData
                 string.Empty,
                 "NWDDataLocalization.csv",
                 "csv");
-            if (tPath != null)
+            if (string.IsNullOrEmpty(tPath) == false)
             {
                 // prepare header
                 string tHeaders = "\"Type\";\"Reference\";\"InternalKey\";\"InternalDescription\";\"PropertyName\";\"" +
@@ -69,12 +69,6 @@ namespace NetWorkedData
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                     tFile +=  tHelper.ExportLocalizationInCSV();
-                    //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ExportLocalizationInCSV);
-                    //if (tMethodInfo != null)
-                    //{
-                    //    string tResult = tMethodInfo.Invoke(null, null) as string;
-                    //    tFile += tResult;
-                    //}
                 }
                 // write file
                 File.WriteAllText(tPath, tFile);
@@ -100,11 +94,6 @@ namespace NetWorkedData
                     {
                         NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                         tHelper.ImportAllLocalizations(tLanguageArray, tFileRows);
-                        //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ImportAllLocalizations);
-                        //if (tMethodInfo != null)
-                        //{
-                        //    string tResult = tMethodInfo.Invoke(null, new object[] { tLanguageArray, tFileRows }) as string;
-                        //}
                     }
                 }
                 NWDDataManager.SharedInstance().DataQueueExecute();

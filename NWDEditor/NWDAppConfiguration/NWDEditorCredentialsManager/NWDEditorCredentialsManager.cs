@@ -17,6 +17,18 @@ using System.Security.Cryptography;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDCredentialsRequired : int
+    {
+        ForSFTPGenerate,
+        ForSFTPGenerateDev,
+        ForSFTPGeneratePreprod,
+        ForSFTPGenerateProd,
+        //ForDevSync,
+        //ForPreprodSync,
+        //ForProdSync,
+        //Both,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDEditorCredentialsManager : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -31,6 +43,56 @@ namespace NetWorkedData
         static Vector2 ScrollPosition;
         static public string Password = string.Empty;
         static public string VectorString = string.Empty;
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool Checked(NWDCredentialsRequired sCredentialsType)
+        {
+            bool rReturn = IsValid(sCredentialsType);
+            if (rReturn == false)
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_ALERT_IDEMOBI_TITLE,
+                   "This operation need credentials to decrypt some passwords.",
+                   "Credentials window",
+                   "Cancel"))
+                {
+                    SharedInstanceFocus();
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool IsValid(NWDCredentialsRequired sCredentialsType)
+        {
+            bool rReturn = false;
+            switch (sCredentialsType)
+            {
+                case NWDCredentialsRequired.ForSFTPGenerate:
+                    {
+                        rReturn = string.IsNullOrEmpty(Password) == false && string.IsNullOrEmpty(VectorString) == false;
+                    }
+                    break;
+                case NWDCredentialsRequired.ForSFTPGenerateDev:
+                    {
+                        rReturn = string.IsNullOrEmpty(Password) == false && string.IsNullOrEmpty(VectorString) == false;
+                    }
+                    break;
+                case NWDCredentialsRequired.ForSFTPGeneratePreprod:
+                    {
+                        rReturn = string.IsNullOrEmpty(Password) == false && string.IsNullOrEmpty(VectorString) == false;
+                    }
+                    break;
+                case NWDCredentialsRequired.ForSFTPGenerateProd:
+                    {
+                        //rReturn = string.IsNullOrEmpty(Password) == false && string.IsNullOrEmpty(VectorString) == false;
+                    }
+                    break;
+                //case NWDCredentialsRequired.Both:
+                //    {
+                //        rReturn = string.IsNullOrEmpty(Password) == false && string.IsNullOrEmpty(VectorString) == false;
+                //    }
+                //    break;
+            }
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Returns the SharedInstance or instance one
@@ -51,13 +113,12 @@ namespace NetWorkedData
         /// Show the SharedInstance of Editor Configuration Manager Window and focus on.
         /// </summary>
         /// <returns></returns>
-        public static NWDEditorCredentialsManager SharedInstanceFocus()
+        public static void SharedInstanceFocus()
         {
             //NWEBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
             //NWEBenchmark.Finish();
-            return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

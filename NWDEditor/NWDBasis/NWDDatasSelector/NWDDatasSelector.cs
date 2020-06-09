@@ -134,16 +134,16 @@ namespace NetWorkedData
         {
             if (Helper != null)
             {
-                if (EditorPrefs.GetBool(PreferenceKey(() => PrefReccord)) == true)
+                if (NWDEditorPrefs.GetBool(PreferenceKey(() => PrefReccord)) == true)
                 {
-                    InternalResearch = EditorPrefs.GetString(PreferenceKey(() => InternalResearch));
-                    DescriptionResearch = EditorPrefs.GetString(PreferenceKey(() => DescriptionResearch));
-                    EnableDatas = EditorPrefs.GetBool(PreferenceKey(() => EnableDatas));
-                    DisableDatas = EditorPrefs.GetBool(PreferenceKey(() => DisableDatas));
-                    TrashedDatas = EditorPrefs.GetBool(PreferenceKey(() => TrashedDatas));
-                    CorruptedDatas = EditorPrefs.GetBool(PreferenceKey(() => CorruptedDatas));
-                    Tag = (NWDBasisTag)EditorPrefs.GetInt(PreferenceKey(() => Tag));
-                    kZoom = EditorPrefs.GetFloat(PreferenceKey(() => kZoom));
+                    InternalResearch = NWDEditorPrefs.GetString(PreferenceKey(() => InternalResearch));
+                    DescriptionResearch = NWDEditorPrefs.GetString(PreferenceKey(() => DescriptionResearch));
+                    EnableDatas = NWDEditorPrefs.GetBool(PreferenceKey(() => EnableDatas));
+                    DisableDatas = NWDEditorPrefs.GetBool(PreferenceKey(() => DisableDatas));
+                    TrashedDatas = NWDEditorPrefs.GetBool(PreferenceKey(() => TrashedDatas));
+                    CorruptedDatas = NWDEditorPrefs.GetBool(PreferenceKey(() => CorruptedDatas));
+                    Tag = (NWDBasisTag)NWDEditorPrefs.GetInt(PreferenceKey(() => Tag));
+                    kZoom = NWDEditorPrefs.GetFloat(PreferenceKey(() => kZoom));
                 }
                 else
                 {
@@ -160,15 +160,15 @@ namespace NetWorkedData
         {
             if (Helper != null)
             {
-                EditorPrefs.SetBool(PreferenceKey(() => PrefReccord), true);
-                EditorPrefs.SetString(PreferenceKey(() => InternalResearch), InternalResearch);
-                EditorPrefs.SetString(PreferenceKey(() => DescriptionResearch), DescriptionResearch);
-                EditorPrefs.SetBool(PreferenceKey(() => EnableDatas), EnableDatas);
-                EditorPrefs.SetBool(PreferenceKey(() => DisableDatas), DisableDatas);
-                EditorPrefs.SetBool(PreferenceKey(() => TrashedDatas), TrashedDatas);
-                EditorPrefs.SetBool(PreferenceKey(() => CorruptedDatas), CorruptedDatas);
-                EditorPrefs.SetInt(PreferenceKey(() => Tag), (int)Tag);
-                EditorPrefs.SetFloat(PreferenceKey(() => kZoom), kZoom);
+                NWDEditorPrefs.SetBool(PreferenceKey(() => PrefReccord), true);
+                NWDEditorPrefs.SetString(PreferenceKey(() => InternalResearch), InternalResearch);
+                NWDEditorPrefs.SetString(PreferenceKey(() => DescriptionResearch), DescriptionResearch);
+                NWDEditorPrefs.SetBool(PreferenceKey(() => EnableDatas), EnableDatas);
+                NWDEditorPrefs.SetBool(PreferenceKey(() => DisableDatas), DisableDatas);
+                NWDEditorPrefs.SetBool(PreferenceKey(() => TrashedDatas), TrashedDatas);
+                NWDEditorPrefs.SetBool(PreferenceKey(() => CorruptedDatas), CorruptedDatas);
+                NWDEditorPrefs.SetInt(PreferenceKey(() => Tag), (int)Tag);
+                NWDEditorPrefs.SetFloat(PreferenceKey(() => kZoom), kZoom);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

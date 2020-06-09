@@ -20,16 +20,327 @@ namespace NetWorkedData
     /// <summary>
     /// NWD editor menu.
     /// </summary>
-    public class NWDEditorMenu
+    public abstract class NWDEditorMenu
     {
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NetWorkedData.NWDEditorMenu"/> class.
-        /// </summary>
-        public NWDEditorMenu()
+        #region const
+        //-------------------------------------------------------------------------------------------------------------
+        const string K_NETWORKEDDATA = "NeWeeDy/";
+        const string K_EDITOR = "Editor/";
+        const string K_DOCUMENTATION = "Documentation/";
+        const string K_APPLICATION = "Application/";
+        const string K_LOCALIZATION = "Localization/";
+        const string K_ENVIRONMENT = "Environment/";
+        const string K_CLUSTER = "Cluster/";
+        const string K_MODELS = "Models/";
+        const string K_TOOLS = "Tools/";
+        const string K_ALL_ENVIRONMENT = "All environments/";
+        const string K_DEV_ENVIRONMENT = "Dev environment/";
+        const string K_PREPROD_ENVIRONMENT = "Preprod environment/";
+        const string K_PROD_ENVIRONMENT = "Prod environment/";
+        //-------------------------------------------------------------------------------------------------------------
+        const string K_WS_REGENERATE = "Regenerate WebServices";
+        const string K_WS_NEED_CREDENTIALS = "Need credentials";
+        const string K_WS_EDITOR_CREDENTIALS = "Need editor credentials";
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region var
+        //-------------------------------------------------------------------------------------------------------------
+        static bool kStopRecompile = false;
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Menu
+        //-------------------------------------------------------------------------------------------------------------
+        #region ideMobi
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + "Developed by idéMobi", false, 1)]
+        public static void DevelopedBy()
         {
-            //NWDDataManager.SharedInstance().ConnectToDatabase ();
+            if (EditorUtility.DisplayDialog(NWDConstants.K_ALERT_IDEMOBI_TITLE,
+                NWDConstants.K_ALERT_IDEMOBI_MESSAGE,
+                NWDConstants.K_ALERT_IDEMOBI_OK,
+                NWDConstants.K_ALERT_IDEMOBI_SEE_WEBSITE))
+            {
+            }
+            else
+            {
+                Application.OpenURL(NWDConstants.K_ALERT_IDEMOBI_DOC_HTTP);
+            }
         }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        #region Documentation
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_DOCUMENTATION, false, 2)]
+        [MenuItem(K_NETWORKEDDATA + K_DOCUMENTATION + "Website", false, 3)]
+        public static void Website()
+        {
+            Application.OpenURL("https://www.net-worked-data.com");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_DOCUMENTATION + "Tutorial", false, 4)]
+        public static void Tutorial()
+        {
+            Application.OpenURL("https://www.net-worked-data.com");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        #region Editor
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_EDITOR + "Editor configuration", false, 20)]
+        public static void EditorPreferencesWindow()
+        {
+            NWDEditorConfigurationManager.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_EDITOR + "Synchronize window", false, 21)]
+        public static void SynchronizeWindow()
+        {
+            NWDAppEnvironmentSync.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_EDITOR + "Chooser window", false, 22)]
+        public static void ChooserWindow()
+        {
+            NWDAppEnvironmentChooser.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        #region Application
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_APPLICATION + "Application configuration", false, 24)]
+        public static void AppConfigurationWindow()
+        {
+            NWDAppConfigurationManager.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        #region Localization
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_LOCALIZATION + "Localization configuration", false, 25)]
+        public static void LocalizationConfigurationWindow()
+        {
+            NWDLocalizationConfigurationManager.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_LOCALIZATION + "Reorder localized fields", false, 26)]
+        public static void LocalizationReorderDatas()
+        {
+            NWDAppConfiguration.SharedInstance().DataLocalizationManager.ReOrderAllLocalizations();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_LOCALIZATION + "Export localization in CSV", false, 27)]
+        public static void LocalizationExportDatas()
+        {
+            NWDAppConfiguration.SharedInstance().DataLocalizationManager.ExportToCSV();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_LOCALIZATION + "Import localization in CSV", false, 28)]
+        public static void LocalizationImportDatas()
+        {
+            NWDAppConfiguration.SharedInstance().DataLocalizationManager.ImportFromCSV();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        #region Environment
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_ENVIRONMENT + "Environment configuration", false, 27)]
+        public static void EnvironmentConfigurationWindow()
+        {
+            NWDAppEnvironmentConfigurationManager.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_ENVIRONMENT + "Synchronize window", false, 28)]
+        public static void EnvironmentSynchronizeWindow()
+        {
+            NWDAppEnvironmentSync.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_ENVIRONMENT + "Chooser window", false, 29)]
+        public static void EnvironmentChooserWindow()
+        {
+            NWDAppEnvironmentChooser.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        #region Cluster
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + "Credentials window", false, 40)]
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_ALL_ENVIRONMENT + K_WS_NEED_CREDENTIALS, false, 50)]
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_DEV_ENVIRONMENT + K_WS_NEED_CREDENTIALS, false, 79)]
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_PREPROD_ENVIRONMENT + K_WS_NEED_CREDENTIALS, false, 83)]
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_PROD_ENVIRONMENT + K_WS_NEED_CREDENTIALS, false, 87)]
+        public static void ClusterCredentialsWindow()
+        {
+            NWDEditorCredentialsManager.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_ALL_ENVIRONMENT + K_WS_NEED_CREDENTIALS, true, 50)]
+        public static bool NeedCredentialsValidMenu()
+        {
+            return !NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_DEV_ENVIRONMENT + K_WS_NEED_CREDENTIALS, true, 79)]
+        public static bool NeedCredentialsValidMenuDev()
+        {
+            return !NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateDev);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_PREPROD_ENVIRONMENT + K_WS_NEED_CREDENTIALS, true, 83)]
+        public static bool NeedCredentialsValidMenuPreprod()
+        {
+            return !NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGeneratePreprod);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_PROD_ENVIRONMENT + K_WS_NEED_CREDENTIALS, true, 87)]
+        public static bool NeedCredentialsValidMenuProd()
+        {
+            return !NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateProd);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + "Cluster datas", false, 32)]
+        public static void ClusterDatas()
+        {
+            NWDServerWindow.ShowAndFocusWindow();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_ALL_ENVIRONMENT + "Increment and generate WebServices", true, 51)]
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_ALL_ENVIRONMENT + K_WS_REGENERATE, true, 52)]
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_DEV_ENVIRONMENT + K_WS_REGENERATE, true, 80)]
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_PREPROD_ENVIRONMENT + K_WS_REGENERATE, true, 84)]
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_PROD_ENVIRONMENT + K_WS_REGENERATE, true, 88)]
+        public static bool GenerateServersValidMenu()
+        {
+            return NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_ALL_ENVIRONMENT + "Increment and generate WebServices", false, 51)]
+        public static void GenerateServersGenerateAll()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_ALL_ENVIRONMENT + K_WS_REGENERATE, false, 52)]
+        public static void GenerateServersRegenerateAll()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_DEV_ENVIRONMENT + K_WS_REGENERATE, false, 80)]
+        public static void GenerateServersRegenerateDev()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_PREPROD_ENVIRONMENT + K_WS_REGENERATE, false, 84)]
+        public static void GenerateServersRegeneratePreprod()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_PROD_ENVIRONMENT + K_WS_REGENERATE, false, 88)]
+        public static void GenerateServersRegenerateProd()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        #region Models
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_MODELS + "Create new class", false, 800)]
+        public static void NewClass()
+        {
+            NWDEditorNewClass.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_MODELS + "Create new class extension", false, 801)]
+        public static void NewClassExtension()
+        {
+            NWDEditorNewExtension.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_MODELS + "Create new classes window", false, 802)]
+        public static void NewWindowExtension()
+        {
+            NWDEditorNewWindow.SharedInstance();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_MODELS + "Models manager", false, 822)]
+        public static void ModelsManager()
+        {
+            NWDModelManager.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_MODELS + "Nodal view", false, 842)]
+        public static void NodalView()
+        {
+            NWDNodeEditor.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_MODELS + "All Datas window", false, 842)]
+        public static void AllDatasWindow()
+        {
+            NWDAllClassesWindow.ShowAndFocusWindow();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        #region Tools
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_TOOLS + "Password Analyze", false, 9000)]
+        public static void PasswordAnalyze()
+        {
+            NWEPassAnalyseWindow.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_TOOLS + "New footer Window", false, 9001)]
+        public static void NewFooterWindow()
+        {
+            NWDEditorFooter.NewFooter();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_TOOLS + "Cluster Sizer", false, 9031)]
+        public static void ClusterClusterSizer()
+        {
+            NWDClusterSizer.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #region Special Recompile
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_TOOLS + "Stop recompile", true)]
+        public static bool TestStopRecompile()
+        {
+            return !kStopRecompile;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_TOOLS + "Restart recompile", true)]
+        public static bool TestUnStopRecompile()
+        {
+            return kStopRecompile;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_TOOLS + "Stop recompile", false, 9998)]
+        public static void StopRecompile()
+        {
+            if (kStopRecompile == false)
+            {
+                kStopRecompile = true;
+                EditorApplication.LockReloadAssemblies();
+            }
+            else
+            {
+                kStopRecompile = false;
+                EditorApplication.UnlockReloadAssemblies();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_TOOLS + "Restart recompile", false, 9999)]
+        public static void UnStopRecompile()
+        {
+            StopRecompile();
+        }
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_MENU_IDEMOBI
         // no menu 
@@ -241,30 +552,30 @@ namespace NetWorkedData
         //    tWindow.Focus();
         //}
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_LOCALIZATION_CONFIG, false, 9054)]
-        public static void DataLocalizationManager()
-        {
-            NWDLocalizationConfigurationManager.SharedInstance().Show();
-            NWDLocalizationConfigurationManager.SharedInstance().Focus();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_LOCALIZATION_REORDER, false, 9055)]
-        public static void LocalizationReorder()
-        {
-            NWDAppConfiguration.SharedInstance().DataLocalizationManager.ReOrderAllLocalizations();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_LOCALIZATION_EXPORT, false, 9070)]
-        public static void LocalizationExport()
-        {
-            NWDAppConfiguration.SharedInstance().DataLocalizationManager.ExportToCSV();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_LOCALIZATION_IMPORT, false, 9071)]
-        public static void LocalizationImport()
-        {
-            NWDAppConfiguration.SharedInstance().DataLocalizationManager.ImportFromCSV();
-        }
+        //[MenuItem(NWDConstants.K_MENU_LOCALIZATION_CONFIG, false, 9054)]
+        //public static void DataLocalizationManager()
+        //{
+        //    NWDLocalizationConfigurationManager.SharedInstance().Show();
+        //    NWDLocalizationConfigurationManager.SharedInstance().Focus();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //[MenuItem(NWDConstants.K_MENU_LOCALIZATION_REORDER, false, 9055)]
+        //public static void LocalizationReorder()
+        //{
+        //    NWDAppConfiguration.SharedInstance().DataLocalizationManager.ReOrderAllLocalizations();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //[MenuItem(NWDConstants.K_MENU_LOCALIZATION_EXPORT, false, 9070)]
+        //public static void LocalizationExport()
+        //{
+        //    NWDAppConfiguration.SharedInstance().DataLocalizationManager.ExportToCSV();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //[MenuItem(NWDConstants.K_MENU_LOCALIZATION_IMPORT, false, 9071)]
+        //public static void LocalizationImport()
+        //{
+        //    NWDAppConfiguration.SharedInstance().DataLocalizationManager.ImportFromCSV();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         // ZIP DATA BASE 
         //-------------------------------------------------------------------------------------------------------------
@@ -597,13 +908,10 @@ namespace NetWorkedData
             {
                 kBlock = true;
                 EditorApplication.LockReloadAssemblies();
-                //AssetDatabase.StartAssetEditing();
             }
             else
             {
                 kBlock = false;
-                //AssetDatabase.StopAssetEditing();
-                //AssetDatabase.Refresh();
                 EditorApplication.UnlockReloadAssemblies();
             }
         }

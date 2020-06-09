@@ -53,6 +53,10 @@ namespace NetWorkedData
         private void GenerateCSharpFile_Editor(NWDAppEnvironment sEnvironment)
         {
             NWEBenchmark.Start();
+            //if (string.IsNullOrEmpty(RandomAppID))
+            //{
+            //    RandomAppID = NWDToolbox.RandomStringUnix(48);
+            //}
             string tFindPrivateConfigurationFolder = NWDToolbox.FindPrivateConfigurationFolder();
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = NWDToolbox.DateTimeYYYYMMdd(tTime);
@@ -75,12 +79,16 @@ namespace NetWorkedData
             rReturn.AppendLine("/// </summary>");
             rReturn.AppendLine("public bool RestaureEditorConfigurations()");
             rReturn.AppendLine("{");
-            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.BuilderUser) + " = \"" + EditorPrefs.GetString(NWDConstants.K_EDITOR_USER_BUILDER, "(user)") + "\";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.BuilderUser) + " = \"" + NWDEditorPrefs.GetString(NWDConstants.K_EDITOR_USER_BUILDER, "(user)") + "\";");
 #if UNITY_EDITOR_OSX
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.CompileOn) + " = \"Mac\";");
 #else
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.CompileOn) + " = \"Window/Linux\";");
 #endif
+            rReturn.AppendLine("//Fort editor preferences");
+            //rReturn.AppendLine("#if UNITY_EDITOR");
+            //rReturn.AppendLine(NWDToolbox.PropertyName(() => this.RandomAppID) + " = \"" + this.RandomAppID + "\";");
+            //rReturn.AppendLine("#endif");
             rReturn.AppendLine("//Environments select\n");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.DevEnvironment) + "." + NWDToolbox.PropertyName(() => this.DevEnvironment.Selected) + " = " + this.DevEnvironment.Selected.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PreprodEnvironment) + "." + NWDToolbox.PropertyName(() => this.PreprodEnvironment.Selected) + " = " + this.PreprodEnvironment.Selected.ToString().ToLower() + ";");

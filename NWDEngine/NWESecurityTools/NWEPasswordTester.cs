@@ -57,6 +57,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static NWEPassAnalyseWindow kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
+        public static void SharedInstanceFocus()
+        {
+            //NWEBenchmark.Start();
+            SharedInstance().Show();
+            SharedInstance().Focus();
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         string Password = string.Empty;
         NWEPassAnalyseComputer AttackType = NWEPassAnalyseComputer.OneGHertz;
         //-------------------------------------------------------------------------------------------------------------

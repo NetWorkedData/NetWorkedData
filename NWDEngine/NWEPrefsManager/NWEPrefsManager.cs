@@ -32,12 +32,12 @@ namespace NetWorkedData
 #if UNITY_EDITOR
         public bool HasKey(string sKey)
         {
-            return EditorPrefs.HasKey(sKey);
+            return NWDEditorPrefs.HasKey(sKey);
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool isFirstLaunch()
         {
-            if (EditorPrefs.HasKey(kFirstLaunch))
+            if (NWDEditorPrefs.HasKey(kFirstLaunch))
             {
                 return false;
             }
@@ -47,22 +47,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void setFirstLaunch()
         {
-            EditorPrefs.SetInt(kFirstLaunch, 1);
+            NWDEditorPrefs.SetInt(kFirstLaunch, 1);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void set(string sKey, float sValue)
         {
-            EditorPrefs.SetFloat(sKey, sValue);
+            NWDEditorPrefs.SetFloat(sKey, sValue);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void set(string sKey, int sValue)
         {
-            EditorPrefs.SetInt(sKey, sValue);
+            NWDEditorPrefs.SetInt(sKey, sValue);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void set(string sKey, string sValue)
         {
-            EditorPrefs.SetString(sKey, sValue);
+            NWDEditorPrefs.SetString(sKey, sValue);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void set(string sKey, bool sValue)
@@ -79,9 +79,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public float getFloat(string sKey, float sDefault = 0.0F)
         {
-            if (EditorPrefs.HasKey(sKey))
+            if (NWDEditorPrefs.HasKey(sKey))
             {
-                return EditorPrefs.GetFloat(sKey, -1);
+                return NWDEditorPrefs.GetFloat(sKey, -1);
             }
 
             return sDefault;
@@ -89,9 +89,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public int getInt(string sKey, int sDefault = 0)
         {
-            if (EditorPrefs.HasKey(sKey))
+            if (NWDEditorPrefs.HasKey(sKey))
             {
-                return EditorPrefs.GetInt(sKey, -1);
+                return NWDEditorPrefs.GetInt(sKey, -1);
             }
 
             return sDefault;
@@ -99,9 +99,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string getString(string sKey, string sDefault = NWEConstants.K_EMPTY_STRING)
         {
-            if (EditorPrefs.HasKey(sKey))
+            if (NWDEditorPrefs.HasKey(sKey))
             {
-                return EditorPrefs.GetString(sKey, string.Empty);
+                return NWDEditorPrefs.GetString(sKey, string.Empty);
             }
 
             return sDefault;
@@ -109,7 +109,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool getBool(string sKey, bool sDefault = false)
         {
-            if (EditorPrefs.HasKey(sKey))
+            if (NWDEditorPrefs.HasKey(sKey))
             {
                 int value = getInt(sKey);
                 if (value == 1)
@@ -126,17 +126,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool deleteKey(string sKey)
         {
-            if (EditorPrefs.HasKey(sKey))
+            if (NWDEditorPrefs.HasKey(sKey))
             {
-                EditorPrefs.DeleteKey(sKey);
+                NWDEditorPrefs.DeleteKey(sKey);
                 return true;
             }
             return false;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void deleteAll()
-        {
-            EditorPrefs.DeleteAll();
         }
         //-------------------------------------------------------------------------------------------------------------
         void Save()

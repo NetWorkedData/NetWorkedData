@@ -37,6 +37,38 @@ namespace NetWorkedData
         List<string> ClassesList = new List<string>();
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        private static NWDEditorNewWindow kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the SharedInstance or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static NWDEditorNewWindow SharedInstance()
+        {
+            //NWEBenchmark.Start();
+            if (kSharedInstance == null)
+            {
+                kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorNewWindow)) as NWDEditorNewWindow;
+            }
+            //NWEBenchmark.Finish();
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show the SharedInstance of Editor Configuration Manager Window and focus on.
+        /// </summary>
+        /// <returns></returns>
+        public static void SharedInstanceFocus()
+        {
+            //NWEBenchmark.Start();
+            SharedInstance().ShowUtility();
+            SharedInstance().Focus();
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
         /// Raises the OnGUI event.
         /// </summary>
         public void GenerateNewWindow()

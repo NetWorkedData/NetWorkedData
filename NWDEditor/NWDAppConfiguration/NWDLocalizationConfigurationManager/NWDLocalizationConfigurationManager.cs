@@ -45,13 +45,12 @@ namespace NetWorkedData
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDLocalizationConfigurationManager SharedInstanceFocus()
+        public static void SharedInstanceFocus()
         {
             //NWEBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
             //NWEBenchmark.Finish();
-            return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void Refresh()

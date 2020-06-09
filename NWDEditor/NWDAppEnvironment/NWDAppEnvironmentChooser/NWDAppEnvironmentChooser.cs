@@ -36,13 +36,12 @@ namespace NetWorkedData
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAppEnvironmentChooser SharedInstanceFocus()
+        public static void SharedInstanceFocus()
         {
             //NWEBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
             //NWEBenchmark.Finish();
-            return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void Refresh()
@@ -142,7 +141,7 @@ namespace NetWorkedData
             if (tTabSelect != tTabSelected)
             {
                 GUI.FocusControl(null);
-                EditorPrefs.SetInt(NWDAppConfiguration.kEnvironmentSelectedKey, tTabSelect);
+                NWDEditorPrefs.SetInt(NWDAppConfiguration.kEnvironmentSelectedKey, tTabSelect);
                 switch (tTabSelect)
                 {
                     case 0:

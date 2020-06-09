@@ -2349,7 +2349,7 @@ namespace NetWorkedData
 
             tRect.y += NWDGUI.Line(tWindowRectLine).height;
 
-            float tW = EditorPrefs.GetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, 320);
+            float tW = NWDEditorPrefs.GetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, 320);
             Rect tWindowRectInpsector = new Rect(tRect.width - tW, tRect.position.y, tW, sEditorWindow.position.height - tRect.position.y);
             if (InspectorActions == true)
             {
@@ -2838,7 +2838,7 @@ namespace NetWorkedData
 
                 // TODO move in better place
                 //{
-                string tLastReferenceSelected = EditorPrefs.GetString(LastSelectedObjectKey(), string.Empty);
+                string tLastReferenceSelected = NWDEditorPrefs.GetString(LastSelectedObjectKey(), string.Empty);
                 if (string.IsNullOrEmpty(tLastReferenceSelected) == false)
                 {
                     mObjectInEdition = GetDataByReference(tLastReferenceSelected);

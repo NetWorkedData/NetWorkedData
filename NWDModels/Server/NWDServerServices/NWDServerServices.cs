@@ -32,6 +32,8 @@ namespace NetWorkedData
 
         public bool UserInstalled { get; set; }
         [NWDIf("UserInstalled", false)]
+        public string Folder { get; set; }
+        [NWDIf("UserInstalled", false)]
         [NWDEntitled("SFTP User")]
         public string User { get; set; }
         [NWDIf("UserInstalled", false)]
@@ -40,8 +42,6 @@ namespace NetWorkedData
         [NWDIf("UserInstalled", false)]
         [NWDEntitled("SFTP Password (AES)")]
         public NWDSecurePassword Secure_Password { get; set; }
-        [NWDIf("UserInstalled", false)]
-        public string Folder { get; set; }
         [NWDInspectorGroupEnd]
         //[NWDInspectorGroupStart("Authentification SSH / SFTP")]
         //[NWDEntitled("SSH IP")]

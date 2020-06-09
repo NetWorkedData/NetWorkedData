@@ -52,9 +52,15 @@ namespace NetWorkedData
             SharedInstance.SelectTab(sType);
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// The title of window
-        /// </summary>
+        public static void ShowAndFocusWindow()
+        {
+            ShowWindow();
+            SharedInstance.Focus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+            /// <summary>
+            /// The title of window
+            /// </summary>
         public string mTitleKey = "X Edition";
         /// <summary>
         /// The description of window.

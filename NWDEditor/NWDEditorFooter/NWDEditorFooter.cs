@@ -24,6 +24,13 @@ namespace NetWorkedData
     public class NWDEditorFooter : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        public static void NewFooter()
+        {
+            NWDEditorFooter tFooter = EditorWindow.CreateWindow<NWDEditorFooter>();
+            tFooter.ShowUtility();
+            tFooter.Focus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         private void OnEnable()
         {
             minSize = new Vector2(20, 32);

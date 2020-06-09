@@ -186,7 +186,7 @@ namespace NetWorkedData
             this.PreprodEnvironment.Selected = false;
             this.DevEnvironment.Selected = false;
             // We restaured environement selected in the preference and override the configurations file
-            int tEnvironmentSelected = EditorPrefs.GetInt(kEnvironmentSelectedKey);
+            int tEnvironmentSelected = NWDEditorPrefs.GetInt(kEnvironmentSelectedKey);
             switch (tEnvironmentSelected)
             {
                 case 1:

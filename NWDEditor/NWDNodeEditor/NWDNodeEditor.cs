@@ -62,13 +62,24 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
             return kNodeEditorSharedInstance;
         }
-
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show the SharedInstance of Editor Configuration Manager Window and focus on.
+        /// </summary>
+        /// <returns></returns>
+        public static void SharedInstanceFocus()
+        {
+            //NWEBenchmark.Start();
+            SharedInstance().Show();
+            SharedInstance().Focus();
+            //NWEBenchmark.Finish();
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static void RestaureObjectInEdition()
         {
             //NWEBenchmark.Start();
-            string tTypeEdited = EditorPrefs.GetString(K_NODE_EDITOR_LAST_TYPE_KEY);
-            string tLastReferenceEdited = EditorPrefs.GetString(K_NODE_EDITOR_LAST_REFERENCE_KEY);
+            string tTypeEdited = NWDEditorPrefs.GetString(K_NODE_EDITOR_LAST_TYPE_KEY);
+            string tLastReferenceEdited = NWDEditorPrefs.GetString(K_NODE_EDITOR_LAST_REFERENCE_KEY);
 
             if (!string.IsNullOrEmpty(tTypeEdited) && !string.IsNullOrEmpty(tLastReferenceEdited))
             {
@@ -87,13 +98,13 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             if (sSelection == null)
             {
-                EditorPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, string.Empty);
-                EditorPrefs.SetString(K_NODE_EDITOR_LAST_REFERENCE_KEY, string.Empty);
+                NWDEditorPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, string.Empty);
+                NWDEditorPrefs.SetString(K_NODE_EDITOR_LAST_REFERENCE_KEY, string.Empty);
             }
             else
             {
-                EditorPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, NWDBasisHelper.FindTypeInfos(sSelection.GetType()).ClassNamePHP);
-                EditorPrefs.SetString(K_NODE_EDITOR_LAST_REFERENCE_KEY, sSelection.Reference);
+                NWDEditorPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, NWDBasisHelper.FindTypeInfos(sSelection.GetType()).ClassNamePHP);
+                NWDEditorPrefs.SetString(K_NODE_EDITOR_LAST_REFERENCE_KEY, sSelection.Reference);
             }
             //NWEBenchmark.Finish();
         }

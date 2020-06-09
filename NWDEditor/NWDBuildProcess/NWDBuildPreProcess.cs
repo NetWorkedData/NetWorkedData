@@ -54,32 +54,32 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDEditorBuildEnvironment GetEditoBuildEnvironment()
         {
-            return (NWDEditorBuildEnvironment)EditorPrefs.GetInt("EditorBuildEnvironment");
+            return (NWDEditorBuildEnvironment)NWDEditorPrefs.GetInt("EditorBuildEnvironment");
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SetEditorBuildEnvironment(NWDEditorBuildEnvironment sValue)
         {
-            EditorPrefs.SetInt("EditorBuildEnvironment", (int)sValue);
+            NWDEditorPrefs.SetInt("EditorBuildEnvironment", (int)sValue);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDEditorBuildRename GetEditoBuildRename()
         {
-            return (NWDEditorBuildRename)EditorPrefs.GetInt("EditorBuildRename");
+            return (NWDEditorBuildRename)NWDEditorPrefs.GetInt("EditorBuildRename");
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SetEditorBuildRename(NWDEditorBuildRename sValue)
         {
-            EditorPrefs.SetInt("EditorBuildRename", (int)sValue);
+            NWDEditorPrefs.SetInt("EditorBuildRename", (int)sValue);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDEditorBuildDatabaseUpdate GetEditorBuildDatabaseUpdate()
         {
-            return (NWDEditorBuildDatabaseUpdate)EditorPrefs.GetInt("EditorBuildDatabaseUpdate");
+            return (NWDEditorBuildDatabaseUpdate)NWDEditorPrefs.GetInt("EditorBuildDatabaseUpdate");
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SetEditorBuildDatabaseUpdate(NWDEditorBuildDatabaseUpdate sValue)
         {
-            EditorPrefs.SetInt("EditorBuildDatabaseUpdate", (int)sValue);
+            NWDEditorPrefs.SetInt("EditorBuildDatabaseUpdate", (int)sValue);
         }
         //-------------------------------------------------------------------------------------------------------------
         public int callbackOrder { get { return 0; } }

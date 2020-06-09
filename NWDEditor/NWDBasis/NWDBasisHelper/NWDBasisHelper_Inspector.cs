@@ -53,7 +53,7 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             string tKey = Key();
             //EditorPrefs.HasKey(tKey);
-            EditorPrefs.SetBool(tKey, sOpen);
+            NWDEditorPrefs.SetBool(tKey, sOpen);
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -61,7 +61,7 @@ namespace NetWorkedData
         {
             string tKey = Key();
             //EditorPrefs.HasKey(tKey);
-            return EditorPrefs.GetBool(tKey, Open);
+            return NWDEditorPrefs.GetBool(tKey, Open);
         }
         //-------------------------------------------------------------------------------------------------------------
         public GUIContent Content()

@@ -40,7 +40,7 @@ namespace NetWorkedData
                 else
                 {
 #if UNITY_EDITOR
-                    if (EditorPrefs.GetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG) == true)
+                    if (NWDEditorPrefs.GetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG) == true)
                     {
                         NWEClipboard.CopyToClipboard(sString);
                     }

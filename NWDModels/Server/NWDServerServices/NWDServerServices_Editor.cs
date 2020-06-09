@@ -293,6 +293,22 @@ namespace NetWorkedData
                 EditorGUI.EndDisabledGroup();
                 tI++;
 
+                ////-----------------
+                //tButtonTitle = new GUIContent("Install FTPS", "insatll FTPS ");
+                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                //{
+
+                //    List<string> tCommandList = new List<string>();
+
+                //    tCommandList.Add("apt-get update");
+                //    tCommandList.Add("apt-get -y upgrade");
+                //    tCommandList.Add("apt-get -y dist-upgrade");
+                //    tCommandList.Add("apt-get -y install vsftpd");
+
+                //    tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
+                //}
+                //tI++;
+
                 //-----------------
                 tButtonTitle = new GUIContent("Check apache", "check apache ");
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
@@ -401,6 +417,24 @@ namespace NetWorkedData
                     Application.OpenURL(tURL);
                 }
                 tI++;
+                ////-----------------
+                //string tURLB = "ftp://" + User + ":" + Password.GetValue() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + Folder;
+                //tButtonTitle = new GUIContent("Try ftp directly", tURL);
+                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                //{
+                //    //NWEClipboard.CopyToClipboard(Password.GetValue());
+                //    Application.OpenURL(tURLB);
+                //}
+                //tI++;
+                ////-----------------
+                //string tURLC = "ftps://" + User + ":" + Password.GetValue() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + Folder;
+                //tButtonTitle = new GUIContent("Try ftps directly", tURL);
+                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                //{
+                //    //NWEClipboard.CopyToClipboard(Password.GetValue());
+                //    Application.OpenURL(tURLC);
+                //}
+                //tI++;
             }
         }
         //-------------------------------------------------------------------------------------------------------------
