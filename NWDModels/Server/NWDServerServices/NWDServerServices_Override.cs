@@ -91,10 +91,10 @@ namespace NetWorkedData
                 User = "wsuser" + NWDToolbox.RandomStringAlpha(3).ToLower();
             }
 
-            if (Password != null)
-            {
-                Password.SetValue(NWDToolbox.UnixCleaner(Password.GetValue()));
-            }
+            //if (Password != null)
+            //{
+            //    Password.SetValue(NWDToolbox.UnixCleaner(Password.GetValue()));
+            //}
 
             //User = NWDToolbox.UnixCleaner(User);
             //if (Password != null)

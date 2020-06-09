@@ -94,7 +94,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private string CryptAes(string sPlainText)
+        public string CryptAes(string sPlainText)
         {
             string rParamB64 = null;
             if (string.IsNullOrEmpty(sPlainText) == false)

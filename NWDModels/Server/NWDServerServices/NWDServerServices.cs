@@ -36,9 +36,9 @@ namespace NetWorkedData
         [NWDIf("UserInstalled", false)]
         [NWDEntitled("SFTP User")]
         public string User { get; set; }
-        [NWDIf("UserInstalled", false)]
-        [NWDEntitled("SFTP Password")]
-        public NWDPasswordType Password { get; set; }
+        //[NWDIf("UserInstalled", false)]
+        //[NWDEntitled("SFTP Password")]
+        //public NWDPasswordType Password { get; set; }
         [NWDIf("UserInstalled", false)]
         [NWDEntitled("SFTP Password (AES)")]
         public NWDSecurePassword Secure_Password { get; set; }

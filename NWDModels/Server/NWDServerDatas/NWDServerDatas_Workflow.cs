@@ -211,7 +211,7 @@ namespace NetWorkedData
                 (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment && Preprod == true) ||
                 (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment && Prod == true))
             {
-                rReturn = new NWDServerDatabaseAuthentication(InternalKey, Reference, Range.ToString(), RangeMin, RangeMax, UserMax.ToString(), NWDToolbox.TextUnprotect(MySQLIP.GetValue()), MySQLPort, NWDToolbox.TextUnprotect(MySQLBase), NWDToolbox.TextUnprotect(MySQLUser), NWDToolbox.TextUnprotect(MySQLPassword.ToString()));
+                rReturn = new NWDServerDatabaseAuthentication(InternalKey, Reference, Range.ToString(), RangeMin, RangeMax, UserMax.ToString(), NWDToolbox.TextUnprotect(MySQLIP.GetValue()), MySQLPort, NWDToolbox.TextUnprotect(MySQLBase), NWDToolbox.TextUnprotect(MySQLUser), NWDToolbox.TextUnprotect(MySQLSecurePassword.Decrypt()));
             }
             return rReturn;
         }

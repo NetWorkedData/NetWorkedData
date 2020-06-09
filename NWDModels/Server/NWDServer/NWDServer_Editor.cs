@@ -124,7 +124,7 @@ namespace NetWorkedData
                     "chmod 770 TestFolderForRoot",   // change right for dir of Root_User
 
                     "ls",
-                }, null, Port, Root_User, Root_Password.GetValue());
+                }, null, Port, Root_User, Root_Secure_Password.Decrypt());
             }
             tI++;
             //-----------------
@@ -135,7 +135,7 @@ namespace NetWorkedData
                 ExecuteSSH(this, tButtonTitle.text, new List<string>()
                 {
                     "ls",
-                }, null, Port, Admin_User, Admin_Password.GetValue());
+                }, null, Port, Admin_User, Admin_Secure_Password.Decrypt());
             }
             EditorGUI.EndDisabledGroup();
             tI++;
@@ -161,7 +161,7 @@ namespace NetWorkedData
                 },
                            delegate (string sCommand, string sResult)
                            {
-                               Root_Password.SetValue(tNewPassword);
+                               Root_Secure_Password.CryptAes(tNewPassword);
                                UpdateDataIfModified();
                            });
             }
@@ -179,7 +179,7 @@ namespace NetWorkedData
                 },
                            delegate (string sCommand, string sResult)
                            {
-                               Admin_Password.SetValue(tNewPassword);
+                               Admin_Secure_Password.CryptAes(tNewPassword);
                                UpdateDataIfModified();
                            });
             }
@@ -265,7 +265,7 @@ namespace NetWorkedData
                 ExecuteSSH(this, tButtonTitle.text, new List<string>()
                 {
                 "useradd --shell /bin/bash " + Admin_User + "", // create user for Admin
-                "echo " + Admin_User + ":" + Admin_Password + " | chpasswd", // change the password for the Admin
+                "echo " + Admin_User + ":" + Admin_Secure_Password.Decrypt() + " | chpasswd", // change the password for the Admin
                 //"usermod -aG sudo " + Admin_User + "", // give sudo to the admin ... TODO : is it secure? // anayway the admin will be refuse in ssh connexion :-(
                 "mkdir /home/" + Admin_User + "", // make dir for Admin
                 "chown " + Admin_User + ":" + Admin_User + " /home/" + Admin_User + "", // change owner for dir of Admin

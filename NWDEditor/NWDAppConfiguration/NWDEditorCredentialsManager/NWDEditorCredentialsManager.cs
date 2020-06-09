@@ -171,6 +171,12 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void FlushCredentials(NWDCredentialsRequired sCredentialsType)
+        {
+            Password = string.Empty;
+            VectorString = string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         ///  On GUI drawing.
         /// </summary>
@@ -185,12 +191,17 @@ namespace NetWorkedData
             //General preferences
             NWDGUILayout.Section("Enter the password use to decrypt passwords of cluster");
 
-            EditorGUILayout.LabelField("Debug password", Password);
-            EditorGUILayout.LabelField("Debug vector", VectorString);
+            //EditorGUILayout.LabelField("Debug password", Password);
+            //EditorGUILayout.LabelField("Debug vector", VectorString);
 
             Password = EditorGUILayout.PasswordField("General password", Password);
             VectorString = EditorGUILayout.PasswordField("General vector", VectorString);
 
+            if (GUILayout.Button("Flush"))
+            {
+                Password = string.Empty;
+                VectorString = string.Empty;
+            }
 
             if (GUILayout.Button("Flush and close"))
             {

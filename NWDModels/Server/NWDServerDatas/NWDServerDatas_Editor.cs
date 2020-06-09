@@ -36,325 +36,302 @@ namespace NetWorkedData
             PropertiesPrevent();
             Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 100);
             int tI = 0;
-            GUIStyle tSyleTextArea = new GUIStyle(GUI.skin.textArea);
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
-
-            GUIContent tButtonTitle = null;
-
-            NWDServer tServer = Server.GetRawData();
-            if (tServer != null)
+            if (NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
             {
-                //-----------------
-                EditorGUI.HelpBox(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
-                tI += 2;
-                //tButtonTitle = new GUIContent("Open terminal", " open terminal or console on your desktop");
-                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                //{
-                //    // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
-                //    FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
-                //    System.Diagnostics.Process.Start(tFileInfo.FullName);
-                //}
-                //tI++;
-
-                string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Root_User + " -p " + tServer.Port;
-                if (tServer.AdminInstalled)
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Credentials window"))
                 {
-                    tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Admin_User + " -p " + tServer.Port;
-                }
-                tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                {
-                    NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
+                    NWDEditorCredentialsManager.SharedInstanceFocus();
                 }
                 tI++;
-                GUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), tcommandKeyGen);
-                tI += 2;
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Flush credentials"))
+                {
+                    NWDEditorCredentialsManager.FlushCredentials(NWDCredentialsRequired.ForSFTPGenerate);
+                }
+                tI++;
                 NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
                 tI++;
-                //-----------------
-                // find ip of server by dns if associated
-                EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(tServer.DomainNameServer) == true);
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Find IP from Server (NWDServerDomain)"))
+                GUIStyle tSyleTextArea = new GUIStyle(GUI.skin.textArea);
+
+                GUIContent tButtonTitle = null;
+
+                NWDServer tServer = Server.GetRawData();
+                if (tServer != null)
                 {
-                    string tLocalIP = "0.0.0.0";
-                    foreach (IPAddress tIP in Dns.GetHostAddresses(tServer.DomainNameServer))
+                    //-----------------
+                    EditorGUI.HelpBox(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
+                    tI += 2;
+                    //tButtonTitle = new GUIContent("Open terminal", " open terminal or console on your desktop");
+                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    //{
+                    //    // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
+                    //    FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
+                    //    System.Diagnostics.Process.Start(tFileInfo.FullName);
+                    //}
+                    //tI++;
+
+                    string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Root_User + " -p " + tServer.Port;
+                    if (tServer.AdminInstalled)
                     {
-                        if (tIP.AddressFamily == AddressFamily.InterNetwork)
-                        {
-                            tLocalIP = tIP.ToString();
-                        }
+                        tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Admin_User + " -p " + tServer.Port;
                     }
-                    MySQLIP.SetValue(tLocalIP);
-                }
-                EditorGUI.EndDisabledGroup();
-                tI++;
-                //-----------------
-                tButtonTitle = new GUIContent("Try connexion", " try connexion with root or admin");
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                {
-                    tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
+                    tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
+                    }
+                    tI++;
+                    GUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), tcommandKeyGen);
+                    tI += 2;
+                    NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                    tI++;
+                    //-----------------
+                    // find ip of server by dns if associated
+                    EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(tServer.DomainNameServer) == true);
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Find IP from Server (NWDServerDomain)"))
+                    {
+                        string tLocalIP = "0.0.0.0";
+                        foreach (IPAddress tIP in Dns.GetHostAddresses(tServer.DomainNameServer))
+                        {
+                            if (tIP.AddressFamily == AddressFamily.InterNetwork)
+                            {
+                                tLocalIP = tIP.ToString();
+                            }
+                        }
+                        MySQLIP.SetValue(tLocalIP);
+                    }
+                    EditorGUI.EndDisabledGroup();
+                    tI++;
+                    //-----------------
+                    tButtonTitle = new GUIContent("Try connexion", " try connexion with root or admin");
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
                     "ls",
                 });
-                }
-                tI++;
-                //-----------------
-                tButtonTitle = new GUIContent("install MariaDB", " try install MariaDB (fork of MySQL)");
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                {
-                    List<string> tCommandList = new List<string>();
-
-                    tCommandList.Add("echo \"<color=red> -> server update</color>\"");
-                    tCommandList.Add("apt-get update");
-                    tCommandList.Add("apt-get -y upgrade");
-                    tCommandList.Add("apt-get -y dist-upgrade");
-
-                    tCommandList.Add("/etc/init.d/mysql stop");
-
-                    tCommandList.Add("echo \"<color=red> -> mysql install (MariaDB)</color>\"");
-                    tCommandList.Add("debconf-set-selections <<< \"mariadb-server mysql-server/root_password password " + Root_MysqlPassword + "\"");
-                    tCommandList.Add("debconf-set-selections <<< \"mariadb-server mysql-server/root_password_again password " + Root_MysqlPassword + "\"");
-                    tCommandList.Add("apt-get -y install mariadb-server");
-                    tCommandList.Add("echo PURGE | debconf-communicate mariadb-server");
-                    tCommandList.Add("echo \"<color=red> -> mysql start (MariaDB)</color>\"");
-                    if (External == true)
-                    {
-                        //prefere use replace as delete and add
-                        //tCommandList.Add("sed -i 's/^.*bind\\-address.*$//g' /etc/mysql/mariadb.conf.d/50-server.cnf");
-                        //tCommandList.Add("sed -i '$ a bind-address = 0.0.0.0' /etc/mysql/mariadb.conf.d/50-server.cnf");
-                        tCommandList.Add("sed -i 's/^.*bind\\-address.*$/bind\\-address = 0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
                     }
-                    else
-                    {
-                        //prefere use replace as delete and add
-                        //tCommandList.Add("sed -i 's/^.*bind\\-address.*$//g' /etc/mysql/mariadb.conf.d/50-server.cnf");
-                        //tCommandList.Add("sed -i '$ a bind-address = 127.0.0.1' /etc/mysql/mariadb.conf.d/50-server.cnf");
-                        tCommandList.Add("sed -i 's/^.*bind-address .*$/bind-address = 127.0.0.1/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
-                    }
-                    tCommandList.Add("/etc/init.d/mysql start");
-                    if (PhpMyAdmin == true)
-                    {
-                        tCommandList.Add("echo \"<color=red> -> install apache</color>\"");
-                        tCommandList.Add("apt-get -y install apache2");
-                        tCommandList.Add("apt-get -y install apache2-doc");
-                        tCommandList.Add("apt-get -y install apache2-suexec-custom");
-                        tCommandList.Add("apt-get -y install logrotate");
-
-                        tCommandList.Add("echo \"<color=red> -> active apache mod</color>\"");
-                        tCommandList.Add("a2enmod ssl");
-                        tCommandList.Add("a2enmod userdir");
-                        tCommandList.Add("a2enmod suexec");
-
-                        tCommandList.Add("echo \"<color=red> -> apache configure</color>\"");
-                        tCommandList.Add("sed -i 's/\\/var\\/www/\\/home/g' /etc/apache2/suexec/www-data");
-                        tCommandList.Add("sed -i 's/^.*ServerSignature .*$//g' /etc/apache2/apache2.conf");
-                        tCommandList.Add("sed -i '$ a ServerSignature Off' /etc/apache2/apache2.conf");
-
-                        tCommandList.Add("echo \"<color=red> -> apache restart</color>\"");
-                        tCommandList.Add("systemctl restart apache2");
-
-                        tCommandList.Add("echo \"<color=red> -> install php</color>\"");
-                        tCommandList.Add("apt-get -y install php");
-                        //tCommandList.Add("apt-get -y install php-gd");
-                        //tCommandList.Add("apt-get -y install php-bz2");
-                        //tCommandList.Add("apt-get -y install php-tcpdf");
-                        tCommandList.Add("apt-get -y install php-mysql");
-                        tCommandList.Add("apt-get -y install php-curl");
-                        tCommandList.Add("apt-get -y install php-json");
-                        tCommandList.Add("apt-get -y install php-mcrypt");
-                        tCommandList.Add("apt-get -y install php-mbstring");
-                        tCommandList.Add("apt-get -y install php-gettext");
-                        tCommandList.Add("apt-get -y install php-zip");
-                        tCommandList.Add("apt-get -y install php-mail");
-                        tCommandList.Add("apt-get -y install php-pear");
-                        tCommandList.Add("apt-get -y install libapache2-mod-php");
-
-                        tCommandList.Add("echo \"<color=red> -> phpmyadmin install</color>\"");
-                        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/dbconfig-install boolean true\"");
-                        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/app-password-confirm password " + Root_MysqlPassword + "\"");
-                        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/mysql/admin-pass password " + Root_MysqlPassword + "\"");
-                        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/mysql/app-pass password " + Root_MysqlPassword + "\"");
-                        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/reconfigure-webserver multiselect none\"");
-                        tCommandList.Add("apt-get -y -q install phpmyadmin");
-                        tCommandList.Add("echo PURGE | debconf-communicate phpmyadmin");
-                        tCommandList.Add("systemctl restart apache2");
-                    }
-                    tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
-                }
-                tI++;
-
-                //tButtonTitle = new GUIContent("install PhpMyAdmin", " try install PhpMyAdmin");
-                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                //{
-                //    List<string> tCommandList = new List<string>();
-
-                //    tCommandList.Add("echo \"<color=red> -> server update</color>\"");
-                //    tCommandList.Add("apt-get update");
-                //    tCommandList.Add("apt-get -y upgrade");
-                //    tCommandList.Add("apt-get -y dist-upgrade");
-                //    if (PhpMyAdmin == true)
-                //    {
-                //        tCommandList.Add("echo \"<color=red> -> install php</color>\"");
-
-                //        tCommandList.Add("echo \"<color=red> -> phpmyadmin install</color>\"");
-                //        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/dbconfig-install boolean true\"");
-                //        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/app-password-confirm password " + Root_MysqlPassword + "\"");
-                //        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/mysql/admin-pass password " + Root_MysqlPassword + "\"");
-                //        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/mysql/app-pass password " + Root_MysqlPassword + "\"");
-                //        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/reconfigure-webserver multiselect none\"");
-                //        tCommandList.Add("apt-get -y -q install phpmyadmin");
-                //        tCommandList.Add("echo PURGE | debconf-communicate phpmyadmin");
-                //        tCommandList.Add("systemctl restart apache2");
-                //    }
-                //    tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
-                //}
-                //tI++;
-
-                tButtonTitle = new GUIContent("Install User", " try install User In MariaDB");
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                {
-                    List<string> tCommandList = new List<string>();
-                    tCommandList.Add("echo \"<color=red> -> add user in mysql</color>\"");
-                    tCommandList.Add("echo \" -> add user in mysql\"");
-                    tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"CREATE DATABASE IF NOT EXISTS " + MySQLBase + ";\"");
-                    tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"GRANT ALL PRIVILEGES ON " + MySQLBase + ".* TO '" + MySQLUser + "'@'localhost' IDENTIFIED BY '" + MySQLPassword + "';\"");
-                    if (External == true)
-                    {
-                        tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"GRANT ALL PRIVILEGES ON " + MySQLBase + ".* TO '" + MySQLUser + "'@'%' IDENTIFIED BY '" + MySQLPassword + "';\"");
-                    }
-                    else
-                    {
-                        tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"REVOKE ALL PRIVILEGES ON " + MySQLBase + ".* FROM '" + MySQLUser + "'@'%';\"");
-                    }
-                    tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
-                }
-                tI++;
-
-
-                if (GUI.Button(tMatrix[0, tI], "http://xxx/phpmyadmin/"))
-                {
-                    string tURL = "http://" + MySQLIP.GetValue() + "/phpmyadmin/?pma_username=" + MySQLUser + "&pma_password=" + MySQLPassword.GetValue() + "";
-                    Application.OpenURL(tURL);
-                }
-                if (GUI.Button(tMatrix[1, tI], "https://xxx/phpmyadmin/"))
-                {
-                    string tURL = "https://" + MySQLIP.GetValue() + "/phpmyadmin/?pma_username=" + MySQLUser + "&pma_password=" + MySQLPassword.GetValue() + "";
-                    Application.OpenURL(tURL);
-                }
-                tI++;
-
-
-
-                //-----------------
-                string tURLAdmin = "sftp://" + tServer.Admin_User + ":" + tServer.Admin_Password.GetValue() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/";
-                tButtonTitle = new GUIContent("Try sftp ADMIN directly", tURLAdmin);
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                {
-                    //NWEClipboard.CopyToClipboard(Password.GetValue());
-                    Application.OpenURL(tURLAdmin);
-                }
-                tI++;
-
-                //-----------------
-                tButtonTitle = new GUIContent("restart phpmyadmin", " try to fix bug in login");
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                {
-                    List<string> tCommandList = new List<string>();
-                    //tCommandList.Add("/etc/init.d/apache2 restart");
-                    tCommandList.Add("/etc/init.d/apache2 restart");
-                    tCommandList.Add("/etc/init.d/mysql restart");
-                    tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
-                }
-                tI++;
-
-                //-----------------
-                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-                tI++;
-
-                //-----------------
-                NWDGUI.BeginRedArea();
-                tButtonTitle = new GUIContent("Flush account Database ", " TODO ");
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                {
-                    if (EditorUtility.DisplayDialog("WARNING", "YOU WILL DELETE ALL DATAS OF PLAYERS!", "YES", "CANCEL"))
-                    {
-                        List<string> tCommandList = new List<string>();
-                        List<string> tTableList = new List<string>();
-                        foreach (Type tType in NWDDataManager.SharedInstance().ClassAccountDependentList)
-                        {
-                            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                            if (Dev == true)
-                            {
-                                tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().DevEnvironment));
-                            }
-                            if (Preprod == true)
-                            {
-                                tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().PreprodEnvironment));
-                            }
-                            if (Prod == true)
-                            {
-                                tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().ProdEnvironment));
-                            }
-                        }
-                        foreach (string tTable in tTableList)
-                        {
-                            tCommandList.Add("echo \"<color=orange> -> delete " + tTable + "</color>\"");
-                            //tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"USE " + MySQLBase + "; DROP TABLE " + MySQLBase + "." + tTable + ";\"");
-                            tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"USE " + MySQLBase + "; DELETE FROM " + MySQLBase + "." + tTable + ";\"");
-                        }
-                        tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
-                    }
-                }
-                NWDGUI.EndRedArea();
-                tI++;
-
-                //-----------------
-                NWDServerDatas tServerDatasOrg = ServerEditorOriginal.GetRawData();
-                EditorGUI.BeginDisabledGroup(tServerDatasOrg == null);
-                {
+                    tI++;
                     //-----------------
-                    tButtonTitle = new GUIContent("Flush editor Database ", " TODO ");
+                    tButtonTitle = new GUIContent("install MariaDB", " try install MariaDB (fork of MySQL)");
                     if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                     {
                         List<string> tCommandList = new List<string>();
-                        List<string> tTableList = new List<string>();
-                        foreach (Type tType in NWDDataManager.SharedInstance().ClassNotAccountDependentList)
+
+                        tCommandList.Add("echo \"<color=red> -> server update</color>\"");
+                        tCommandList.Add("apt-get update");
+                        tCommandList.Add("apt-get -y upgrade");
+                        tCommandList.Add("apt-get -y dist-upgrade");
+
+                        tCommandList.Add("/etc/init.d/mysql stop");
+
+                        tCommandList.Add("echo \"<color=red> -> mysql install (MariaDB)</color>\"");
+                        tCommandList.Add("debconf-set-selections <<< \"mariadb-server mysql-server/root_password password " + Root_MySQLSecurePassword.Decrypt() + "\"");
+                        tCommandList.Add("debconf-set-selections <<< \"mariadb-server mysql-server/root_password_again password " + Root_MySQLSecurePassword.Decrypt() + "\"");
+                        tCommandList.Add("apt-get -y install mariadb-server");
+                        tCommandList.Add("echo PURGE | debconf-communicate mariadb-server");
+                        tCommandList.Add("echo \"<color=red> -> mysql start (MariaDB)</color>\"");
+                        if (External == true)
                         {
-                            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                            if (Dev == true)
-                            {
-                                tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().DevEnvironment));
-                            }
-                            if (Preprod == true)
-                            {
-                                tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().PreprodEnvironment));
-                            }
-                            if (Prod == true)
-                            {
-                                tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().ProdEnvironment));
-                            }
+                            //prefere use replace as delete and add
+                            //tCommandList.Add("sed -i 's/^.*bind\\-address.*$//g' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                            //tCommandList.Add("sed -i '$ a bind-address = 0.0.0.0' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                            tCommandList.Add("sed -i 's/^.*bind\\-address.*$/bind\\-address = 0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
                         }
-                        foreach (string tTable in tTableList)
+                        else
                         {
-                            tCommandList.Add("echo \"<color=orange> -> delete " + tTable + "</color>\"");
-                            //tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"USE " + MySQLBase + "; DROP TABLE " + MySQLBase + "." + tTable + ";\"");
-                            tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"USE " + MySQLBase + "; DELETE FROM " + MySQLBase + "." + tTable + ";\"");
+                            //prefere use replace as delete and add
+                            //tCommandList.Add("sed -i 's/^.*bind\\-address.*$//g' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                            //tCommandList.Add("sed -i '$ a bind-address = 127.0.0.1' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                            tCommandList.Add("sed -i 's/^.*bind-address .*$/bind-address = 127.0.0.1/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                        }
+                        tCommandList.Add("/etc/init.d/mysql start");
+                        if (PhpMyAdmin == true)
+                        {
+                            tCommandList.Add("echo \"<color=red> -> install apache</color>\"");
+                            tCommandList.Add("apt-get -y install apache2");
+                            tCommandList.Add("apt-get -y install apache2-doc");
+                            tCommandList.Add("apt-get -y install apache2-suexec-custom");
+                            tCommandList.Add("apt-get -y install logrotate");
+
+                            tCommandList.Add("echo \"<color=red> -> active apache mod</color>\"");
+                            tCommandList.Add("a2enmod ssl");
+                            tCommandList.Add("a2enmod userdir");
+                            tCommandList.Add("a2enmod suexec");
+
+                            tCommandList.Add("echo \"<color=red> -> apache configure</color>\"");
+                            tCommandList.Add("sed -i 's/\\/var\\/www/\\/home/g' /etc/apache2/suexec/www-data");
+                            tCommandList.Add("sed -i 's/^.*ServerSignature .*$//g' /etc/apache2/apache2.conf");
+                            tCommandList.Add("sed -i '$ a ServerSignature Off' /etc/apache2/apache2.conf");
+
+                            tCommandList.Add("echo \"<color=red> -> apache restart</color>\"");
+                            tCommandList.Add("systemctl restart apache2");
+
+                            tCommandList.Add("echo \"<color=red> -> install php</color>\"");
+                            tCommandList.Add("apt-get -y install php");
+                            //tCommandList.Add("apt-get -y install php-gd");
+                            //tCommandList.Add("apt-get -y install php-bz2");
+                            //tCommandList.Add("apt-get -y install php-tcpdf");
+                            tCommandList.Add("apt-get -y install php-mysql");
+                            tCommandList.Add("apt-get -y install php-curl");
+                            tCommandList.Add("apt-get -y install php-json");
+                            tCommandList.Add("apt-get -y install php-mcrypt");
+                            tCommandList.Add("apt-get -y install php-mbstring");
+                            tCommandList.Add("apt-get -y install php-gettext");
+                            tCommandList.Add("apt-get -y install php-zip");
+                            tCommandList.Add("apt-get -y install php-mail");
+                            tCommandList.Add("apt-get -y install php-pear");
+                            tCommandList.Add("apt-get -y install libapache2-mod-php");
+
+                            tCommandList.Add("echo \"<color=red> -> phpmyadmin install</color>\"");
+                            tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/dbconfig-install boolean true\"");
+                            tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/app-password-confirm password " + Root_MySQLSecurePassword.Decrypt() + "\"");
+                            tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/mysql/admin-pass password " + Root_MySQLSecurePassword.Decrypt() + "\"");
+                            tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/mysql/app-pass password " + Root_MySQLSecurePassword.Decrypt() + "\"");
+                            tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/reconfigure-webserver multiselect none\"");
+                            tCommandList.Add("apt-get -y -q install phpmyadmin");
+                            tCommandList.Add("echo PURGE | debconf-communicate phpmyadmin");
+                            tCommandList.Add("systemctl restart apache2");
                         }
                         tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
                     }
                     tI++;
 
-                    //-----------------
-                    tButtonTitle = new GUIContent("Replace Database from original", " delete and copy editor table ");
+                    //tButtonTitle = new GUIContent("install PhpMyAdmin", " try install PhpMyAdmin");
+                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    //{
+                    //    List<string> tCommandList = new List<string>();
+
+                    //    tCommandList.Add("echo \"<color=red> -> server update</color>\"");
+                    //    tCommandList.Add("apt-get update");
+                    //    tCommandList.Add("apt-get -y upgrade");
+                    //    tCommandList.Add("apt-get -y dist-upgrade");
+                    //    if (PhpMyAdmin == true)
+                    //    {
+                    //        tCommandList.Add("echo \"<color=red> -> install php</color>\"");
+
+                    //        tCommandList.Add("echo \"<color=red> -> phpmyadmin install</color>\"");
+                    //        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/dbconfig-install boolean true\"");
+                    //        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/app-password-confirm password " + Root_MysqlPassword + "\"");
+                    //        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/mysql/admin-pass password " + Root_MysqlPassword + "\"");
+                    //        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/mysql/app-pass password " + Root_MysqlPassword + "\"");
+                    //        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/reconfigure-webserver multiselect none\"");
+                    //        tCommandList.Add("apt-get -y -q install phpmyadmin");
+                    //        tCommandList.Add("echo PURGE | debconf-communicate phpmyadmin");
+                    //        tCommandList.Add("systemctl restart apache2");
+                    //    }
+                    //    tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
+                    //}
+                    //tI++;
+
+                    tButtonTitle = new GUIContent("Install User", " try install User In MariaDB");
                     if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                     {
-                        if (tServerDatasOrg != null)
+                        List<string> tCommandList = new List<string>();
+                        tCommandList.Add("echo \"<color=red> -> add user in mysql</color>\"");
+                        tCommandList.Add("echo \" -> add user in mysql\"");
+                        tCommandList.Add("mysql -u root -p\"" + Root_MySQLSecurePassword.Decrypt() + "\" -e \"CREATE DATABASE IF NOT EXISTS " + MySQLBase + ";\"");
+                        tCommandList.Add("mysql -u root -p\"" + Root_MySQLSecurePassword.Decrypt() + "\" -e \"GRANT ALL PRIVILEGES ON " + MySQLBase + ".* TO '" + MySQLUser + "'@'localhost' IDENTIFIED BY '" + MySQLSecurePassword.Decrypt() + "';\"");
+                        if (External == true)
                         {
-                            NWDServer tServerOriginal = tServerDatasOrg.Server.GetRawData();
-                            List<string> tCommandList = new List<string>();
-                            List<string> tCommandListAnother = new List<string>();
+                            tCommandList.Add("mysql -u root -p\"" + Root_MySQLSecurePassword.Decrypt() + "\" -e \"GRANT ALL PRIVILEGES ON " + MySQLBase + ".* TO '" + MySQLUser + "'@'%' IDENTIFIED BY '" + MySQLSecurePassword.Decrypt() + "';\"");
+                        }
+                        else
+                        {
+                            tCommandList.Add("mysql -u root -p\"" + Root_MySQLSecurePassword.Decrypt() + "\" -e \"REVOKE ALL PRIVILEGES ON " + MySQLBase + ".* FROM '" + MySQLUser + "'@'%';\"");
+                        }
+                        tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
+                    }
+                    tI++;
 
+
+                    if (GUI.Button(tMatrix[0, tI], "http://xxx/phpmyadmin/"))
+                    {
+                        string tURL = "http://" + MySQLIP.GetValue() + "/phpmyadmin/?pma_username=" + MySQLUser + "&pma_password=" + MySQLSecurePassword.Decrypt() + "";
+                        Application.OpenURL(tURL);
+                    }
+                    if (GUI.Button(tMatrix[1, tI], "https://xxx/phpmyadmin/"))
+                    {
+                        string tURL = "https://" + MySQLIP.GetValue() + "/phpmyadmin/?pma_username=" + MySQLUser + "&pma_password=" + MySQLSecurePassword.Decrypt() + "";
+                        Application.OpenURL(tURL);
+                    }
+                    tI++;
+
+
+
+                    //-----------------
+                    string tURLAdmin = "sftp://" + tServer.Admin_User + ":" + tServer.Admin_Secure_Password.Decrypt() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/";
+                    tButtonTitle = new GUIContent("Try sftp ADMIN directly", tURLAdmin);
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        //NWEClipboard.CopyToClipboard(Password.GetValue());
+                        Application.OpenURL(tURLAdmin);
+                    }
+                    tI++;
+
+                    //-----------------
+                    tButtonTitle = new GUIContent("restart phpmyadmin", " try to fix bug in login");
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        List<string> tCommandList = new List<string>();
+                        //tCommandList.Add("/etc/init.d/apache2 restart");
+                        tCommandList.Add("/etc/init.d/apache2 restart");
+                        tCommandList.Add("/etc/init.d/mysql restart");
+                        tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
+                    }
+                    tI++;
+
+                    //-----------------
+                    NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                    tI++;
+
+                    //-----------------
+                    NWDGUI.BeginRedArea();
+                    tButtonTitle = new GUIContent("Flush account Database ", " TODO ");
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        if (EditorUtility.DisplayDialog("WARNING", "YOU WILL DELETE ALL DATAS OF PLAYERS!", "YES", "CANCEL"))
+                        {
+                            List<string> tCommandList = new List<string>();
+                            List<string> tTableList = new List<string>();
+                            foreach (Type tType in NWDDataManager.SharedInstance().ClassAccountDependentList)
+                            {
+                                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                                if (Dev == true)
+                                {
+                                    tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().DevEnvironment));
+                                }
+                                if (Preprod == true)
+                                {
+                                    tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().PreprodEnvironment));
+                                }
+                                if (Prod == true)
+                                {
+                                    tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().ProdEnvironment));
+                                }
+                            }
+                            foreach (string tTable in tTableList)
+                            {
+                                tCommandList.Add("echo \"<color=orange> -> delete " + tTable + "</color>\"");
+                                //tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"USE " + MySQLBase + "; DROP TABLE " + MySQLBase + "." + tTable + ";\"");
+                                tCommandList.Add("mysql -u root -p\"" + Root_MySQLSecurePassword.Decrypt() + "\" -e \"USE " + MySQLBase + "; DELETE FROM " + MySQLBase + "." + tTable + ";\"");
+                            }
+                            tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
+                        }
+                    }
+                    NWDGUI.EndRedArea();
+                    tI++;
+
+                    //-----------------
+                    NWDServerDatas tServerDatasOrg = ServerEditorOriginal.GetRawData();
+                    EditorGUI.BeginDisabledGroup(tServerDatasOrg == null);
+                    {
+                        //-----------------
+                        tButtonTitle = new GUIContent("Flush editor Database ", " TODO ");
+                        if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                        {
+                            List<string> tCommandList = new List<string>();
                             List<string> tTableList = new List<string>();
                             foreach (Type tType in NWDDataManager.SharedInstance().ClassNotAccountDependentList)
                             {
@@ -375,148 +352,194 @@ namespace NetWorkedData
                             foreach (string tTable in tTableList)
                             {
                                 tCommandList.Add("echo \"<color=orange> -> delete " + tTable + "</color>\"");
-                                tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"USE " + MySQLBase + "; DROP TABLE " + MySQLBase + "." + tTable + ";\"");
-
-                                tCommandListAnother.Add("echo \"<color=orange> -> dump and copy " + tTable + "</color>\"");
-                                string tCommandDump = "mysqldump -u " + tServerDatasOrg.MySQLUser + " -p'" + tServerDatasOrg.MySQLPassword.GetValue() + "' " + tServerDatasOrg.MySQLBase + " " + tTable + " " +
-                            " | mysql -h " + MySQLIP.GetValue() + " -u " + MySQLUser + " -p'" + MySQLPassword.GetValue() + "' " + MySQLBase + "";
-                                tCommandListAnother.Add(tCommandDump);
+                                //tCommandList.Add("mysql -u root -p\"" + Root_MysqlPassword + "\" -e \"USE " + MySQLBase + "; DROP TABLE " + MySQLBase + "." + tTable + ";\"");
+                                tCommandList.Add("mysql -u root -p\"" + Root_MySQLSecurePassword.Decrypt() + "\" -e \"USE " + MySQLBase + "; DELETE FROM " + MySQLBase + "." + tTable + ";\"");
                             }
-
                             tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
-                            tServerOriginal.ExecuteSSH(tButtonTitle.text, tCommandListAnother);
                         }
+                        tI++;
+
+                        //-----------------
+                        tButtonTitle = new GUIContent("Replace Database from original", " delete and copy editor table ");
+                        if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                        {
+                            if (tServerDatasOrg != null)
+                            {
+                                NWDServer tServerOriginal = tServerDatasOrg.Server.GetRawData();
+                                List<string> tCommandList = new List<string>();
+                                List<string> tCommandListAnother = new List<string>();
+
+                                List<string> tTableList = new List<string>();
+                                foreach (Type tType in NWDDataManager.SharedInstance().ClassNotAccountDependentList)
+                                {
+                                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                                    if (Dev == true)
+                                    {
+                                        tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().DevEnvironment));
+                                    }
+                                    if (Preprod == true)
+                                    {
+                                        tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().PreprodEnvironment));
+                                    }
+                                    if (Prod == true)
+                                    {
+                                        tTableList.Add(tHelper.PHP_TABLENAME(NWDAppConfiguration.SharedInstance().ProdEnvironment));
+                                    }
+                                }
+                                foreach (string tTable in tTableList)
+                                {
+                                    tCommandList.Add("echo \"<color=orange> -> delete " + tTable + "</color>\"");
+                                    tCommandList.Add("mysql -u root -p\"" + Root_MySQLSecurePassword.Decrypt() + "\" -e \"USE " + MySQLBase + "; DROP TABLE " + MySQLBase + "." + tTable + ";\"");
+
+                                    tCommandListAnother.Add("echo \"<color=orange> -> dump and copy " + tTable + "</color>\"");
+                                    string tCommandDump = "mysqldump -u " + tServerDatasOrg.MySQLUser + " -p'" + tServerDatasOrg.MySQLSecurePassword.Decrypt() + "' " + tServerDatasOrg.MySQLBase + " " + tTable + " " +
+                                " | mysql -h " + MySQLIP.GetValue() + " -u " + MySQLUser + " -p'" + MySQLSecurePassword.Decrypt() + "' " + MySQLBase + "";
+                                    tCommandListAnother.Add(tCommandDump);
+                                }
+
+                                tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
+                                tServerOriginal.ExecuteSSH(tButtonTitle.text, tCommandListAnother);
+                            }
+                        }
+                        tI++;
+                        //-----------------
                     }
-                    tI++;
+                    EditorGUI.EndDisabledGroup();
                     //-----------------
+
+
+
+                    //}
+                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Find IP from Server (NWDServerDomain)"))
+                    //{
+                    //    string tLocalIP = "0.0.0.0";
+                    //    //NWDServerDomain tDomain = Server.GetRawData();
+                    //    //if (tDomain != null)
+                    //    //{
+                    //    //    foreach (IPAddress tIP in Dns.GetHostAddresses(tDomain.ServerDNS))
+                    //    //    {
+                    //    //        if (tIP.AddressFamily == AddressFamily.InterNetwork)
+                    //    //        {
+                    //    //            tLocalIP = tIP.ToString();
+                    //    //        }
+                    //    //    }
+                    //    //    IP.SetValue(tLocalIP);
+                    //    //}
+                    //    //else
+                    //    //{
+                    //    //    IP.SetValue("0.0.0.0");
+                    //    //}
+
+                    //}
+                    //tI++;
+
+                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Open Terminal"))
+                    //{
+                    //    // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
+                    //    FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
+                    //    System.Diagnostics.Process.Start(tFileInfo.FullName);
+                    //}
+                    //tI++;
+
+                    //NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                    //tI++;
+
+                    //GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install Server MySQL command");
+                    //tI++;
+                    //if (Server != null)
+                    //{
+                    //    GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallServerMySQL(Server.GetRawData(), Root_MysqlPassword.GetValue(), External, PhpMyAdmin));
+                    //    tI += 11;
+
+                    //    if (PhpMyAdmin == true && Server.GetRawData() != null)
+                    //    {
+
+                    //        if (GUI.Button(tMatrix[0, tI], "http://" + Server.GetRawData().IP + "/phpmyadmin/"))
+                    //        {
+                    //            Application.OpenURL("http://" + Server.GetRawData().IP + "/phpmyadmin/");
+                    //        }
+                    //        if (GUI.Button(tMatrix[1, tI], "https://" + Server.GetRawData().IP + "/phpmyadmin/"))
+                    //        {
+                    //            Application.OpenURL("https://" + Server.GetRawData().IP + "/phpmyadmin/");
+                    //        }
+                    //        tI++;
+                    //    }
+
+                    //NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                    //tI++;
+
+                    //GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install Database command");
+                    //tI++;
+                    //GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallDatabase(Server.GetRawData(), Root_MysqlPassword.GetValue(), MySQLUser, MySQLPassword.GetValue(), MySQLBase));
+
+
+
+
+
+                    //tI += 11;
+                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Push force dev editor data"))
+                    //{
+                    //    //TODO : push data ...
+                    //}
+                    //tI++;
+                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Push force preprod editor data"))
+                    //{
+                    //    //TODO : push data ...
+                    //}
+                    //tI++;
+                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Push force prod editor data"))
+                    //{
+                    //    //TODO : push data ...
+                    //}
+                    //tI++;
+
+                    //NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                    //tI++;
                 }
-                EditorGUI.EndDisabledGroup();
-                //-----------------
+                /*
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for dev"))
+                {
+                    NWDAppEnvironment tDev = NWDAppConfiguration.SharedInstance().DevEnvironment;
+                    tDev.ServerHost = "localhost";
+                    tDev.ServerUser = MySQLUser;
+                    tDev.ServerPassword = MySQLPassword.GetValue();
+                    tDev.ServerBase = MySQLBase;
+                    NWDAppEnvironmentConfigurationManager.Refresh();
+                }
+                tI++;
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for preprod"))
+                {
+                    NWDAppEnvironment tPreprod= NWDAppConfiguration.SharedInstance().PreprodEnvironment;
+                    tPreprod.ServerHost = "localhost";
+                    tPreprod.ServerUser = MySQLUser;
+                    tPreprod.ServerPassword = MySQLPassword.GetValue();
+                    tPreprod.ServerBase = MySQLBase;
+                    NWDAppEnvironmentConfigurationManager.Refresh();
+                }
+                tI++;
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for prod"))
+                {
+                    NWDAppEnvironment tProd = NWDAppConfiguration.SharedInstance().ProdEnvironment;
+                    tProd.ServerHost = "localhost";
+                    tProd.ServerUser = MySQLUser;
+                    tProd.ServerPassword = MySQLPassword.GetValue();
+                    tProd.ServerBase = MySQLBase;
+                    NWDAppEnvironmentConfigurationManager.Refresh();
+                }
+                tI++;
 
+                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                tI++;
+                */
 
-
-                //}
-                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Find IP from Server (NWDServerDomain)"))
-                //{
-                //    string tLocalIP = "0.0.0.0";
-                //    //NWDServerDomain tDomain = Server.GetRawData();
-                //    //if (tDomain != null)
-                //    //{
-                //    //    foreach (IPAddress tIP in Dns.GetHostAddresses(tDomain.ServerDNS))
-                //    //    {
-                //    //        if (tIP.AddressFamily == AddressFamily.InterNetwork)
-                //    //        {
-                //    //            tLocalIP = tIP.ToString();
-                //    //        }
-                //    //    }
-                //    //    IP.SetValue(tLocalIP);
-                //    //}
-                //    //else
-                //    //{
-                //    //    IP.SetValue("0.0.0.0");
-                //    //}
-
-                //}
-                //tI++;
-
-                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Open Terminal"))
-                //{
-                //    // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
-                //    FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
-                //    System.Diagnostics.Process.Start(tFileInfo.FullName);
-                //}
-                //tI++;
-
-                //NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-                //tI++;
-
-                //GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install Server MySQL command");
-                //tI++;
-                //if (Server != null)
-                //{
-                //    GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallServerMySQL(Server.GetRawData(), Root_MysqlPassword.GetValue(), External, PhpMyAdmin));
-                //    tI += 11;
-
-                //    if (PhpMyAdmin == true && Server.GetRawData() != null)
-                //    {
-
-                //        if (GUI.Button(tMatrix[0, tI], "http://" + Server.GetRawData().IP + "/phpmyadmin/"))
-                //        {
-                //            Application.OpenURL("http://" + Server.GetRawData().IP + "/phpmyadmin/");
-                //        }
-                //        if (GUI.Button(tMatrix[1, tI], "https://" + Server.GetRawData().IP + "/phpmyadmin/"))
-                //        {
-                //            Application.OpenURL("https://" + Server.GetRawData().IP + "/phpmyadmin/");
-                //        }
-                //        tI++;
-                //    }
-
-                //NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-                //tI++;
-
-                //GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install Database command");
-                //tI++;
-                //GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallDatabase(Server.GetRawData(), Root_MysqlPassword.GetValue(), MySQLUser, MySQLPassword.GetValue(), MySQLBase));
-
-
-
-
-
-                //tI += 11;
-                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Push force dev editor data"))
-                //{
-                //    //TODO : push data ...
-                //}
-                //tI++;
-                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Push force preprod editor data"))
-                //{
-                //    //TODO : push data ...
-                //}
-                //tI++;
-                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Push force prod editor data"))
-                //{
-                //    //TODO : push data ...
-                //}
-                //tI++;
-
-                //NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-                //tI++;
             }
-            /*
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for dev"))
+            else
             {
-                NWDAppEnvironment tDev = NWDAppConfiguration.SharedInstance().DevEnvironment;
-                tDev.ServerHost = "localhost";
-                tDev.ServerUser = MySQLUser;
-                tDev.ServerPassword = MySQLPassword.GetValue();
-                tDev.ServerBase = MySQLBase;
-                NWDAppEnvironmentConfigurationManager.Refresh();
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Need credentials for actions"))
+                {
+                    NWDEditorCredentialsManager.SharedInstanceFocus();
+                }
             }
-            tI++;
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for preprod"))
-            {
-                NWDAppEnvironment tPreprod= NWDAppConfiguration.SharedInstance().PreprodEnvironment;
-                tPreprod.ServerHost = "localhost";
-                tPreprod.ServerUser = MySQLUser;
-                tPreprod.ServerPassword = MySQLPassword.GetValue();
-                tPreprod.ServerBase = MySQLBase;
-                NWDAppEnvironmentConfigurationManager.Refresh();
-            }
-            tI++;
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for prod"))
-            {
-                NWDAppEnvironment tProd = NWDAppConfiguration.SharedInstance().ProdEnvironment;
-                tProd.ServerHost = "localhost";
-                tProd.ServerUser = MySQLUser;
-                tProd.ServerPassword = MySQLPassword.GetValue();
-                tProd.ServerBase = MySQLBase;
-                NWDAppEnvironmentConfigurationManager.Refresh();
-            }
-            tI++;
-
-            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-            tI++;
-            */
         }
         //-------------------------------------------------------------------------------------------------------------
     }

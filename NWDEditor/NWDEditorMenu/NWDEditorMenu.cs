@@ -1042,7 +1042,7 @@ namespace NetWorkedData
                         foreach (string tTable in tTableList)
                         {
                             tCommandList.Add("echo \"<color=orange> -> delete " + tTable + "</color>\"");
-                            tCommandList.Add("mysql -u root -p\"" + tDatabaseServer.Root_MysqlPassword + "\" -e \"USE " + tDatabaseServer.MySQLBase + "; DELETE FROM " + tDatabaseServer.MySQLBase + "." + tTable + ";\"");
+                            tCommandList.Add("mysql -u root -p\"" + tDatabaseServer.Root_MySQLSecurePassword.Decrypt() + "\" -e \"USE " + tDatabaseServer.MySQLBase + "; DELETE FROM " + tDatabaseServer.MySQLBase + "." + tTable + ";\"");
                         }
                         NWDServer tServer = tDatabaseServer.Server.GetRawData();
                         tServer.ExecuteSSH("FlushAccount", tCommandList);

@@ -179,11 +179,11 @@ namespace NetWorkedData
             string tIP = Server.IP.GetValue();
             int tPort = Server.Port;
             string tUser = Server.Root_User;
-            string tPassword = Server.Root_Password.GetValue();
+            string tPassword = Server.Root_Secure_Password.Decrypt();
             if (Server.AdminInstalled && Server.RootForbidden)
             {
                 tUser = Server.Admin_User;
-                tPassword = Server.Admin_Password.GetValue();
+                tPassword = Server.Admin_Secure_Password.Decrypt();
                 tNeedSu = true;
             }
             if (AltPORT != -1)
@@ -228,7 +228,7 @@ namespace NetWorkedData
                                 //tShellStream.WriteLine("cat /dev/null > ~/.bash_history");
                                 RunCommand("cat /dev/null > ~/.bash_history", tShellStream, rTextResult);
 
-                                rTextResult.AppendLine("<i>#Local$ try to swith from " + tUserEcho + " to " + Server.Root_User + " with password " + Server.Root_Password.GetValue() + "</i>");
+                                rTextResult.AppendLine("<i>#Local$ try to swith from " + tUserEcho + " to " + Server.Root_User + " with password " + Server.Root_Secure_Password.Decrypt() + "</i>");
 
                                 rTextResult.AppendLine("<i>#Local$ su -l " + Server.Root_User + "</i>");
                                 // Get logged in and get user prompt
@@ -243,8 +243,8 @@ namespace NetWorkedData
                                 {
                                     // Send password
                                     rTextResult.AppendLine("<i>#Local$ Good! I have the hand ... put password now!</i>");
-                                    tShellStream.WriteLine(Server.Root_Password.GetValue() + "\r");
-                                    rTextResult.AppendLine("<i>#Local$ " + Server.Root_Password.GetValue() + "</i>");
+                                    tShellStream.WriteLine(Server.Root_Secure_Password.Decrypt() + "\r");
+                                    rTextResult.AppendLine("<i>#Local$ " + Server.Root_Secure_Password.Decrypt() + "</i>");
                                     prompt = tShellStream.Expect(new Regex(@"([$#>:])"));
                                     if (prompt.Contains("assword:")) // research password: (or Password:) 
                                     {

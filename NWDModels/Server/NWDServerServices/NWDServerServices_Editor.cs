@@ -19,8 +19,6 @@ using System.Collections.Generic;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    // doc to read to finish script : https://www.cyberciti.biz/tips/how-do-i-enable-remote-access-to-mysql-database-server.html
-
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDServerServices : NWDBasisUnsynchronize
     {
@@ -35,164 +33,177 @@ namespace NetWorkedData
         {
             PropertiesPrevent();
             Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 100);
-            int tI = 0;
-            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-            tI++;
-
-            GUIContent tButtonTitle = null;
-            NWDServer tServer = Server.GetRawData();
-            NWDServerDomain tServerDomain = ServerDomain.GetRawData();
-            if (tServer != null)
-            {
-                //-----------------
-                EditorGUI.HelpBox(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
-                tI += 2;
-                //tButtonTitle = new GUIContent("Open terminal", " open terminal or console on your desktop");
-                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                //{
-                //    // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
-                //    FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
-                //    System.Diagnostics.Process.Start(tFileInfo.FullName);
-                //}
-                //tI++;
-                string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + User + " -p " + tServer.Port;
-                tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                {
-                    NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
-                }
-                tI++;
-                GUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), tcommandKeyGen);
-                tI += 2;
+                int tI = 0;
                 NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
                 tI++;
-
-                //-----------------
-                tButtonTitle = new GUIContent("Try connexion", " try connexion with root or admin");
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+            if (NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
+            {
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Credentials window"))
                 {
-                    tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
+                    NWDEditorCredentialsManager.SharedInstanceFocus();
+                }
+                tI++;
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Flush credentials"))
+                {
+                    NWDEditorCredentialsManager.FlushCredentials(NWDCredentialsRequired.ForSFTPGenerate);
+                }
+                tI++;
+                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                tI++;
+                GUIContent tButtonTitle = null;
+                NWDServer tServer = Server.GetRawData();
+                NWDServerDomain tServerDomain = ServerDomain.GetRawData();
+                if (tServer != null)
+                {
+                    //-----------------
+                    EditorGUI.HelpBox(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
+                    tI += 2;
+                    //tButtonTitle = new GUIContent("Open terminal", " open terminal or console on your desktop");
+                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    //{
+                    //    // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
+                    //    FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
+                    //    System.Diagnostics.Process.Start(tFileInfo.FullName);
+                    //}
+                    //tI++;
+                    string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + User + " -p " + tServer.Port;
+                    tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
+                    }
+                    tI++;
+                    GUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), tcommandKeyGen);
+                    tI += 2;
+                    NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                    tI++;
+
+                    //-----------------
+                    tButtonTitle = new GUIContent("Try connexion", " try connexion with root or admin");
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
                     "ls",
                 });
-                }
-                tI++;
-
-                //-----------------
-                tButtonTitle = new GUIContent("Install Apache PHP", "Install Apache and PHP 7");
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                {
-                    List<string> tCommandList = new List<string>();
-
-
-                    tCommandList.Add("echo \"<color=red> -> server update</color>\"");
-                    tCommandList.Add("apt-get update");
-                    tCommandList.Add("apt-get -y upgrade");
-                    tCommandList.Add("apt-get -y dist-upgrade");
-
-                    tCommandList.Add("echo \"<color=red> -> install apache</color>\"");
-                    tCommandList.Add("apt-get -y install apache2");
-                    tCommandList.Add("apt-get -y install apache2-doc");
-                    tCommandList.Add("apt-get -y install apache2-suexec-custom");
-                    tCommandList.Add("apt-get -y install logrotate");
-
-                    tCommandList.Add("echo \"<color=red> -> active apache mod</color>\"");
-                    tCommandList.Add("a2enmod ssl");
-                    tCommandList.Add("a2enmod userdir");
-                    tCommandList.Add("a2enmod suexec");
-                    if (tServer.Distribution == NWDServerDistribution.debian10)
-                    {
-                        tCommandList.Add("a2enmod http2");
                     }
+                    tI++;
 
-                    tCommandList.Add("echo \"<color=red> -> apache configure</color>\"");
-                    tCommandList.Add("sed -i 's/\\/var\\/www/\\/home/g' /etc/apache2/suexec/www-data");
-                    //"sed -i 's/public_html\\/cgi-bin/public_html/g'/etc/apache2/suexec/www-data",;
-                    tCommandList.Add("sed -i 's/^.*ServerSignature .*$//g' /etc/apache2/apache2.conf");
-                    tCommandList.Add("sed -i '$ a ServerSignature Off' /etc/apache2/apache2.conf");
-
-                    tCommandList.Add("echo \"<color=red> -> apache restart</color>\"");
-                    tCommandList.Add("systemctl restart apache2");
-
-                    if (tServer.Distribution == NWDServerDistribution.debian9)
+                    //-----------------
+                    tButtonTitle = new GUIContent("Install Apache PHP", "Install Apache and PHP 7");
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                     {
-                        tCommandList.Add("echo \"<color=red> -> install php</color>\"");
-                        tCommandList.Add("apt-get -y install php");
-                        //tCommandList.Add("apt-get -y install php-gd");
-                        //tCommandList.Add("apt-get -y install php-bz2");
-                        //tCommandList.Add("apt-get -y install php-tcpdf");
-                        tCommandList.Add("apt-get -y install php-mysql");
-                        tCommandList.Add("apt-get -y install php-curl");
-                        tCommandList.Add("apt-get -y install php-json");
-                        tCommandList.Add("apt-get -y install php-mcrypt");
-                        tCommandList.Add("apt-get -y install php-mbstring");
-                        tCommandList.Add("apt-get -y install php-gettext");
-                        tCommandList.Add("apt-get -y install php-zip");
-                        tCommandList.Add("apt-get -y install php-mail");
-                        tCommandList.Add("apt-get -y install php-pear");
-                        tCommandList.Add("apt-get -y install libapache2-mod-php");
-                        tCommandList.Add("pear install Net_SMTP");
-                    }
-                    if (tServer.Distribution == NWDServerDistribution.debian10)
-                    {
-                        tCommandList.Add("echo \"<color=red> -> install php</color>\"");
-                        tCommandList.Add("apt-get -y install php7.3-fpm");
-                        tCommandList.Add("sudo a2dismod php7.3");
-                        tCommandList.Add("sudo a2enconf php7.3-fpm");
-                        tCommandList.Add("sudo a2enmod proxy_fcgi");
-                        tCommandList.Add("systemctl restart apache2");
-                        tCommandList.Add("apt-get -y install php-mysql");
-                        tCommandList.Add("apt-get -y install php-curl");
-                        tCommandList.Add("apt-get -y install php-json");
-                        tCommandList.Add("apt-get -y install php-mcrypt");
-                        tCommandList.Add("apt-get -y install php-mbstring");
-                        tCommandList.Add("apt-get -y install php-gettext");
-                        tCommandList.Add("apt-get -y install php-zip");
-                        tCommandList.Add("apt-get -y install php-mail");
-                        tCommandList.Add("apt-get -y install php-pear");
-                        tCommandList.Add("pear install Net_SMTP");
+                        List<string> tCommandList = new List<string>();
+
+
+                        tCommandList.Add("echo \"<color=red> -> server update</color>\"");
+                        tCommandList.Add("apt-get update");
+                        tCommandList.Add("apt-get -y upgrade");
+                        tCommandList.Add("apt-get -y dist-upgrade");
+
+                        tCommandList.Add("echo \"<color=red> -> install apache</color>\"");
+                        tCommandList.Add("apt-get -y install apache2");
+                        tCommandList.Add("apt-get -y install apache2-doc");
+                        tCommandList.Add("apt-get -y install apache2-suexec-custom");
+                        tCommandList.Add("apt-get -y install logrotate");
+
+                        tCommandList.Add("echo \"<color=red> -> active apache mod</color>\"");
+                        tCommandList.Add("a2enmod ssl");
+                        tCommandList.Add("a2enmod userdir");
+                        tCommandList.Add("a2enmod suexec");
+                        if (tServer.Distribution == NWDServerDistribution.debian10)
+                        {
+                            tCommandList.Add("a2enmod http2");
+                        }
+
+                        tCommandList.Add("echo \"<color=red> -> apache configure</color>\"");
+                        tCommandList.Add("sed -i 's/\\/var\\/www/\\/home/g' /etc/apache2/suexec/www-data");
+                        //"sed -i 's/public_html\\/cgi-bin/public_html/g'/etc/apache2/suexec/www-data",;
+                        tCommandList.Add("sed -i 's/^.*ServerSignature .*$//g' /etc/apache2/apache2.conf");
+                        tCommandList.Add("sed -i '$ a ServerSignature Off' /etc/apache2/apache2.conf");
+
+                        tCommandList.Add("echo \"<color=red> -> apache restart</color>\"");
                         tCommandList.Add("systemctl restart apache2");
 
+                        if (tServer.Distribution == NWDServerDistribution.debian9)
+                        {
+                            tCommandList.Add("echo \"<color=red> -> install php</color>\"");
+                            tCommandList.Add("apt-get -y install php");
+                            //tCommandList.Add("apt-get -y install php-gd");
+                            //tCommandList.Add("apt-get -y install php-bz2");
+                            //tCommandList.Add("apt-get -y install php-tcpdf");
+                            tCommandList.Add("apt-get -y install php-mysql");
+                            tCommandList.Add("apt-get -y install php-curl");
+                            tCommandList.Add("apt-get -y install php-json");
+                            tCommandList.Add("apt-get -y install php-mcrypt");
+                            tCommandList.Add("apt-get -y install php-mbstring");
+                            tCommandList.Add("apt-get -y install php-gettext");
+                            tCommandList.Add("apt-get -y install php-zip");
+                            tCommandList.Add("apt-get -y install php-mail");
+                            tCommandList.Add("apt-get -y install php-pear");
+                            tCommandList.Add("apt-get -y install libapache2-mod-php");
+                            tCommandList.Add("pear install Net_SMTP");
+                        }
+                        if (tServer.Distribution == NWDServerDistribution.debian10)
+                        {
+                            tCommandList.Add("echo \"<color=red> -> install php</color>\"");
+                            tCommandList.Add("apt-get -y install php7.3-fpm");
+                            tCommandList.Add("sudo a2dismod php7.3");
+                            tCommandList.Add("sudo a2enconf php7.3-fpm");
+                            tCommandList.Add("sudo a2enmod proxy_fcgi");
+                            tCommandList.Add("systemctl restart apache2");
+                            tCommandList.Add("apt-get -y install php-mysql");
+                            tCommandList.Add("apt-get -y install php-curl");
+                            tCommandList.Add("apt-get -y install php-json");
+                            tCommandList.Add("apt-get -y install php-mcrypt");
+                            tCommandList.Add("apt-get -y install php-mbstring");
+                            tCommandList.Add("apt-get -y install php-gettext");
+                            tCommandList.Add("apt-get -y install php-zip");
+                            tCommandList.Add("apt-get -y install php-mail");
+                            tCommandList.Add("apt-get -y install php-pear");
+                            tCommandList.Add("pear install Net_SMTP");
+                            tCommandList.Add("systemctl restart apache2");
+
+                        }
+
+                        tCommandList.Add("systemctl restart apache2");
+                        tCommandList.Add("echo \"<color=red> -> php folder default</color>\"");
+                        tCommandList.Add("chgrp -R www-data /var/www/html/");
+                        tCommandList.Add("chmod 750 /var/www/html/");
+
+                        tCommandList.Add("echo \"<color=red> -> files default</color>\"");
+                        tCommandList.Add("echo $\"<?php echo phpinfo();?>\" > /var/www/html/phpinfo.php");
+                        tCommandList.Add("echo $\"Are you lost? Ok, I'll help you, you're in front of a screen!\" > /var/www/html/index.html");
+
+                        tCommandList.Add("echo \"<color=red> -> install Let's Encrypt Certbot</color>\"");
+                        tCommandList.Add("echo $\"deb http://ftp.debian.org/debian stretch-backports main\" >> /etc/apt/sources.list.d/backports.list");
+                        tCommandList.Add("apt-get update");
+                        tCommandList.Add("apt-get -y install python-certbot-apache -t stretch-backports");
+
+                        tCommandList.Add("echo \"<color=red> -> apache restart</color>\"");
+                        tCommandList.Add("systemctl restart apache2");
+
+                        if (tServer != null)
+                        {
+                            tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
+                        }
                     }
+                    tI++;
 
-                    tCommandList.Add("systemctl restart apache2");
-                    tCommandList.Add("echo \"<color=red> -> php folder default</color>\"");
-                    tCommandList.Add("chgrp -R www-data /var/www/html/");
-                    tCommandList.Add("chmod 750 /var/www/html/");
-
-                    tCommandList.Add("echo \"<color=red> -> files default</color>\"");
-                    tCommandList.Add("echo $\"<?php echo phpinfo();?>\" > /var/www/html/phpinfo.php");
-                    tCommandList.Add("echo $\"Are you lost? Ok, I'll help you, you're in front of a screen!\" > /var/www/html/index.html");
-
-                    tCommandList.Add("echo \"<color=red> -> install Let's Encrypt Certbot</color>\"");
-                    tCommandList.Add("echo $\"deb http://ftp.debian.org/debian stretch-backports main\" >> /etc/apt/sources.list.d/backports.list");
-                    tCommandList.Add("apt-get update");
-                    tCommandList.Add("apt-get -y install python-certbot-apache -t stretch-backports");
-
-                    tCommandList.Add("echo \"<color=red> -> apache restart</color>\"");
-                    tCommandList.Add("systemctl restart apache2");
-
-                    if (tServer != null)
+                    //-----------------
+                    EditorGUI.BeginDisabledGroup(UserInstalled == true);
+                    tButtonTitle = new GUIContent("Install User", "Install User");
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                     {
-                        tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
-                    }
-                }
-                tI++;
-
-                //-----------------
-                EditorGUI.BeginDisabledGroup(UserInstalled == true);
-                tButtonTitle = new GUIContent("Install User", "Install User");
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                {
-                    if (tServerDomain != null)
-                    {
-                        string _NoSSL = "_NoSSL";
-                        tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
+                        if (tServerDomain != null)
+                        {
+                            string _NoSSL = "_NoSSL";
+                            tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
 
                 "addgroup "+NWDServer.K_SFTP_chroot+"", // Add group exists",
                 "useradd --shell /bin/false " + User + "",
-                "echo " + User + ":" + Password + " | chpasswd",
+                "echo " + User + ":" + Secure_Password.Decrypt() + " | chpasswd",
                 "usermod -a -G "+NWDServer.K_SFTP_chroot+" " + User + "",
                 "mkdir /home/" + User + "",
                 "chown root /home/" + User + "",
@@ -280,161 +291,169 @@ namespace NetWorkedData
 
                 "service sshd restart",
             },
-                           delegate (string sCommand, string sResult)
-                           {
-                               if (sCommand == "service sshd restart")
+                               delegate (string sCommand, string sResult)
                                {
-                                   UserInstalled = true;
-                                   UpdateDataIfModified();
-                               };
-                           });
+                                   if (sCommand == "service sshd restart")
+                                   {
+                                       UserInstalled = true;
+                                       UpdateDataIfModified();
+                                   };
+                               });
+                        }
                     }
-                }
-                EditorGUI.EndDisabledGroup();
-                tI++;
+                    EditorGUI.EndDisabledGroup();
+                    tI++;
 
-                ////-----------------
-                //tButtonTitle = new GUIContent("Install FTPS", "insatll FTPS ");
-                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                //{
+                    ////-----------------
+                    //tButtonTitle = new GUIContent("Install FTPS", "insatll FTPS ");
+                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    //{
 
-                //    List<string> tCommandList = new List<string>();
+                    //    List<string> tCommandList = new List<string>();
 
-                //    tCommandList.Add("apt-get update");
-                //    tCommandList.Add("apt-get -y upgrade");
-                //    tCommandList.Add("apt-get -y dist-upgrade");
-                //    tCommandList.Add("apt-get -y install vsftpd");
+                    //    tCommandList.Add("apt-get update");
+                    //    tCommandList.Add("apt-get -y upgrade");
+                    //    tCommandList.Add("apt-get -y dist-upgrade");
+                    //    tCommandList.Add("apt-get -y install vsftpd");
 
-                //    tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
-                //}
-                //tI++;
+                    //    tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
+                    //}
+                    //tI++;
 
-                //-----------------
-                tButtonTitle = new GUIContent("Check apache", "check apache ");
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                {
-                    tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
+                    //-----------------
+                    tButtonTitle = new GUIContent("Check apache", "check apache ");
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
                     "apache2ctl -S",
                     //"httpd -S",
                     "a2query -m",
 
                 });
-                }
-                tI++;
-
-                //-----------------
-                tButtonTitle = new GUIContent("Try User connexion", " try connexion with user");
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                {
-                    tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
-                {
-                    "ls",
-                }, null, tServer.Port, User, Password.GetValue());
-                }
-                tI++;
-
-                //-----------------
-                tButtonTitle = new GUIContent("default html", " try connexion to index.html");
-                if (GUI.Button(tMatrix[0, tI], tButtonTitle))
-                {
-                    Application.OpenURL("http://" + tServer.DomainNameServer + "/index.html");
-                }
-                tButtonTitle = new GUIContent("default phpinfo", " try connexion to index.html with ssl");
-                if (GUI.Button(tMatrix[1, tI], tButtonTitle))
-                {
-                    Application.OpenURL("http://" + tServer.DomainNameServer + "/phpinfo.php");
-                }
-                tI++;
-
-                if (tServerDomain != null)
-                {
-                    tButtonTitle = new GUIContent("WS html", " try connexion to index.html");
-                    if (GUI.Button(tMatrix[0, tI], tButtonTitle))
-                    {
-                        Application.OpenURL("http://" + tServerDomain.ServerDNS + "/index.html");
-                    }
-                    tButtonTitle = new GUIContent("WS ssl html", " try connexion to index.html with ssl");
-                    if (GUI.Button(tMatrix[1, tI], tButtonTitle))
-                    {
-                        Application.OpenURL("https://" + tServerDomain.ServerDNS + "/index.html");
                     }
                     tI++;
-                    tButtonTitle = new GUIContent("WS phpinfo", " try connexion to phpinfo.php");
-                    if (GUI.Button(tMatrix[0, tI], tButtonTitle))
-                    {
-                        Application.OpenURL("http://" + tServerDomain.ServerDNS + "/phpinfo.php");
-                    }
-                    tButtonTitle = new GUIContent("WS ssl phpinfo", " try connexion to phpinfo.php with ssl");
-                    if (GUI.Button(tMatrix[1, tI], tButtonTitle))
-                    {
-                        Application.OpenURL("https://" + tServerDomain.ServerDNS + "/phpinfo.php");
-                    }
-                    tI++;
-                }
-                //-----------------
-                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-                tI++;
 
-                if (tServerDomain != null)
-                {
                     //-----------------
-                    string tCerbot = "certbot --agree-tos --no-eff-email --apache --redirect --email " + Email + " -d " + tServerDomain.ServerDNS + "";
-                    EditorGUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Try cerbot", tCerbot);
-                    tI++;
-                    //-----------------
-                    tButtonTitle = new GUIContent("Try certbot SSL", " try connexion to generate certbot ssl (lest's encrypt)");
+                    tButtonTitle = new GUIContent("Try User connexion", " try connexion with user");
                     if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                     {
                         tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
+                {
+                    "ls",
+                }, null, tServer.Port, User, Secure_Password.Decrypt());
+                    }
+                    tI++;
+
+                    //-----------------
+                    tButtonTitle = new GUIContent("default html", " try connexion to index.html");
+                    if (GUI.Button(tMatrix[0, tI], tButtonTitle))
+                    {
+                        Application.OpenURL("http://" + tServer.DomainNameServer + "/index.html");
+                    }
+                    tButtonTitle = new GUIContent("default phpinfo", " try connexion to index.html with ssl");
+                    if (GUI.Button(tMatrix[1, tI], tButtonTitle))
+                    {
+                        Application.OpenURL("http://" + tServer.DomainNameServer + "/phpinfo.php");
+                    }
+                    tI++;
+
+                    if (tServerDomain != null)
+                    {
+                        tButtonTitle = new GUIContent("WS html", " try connexion to index.html");
+                        if (GUI.Button(tMatrix[0, tI], tButtonTitle))
+                        {
+                            Application.OpenURL("http://" + tServerDomain.ServerDNS + "/index.html");
+                        }
+                        tButtonTitle = new GUIContent("WS ssl html", " try connexion to index.html with ssl");
+                        if (GUI.Button(tMatrix[1, tI], tButtonTitle))
+                        {
+                            Application.OpenURL("https://" + tServerDomain.ServerDNS + "/index.html");
+                        }
+                        tI++;
+                        tButtonTitle = new GUIContent("WS phpinfo", " try connexion to phpinfo.php");
+                        if (GUI.Button(tMatrix[0, tI], tButtonTitle))
+                        {
+                            Application.OpenURL("http://" + tServerDomain.ServerDNS + "/phpinfo.php");
+                        }
+                        tButtonTitle = new GUIContent("WS ssl phpinfo", " try connexion to phpinfo.php with ssl");
+                        if (GUI.Button(tMatrix[1, tI], tButtonTitle))
+                        {
+                            Application.OpenURL("https://" + tServerDomain.ServerDNS + "/phpinfo.php");
+                        }
+                        tI++;
+                    }
+                    //-----------------
+                    NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                    tI++;
+
+                    if (tServerDomain != null)
+                    {
+                        //-----------------
+                        string tCerbot = "certbot --agree-tos --no-eff-email --apache --redirect --email " + Email + " -d " + tServerDomain.ServerDNS + "";
+                        EditorGUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Try cerbot", tCerbot);
+                        tI++;
+                        //-----------------
+                        tButtonTitle = new GUIContent("Try certbot SSL", " try connexion to generate certbot ssl (lest's encrypt)");
+                        if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                        {
+                            tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                         {
                         //"certbot --agree-tos --no-eff-email --apache --redirect --email " + Email + " -d " + tServerDomain.ServerDNS + "",
                         tCerbot,
                         });
+                        }
+                        tI++;
+
                     }
+                    //-----------------
+                    NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
                     tI++;
 
+                    //-----------------
+                    string tURLAdmin = "sftp://" + tServer.Admin_User + ":" + tServer.Admin_Secure_Password.Decrypt() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/";
+                    tButtonTitle = new GUIContent("Try sftp ADMIN directly", tURLAdmin);
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        //NWEClipboard.CopyToClipboard(Password.GetValue());
+                        Application.OpenURL(tURLAdmin);
+                    }
+                    tI++;
+                    //-----------------
+                    string tURL = "sftp://" + User + ":" + Secure_Password.Decrypt() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + Folder;
+                    tButtonTitle = new GUIContent("Try sftp directly", tURL);
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        //NWEClipboard.CopyToClipboard(Password.GetValue());
+                        Application.OpenURL(tURL);
+                    }
+                    tI++;
+                    ////-----------------
+                    //string tURLB = "ftp://" + User + ":" + Password.GetValue() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + Folder;
+                    //tButtonTitle = new GUIContent("Try ftp directly", tURL);
+                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    //{
+                    //    //NWEClipboard.CopyToClipboard(Password.GetValue());
+                    //    Application.OpenURL(tURLB);
+                    //}
+                    //tI++;
+                    ////-----------------
+                    //string tURLC = "ftps://" + User + ":" + Password.GetValue() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + Folder;
+                    //tButtonTitle = new GUIContent("Try ftps directly", tURL);
+                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    //{
+                    //    //NWEClipboard.CopyToClipboard(Password.GetValue());
+                    //    Application.OpenURL(tURLC);
+                    //}
+                    //tI++;
                 }
-                //-----------------
-                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-                tI++;
-
-                //-----------------
-                string tURLAdmin = "sftp://" + tServer.Admin_User + ":" + tServer.Admin_Password.GetValue() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/";
-                tButtonTitle = new GUIContent("Try sftp ADMIN directly", tURLAdmin);
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+            }
+            else
+            {
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Need credentials for actions"))
                 {
-                    //NWEClipboard.CopyToClipboard(Password.GetValue());
-                    Application.OpenURL(tURLAdmin);
+                    NWDEditorCredentialsManager.SharedInstanceFocus();
                 }
-                tI++;
-                //-----------------
-                string tURL = "sftp://" + User + ":" + Password.GetValue() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + Folder;
-                tButtonTitle = new GUIContent("Try sftp directly", tURL);
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                {
-                    //NWEClipboard.CopyToClipboard(Password.GetValue());
-                    Application.OpenURL(tURL);
-                }
-                tI++;
-                ////-----------------
-                //string tURLB = "ftp://" + User + ":" + Password.GetValue() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + Folder;
-                //tButtonTitle = new GUIContent("Try ftp directly", tURL);
-                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                //{
-                //    //NWEClipboard.CopyToClipboard(Password.GetValue());
-                //    Application.OpenURL(tURLB);
-                //}
-                //tI++;
-                ////-----------------
-                //string tURLC = "ftps://" + User + ":" + Password.GetValue() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + Folder;
-                //tButtonTitle = new GUIContent("Try ftps directly", tURL);
-                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                //{
-                //    //NWEClipboard.CopyToClipboard(Password.GetValue());
-                //    Application.OpenURL(tURLC);
-                //}
-                //tI++;
             }
         }
         //-------------------------------------------------------------------------------------------------------------

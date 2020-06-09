@@ -71,15 +71,15 @@ namespace NetWorkedData
                     InternalKey = DomainNameServer + " config";
             }
             Admin_User = NWDToolbox.UnixCleaner(Admin_User);
-            if (Admin_Password != null)
-            {
-                Admin_Password.SetValue(NWDToolbox.UnixCleaner(Admin_Password.GetValue()));
-            }
+            //if (Admin_Password != null)
+            //{
+            //    Admin_Password.SetValue(NWDToolbox.UnixCleaner(Admin_Password.GetValue()));
+            //}
             Root_User = NWDToolbox.UnixCleaner(Root_User);
-            if (Root_Password != null)
-            {
-                Root_Password.SetValue(NWDToolbox.UnixCleaner(Root_Password.GetValue()));
-            }
+            //if (Root_Password != null)
+            //{
+            //    Root_Password.SetValue(NWDToolbox.UnixCleaner(Root_Password.GetValue()));
+            //}
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

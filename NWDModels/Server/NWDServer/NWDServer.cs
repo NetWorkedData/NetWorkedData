@@ -46,8 +46,8 @@ namespace NetWorkedData
         [NWDEntitled("SSH Admin User")]
         public string Admin_User { get; set; }
         [NWDIf("AdminInstalled", false)]
-        [NWDEntitled("SSH Admin Password")]
-        public NWDPasswordType Admin_Password { get; set; }
+        //[NWDEntitled("SSH Admin Password")]
+        //public NWDPasswordType Admin_Password { get; set; }
         [NWDIf("AdminInstalled", false)]
         [NWDEntitled("SSH Admin Password (AES)")]
         public NWDSecurePassword Admin_Secure_Password { get; set; }
@@ -59,8 +59,8 @@ namespace NetWorkedData
         [NWDEntitled("SSH Root User")]
         public string Root_User { get; set; }
         [NWDIf("RootForbidden", false)]
-        [NWDEntitled("SSH Root Password")]
-        public NWDPasswordType Root_Password { get; set; }
+        //[NWDEntitled("SSH Root Password")]
+        //public NWDPasswordType Root_Password { get; set; }
         [NWDIf("RootForbidden", false)]
         [NWDEntitled("SSH Root Password (AES)")]
         public NWDSecurePassword Root_Secure_Password { get; set; }
