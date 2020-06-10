@@ -47,19 +47,24 @@ namespace NetWorkedData
             {
                 GameSave = new NWDReferenceType<NWDGameSave>();
             }
-            NWDGameSave tCurrentGameSave = NWDGameSave.CurrentData();
-            if (tCurrentGameSave != null)
-            {
-                if (tCurrentGameSave.Account.GetValue() != null)
+
+            // Very slow when extract data from database
+            // removed... need new process
+            /*
+                NWDGameSave tCurrentGameSave = NWDGameSave.CurrentData();
+                if (tCurrentGameSave != null)
                 {
-                    Account.SetValue(tCurrentGameSave.Account.GetValue());
+                    if (tCurrentGameSave.Account.GetValue() != null)
+                    {
+                        Account.SetValue(tCurrentGameSave.Account.GetValue());
+                    }
+                    else
+                    {
+                        Account.SetValue(NWDAccount.CurrentReference());
+                    }
+                    GameSave.SetValue(tCurrentGameSave.Reference);
                 }
-                else
-                {
-                    Account.SetValue(NWDAccount.CurrentReference());
-                }
-                GameSave.SetValue(tCurrentGameSave.Reference);
-            }
+            */
         }
         //-------------------------------------------------------------------------------------------------------------
         public override bool IsReacheableBy(string sGameSaveReference, string sAccountReference = null)

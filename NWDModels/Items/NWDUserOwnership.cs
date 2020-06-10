@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:48:45
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -23,6 +17,88 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    [NWDClassTrigrammeAttribute("UOWC")]
+    [NWDClassDescriptionAttribute("User Ownership C descriptions Class")]
+    [NWDClassMenuNameAttribute("User Ownership C")]
+    public partial class NWDUserOwnershipC : NWDBasisAccountDependent
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public string Item { get; set; }
+        public int Quantity { get; set; }
+        public int QuantityUsed { get; set; }
+        public bool Discovered { get; set; }
+        public NWDDateTimeType DiscoveredDate { get; set; }
+        public string Name { get; set; }
+        public string OwnershipList { get; set; }
+        //public int Bundle { get; set; }
+        public int RangeAccesss { get; set; }
+        //public string Account { get; set; }
+        public string GameSave { get; set; }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserOwnershipC() { }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserOwnershipC(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    [NWDClassTrigrammeAttribute("UOWB")]
+    [NWDClassDescriptionAttribute("User Ownership B descriptions Class")]
+    [NWDClassMenuNameAttribute("User Ownership B")]
+    public partial class NWDUserOwnershipB : NWDBasisAccountDependent
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDReferenceType<NWDAccount> Item { get; set; }
+        public int Quantity { get; set; }
+        public int QuantityUsed { get; set; }
+        public bool Discovered { get; set; }
+        public NWDDateTimeType DiscoveredDate { get; set; }
+        public string Name { get; set; }
+        public NWDReferencesArrayType<NWDUserOwnership> OwnershipList { get; set; }
+        //public int Bundle { get; set; }
+        public int RangeAccesss { get; set; }
+        //public string Account { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserOwnershipB() { }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserOwnershipB(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    [NWDClassTrigrammeAttribute("UOWD")]
+    [NWDClassDescriptionAttribute("User Ownership D descriptions Class")]
+    [NWDClassMenuNameAttribute("User Ownership D")]
+    public partial class NWDUserOwnershipD : NWDBasisGameSaveDependent
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDInspectorGroupStart("Ownership", true, true, true)]
+        public NWDReferenceType<NWDItem> Item { get; set; }
+        [NWDInspectorGroupEnd]
+
+        [NWDInspectorGroupStart("Quantity ", true, true, true)]
+        public int Quantity { get; set; }
+        //TODO used in slot or in another system
+        //TODO create method use and unuse one!
+        //TODO directly dependence from usable in Item
+        [NWDInDevelopment]
+        public int QuantityUsed { get; set; }
+        [NWDInspectorGroupEnd]
+
+        [NWDInspectorGroupStart("Acquisition", true, true, true)]
+        public bool Discovered { get; set; }
+        public NWDDateTimeType DiscoveredDate { get; set; }
+        [NWDInspectorGroupEnd]
+        [NWDInspectorGroupStart("Customisation ", true, true, true)]
+        public string Name { get; set; }
+        [NWDInspectorGroupEnd]
+
+        [NWDInspectorGroupStart("OLD-RENAME ", true, true, true)]
+        [Obsolete]
+        public NWDReferencesArrayType<NWDUserOwnership> OwnershipList { get; set; }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserOwnershipD() { }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserOwnershipD(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
+        //-------------------------------------------------------------------------------------------------------------
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// NWD ownership. This class connect the item to the account. The item is decripted in NWDItem, but some informations
