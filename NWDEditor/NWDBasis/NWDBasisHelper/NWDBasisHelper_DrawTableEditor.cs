@@ -378,8 +378,8 @@ namespace NetWorkedData
                 - NWDGUI.KTableRowWebModelWidth
                 - NWDGUI.kTableIconWidth * 5;
             //if (kAccountDependent == false)
-                if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                {
+            if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+            {
                 tRect.width -= NWDGUI.kTableIconWidth;
             }
             if (tRect.width < NWDGUI.KTableSearchWidth)
@@ -425,8 +425,8 @@ namespace NetWorkedData
             tRect.x += tRect.width;
 
             //if (kAccountDependent == false)
-                if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                {
+            if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+            {
                 tRect.width = NWDGUI.kTableIconWidth;
                 if (GUI.Button(tRect, "Check", NWDGUI.KTableHeaderIcon))
                 {
@@ -755,8 +755,8 @@ namespace NetWorkedData
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // draw accounts popup
                 //if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
-                    //EditorGUI.BeginDisabledGroup(!kAccountDependent);
-                    EditorGUI.BeginDisabledGroup(TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent);
+                //EditorGUI.BeginDisabledGroup(!kAccountDependent);
+                EditorGUI.BeginDisabledGroup(TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent);
 
                 if (NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).Datas.Count < tMaxForMenuOrTextField)
                 {
@@ -859,7 +859,7 @@ namespace NetWorkedData
 
 
                 //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                    EditorGUI.BeginDisabledGroup(TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent);
+                EditorGUI.BeginDisabledGroup(TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent);
                 m_SearchCheckList = (NetWorkedData.NWDBasisCheckList)m_SearchCheckList.ControlField(tRect, NWDConstants.K_APP_TABLE_SEARCH_CHECKLIST, TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent);
                 EditorGUI.EndDisabledGroup();
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
@@ -1768,8 +1768,8 @@ namespace NetWorkedData
                 GUI.Label(tRect, tDevContent, NWDGUI.KTableSearchTitle);
 
                 //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
-                    if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
-                    {
+                if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+                {
                     if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
                     {
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
@@ -1821,11 +1821,22 @@ namespace NetWorkedData
                         }
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         EditorGUI.EndDisabledGroup();
-                        if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_DEV_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                        if (NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateDev))
                         {
-                            tCreateAllPHPForOnlyThisClassDEV = true;
+                            if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_DEV_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                            {
+                                tCreateAllPHPForOnlyThisClassDEV = true;
+                            }
+                            tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                        else
+                        {
+                            if (GUI.Button(tRect, "Need credentials", NWDGUI.KTableSearchButton))
+                            {
+                                NWDEditorCredentialsManager.SharedInstanceFocus();
+                            }
+                            tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                        }
                         NWDGUI.EndRedArea();
                     }
                     else
@@ -1845,8 +1856,8 @@ namespace NetWorkedData
                 GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tPreprodContent, NWDGUI.KTableSearchTitle);
                 //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
-                    if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
-                    {
+                if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+                {
                     if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
                     {
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
@@ -1899,11 +1910,22 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         EditorGUI.EndDisabledGroup();
 
-                        if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_PREPROD_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                        if (NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGeneratePreprod))
                         {
-                            tCreateAllPHPForOnlyThisClassPREPROD = true;
+                            if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_PREPROD_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                            {
+                                tCreateAllPHPForOnlyThisClassPREPROD = true;
+                            }
+                            tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                        else
+                        {
+                            if (GUI.Button(tRect, "Need credentials", NWDGUI.KTableSearchButton))
+                            {
+                                NWDEditorCredentialsManager.SharedInstanceFocus();
+                            }
+                            tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                        }
 
                         NWDGUI.EndRedArea();
                     }
@@ -1926,8 +1948,8 @@ namespace NetWorkedData
                 //if (BasisType == NWDBasisType.EditorClass)
                 if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
 
-                    {
-                        if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
+                {
+                    if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
                     {
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         NWDGUI.BeginRedArea();
@@ -1978,13 +2000,24 @@ namespace NetWorkedData
                         }
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         EditorGUI.EndDisabledGroup();
-
-                        if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_PROD_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                        if (NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateProd))
                         {
-                            tCreateAllPHPForOnlyThisClassPROD = true;
+                            if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_PROD_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                            {
+                                tCreateAllPHPForOnlyThisClassPROD = true;
+                            }
+                            tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                        else
+                        {
+                            if (GUI.Button(tRect, "Need credentials", NWDGUI.KTableSearchButton))
+                            {
+                                NWDEditorCredentialsManager.SharedInstanceFocus();
+                            }
+                            tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                        }
                         NWDGUI.EndRedArea();
+
                     }
                     else
                     {

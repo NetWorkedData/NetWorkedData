@@ -5,26 +5,16 @@
 //
 //=====================================================================================================================
 
-
-
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.IO;
 
 using UnityEngine;
+using System.Text;
+using System.Security.Cryptography;
 
-//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
-using UnityEditorInternal;
-using System;
-using System.Text;
-using System.IO;
-using System.Security.Cryptography;
 #endif
 
 //=====================================================================================================================
@@ -212,7 +202,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override float ControlFieldHeight()
         {
-            return NWDGUI.kPopupStyle.fixedHeight * 3;
+            return NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kMiniButtonStyle.fixedHeight * 2 + NWDGUI.kFieldMarge * 3;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
@@ -221,7 +211,7 @@ namespace NetWorkedData
             tTemporary.Value = Value;
             float tX = sPosition.x + EditorGUIUtility.labelWidth;
             float tWidth = sPosition.width - EditorGUIUtility.labelWidth + NWDGUI.kFieldMarge;
-            float tTiersWidth = Mathf.Ceil(tWidth / 3.0F);
+            float tTiersWidth = Mathf.Ceil(tWidth / 2.0F);
             float tTiersWidthB = tTiersWidth - NWDGUI.kFieldMarge;
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
             EditorGUI.LabelField(new Rect(sPosition.x, sPosition.y, sPosition.width, NWDGUI.kLabelStyle.fixedHeight), tContent);
@@ -240,46 +230,60 @@ namespace NetWorkedData
                 {
                     int tIndentLevel = EditorGUI.indentLevel;
                     EditorGUI.indentLevel = 0;
-                    tdecode = EditorGUI.TextField(new Rect(tX, sPosition.y, tTiersWidthB, NWDGUI.kPopupStyle.fixedHeight), tdecode);
-                    if (GUI.Button(new Rect(tX + tTiersWidth * 1, sPosition.y, tTiersWidthB, NWDGUI.kPopupStyle.fixedHeight), "test"))
+                    tdecode = EditorGUI.TextField(new Rect(tX, sPosition.y, tWidth, NWDGUI.kLabelStyle.fixedHeight), tdecode);
+                    sPosition.y += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    if (GUI.Button(new Rect(tX, sPosition.y, tTiersWidthB, NWDGUI.kMiniButtonStyle.fixedHeight), "Test it"))
                     {
                         NWEPassAnalyseWindow.SharedInstance().AnalyzePassword(tdecode);
                     }
-                    if (GUI.Button(new Rect(tX + tTiersWidth * 2, sPosition.y, tTiersWidthB, NWDGUI.kPopupStyle.fixedHeight), "rand"))
+                    if (GUI.Button(new Rect(tX + tTiersWidth, sPosition.y, tTiersWidthB, NWDGUI.kMiniButtonStyle.fixedHeight), "Random"))
                     {
                         tdecode = NWDToolbox.RandomStringCypher(24);
                     }
-                    sPosition.y += NWDGUI.kPopupStyle.fixedHeight;
                     string tencode = CryptAes(tdecode);
                     tTemporary.Value = tencode;
-                    EditorGUI.LabelField(new Rect(tX, sPosition.y, tWidth, NWDGUI.kPopupStyle.fixedHeight), tencode);
-                    sPosition.y += NWDGUI.kPopupStyle.fixedHeight;
+                    sPosition.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
                     if (GUI.Button(new Rect(tX, sPosition.y, tWidth, NWDGUI.kPopupStyle.fixedHeight), "credentials window"))
                     {
                         NWDEditorCredentialsManager.SharedInstance().Show();
                         NWDEditorCredentialsManager.SharedInstance().Focus();
                     }
-                    sPosition.y += NWDGUI.kPopupStyle.fixedHeight;
+                    sPosition.y += NWDGUI.kMiniButtonStyle.fixedHeight;
 
                     EditorGUI.indentLevel = tIndentLevel;
                 }
                 else
                 {
                     EditorGUI.LabelField(new Rect(tX, sPosition.y, tWidth, NWDGUI.kLabelStyle.fixedHeight), "Undisclosed secret");
-                    sPosition.y += NWDGUI.kLabelStyle.fixedHeight;
-                    if (GUI.Button(new Rect(tX, sPosition.y, tWidth, NWDGUI.kPopupStyle.fixedHeight), "Reset"))
+                    sPosition.y += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    NWDGUI.BeginRedArea();
+                    if (GUI.Button(new Rect(tX, sPosition.y, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Reset"))
                     {
                         tTemporary.Value = string.Empty;
                     }
+                    sPosition.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    if (GUI.Button(new Rect(tX, sPosition.y, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Change credentials"))
+                    {
+                        NWDEditorCredentialsManager.SharedInstance().Show();
+                        NWDEditorCredentialsManager.SharedInstance().Focus();
+                    }
+                    sPosition.y += NWDGUI.kMiniButtonStyle.fixedHeight;
+                    NWDGUI.EndRedArea();
                 }
             }
             else
             {
-                if (GUI.Button(new Rect(tX, sPosition.y, tWidth, NWDGUI.kPopupStyle.fixedHeight), "need credentials"))
+                EditorGUI.LabelField(new Rect(tX, sPosition.y, tWidth, NWDGUI.kLabelStyle.fixedHeight), "•••••••••••••");
+                sPosition.y += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                sPosition.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+                NWDGUI.BeginRedArea();
+                if (GUI.Button(new Rect(tX, sPosition.y, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Need credentials"))
                 {
                     NWDEditorCredentialsManager.SharedInstance().Show();
                     NWDEditorCredentialsManager.SharedInstance().Focus();
                 }
+                sPosition.y += NWDGUI.kMiniButtonStyle.fixedHeight;
+                NWDGUI.EndRedArea();
             }
             return tTemporary;
 

@@ -17,6 +17,28 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
+        public void CheckUnicityCluster()
+        {
+            foreach (NWDCluster tCluster in NWDBasisHelper.GetReachableDatas<NWDCluster>())
+            {
+                if (tCluster != this)
+                {
+                    if (tCluster.Dev == true && Dev == true)
+                    {
+                        tCluster.Dev = false;
+                    }
+                    if (tCluster.Preprod == true && Preprod == true)
+                    {
+                        tCluster.Preprod = false;
+                    }
+                    if (tCluster.Prod == true && Prod == true)
+                    {
+                        tCluster.Prod = false;
+                    }
+                    tCluster.UpdateDataIfModified();
+                }
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addon method just after loaded from database.
@@ -54,6 +76,7 @@ namespace NetWorkedData
         public override void AddonInsertedMe()
         {
             base.AddonInsertedMe();
+            CheckUnicityCluster();
             NWDClusterAnalyzer.CheckAllCluster();
             // do something when object will be inserted
             // TODO verif if method is call in good place in good timing
@@ -91,6 +114,7 @@ namespace NetWorkedData
         public override void AddonUpdatedMe()
         {
             base.AddonUpdatedMe();
+            CheckUnicityCluster();
             NWDClusterAnalyzer.CheckAllCluster();
             // do something when object finish to be updated
             // TODO verif if method is call in good place in good timing
@@ -122,6 +146,7 @@ namespace NetWorkedData
         public override void AddonDuplicatedMe()
         {
             base.AddonDuplicatedMe();
+            CheckUnicityCluster();
             NWDClusterAnalyzer.CheckAllCluster();
             // do something when object will be dupplicate
             // TODO verif if method is call in good place in good timing
@@ -133,6 +158,7 @@ namespace NetWorkedData
         public override void AddonEnableMe()
         {
             base.AddonEnableMe();
+            CheckUnicityCluster();
             NWDClusterAnalyzer.CheckAllCluster();
             // do something when object will be enabled
             // TODO verif if method is call in good place in good timing
@@ -144,6 +170,7 @@ namespace NetWorkedData
         public override void AddonDisableMe()
         {
             base.AddonDisableMe();
+            CheckUnicityCluster();
             NWDClusterAnalyzer.CheckAllCluster();
             // do something when object will be disabled
             // TODO verif if method is call in good place in good timing
@@ -155,6 +182,7 @@ namespace NetWorkedData
         public override void AddonTrashMe()
         {
             base.AddonTrashMe();
+            CheckUnicityCluster();
             NWDClusterAnalyzer.CheckAllCluster();
             // do something when object will be put in trash
             // TODO verif if method is call in good place in good timing
@@ -166,6 +194,7 @@ namespace NetWorkedData
         public override void AddonUnTrashMe()
         {
             base.AddonUnTrashMe();
+            CheckUnicityCluster();
             NWDClusterAnalyzer.CheckAllCluster();
             // do something when object will be remove from trash
             // TODO verif if method is call in good place in good timing

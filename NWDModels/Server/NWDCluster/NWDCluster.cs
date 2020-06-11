@@ -36,20 +36,46 @@ namespace NetWorkedData
         public NWDReferencesListType<NWDServerDatas> DataBases { get; set; }
         [NWDInspectorGroupEnd]
 
-        [NWDInspectorGroupStart("Server Environment Actif")]
+        [NWDInspectorGroupStart("Cluster Environment Actif")]
         public bool Dev { get; set; }
         public bool Preprod { get; set; }
         public bool Prod { get; set; }
-        [NWDNotEditable]
-        [NWDVeryLongString]
-        public string Information { get; set; }
         [NWDInspectorGroupEnd]
 
-        [NWDInspectorGroupStart("IP of Editor")]
+        [NWDInspectorGroupStart("For Editor")]
+        public NWDSecurePassword AdminKey { get; set; }
+        public NWDSecurePassword SaltServer { get; set; }
         [NWDNotEditable]
         public bool LimitEditorByIP { get; set; }
         [NWDNotEditable]
         public NWDIPType EditorIP { get; set; }
+        [NWDInspectorGroupEnd]
+
+        [NWDInspectorGroupStart("Email services")]
+        public string MailFrom { get; set; }
+        public string RescueEmail { get; set; }
+        public bool MailBySMTP { get; set; }
+        [NWDIf("MailBySMTP", true)]
+        public string MailHost { get; set; }
+        [NWDIf("MailBySMTP", true)]
+        public bool MailSSL { get; set; }
+        [NWDIf("MailBySMTP", true)]
+        public int MailPort { get; set; }
+        [NWDIf("MailBySMTP", true)]
+        public bool MailAuth { get; set; }
+        [NWDIf("MailBySMTP", true)]
+        [NWDIf("MailAuth", true)]
+        public string MailUserName { get; set; }
+        [NWDIf("MailBySMTP", true)]
+        [NWDIf("MailAuth", true)]
+        public NWDSecurePassword MailPassword { get; set; }
+        [NWDInspectorGroupEnd]
+
+        [NWDInspectorGroupStart("Resume")]
+        [NWDNotEditable]
+        [NWDVeryLongString]
+        public string Information { get; set; }
+
         //-------------------------------------------------------------------------------------------------------------
         public NWDCluster()
         {

@@ -1,19 +1,12 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:20:19
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
 #if UNITY_EDITOR
 using UnityEngine;
-//using BasicToolBox;
 using System;
 using UnityEditor;
 using System.Collections.Generic;
@@ -34,6 +27,24 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             NWDGUILayout.Section("Configuration for " + Environment + " environment");
+            NWDGUILayout.SubSection("Cluster data used for  " + Environment);
+            NWDCluster tCluster = NWDCluster.SelectClusterforEnvironment(this);
+            string tClusterSelection = "No selected cluster";
+            if (tCluster != null)
+            {
+                tClusterSelection = tCluster.InternalKey;
+                GUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("Cluster used", tClusterSelection);
+                if (GUILayout.Button("Cluster edition"))
+                {
+                    NWDDataInspector.InspectNetWorkedData(tCluster);
+                }
+                GUILayout.EndHorizontal();
+            }
+            else
+            {
+                EditorGUILayout.LabelField("Cluster used", tClusterSelection);
+            }
             //NWDGUILayout.Informations(Environment);
             NWDGUILayout.SubSection("App identity " + Environment);
             AppName = EditorGUILayout.TextField("AppName", AppName);

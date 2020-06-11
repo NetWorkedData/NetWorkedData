@@ -62,122 +62,121 @@ namespace NetWorkedData
                 PropertyInfo tPropertyInfo = tType.GetProperty(tPropertyString, BindingFlags.Public | BindingFlags.Instance);
                 Type tTypeOfThis = tPropertyInfo.PropertyType;
                 object tValue = tPropertyInfo.GetValue(sOriginal, null);
-                if (tValue == null)
+                if (tValue != null)
                 {
-                    tValue = string.Empty;
-                }
-                string tValueString = string.Copy(tValue.ToString()); // force to copy new object
-                if (tTypeOfThis.IsEnum)
-                {
-                    tPropertyInfo.SetValue(this, tValue, null);
-                }
-                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
-                {
-                    NWEDataType tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataType;
-                    tTemp.Value = ((NWEDataType)tValue).Value;
-                    tPropertyInfo.SetValue(this, tTemp, null);
-                }
-                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
-                {
-                    NWEDataTypeInt tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeInt;
-                    tTemp.Value = ((NWEDataTypeInt)tValue).Value;
-                    tPropertyInfo.SetValue(this, tTemp, null);
-                }
-                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
-                {
-                    NWEDataTypeFloat tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeFloat;
-                    tTemp.Value = ((NWEDataTypeFloat)tValue).Value;
-                    tPropertyInfo.SetValue(this, tTemp, null);
-                }
-                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
-                {
-                    NWEDataTypeEnum tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeEnum;
-                    tTemp.Value = ((NWEDataTypeEnum)tValue).Value;
-                    tPropertyInfo.SetValue(this, tTemp, null);
-                }
-                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
-                {
-                    NWEDataTypeMask tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeMask;
-                    tTemp.Value = ((NWEDataTypeMask)tValue).Value;
-                    tPropertyInfo.SetValue(this, tTemp, null);
-                }
-                else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
-                {
-                    tPropertyInfo.SetValue(this, tValueString, null);
-                }
-                else if (tTypeOfThis == typeof(bool))
-                {
-                    bool tValueInsert = false;
-                    int tTemp;
-                    int.TryParse(tValueString, out tTemp);
-                    if (tTemp > 0)
+                    string tValueString = string.Copy(tValue.ToString()); // force to copy new object
+                    if (tTypeOfThis.IsEnum)
                     {
-                        tValueInsert = true;
+                        tPropertyInfo.SetValue(this, tValue, null);
                     }
-                    tPropertyInfo.SetValue(this, tValueInsert, null);
-                }
-                else if (tTypeOfThis == typeof(int))
-                {
-                    int tTemp;
-                    int.TryParse(tValueString, out tTemp);
-                    tPropertyInfo.SetValue(this, tTemp, null);
-                }
-                else if (tTypeOfThis == typeof(long))
-                {
-                    long tTemp;
-                    long.TryParse(tValueString, out tTemp);
-                    tPropertyInfo.SetValue(this, tTemp, null);
-                }
-                else if (tTypeOfThis == typeof(Int16))
-                {
-                    Int16 tTemp;
-                    Int16.TryParse(tValueString, out tTemp);
-                    tPropertyInfo.SetValue(this, tTemp, null);
-                }
-                else if (tTypeOfThis == typeof(Int32))
-                {
-                    Int32 tTemp;
-                    Int32.TryParse(tValueString, out tTemp);
-                    tPropertyInfo.SetValue(this, tTemp, null);
-                }
-                else if (tTypeOfThis == typeof(Int64))
-                {
-                    Int64 tTemp;
-                    Int64.TryParse(tValueString, out tTemp);
-                    tPropertyInfo.SetValue(this, tTemp, null);
-                }
-                else if (tTypeOfThis == typeof(float))
-                {
-                    float tTemp;
-                    float.TryParse(tValueString, out tTemp);
-                    tPropertyInfo.SetValue(this, tTemp, null);
-                }
-                else if (tTypeOfThis == typeof(double))
-                {
-                    double tTemp;
-                    double.TryParse(tValueString, out tTemp);
-                    tPropertyInfo.SetValue(this, tTemp, null);
-                }
-                else if (tTypeOfThis == typeof(Single))
-                {
-                    Single tTemp;
-                    Single.TryParse(tValueString, out tTemp);
-                    tPropertyInfo.SetValue(this, tTemp, null);
-                }
-                else if (tTypeOfThis == typeof(Double))
-                {
-                    Double tTemp;
-                    Double.TryParse(tValueString, out tTemp);
-                    tPropertyInfo.SetValue(this, tTemp, null);
-                }
-                else if (tTypeOfThis == typeof(Decimal))
-                {
-                    Decimal tTemp;
-                    Decimal.TryParse(tValueString, out tTemp);
-                    tPropertyInfo.SetValue(this, tTemp, null);
-                }
-                else
-                {
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
+                    {
+                        NWEDataType tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataType;
+                        tTemp.Value = ((NWEDataType)tValue).Value;
+                        tPropertyInfo.SetValue(this, tTemp, null);
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
+                    {
+                        NWEDataTypeInt tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeInt;
+                        tTemp.Value = ((NWEDataTypeInt)tValue).Value;
+                        tPropertyInfo.SetValue(this, tTemp, null);
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
+                    {
+                        NWEDataTypeFloat tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeFloat;
+                        tTemp.Value = ((NWEDataTypeFloat)tValue).Value;
+                        tPropertyInfo.SetValue(this, tTemp, null);
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
+                    {
+                        NWEDataTypeEnum tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeEnum;
+                        tTemp.Value = ((NWEDataTypeEnum)tValue).Value;
+                        tPropertyInfo.SetValue(this, tTemp, null);
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
+                    {
+                        NWEDataTypeMask tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeMask;
+                        tTemp.Value = ((NWEDataTypeMask)tValue).Value;
+                        tPropertyInfo.SetValue(this, tTemp, null);
+                    }
+                    else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
+                    {
+                        tPropertyInfo.SetValue(this, tValueString, null);
+                    }
+                    else if (tTypeOfThis == typeof(bool))
+                    {
+                        bool tValueInsert = false;
+                        int tTemp;
+                        int.TryParse(tValueString, out tTemp);
+                        if (tTemp > 0)
+                        {
+                            tValueInsert = true;
+                        }
+                        tPropertyInfo.SetValue(this, tValueInsert, null);
+                    }
+                    else if (tTypeOfThis == typeof(int))
+                    {
+                        int tTemp;
+                        int.TryParse(tValueString, out tTemp);
+                        tPropertyInfo.SetValue(this, tTemp, null);
+                    }
+                    else if (tTypeOfThis == typeof(long))
+                    {
+                        long tTemp;
+                        long.TryParse(tValueString, out tTemp);
+                        tPropertyInfo.SetValue(this, tTemp, null);
+                    }
+                    else if (tTypeOfThis == typeof(Int16))
+                    {
+                        Int16 tTemp;
+                        Int16.TryParse(tValueString, out tTemp);
+                        tPropertyInfo.SetValue(this, tTemp, null);
+                    }
+                    else if (tTypeOfThis == typeof(Int32))
+                    {
+                        Int32 tTemp;
+                        Int32.TryParse(tValueString, out tTemp);
+                        tPropertyInfo.SetValue(this, tTemp, null);
+                    }
+                    else if (tTypeOfThis == typeof(Int64))
+                    {
+                        Int64 tTemp;
+                        Int64.TryParse(tValueString, out tTemp);
+                        tPropertyInfo.SetValue(this, tTemp, null);
+                    }
+                    else if (tTypeOfThis == typeof(float))
+                    {
+                        float tTemp;
+                        float.TryParse(tValueString, out tTemp);
+                        tPropertyInfo.SetValue(this, tTemp, null);
+                    }
+                    else if (tTypeOfThis == typeof(double))
+                    {
+                        double tTemp;
+                        double.TryParse(tValueString, out tTemp);
+                        tPropertyInfo.SetValue(this, tTemp, null);
+                    }
+                    else if (tTypeOfThis == typeof(Single))
+                    {
+                        Single tTemp;
+                        Single.TryParse(tValueString, out tTemp);
+                        tPropertyInfo.SetValue(this, tTemp, null);
+                    }
+                    else if (tTypeOfThis == typeof(Double))
+                    {
+                        Double tTemp;
+                        Double.TryParse(tValueString, out tTemp);
+                        tPropertyInfo.SetValue(this, tTemp, null);
+                    }
+                    else if (tTypeOfThis == typeof(Decimal))
+                    {
+                        Decimal tTemp;
+                        Decimal.TryParse(tValueString, out tTemp);
+                        tPropertyInfo.SetValue(this, tTemp, null);
+                    }
+                    else
+                    {
+                    }
                 }
             }
             //NWEBenchmark.Finish();

@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:24:47
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -18,6 +12,14 @@ using UnityEngine;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [Serializable]
+    public enum NWDEnvironmentType : short
+    {
+        Prod = 0,
+        Preprod = 1,
+        Dev = 2,
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
     public partial class NWDAppEnvironmentRuntimeDefineEnum : NWEDataTypeEnumGeneric<NWDAppEnvironmentRuntimeDefineEnum>
@@ -159,9 +161,9 @@ namespace NetWorkedData
                     rReturn = tServer.ServerDNS;
                 }
             }
-            if (AlwaysUseSSL==true)
+            if (AlwaysUseSSL == true)
             {
-            return "https://" + NWDToolbox.CleanDNS(rReturn);
+                return "https://" + NWDToolbox.CleanDNS(rReturn);
             }
             else
             {

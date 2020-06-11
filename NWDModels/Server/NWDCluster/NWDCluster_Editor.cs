@@ -16,6 +16,55 @@ namespace NetWorkedData
     public partial class NWDCluster : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
+        static public NWDCluster SelectClusterforEnvironment(NWDAppEnvironment sEnvironment)
+        {
+            NWDCluster rReturn = null;
+            NWDEnvironmentType tEnvironmentType = NWDEnvironmentType.Dev;
+            if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
+            {
+                tEnvironmentType = NWDEnvironmentType.Dev;
+            }
+            if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+            {
+                tEnvironmentType = NWDEnvironmentType.Preprod;
+            }
+            if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+            {
+                tEnvironmentType = NWDEnvironmentType.Prod;
+            }
+            foreach (NWDCluster tCluster in NWDBasisHelper.GetReachableDatas<NWDCluster>())
+            {
+                switch (tEnvironmentType)
+                {
+                    case NWDEnvironmentType.Dev:
+                        {
+                            if (tCluster.Dev == true)
+                            {
+                                rReturn = tCluster;
+                            }
+                        }
+                        break;
+                    case NWDEnvironmentType.Preprod:
+                        {
+                            if (tCluster.Preprod == true)
+                            {
+                                rReturn = tCluster;
+                            }
+                        }
+                        break;
+                    case NWDEnvironmentType.Prod:
+                        {
+                            if (tCluster.Prod == true)
+                            {
+                                rReturn = tCluster;
+                            }
+                        }
+                        break;
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addons in edition state of object.
         /// </summary>
