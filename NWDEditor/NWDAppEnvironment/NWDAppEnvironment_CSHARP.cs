@@ -127,7 +127,7 @@ namespace NetWorkedData
             //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPFolder) + " = \"" + SFTPFolder.Replace("\"", "\\\"") + "\";");
             //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPUser) + " = \"" + SFTPUser.Replace("\"", "\\\"") + "\";");
             //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPPassword) + " = \"" + SFTPPassword.Replace("\"", "\\\"") + "\";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SaltServer) + " = \"" + SaltServer.Replace("\"", "\\\"") + "\";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SaltServer) + " = \"" + SaltServer.Replace("\"", "\\\"") + "\";");
             //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ServerHost) + " = \"" + ServerHost.Replace("\"", "\\\"") + "\";");
             //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ServerUser) + " = \"" + ServerUser.Replace("\"", "\\\"") + "\";");
             //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ServerPassword) + " = \"" + ServerPassword.Replace("\"", "\\\"") + "\";");

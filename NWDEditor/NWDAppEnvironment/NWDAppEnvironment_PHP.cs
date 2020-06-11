@@ -227,7 +227,8 @@ namespace NetWorkedData
             tConstantsFile.AppendLine("$NWD_SHA_VEC = '" + DataSHAVector.Replace("'", "'") + "';");
             tConstantsFile.AppendLine("$NWD_SLT_STR = '" + SaltStart.Replace("'", "\'") + "';");
             tConstantsFile.AppendLine("$NWD_SLT_END = '" + SaltEnd.Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("" + NWD.K_NWD_SLT_SRV + " = '" + SaltServer.Replace("'", "\'") + "';");
+            //tConstantsFile.AppendLine("" + NWD.K_NWD_SLT_SRV + " = '" + SaltServer.Replace("'", "\'") + "';");
+            tConstantsFile.AppendLine("" + NWD.K_NWD_SLT_SRV + " = '" + NWDCluster.SelectClusterforEnvironment(this).SaltServer.Decrypt().Replace("'", "\'") + "';");
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("// CONSTANT FOR TEMPORAL SALT");
             tConstantsFile.AppendLine("$NWD_SLT_TMP = " + SaltFrequency.ToString() + ";");

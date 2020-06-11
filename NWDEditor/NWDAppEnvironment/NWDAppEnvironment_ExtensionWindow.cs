@@ -65,7 +65,7 @@ namespace NetWorkedData
             NWDGUILayout.SubSection("Hash of Datas" + Environment);
             SaltStart = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("Salt start", SaltStart));
             SaltEnd = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("Salt end", SaltEnd));
-            SaltServer = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("Salt server", SaltServer));
+            //SaltServer = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("Salt server", SaltServer));
             SaltFrequency = EditorGUILayout.IntField("Salt Frequency", SaltFrequency);
 
             NWDGUILayout.SubSection("Network Ping tester " + Environment);

@@ -73,7 +73,7 @@ namespace NetWorkedData
         public int LoadBalancingLimit = 50; // TODO : Rename LoadBalancingLimit
 #if UNITY_EDITOR
         public NWDServerLanguage ServerLanguage = NWDServerLanguage.PHP;
-        public string SaltServer = string.Empty;
+        //public string SaltServer = string.Empty;
         public int RescueDelay = 3600;
         public int RescueLoginLength = 12;
         public int RescuePasswordLength = 24;
@@ -347,7 +347,7 @@ namespace NetWorkedData
             //NWEBenchmark.Finish("eee");
 
 
-            SaltServer = NWDToolbox.SaltCleaner(SaltServer);
+            //SaltServer = NWDToolbox.SaltCleaner(SaltServer);
             // ServerPassword = NWDToolbox.SaltCleaner (ServerPassword);
             AdminKey = NWDToolbox.SaltCleaner(AdminKey);
             //check salts are not mull
@@ -367,10 +367,10 @@ namespace NetWorkedData
             {
                 SaltEnd = NWDToolbox.RandomString(16);
             }
-            if (SaltServer == string.Empty)
-            {
-                SaltServer = NWDToolbox.RandomString(16);
-            }
+            //if (SaltServer == string.Empty)
+            //{
+            //    SaltServer = NWDToolbox.RandomString(16);
+            //}
             if (SaltFrequency <= 400)
             {
                 SaltFrequency = UnityEngine.Random.Range(400, 800);
