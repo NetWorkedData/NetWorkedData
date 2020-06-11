@@ -762,7 +762,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
-                if (MailBySMTP == true)
+                if (NWDCluster.SelectClusterforEnvironment(this).MailBySMTP == true)
                 {
                     tFile.AppendLine("require_once \"Mail.php\";");
                     tFile.AppendLine("global $SMTP_HOST, $SMTP_PORT, $SMTP_FRO, $SMTP_USER, $SMTP_PSW;");
@@ -774,7 +774,7 @@ namespace NetWorkedData
                     tFile.AppendLine("$params['sendmail_path'] = '/usr/lib/sendmail';");
                     tFile.AppendLine("// Create the mail object using the Mail::factory method");
                     tFile.AppendLine("$mail_object = Mail::factory('smtp', array (");
-                    if (MailAuth == true)
+                    if (NWDCluster.SelectClusterforEnvironment(this).MailAuth == true)
                     {
                         tFile.AppendLine("'host' => 'ssl://'.$SMTP_HOST, ");
                     }
@@ -783,7 +783,7 @@ namespace NetWorkedData
                         tFile.AppendLine("'host' => $SMTP_HOST, ");
                     }
                     tFile.AppendLine("'port' => $SMTP_PORT, ");
-                    if (MailAuth == true)
+                    if (NWDCluster.SelectClusterforEnvironment(this).MailAuth == true)
                     {
                         tFile.AppendLine("'auth' => true, ");
                         tFile.AppendLine("'username' => $SMTP_USER, ");

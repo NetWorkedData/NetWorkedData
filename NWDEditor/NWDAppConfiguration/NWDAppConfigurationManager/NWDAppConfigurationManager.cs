@@ -109,7 +109,6 @@ namespace NetWorkedData
                 if (GUILayout.Button(NWDConstants.K_APP_CLASS_SALT_REGENERATE))
                 {
                     NWDEditorWindow.GenerateCSharpFile();
-                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                 }
             }
             // begin scroll view
@@ -140,7 +139,6 @@ namespace NetWorkedData
 
             NWDGUILayout.Section("Account");
             NWDGUILayout.SubSection("Account Anonymous");
-            //NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal = EditorGUILayout.ToggleLeft("Anonymous account is stored on system device!", NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal);
             NWDAppConfiguration.SharedInstance().AnonymousDeviceConnected = EditorGUILayout.ToggleLeft("Anonymous account connected from system device!", NWDAppConfiguration.SharedInstance().AnonymousDeviceConnected);
             NWDAppConfiguration.SharedInstance().PurgeOldAccountDatabase = EditorGUILayout.ToggleLeft("Purge Old Account", NWDAppConfiguration.SharedInstance().PurgeOldAccountDatabase);
 
@@ -206,21 +204,6 @@ namespace NetWorkedData
             // Database informations
             NWDGUILayout.Section("Databases");
             NWDGUILayout.SubSection("Databases parameters");
-
-            //NWDAppConfiguration.SharedInstance().SurProtected = false;
-            //NWDAppConfiguration.SharedInstance().SurProtected = EditorGUILayout.Toggle("Overprotected Database", NWDAppConfiguration.SharedInstance().SurProtected);
-            //if (NWDAppConfiguration.SharedInstance().SurProtected == true)
-            //{
-            //    NWDAppConfiguration.SharedInstance().PreloadDatas = false;
-            //}
-            //EditorGUI.BeginDisabledGroup(!NWDAppConfiguration.SharedInstance().SurProtected);
-            //NWDAppConfiguration.SharedInstance().PinCodeLenghtMin = EditorGUILayout.IntField("Min length", NWDAppConfiguration.SharedInstance().PinCodeLenghtMin);
-            //NWDAppConfiguration.SharedInstance().PinCodeLenghtMax = EditorGUILayout.IntField("Max length", NWDAppConfiguration.SharedInstance().PinCodeLenghtMax);
-
-            //NWDAppConfiguration.SharedInstance().ProtectionTentativeMax = EditorGUILayout.IntField("Maximum attempt", NWDAppConfiguration.SharedInstance().ProtectionTentativeMax);
-            //EditorGUI.EndDisabledGroup();
-            //EditorGUI.BeginDisabledGroup(NWDAppConfiguration.SharedInstance().SurProtected);
-
             NWDAppConfiguration.SharedInstance().NeverNullDataType = EditorGUILayout.Toggle("Never Null Data Type", NWDAppConfiguration.SharedInstance().NeverNullDataType);
             NWDAppConfiguration.SharedInstance().AutoDeleteTrashDatas = EditorGUILayout.Toggle("Auto Delete Trash Datas", NWDAppConfiguration.SharedInstance().AutoDeleteTrashDatas);
             NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
@@ -231,7 +214,6 @@ namespace NetWorkedData
             {
                 NWDAppConfiguration.SharedInstance().LauncherFaster = 1;
             }
-
             //EditorGUI.EndDisabledGroup();
             NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
             // Database editor informations

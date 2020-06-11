@@ -78,19 +78,19 @@ namespace NetWorkedData
         public int RescueLoginLength = 12;
         public int RescuePasswordLength = 24;
 
-        public string MailFrom = string.Empty;
+        //public string MailFrom = string.Empty;
 
-        //[Obsolete] // TODO : Remove
-        //public string MailReplyTo = string.Empty;
-        public string RescueEmail = "no-reply@my-web-site.com";
+        ////[Obsolete] // TODO : Remove
+        ////public string MailReplyTo = string.Empty;
+        //public string RescueEmail = "no-reply@my-web-site.com";
 
-        public bool MailBySMTP = false;
-        public bool MailSSL = true;
-        public string MailHost = "smtp.my-web-site.com";
-        public int MailPort = 465;
-        public bool MailAuth = true;
-        public string MailUserName = "no-reply@my-web-site.com";
-        public string MailPassword = "passwordFoMyLogin";
+        //public bool MailBySMTP = false;
+        //public bool MailSSL = true;
+        //public string MailHost = "smtp.my-web-site.com";
+        //public int MailPort = 465;
+        //public bool MailAuth = true;
+        //public string MailUserName = "no-reply@my-web-site.com";
+        //public string MailPassword = "passwordFoMyLogin";
 
         //[Obsolete] // TODO : Remove
         //public string MailDomain = string.Empty;

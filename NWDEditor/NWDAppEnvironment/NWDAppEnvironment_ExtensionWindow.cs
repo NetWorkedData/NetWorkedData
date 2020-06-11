@@ -45,7 +45,6 @@ namespace NetWorkedData
             {
                 EditorGUILayout.LabelField("Cluster used", tClusterSelection);
             }
-            //NWDGUILayout.Informations(Environment);
             NWDGUILayout.SubSection("App identity " + Environment);
             AppName = EditorGUILayout.TextField("AppName", AppName);
             PreProdTimeFormat = EditorGUILayout.TextField("Preprod Time Format", PreProdTimeFormat);
@@ -65,14 +64,12 @@ namespace NetWorkedData
             NWDGUILayout.SubSection("Hash of Datas" + Environment);
             SaltStart = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("Salt start", SaltStart));
             SaltEnd = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("Salt end", SaltEnd));
-            //SaltServer = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("Salt server", SaltServer));
             SaltFrequency = EditorGUILayout.IntField("Salt Frequency", SaltFrequency);
 
             NWDGUILayout.SubSection("Network Ping tester " + Environment);
             AddressPing = EditorGUILayout.TextField("Address Ping (8.8.8.8)", AddressPing);
 
             NWDGUILayout.SubSection("Server Params for " + Environment);
-            //ServerHTTPS = EditorGUILayout.TextField("Server (https://…)", ServerHTTPS);
             AlwaysUseSSL = EditorGUILayout.Toggle("Always use HTTPS", AlwaysUseSSL);
             AlwaysSecureData = EditorGUILayout.Toggle("Always Secure Data", AlwaysSecureData);
             LogMode = EditorGUILayout.Toggle("Log Mode", LogMode);
@@ -83,69 +80,23 @@ namespace NetWorkedData
             WebTimeOut = EditorGUILayout.IntField("TimeOut request", WebTimeOut);
             EditorWebTimeOut = EditorGUILayout.IntField("Editor TimeOut request", EditorWebTimeOut);
             LoadBalancingLimit = EditorGUILayout.IntField("BalanceLoad", LoadBalancingLimit);
-
-            //NWDGUILayout.SubSection("MySQL for " + Environment);
-            //ServerHost = EditorGUILayout.TextField("MySQL Host", ServerHost);
-            //ServerUser = EditorGUILayout.TextField("MySQL user", ServerUser);
-            //ServerPassword = EditorGUILayout.TextField("MySQL password", ServerPassword);
-            //ServerBase = EditorGUILayout.TextField("MySQL base", ServerBase);
-
-            //NWDGUILayout.SubSection("SFTP for " + Environment);
-            //SFTPHost = EditorGUILayout.TextField("SFTP Host", SFTPHost);
-            //SFTPPort = EditorGUILayout.IntField("SFTP Port", SFTPPort);
-            //SFTPFolder = EditorGUILayout.TextField("SFTP Folder", SFTPFolder);
-            //SFTPUser = EditorGUILayout.TextField("SFTP User ", SFTPUser);
-            //SFTPPassword = EditorGUILayout.TextField("SFTP Password ", SFTPPassword);
-
             NWDGUILayout.SubSection("Email to send forgotten code " + Environment);
-            RescueEmail = EditorGUILayout.TextField("RescueEmail", RescueEmail);
             RescueDelay = EditorGUILayout.IntField("Rescue delay", RescueDelay);
             RescueLoginLength = EditorGUILayout.IntField("Rescue Login length", RescueLoginLength);
             RescuePasswordLength = EditorGUILayout.IntField("Rescue Password length", RescuePasswordLength);
             NWDGUILayout.SubSection("Mail Params for " + Environment);
-
-            MailFrom = EditorGUILayout.TextField("Mail From ", MailFrom);
-            //MailReplyTo = EditorGUILayout.TextField("Mail Reply to", MailReplyTo);
-
-            MailBySMTP = EditorGUILayout.Toggle("Mail By SMTP", MailBySMTP);
-            EditorGUI.BeginDisabledGroup(!MailBySMTP);
-            MailHost = EditorGUILayout.TextField("SMTP Host", MailHost);
-            MailSSL = EditorGUILayout.Toggle("SMTP SSL", MailSSL);
-            MailPort = EditorGUILayout.IntField("SMTP Port", MailPort);
-            //MailDomain = EditorGUILayout.TextField("Mail Domain", MailDomain);
-            MailAuth = EditorGUILayout.Toggle("SMTP Authentification", MailAuth);
-            EditorGUI.BeginDisabledGroup(!MailAuth);
-            MailUserName = EditorGUILayout.TextField("SMTP Username", MailUserName);
-            MailPassword = EditorGUILayout.TextField("SMTP Password", MailPassword);
-            //MailAuthentication = EditorGUILayout.TextField("Mail Authentication", MailAuthentication);
-            //MailEnableStarttlsAuto = EditorGUILayout.TextField("Mail Enable Starttls Auto", MailEnableStarttlsAuto);
-            //MailOpenSSLVerifyMode = EditorGUILayout.TextField("Mail Open SSL Verify Mode", MailOpenSSLVerifyMode);
-            EditorGUI.EndDisabledGroup();
-            EditorGUI.EndDisabledGroup();
-            //NWDGUILayout.SubSection("Social Params for " + Environment);
-            //FacebookAppID = EditorGUILayout.TextField("FacebookAppID", FacebookAppID);
-            //FacebookAppSecret = EditorGUILayout.TextField("FacebookAppSecret", FacebookAppSecret);
-            //GoogleAppKey = EditorGUILayout.TextField("GoogleAppKey", GoogleAppKey);
-            //UnityAppKey = EditorGUILayout.TextField("UnityAppKey", UnityAppKey);
-            //TwitterAppKey = EditorGUILayout.TextField("TwitterAppKey", TwitterAppKey);
-
             NWDGUILayout.SubSection("Admin Key for " + Environment);
             AdminKey = EditorGUILayout.TextField("AdminKey", AdminKey);
             AdminInPlayer = EditorGUILayout.Toggle("Admin In Player", AdminInPlayer);
-
             NWDGUILayout.SubSection("Token Historic limit for " + Environment);
             TokenHistoric = EditorGUILayout.IntSlider("Token number", TokenHistoric, 1, 10);
-
             SpeedOfGameTime = EditorGUILayout.FloatField("Speed Of Game Time", SpeedOfGameTime);
-
             EditorGUILayout.LabelField("version", NWDVersion.GetMaxVersionStringForEnvironemt(this), EditorStyles.boldLabel);
-
             NWDGUILayout.SubSection("SQL Thread Activation " + Environment);
             ThreadPoolForce = EditorGUILayout.Toggle("SQL Thread", ThreadPoolForce);
             WritingModeLocal = (NWDWritingMode)EditorGUILayout.EnumPopup("Writing Local", (NWDWritingModeConfig)WritingModeLocal);
             WritingModeWebService = (NWDWritingMode)EditorGUILayout.EnumPopup("Writing WebService", (NWDWritingModeConfig)WritingModeWebService);
             WritingModeEditor = (NWDWritingMode)EditorGUILayout.EnumPopup("Writing Editor", (NWDWritingModeConfig)WritingModeEditor);
-
             NWDGUILayout.SubSection("Last Build infos " + Environment);
             EditorGUILayout.LabelField("Build date", this.BuildDate, EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Build Timestamp", this.BuildTimestamp.ToString(), EditorStyles.boldLabel);
@@ -156,7 +107,6 @@ namespace NetWorkedData
             {
                 BuildTimestamp = 0;
             }
-
             NWDGUILayout.SubSection("Editor Define " + Environment);
             Dictionary<long, string> tEditorExtensionDictionary = new Dictionary<long, string>(EditorDefineDictionary);
             Dictionary<long, string> tEditorExtensionDictionaryNext = new Dictionary<long, string>();
@@ -184,11 +134,8 @@ namespace NetWorkedData
             {
                 tEditorExtensionDictionaryNext.Remove(0);
             }
-
             EditorDefineDictionary = tEditorExtensionDictionaryNext;
-
             NWDGUILayout.SubSection("Runtime Define " + Environment);
-
             Dictionary<long, string> tRuntimeExtensionDictionary = new Dictionary<long, string>(RuntimeDefineDictionary);
             Dictionary<long, string> tRuntimeExtensionDictionaryNext = new Dictionary<long, string>();
             if (tRuntimeExtensionDictionary.ContainsKey(0) == false)
@@ -215,11 +162,8 @@ namespace NetWorkedData
             {
                 tRuntimeExtensionDictionaryNext.Remove(0);
             }
-
             RuntimeDefineDictionary = tRuntimeExtensionDictionaryNext;
-
             FormatVerification();
-
             NWDGUILayout.LittleSpace();
             //NWEBenchmark.Finish();
         }

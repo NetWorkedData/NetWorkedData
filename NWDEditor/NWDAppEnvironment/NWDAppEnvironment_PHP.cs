@@ -234,13 +234,13 @@ namespace NetWorkedData
             tConstantsFile.AppendLine("$NWD_SLT_TMP = " + SaltFrequency.ToString() + ";");
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("// CONSTANT FOR SMTP");
-            tConstantsFile.AppendLine("$SMTP_HOST = '" + MailHost.Trim().Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("$SMTP_PORT = " + MailPort.ToString() + ";");
+            tConstantsFile.AppendLine("$SMTP_HOST = '" + NWDCluster.SelectClusterforEnvironment(this).MailHost.Trim().Replace("'", "\'") + "';");
+            tConstantsFile.AppendLine("$SMTP_PORT = " + NWDCluster.SelectClusterforEnvironment(this).MailPort.ToString() + ";");
             //tConstantsFile.AppendLine("$SMTP_DOMAIN = '" + MailDomain.Trim().Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("$SMTP_FROM = '" + MailFrom.Trim().Replace("'", "\'") + "';");
+            tConstantsFile.AppendLine("$SMTP_FROM = '" + NWDCluster.SelectClusterforEnvironment(this).MailFrom.Trim().Replace("'", "\'") + "';");
             //tConstantsFile.AppendLine("$SMTP_REPLY = '" + MailReplyTo.Trim().Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("$SMTP_USER = '" + MailUserName.Trim().Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("$SMTP_PSW = '" + MailPassword.Trim().Replace("'", "\'") + "';");
+            tConstantsFile.AppendLine("$SMTP_USER = '" + NWDCluster.SelectClusterforEnvironment(this).MailUserName.Trim().Replace("'", "\'") + "';");
+            tConstantsFile.AppendLine("$SMTP_PSW = '" + NWDCluster.SelectClusterforEnvironment(this).MailPassword.Decrypt().Trim().Replace("'", "\'") + "';");
             //tConstantsFile.AppendLine("$SMTP_AUT = '" + MailAuthentication.Trim().Replace("'", "\'") + "';");
             //tConstantsFile.AppendLine("$SMTP_STARTTLS = '" + MailEnableStarttlsAuto.Trim().Replace("'", "\'") + "';");
             //tConstantsFile.AppendLine("$SMTP_OPENSSL = '" + MailOpenSSLVerifyMode.Trim().Replace("'", "\'") + "';");
@@ -279,7 +279,7 @@ namespace NetWorkedData
             tConstantsFile.AppendLine("// ADMIN SECRET KEY");
             tConstantsFile.AppendLine("$NWD_ADM_KEY = '" + AdminKey.Replace("'", "\'") + "';");
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
-            tConstantsFile.AppendLine("$NWD_RES_MAIL = '" + RescueEmail + "';");
+            tConstantsFile.AppendLine("$NWD_RES_MAIL = '" + NWDCluster.SelectClusterforEnvironment(this).RescueEmail + "';");
             tConstantsFile.AppendLine("$NWD_APP_PRO = '" + AppProtocol.Replace("'", "\'") + "';");
             tConstantsFile.AppendLine("$NWD_APP_NAM = '" + AppName.Replace("'", "\'") + "';");
             //tConstantsFile.AppendLine(NWD.K_CommentSeparator);

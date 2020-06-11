@@ -173,11 +173,11 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().AddWebRequestSignUp(NWDAccountSignType.Fake, NWDToolbox.RandomStringUnix(32), null, null);
             }
             tI++;
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Test SignUp email password"))
-            {
-                NWDDataManager.SharedInstance().AddWebRequestSignUp(NWDAccountSignType.EmailPassword, NWDToolbox.RandomStringUnix(32), NWDAccountSign.GetRescueEmailHash(NWDAppEnvironment.SelectedEnvironment().RescueEmail), null);
-            }
-            tI++;
+            //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Test SignUp email password"))
+            //{
+            //    NWDDataManager.SharedInstance().AddWebRequestSignUp(NWDAccountSignType.EmailPassword, NWDToolbox.RandomStringUnix(32), NWDAccountSign.GetRescueEmailHash(NWDAppEnvironment.SelectedEnvironment().RescueEmail), null);
+            //}
+            //tI++;
             /*
                 //Debug.Log ("AddonEditor");
                 float tWidth = sRect.width;

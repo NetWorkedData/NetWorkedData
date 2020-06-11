@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:22:35
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -15,7 +9,6 @@ using System;
 using System.IO;
 using System.Reflection;
 using UnityEditor;
-//using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -39,7 +32,6 @@ namespace NetWorkedData
 
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.ReOrderAllLocalizations();
-                //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ReOrderAllLocalizations);
             }
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
             EditorUtility.ClearProgressBar();
@@ -49,7 +41,7 @@ namespace NetWorkedData
         public void ExportToCSV()
         {
             NWEBenchmark.Start();
-            // apply the pending modification : prevent lost modification
+            // apply the pending modifications : prevent lost modification
             NWDDataManager.SharedInstance().DataQueueExecute();
             // ask for final file path
             string tPath = EditorUtility.SaveFilePanel(
