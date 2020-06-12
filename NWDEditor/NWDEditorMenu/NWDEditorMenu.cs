@@ -230,16 +230,19 @@ namespace NetWorkedData
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_DEV_ENVIRONMENT + K_WS_REGENERATE, false, 80)]
         public static void GenerateServersRegenerateDev()
         {
+            NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(NWDDataManager.SharedInstance().ClassTypeList, true, false);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_PREPROD_ENVIRONMENT + K_WS_REGENERATE, false, 84)]
         public static void GenerateServersRegeneratePreprod()
         {
+            NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(NWDDataManager.SharedInstance().ClassTypeList, true, false);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_PROD_ENVIRONMENT + K_WS_REGENERATE, false, 88)]
         public static void GenerateServersRegenerateProd()
         {
+            NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(NWDDataManager.SharedInstance().ClassTypeList, true, false);
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

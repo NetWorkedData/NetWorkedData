@@ -48,7 +48,7 @@ namespace NetWorkedData
                 tFile.AppendLine("global $TIME_SYNC;");
                 tFile.AppendLine("$tConnexion = GetConnexionForAccount($sUUIDHash);");
                 tFile.AppendLine("$tToken = NWDRequestTokenGenerateToken($sUUIDHash);");
-                tFile.AppendLine("$tQuery = 'INSERT INTO `" + NWDBasisHelper.TableNamePHP<NWDRequestToken>(sEnvironment) + "` (`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().DC) + "`, `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().DM) + "`, `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().DD) + "`, `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().AC) + "`, `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().Token) + "`, `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().UUIDHash) + "`, `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().Integrity) + "`) VALUES ( \\''.$TIME_SYNC.'\\', \\''.$TIME_SYNC.'\\', \\'0\\', \\'1\\', \\''.EscapeString($tToken).'\\', \\''.EscapeString($sUUIDHash).'\\', \\'???????\\' );';");
+                tFile.AppendLine("$tQuery = 'INSERT INTO `" + NWDBasisHelper.TableNamePHP<NWDRequestToken>(sEnvironment) + "` (`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().DC) + "`, `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().DM) + "`, `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().DD) + "`, `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().AC) + "`, `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().Token) + "`, `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().Account) + "`, `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().Integrity) + "`) VALUES ( \\''.$TIME_SYNC.'\\', \\''.$TIME_SYNC.'\\', \\'0\\', \\'1\\', \\''.EscapeString($tToken).'\\', \\''.EscapeString($sUUIDHash).'\\', \\'???????\\' );';");
                 tFile.AppendLine("$tResult = ExecuteInConnexion($tConnexion, $tQuery);");
                 tFile.AppendLine("if ($tResult['error'] == true)");
                 tFile.AppendLine("{");
@@ -71,7 +71,7 @@ namespace NetWorkedData
                 tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
                 tFile.AppendLine(NWDError.PHP_log(sEnvironment, "delete old token"));
                 tFile.AppendLine("$tConnexion = GetConnexionForAccount($sUUIDHash);");
-                tFile.AppendLine("$tQuery = 'DELETE FROM `" + NWDBasisHelper.TableNamePHP<NWDRequestToken>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().UUIDHash) + "` = \\''.EscapeString($sUUIDHash).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().DM) + "` <= \\''.EscapeString($sTimestamp).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().Token) + "` != \\''.EscapeString($sToken).'\\';';");
+                tFile.AppendLine("$tQuery = 'DELETE FROM `" + NWDBasisHelper.TableNamePHP<NWDRequestToken>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().Account) + "` = \\''.EscapeString($sUUIDHash).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().DM) + "` <= \\''.EscapeString($sTimestamp).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().Token) + "` != \\''.EscapeString($sToken).'\\';';");
                 tFile.AppendLine("$tResult = ExecuteInConnexion($tConnexion, $tQuery);");
                 tFile.AppendLine("if ($tResult['error'] == true)");
                 tFile.AppendLine("{");
@@ -106,7 +106,7 @@ namespace NetWorkedData
                 tFile.AppendLine(NWDError.PHP_BenchmarkStart(sEnvironment));
                 tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
                 tFile.AppendLine("$tConnexion = GetConnexionForAccount($sUUIDHash);");
-                tFile.AppendLine("$tQuery = 'DELETE FROM `" + NWDBasisHelper.TableNamePHP<NWDRequestToken>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().UUIDHash) + "` = \\''.EscapeString($sUUIDHash).'\\';';");
+                tFile.AppendLine("$tQuery = 'DELETE FROM `" + NWDBasisHelper.TableNamePHP<NWDRequestToken>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().Account) + "` = \\''.EscapeString($sUUIDHash).'\\';';");
                 tFile.AppendLine("$tResult = ExecuteInConnexion($tConnexion, $tQuery);");
                 tFile.AppendLine("if ($tResult['error'] == true)");
                 tFile.AppendLine("{");
@@ -145,7 +145,7 @@ namespace NetWorkedData
                 tFile.AppendLine("global $RTH;");
                 tFile.AppendLine("$rReturn = false;");
                 tFile.AppendLine("$tConnexion = GetConnexionForAccount($sUUIDHash);");
-                tFile.AppendLine("$tQuery = 'SELECT `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().Token) + "`,`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().DM) + "`, `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().AC) + "` FROM `" + NWDBasisHelper.TableNamePHP<NWDRequestToken>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().UUIDHash) + "` = \\''.EscapeString($sUUIDHash).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().DD) + "` = \\'0\\';';");
+                tFile.AppendLine("$tQuery = 'SELECT `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().Token) + "`,`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().DM) + "`, `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().AC) + "` FROM `" + NWDBasisHelper.TableNamePHP<NWDRequestToken>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().Account) + "` = \\''.EscapeString($sUUIDHash).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().DD) + "` = \\'0\\';';");
                 tFile.AppendLine(NWDError.PHP_BenchmarkStep(sEnvironment));
                 tFile.AppendLine("$tResult = SelectFromConnexion($tConnexion, $tQuery, '"+NWDError.GetErrorCode(NWDError.NWDError_RQT12)+ "', '', true);");
                 tFile.AppendLine(NWDError.PHP_BenchmarkStep(sEnvironment));

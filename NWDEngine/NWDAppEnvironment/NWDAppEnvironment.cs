@@ -108,9 +108,9 @@ namespace NetWorkedData
 #endif
         public bool LogMode = true;
         public bool LogInFileMode = true;
-        public string AdminKey = string.Empty;
-        public string AdminKeyHash = string.Empty;
-        public bool AdminInPlayer = false;
+        //public string AdminKey = string.Empty;
+        //public string AdminKeyHash = string.Empty;
+        //public bool AdminInPlayer = false;
 
         public int SaltFrequency = 300;
         public string AddressPing = "8.8.8.8";
@@ -328,10 +328,10 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string AdminKeyHashGenerate()
-        {
-            return NWESecurityTools.GenerateSha("455" + AdminKey + "gytf");
-        }
+        //public string AdminKeyHashGenerate()
+        //{
+        //    return NWESecurityTools.GenerateSha("455" + AdminKey + "gytf");
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void FormatVerification()
         {
@@ -349,7 +349,7 @@ namespace NetWorkedData
 
             //SaltServer = NWDToolbox.SaltCleaner(SaltServer);
             // ServerPassword = NWDToolbox.SaltCleaner (ServerPassword);
-            AdminKey = NWDToolbox.SaltCleaner(AdminKey);
+            //AdminKey = NWDToolbox.SaltCleaner(AdminKey);
             //check salts are not mull
             if (DataSHAPassword == string.Empty)
             {
@@ -379,10 +379,10 @@ namespace NetWorkedData
             //{
             //    ServerPassword = NWDToolbox.RandomString(16);
             //}
-            if (AdminKey == string.Empty)
-            {
-                AdminKey = NWDToolbox.RandomString(16);
-            }
+            //if (AdminKey == string.Empty)
+            //{
+            //    AdminKey = NWDToolbox.RandomString(16);
+            //}
             if (TokenHistoric < 1 || TokenHistoric > 10)
             {
                 TokenHistoric = 3;

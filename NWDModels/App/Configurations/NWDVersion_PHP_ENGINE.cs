@@ -36,7 +36,14 @@ namespace NetWorkedData
             tFile.AppendLine("function versionTest($sVersion)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine("global $admin;");
                 tFile.AppendLine("$rReturn = true;");
+                tFile.AppendLine("if ($admin == true)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("return $rReturn;");
+                }
+                tFile.AppendLine("}");
                 if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
                 {
                     tFile.AppendLine("$tQuery = 'SELECT * FROM `" + NWDBasisHelper.TableNamePHP<NWDVersion>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Version) + "` = \\''.EscapeString($sVersion).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().Buildable) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().ActiveDev) + "` = 1 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().XX) + "` = 0 AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDVersion>().AC) + "` = 1;';");

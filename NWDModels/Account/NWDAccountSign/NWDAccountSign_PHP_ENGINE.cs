@@ -404,7 +404,7 @@ namespace NetWorkedData
                 //tFile.AppendLine("}");
                 //tFile.AppendLine("$tResult = $tConnexion->query($tInsertSQL);");
 
-                tFile.AppendLine("$tResult = SelectFromConnexion($tInsertSQL);");
+                tFile.AppendLine("$tResult = SelectFromConnexion($tConnexion, $tInsertSQL);");
                 //tFile.AppendLine("if (!$tResult)");
                 tFile.AppendLine("if ($tResult['error'] == true)");
                 tFile.AppendLine("{");

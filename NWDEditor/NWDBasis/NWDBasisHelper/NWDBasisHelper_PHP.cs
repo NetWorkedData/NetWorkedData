@@ -156,7 +156,8 @@ namespace NetWorkedData
         private string PropertyInfoToSQLType(PropertyInfo sPropertyInfo)
         {
             //Debug.Log("PropertyInfoToSQLType for " + sPropertyInfo.Name + "");
-            string rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+            //string rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+            string rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT \\'\\' ";
             Type tTypeOfThis = sPropertyInfo.PropertyType;
 
             if (tTypeOfThis == typeof(int) ||
@@ -167,17 +168,17 @@ namespace NetWorkedData
                 tTypeOfThis.IsEnum
                 )
             {
-                rReturn = " INT(11) NOT NULL default 0";
+                rReturn = " INT(11) NOT NULL DEFAULT 0";
             }
             else if (tTypeOfThis == typeof(float) ||
                 tTypeOfThis == typeof(double) ||
                 tTypeOfThis == typeof(Double))
             {
-                rReturn = "DOUBLE NOT NULL default 0";
+                rReturn = "DOUBLE NOT NULL DEFAULT 0";
             }
             else if (tTypeOfThis == typeof(bool))
             {
-                rReturn = "INT(1) NOT NULL default 0";
+                rReturn = "INT(1) NOT NULL DEFAULT 0";
             }
             else if (tTypeOfThis == typeof(string) || tTypeOfThis == typeof(String))
             {
@@ -185,11 +186,13 @@ namespace NetWorkedData
                 {
                     NWDVarChar tNWDVarChar = sPropertyInfo.GetCustomAttribute<NWDVarChar>();
                     //Debug.Log("Find NWDVarChar : " + tNWDVarChar.CharNumber + "");
-                    rReturn = "VARCHAR(" + tNWDVarChar.CharNumber.ToString() + ") CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+                    //rReturn = "VARCHAR(" + tNWDVarChar.CharNumber.ToString() + ") CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+                    rReturn = "VARCHAR(" + tNWDVarChar.CharNumber.ToString() + ") CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT \\'\\' ";
                 }
                 else
                 {
-                    rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+                    //rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+                    rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT \\'\\' ";
                 }
             }
             else
@@ -200,28 +203,30 @@ namespace NetWorkedData
                     {
                         NWDVarChar tNWDVarChar = sPropertyInfo.GetCustomAttribute<NWDVarChar>();
                         //Debug.Log("Find NWDVarChar : " + tNWDVarChar.CharNumber + "");
-                        rReturn = "VARCHAR(" + tNWDVarChar.CharNumber.ToString() + ") CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+                        //rReturn = "VARCHAR(" + tNWDVarChar.CharNumber.ToString() + ") CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+                        rReturn = "VARCHAR(" + tNWDVarChar.CharNumber.ToString() + ") CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT \\'\\' ";
                     }
                     else
                     {
-                        rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+                        //rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+                        rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT \\'\\' ";
                     }
                 }
                 else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
                 {
-                    rReturn = " INT(11) NOT NULL default 0";
+                    rReturn = " INT(11) NOT NULL DEFAULT 0";
                 }
                 else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
                 {
-                    rReturn = "DOUBLE NOT NULL default 0";
+                    rReturn = "DOUBLE NOT NULL DEFAULT 0";
                 }
                 else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
                 {
-                    rReturn = " INT(11) NOT NULL default 0";
+                    rReturn = " INT(11) NOT NULL DEFAULT 0";
                 }
                 else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
                 {
-                    rReturn = " INT(11) NOT NULL default 0";
+                    rReturn = " INT(11) NOT NULL DEFAULT 0";
                 }
             }
             return rReturn;
@@ -421,7 +426,7 @@ namespace NetWorkedData
                     //}
 
                     if (tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID)
-                        && tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference)
+                        //&& tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference)
                        && tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DM)
                        && tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DC)
                        && tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().AC)

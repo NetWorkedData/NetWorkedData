@@ -23,12 +23,14 @@ namespace NetWorkedData
         [NWDAddIndexed(K_TOKEN_DELETE_INDEX, "DM")]
         [NWDAddIndexed(NWD.K_REQUEST_TOKEN_INDEX, "AC")]
         [NWDIndexedAttribut(NWD.K_REQUEST_TOKEN_INDEX)]
-        [NWDCertified]
-        [NWDVarChar(256)]
-        public string UUIDHash
-        {
-            get; set;
-        }
+        [NWDAddIndexed(K_TOKEN_DELETE_INDEX, "Account")]
+        [NWDAddIndexed(NWD.K_REQUEST_TOKEN_INDEX, "Account")]
+        //[NWDCertified]
+        //[NWDVarChar(256)]
+        //public string UUIDHash
+        //{
+        //    get; set;
+        //}
         [NWDIndexedAttribut(K_TOKEN_DELETE_INDEX)]
         [NWDCertified]
         [NWDVarChar(128)]

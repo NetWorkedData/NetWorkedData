@@ -81,24 +81,24 @@ namespace NetWorkedData
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.IPBanTimer) + " = " + IPBanTimer.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.IPBanActive) + " = " + IPBanActive.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ServerLanguage) + " = " + ServerLanguage.GetType().Name + "." + ServerLanguage.ToString() + ";");
-            if (AdminInPlayer == false)
-            {
-                rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminKey) + " = \"" + AdminKey.Replace("\"", "\\\"") + "\";");
-                rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminKeyHash) + " = \"" + AdminKeyHashGenerate().Replace("\"", "\\\"") + "\";");
-                rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminInPlayer) + " = " + AdminInPlayer.ToString().ToLower() + ";");
-            }
+            //if (AdminInPlayer == false)
+            //{
+            //    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminKey) + " = \"" + AdminKey.Replace("\"", "\\\"") + "\";");
+            //    //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminKeyHash) + " = \"" + AdminKeyHashGenerate().Replace("\"", "\\\"") + "\";");
+            //    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminInPlayer) + " = " + AdminInPlayer.ToString().ToLower() + ";");
+            //}
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RescueDelay) + " = " + RescueDelay.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RescueLoginLength) + " = " + RescueLoginLength.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RescuePasswordLength) + " = " + RescuePasswordLength.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.TokenHistoric) + " = " + TokenHistoric.ToString() + ";");
             rReturn.AppendLine("#endif");
-            if (AdminInPlayer == true)
-            {
-                // write bypass in player mode
-                rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminKey) + " = \"" + AdminKey.Replace("\"", "\\\"") + "\";");
-                rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminKeyHash) + " = \"" + AdminKeyHashGenerate().Replace("\"", "\\\"") + "\";");
-                rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminInPlayer) + " = " + AdminInPlayer.ToString().ToLower() + ";");
-            }
+            //if (AdminInPlayer == true)
+            //{
+            //    // write bypass in player mode
+            //    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminKey) + " = \"" + AdminKey.Replace("\"", "\\\"") + "\";");
+            //    //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminKeyHash) + " = \"" + AdminKeyHashGenerate().Replace("\"", "\\\"") + "\";");
+            //    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminInPlayer) + " = " + AdminInPlayer.ToString().ToLower() + ";");
+            //}
             rReturn.AppendLine("#if UNITY_EDITOR");
             rReturn.AppendLine(tPropertyName + ".FormatVerification ();");
             rReturn.AppendLine("#endif");

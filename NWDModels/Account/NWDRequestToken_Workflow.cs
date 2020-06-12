@@ -38,43 +38,43 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static NWDRequestToken kCurrent = null;
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDRequestToken GetRequestTokenOrCreate()
-        {
-            if (kCurrent != null)
-            {
-                if (kCurrent.UUIDHash != NWDAccount.CurrentReference())
-                {
-                    kCurrent = null;
-                }
-            }
-            if (kCurrent == null)
-            {
-                NWDRequestToken tResquestToken = NWDBasisHelper.GetCorporateFirstData<NWDRequestToken>(NWDAccount.CurrentReference(), null);
-                if (tResquestToken == null)
-                {
-                    NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-                    tResquestToken = NWDBasisHelper.NewData<NWDRequestToken>();
-                    tResquestToken.UUIDHash = NWDAccount.CurrentReference();
-                    tResquestToken.Tag = NWDBasisTag.TagUserCreated;
-                    tResquestToken.SaveData();
-                }
-                kCurrent = tResquestToken;
-            }
-            return kCurrent;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        static public string GetToken()
-        {
-            NWDRequestToken tToken = GetRequestTokenOrCreate();
-            return tToken.Token;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        static public void SetToken(string sNewToken)
-        {
-            NWDRequestToken tToken = GetRequestTokenOrCreate();
-            tToken.Token = sNewToken;
-            tToken.SaveData();
-        }
+        //public static NWDRequestToken GetRequestTokenOrCreate()
+        //{
+        //    if (kCurrent != null)
+        //    {
+        //        if (kCurrent.Account.GetValue() != NWDAccount.CurrentReference())
+        //        {
+        //            kCurrent = null;
+        //        }
+        //    }
+        //    if (kCurrent == null)
+        //    {
+        //        NWDRequestToken tResquestToken = NWDBasisHelper.GetCorporateFirstData<NWDRequestToken>(NWDAccount.CurrentReference(), null);
+        //        if (tResquestToken == null)
+        //        {
+        //            NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+        //            tResquestToken = NWDBasisHelper.NewData<NWDRequestToken>();
+        //            tResquestToken.Account.SetValue( NWDAccount.CurrentReference());
+        //            tResquestToken.Tag = NWDBasisTag.TagUserCreated;
+        //            tResquestToken.SaveData();
+        //        }
+        //        kCurrent = tResquestToken;
+        //    }
+        //    return kCurrent;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //static public string GetToken()
+        //{
+        //    NWDRequestToken tToken = GetRequestTokenOrCreate();
+        //    return tToken.Token;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //static public void SetToken(string sNewToken)
+        //{
+        //    NWDRequestToken tToken = GetRequestTokenOrCreate();
+        //    tToken.Token = sNewToken;
+        //    tToken.SaveData();
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

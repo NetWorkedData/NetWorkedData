@@ -86,8 +86,8 @@ namespace NetWorkedData
             RescuePasswordLength = EditorGUILayout.IntField("Rescue Password length", RescuePasswordLength);
             NWDGUILayout.SubSection("Mail Params for " + Environment);
             NWDGUILayout.SubSection("Admin Key for " + Environment);
-            AdminKey = EditorGUILayout.TextField("AdminKey", AdminKey);
-            AdminInPlayer = EditorGUILayout.Toggle("Admin In Player", AdminInPlayer);
+            //AdminKey = EditorGUILayout.TextField("AdminKey", AdminKey);
+            //AdminInPlayer = EditorGUILayout.Toggle("Admin In Player", AdminInPlayer);
             NWDGUILayout.SubSection("Token Historic limit for " + Environment);
             TokenHistoric = EditorGUILayout.IntSlider("Token number", TokenHistoric, 1, 10);
             SpeedOfGameTime = EditorGUILayout.FloatField("Speed Of Game Time", SpeedOfGameTime);
