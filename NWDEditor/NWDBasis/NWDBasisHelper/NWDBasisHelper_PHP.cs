@@ -931,6 +931,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+                tFile.AppendLine("if (empty($sReference)){return;}");
                 tFile.AppendLine("$tConnexion = $sConnexion;");
                 tFile.AppendLine("global $WSBUILD, " + NWD.K_ENV + ", " + NWD.K_NWD_SLT_SRV + ", " + NWD.K_PHP_TIME_SYNC + ", $NWD_FLOAT_FORMAT;");
                 tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ", " + PHP_CONSTANT_WEBSERVICE() + ";");
@@ -1047,7 +1048,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("$tReference = $sCsvList[" + CSV_IndexOf(NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference)) + "];");
 
-            tFile.AppendLine("if ($tReference == ''){return;}");
+            tFile.AppendLine("if (empty($tReference)){return;}");
 
             tFile.AppendLine("// find the good database");
             tFile.AppendLine(NWDError.PHP_log(sEnvironment, " I will try to update the data '.$tReference.'"));
@@ -1194,7 +1195,7 @@ namespace NetWorkedData
                 tFile.AppendLine("global $REP;");
                 tFile.AppendLine("global $admin;");
                 // TODO improve this test
-                tFile.AppendLine("if ($sReference == ''){return;}");
+                tFile.AppendLine("if (empty($sReference)){return;}");
                 //"$tPage = $sPage*$sLimit;" );
                 tFile.AppendLine("$tQuery = 'SELECT " + SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference) + "` = \\''.EscapeString($sReference).'\\'';");
                 tFile.AppendLine("if ($admin == false)");
@@ -1284,7 +1285,8 @@ namespace NetWorkedData
                 tFile.AppendLine("global $REP;");
                 tFile.AppendLine("global $admin;");
                 // TODO improve this test
-                tFile.AppendLine("if (is_array($sReferences) == false){return;}");
+                tFile.AppendLine("if (empty($sReferences)){return;}");
+                //tFile.AppendLine("if (is_array($sReferences) == false){return;}");
                 //tFile.AppendLine("if ($sReferences == ''){return;}");
 
                 //"$tPage = $sPage*$sLimit;" );
