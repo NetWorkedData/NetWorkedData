@@ -53,8 +53,10 @@ namespace NetWorkedData
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
 
-            // find ip of server by dns if associated
-            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(DomainNameServer) == true);
+            if (NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
+            {
+                // find ip of server by dns if associated
+                EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(DomainNameServer) == true);
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Find IP from Server (NWDServerDomain)"))
             {
                 string tLocalIP = "0.0.0.0";
@@ -428,35 +430,43 @@ namespace NetWorkedData
 
 
 
-            ////-----------------
-            //tButtonTitle = new GUIContent("Install SFTP", "install sftp and lock to user and admin");
-            //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            //{
-            //    if (ExecuteSSH(this, new List<string>()
-            //    {
-            //    "echo \" -> install sftp_chroot group\"",
-            //    "addgroup sftp_chroot",
-            //    "sed -i '$ a # sftp_chroot start' /etc/ssh/sshd_config",
-            //    "sed -i '$ a Match Group sftp_chroot' /etc/ssh/sshd_config",
-            //    "sed -i '$ a    ChrootDirectory /home/%u' /etc/ssh/sshd_config",
-            //    "sed -i '$ a    ForceCommand internal-sftp' /etc/ssh/sshd_config",
-            //    "sed -i '$ a    AllowTcpForwarding no' /etc/ssh/sshd_config",
-            //    //"sed -i '$ a X11Forwarding no' /etc/ssh/sshd_config",
-            //    "sed -i '$ a # sftp_chroot end' /etc/ssh/sshd_config",
-            //    "service sshd restart",
+                ////-----------------
+                //tButtonTitle = new GUIContent("Install SFTP", "install sftp and lock to user and admin");
+                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                //{
+                //    if (ExecuteSSH(this, new List<string>()
+                //    {
+                //    "echo \" -> install sftp_chroot group\"",
+                //    "addgroup sftp_chroot",
+                //    "sed -i '$ a # sftp_chroot start' /etc/ssh/sshd_config",
+                //    "sed -i '$ a Match Group sftp_chroot' /etc/ssh/sshd_config",
+                //    "sed -i '$ a    ChrootDirectory /home/%u' /etc/ssh/sshd_config",
+                //    "sed -i '$ a    ForceCommand internal-sftp' /etc/ssh/sshd_config",
+                //    "sed -i '$ a    AllowTcpForwarding no' /etc/ssh/sshd_config",
+                //    //"sed -i '$ a X11Forwarding no' /etc/ssh/sshd_config",
+                //    "sed -i '$ a # sftp_chroot end' /etc/ssh/sshd_config",
+                //    "service sshd restart",
 
 
-            //}) == true)
-            //    {
-            //        Debug.Log(tButtonTitle.text + " success");
-            //    }
-            //    else
-            //    { Debug.Log(tButtonTitle.text + " fail"); }
-            //}
-            //tI++;
+                //}) == true)
+                //    {
+                //        Debug.Log(tButtonTitle.text + " success");
+                //    }
+                //    else
+                //    { Debug.Log(tButtonTitle.text + " fail"); }
+                //}
+                //tI++;
 
-            ////-----------------
-            //GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), TextCommandResult);
+                ////-----------------
+                //GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), TextCommandResult);
+            }
+            else
+            {
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Need credentials for actions"))
+                {
+                    NWDEditorCredentialsManager.SharedInstanceFocus();
+                }
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ExecuteSSH(string sScriptTitle, List<string> sCommandList, NWDSSHCommandBlock CommandResultDelegate = null, int sAltPORT = -1, string sAltUser = null, string sAltPassword = null)
