@@ -33,9 +33,9 @@ namespace NetWorkedData
         {
             PropertiesPrevent();
             Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 100);
-                int tI = 0;
-                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-                tI++;
+            int tI = 0;
+            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+            tI++;
             if (NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
             {
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Credentials window"))
@@ -198,6 +198,7 @@ namespace NetWorkedData
                         if (tServerDomain != null)
                         {
                             string _NoSSL = "_NoSSL";
+                            string _SSL = "";
                             tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
 
@@ -214,11 +215,11 @@ namespace NetWorkedData
                 "chown -R " + User + ":www-data /home/" + User + "/ssl",
                 "chmod -R 750 /home/" + User + "/ssl",
 
-                "mkdir /home/" + User + "/" + Folder + "",
-                "echo $\"<?php echo phpinfo();?>\" > /home/" + User + "/" + Folder + "/phpinfo.php",
-                "echo $\"Hello " + tServerDomain.ServerDNS + "!\" > /home/" + User + "/" + Folder + "/index.html",
-                "chown -R " + User + ":www-data /home/" + User + "/" + Folder + "",
-                "chmod -R 750 /home/" + User + "/" + Folder + "",
+                "mkdir /home/" + User + "/" + Folder + _SSL+ "",
+                "echo $\"<?php echo phpinfo();?>\" > /home/" + User + "/" + Folder + _SSL+ "/phpinfo.php",
+                "echo $\"Hello " + tServerDomain.ServerDNS + ", you are secure!\" > /home/" + User + "/" + Folder + _SSL+ "/index.html",
+                "chown -R " + User + ":www-data /home/" + User + "/" + Folder + _SSL+ "",
+                "chmod -R 750 /home/" + User + "/" + Folder + _SSL+ "",
 
 
 
@@ -232,59 +233,77 @@ namespace NetWorkedData
                 "/etc/init.d/apache2 stop",
 
 
-                "rm /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-
-
                 // create virtual host without SSL
-                "echo \"<VirtualHost *:80>\" > /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a Protocols h2 http/1.1' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a ServerAdmin " + tServerDomain.ServerDNS + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a ServerName " + tServerDomain.ServerDNS + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a ServerAlias " + tServerDomain.ServerDNS + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a DocumentRoot /home/" + User + "/" + Folder + _NoSSL+ "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a <Directory />' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a AllowOverride All' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a </Directory>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a <Directory /home/" + User + "/" + Folder + _NoSSL + ">' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a Options Indexes FollowSymLinks MultiViews' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a AllowOverride all' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a Require all granted' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a </Directory>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a ErrorLog /var/log/apache2/" + tServerDomain.ServerDNS + "-error.log' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a LogLevel error' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
-                "sed -i '$ a </VirtualHost>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ws.conf",
+                "rm /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "echo \"<VirtualHost *:80>\" > /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "sed -i '$ a Protocols h2 http/1.1' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "sed -i '$ a ServerAdmin " + Email + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "sed -i '$ a ServerName " + tServerDomain.ServerDNS + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "sed -i '$ a ServerAlias " + tServerDomain.ServerDNS + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "sed -i '$ a DocumentRoot /home/" + User + "/" + Folder + _NoSSL+ "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "sed -i '$ a <Directory />' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "sed -i '$ a AllowOverride All' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "sed -i '$ a </Directory>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "sed -i '$ a <Directory /home/" + User + "/" + Folder + _NoSSL + ">' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "sed -i '$ a Options Indexes FollowSymLinks MultiViews' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "sed -i '$ a AllowOverride all' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "sed -i '$ a Require all granted' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "sed -i '$ a </Directory>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "sed -i '$ a ErrorLog /var/log/apache2/" + tServerDomain.ServerDNS + "-error.log' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "sed -i '$ a LogLevel error' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "sed -i '$ a </VirtualHost>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "a2ensite " + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
 
-                "a2ensite " + tServerDomain.ServerDNS + "_ws.conf",
-
-                
                 // create virtual host with SSL
-                "rm /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
+                "rm /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _SSL+"_ws.conf",
+                "echo \"<IfModule mod_ssl.c>\" > /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _SSL +"_ws.conf",
+                "sed -i '$ a <VirtualHost *:443>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _SSL +"_ws.conf",
+                "sed -i '$ a Protocols h2 http/1.1' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a ServerAdmin " + Email + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a ServerName " + tServerDomain.ServerDNS + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a ServerAlias " + tServerDomain.ServerDNS+ "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a DocumentRoot /home/" + User + "/" + Folder  + _SSL+ "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a <Directory />' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a AllowOverride All' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a </Directory>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a <Directory /home/" + User + "/" + Folder  + _SSL+ ">' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a Options Indexes FollowSymLinks MultiViews' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a AllowOverride all' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a Require all granted' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a </Directory>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a ErrorLog /var/log/apache2/" + tServerDomain.ServerDNS + "-error.log' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a LogLevel error' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a SSLEngine On' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a SSLProtocol all -SSLv2 -SSLv3' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a SSLCipherSuite ALL:!DH:!EXPORT:!RC4:+HIGH:+MEDIUM:!LOW:!aNULL:!eNULL' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a SSLCertificateFile /home/" + User + "/ssl/" + tServerDomain.ServerDNS + ".crt' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a SSLCertificateKeyFile /home/" + User + "/ssl/" + tServerDomain.ServerDNS + ".key' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a CustomLog /var/log/apache2/" + tServerDomain.ServerDNS + "-ssl-access.log combined' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a </VirtualHost>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _SSL +"_ws.conf",
+                "sed -i '$ a </IfModule>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _SSL +"_ws.conf",
+                "a2ensite " + tServerDomain.ServerDNS + _SSL +"_ws.conf",
 
-                "echo \"<VirtualHost *:443>\" > /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a Protocols h2 http/1.1' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a ServerAdmin " + tServerDomain.ServerDNS + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a ServerName " + tServerDomain.ServerDNS + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a ServerAlias " + tServerDomain.ServerDNS + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a DocumentRoot /home/" + User + "/" + Folder + "' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a <Directory />' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a AllowOverride All' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a </Directory>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a <Directory /home/" + User + "/" + Folder + ">' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a Options Indexes FollowSymLinks MultiViews' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a AllowOverride all' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a Require all granted' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a </Directory>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a ErrorLog /var/log/apache2/" + tServerDomain.ServerDNS + "-error.log' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a LogLevel error' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a SSLEngine On' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a SSLProtocol all -SSLv2 -SSLv3' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a SSLCipherSuite ALL:!DH:!EXPORT:!RC4:+HIGH:+MEDIUM:!LOW:!aNULL:!eNULL' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a SSLCertificateFile /home/" + User + "/ssl/" + tServerDomain.ServerDNS + ".crt' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a SSLCertificateKeyFile /home/" + User + "/ssl/" + tServerDomain.ServerDNS + ".key' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a CustomLog /var/log/apache2/" + tServerDomain.ServerDNS + "-ssl-access.log combined' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
-                "sed -i '$ a </VirtualHost>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + "_ssl_ws.conf",
+                "rm /etc/apache2/sites-available/000-default-le-ssl.conf",
+                "echo \"<IfModule mod_ssl.c>\" > /etc/apache2/sites-available/000-default-le-ssl.conf",
+                "sed -i '$ a <VirtualHost *:443>' /etc/apache2/sites-available/000-default-le-ssl.conf",
+                "sed -i '$ a ServerAdmin webmaster@localhost' /etc/apache2/sites-available/000-default-le-ssl.conf",
+                "sed -i '$ a DocumentRoot /var/www/html' /etc/apache2/sites-available/000-default-le-ssl.conf",
+                "sed -i '$ a ErrorLog ${APACHE_LOG_DIR}/error.log' /etc/apache2/sites-available/000-default-le-ssl.conf",
+                "sed -i '$ a CustomLog ${APACHE_LOG_DIR}/access.log combined' /etc/apache2/sites-available/000-default-le-ssl.conf",
+                "sed -i '$ a </VirtualHost>' /etc/apache2/sites-available/000-default-le-ssl.conf",
+                "sed -i '$ a </IfModule>' /etc/apache2/sites-available/000-default-le-ssl.conf",
+                "a2ensite 000-default-le-ssl.conf",
 
-                "a2ensite " + tServerDomain.ServerDNS + "_ssl_ws.conf",
+                "rm /etc/apache2/sites-available/000-default.conf",
+                "echo \"<IfModule mod_ssl.c>\" > /etc/apache2/sites-available/000-default.conf",
+                "sed -i '$ a <VirtualHost *:80>' /etc/apache2/sites-available/000-default.conf",
+                "sed -i '$ a ServerAdmin webmaster@localhost' /etc/apache2/sites-available/000-default.conf",
+                "sed -i '$ a DocumentRoot /var/www/html' /etc/apache2/sites-available/000-default.conf",
+                "sed -i '$ a ErrorLog ${APACHE_LOG_DIR}/error.log' /etc/apache2/sites-available/000-default.conf",
+                "sed -i '$ a CustomLog ${APACHE_LOG_DIR}/access.log combined' /etc/apache2/sites-available/000-default.conf",
+                "sed -i '$ a </VirtualHost>' /etc/apache2/sites-available/000-default.conf",
+                "sed -i '$ a </IfModule>' /etc/apache2/sites-available/000-default.conf",
+                "a2ensite 000-default-le.conf",
 
                 "/etc/init.d/apache2 start",
                 "/etc/init.d/apache2 reload",
@@ -349,12 +368,12 @@ namespace NetWorkedData
                     tButtonTitle = new GUIContent("default html", " try connexion to index.html");
                     if (GUI.Button(tMatrix[0, tI], tButtonTitle))
                     {
-                        Application.OpenURL("http://" + tServer.DomainNameServer + "/index.html");
+                        Application.OpenURL("http://" + tServer.IP.ToString() + "/index.html");
                     }
                     tButtonTitle = new GUIContent("default phpinfo", " try connexion to index.html with ssl");
                     if (GUI.Button(tMatrix[1, tI], tButtonTitle))
                     {
-                        Application.OpenURL("http://" + tServer.DomainNameServer + "/phpinfo.php");
+                        Application.OpenURL("http://" + tServer.IP.ToString() + "/phpinfo.php");
                     }
                     tI++;
 

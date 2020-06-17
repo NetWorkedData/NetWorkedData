@@ -157,12 +157,14 @@ namespace NetWorkedData
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
             {
                 string tNewPassword = NWDToolbox.RandomStringCypher(24);
+                    Debug.Log("tNewPassword : " + tNewPassword);
                 ExecuteSSH(this, tButtonTitle.text, new List<string>()
                 {
                         "echo " + Root_User + ":" + tNewPassword + " | chpasswd", // change the password for the Admin
                 },
                            delegate (string sCommand, string sResult)
                            {
+                               Debug.Log("tNewPassword : " + tNewPassword +" changed!");
                                Root_Secure_Password.CryptAes(tNewPassword);
                                UpdateDataIfModified();
                            });
@@ -175,12 +177,14 @@ namespace NetWorkedData
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
             {
                 string tNewPassword = NWDToolbox.RandomStringCypher(24);
-                ExecuteSSH(this, tButtonTitle.text, new List<string>()
+                    Debug.Log("tNewPassword : " + tNewPassword);
+                    ExecuteSSH(this, tButtonTitle.text, new List<string>()
                 {
                         "echo " + Admin_User + ":" + tNewPassword + " | chpasswd", // change the password for the Admin
                 },
                            delegate (string sCommand, string sResult)
                            {
+                               Debug.Log("tNewPassword : " + tNewPassword + " changed!");
                                Admin_Secure_Password.CryptAes(tNewPassword);
                                UpdateDataIfModified();
                            });
