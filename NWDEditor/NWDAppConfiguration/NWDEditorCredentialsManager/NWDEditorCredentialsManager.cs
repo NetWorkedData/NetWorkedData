@@ -43,6 +43,7 @@ namespace NetWorkedData
         static Vector2 ScrollPosition;
         static public string Password = string.Empty;
         static public string VectorString = string.Empty;
+        static public bool ShowPasswordInLog = false;
         //-------------------------------------------------------------------------------------------------------------
         public static bool Checked(NWDCredentialsRequired sCredentialsType)
         {
@@ -196,6 +197,7 @@ namespace NetWorkedData
 
             Password = EditorGUILayout.PasswordField("General password", Password);
             VectorString = EditorGUILayout.PasswordField("General vector", VectorString);
+            ShowPasswordInLog = EditorGUILayout.Toggle("Show passwords in Log", ShowPasswordInLog);
 
             if (GUILayout.Button("Flush"))
             {

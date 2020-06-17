@@ -66,12 +66,21 @@ namespace NetWorkedData
                     //    System.Diagnostics.Process.Start(tFileInfo.FullName);
                     //}
                     //tI++;
-                    string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + User + " -p " + tServer.Port;
-                    tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
-                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    //string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + User + " -p " + tServer.Port;
+                    //tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
+                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    //{
+                    //    NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
+                    //}
+
+
+                    string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + " & ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Root_User + " -p " + tServer.Port;
+                    if (tServer.AdminInstalled)
                     {
-                        NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
+                        tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + " & ssh -keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Admin_User + " -p " + tServer.Port;
                     }
+
+
                     tI++;
                     GUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), tcommandKeyGen);
                     tI += 2;

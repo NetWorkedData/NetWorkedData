@@ -57,65 +57,65 @@ namespace NetWorkedData
             {
                 // find ip of server by dns if associated
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(DomainNameServer) == true);
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Find IP from Server (NWDServerDomain)"))
-            {
-                string tLocalIP = "0.0.0.0";
-                foreach (IPAddress tIP in Dns.GetHostAddresses(DomainNameServer))
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Find IP from Server (NWDServerDomain)"))
                 {
-                    if (tIP.AddressFamily == AddressFamily.InterNetwork)
+                    string tLocalIP = "0.0.0.0";
+                    foreach (IPAddress tIP in Dns.GetHostAddresses(DomainNameServer))
                     {
-                        tLocalIP = tIP.ToString();
+                        if (tIP.AddressFamily == AddressFamily.InterNetwork)
+                        {
+                            tLocalIP = tIP.ToString();
+                        }
                     }
+                    IP.SetValue(tLocalIP);
+
                 }
-                IP.SetValue(tLocalIP);
+                EditorGUI.EndDisabledGroup();
+                tI++;
 
-            }
-            EditorGUI.EndDisabledGroup();
-            tI++;
+                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                tI++;
 
-            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-            tI++;
+                GUIContent tButtonTitle = null;
 
-            GUIContent tButtonTitle = null;
-
-            //-----------------
-            EditorGUI.HelpBox(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
-            tI += 2;
-            //tButtonTitle = new GUIContent("Open terminal", " open terminal or console on your desktop");
-            //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            //{
-            //    // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
-            //    //FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
-            //    //System.Diagnostics.Process.Start(tFileInfo.FullName);
-            //    Application.OpenURL("/Applications/Utilities/");
-            //}
-            //tI++;
-            string tcommandKeyGen = "ssh-keygen -R " + IP.GetValue() + ":" + Port + " & ssh " + IP.GetValue() + " -l " + Root_User + " -p " + Port;
-            if (AdminInstalled)
-            {
-                tcommandKeyGen = "ssh-keygen -R " + IP.GetValue() + ":" + Port + " & ssh " + IP.GetValue() + " -l " + Admin_User + " -p " + Port;
-            }
-            tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            {
-                NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
-            }
-            tI++;
-            GUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), tcommandKeyGen);
-            tI += 2;
-            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-            tI++;
-            //-----------------
-            tButtonTitle = new GUIContent("Test security of SSH", "test security for this SSH config");
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            {
-                Application.OpenURL("https://sshcheck.com/server/" + IP.GetValue() + "/" + Port.ToString() + "");
-            }
-            tI++;
-            tButtonTitle = new GUIContent("Try connexion root", " try connexion with root");
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            {
-                ExecuteSSH(tButtonTitle.text, new List<string>()
+                //-----------------
+                EditorGUI.HelpBox(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
+                tI += 2;
+                //tButtonTitle = new GUIContent("Open terminal", " open terminal or console on your desktop");
+                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                //{
+                //    // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
+                //    //FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
+                //    //System.Diagnostics.Process.Start(tFileInfo.FullName);
+                //    Application.OpenURL("/Applications/Utilities/");
+                //}
+                //tI++;
+                string tcommandKeyGen = "ssh-keygen -R " + IP.GetValue() + " & ssh-keygen -R " + IP.GetValue() + ":" + Port + " & ssh " + IP.GetValue() + " -l " + Root_User + " -p " + Port;
+                if (AdminInstalled)
+                {
+                    tcommandKeyGen = "ssh-keygen -R " + IP.GetValue() + " & ssh -keygen -R " + IP.GetValue() + ":" + Port + " & ssh " + IP.GetValue() + " -l " + Admin_User + " -p " + Port;
+                }
+                tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
+                }
+                tI++;
+                GUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), tcommandKeyGen);
+                tI += 2;
+                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                tI++;
+                //-----------------
+                tButtonTitle = new GUIContent("Test security of SSH", "test security for this SSH config");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    Application.OpenURL("https://sshcheck.com/server/" + IP.GetValue() + "/" + Port.ToString() + "");
+                }
+                tI++;
+                tButtonTitle = new GUIContent("Try connexion root", " try connexion with root");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
                     //"mkdir /home/" + Root_User + "", // make dir for Root_User
                     //"chown " + Root_User + ":" + Root_User + " /home/" + Root_User + "", // change owner for dir of Root_User
@@ -127,56 +127,56 @@ namespace NetWorkedData
 
                     "ls",
                 }, null, Port, Root_User, Root_Secure_Password.Decrypt());
-            }
-            tI++;
-            //-----------------
-            EditorGUI.BeginDisabledGroup(AdminInstalled == false);
-            tButtonTitle = new GUIContent("Try connexion admin", "Try connexion with admin and admin_password");
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            {
-                ExecuteSSH(this, tButtonTitle.text, new List<string>()
+                }
+                tI++;
+                //-----------------
+                EditorGUI.BeginDisabledGroup(AdminInstalled == false);
+                tButtonTitle = new GUIContent("Try connexion admin", "Try connexion with admin and admin_password");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    ExecuteSSH(this, tButtonTitle.text, new List<string>()
                 {
                     "ls",
                 }, null, Port, Admin_User, Admin_Secure_Password.Decrypt());
-            }
-            EditorGUI.EndDisabledGroup();
-            tI++;
-            //-----------------
-            tButtonTitle = new GUIContent("Try connexion ", "Try connexion with admin or root ");
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            {
-                ExecuteSSH(this, tButtonTitle.text, new List<string>()
+                }
+                EditorGUI.EndDisabledGroup();
+                tI++;
+                //-----------------
+                tButtonTitle = new GUIContent("Try connexion ", "Try connexion with admin or root ");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    ExecuteSSH(this, tButtonTitle.text, new List<string>()
                 {
                     "ls",
                 });
-            }
-            tI++;
+                }
+                tI++;
 
-            //-----------------
-            tButtonTitle = new GUIContent("change password root", "change password for root");
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            {
-                string tNewPassword = NWDToolbox.RandomStringCypher(24);
+                //-----------------
+                tButtonTitle = new GUIContent("change password root", "change password for root");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    string tNewPassword = NWDToolbox.RandomStringCypher(24);
                     Debug.Log("tNewPassword : " + tNewPassword);
-                ExecuteSSH(this, tButtonTitle.text, new List<string>()
+                    ExecuteSSH(this, tButtonTitle.text, new List<string>()
                 {
                         "echo " + Root_User + ":" + tNewPassword + " | chpasswd", // change the password for the Admin
                 },
-                           delegate (string sCommand, string sResult)
-                           {
-                               Debug.Log("tNewPassword : " + tNewPassword +" changed!");
-                               Root_Secure_Password.CryptAes(tNewPassword);
-                               UpdateDataIfModified();
-                           });
-            }
-            tI++;
+                               delegate (string sCommand, string sResult)
+                               {
+                                   Debug.Log("tNewPassword : " + tNewPassword + " changed!");
+                                   Root_Secure_Password.CryptAes(tNewPassword);
+                                   UpdateDataIfModified();
+                               });
+                }
+                tI++;
 
-            //-----------------
-            EditorGUI.BeginDisabledGroup(AdminInstalled == false);
-            tButtonTitle = new GUIContent("change password admin", "change password for admin");
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            {
-                string tNewPassword = NWDToolbox.RandomStringCypher(24);
+                //-----------------
+                EditorGUI.BeginDisabledGroup(AdminInstalled == false);
+                tButtonTitle = new GUIContent("change password admin", "change password for admin");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    string tNewPassword = NWDToolbox.RandomStringCypher(24);
                     Debug.Log("tNewPassword : " + tNewPassword);
                     ExecuteSSH(this, tButtonTitle.text, new List<string>()
                 {
@@ -188,38 +188,38 @@ namespace NetWorkedData
                                Admin_Secure_Password.CryptAes(tNewPassword);
                                UpdateDataIfModified();
                            });
-            }
-            EditorGUI.EndDisabledGroup();
-            tI++;
+                }
+                EditorGUI.EndDisabledGroup();
+                tI++;
 
-            //-----------------
-            EditorGUI.BeginDisabledGroup(Port == FuturPort);
-            tButtonTitle = new GUIContent("Change Port", "change the port from " + Port + " to " + FuturPort + "");
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            {
-                ExecuteSSH(this, tButtonTitle.text, new List<string>()
+                //-----------------
+                EditorGUI.BeginDisabledGroup(Port == FuturPort);
+                tButtonTitle = new GUIContent("Change Port", "change the port from " + Port + " to " + FuturPort + "");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    ExecuteSSH(this, tButtonTitle.text, new List<string>()
                 {
                     "sed -i 's/^.*Port .*$/Port " + FuturPort + "/g' /etc/ssh/sshd_config",
                     "service sshd restart",
                 },
-                           delegate (string sCommand, string sResult)
-                           {
-                               if (sCommand == "service sshd restart")
+                               delegate (string sCommand, string sResult)
                                {
-                                   PortChanged = true;
-                                   Port = FuturPort;
-                                   UpdateDataIfModified();
-                               };
-                           });
-            }
-            EditorGUI.EndDisabledGroup();
-            tI++;
+                                   if (sCommand == "service sshd restart")
+                                   {
+                                       PortChanged = true;
+                                       Port = FuturPort;
+                                       UpdateDataIfModified();
+                                   };
+                               });
+                }
+                EditorGUI.EndDisabledGroup();
+                tI++;
 
-            //-----------------
-            tButtonTitle = new GUIContent("Update server", "just run updates from apt-get xxx");
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            {
-                ExecuteSSH(this, tButtonTitle.text, new List<string>()
+                //-----------------
+                tButtonTitle = new GUIContent("Update server", "just run updates from apt-get xxx");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    ExecuteSSH(this, tButtonTitle.text, new List<string>()
                 {
                     "apt-get check",
                     "apt-get update",
@@ -231,14 +231,14 @@ namespace NetWorkedData
                     "apt-get autoclean",
                     "apt-get clean",
                 });
-            }
-            tI++;
+                }
+                tI++;
 
-            //-----------------
-            tButtonTitle = new GUIContent("Install server", "Install essential on server");
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            {
-                ExecuteSSH(this, tButtonTitle.text, new List<string>()
+                //-----------------
+                tButtonTitle = new GUIContent("Install server", "Install essential on server");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    ExecuteSSH(this, tButtonTitle.text, new List<string>()
                 {
                     "apt-get update", // do update
                     "apt-get -y dist-upgrade", // do update
@@ -259,16 +259,16 @@ namespace NetWorkedData
                     "export LC_ALL=en_US.UTF-8",
                     "locale-gen --purge en_US.UTF-8",
             });
-            }
-            tI++;
+                }
+                tI++;
 
 
-            //-----------------
-            EditorGUI.BeginDisabledGroup(AdminInstalled == true);
-            tButtonTitle = new GUIContent("Install admin", "Install admin with admin_password");
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            {
-                ExecuteSSH(this, tButtonTitle.text, new List<string>()
+                //-----------------
+                EditorGUI.BeginDisabledGroup(AdminInstalled == true);
+                tButtonTitle = new GUIContent("Install admin", "Install admin with admin_password");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    ExecuteSSH(this, tButtonTitle.text, new List<string>()
                 {
                 "useradd --shell /bin/bash " + Admin_User + "", // create user for Admin
                 "echo " + Admin_User + ":" + Admin_Secure_Password.Decrypt() + " | chpasswd", // change the password for the Admin
@@ -280,108 +280,137 @@ namespace NetWorkedData
                 "cut -d: -f1 /etc/passwd", // verif admin user
                 "service sshd restart", // restart ssh
             },
-                           delegate (string sCommand, string sResult)
-                           {
-                               if (sCommand == "service sshd restart")
+                               delegate (string sCommand, string sResult)
                                {
-                                   AdminInstalled = true;
-                                   UpdateDataIfModified();
-                               };
-                           });
-            }
-            EditorGUI.EndDisabledGroup();
-            tI++;
+                                   if (sCommand == "service sshd restart")
+                                   {
+                                       AdminInstalled = true;
+                                       UpdateDataIfModified();
+                                   };
+                               });
+                }
+                EditorGUI.EndDisabledGroup();
+                tI++;
 
 
-            //-----------------
-            EditorGUI.BeginDisabledGroup(AdminInstalled == false || RootForbidden == true);
-            tButtonTitle = new GUIContent("forbidden root", "after that you will never log as root! log as admin and su.");
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            {
-                if (AdminInstalled)
+                //-----------------
+                EditorGUI.BeginDisabledGroup(AdminInstalled == false || RootForbidden == true);
+                tButtonTitle = new GUIContent("forbidden root", "after that you will never log as root! log as admin and su.");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 {
-                    ExecuteSSH(this, tButtonTitle.text, new List<string>()
+                    if (AdminInstalled)
+                    {
+                        ExecuteSSH(this, tButtonTitle.text, new List<string>()
                 {
                 "echo \" -> forbidden root access\"",
                 "sed -i 's/^.*PermitRootLogin .*$//g' /etc/ssh/sshd_config", //
                 "sed -i '$ a PermitRootLogin no' /etc/ssh/sshd_config",
                 "service sshd restart",
             },
-                           delegate (string sCommand, string sResult)
-                           {
-                               if (sCommand == "service sshd restart")
+                               delegate (string sCommand, string sResult)
                                {
-                                   RootForbidden = true;
-                                   UpdateDataIfModified();
-                               };
-                           });
+                                   if (sCommand == "service sshd restart")
+                                   {
+                                       RootForbidden = true;
+                                       UpdateDataIfModified();
+                                   };
+                               });
+                    }
                 }
-            }
-            EditorGUI.EndDisabledGroup();
-            tI++;
+                EditorGUI.EndDisabledGroup();
+                tI++;
 
-            //-----------------
-            EditorGUI.BeginDisabledGroup(RootForbidden == false);
-            tButtonTitle = new GUIContent("authorize root", "after that you will log as root!");
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            {
-                if (AdminInstalled)
+                //-----------------
+                EditorGUI.BeginDisabledGroup(RootForbidden == false);
+                tButtonTitle = new GUIContent("authorize root", "after that you will log as root!");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 {
-                    ExecuteSSH(this, tButtonTitle.text, new List<string>()
+                    if (AdminInstalled)
+                    {
+                        ExecuteSSH(this, tButtonTitle.text, new List<string>()
                 {
                 "echo \" -> authorize root access\"",
                 "sed -i 's/^.*PermitRootLogin .*$//g' /etc/ssh/sshd_config", //
                 "sed -i '$ a PermitRootLogin yes' /etc/ssh/sshd_config",
                 "service sshd restart",
             },
-                           delegate (string sCommand, string sResult)
-                           {
-                               if (sCommand == "service sshd restart")
+                               delegate (string sCommand, string sResult)
                                {
-                                   RootForbidden = false;
-                                   UpdateDataIfModified();
-                               };
-                           });
+                                   if (sCommand == "service sshd restart")
+                                   {
+                                       RootForbidden = false;
+                                       UpdateDataIfModified();
+                                   };
+                               });
+                    }
                 }
-            }
-            EditorGUI.EndDisabledGroup();
-            tI++;
+                EditorGUI.EndDisabledGroup();
+                tI++;
 
-            //-----------------
-            tButtonTitle = new GUIContent("Config ssh", "secure ssh config");
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            {
-                if (AdminInstalled)
+                //-----------------
+                tButtonTitle = new GUIContent("Config ssh", "secure ssh config");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 {
-                    ExecuteSSH(this, tButtonTitle.text, new List<string>()
+                   // if (AdminInstalled)
+                    {
+                        ExecuteSSH(this, tButtonTitle.text, new List<string>()
                 {
-                //"sed -i 's/^.*PermitEmptyPasswords .*$//g' /etc/ssh/sshd_config", //On modifier la ligne PermitEmptyPasswords 
-                //"sed -i '$ a PermitEmptyPasswords no' /etc/ssh/sshd_config",
+                "sed -i 's/^ciphers .*$//g' /etc/ssh/sshd_config", //
+                "sed -i '$ a ciphers " +
+                "aes128-ctr," +
+                "aes192-ctr," +
+                "aes256-ctr" +
+                //"aes128-cbc" +
+                "' /etc/ssh/sshd_config",
 
-                //"sed -i 's/^.*Protocole .*$//g' /etc/ssh/sshd_config", //On va le protocole pour la version 2.
-                //"sed -i '$ a Protocole 2' /etc/ssh/sshd_config",
+                "sed -i 's/^macs .*$//g' /etc/ssh/sshd_config", //
+                "sed -i '$ a macs " +
+                "hmac-sha2-256," +
+                "hmac-sha2-512" +
+                "' /etc/ssh/sshd_config",
+
+                "sed -i 's/^kexalgorithms .*$//g' /etc/ssh/sshd_config", //
+                "sed -i '$ a kexalgorithms " +
+                //"diffie-hellman-group14-sha256," +
+                "diffie-hellman-group16-sha512," +
+                "diffie-hellman-group18-sha512," +
+                "diffie-hellman-group-exchange-sha256," +
+                "curve25519-sha256," +
+                "curve25519-sha256@libssh.org" +
+                "' /etc/ssh/sshd_config",
+
+
+                "sed -i 's/^HostKeyAlgorithms .*$//g' /etc/ssh/sshd_config", //
+                "sed -i '$ a HostKeyAlgorithms " +
+                "ssh-ed25519," +
+                "rsa-sha2-256," +
+                "rsa-sha2-512" +
+                "' /etc/ssh/sshd_config",
+
+
+
 
                 "service sshd restart",
             },
-                        delegate (string sCommand, string sResult)
-                        {
-                            if (sCommand == "service sshd restart")
+                            delegate (string sCommand, string sResult)
                             {
-                                UpdateDataIfModified();
-                            };
-                        }
-                            );
+                                if (sCommand == "service sshd restart")
+                                {
+                                    UpdateDataIfModified();
+                                };
+                            }
+                                );
+                    }
                 }
-            }
-            tI++;
+                tI++;
 
-            //-----------------
-            tButtonTitle = new GUIContent("Config sftp", "FTP via ssh config");
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            {
-                if (AdminInstalled)
+                //-----------------
+                tButtonTitle = new GUIContent("Config sftp", "FTP via ssh config");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 {
-                    ExecuteSSH(this, tButtonTitle.text, new List<string>()
+                    if (AdminInstalled)
+                    {
+                        ExecuteSSH(this, tButtonTitle.text, new List<string>()
                 {
                 "addgroup "+K_SFTP_chroot+"", // Add group
 
@@ -398,39 +427,39 @@ namespace NetWorkedData
                 "sed -i '$ a    AllowTcpForwarding no' /etc/ssh/sshd_config",
                 "service sshd restart",
                     },
-                    delegate (string sCommand, string sResult)
-                    {
-                        if (sCommand == "service sshd restart")
+                        delegate (string sCommand, string sResult)
                         {
-                            UpdateDataIfModified();
-                        };
-                    });
+                            if (sCommand == "service sshd restart")
+                            {
+                                UpdateDataIfModified();
+                            };
+                        });
+                    }
                 }
-            }
-            tI++;
-            //-----------------
-            tButtonTitle = new GUIContent("show infos", "run hostnamectl");
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            {
-                ExecuteSSH(this, tButtonTitle.text, new List<string>() { "hostnamectl", });
-            }
-            tI++;
+                tI++;
+                //-----------------
+                tButtonTitle = new GUIContent("show infos", "run hostnamectl");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    ExecuteSSH(this, tButtonTitle.text, new List<string>() { "hostnamectl", });
+                }
+                tI++;
 
-            //-----------------
-            tButtonTitle = new GUIContent("Statut server", "just run df -h on server");
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            {
-                ExecuteSSH(this, tButtonTitle.text, new List<string>() { "df -h", });
-            }
-            tI++;
+                //-----------------
+                tButtonTitle = new GUIContent("Statut server", "just run df -h on server");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    ExecuteSSH(this, tButtonTitle.text, new List<string>() { "df -h", });
+                }
+                tI++;
 
-            //-----------------
-            tButtonTitle = new GUIContent("Reboot server (5s)", "Reboot server after 5 seconds");
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-            {
-                ExecuteSSH(this, tButtonTitle.text, new List<string>() { "shutdown -r -t 5", });
-            }
-            tI++;
+                //-----------------
+                tButtonTitle = new GUIContent("Reboot server (5s)", "Reboot server after 5 seconds");
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                {
+                    ExecuteSSH(this, tButtonTitle.text, new List<string>() { "shutdown -r -t 5", });
+                }
+                tI++;
 
 
 

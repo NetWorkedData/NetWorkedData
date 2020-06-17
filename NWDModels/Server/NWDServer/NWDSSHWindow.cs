@@ -205,7 +205,10 @@ namespace NetWorkedData
                 tUserEcho = tUser;
                 rTextResult.AppendLine("<i>#Local$ Connecting...</i>");
                 rTextResult.AppendLine("<i>#Local$ ssh -l " + tUserEcho + " " + tIP + " -p " + tPort + "</i>");
-                rTextResult.AppendLine("<i>#Local$ " + tPassword + "</i>");
+                if (NWDEditorCredentialsManager.ShowPasswordInLog)
+                {
+                    rTextResult.AppendLine("<i>#Local$ " + tPassword + "</i>");
+                }
                 PasswordConnectionInfo tConnectionInfo = new PasswordConnectionInfo(tIP, tPort, tUser, tPassword);
                 using (SshClient tClientSSH = new SshClient(tConnectionInfo))
                 {
@@ -244,7 +247,10 @@ namespace NetWorkedData
                                     // Send password
                                     rTextResult.AppendLine("<i>#Local$ Good! I have the hand ... put password now!</i>");
                                     tShellStream.WriteLine(Server.Root_Secure_Password.Decrypt() + "\r");
-                                    rTextResult.AppendLine("<i>#Local$ " + Server.Root_Secure_Password.Decrypt() + "</i>");
+                                    if (NWDEditorCredentialsManager.ShowPasswordInLog)
+                                    {
+                                        rTextResult.AppendLine("<i>#Local$ " + Server.Root_Secure_Password.Decrypt() + "</i>");
+                                    }
                                     prompt = tShellStream.Expect(new Regex(@"([$#>:])"));
                                     if (prompt.Contains("assword:")) // research password: (or Password:) 
                                     {
