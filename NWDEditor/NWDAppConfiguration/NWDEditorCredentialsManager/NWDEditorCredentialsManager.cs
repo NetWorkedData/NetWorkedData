@@ -43,6 +43,13 @@ namespace NetWorkedData
         static Vector2 ScrollPosition;
         static public string Password = string.Empty;
         static public string VectorString = string.Empty;
+        static public bool ShowPasswordInLog = false;
+        static public bool SaveCredentials = false;
+        //-------------------------------------------------------------------------------------------------------------
+        private const string PasswordKey = "PasswordKey_31564873413687653";
+        private const string VectorStringKey = "VectorStringKey_79877414532159874";
+        private const string ShowPasswordInLogKey = "ShowPasswordInLogKey_79585254215";
+        private const string SaveCredentialsKey = "SaveCredentialsKey_7895452114789523654";
         //-------------------------------------------------------------------------------------------------------------
         public static bool Checked(NWDCredentialsRequired sCredentialsType)
         {
@@ -85,11 +92,11 @@ namespace NetWorkedData
                         //rReturn = string.IsNullOrEmpty(Password) == false && string.IsNullOrEmpty(VectorString) == false;
                     }
                     break;
-                //case NWDCredentialsRequired.Both:
-                //    {
-                //        rReturn = string.IsNullOrEmpty(Password) == false && string.IsNullOrEmpty(VectorString) == false;
-                //    }
-                //    break;
+                    //case NWDCredentialsRequired.Both:
+                    //    {
+                    //        rReturn = string.IsNullOrEmpty(Password) == false && string.IsNullOrEmpty(VectorString) == false;
+                    //    }
+                    //    break;
             }
             return rReturn;
         }
@@ -152,6 +159,11 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             TitleInit(NWDConstants.K_EDITOR_CONFIGURATION_TITLE, typeof(NWDEditorCredentialsManager));
+            SaveCredentials = EditorPrefs.GetBool(SaveCredentialsKey, false);
+            ShowPasswordInLog = EditorPrefs.GetBool(ShowPasswordInLogKey, false);
+            Password = EditorPrefs.GetString(PasswordKey, string.Empty);
+            VectorString = EditorPrefs.GetString(VectorStringKey, string.Empty);
+
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -194,24 +206,54 @@ namespace NetWorkedData
             //EditorGUILayout.LabelField("Debug password", Password);
             //EditorGUILayout.LabelField("Debug vector", VectorString);
 
+            EditorGUI.BeginChangeCheck();
+            SaveCredentials = EditorGUILayout.Toggle("Save Credentials", SaveCredentials);
             Password = EditorGUILayout.PasswordField("General password", Password);
             VectorString = EditorGUILayout.PasswordField("General vector", VectorString);
+            ShowPasswordInLog = EditorGUILayout.Toggle("Show passwords in Log", ShowPasswordInLog);
+            if (EditorGUI.EndChangeCheck())
+            {
+                //Debug.Log("Change");
+                EditorPrefs.SetBool(SaveCredentialsKey, SaveCredentials);
+                if (SaveCredentials == true)
+                {
+                    EditorPrefs.SetBool(ShowPasswordInLogKey, ShowPasswordInLog);
+                    EditorPrefs.SetString(PasswordKey, Password);
+                    EditorPrefs.SetString(VectorStringKey, VectorString);
+                }
+                else
+                {
+                    EditorPrefs.SetBool(ShowPasswordInLogKey, false);
+                    EditorPrefs.SetString(PasswordKey, string.Empty);
+                    EditorPrefs.SetString(VectorStringKey, string.Empty);
+                }
+            }
 
             if (GUILayout.Button("Flush"))
             {
-                Password = string.Empty;
-                VectorString = string.Empty;
+                flush();
             }
 
             if (GUILayout.Button("Flush and close"))
             {
-                Password = string.Empty;
-                VectorString = string.Empty;
+                flush();
                 Close();
             }
             // end scroll
             GUILayout.EndScrollView();
             //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void flush()
+        {
+            EditorPrefs.SetBool(SaveCredentialsKey, false);
+            EditorPrefs.SetBool(ShowPasswordInLogKey, false);
+            EditorPrefs.SetString(PasswordKey, string.Empty);
+            EditorPrefs.SetString(VectorStringKey, string.Empty);
+            Password = string.Empty;
+            VectorString = string.Empty;
+            ShowPasswordInLog = false;
+            SaveCredentials = false;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -84,7 +84,12 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string CryptAes(string sPlainText)
+        public void CryptAes(string sPlainText)
+        {
+            Value = InternalCryptAes(sPlainText);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private string InternalCryptAes(string sPlainText)
         {
             string rParamB64 = null;
             if (string.IsNullOrEmpty(sPlainText) == false)
@@ -240,7 +245,7 @@ namespace NetWorkedData
                     {
                         tdecode = NWDToolbox.RandomStringCypher(24);
                     }
-                    string tencode = CryptAes(tdecode);
+                    string tencode = InternalCryptAes(tdecode);
                     tTemporary.Value = tencode;
                     sPosition.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
                     if (GUI.Button(new Rect(tX, sPosition.y, tWidth, NWDGUI.kPopupStyle.fixedHeight), "credentials window"))
