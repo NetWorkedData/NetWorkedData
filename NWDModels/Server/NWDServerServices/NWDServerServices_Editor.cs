@@ -58,29 +58,11 @@ namespace NetWorkedData
                     //-----------------
                     EditorGUI.HelpBox(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
                     tI += 2;
-                    //tButtonTitle = new GUIContent("Open terminal", " open terminal or console on your desktop");
-                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                    //{
-                    //    // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
-                    //    FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
-                    //    System.Diagnostics.Process.Start(tFileInfo.FullName);
-                    //}
-                    //tI++;
-                    //string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + User + " -p " + tServer.Port;
-                    //tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
-                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                    //{
-                    //    NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
-                    //}
-
-
                     string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + " & ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Root_User + " -p " + tServer.Port;
                     if (tServer.AdminInstalled)
                     {
                         tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + " & ssh -keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Admin_User + " -p " + tServer.Port;
                     }
-
-
                     tI++;
                     GUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), tcommandKeyGen);
                     tI += 2;
@@ -115,6 +97,7 @@ namespace NetWorkedData
                         tCommandList.Add("apt-get -y install apache2-doc");
                         tCommandList.Add("apt-get -y install apache2-suexec-custom");
                         tCommandList.Add("apt-get -y install logrotate");
+                        tCommandList.Add("apt-get -y install openssl");
 
                         tCommandList.Add("echo \"<color=red> -> active apache mod</color>\"");
                         tCommandList.Add("a2enmod ssl");
@@ -130,6 +113,11 @@ namespace NetWorkedData
                         //"sed -i 's/public_html\\/cgi-bin/public_html/g'/etc/apache2/suexec/www-data",;
                         tCommandList.Add("sed -i 's/^.*ServerSignature .*$//g' /etc/apache2/apache2.conf");
                         tCommandList.Add("sed -i '$ a ServerSignature Off' /etc/apache2/apache2.conf");
+
+
+                        tCommandList.Add("sed -i 's/^.*SSLProtocol .*$//g' /etc/apache2/apache2.conf");
+                        tCommandList.Add("sed -i '$ a SSLProtocol all -SSLv2 -SSLv3 -TLSv1 -TLSv1.1' /etc/apache2/apache2.conf");
+
 
                         tCommandList.Add("echo \"<color=red> -> apache restart</color>\"");
                         tCommandList.Add("systemctl restart apache2");
@@ -172,9 +160,7 @@ namespace NetWorkedData
                             tCommandList.Add("apt-get -y install php-pear");
                             tCommandList.Add("pear install Net_SMTP");
                             tCommandList.Add("systemctl restart apache2");
-
                         }
-
                         tCommandList.Add("systemctl restart apache2");
                         tCommandList.Add("echo \"<color=red> -> php folder default</color>\"");
                         tCommandList.Add("chgrp -R www-data /var/www/html/");
@@ -283,7 +269,8 @@ namespace NetWorkedData
                 "sed -i '$ a ErrorLog /var/log/apache2/" + tServerDomain.ServerDNS + "-error.log' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 "sed -i '$ a LogLevel error' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 "sed -i '$ a SSLEngine On' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
-                "sed -i '$ a SSLProtocol all -SSLv2 -SSLv3' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                //"sed -i '$ a SSLProtocol all -SSLv2 -SSLv3 -TLSv1 -TLSv1.1' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a SSLProtocol +TLSv1.2 +TLSv1.3' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 "sed -i '$ a SSLCipherSuite ALL:!DH:!EXPORT:!RC4:+HIGH:+MEDIUM:!LOW:!aNULL:!eNULL' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 "sed -i '$ a SSLCertificateFile /home/" + User + "/ssl/" + tServerDomain.ServerDNS + ".crt' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 "sed -i '$ a SSLCertificateKeyFile /home/" + User + "/ssl/" + tServerDomain.ServerDNS + ".key' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
@@ -301,7 +288,8 @@ namespace NetWorkedData
                 "sed -i '$ a CustomLog ${APACHE_LOG_DIR}/access.log combined' /etc/apache2/sites-available/000-default-le-ssl.conf",
                 "sed -i '$ a </VirtualHost>' /etc/apache2/sites-available/000-default-le-ssl.conf",
                 "sed -i '$ a </IfModule>' /etc/apache2/sites-available/000-default-le-ssl.conf",
-                "a2ensite 000-default-le-ssl.conf",
+                //"a2ensite 000-default-le-ssl.conf",
+                "a2dissite 000-default-le-ssl.conf", // must disable to activate correctly the ssl 
 
                 "rm /etc/apache2/sites-available/000-default.conf",
                 "echo \"<IfModule mod_ssl.c>\" > /etc/apache2/sites-available/000-default.conf",
@@ -312,7 +300,7 @@ namespace NetWorkedData
                 "sed -i '$ a CustomLog ${APACHE_LOG_DIR}/access.log combined' /etc/apache2/sites-available/000-default.conf",
                 "sed -i '$ a </VirtualHost>' /etc/apache2/sites-available/000-default.conf",
                 "sed -i '$ a </IfModule>' /etc/apache2/sites-available/000-default.conf",
-                "a2ensite 000-default-le.conf",
+                "a2ensite 000-default.conf",
 
                 "/etc/init.d/apache2 start",
                 "/etc/init.d/apache2 reload",
@@ -331,33 +319,17 @@ namespace NetWorkedData
                     }
                     EditorGUI.EndDisabledGroup();
                     tI++;
-
-                    ////-----------------
-                    //tButtonTitle = new GUIContent("Install FTPS", "insatll FTPS ");
-                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                    //{
-
-                    //    List<string> tCommandList = new List<string>();
-
-                    //    tCommandList.Add("apt-get update");
-                    //    tCommandList.Add("apt-get -y upgrade");
-                    //    tCommandList.Add("apt-get -y dist-upgrade");
-                    //    tCommandList.Add("apt-get -y install vsftpd");
-
-                    //    tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
-                    //}
-                    //tI++;
-
                     //-----------------
                     tButtonTitle = new GUIContent("Check apache", "check apache ");
                     if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                     {
                         tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
+                    "netstat -tanpu | grep \"LISTEN\" | grep \"443\"",
                     "apache2ctl -S",
                     //"httpd -S",
                     "a2query -m",
-
+                    //"tail -100 /var/log/apache2/access.log"
                 });
                     }
                     tI++;
@@ -415,10 +387,10 @@ namespace NetWorkedData
                     NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
                     tI++;
 
-                    if (tServerDomain != null)
+                    if (tServerDomain != null && UserInstalled == true /*&& SSLInstalled == false*/)
                     {
                         //-----------------
-                        string tCerbot = "certbot --agree-tos --no-eff-email --apache --redirect --email " + Email + " -d " + tServerDomain.ServerDNS + "";
+                        string tCerbot = "certbot --agree-tos -n --no-eff-email --apache --redirect --email " + Email + " -d " + tServerDomain.ServerDNS + "";
                         EditorGUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Try cerbot", tCerbot);
                         tI++;
                         //-----------------
@@ -427,13 +399,19 @@ namespace NetWorkedData
                         {
                             tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                         {
-                        //"certbot --agree-tos --no-eff-email --apache --redirect --email " + Email + " -d " + tServerDomain.ServerDNS + "",
                         tCerbot,
                         });
                         }
                         tI++;
-
+                        //-----------------
                     }
+                    //-----------------
+                    tButtonTitle = new GUIContent("Test security of SSL", "test security for this SSL config");
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        Application.OpenURL("https://www.ssllabs.com/ssltest/analyze.html?d=" + tServerDomain.ServerDNS + "");
+                    }
+                    tI++;
                     //-----------------
                     NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
                     tI++;
@@ -456,24 +434,7 @@ namespace NetWorkedData
                         Application.OpenURL(tURL);
                     }
                     tI++;
-                    ////-----------------
-                    //string tURLB = "ftp://" + User + ":" + Password.GetValue() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + Folder;
-                    //tButtonTitle = new GUIContent("Try ftp directly", tURL);
-                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                    //{
-                    //    //NWEClipboard.CopyToClipboard(Password.GetValue());
-                    //    Application.OpenURL(tURLB);
-                    //}
-                    //tI++;
-                    ////-----------------
-                    //string tURLC = "ftps://" + User + ":" + Password.GetValue() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + Folder;
-                    //tButtonTitle = new GUIContent("Try ftps directly", tURL);
-                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                    //{
-                    //    //NWEClipboard.CopyToClipboard(Password.GetValue());
-                    //    Application.OpenURL(tURLC);
-                    //}
-                    //tI++;
+                    //-----------------
                 }
             }
             else

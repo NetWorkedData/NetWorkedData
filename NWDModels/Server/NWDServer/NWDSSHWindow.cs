@@ -1,12 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:29:11
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
+//  ideMobi 2020©
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -16,16 +10,13 @@ using System;
 using System.Text;
 using UnityEngine;
 using UnityEditor;
-using System.IO;
-using System.Net;
-using System.Linq;
-using System.Net.Sockets;
 using Renci.SshNet;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Collections;
 using System.Diagnostics;
+using Unity.EditorCoroutines.Editor;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -41,7 +32,6 @@ namespace NetWorkedData
         private static NWDSSHWindow kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
         static Vector2 ScrollPosition;
-        StringBuilder TextResult;
         GUIStyle TextareaStyle;
         //-------------------------------------------------------------------------------------------------------------
         NWDServer Server;
@@ -55,6 +45,10 @@ namespace NetWorkedData
         ShellStream ShellStream;
         Stopwatch Watch = new Stopwatch();
         double DeltaAbsolute;
+        StringBuilder TextResult = new StringBuilder();
+        int CommandCount = 0;
+        int CommandActual = 0;
+        string Infos = String.Empty;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Returns the SharedInstance or instance one
@@ -128,6 +122,7 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             NWDGUI.LoadStyles();
+
             TextareaStyle = new GUIStyle(EditorStyles.textArea);
             TextareaStyle.richText = true;
 
@@ -144,7 +139,7 @@ namespace NetWorkedData
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             if (Server != null)
             {
-                EditorGUILayout.TextArea(Server.TextCommandResult, TextareaStyle);
+                EditorGUILayout.TextArea(TextResult.ToString(), TextareaStyle);
             }
             GUILayout.EndScrollView();
             //NWEBenchmark.Finish();
@@ -164,16 +159,26 @@ namespace NetWorkedData
             AltUser = sAltUser;
             AltPassword = sAltPassword;
             ScriptTitle = tScriptTitle;
-            ExecuteAsync();
-            //EditorCoroutineUtility.StartCoroutineOwnerless(ExecuteAsync());
+            //ExecuteAsync();
+            EditorCoroutineUtility.StartCoroutineOwnerless(ExecuteAsync());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ExecuteAsync()
+        public IEnumerator ExecuteAsync()
         {
             NWEBenchmark.Start();
+
+            IEnumerator tWaitTime = null;
+
             NWDSSHWindow tWindow = NWDSSHWindow.SharedInstanceFocus();
             Watch.Reset();
             Watch.Start();
+            EditorUtility.DisplayProgressBar(ScriptTitle, "Connexion...",0.0F);
+            Refresh();
+            yield return tWaitTime;
+            TextResult = new StringBuilder();
+            Refresh();
+            yield return tWaitTime;
+
             bool tNeedSu = false;
             string tUserEcho = "unknow";
             string tIP = Server.IP.GetValue();
@@ -199,160 +204,199 @@ namespace NetWorkedData
             {
                 tPassword = AltPassword;
             }
-            StringBuilder rTextResult = new StringBuilder(); ;
+            SshClient tClientSSH = null;
             try
             {
                 tUserEcho = tUser;
-                rTextResult.AppendLine("<i>#Local$ Connecting...</i>");
-                rTextResult.AppendLine("<i>#Local$ ssh -l " + tUserEcho + " " + tIP + " -p " + tPort + "</i>");
+                TextResult.AppendLine("<i>#Local$ Connecting...</i>");
+                TextResult.AppendLine("<i>#Local$ ssh -l " + tUserEcho + " " + tIP + " -p " + tPort + "</i>");
                 if (NWDEditorCredentialsManager.ShowPasswordInLog)
                 {
-                    rTextResult.AppendLine("<i>#Local$ " + tPassword + "</i>");
+                    TextResult.AppendLine("<i>#Local$ " + tPassword + "</i>");
                 }
                 PasswordConnectionInfo tConnectionInfo = new PasswordConnectionInfo(tIP, tPort, tUser, tPassword);
-                using (SshClient tClientSSH = new SshClient(tConnectionInfo))
-                {
-                    tClientSSH.Connect();
-                    if (tClientSSH.IsConnected == true)
-                    {
-                        rTextResult.AppendLine("<i>#Local$ host respond.</i>");
-                        if (tClientSSH.ConnectionInfo.IsAuthenticated == true)
-                        {
-                            rTextResult.AppendLine("<i>#Local$ authenfication success</i>");
-                            ShellStream tShellStream = tClientSSH.CreateShellStream("xterm", 80, 24, 800, 600, 1024);
-                            rTextResult.AppendLine("<i>--------------------</i>");
-                            RunCommand("hostnamectl", tShellStream, rTextResult);
-                            tUserEcho = RunCommand("whoami", tShellStream, rTextResult);
-                            RunCommand("ls", tShellStream, rTextResult);
-                            rTextResult.AppendLine("<i>--------------------</i>");
-                            if (tNeedSu == true)
-                            {
-                                //rTextResult.AppendLine("<i>#Local$ cat /dev/null > ~/.bash_history");
-                                //tShellStream.WriteLine("cat /dev/null > ~/.bash_history");
-                                RunCommand("cat /dev/null > ~/.bash_history", tShellStream, rTextResult);
-
-                                rTextResult.AppendLine("<i>#Local$ try to swith from " + tUserEcho + " to " + Server.Root_User + " with password " + Server.Root_Secure_Password.Decrypt() + "</i>");
-
-                                rTextResult.AppendLine("<i>#Local$ su -l " + Server.Root_User + "</i>");
-                                // Get logged in and get user prompt
-                                string prompt = tShellStream.Expect(new Regex(@"[$>]"));
-
-                                // Send command and expect password or user prompt
-                                tShellStream.WriteLine("su -l " + Server.Root_User + "");
-                                prompt = tShellStream.Expect(new Regex(@"([$#>:])"));
-
-                                // Check to send password
-                                if (prompt.Contains("assword:")) // research password: (or Password:) 
-                                {
-                                    // Send password
-                                    rTextResult.AppendLine("<i>#Local$ Good! I have the hand ... put password now!</i>");
-                                    tShellStream.WriteLine(Server.Root_Secure_Password.Decrypt() + "\r");
-                                    if (NWDEditorCredentialsManager.ShowPasswordInLog)
-                                    {
-                                        rTextResult.AppendLine("<i>#Local$ " + Server.Root_Secure_Password.Decrypt() + "</i>");
-                                    }
-                                    prompt = tShellStream.Expect(new Regex(@"([$#>:])"));
-                                    if (prompt.Contains("assword:")) // research password: (or Password:) 
-                                    {
-                                        // not the good password => exit
-                                        throw new System.Exception("Password is not the valid");
-                                    }
-                                    prompt = tShellStream.Expect(new Regex(@"[$#>]"));
-                                }
-                                tUserEcho = RunCommand("whoami", tShellStream, rTextResult);
-                                RunCommand("ls", tShellStream, rTextResult);
-                                rTextResult.AppendLine("<i>--------------------</i>");
-                                if (tUserEcho == Server.Root_User)
-                                {
-                                    rTextResult.AppendLine("<i>#Local$ Good! " + tUserEcho + " is connected!</i>");
-                                }
-                                else
-                                {
-                                    rTextResult.AppendLine("<i>#Local$ Fail! " + tUserEcho + " is not connected!</i>");
-                                }
-                                rTextResult.AppendLine("<i>--------------------</i>");
-                            }
-
-                            rTextResult.AppendLine("<i>#Local$ Start command list!</i>");
-                            rTextResult.AppendLine("<i>--------------------</i>");
-                            foreach (string tCommandLine in CommandList)
-                            {
-                                if (string.IsNullOrEmpty(tCommandLine) == false)
-                                {
-                                    string tResult = RunCommand(tCommandLine, tShellStream, rTextResult);
-                                    if (CommandResultDelegate != null)
-                                    {
-                                        CommandResultDelegate(tCommandLine, tResult);
-                                    }
-                                }
-                            }
-                            rTextResult.AppendLine("<i>--------------------</i>");
-
-                            rTextResult.AppendLine("<i>#Local$ Finish command list!</i>");
-
-                            //rTextResult.AppendLine("<i>#Local$ cat /dev/null > ~/.bash_history");
-                            //tShellStream.WriteLine("cat /dev/null > ~/.bash_history");
-                            RunCommand("cat /dev/null > ~/.bash_history", tShellStream, rTextResult);
-
-                            if (tNeedSu == true)
-                            {
-
-                                // TODO : Bug in the logout
-
-                                // TODO : bug in su -l Admin ... I am disapointed
-
-                                //rTextResult.AppendLine("<i>#Local$ try to swith from " + tUserEcho + " to " + tUser + " with password " + tPassword + "</i>");
-                                //rTextResult.AppendLine("<i>#Local$ su -l " + tUser + "</i>");
-                                //// Get logged in and get user prompt
-                                //string prompt = tShellStream.Expect(new Regex(@"[$>]"));
-                                //// Send command and expect password or user prompt
-                                //tShellStream.WriteLine("su -l " + tPassword + "");
-                                //prompt = tShellStream.Expect(new Regex(@"([$#>:])"));
-
-                                //// Check to send password
-                                //if (prompt.Contains("assword:")) // research password: (or Password:) 
-                                //{
-                                //    // Send password
-                                //    rTextResult.AppendLine("<i>#Local$ Good! I have the hand ... put password now!</i>");
-                                //    tShellStream.WriteLine(tPassword + "\r");
-                                //    rTextResult.AppendLine("<i>#Local$ " + tPassword + "</i>");
-                                //    prompt = tShellStream.Expect(new Regex(@"([$#>:])"));
-                                //    if (prompt.Contains("assword:")) // research password: (or Password:) 
-                                //    {
-                                //        // not the good password => exit
-                                //        throw new System.Exception("Password is not the valid");
-                                //    }
-                                //    prompt = tShellStream.Expect(new Regex(@"[$#>]"));
-                                //}
-                                ////rTextResult.AppendLine("<i>#Local$ cat /dev/null > ~/.bash_history");
-                                ////tShellStream.WriteLine("cat /dev/null > ~/.bash_history");
-                                //RunCommand("cat /dev/null > ~/.bash_history", tShellStream, rTextResult);
-                            }
-                            rTextResult.AppendLine("<i>#Local$ " + tUserEcho + " Disconnecting!</i>");
-                            tClientSSH.Disconnect();
-                            rTextResult.AppendLine("<i>#Local$  Disconnected!</i>");
-                        }
-                        else
-                        {
-                            rTextResult.AppendLine("<i>#Local$ authentification failed</i>");
-                        }
-                    }
-                    else
-                    {
-                        rTextResult.AppendLine("<i>#Local$ host not respond.</i>");
-                    }
-                    tClientSSH.Dispose();
-                }
+                tClientSSH = new SshClient(tConnectionInfo);
+                tClientSSH.Connect();
             }
             catch (System.Exception e)
             {
-                rTextResult.AppendLine(e.ToString());
-                rTextResult.AppendLine("<i>#Local$ FAIL!</i>");
-                //Debug.Log(rTextResult);
+                TextResult.AppendLine(e.ToString());
+                TextResult.AppendLine("<i>#Local$ FAIL!</i>");
+                CommandCount = 0;
+                CommandActual = 0;
+                EditorUtility.ClearProgressBar();
+                if (EditorUtility.DisplayDialog("Error", "error in ssh", "OK") == true)
+                {
+                }
             }
+            if (tClientSSH != null)
+            {
+                if (tClientSSH.IsConnected == true)
+                {
+                    TextResult.AppendLine("<i>#Local$ host respond.</i>");
+                    if (tClientSSH.ConnectionInfo.IsAuthenticated == true)
+                    {
+                        TextResult.AppendLine("<i>#Local$ authenfication success</i>");
+                        ShellStream tShellStream = tClientSSH.CreateShellStream("xterm", 80, 24, 800, 600, 1024);
+                        TextResult.AppendLine("<i>--------------------</i>");
+                        RunCommand("hostnamectl", tShellStream, TextResult);
+                        tUserEcho = RunCommand("whoami", tShellStream, TextResult);
+                        RunCommand("ls", tShellStream, TextResult);
+                        TextResult.AppendLine("<i>--------------------</i>");
+                        if (tNeedSu == true)
+                        {
+                            //rTextResult.AppendLine("<i>#Local$ cat /dev/null > ~/.bash_history");
+                            //tShellStream.WriteLine("cat /dev/null > ~/.bash_history");
+                            RunCommand("cat /dev/null > ~/.bash_history", tShellStream, TextResult);
+
+                            TextResult.AppendLine("<i>#Local$ try to swith from " + tUserEcho + " to " + Server.Root_User + " with password " + Server.Root_Secure_Password.Decrypt() + "</i>");
+
+                            TextResult.AppendLine("<i>#Local$ su -l " + Server.Root_User + "</i>");
+                            // Get logged in and get user prompt
+                            string prompt = tShellStream.Expect(new Regex(@"[$>]"));
+
+                            // Send command and expect password or user prompt
+                            tShellStream.WriteLine("su -l " + Server.Root_User + "");
+                            prompt = tShellStream.Expect(new Regex(@"([$#>:])"));
+
+                            // Check to send password
+                            if (prompt.Contains("assword:")) // research password: (or Password:) 
+                            {
+                                // Send password
+                                TextResult.AppendLine("<i>#Local$ Good! I have the hand ... put password now!</i>");
+                                tShellStream.WriteLine(Server.Root_Secure_Password.Decrypt() + "\r");
+                                if (NWDEditorCredentialsManager.ShowPasswordInLog)
+                                {
+                                    TextResult.AppendLine("<i>#Local$ " + Server.Root_Secure_Password.Decrypt() + "</i>");
+                                }
+                                prompt = tShellStream.Expect(new Regex(@"([$#>:])"));
+                                if (prompt.Contains("assword:")) // research password: (or Password:) 
+                                {
+                                    // not the good password => exit
+                                    throw new System.Exception("Password is not the valid");
+                                }
+                                prompt = tShellStream.Expect(new Regex(@"[$#>]"));
+                            }
+                            tUserEcho = RunCommand("whoami", tShellStream, TextResult);
+                            RunCommand("ls", tShellStream, TextResult);
+                            TextResult.AppendLine("<i>--------------------</i>");
+                            if (tUserEcho == Server.Root_User)
+                            {
+                                TextResult.AppendLine("<i>#Local$ Good! " + tUserEcho + " is connected!</i>");
+                            }
+                            else
+                            {
+                                TextResult.AppendLine("<i>#Local$ Fail! " + tUserEcho + " is not connected!</i>");
+                            }
+                            TextResult.AppendLine("<i>--------------------</i>");
+                        }
+
+                        TextResult.AppendLine("<i>#Local$ Start command list!</i>");
+                        TextResult.AppendLine("<i>--------------------</i>");
+                        CommandCount = CommandList.Count +1;
+                        CommandActual = 0;
+                        EditorUtility.DisplayProgressBar(ScriptTitle, Infos + " (" + CommandActual.ToString() + "/" + CommandCount.ToString() + ")", (float)CommandActual / (float)CommandCount);
+                        foreach (string tCommandLine in CommandList)
+                        {
+                        EditorUtility.DisplayProgressBar(ScriptTitle, tCommandLine + " (" + CommandActual.ToString() + "/" + CommandCount.ToString() + ")", (float)CommandActual / (float)CommandCount);
+                            Refresh();
+                            yield return tWaitTime;
+                            if (string.IsNullOrEmpty(tCommandLine) == false)
+                            {
+                                string tResult = RunCommand(tCommandLine, tShellStream, TextResult);
+                                if (CommandResultDelegate != null)
+                                {
+                                    CommandResultDelegate(tCommandLine, tResult);
+                                }
+                            }
+                            CommandActual++;
+                        }
+                        Refresh();
+                        yield return tWaitTime;
+                        TextResult.AppendLine("<i>--------------------</i>");
+
+                        TextResult.AppendLine("<i>#Local$ Finish command list!</i>");
+
+                        //rTextResult.AppendLine("<i>#Local$ cat /dev/null > ~/.bash_history");
+                        //tShellStream.WriteLine("cat /dev/null > ~/.bash_history");
+                        RunCommand("cat /dev/null > ~/.bash_history", tShellStream, TextResult);
+
+                        EditorUtility.DisplayProgressBar(ScriptTitle, "Cleanning...", 1.0F);
+                        Refresh();
+                        if (tNeedSu == true)
+                        {
+
+                            // TODO : Bug in the logout
+
+                            // TODO : bug in su -l Admin ... I am disapointed
+
+                            //rTextResult.AppendLine("<i>#Local$ try to swith from " + tUserEcho + " to " + tUser + " with password " + tPassword + "</i>");
+                            //rTextResult.AppendLine("<i>#Local$ su -l " + tUser + "</i>");
+                            //// Get logged in and get user prompt
+                            //string prompt = tShellStream.Expect(new Regex(@"[$>]"));
+                            //// Send command and expect password or user prompt
+                            //tShellStream.WriteLine("su -l " + tPassword + "");
+                            //prompt = tShellStream.Expect(new Regex(@"([$#>:])"));
+
+                            //// Check to send password
+                            //if (prompt.Contains("assword:")) // research password: (or Password:) 
+                            //{
+                            //    // Send password
+                            //    rTextResult.AppendLine("<i>#Local$ Good! I have the hand ... put password now!</i>");
+                            //    tShellStream.WriteLine(tPassword + "\r");
+                            //    rTextResult.AppendLine("<i>#Local$ " + tPassword + "</i>");
+                            //    prompt = tShellStream.Expect(new Regex(@"([$#>:])"));
+                            //    if (prompt.Contains("assword:")) // research password: (or Password:) 
+                            //    {
+                            //        // not the good password => exit
+                            //        throw new System.Exception("Password is not the valid");
+                            //    }
+                            //    prompt = tShellStream.Expect(new Regex(@"[$#>]"));
+                            //}
+                            ////rTextResult.AppendLine("<i>#Local$ cat /dev/null > ~/.bash_history");
+                            ////tShellStream.WriteLine("cat /dev/null > ~/.bash_history");
+                            //RunCommand("cat /dev/null > ~/.bash_history", tShellStream, rTextResult);
+                        }
+                        EditorUtility.DisplayProgressBar(ScriptTitle, "Disconnexion...", 1.0F);
+                        Refresh();
+                        yield return tWaitTime;
+                        TextResult.AppendLine("<i>#Local$ " + tUserEcho + " Disconnecting!</i>");
+                        tClientSSH.Disconnect();
+                        TextResult.AppendLine("<i>#Local$  Disconnected!</i>");
+                    }
+                    else
+                    {
+                        TextResult.AppendLine("<i>#Local$ authentification failed</i>");
+                        CommandCount = 0;
+                        CommandActual = 0;
+                        EditorUtility.ClearProgressBar();
+                        Refresh();
+                        yield return tWaitTime;
+                        if (EditorUtility.DisplayDialog("Error", "authentification failed", "OK") == true)
+                        {
+                        }
+                    }
+                }
+                else
+                {
+                    TextResult.AppendLine("<i>#Local$ host not respond.</i>");
+                    CommandCount = 0;
+                    CommandActual = 0;
+                    EditorUtility.ClearProgressBar();
+                    Refresh();
+                    yield return tWaitTime;
+                    if (EditorUtility.DisplayDialog("Error", "host not respond", "OK") == true)
+                    {
+                    }
+                }
+                tClientSSH.Dispose();
+            }
+            //Server.TextCommandResult = rTextResult.ToString();
+            EditorUtility.ClearProgressBar();
+            Refresh();
+            yield return tWaitTime;
             DeltaAbsolute = Watch.ElapsedMilliseconds;
             Watch.Stop();
-            Server.TextCommandResult = rTextResult.ToString();
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

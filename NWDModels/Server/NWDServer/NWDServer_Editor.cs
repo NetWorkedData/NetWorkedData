@@ -35,6 +35,43 @@ namespace NetWorkedData
         const string K_WEBSERVICE_ADD = "webservice_add_";
         const string K_WEBSERVICE_REMOVE = "webservice_remove_";
         //-------------------------------------------------------------------------------------------------------------
+        private List<string> UpdateCommand(NWDServerDistribution sDistribution)
+        {
+            return new List<string>()
+                  {
+            "apt-get check",
+            "apt-get update",
+            "apt-get -y autoremove",
+            "apt-get autoclean",
+            "apt-get -y upgrade",
+            "apt-get -y dist-upgrade",
+            "apt-get -y autoremove",
+            "apt-get autoclean",
+            "apt-get clean",
+                  };
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private List<string> InstallCommand(NWDServerDistribution sDistribution)
+        {
+            return new List<string>()
+                  {
+            "apt-get update", // do update
+            "apt-get -y dist-upgrade", // do update
+            "apt-get -y install ntp", // install system network time protocol daemon
+            "apt-get -y install fail2ban", // install fail to ban to limit attack on ssh for example
+            "apt-get -y install vim", // install vim editor
+            "apt-get -y install whois", // install who is package
+            "apt-get -y install debconf-utils", // install debian tools
+
+            "apt-get install locales",
+            "export LANGUAGE=en",
+            "export LC_CTYPE=en_US.UTF-8",
+            "export LC_MESSAGES=en_US.UTF-8",
+            "export LC_ALL=en_US.UTF-8",
+            "locale-gen --purge en_US.UTF-8",
+                  };
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public const string K_SFTP_chroot = "sftp_chroot";
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditorHeight(float sWidth)
@@ -43,7 +80,7 @@ namespace NetWorkedData
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string TextCommandResult;
+        //public string TextCommandResult;
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonEditor(Rect sRect)
         {
@@ -96,11 +133,11 @@ namespace NetWorkedData
                     tcommandKeyGen = "ssh-keygen -R " + IP.GetValue() + " & ssh -keygen -R " + IP.GetValue() + ":" + Port + " & ssh " + IP.GetValue() + " -l " + Admin_User + " -p " + Port;
                 }
                 tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                {
-                    NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
-                }
-                tI++;
+                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                //{
+                //    NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
+                //}
+                //tI++;
                 GUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), tcommandKeyGen);
                 tI += 2;
                 NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
@@ -219,18 +256,7 @@ namespace NetWorkedData
                 tButtonTitle = new GUIContent("Update server", "just run updates from apt-get xxx");
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 {
-                    ExecuteSSH(this, tButtonTitle.text, new List<string>()
-                {
-                    "apt-get check",
-                    "apt-get update",
-                    "apt-get -y autoremove",
-                    "apt-get autoclean",
-                    "apt-get -y upgrade",
-                    "apt-get -y dist-upgrade",
-                    "apt-get -y autoremove",
-                    "apt-get autoclean",
-                    "apt-get clean",
-                });
+                    ExecuteSSH(this, tButtonTitle.text, UpdateCommand(Distribution));
                 }
                 tI++;
 
@@ -351,7 +377,7 @@ namespace NetWorkedData
                 tButtonTitle = new GUIContent("Config ssh", "secure ssh config");
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                 {
-                   // if (AdminInstalled)
+                    // if (AdminInstalled)
                     {
                         ExecuteSSH(this, tButtonTitle.text, new List<string>()
                 {
@@ -388,6 +414,19 @@ namespace NetWorkedData
                 "' /etc/ssh/sshd_config",
 
 
+                "addgroup "+K_SFTP_chroot+"", // Add group
+
+                "sed -i 's/^.*Match Group .*$//g' /etc/ssh/sshd_config",
+                "sed -i '$ a Match Group "+K_SFTP_chroot+"' /etc/ssh/sshd_config",
+
+                "sed -i 's/^.*ChrootDirectory .*$//g' /etc/ssh/sshd_config",
+                "sed -i '$ a    ChrootDirectory /home/%u' /etc/ssh/sshd_config",
+
+                "sed -i 's/^.*ForceCommand .*$//g' /etc/ssh/sshd_config",
+                "sed -i '$ a    ForceCommand internal-sftp' /etc/ssh/sshd_config",
+
+                "sed -i 's/^.*AllowTcpForwarding .*$//g' /etc/ssh/sshd_config",
+                "sed -i '$ a    AllowTcpForwarding no' /etc/ssh/sshd_config",
 
 
                 "service sshd restart",
@@ -404,39 +443,39 @@ namespace NetWorkedData
                 }
                 tI++;
 
-                //-----------------
-                tButtonTitle = new GUIContent("Config sftp", "FTP via ssh config");
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                {
-                    if (AdminInstalled)
-                    {
-                        ExecuteSSH(this, tButtonTitle.text, new List<string>()
-                {
-                "addgroup "+K_SFTP_chroot+"", // Add group
+                ////-----------------
+                //tButtonTitle = new GUIContent("Config sftp", "FTP via ssh config");
+                //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                //{
+                //    if (AdminInstalled)
+                //    {
+                //        ExecuteSSH(this, tButtonTitle.text, new List<string>()
+                //{
+                //"addgroup "+K_SFTP_chroot+"", // Add group
 
-                "sed -i 's/^.*Match Group .*$//g' /etc/ssh/sshd_config",
-                "sed -i '$ a Match Group "+K_SFTP_chroot+"' /etc/ssh/sshd_config",
+                //"sed -i 's/^.*Match Group .*$//g' /etc/ssh/sshd_config",
+                //"sed -i '$ a Match Group "+K_SFTP_chroot+"' /etc/ssh/sshd_config",
 
-                "sed -i 's/^.*ChrootDirectory .*$//g' /etc/ssh/sshd_config",
-                "sed -i '$ a    ChrootDirectory /home/%u' /etc/ssh/sshd_config",
+                //"sed -i 's/^.*ChrootDirectory .*$//g' /etc/ssh/sshd_config",
+                //"sed -i '$ a    ChrootDirectory /home/%u' /etc/ssh/sshd_config",
 
-                "sed -i 's/^.*ForceCommand .*$//g' /etc/ssh/sshd_config",
-                "sed -i '$ a    ForceCommand internal-sftp' /etc/ssh/sshd_config",
+                //"sed -i 's/^.*ForceCommand .*$//g' /etc/ssh/sshd_config",
+                //"sed -i '$ a    ForceCommand internal-sftp' /etc/ssh/sshd_config",
 
-                "sed -i 's/^.*AllowTcpForwarding .*$//g' /etc/ssh/sshd_config",
-                "sed -i '$ a    AllowTcpForwarding no' /etc/ssh/sshd_config",
-                "service sshd restart",
-                    },
-                        delegate (string sCommand, string sResult)
-                        {
-                            if (sCommand == "service sshd restart")
-                            {
-                                UpdateDataIfModified();
-                            };
-                        });
-                    }
-                }
-                tI++;
+                //"sed -i 's/^.*AllowTcpForwarding .*$//g' /etc/ssh/sshd_config",
+                //"sed -i '$ a    AllowTcpForwarding no' /etc/ssh/sshd_config",
+                //"service sshd restart",
+                //    },
+                //        delegate (string sCommand, string sResult)
+                //        {
+                //            if (sCommand == "service sshd restart")
+                //            {
+                //                UpdateDataIfModified();
+                //            };
+                //        });
+                //    }
+                //}
+                //tI++;
                 //-----------------
                 tButtonTitle = new GUIContent("show infos", "run hostnamectl");
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
