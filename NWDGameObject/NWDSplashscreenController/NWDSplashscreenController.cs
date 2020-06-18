@@ -179,7 +179,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void FakeToken()
         {
-            NWDDialog.Dialog(NWDMessage.GetByReference("FakeToken"), delegate (NWDMessageState sState)
+            NWDDialogNative.Dialog(NWDMessage.GetByReference("FakeToken"), delegate (NWDMessageState sState)
             {
                 if (sState == NWDMessageState.OK)
                 {
@@ -200,7 +200,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void FakeAccount()
         {
-            NWDDialog.Dialog(NWDMessage.GetByReference("FakeAccount"), delegate (NWDMessageState sState)
+            NWDDialogNative.Dialog(NWDMessage.GetByReference("FakeAccount"), delegate (NWDMessageState sState)
             {
                 if (sState == NWDMessageState.OK)
                 {
