@@ -330,7 +330,14 @@ namespace NetWorkedData
                     tFile.AppendLine("if (" + NWD.K_SQL_CON_EDITOR + "[$sRange]->connect_errno)");
                     tFile.AppendLine("{");
                     {
-                        tFile.AppendLine(NWDError.PHP_log(this, "Error in MySQL connexion on '.$SQL_LIST[$sRange]['host'].' for '.$SQL_LIST[$sRange]['user'].' with password •••••••••••• on database '.$SQL_LIST[$sRange]['database'].'"));
+                        if (NWDEditorCredentialsManager.ShowPasswordInLog == true)
+                        {
+                            tFile.AppendLine(NWDError.PHP_log(this, "Error in MySQL connexion on '.$SQL_LIST[$sRange]['host'].' for '.$SQL_LIST[$sRange]['user'].' with password '.$SQL_LIST[$sRange]['password'].' on database '.$SQL_LIST[$sRange]['database'].'"));
+                        }
+                        else
+                        {
+                        tFile.AppendLine(NWDError.PHP_log(this, "Error in MySQL connexion on '.$SQL_LIST[$sRange]['host'].' for '.$SQL_LIST[$sRange]['user'].' with password ??????????? on database '.$SQL_LIST[$sRange]['database'].'"));
+                        }
                         tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SQL00));
                         //tFile.AppendLine("include_once ('" + NWD.K_STATIC_FINISH_PHP + "');");
                         //tFile.AppendLine("exit;");
@@ -404,7 +411,14 @@ namespace NetWorkedData
                             tFile.AppendLine("if (" + NWD.K_SQL_CON_EDITOR + "[$tRange]->connect_errno)");
                             tFile.AppendLine("{");
                             {
-                                tFile.AppendLine(NWDError.PHP_log(this, "Error in MySQL connexion on '.$tValue['host'].' for '.$tValue['user'].' with password •••••••••••• on database '.$tValue['database'].'"));
+                                if (NWDEditorCredentialsManager.ShowPasswordInLog == true)
+                                {
+                                    tFile.AppendLine(NWDError.PHP_log(this, "Error in MySQL connexion on '.$tValue['host'].' for '.$tValue['user'].' with password '.$tValue['password'].' on database '.$tValue['database'].'"));
+                                }
+                                else
+                                {
+                                    tFile.AppendLine(NWDError.PHP_log(this, "Error in MySQL connexion on '.$tValue['host'].' for '.$tValue['user'].' with password ??????????? on database '.$tValue['database'].'"));
+                                }
                                 tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SQL00));
                                 //tFile.AppendLine("include_once ('" + NWD.K_STATIC_FINISH_PHP + "');");
                                 //tFile.AppendLine("exit;");

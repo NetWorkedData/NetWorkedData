@@ -139,20 +139,30 @@ namespace NetWorkedData
                         tCommandList.Add("apt-get -y install mariadb-server");
                         tCommandList.Add("echo PURGE | debconf-communicate mariadb-server");
                         tCommandList.Add("echo \"<color=red> -> mysql start (MariaDB)</color>\"");
-                        if (External == true)
+
+                        if (tServer.Distribution == NWDServerDistribution.debian9)
                         {
-                            //prefere use replace as delete and add
-                            //tCommandList.Add("sed -i 's/^.*bind\\-address.*$//g' /etc/mysql/mariadb.conf.d/50-server.cnf");
-                            //tCommandList.Add("sed -i '$ a bind-address = 0.0.0.0' /etc/mysql/mariadb.conf.d/50-server.cnf");
-                            tCommandList.Add("sed -i 's/^.*bind\\-address.*$/bind\\-address = 0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                            if (External == true)
+                            {
+                                tCommandList.Add("sed -i 's/^.*bind\\-address.*$/bind\\-address = 0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                            }
+                            else
+                            {
+                                tCommandList.Add("sed -i 's/^.*bind-address .*$/bind-address = 127.0.0.1/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                            }
                         }
-                        else
+                        if (tServer.Distribution == NWDServerDistribution.debian10)
                         {
-                            //prefere use replace as delete and add
-                            //tCommandList.Add("sed -i 's/^.*bind\\-address.*$//g' /etc/mysql/mariadb.conf.d/50-server.cnf");
-                            //tCommandList.Add("sed -i '$ a bind-address = 127.0.0.1' /etc/mysql/mariadb.conf.d/50-server.cnf");
-                            tCommandList.Add("sed -i 's/^.*bind-address .*$/bind-address = 127.0.0.1/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                            if (External == true)
+                            {
+                                tCommandList.Add("sed -i 's/^.*bind\\-address.*$/#bind\\-address = 0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                            }
+                            else
+                            {
+                                tCommandList.Add("sed -i 's/^.*bind-address .*$/bind-address = 127.0.0.1/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                            }
                         }
+
                         tCommandList.Add("/etc/init.d/mysql start");
                         if (PhpMyAdmin == true)
                         {
@@ -180,6 +190,7 @@ namespace NetWorkedData
                             //tCommandList.Add("apt-get -y install php-gd");
                             //tCommandList.Add("apt-get -y install php-bz2");
                             //tCommandList.Add("apt-get -y install php-tcpdf");
+                            //tCommandList.Add("apt-get -y install php-twig");
                             tCommandList.Add("apt-get -y install php-mysql");
                             tCommandList.Add("apt-get -y install php-curl");
                             tCommandList.Add("apt-get -y install php-json");
