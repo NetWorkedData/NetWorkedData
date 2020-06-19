@@ -29,6 +29,14 @@ namespace NetWorkedData
         /// </summary>
         static Vector2 ScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
+        bool Clipboard;
+        string UserName;
+        int PanelWidth;
+        bool ShowCompile;
+        NWDEditorBuildEnvironment EditorBuildEnvironment;
+        NWDEditorBuildRename EditorBuildRename;
+        NWDEditorBuildDatabaseUpdate EditorBuildDatabaseUpdate;
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Returns the SharedInstance or instance one
         /// </summary>
@@ -117,7 +125,38 @@ namespace NetWorkedData
         public void OnEnable()
         {
             //NWEBenchmark.Start();
+            // set title
             TitleInit(NWDConstants.K_PROJECT_CONFIGURATION_TITLE, typeof(NWDProjectConfigurationManager));
+            // get values
+            Load();
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Load()
+        {
+            //NWEBenchmark.Start();
+            // get values
+            Clipboard = NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG);
+            UserName = NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_USER_BUILDER, "(user)");
+            PanelWidth = NWDProjectPrefs.GetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, 320);
+            ShowCompile = NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_SHOW_COMPILE);
+            EditorBuildEnvironment = GetEditoBuildEnvironment();
+            EditorBuildRename = GetEditoBuildRename();
+            EditorBuildDatabaseUpdate = GetEditorBuildDatabaseUpdate();
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Save()
+        {
+            //NWEBenchmark.Start();
+            // set values
+            NWDProjectPrefs.SetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG, Clipboard);
+            NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_USER_BUILDER, UserName);
+            NWDProjectPrefs.SetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, PanelWidth);
+            NWDProjectPrefs.SetBool(NWDConstants.K_EDITOR_SHOW_COMPILE, ShowCompile);
+            SetEditorBuildEnvironment(EditorBuildEnvironment);
+            SetEditorBuildRename(EditorBuildRename);
+            SetEditorBuildDatabaseUpdate(EditorBuildDatabaseUpdate);
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -127,7 +166,6 @@ namespace NetWorkedData
         public override void OnPreventGUI()
         {
             //NWEBenchmark.Start();
-
             NWDGUI.LoadStyles();
 
             NWDGUILayout.Title("Project preferences");
@@ -137,71 +175,32 @@ namespace NetWorkedData
 
             EditorGUI.BeginChangeCheck();
 
-            //General preferences
+            //User preferences
             NWDGUILayout.Section("User preferences");
-            bool tEDITOR_CLIPBOARD_LAST_LOG  = EditorGUILayout.ToggleLeft("Copy DebugLog In Clipoard", NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG));
-            string tEDITOR_USER_BUILDER = EditorGUILayout.TextField("User builder name", NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_USER_BUILDER, "(user)"));
-            int tEDITOR_PANEL_WIDTH = EditorGUILayout.IntSlider("Panel data width", NWDProjectPrefs.GetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, 320), 300, 400);
+            Clipboard = EditorGUILayout.ToggleLeft("Copy DebugLog In Clipoard", Clipboard);
+            UserName = EditorGUILayout.TextField("User builder name", UserName);
+            PanelWidth = EditorGUILayout.IntSlider("Panel data width", PanelWidth, 300, 400);
 
             //General preferences
             NWDGUILayout.Section("General preferences");
-           // NWDAppConfiguration.SharedInstance().EditorTableCommun = EditorGUILayout.Toggle("Table Pref commun", NWDAppConfiguration.SharedInstance().EditorTableCommun);
-
-            bool tEDITOR_SHOW_COMPILE = EditorGUILayout.Toggle("Show re-compile ", NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_SHOW_COMPILE));
-            //NWDAppConfiguration.SharedInstance().TintColor = EditorGUILayout.ColorField("Tint color ", NWDAppConfiguration.SharedInstance().TintColor);
-            //if (GUILayout.Button("Reset Tint color"))
-            //{
-            //    NWDAppConfiguration.SharedInstance().ResetTintColor();
-            //}
-            NWDGUILayout.Line();
-            if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
-            {
-                EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
-                if (GUILayout.Button(NWDConstants.K_APP_CLASS_SALT_REGENERATE))
-                {
-                    NWDEditorWindow.GenerateCSharpFile();
-                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-                }
-            }
-
+            ShowCompile = EditorGUILayout.Toggle("Show re-compile ", ShowCompile);
+          
             // build preference section
             NWDGUILayout.Section("Project build preferences");
             //define environment build
-            NWDEditorBuildEnvironment tNWDEditorBuildEnvironment = GetEditoBuildEnvironment();
-            tNWDEditorBuildEnvironment = (NWDEditorBuildEnvironment)EditorGUILayout.EnumPopup("Build Environment", tNWDEditorBuildEnvironment);
+            EditorBuildEnvironment = (NWDEditorBuildEnvironment)EditorGUILayout.EnumPopup("Build Environment", EditorBuildEnvironment);
             // define rename option
-            NWDEditorBuildRename tNWDEditorBuildRename = GetEditoBuildRename();
-            tNWDEditorBuildRename = (NWDEditorBuildRename)EditorGUILayout.EnumPopup("Build Rename", tNWDEditorBuildRename);
+            EditorBuildRename = (NWDEditorBuildRename)EditorGUILayout.EnumPopup("Build Rename", EditorBuildRename);
             // define update database
-            NWDEditorBuildDatabaseUpdate tNWDEditorBuildDatabaseUpdate = GetEditorBuildDatabaseUpdate();
-            tNWDEditorBuildDatabaseUpdate = (NWDEditorBuildDatabaseUpdate)EditorGUILayout.EnumPopup("Copy database in build", tNWDEditorBuildDatabaseUpdate);
+            EditorBuildDatabaseUpdate = (NWDEditorBuildDatabaseUpdate)EditorGUILayout.EnumPopup("Copy database in build", EditorBuildDatabaseUpdate);
 
-
-            if (EditorGUI.EndChangeCheck())
+            if (EditorGUI.EndChangeCheck() == true)
             {
-                NWDProjectPrefs.SetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG, tEDITOR_CLIPBOARD_LAST_LOG);
-                NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_USER_BUILDER, tEDITOR_USER_BUILDER);
-                NWDProjectPrefs.SetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, tEDITOR_PANEL_WIDTH);
-                NWDProjectPrefs.SetBool(NWDConstants.K_EDITOR_SHOW_COMPILE, tEDITOR_SHOW_COMPILE);
-                SetEditorBuildEnvironment(tNWDEditorBuildEnvironment);
-                SetEditorBuildRename(tNWDEditorBuildRename);
-                SetEditorBuildDatabaseUpdate(tNWDEditorBuildDatabaseUpdate);
+                Save();
             }
 
-                // end scroll
-                GUILayout.EndScrollView();
-
-            //NWDGUILayout.Line();
-            //GUILayout.Space(NWDGUI.kFieldMarge);
-            //NWDGUI.BeginRedArea();
-            //if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
-            //{
-            //    NWDEditorWindow.GenerateCSharpFile();
-            //    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-            //}
-            //NWDGUI.EndRedArea();
-            NWDGUILayout.BigSpace();
-            //NWEBenchmark.Finish();
+            // end scroll
+            GUILayout.EndScrollView();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

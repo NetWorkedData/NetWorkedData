@@ -24,6 +24,12 @@ namespace NetWorkedData
         public static string K_EDITOR_SHOW_COMPILE = "K_EDITOR_SHOW_COMPILE";
         public static string K_EDITOR_USER_BUILDER = "NWD_USER_BUILDER";
         public static string K_EDITOR_PANEL_WIDTH = "K_EDITOR_PANEL_WIDTH";
+
+        //-------------------------------------------------------------------------------------------------------------
+        public static string K_CREDENTIALS_PASSWORD = "PasswordKey_31564873413687653";
+        public static string K_CREDENTIALS_VECTOR = "VectorStringKey_79877414532159874";
+        public static string K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG = "ShowPasswordInLogKey_79585254215";
+        public static string K_CREDENTIALS_SAVE = "SaveCredentialsKey_7895452114789523654";
         //-------------------------------------------------------------------------------------------------------------
         public static string K_EDITOR_BUILD_ENVIRONMENT = "EditorBuildEnvironment";
         public static string K_EDITOR_BUILD_RENAME = "EditorBuildRename";

@@ -46,11 +46,6 @@ namespace NetWorkedData
         static public bool ShowPasswordInLog = false;
         static public bool SaveCredentials = false;
         //-------------------------------------------------------------------------------------------------------------
-        private const string PasswordKey = "PasswordKey_31564873413687653";
-        private const string VectorStringKey = "VectorStringKey_79877414532159874";
-        private const string ShowPasswordInLogKey = "ShowPasswordInLogKey_79585254215";
-        private const string SaveCredentialsKey = "SaveCredentialsKey_7895452114789523654";
-        //-------------------------------------------------------------------------------------------------------------
         public static bool Checked(NWDCredentialsRequired sCredentialsType)
         {
             bool rReturn = IsValid(sCredentialsType);
@@ -159,11 +154,8 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             TitleInit(NWDConstants.K_CREDENTIALS_CONFIGURATION_TITLE, typeof(NWDProjectCredentialsManager));
-            SaveCredentials = NWDProjectPrefs.GetBool(SaveCredentialsKey, false);
-            ShowPasswordInLog = NWDProjectPrefs.GetBool(ShowPasswordInLogKey, false);
-            Password = NWDProjectPrefs.GetString(PasswordKey, string.Empty);
-            VectorString = NWDProjectPrefs.GetString(VectorStringKey, string.Empty);
-
+            Load();
+            // get values
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -187,6 +179,46 @@ namespace NetWorkedData
         {
             Password = string.Empty;
             VectorString = string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Load()
+        {
+            //NWEBenchmark.Start();
+            // get values
+            SaveCredentials = NWDProjectPrefs.GetBool(NWDConstants.K_CREDENTIALS_SAVE, false);
+            ShowPasswordInLog = NWDProjectPrefs.GetBool(NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, false);
+            Password = NWDProjectPrefs.GetString(NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
+            VectorString = NWDProjectPrefs.GetString(NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Save()
+        {
+            //NWEBenchmark.Start();
+            // set values
+            NWDProjectPrefs.SetBool(NWDConstants.K_CREDENTIALS_SAVE, SaveCredentials);
+            if (SaveCredentials == true)
+            {
+                NWDProjectPrefs.SetBool(NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, ShowPasswordInLog);
+                NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_PASSWORD, Password);
+                NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_VECTOR, VectorString);
+            }
+            else
+            {
+                NWDProjectPrefs.SetBool(NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, false);
+                NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
+                NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
+            }
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void flush()
+        {
+            SaveCredentials = false;
+            ShowPasswordInLog = false;
+            Password = string.Empty;
+            VectorString = string.Empty;
+            Save();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -216,19 +248,7 @@ namespace NetWorkedData
             if (EditorGUI.EndChangeCheck())
             {
                 //Debug.Log("Change");
-                NWDProjectPrefs.SetBool(SaveCredentialsKey, SaveCredentials);
-                if (SaveCredentials == true)
-                {
-                    NWDProjectPrefs.SetBool(ShowPasswordInLogKey, ShowPasswordInLog);
-                    NWDProjectPrefs.SetString(PasswordKey, Password);
-                    NWDProjectPrefs.SetString(VectorStringKey, VectorString);
-                }
-                else
-                {
-                    NWDProjectPrefs.SetBool(ShowPasswordInLogKey, false);
-                    NWDProjectPrefs.SetString(PasswordKey, string.Empty);
-                    NWDProjectPrefs.SetString(VectorStringKey, string.Empty);
-                }
+                Save();
             }
 
             NWDGUILayout.Section("Actions");
@@ -246,18 +266,6 @@ namespace NetWorkedData
             // end scroll
             GUILayout.EndScrollView();
             //NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private void flush()
-        {
-            NWDProjectPrefs.SetBool(SaveCredentialsKey, false);
-            NWDProjectPrefs.SetBool(ShowPasswordInLogKey, false);
-            NWDProjectPrefs.SetString(PasswordKey, string.Empty);
-            NWDProjectPrefs.SetString(VectorStringKey, string.Empty);
-            Password = string.Empty;
-            VectorString = string.Empty;
-            ShowPasswordInLog = false;
-            SaveCredentials = false;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
