@@ -11,7 +11,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void UpdateVersionBundle()
         {
-            Debug.Log("NWDVersion UpdateVersionBundle()");
+            //Debug.Log("NWDVersion UpdateVersionBundle()");
             if (NWDAppConfiguration.SharedInstance().IsDevEnvironement() == false &&
                 NWDAppConfiguration.SharedInstance().IsPreprodEnvironement() == false &&
                 NWDAppConfiguration.SharedInstance().IsProdEnvironement() == false

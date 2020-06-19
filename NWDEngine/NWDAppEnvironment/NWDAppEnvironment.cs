@@ -144,7 +144,7 @@ namespace NetWorkedData
         public NWDWritingMode WritingModeWebService = NWDWritingMode.QueuedMainThread;
         public NWDWritingMode WritingModeEditor = NWDWritingMode.QueuedMainThread;
         //-------------------------------------------------------------------------------------------------------------
-        public string GetServerHTTPS()
+        public string GetServerDNS()
         {
             //string rReturn = ServerHTTPS;
             string rReturn = GetConfigurationServerHTTPS();
@@ -161,13 +161,33 @@ namespace NetWorkedData
                     rReturn = tServer.ServerDNS;
                 }
             }
+           return NWDToolbox.CleanDNS(rReturn);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetServerHTTPS()
+        {
+            //string rReturn = ServerHTTPS;
+            //string rReturn = GetConfigurationServerHTTPS();
+            //NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
+            //if (tAccountInfos != null)
+            //{
+            //    if (tAccountInfos.Server == null)
+            //    {
+            //        tAccountInfos.Server = new NWDReferenceType<NWDServerDomain>();
+            //    }
+            //    NWDServerDomain tServer = tAccountInfos.Server.GetReachableData();
+            //    if (tServer != null)
+            //    {
+            //        rReturn = tServer.ServerDNS;
+            //    }
+            //}
             if (AlwaysUseSSL == true)
             {
-                return "https://" + NWDToolbox.CleanDNS(rReturn);
+                return "https://" + GetServerDNS();
             }
             else
             {
-                return "http://" + NWDToolbox.CleanDNS(rReturn);
+                return "http://" + GetServerDNS();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -179,7 +199,14 @@ namespace NetWorkedData
             {
                 if (tDomain.ValidInEnvironment(this))
                 {
-                    rReturn = "https://" + NWDToolbox.CleanDNS(tDomain.ServerDNS);
+                    if (AlwaysUseSSL == true)
+                    {
+                        rReturn = "https://" + NWDToolbox.CleanDNS(tDomain.ServerDNS);
+                    }
+                    else
+                    {
+                        rReturn = "http://" + NWDToolbox.CleanDNS(tDomain.ServerDNS);
+                    }
                     break;
                 }
             }

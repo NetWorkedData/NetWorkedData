@@ -82,30 +82,39 @@ namespace NetWorkedData
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             this.minSize = new Vector2(300, 150);
             this.maxSize = new Vector2(300, 4096);
-            NWDGUILayout.Section("Mode bypass");
 
-            GUILayout.Label("In Dev");
-
-            EditorGUILayout.LabelField("DNS use", NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetServerHTTPS());
+            NWDGUILayout.Section("DNS bypass");
+            EditorGUILayout.LabelField("DNS use", NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetServerDNS());
             List<NWDServerDomain> tServerDNSList = NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetServerDNSList();
             List<string> tServerList = new List<string>();
             foreach (NWDServerDomain tDomain in tServerDNSList)
             {
                 tServerList.Add(tDomain.InternalKey);
             }
-            int tIndex = tServerDNSList.IndexOf(NWDAccountInfos.CurrentData().Server.GetReachableData());
+            //int tIndex = tServerDNSList.IndexOf(NWDAccountInfos.CurrentData().Server.GetReachableData());
+            int tIndex = tServerList.IndexOf(NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetServerDNS());
+            // If account not temporary DNS Can be bypassed
+            bool tDNSSelectable = NWDAccountInfos.CurrentData() == null;
+            EditorGUI.BeginDisabledGroup(tDNSSelectable);
             int tNewIndex = EditorGUILayout.Popup("DNS", tIndex, tServerList.ToArray());
             if (tNewIndex != tIndex)
             {
-                NWDAccountInfos.CurrentData().Server.SetData(tServerDNSList[tNewIndex]);
-                NWDAccountInfos.CurrentData().SaveData();
+                //if (tNewIndex<0)
+                //{
+                //    tNewIndex = 0;
+                //}
+                //Debug.Log("DNS Changed!");
+                //NWDAccountInfos.CurrentData().Server.SetData(tServerDNSList[tNewIndex]);
+                //NWDAccountInfos.CurrentData().SaveData();
             }
+            EditorGUI.EndDisabledGroup();
 
-            NWDCompileTypeBypass tByPass = (NWDCompileTypeBypass) EditorGUILayout.EnumPopup("ByPass mode", NWDLauncher.kByPass);
-            if (tByPass!= NWDLauncher.kByPass)
+            NWDGUILayout.Section("Compile bypass");
+            EditorGUILayout.LabelField("Compile use", NWDLauncher.CompileAs().ToString());
+            NWDCompileTypeBypass tByPass = (NWDCompileTypeBypass)EditorGUILayout.EnumPopup("ByPass mode", NWDLauncher.kByPass);
+            if (tByPass != NWDLauncher.kByPass)
             {
                 NWDLauncher.kByPass = tByPass;
-                // repaint all windows
                 NWDProjectConfigurationManager.Refresh();
                 NWDAppConfigurationManager.Refresh();
                 NWDAppEnvironmentConfigurationManager.Refresh();
@@ -113,11 +122,6 @@ namespace NetWorkedData
                 NWDAppEnvironmentSync.Refresh();
             }
 
-
-
-            EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.EnumPopup("Result mode", NWDLauncher.CompileAs());
-            EditorGUI.EndDisabledGroup();
             NWDGUILayout.Section("Environment");
             int tTabSelected = -1;
             if (NWDAppConfiguration.SharedInstance().DevEnvironment.Selected == true)
@@ -182,6 +186,15 @@ namespace NetWorkedData
             EditorGUILayout.LabelField("Secret Key editor", NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDeviceEditor(), EditorStyles.label);
             EditorGUILayout.LabelField("Secret Key player", NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevicePlayer(), EditorStyles.label);
             EditorGUILayout.LabelField("Account used", NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
+            if (NWDAccountInfos.CurrentData() != null)
+            {
+                EditorGUILayout.LabelField("Account Infos used", NWDAccountInfos.CurrentData().Reference);
+            }
+            else
+            {
+                EditorGUILayout.LabelField("Account Infos used", "ERROR NO ACCOUNT INFOS");
+            }
+
 
             if (NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference.Contains(NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE) == false)
             {
@@ -216,6 +229,20 @@ namespace NetWorkedData
                 }
                 NWDGUILayout.SubSection("Account informations");
                 string tAccountInfosReference = "?";
+
+                if (NWDAccountInfos.CurrentData() != null)
+                {
+                    EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_REFERENCE, NWDAccountInfos.CurrentData().Reference);
+                    if (GUILayout.Button(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_SELECT))
+                    {
+                        NWDDataInspector.InspectNetWorkedData(NWDAccountInfos.CurrentData(), true, true);
+                    }
+                }
+                else
+                {
+                    EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_REFERENCE, "ERROR NO ACCOUNT INFOS");
+                }
+
                 if (NWDBasisHelper.GetCorporateFirstData<NWDAccountInfos>(NWDAccount.CurrentReference(), null) != null)
                 {
                     NWDAccountInfos tAccountInfos = NWDBasisHelper.GetCorporateFirstData<NWDAccountInfos>(NWDAccount.CurrentReference(), null);
@@ -231,6 +258,9 @@ namespace NetWorkedData
                 {
                     EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_REFERENCE, "ERROR NO ACCOUNT INFOS");
                 }
+
+                
+
                 NWDGUILayout.SubSection("Gamse save informations");
                 string tGameSaveReference = "?";
                 if (NWDGameSave.SelectCurrentDataForAccount(tAccount.Reference) != null)
