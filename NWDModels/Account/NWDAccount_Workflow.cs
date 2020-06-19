@@ -195,7 +195,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string GetUniqueReferenceFromCurrentAccount<T>()
         {
-            return GetUniqueReference(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference, typeof(T));
+            return GetUniqueReference(NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetAccountReference(), typeof(T));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

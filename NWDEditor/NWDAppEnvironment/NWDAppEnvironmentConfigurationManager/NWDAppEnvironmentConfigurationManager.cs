@@ -78,6 +78,8 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDGUILayout.Title("Configuration environments");
+
+            NWDGUILayout.Section("Environments");
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
             {
                 EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);

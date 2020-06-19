@@ -30,13 +30,13 @@ namespace NetWorkedData
             //{
             //NWEBenchmark.Start();
             //}
-            if (string.IsNullOrEmpty(PlayerAccountReference))
+            if (string.IsNullOrEmpty(GetAccountReference()))
             {
-                PlayerAccountReference = NWDToolbox.GenerateUniqueAccountID(true);
+                SetAccountReference(NWDToolbox.GenerateUniqueAccountID(this, true));
             }
             else
             {
-                NWEPrefsManager.ShareInstance().set(Environment + kPlayerAccountReferenceKey, PlayerAccountReference);
+                NWEPrefsManager.ShareInstance().set(Environment + kPlayerAccountReferenceKey, GetAccountReference());
                 NWDBasisPreferences.SetString(kRequesTokenKey, this, RequesToken, false);
                 NWDDataManager.SharedInstance().DataQueueExecute();
             }
@@ -52,11 +52,11 @@ namespace NetWorkedData
             //{
             //    NWEBenchmark.Start();
             //}
-            PlayerAccountReference = NWEPrefsManager.ShareInstance().getString(Environment + kPlayerAccountReferenceKey);
+            SetAccountReference(NWEPrefsManager.ShareInstance().getString(Environment + kPlayerAccountReferenceKey));
             RequesToken = NWDBasisPreferences.GetString(kRequesTokenKey, this, string.Empty, false);
-            if (string.IsNullOrEmpty(PlayerAccountReference))
+            if (string.IsNullOrEmpty(GetAccountReference()))
             {
-                PlayerAccountReference = NWDToolbox.GenerateUniqueAccountID(true);
+                SetAccountReference(NWDToolbox.GenerateUniqueAccountID(this, true));
                 RequesToken = string.Empty;
                 SavePreferences();
             }
@@ -74,7 +74,7 @@ namespace NetWorkedData
             //}
             SavePreferences();
             NWDDataManager.SharedInstance().DataQueueExecute();
-            PlayerAccountReference = NWDToolbox.GenerateUniqueAccountID(withTemporaryAccount);
+            SetAccountReference(NWDToolbox.GenerateUniqueAccountID(this, withTemporaryAccount));
             RequesToken = string.Empty;
             SavePreferences();
             if (withTemporaryAccount == false)

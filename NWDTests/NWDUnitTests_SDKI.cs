@@ -44,7 +44,7 @@ namespace NetWorkedData
         public static string SetNewAccount()
         {
             string tNewAccount = NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM + NWEConstants.K_MINUS + "00000" + NWEConstants.K_MINUS + NWDToolbox.RandomStringNumeric(10) + NWEConstants.K_MINUS + NWDToolbox.RandomStringNumeric(7) + NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE;
-            NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference = tNewAccount;
+            NWDAppConfiguration.SharedInstance().SelectedEnvironment().SetAccountReference(tNewAccount);
             return tNewAccount;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -152,7 +152,7 @@ namespace NetWorkedData
         public static void ShowFakeDevice()
         {
             LogStep("ShowDevice()");
-            Log("Account : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
+            Log("Account : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetAccountReference());
             Log("WithSpecialSDKI : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetWithSpecialSDKI());
             Log("SecretKeyDevice SDKI : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevice());
             Log("SecretKeyDeviceEditor SDKI : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDeviceEditor());
@@ -163,19 +163,19 @@ namespace NetWorkedData
         {
             NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetPreferences(true);
             LogStep("TemporaryAccount()");
-            Log("Account : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
+            Log("Account : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetAccountReference());
             ShowFakeDevice();
-            return NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
+            return NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetAccountReference();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void RestaureAccount(string sAccount)
         {
-            NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference = sAccount;
+            NWDAppConfiguration.SharedInstance().SelectedEnvironment().SetAccountReference(sAccount);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string GetAccount()
         {
-            return NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
+            return NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetAccountReference();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

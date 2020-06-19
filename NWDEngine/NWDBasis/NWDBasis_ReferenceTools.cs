@@ -74,9 +74,10 @@ namespace NetWorkedData
         {
             string tUUID = NWEConstants.K_MINUS + sUUID;
             tUUID = tUUID.Replace(NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM, string.Empty);
-            //tUUID = tUUID.Replace(NWDAccount.K_ACCOUNT_SIGNED_SUFFIXE, string.Empty);
+            //tUUID = tUUID.Replace(NWDAccount.K_ACCOUNT_FROM_EDITOR, string.Empty); // Je ne remplace pas le E de l'accompte ... ainsi je verrai les References crée sur un compte Editor non vérifié
+            //tUUID = tUUID.Replace(NWDAccount.K_ACCOUNT_NEW_SUFFIXE, string.Empty); // Je ne remplace pas le Z de l'accompte ... ainsi je verrai les References crée sur un compte obligatoirement new non vérifié
             tUUID = tUUID.Replace(NWDAccount.K_ACCOUNT_CERTIFIED_SUFFIXE, string.Empty);
-            //tUUID = tUUID.Replace (NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE, string.Empty); // Je ne remplace pas le T de l'accompte ... ainsi je verrai les References crée sur un compte temporaire non vérifié
+            tUUID = tUUID.Replace(NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE, string.Empty);
             tUUID = tUUID.Replace(NWEConstants.K_MINUS, string.Empty);
             return tUUID;
         }
@@ -97,7 +98,7 @@ namespace NetWorkedData
             int tTime = NWDToolbox.Timestamp() - 1492711200; // je compte depuis le 20 avril 2017 à 18h00:00
             while (tValid == false)
             {
-                rReturn = BasisHelper().ClassTrigramme + NWEConstants.K_MINUS + sUUID + tTime.ToString() + NWEConstants.K_MINUS + UnityEngine.Random.Range(100, 999).ToString();
+                rReturn = /*BasisHelper().ClassTrigramme + NWEConstants.K_MINUS +*/ sUUID + tTime.ToString() + NWEConstants.K_MINUS + UnityEngine.Random.Range(100, 999).ToString();
                 tValid = TestReference(rReturn);
             }
             return rReturn;
@@ -109,7 +110,10 @@ namespace NetWorkedData
             bool tValid = false;
             while (tValid == false)
             {
-                rReturn = BasisHelper().ClassTrigramme + NWEConstants.K_SHORT_REFERENCE + UnityEngine.Random.Range(1111, 9999).ToString();
+                //rReturn = BasisHelper().ClassTrigramme + NWEConstants.K_SHORT_REFERENCE + UnityEngine.Random.Range(1111, 9999).ToString();
+
+                int tTime = NWDToolbox.Timestamp() - 1588636800; // je compte depuis le 5 mai 2020 à 00h00:00
+                rReturn = /*BasisHelper().ClassTrigramme + NWEConstants.K_MINUS +*/ tTime.ToString() + NWEConstants.K_MINUS + UnityEngine.Random.Range(111111, 999999).ToString();
                 tValid = TestReference(rReturn);
             }
             return rReturn;
@@ -160,62 +164,63 @@ namespace NetWorkedData
         public override string NewReference()
         {
             //if (AccountDependent() == true)
-                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
-                {
+            if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+            {
                 return NewReferenceFromUUID(NWDAccount.CurrentReference());
             }
             else
             {
-                return NewReferenceFromUUID(string.Empty);
+                //return NewReferenceFromUUID(string.Empty);
+                return NewShortReference();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Regenerates the reference.
         /// </summary>
-//        public void RegenerateNewReference(bool sShort = false)
-//        {
-//#if UNITY_EDITOR
-//            //TODO : dupplicate if synchronized and trash old data!
-//            //DuplicateData();
-//            string tOldReference = Reference;
-//            string tNewReference = NewReference();
-//            if (sShort == true)
-//            {
-//                tNewReference = NewShortReference();
-//            }
-//            NWDDataManager.SharedInstance().DataQueueExecute();
-//            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
-//            {
-//                NWDBasisHelper basisHelper = NWDBasisHelper.FindTypeInfos(tType);
-//                basisHelper.LoadFromDatabase(string.Empty, true);
-//                basisHelper.ChangeReferenceForAnotherInAllObjects(tOldReference, tNewReference);
-//            }
-//            Reference = tNewReference;
-//            UpdateData();
-//            BasisHelper().LoadFromDatabase(string.Empty, true);
-//            //BasisHelper().SortEditorTableDatas();
-//            BasisHelper().RestaureDataInEditionByReference(tNewReference);
-//            NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+        //        public void RegenerateNewReference(bool sShort = false)
+        //        {
+        //#if UNITY_EDITOR
+        //            //TODO : dupplicate if synchronized and trash old data!
+        //            //DuplicateData();
+        //            string tOldReference = Reference;
+        //            string tNewReference = NewReference();
+        //            if (sShort == true)
+        //            {
+        //                tNewReference = NewShortReference();
+        //            }
+        //            NWDDataManager.SharedInstance().DataQueueExecute();
+        //            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+        //            {
+        //                NWDBasisHelper basisHelper = NWDBasisHelper.FindTypeInfos(tType);
+        //                basisHelper.LoadFromDatabase(string.Empty, true);
+        //                basisHelper.ChangeReferenceForAnotherInAllObjects(tOldReference, tNewReference);
+        //            }
+        //            Reference = tNewReference;
+        //            UpdateData();
+        //            BasisHelper().LoadFromDatabase(string.Empty, true);
+        //            //BasisHelper().SortEditorTableDatas();
+        //            BasisHelper().RestaureDataInEditionByReference(tNewReference);
+        //            NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
 
-//            if (BasisHelper().ConnexionType != null)
-//            {
-//                UnityEngine.Object[] tAllObjects = Resources.FindObjectsOfTypeAll(BasisHelper().ConnexionType);
-//                foreach (UnityEngine.Object tObject in tAllObjects)
-//                {
-//                    Debug.Log("tObject find for connexion with " + BasisHelper().ClassNamePHP + " with path ....");
-//                    // TODO : find solution to change the serialization connection
-//                }
-//            }
-//#endif
-//        }
-//        //-------------------------------------------------------------------------------------------------------------
-//        public void RegenerateNewShortReference()
-//        {
-//#if UNITY_EDITOR
-//            RegenerateNewReference(true);
-//#endif
-//        }
+        //            if (BasisHelper().ConnexionType != null)
+        //            {
+        //                UnityEngine.Object[] tAllObjects = Resources.FindObjectsOfTypeAll(BasisHelper().ConnexionType);
+        //                foreach (UnityEngine.Object tObject in tAllObjects)
+        //                {
+        //                    Debug.Log("tObject find for connexion with " + BasisHelper().ClassNamePHP + " with path ....");
+        //                    // TODO : find solution to change the serialization connection
+        //                }
+        //            }
+        //#endif
+        //        }
+        //        //-------------------------------------------------------------------------------------------------------------
+        //        public void RegenerateNewShortReference()
+        //        {
+        //#if UNITY_EDITOR
+        //            RegenerateNewReference(true);
+        //#endif
+        //        }
         //-------------------------------------------------------------------------------------------------------------
         // TODO : rename ... yhaht change refertence in properties not the object reference!
         public override void ChangeReferenceForAnother(string sOldReference, string sNewReference)

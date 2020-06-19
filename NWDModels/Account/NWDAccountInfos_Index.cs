@@ -15,29 +15,51 @@ namespace NetWorkedData
     public partial class NWDAccountInfos : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
+        static private NWDAccountInfos kAccountInfos;
+        //-------------------------------------------------------------------------------------------------------------
+        public static void ResetCurrentData()
+        {
+            kAccountInfos = null;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Get the current account infos instance for the current account
         /// </summary>
         /// <returns></returns>
         public static NWDAccountInfos CurrentData()
         {
-            //Debug.Log("<color=red> ###### I NEED THE CURRENT DATA </color>");
+            //NWEBenchmark.Start();
             NWDAccountInfos tInfos = null;
-            if (NWDBasisHelper.FindTypeInfos(typeof(NWDAccountInfos)).IsLoaded())
+            if (kAccountInfos == null)
             {
-                string tUniqueReference = NWDAccount.GetUniqueReferenceFromCurrentAccount<NWDAccountInfos>();
-                tInfos = NWDBasisHelper.GetRawDataByReference<NWDAccountInfos>(tUniqueReference);
-                if (tInfos == null && string.IsNullOrEmpty(tUniqueReference) == false)
+                //Debug.Log("<color=red> ###### I NEED THE CURRENT DATA </color>");
+                //NWEBenchmark.Step();
+                if (NWDLauncher.GetState() == NWDStatut.NetWorkedDataReady)
+                //if (NWDBasisHelper.FindTypeInfos(typeof(NWDAccountInfos)).IsLoaded())
                 {
-                    tInfos = NWDBasisHelper.NewDataWithReference<NWDAccountInfos>(tUniqueReference);
-                    tInfos.SaveData();
+                    string tUniqueReference = NWDAccount.GetUniqueReferenceFromCurrentAccount<NWDAccountInfos>();
+                    tInfos = NWDBasisHelper.GetRawDataByReference<NWDAccountInfos>(tUniqueReference);
+                    //NWEBenchmark.Step();
+                    if (tInfos == null && string.IsNullOrEmpty(tUniqueReference) == false)
+                    {
+                        tInfos = NWDBasisHelper.NewDataWithReference<NWDAccountInfos>(tUniqueReference);
+                        tInfos.SaveData();
+                    }
+                    //NWEBenchmark.Step();
+                    //Debug.Log("<color=red> ###### I NEED THE CURRENT DATA  I RETURN " + tUniqueReference + "</color>");
+                    kAccountInfos = tInfos;
                 }
-                //Debug.Log("<color=red> ###### I NEED THE CURRENT DATA  I RETURN " + tUniqueReference + "</color>");
             }
+            else
+            {
+                tInfos = kAccountInfos;
+            }
+            //NWEBenchmark.Step();
+            //NWEBenchmark.Finish();
             return tInfos;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountInfos CurrentDataForAccount( string sAccountReference)
+        public static NWDAccountInfos CurrentDataForAccount(string sAccountReference)
         {
             NWDAccountInfos tInfos = null;
             if (NWDBasisHelper.FindTypeInfos(typeof(NWDAccountInfos)).IsLoaded())

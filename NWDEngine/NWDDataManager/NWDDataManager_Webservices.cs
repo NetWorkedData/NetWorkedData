@@ -396,7 +396,7 @@ namespace NetWorkedData
                 NWDBasisHelper.FindTypeInfos(tType).TryToChangeUserForAllObjects(sOldAccountReference, sNewAccountReference);
             }
             NWDDataManager.SharedInstance().DataQueueExecute();
-            sEnvironment.PlayerAccountReference = sNewAccountReference;
+            sEnvironment.SetAccountReference(sNewAccountReference);
             SavePreferences(sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------

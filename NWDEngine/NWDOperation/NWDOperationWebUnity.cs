@@ -521,7 +521,7 @@ namespace NetWorkedData
                                             }
                                             if (!ResultInfos.uuid.Equals(string.Empty))
                                             {
-                                                Environment.PlayerAccountReference = ResultInfos.uuid;
+                                                Environment.SetAccountReference(ResultInfos.uuid);
                                             }
 
                                             //NWEBenchmark.Step(tBenchmark);
@@ -674,7 +674,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDOperationWebUnity InsertHeaderInRequest()");
             HeaderParams.Clear();
-            UUID = Environment.PlayerAccountReference;
+            UUID = Environment.GetAccountReference();
             if (SecureData)
             {
                 HeaderParams.Add(NWEUnityWebService.SecureKey, NWEUnityWebService.SecureDigestKey);

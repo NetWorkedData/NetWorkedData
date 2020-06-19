@@ -344,7 +344,7 @@ namespace NetWorkedData
             //TextAccount.text = tApp.PlayerAccountReference + "\n" + tApp.PlayerStatut + "\n(" + tActiveUser.FirstName + " " + tActiveUser.LastName + ")";
             //TextAccount.text = tApp.PlayerAccountReference + "\n" + tActiveUser.AccountType + "\n(" + tActiveUser.FirstName + " " + tActiveUser.LastName + ")";
             //TextAccount.text = tApp.PlayerAccountReference + "\n" + tActiveUser.AccountType + "\n";
-            TextAccount.text = tApp.PlayerAccountReference;
+            TextAccount.text = tApp.GetAccountReference();
 
             TextToken.text = tApp.RequesToken;
             //TextAnonymousAccount.text = tApp.AnonymousPlayerAccountReference;
@@ -436,7 +436,7 @@ namespace NetWorkedData
         {
 #if UNITY_EDITOR
             EditorWindow tEditorWindow = EditorWindow.focusedWindow;
-            string tAccountReference = NWDAppEnvironment.SelectedEnvironment().PlayerAccountReference;
+            string tAccountReference = NWDAppEnvironment.SelectedEnvironment().GetAccountReference();
             //Debug.Log("tAccountReference = " + tAccountReference);
             NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(tAccountReference);
             NWDBasisHelper.BasisHelper<NWDAccount>().SetObjectInEdition(tAccount);

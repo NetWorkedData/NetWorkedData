@@ -33,18 +33,18 @@ namespace NetWorkedData
                 {
                     case NWDCompileType.Editor:
                         {
-                            //tAccountReference = NWDCompileType.Editor.ToString() + NWDConstants.kFieldSeparatorA + sEnvironment.PlayerAccountReference;
+                            //tAccountReference = NWDCompileType.Editor.ToString() + NWDConstants.kFieldSeparatorA + sEnvironment.GetAccountReference();
                             tAccountReference = NWDCompileType.Editor.ToString();
                         }
                         break;
                     case NWDCompileType.PlayMode:
                         {
-                            tAccountReference = NWDCompileType.PlayMode.ToString() + NWDConstants.kFieldSeparatorA + sEnvironment.PlayerAccountReference;
+                            tAccountReference = NWDCompileType.PlayMode.ToString() + NWDConstants.kFieldSeparatorA + sEnvironment.GetAccountReference();
                         }
                         break;
                     case NWDCompileType.Runtime:
                         {
-                            tAccountReference = NWDCompileType.Runtime.ToString() + NWDConstants.kFieldSeparatorA + sEnvironment.PlayerAccountReference;
+                            tAccountReference = NWDCompileType.Runtime.ToString() + NWDConstants.kFieldSeparatorA + sEnvironment.GetAccountReference();
                         }
                         break;
                 }

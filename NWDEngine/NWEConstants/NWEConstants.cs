@@ -27,7 +27,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public const string K_EMPTY_STRING = "";
         public const string K_MINUS = "-";
-        public const string K_SHORT_REFERENCE = "=";
         public const string K_HASHTAG = "#";
         public const string K_A = "A";
         //-------------------------------------------------------------------------------------------------------------

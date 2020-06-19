@@ -413,7 +413,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string AplhaNumericToNumeric(string sString)
         {
-          string rReturn  = AplhaNumericToNumericRgx.Replace(sString, string.Empty).ToUpper();
+            string rReturn = AplhaNumericToNumericRgx.Replace(sString, string.Empty).ToUpper();
             rReturn = rReturn.Replace("A", "1");
             rReturn = rReturn.Replace("B", "2");
             rReturn = rReturn.Replace("C", "7");
@@ -631,13 +631,13 @@ namespace NetWorkedData
         /// <summary>
         /// Generate unique Temporary USER ID for the device or the editor. Limit creation of account infos in editor
         /// </summary>
-        public static string GenerateUniqueAccountID(bool isTemporaryAccount = true)
+        public static string GenerateUniqueAccountID(NWDAppEnvironment sAppEnvironment, bool isTemporaryAccount = true)
         {
             string rReturn = string.Empty;
             int tUnixCurrentTime = Timestamp();
             int tTime = tUnixCurrentTime - 1492710000;
             // remove random temporary
-            
+
             //rReturn = NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).ClassTrigramme + NWEConstants.K_MINUS + UnityEngine.Random.Range(000, 999).ToString("000") + NWEConstants.K_MINUS + tTime.ToString() + NWEConstants.K_MINUS + UnityEngine.Random.Range(1000000, 9999999).ToString();
 
             // use Device ID
@@ -649,19 +649,19 @@ namespace NetWorkedData
                 case NWDCompileType.Editor:
                     {
                         tReferenceMiddle += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("e5" + SystemInfo.deviceUniqueIdentifier + "7ve").ToUpper().Substring(0, 9)); ;
-                        tReferenceEnd += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("7v5" + SystemInfo.deviceUniqueIdentifier + "8m7").ToUpper().Substring(0, 6));
+                        tReferenceEnd += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("7v5" + sAppEnvironment.Environment + "8m7").ToUpper().Substring(0, 6));
                     }
                     break;
                 case NWDCompileType.PlayMode:
                     {
                         tReferenceMiddle += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("475" + SystemInfo.deviceUniqueIdentifier + "7u7").ToUpper().Substring(0, 9));
-                        tReferenceEnd += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("4r8" + SystemInfo.deviceUniqueIdentifier + "6r8").ToUpper().Substring(0, 6));
+                        tReferenceEnd += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("4r8" + sAppEnvironment.Environment + "6r8").ToUpper().Substring(0, 6));
                     }
                     break;
                 case NWDCompileType.Runtime:
                     {
                         tReferenceMiddle += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("4l5" + SystemInfo.deviceUniqueIdentifier + "7t6").ToUpper().Substring(0, 9));
-                        tReferenceEnd += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("1h5" + SystemInfo.deviceUniqueIdentifier + "4s5").ToUpper().Substring(0, 6));
+                        tReferenceEnd += AplhaNumericToNumeric(NWESecurityTools.GenerateSha("1h5" + sAppEnvironment.Environment + "4s5").ToUpper().Substring(0, 6));
                     }
                     break;
             }

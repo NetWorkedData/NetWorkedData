@@ -205,7 +205,7 @@ namespace NetWorkedData
                 if (sState == NWDMessageState.OK)
                 {
                     //UnityEngine.Debug.Log("FakeAccount() close with NWDMessageState.OK");
-                    NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference = NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM + "-1234-" + NWDToolbox.RandomStringNumeric(8) + "-" + NWDToolbox.RandomStringNumeric(6) + "C";
+                    NWDAppConfiguration.SharedInstance().SelectedEnvironment().SetAccountReference(NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM + "-1234-" + NWDToolbox.RandomStringNumeric(8) + "-" + NWDToolbox.RandomStringNumeric(6) + "C");
                 }
                 else if (sState == NWDMessageState.NOK)
                 {

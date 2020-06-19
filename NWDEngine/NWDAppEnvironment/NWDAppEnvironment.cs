@@ -47,7 +47,21 @@ namespace NetWorkedData
         public string Environment = NWDConstants.K_PRODUCTION_NAME;
         //-------------------------------------------------------------------------------------------------------------
         //public NWDAppEnvironmentPlayerStatut PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
-        public string PlayerAccountReference = string.Empty;
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetAccountReference()
+        {
+            return AccountReference;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetAccountReference(string sPlayerAccountReference)
+        {
+            AccountReference = sPlayerAccountReference;
+            NWDAccountInfos.ResetCurrentData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private string AccountReference = string.Empty;
+        //private NWDAccountInfos PlayerInfos = null;
+
         public string RequesToken = string.Empty;
         public Dictionary<long, string> RuntimeDefineDictionary = new Dictionary<long, string>();
         // for debug anti-crack
@@ -146,6 +160,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string GetServerDNS()
         {
+            //NWEBenchmark.Start();
             //string rReturn = ServerHTTPS;
             string rReturn = GetConfigurationServerHTTPS();
             NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
@@ -161,7 +176,9 @@ namespace NetWorkedData
                     rReturn = tServer.ServerDNS;
                 }
             }
-           return NWDToolbox.CleanDNS(rReturn);
+            rReturn = NWDToolbox.CleanDNS(rReturn);
+            //NWEBenchmark.Finish();
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public string GetServerHTTPS()
@@ -231,7 +248,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDAppEnvironment()
         {
-            PlayerAccountReference = NWDToolbox.GenerateUniqueAccountID();
+            //SetAccountReference(NWDToolbox.GenerateUniqueAccountID(this));
             FormatVerification();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -272,7 +289,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool CurrentAccountIsCertified()
         {
-            return NWDAccount.AccountIsCertified(PlayerAccountReference);
+            return NWDAccount.AccountIsCertified(GetAccountReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         public void CleanSecretKeyDevice()

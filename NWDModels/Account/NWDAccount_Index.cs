@@ -18,7 +18,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string CurrentReference()
         {
-            return NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
+            return NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetAccountReference();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

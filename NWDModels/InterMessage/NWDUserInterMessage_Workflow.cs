@@ -106,7 +106,7 @@ namespace NetWorkedData
             NWDUserInterMessage rInterMessage = NWDBasisHelper.NewData<NWDUserInterMessage>();
 
             // Set Sender
-            string tPublisher = NWDAppEnvironment.SelectedEnvironment().PlayerAccountReference;
+            string tPublisher = NWDAppEnvironment.SelectedEnvironment().GetAccountReference();
             rInterMessage.Sender.SetReference(tPublisher);
             rInterMessage.PublicationDate.SetDateTime(DateTime.Now.AddSeconds(sPushDelayInSeconds));
 

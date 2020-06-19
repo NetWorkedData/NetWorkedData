@@ -311,12 +311,15 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RecalculMe()
         {
-            if (ItemDescription.GetRawData() != null)
+            if (ItemDescription != null)
             {
-                NWDItem tItem = ItemDescription.GetRawData();
-                tItem.CraftBookAttachment.SetData(this);
-                tItem.InternalKey = "Recipe - " + tItem.InternalKey.Replace("Recipe - ", string.Empty);
-                tItem.UpdateDataIfModified();
+                if (ItemDescription.GetRawData() != null)
+                {
+                    NWDItem tItem = ItemDescription.GetRawData();
+                    tItem.CraftBookAttachment.SetData(this);
+                    tItem.InternalKey = "Recipe - " + tItem.InternalKey.Replace("Recipe - ", string.Empty);
+                    tItem.UpdateDataIfModified();
+                }
             }
             if (RecipientGroup == null)
             {
@@ -347,7 +350,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             // TODO recalculate all sign possibilities
             // I need test all possibilities .. I use an Hack : if ordered == false I sort by Name before
-           RecalculMe();
+            RecalculMe();
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
