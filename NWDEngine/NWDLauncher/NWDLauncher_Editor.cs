@@ -357,7 +357,7 @@ namespace NetWorkedData
                 NWEBenchmark.Finish();
             }
 #if UNITY_EDITOR
-            NWDEditorConfigurationManager.Refresh();
+            NWDProjectConfigurationManager.Refresh();
             NWDAppConfigurationManager.Refresh();
             NWDAppEnvironmentConfigurationManager.Refresh();
             NWDModelManager.Refresh();

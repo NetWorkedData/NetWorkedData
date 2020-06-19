@@ -370,7 +370,8 @@ namespace NetWorkedData
         public static void LoadColor()
         {
 
-            Color tBaseColor = NWDAppConfiguration.SharedInstance().TintColor;
+            //Color tBaseColor = NWDAppConfiguration.SharedInstance().TintColor;
+            Color tBaseColor = NWDToolbox.Color255(25, 20, 34, 255);
 
             //Color tBaseColor = NWDToolbox.Color255(25, 20, 34, 255);
             Color tRedColor = NWDToolbox.ColorPercent(tBaseColor, 4F, 2F, 4F);

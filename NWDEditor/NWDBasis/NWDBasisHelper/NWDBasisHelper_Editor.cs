@@ -68,35 +68,35 @@ namespace NetWorkedData
         public void LoadEditorPrefererences()
         {
             //Debug.Log("LoadEditorPrefererences()");
-            RowZoom = NWDEditorPrefs.GetFloat(ActionsPrefkey(() => RowZoom), 1.0F);
+            RowZoom = NWDProjectPrefs.GetFloat(ActionsPrefkey(() => RowZoom), 1.0F);
 
-            m_ShowEnable = NWDEditorPrefs.GetBool(ActionsPrefkey(() => m_ShowEnable), true);
-            m_ShowDisable = NWDEditorPrefs.GetBool(ActionsPrefkey(() => m_ShowDisable), true);
-            m_ShowTrashed = NWDEditorPrefs.GetBool(ActionsPrefkey(() => m_ShowTrashed), true);
-            m_ShowIntegrityError = NWDEditorPrefs.GetBool(ActionsPrefkey(() => m_ShowIntegrityError), true);
-            m_ItemPerPageSelection = NWDEditorPrefs.GetInt(ActionsPrefkey(() => m_ItemPerPageSelection), 1);
+            m_ShowEnable = NWDProjectPrefs.GetBool(ActionsPrefkey(() => m_ShowEnable), true);
+            m_ShowDisable = NWDProjectPrefs.GetBool(ActionsPrefkey(() => m_ShowDisable), true);
+            m_ShowTrashed = NWDProjectPrefs.GetBool(ActionsPrefkey(() => m_ShowTrashed), true);
+            m_ShowIntegrityError = NWDProjectPrefs.GetBool(ActionsPrefkey(() => m_ShowIntegrityError), true);
+            m_ItemPerPageSelection = NWDProjectPrefs.GetInt(ActionsPrefkey(() => m_ItemPerPageSelection), 1);
 
 
-            RowActions = NWDEditorPrefs.GetBool(ActionsPrefkey(() => RowActions), true);
-            TableActions = NWDEditorPrefs.GetBool(ActionsPrefkey(() => TableActions), true);
-            SearchActions = NWDEditorPrefs.GetBool(ActionsPrefkey(() => SearchActions), true);
-            InspectorActions = NWDEditorPrefs.GetBool(ActionsPrefkey(() => InspectorActions), true);
+            RowActions = NWDProjectPrefs.GetBool(ActionsPrefkey(() => RowActions), true);
+            TableActions = NWDProjectPrefs.GetBool(ActionsPrefkey(() => TableActions), true);
+            SearchActions = NWDProjectPrefs.GetBool(ActionsPrefkey(() => SearchActions), true);
+            InspectorActions = NWDProjectPrefs.GetBool(ActionsPrefkey(() => InspectorActions), true);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SaveEditorPrefererences()
         {
-            NWDEditorPrefs.SetFloat(ActionsPrefkey(() => RowZoom), RowZoom);
+            NWDProjectPrefs.SetFloat(ActionsPrefkey(() => RowZoom), RowZoom);
 
-            NWDEditorPrefs.SetBool(ActionsPrefkey(() => m_ShowEnable), m_ShowEnable);
-            NWDEditorPrefs.SetBool(ActionsPrefkey(() => m_ShowDisable), m_ShowDisable);
-            NWDEditorPrefs.SetBool(ActionsPrefkey(() => m_ShowTrashed), m_ShowTrashed);
-            NWDEditorPrefs.SetBool(ActionsPrefkey(() => m_ShowIntegrityError), m_ShowIntegrityError);
-            NWDEditorPrefs.SetInt(ActionsPrefkey(() => m_ItemPerPageSelection), m_ItemPerPageSelection);
+            NWDProjectPrefs.SetBool(ActionsPrefkey(() => m_ShowEnable), m_ShowEnable);
+            NWDProjectPrefs.SetBool(ActionsPrefkey(() => m_ShowDisable), m_ShowDisable);
+            NWDProjectPrefs.SetBool(ActionsPrefkey(() => m_ShowTrashed), m_ShowTrashed);
+            NWDProjectPrefs.SetBool(ActionsPrefkey(() => m_ShowIntegrityError), m_ShowIntegrityError);
+            NWDProjectPrefs.SetInt(ActionsPrefkey(() => m_ItemPerPageSelection), m_ItemPerPageSelection);
 
-            NWDEditorPrefs.SetBool(ActionsPrefkey(() => RowActions), RowActions);
-            NWDEditorPrefs.SetBool(ActionsPrefkey(() => SearchActions), SearchActions);
-            NWDEditorPrefs.SetBool(ActionsPrefkey(() => TableActions), TableActions);
-            NWDEditorPrefs.SetBool(ActionsPrefkey(() => InspectorActions), InspectorActions);
+            NWDProjectPrefs.SetBool(ActionsPrefkey(() => RowActions), RowActions);
+            NWDProjectPrefs.SetBool(ActionsPrefkey(() => SearchActions), SearchActions);
+            NWDProjectPrefs.SetBool(ActionsPrefkey(() => TableActions), TableActions);
+            NWDProjectPrefs.SetBool(ActionsPrefkey(() => InspectorActions), InspectorActions);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string ActionsPrefkey<T>(Expression<Func<T>> sProperty)
@@ -341,7 +341,7 @@ namespace NetWorkedData
                     tData.AnalyzeData();
                 }
                 RowAnalyzed = true;
-                SortType = (NWDBasisEditorDatasSortType)NWDEditorPrefs.GetInt(ClassNamePHP + "_SortEditor");
+                SortType = (NWDBasisEditorDatasSortType)NWDProjectPrefs.GetInt(ClassNamePHP + "_SortEditor");
                 SortEditorTableDatas();
             }
             //NWEBenchmark.Finish();
@@ -354,7 +354,7 @@ namespace NetWorkedData
             // first sort to order result constant
             //EditorTableDatas.Sort((x, y) => x.AnalyzeID.CompareTo(y.AnalyzeID));
             // reccord the new pref!
-            NWDEditorPrefs.SetInt(ClassNamePHP + "_SortEditor", (int)SortType);
+            NWDProjectPrefs.SetInt(ClassNamePHP + "_SortEditor", (int)SortType);
             // procced!
             switch (SortType)
             {

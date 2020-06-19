@@ -118,6 +118,38 @@ namespace NetWorkedData
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             // start interface
 
+
+            // Data tag
+            float tMinWidht = 270.0F;
+            int tColum = 1;
+            NWDGUILayout.Section("Datas Tags");
+            NWDGUILayout.Informations("Some informations about tags!");
+            if (tColum > 1)
+            {
+                EditorGUILayout.BeginHorizontal();
+            }
+            EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
+            NWDAppConfiguration.SharedInstance().TagList[-1] = "No Tag";
+            Dictionary<int, string> tTagList = new Dictionary<int, string>(NWDAppConfiguration.SharedInstance().TagList);
+            for (int tI = -1; tI <= NWDAppConfiguration.SharedInstance().TagNumber; tI++)
+            {
+                if (NWDAppConfiguration.SharedInstance().TagList.ContainsKey(tI) == false)
+                {
+                    NWDAppConfiguration.SharedInstance().TagList.Add(tI, "tag " + tI.ToString());
+                }
+                EditorGUI.BeginDisabledGroup(tI < 0 || tI > NWDAppConfiguration.SharedInstance().TagNumberUser);
+                string tV = EditorGUILayout.TextField("tag " + tI.ToString(), NWDAppConfiguration.SharedInstance().TagList[tI]);
+                tTagList[tI] = tV.Replace("\"", "`");
+                EditorGUI.EndDisabledGroup();
+            }
+            NWDAppConfiguration.SharedInstance().TagList = tTagList;
+            EditorGUILayout.EndVertical();
+            if (tColum > 1)
+            {
+                EditorGUILayout.EndHorizontal();
+            }
+
+
             NWDGUILayout.Section("Cache on compile");
             NWDGUILayout.SubSection("Override max methods in cache");
             NWDAppConfiguration.SharedInstance().OverrideCacheMethodEverywhere = EditorGUILayout.Toggle("Override All", NWDAppConfiguration.SharedInstance().OverrideCacheMethodEverywhere);

@@ -97,8 +97,8 @@ namespace NetWorkedData
         [Obsolete]
         public bool EditorTableCommun = true; // 
 
-        public bool ShowCompile = true; //TODO param in config editor extension...
-        public Color TintColor;
+        //public bool ShowCompile = true; //TODO param in config editor extension...
+        //public Color TintColor;
 
         public int LauncherClassEditorStep = 0;
         public int LauncherClassAccountStep = 0;
@@ -131,10 +131,10 @@ namespace NetWorkedData
             Install();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ResetTintColor()
-        {
-            TintColor = NWDToolbox.Color255(25, 20, 34, 255);
-        }
+        //public void ResetTintColor()
+        //{
+        //    TintColor = NWDToolbox.Color255(25, 20, 34, 255);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void Install()
         {
@@ -142,7 +142,7 @@ namespace NetWorkedData
             DevEnvironment = new NWDAppEnvironment(NWDConstants.K_DEVELOPMENT_NAME, false);
             PreprodEnvironment = new NWDAppEnvironment(NWDConstants.K_PREPRODUCTION_NAME, false);
             ProdEnvironment = new NWDAppEnvironment(NWDConstants.K_PRODUCTION_NAME, false);
-            ResetTintColor();
+            //ResetTintColor();
             // REMOVED : Change to remove invoke!
             Type tType = this.GetType();
             //var tMethodInfo = tType.GetMethod("RestaureConfigurations", BindingFlags.Instance | BindingFlags.Public);
@@ -179,7 +179,7 @@ namespace NetWorkedData
             this.PreprodEnvironment.Selected = false;
             this.DevEnvironment.Selected = false;
             // We restaured environement selected in the preference and override the configurations file
-            int tEnvironmentSelected = NWDEditorPrefs.GetInt(kEnvironmentSelectedKey);
+            int tEnvironmentSelected = NWDProjectPrefs.GetInt(kEnvironmentSelectedKey);
             switch (tEnvironmentSelected)
             {
                 case 1:

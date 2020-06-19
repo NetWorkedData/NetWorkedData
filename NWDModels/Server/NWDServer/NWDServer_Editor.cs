@@ -90,7 +90,7 @@ namespace NetWorkedData
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
 
-            if (NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
+            if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
             {
                 // find ip of server by dns if associated
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(DomainNameServer) == true);
@@ -536,7 +536,7 @@ namespace NetWorkedData
             {
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Need credentials for actions"))
                 {
-                    NWDEditorCredentialsManager.SharedInstanceFocus();
+                    NWDProjectCredentialsManager.SharedInstanceFocus();
                 }
             }
         }

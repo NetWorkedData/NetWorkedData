@@ -106,7 +106,7 @@ namespace NetWorkedData
             {
                 NWDLauncher.kByPass = tByPass;
                 // repaint all windows
-                NWDEditorConfigurationManager.Refresh();
+                NWDProjectConfigurationManager.Refresh();
                 NWDAppConfigurationManager.Refresh();
                 NWDAppEnvironmentConfigurationManager.Refresh();
                 NWDModelManager.Refresh();
@@ -141,7 +141,7 @@ namespace NetWorkedData
             if (tTabSelect != tTabSelected)
             {
                 GUI.FocusControl(null);
-                NWDEditorPrefs.SetInt(NWDAppConfiguration.kEnvironmentSelectedKey, tTabSelect);
+                NWDProjectPrefs.SetInt(NWDAppConfiguration.kEnvironmentSelectedKey, tTabSelect);
                 switch (tTabSelect)
                 {
                     case 0:

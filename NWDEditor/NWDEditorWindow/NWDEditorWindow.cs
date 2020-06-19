@@ -100,7 +100,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void GenerateCSharpFile()
         {
-            if (NWDAppConfiguration.SharedInstance().ShowCompile == true)
+            if (NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_SHOW_COMPILE, true) == true)
             {
                 foreach (NWDEditorWindow tWindow in AllWindowsList)
                 {
@@ -165,11 +165,13 @@ namespace NetWorkedData
                 GUILayout.Label(IconAndTitleCompile, NWDGUI.kIconCenterStyle);
                 GUILayout.FlexibleSpace();
                 GUILayout.EndHorizontal();
-                GUILayout.BeginHorizontal();
-                GUILayout.FlexibleSpace();
-                GUILayout.Label("NeWeeDy!");
-                GUILayout.FlexibleSpace();
-                GUILayout.EndHorizontal();
+
+                //GUILayout.BeginHorizontal();
+                //GUILayout.FlexibleSpace();
+                //GUILayout.Label("NeWeeDy!");
+                //GUILayout.FlexibleSpace();
+                //GUILayout.EndHorizontal();
+
                 GUILayout.Space(10.0F);
                 GUILayout.BeginHorizontal();
                 GUILayout.FlexibleSpace();

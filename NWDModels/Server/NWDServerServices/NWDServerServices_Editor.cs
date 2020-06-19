@@ -36,16 +36,16 @@ namespace NetWorkedData
             int tI = 0;
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
-            if (NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
+            if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
             {
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Credentials window"))
                 {
-                    NWDEditorCredentialsManager.SharedInstanceFocus();
+                    NWDProjectCredentialsManager.SharedInstanceFocus();
                 }
                 tI++;
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Flush credentials"))
                 {
-                    NWDEditorCredentialsManager.FlushCredentials(NWDCredentialsRequired.ForSFTPGenerate);
+                    NWDProjectCredentialsManager.FlushCredentials(NWDCredentialsRequired.ForSFTPGenerate);
                 }
                 tI++;
                 NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
@@ -441,7 +441,7 @@ namespace NetWorkedData
             {
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Need credentials for actions"))
                 {
-                    NWDEditorCredentialsManager.SharedInstanceFocus();
+                    NWDProjectCredentialsManager.SharedInstanceFocus();
                 }
             }
         }

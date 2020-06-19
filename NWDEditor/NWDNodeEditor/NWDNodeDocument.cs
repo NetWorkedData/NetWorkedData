@@ -146,9 +146,9 @@ namespace NetWorkedData
             Dictionary<string, NWDClasseAnalyseEnum> tAnalyzeStyleClassesCopy = new Dictionary<string, NWDClasseAnalyseEnum>(AnalyzeStyleClasses);
             foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClassesCopy)
             {
-                NWDEditorPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
+                NWDProjectPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
             }
-            NWDEditorPrefs.SetString("NWDNodeEditorLanguage", Language);
+            NWDProjectPrefs.SetString("NWDNodeEditorLanguage", Language);
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -161,15 +161,15 @@ namespace NetWorkedData
             Dictionary<string, NWDClasseAnalyseEnum> tAnalyzeStyleClassesCopy = new Dictionary<string, NWDClasseAnalyseEnum>(AnalyzeStyleClasses);
             foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClassesCopy)
             {
-                AnalyzeStyleClasses[tKeyValue.Key] = (NWDClasseAnalyseEnum)NWDEditorPrefs.GetInt("NWDEditorNodal_" + tKeyValue.Key, (int)NWDClasseAnalyseEnum.Analyze);
+                AnalyzeStyleClasses[tKeyValue.Key] = (NWDClasseAnalyseEnum)NWDProjectPrefs.GetInt("NWDEditorNodal_" + tKeyValue.Key, (int)NWDClasseAnalyseEnum.Analyze);
             }
-            Language = NWDEditorPrefs.GetString("NWDNodeEditorLanguage");
+            Language = NWDProjectPrefs.GetString("NWDNodeEditorLanguage");
             //NWEBenchmark.Finish();
-            FixeMargePreference = NWDEditorPrefs.GetBool("FixeMargePreference");
-            DrawInformationsArea = NWDEditorPrefs.GetBool("TopCard");
-            DrawPropertiesArea = NWDEditorPrefs.GetBool("MiddleCard");
-            DrawActionArea = NWDEditorPrefs.GetBool("BottomCard");
-            DrawAddOnArea = NWDEditorPrefs.GetBool("AddonnEditorCard");
+            FixeMargePreference = NWDProjectPrefs.GetBool("FixeMargePreference");
+            DrawInformationsArea = NWDProjectPrefs.GetBool("TopCard");
+            DrawPropertiesArea = NWDProjectPrefs.GetBool("MiddleCard");
+            DrawActionArea = NWDProjectPrefs.GetBool("BottomCard");
+            DrawAddOnArea = NWDProjectPrefs.GetBool("AddonnEditorCard");
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -197,7 +197,7 @@ namespace NetWorkedData
             if (tFixeMargePreference != FixeMargePreference)
             {
                 FixeMargePreference = tFixeMargePreference;
-                NWDEditorPrefs.SetBool("FixeMargePreference", FixeMargePreference);
+                NWDProjectPrefs.SetBool("FixeMargePreference", FixeMargePreference);
                 ReEvaluateLayout();
             }
             tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -215,7 +215,7 @@ namespace NetWorkedData
             if (tTopCard != DrawInformationsArea)
             {
                 DrawInformationsArea = tTopCard;
-                NWDEditorPrefs.SetBool("TopCard", DrawInformationsArea);
+                NWDProjectPrefs.SetBool("TopCard", DrawInformationsArea);
                 ReEvaluateLayout();
             }
             tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -224,7 +224,7 @@ namespace NetWorkedData
             if (tMiddleCard != DrawPropertiesArea)
             {
                 DrawPropertiesArea = tMiddleCard;
-                NWDEditorPrefs.SetBool("MiddleCard", DrawPropertiesArea);
+                NWDProjectPrefs.SetBool("MiddleCard", DrawPropertiesArea);
                 ReEvaluateLayout();
             }
             tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -233,7 +233,7 @@ namespace NetWorkedData
             if (tAddonnEditorCard != DrawAddOnArea)
             {
                 DrawAddOnArea = tAddonnEditorCard;
-                NWDEditorPrefs.SetBool("AddonnEditorCard", DrawAddOnArea);
+                NWDProjectPrefs.SetBool("AddonnEditorCard", DrawAddOnArea);
                 ReEvaluateLayout();
             }
             tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -242,7 +242,7 @@ namespace NetWorkedData
             if (tBottomCard != DrawActionArea)
             {
                 DrawActionArea = tBottomCard;
-                NWDEditorPrefs.SetBool("BottomCard", DrawActionArea);
+                NWDProjectPrefs.SetBool("BottomCard", DrawActionArea);
                 ReEvaluateLayout();
             }
             tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -263,7 +263,7 @@ namespace NetWorkedData
             if (tIndexActual != tIndexNext)
             {
                 Language = tLocalizationList[tIndexNext];
-                NWDEditorPrefs.SetString("NWDNodeEditorLanguage", Language);
+                NWDProjectPrefs.SetString("NWDNodeEditorLanguage", Language);
             }
             tY += NWDGUI.kPopupStyle.fixedHeight + NWDGUI.kFieldMarge;
             float tXA = NWDGUI.kFieldMarge;
@@ -279,7 +279,7 @@ namespace NetWorkedData
                 foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClassesCopyCopy)
                 {
                     AnalyzeStyleClasses[tKeyValue.Key] = NWDClasseAnalyseEnum.Show;
-                    NWDEditorPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
+                    NWDProjectPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
                 }
                 ReAnalyze();
             }
@@ -290,7 +290,7 @@ namespace NetWorkedData
                 {
 
                     AnalyzeStyleClasses[tKeyValue.Key] = NWDClasseAnalyseEnum.None;
-                    NWDEditorPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
+                    NWDProjectPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
                 }
                 ReAnalyze();
             }
@@ -301,7 +301,7 @@ namespace NetWorkedData
                 foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClassesCopyCopy)
                 {
                     AnalyzeStyleClasses[tKeyValue.Key] = NWDClasseAnalyseEnum.Analyze;
-                    NWDEditorPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
+                    NWDProjectPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
                 }
                 ReAnalyze();
             }

@@ -96,7 +96,7 @@ namespace NetWorkedData
                     TypeEditorList.Add(tHelper);
                     TypeAndMin.Add(tHelper, tHelper.ClusterMin);
                     TypeAndMax.Add(tHelper, tHelper.ClusterMax);
-                    TypeAndQuantity.Add(tHelper, NWDEditorPrefs.GetInt("cluster_test_" + tHelper.ClassNamePHP, TypeAndMin[tHelper]));
+                    TypeAndQuantity.Add(tHelper, NWDProjectPrefs.GetInt("cluster_test_" + tHelper.ClassNamePHP, TypeAndMin[tHelper]));
                 }
             }
             foreach (Type tType in NWDDataManager.SharedInstance().ClassAccountDependentList)
@@ -109,7 +109,7 @@ namespace NetWorkedData
                     TypeAccountList.Add(tHelper);
                     TypeAndMin.Add(tHelper, tHelper.ClusterMin);
                     TypeAndMax.Add(tHelper, tHelper.ClusterMax);
-                    TypeAndQuantity.Add(tHelper, NWDEditorPrefs.GetInt("cluster_test_" + tHelper.ClassNamePHP, TypeAndMin[tHelper]));
+                    TypeAndQuantity.Add(tHelper, NWDProjectPrefs.GetInt("cluster_test_" + tHelper.ClassNamePHP, TypeAndMin[tHelper]));
                 }
             }
 
@@ -165,11 +165,11 @@ namespace NetWorkedData
             GUILayout.Label("System size", GUILayout.Width(160));
 
 
-            int tSystem = NWDEditorPrefs.GetInt("cluster_test_System");
+            int tSystem = NWDProjectPrefs.GetInt("cluster_test_System");
             int tSystemValue = EditorGUILayout.IntSlider("Giga", tSystem, 10, 50);
-            if (tSystemValue != NWDEditorPrefs.GetInt("cluster_test_System"))
+            if (tSystemValue != NWDProjectPrefs.GetInt("cluster_test_System"))
             {
-                NWDEditorPrefs.SetInt("cluster_test_System", tSystemValue);
+                NWDProjectPrefs.SetInt("cluster_test_System", tSystemValue);
                 tSystem = tSystemValue;
             }
             GUILayout.EndHorizontal();
@@ -185,7 +185,7 @@ namespace NetWorkedData
                 if (tValue != TypeAndQuantity[tHelper])
                 {
                     TypeAndQuantity[tHelper] = tValue;
-                    NWDEditorPrefs.SetInt("cluster_test_" + tHelper.ClassNamePHP, tValue);
+                    NWDProjectPrefs.SetInt("cluster_test_" + tHelper.ClassNamePHP, tValue);
                 }
                 tTotalEditor += TypeAndQuantity[tHelper] * TypeEditorAndSize[tHelper];
                 GUILayout.EndHorizontal();
@@ -201,7 +201,7 @@ namespace NetWorkedData
                 if (tValue != TypeAndQuantity[tHelper])
                 {
                     TypeAndQuantity[tHelper] = tValue;
-                    NWDEditorPrefs.SetInt("cluster_test_" + tHelper.ClassNamePHP, tValue);
+                    NWDProjectPrefs.SetInt("cluster_test_" + tHelper.ClassNamePHP, tValue);
                 }
                 tTotalAccount += TypeAndQuantity[tHelper] * TypeAccountedAndSize[tHelper];
                 GUILayout.EndHorizontal();

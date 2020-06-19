@@ -37,8 +37,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDTypeClass RestaureObjectInEdition()
         {
-            string tTypeEdited = NWDEditorPrefs.GetString(K_EDITOR_LAST_TYPE_KEY);
-            string tLastReferenceEdited = NWDEditorPrefs.GetString(K_EDITOR_LAST_REFERENCE_KEY);
+            string tTypeEdited = NWDProjectPrefs.GetString(K_EDITOR_LAST_TYPE_KEY);
+            string tLastReferenceEdited = NWDProjectPrefs.GetString(K_EDITOR_LAST_REFERENCE_KEY);
             NWDTypeClass rObject = ObjectInEditionReccord(tTypeEdited, tLastReferenceEdited);
             if (rObject != null)
             {
@@ -66,13 +66,13 @@ namespace NetWorkedData
             NWDTypeClass tObject = NWDDataInspector.ObjectInEdition() as NWDTypeClass;
             if (tObject == null)
             {
-                NWDEditorPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, string.Empty);
-                NWDEditorPrefs.SetString(K_EDITOR_LAST_REFERENCE_KEY, string.Empty);
+                NWDProjectPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, string.Empty);
+                NWDProjectPrefs.SetString(K_EDITOR_LAST_REFERENCE_KEY, string.Empty);
             }
             else
             {
-                NWDEditorPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, NWDBasisHelper.FindTypeInfos(tObject.GetType()).ClassNamePHP);
-                NWDEditorPrefs.SetString(K_EDITOR_LAST_REFERENCE_KEY, tObject.Reference);
+                NWDProjectPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, NWDBasisHelper.FindTypeInfos(tObject.GetType()).ClassNamePHP);
+                NWDProjectPrefs.SetString(K_EDITOR_LAST_REFERENCE_KEY, tObject.Reference);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -109,7 +109,7 @@ namespace NetWorkedData
                     mObjectInEdition = sObject;
                     if (mObjectInEdition != null)
                     {
-                    NWDEditorPrefs.SetString(LastSelectedObjectKey(), mObjectInEdition.Reference);
+                    NWDProjectPrefs.SetString(LastSelectedObjectKey(), mObjectInEdition.Reference);
                         foreach (NWDTypeWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(sObject.GetType()))
                         {
                             tWindow.Focus();
@@ -119,7 +119,7 @@ namespace NetWorkedData
                     }
                     else
                     {
-                    NWDEditorPrefs.SetString(LastSelectedObjectKey(), string.Empty);
+                    NWDProjectPrefs.SetString(LastSelectedObjectKey(), string.Empty);
                     }
                 }
                 else
@@ -166,7 +166,7 @@ namespace NetWorkedData
         {
             //if (kAccountDependent == true)
             if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
-                {
+            {
                 // reset last sync to zero
                 SynchronizationSetNewTimestamp(sEnvironment, 0); // set to 0 ... only for data AccountDependent, so that's not affect the not connected data (game's data)
                                                                  // delete all datas for this user
@@ -189,30 +189,30 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
-//        public void FlushTrash(NWDTypeClass sObject)
-//        {
-//            //Debug.Log ("Flush trash ... the delete this object if it's necessary");
-//#if UNITY_EDITOR
-//            if (sObject.XX > 0 && sObject.DevSync > 0 && sObject.PreprodSync > 0 && sObject.ProdSync > 0)
-//            {
-//                //              Debug.Log (sObject.Reference + "Must be trashed!");
-//                //              RemoveObjectInListOfEdition (sObject);
-//                //              if (IsObjectInEdition (sObject)) {
-//                //                  SetObjectInEdition (null);
-//                //              }
-//                //              this.AddonDeleteMe();
-//                //  NWDDataManager.SharedInstance().DeleteObjectDirect(this, AccountDependent());
-//            }
-//#else
-//            if (sObject.XX > 0)
-//            {
-//                //Debug.Log (sObject.Reference + "Must be trashed!");
-//                //RemoveObjectInListOfEdition (sObject);
-//                //sObject.AddonDeleteMe();
-//                //NWDDataManager.SharedInstance().DeleteObjectDirect(sObject, AccountDependent());
-//            }
-//#endif
-//        }
+        //        public void FlushTrash(NWDTypeClass sObject)
+        //        {
+        //            //Debug.Log ("Flush trash ... the delete this object if it's necessary");
+        //#if UNITY_EDITOR
+        //            if (sObject.XX > 0 && sObject.DevSync > 0 && sObject.PreprodSync > 0 && sObject.ProdSync > 0)
+        //            {
+        //                //              Debug.Log (sObject.Reference + "Must be trashed!");
+        //                //              RemoveObjectInListOfEdition (sObject);
+        //                //              if (IsObjectInEdition (sObject)) {
+        //                //                  SetObjectInEdition (null);
+        //                //              }
+        //                //              this.AddonDeleteMe();
+        //                //  NWDDataManager.SharedInstance().DeleteObjectDirect(this, AccountDependent());
+        //            }
+        //#else
+        //            if (sObject.XX > 0)
+        //            {
+        //                //Debug.Log (sObject.Reference + "Must be trashed!");
+        //                //RemoveObjectInListOfEdition (sObject);
+        //                //sObject.AddonDeleteMe();
+        //                //NWDDataManager.SharedInstance().DeleteObjectDirect(sObject, AccountDependent());
+        //            }
+        //#endif
+        //        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

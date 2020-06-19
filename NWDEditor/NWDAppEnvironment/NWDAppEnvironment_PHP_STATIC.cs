@@ -330,7 +330,7 @@ namespace NetWorkedData
                     tFile.AppendLine("if (" + NWD.K_SQL_CON_EDITOR + "[$sRange]->connect_errno)");
                     tFile.AppendLine("{");
                     {
-                        if (NWDEditorCredentialsManager.ShowPasswordInLog == true)
+                        if (NWDProjectCredentialsManager.ShowPasswordInLog == true)
                         {
                             tFile.AppendLine(NWDError.PHP_log(this, "Error in MySQL connexion on '.$SQL_LIST[$sRange]['host'].' for '.$SQL_LIST[$sRange]['user'].' with password '.$SQL_LIST[$sRange]['password'].' on database '.$SQL_LIST[$sRange]['database'].'"));
                         }
@@ -411,7 +411,7 @@ namespace NetWorkedData
                             tFile.AppendLine("if (" + NWD.K_SQL_CON_EDITOR + "[$tRange]->connect_errno)");
                             tFile.AppendLine("{");
                             {
-                                if (NWDEditorCredentialsManager.ShowPasswordInLog == true)
+                                if (NWDProjectCredentialsManager.ShowPasswordInLog == true)
                                 {
                                     tFile.AppendLine(NWDError.PHP_log(this, "Error in MySQL connexion on '.$tValue['host'].' for '.$tValue['user'].' with password '.$tValue['password'].' on database '.$tValue['database'].'"));
                                 }

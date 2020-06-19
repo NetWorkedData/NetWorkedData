@@ -32,12 +32,12 @@ namespace NetWorkedData
 #if UNITY_EDITOR
         public bool HasKey(string sKey)
         {
-            return NWDEditorPrefs.HasKey(sKey);
+            return NWDProjectPrefs.HasKey(sKey);
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool isFirstLaunch()
         {
-            if (NWDEditorPrefs.HasKey(kFirstLaunch))
+            if (NWDProjectPrefs.HasKey(kFirstLaunch))
             {
                 return false;
             }
@@ -47,22 +47,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void setFirstLaunch()
         {
-            NWDEditorPrefs.SetInt(kFirstLaunch, 1);
+            NWDProjectPrefs.SetInt(kFirstLaunch, 1);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void set(string sKey, float sValue)
         {
-            NWDEditorPrefs.SetFloat(sKey, sValue);
+            NWDProjectPrefs.SetFloat(sKey, sValue);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void set(string sKey, int sValue)
         {
-            NWDEditorPrefs.SetInt(sKey, sValue);
+            NWDProjectPrefs.SetInt(sKey, sValue);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void set(string sKey, string sValue)
         {
-            NWDEditorPrefs.SetString(sKey, sValue);
+            NWDProjectPrefs.SetString(sKey, sValue);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void set(string sKey, bool sValue)
@@ -79,9 +79,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public float getFloat(string sKey, float sDefault = 0.0F)
         {
-            if (NWDEditorPrefs.HasKey(sKey))
+            if (NWDProjectPrefs.HasKey(sKey))
             {
-                return NWDEditorPrefs.GetFloat(sKey, -1);
+                return NWDProjectPrefs.GetFloat(sKey, -1);
             }
 
             return sDefault;
@@ -89,9 +89,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public int getInt(string sKey, int sDefault = 0)
         {
-            if (NWDEditorPrefs.HasKey(sKey))
+            if (NWDProjectPrefs.HasKey(sKey))
             {
-                return NWDEditorPrefs.GetInt(sKey, -1);
+                return NWDProjectPrefs.GetInt(sKey, -1);
             }
 
             return sDefault;
@@ -99,9 +99,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string getString(string sKey, string sDefault = NWEConstants.K_EMPTY_STRING)
         {
-            if (NWDEditorPrefs.HasKey(sKey))
+            if (NWDProjectPrefs.HasKey(sKey))
             {
-                return NWDEditorPrefs.GetString(sKey, string.Empty);
+                return NWDProjectPrefs.GetString(sKey, string.Empty);
             }
 
             return sDefault;
@@ -109,7 +109,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool getBool(string sKey, bool sDefault = false)
         {
-            if (NWDEditorPrefs.HasKey(sKey))
+            if (NWDProjectPrefs.HasKey(sKey))
             {
                 int value = getInt(sKey);
                 if (value == 1)
@@ -126,9 +126,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool deleteKey(string sKey)
         {
-            if (NWDEditorPrefs.HasKey(sKey))
+            if (NWDProjectPrefs.HasKey(sKey))
             {
-                NWDEditorPrefs.DeleteKey(sKey);
+                NWDProjectPrefs.DeleteKey(sKey);
                 return true;
             }
             return false;
@@ -140,107 +140,119 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 #else
-		public bool isFirstLaunch ()
-		{
-			if (PlayerPrefs.HasKey (kFirstLaunch)) {
-				return false;
-			}
+        public bool isFirstLaunch()
+        {
+            if (PlayerPrefs.HasKey(kFirstLaunch))
+            {
+                return false;
+            }
 
-			return true;
-		}
+            return true;
+        }
         //-------------------------------------------------------------------------------------------------------------
-		public void setFirstLaunch ()
-		{
-			PlayerPrefs.SetInt (kFirstLaunch, 1);
+        public void setFirstLaunch()
+        {
+            PlayerPrefs.SetInt(kFirstLaunch, 1);
             Save();
-		}
+        }
         //-------------------------------------------------------------------------------------------------------------
-		public void set (string sKey, float sValue)
-		{
-			PlayerPrefs.SetFloat (sKey, sValue);
+        public void set(string sKey, float sValue)
+        {
+            PlayerPrefs.SetFloat(sKey, sValue);
             Save();
-		}
+        }
         //-------------------------------------------------------------------------------------------------------------
-		public void set (string sKey, int sValue)
-		{
-			PlayerPrefs.SetInt (sKey, sValue);
+        public void set(string sKey, int sValue)
+        {
+            PlayerPrefs.SetInt(sKey, sValue);
             Save();
-		}
+        }
         //-------------------------------------------------------------------------------------------------------------
-		public void set (string sKey, string sValue)
-		{
-			PlayerPrefs.SetString (sKey, sValue);
+        public void set(string sKey, string sValue)
+        {
+            PlayerPrefs.SetString(sKey, sValue);
             Save();
-		}
+        }
         //-------------------------------------------------------------------------------------------------------------
-		public void set (string sKey, bool sValue)
-		{
-			if (sValue) {
-				set (sKey, 1);
-			} else {
-				set (sKey, 0);
-			}
-		}
+        public void set(string sKey, bool sValue)
+        {
+            if (sValue)
+            {
+                set(sKey, 1);
+            }
+            else
+            {
+                set(sKey, 0);
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
-		public float getFloat (string sKey, float sDefault = 0f)
-		{
-			if (PlayerPrefs.HasKey (sKey)) {
-				return PlayerPrefs.GetFloat (sKey, -1);
+        public float getFloat(string sKey, float sDefault = 0f)
+        {
+            if (PlayerPrefs.HasKey(sKey))
+            {
+                return PlayerPrefs.GetFloat(sKey, -1);
             }
 
             return sDefault;
-		}
+        }
         //-------------------------------------------------------------------------------------------------------------
-		public int getInt (string sKey, int sDefault = 0)
-		{
-			if (PlayerPrefs.HasKey (sKey)) {
-				return PlayerPrefs.GetInt (sKey, -1);
+        public int getInt(string sKey, int sDefault = 0)
+        {
+            if (PlayerPrefs.HasKey(sKey))
+            {
+                return PlayerPrefs.GetInt(sKey, -1);
             }
 
             return sDefault;
-		}
+        }
         //-------------------------------------------------------------------------------------------------------------
-		public string getString (string sKey, string sDefault = "")
-		{
-			if (PlayerPrefs.HasKey (sKey)) {
-				return PlayerPrefs.GetString(sKey, "");
+        public string getString(string sKey, string sDefault = "")
+        {
+            if (PlayerPrefs.HasKey(sKey))
+            {
+                return PlayerPrefs.GetString(sKey, "");
             }
 
             return sDefault;
-		}
+        }
         //-------------------------------------------------------------------------------------------------------------
-		public bool getBool (string sKey, bool sDefault=false)
-		{
-			if (PlayerPrefs.HasKey (sKey)) {
-				int value = getInt (sKey);
-				if (value == 1) {
-					return true;
-				} else {
-					return false;
-				}
-			}
-		    return sDefault;
-		}
+        public bool getBool(string sKey, bool sDefault = false)
+        {
+            if (PlayerPrefs.HasKey(sKey))
+            {
+                int value = getInt(sKey);
+                if (value == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return sDefault;
+        }
         //-------------------------------------------------------------------------------------------------------------
-		public bool deleteKey (string sKey)
-		{
-			if (PlayerPrefs.HasKey (sKey)) {
-				PlayerPrefs.DeleteKey (sKey);
-				return true;
-			}
+        public bool deleteKey(string sKey)
+        {
+            if (PlayerPrefs.HasKey(sKey))
+            {
+                PlayerPrefs.DeleteKey(sKey);
+                return true;
+            }
 
-			return false;
-		}
+            return false;
+        }
         //-------------------------------------------------------------------------------------------------------------
-		public void deleteAll ()
-		{
-			PlayerPrefs.DeleteAll ();
-		}
+        public void deleteAll()
+        {
+            PlayerPrefs.DeleteAll();
+        }
         //-------------------------------------------------------------------------------------------------------------
-		void Save()
-		{
-			PlayerPrefs.Save ();
-		}
+        void Save()
+        {
+            PlayerPrefs.Save();
+        }
         //-------------------------------------------------------------------------------------------------------------
 #endif
     }

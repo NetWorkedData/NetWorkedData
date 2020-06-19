@@ -48,32 +48,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDEditorBuildEnvironment GetEditoBuildEnvironment()
         {
-            return (NWDEditorBuildEnvironment)NWDEditorPrefs.GetInt("EditorBuildEnvironment");
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SetEditorBuildEnvironment(NWDEditorBuildEnvironment sValue)
-        {
-            NWDEditorPrefs.SetInt("EditorBuildEnvironment", (int)sValue);
+            return (NWDEditorBuildEnvironment)NWDProjectPrefs.GetInt(NWDConstants.K_EDITOR_BUILD_ENVIRONMENT);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDEditorBuildRename GetEditoBuildRename()
         {
-            return (NWDEditorBuildRename)NWDEditorPrefs.GetInt("EditorBuildRename");
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SetEditorBuildRename(NWDEditorBuildRename sValue)
-        {
-            NWDEditorPrefs.SetInt("EditorBuildRename", (int)sValue);
+            return (NWDEditorBuildRename)NWDProjectPrefs.GetInt(NWDConstants.K_EDITOR_BUILD_RENAME);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDEditorBuildDatabaseUpdate GetEditorBuildDatabaseUpdate()
         {
-            return (NWDEditorBuildDatabaseUpdate)NWDEditorPrefs.GetInt("EditorBuildDatabaseUpdate");
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SetEditorBuildDatabaseUpdate(NWDEditorBuildDatabaseUpdate sValue)
-        {
-            NWDEditorPrefs.SetInt("EditorBuildDatabaseUpdate", (int)sValue);
+            return (NWDEditorBuildDatabaseUpdate)NWDProjectPrefs.GetInt(NWDConstants.K_EDITOR_BUILD_DATABASE_UPDATE);
         }
         //-------------------------------------------------------------------------------------------------------------
         public int callbackOrder { get { return 0; } }
@@ -102,8 +87,10 @@ namespace NetWorkedData
             if (GetEditoBuildEnvironment() == NWDEditorBuildEnvironment.Ask)
             {
                 tResultEnvironment = EditorUtility.DisplayDialogComplex("Choose your environment to build", "Be sure to choose the good environment before build your app",
-                                                                            "Production", "Development", "PreProduction") + 1;
-                //  ----->----->---->---->----->----->----->----->----->       1          2           3
+                                                                            "Production", // 1
+                                                                            "Development", //2
+                                                                            "PreProduction" //3
+                                                                            ) + 1;
             }
             else if(GetEditoBuildEnvironment() == NWDEditorBuildEnvironment.Prod)
             {
@@ -219,7 +206,7 @@ namespace NetWorkedData
                 //Debug.Log("NWDBuildPreProcess !!! PRODUCTION BUILD");
                 NWDAppConfiguration.SharedInstance().ProdEnvironment.BuildDate = tFuturBuildDate;
                 // reccord modif
-                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().ProdEnvironment);
                 // reselect environment
                 NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected = true;
                 NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = false;
@@ -238,7 +225,7 @@ namespace NetWorkedData
                 }
                 NWDAppConfiguration.SharedInstance().PreprodEnvironment.BuildDate = tFuturBuildDate;
                 // reccord modif
-                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
                 // reselect environment
                 NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected = false;
                 NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = true;
@@ -257,12 +244,14 @@ namespace NetWorkedData
                 }
                 NWDAppConfiguration.SharedInstance().DevEnvironment.BuildDate = tFuturBuildDate;
                 // reccord modif
-                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().DevEnvironment);
                 // reselect environment
                 NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected = false;
                 NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = false;
                 NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = true;
             }
+
+            NWDEditorWindow.GenerateCSharpFile();
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

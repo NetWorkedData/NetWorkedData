@@ -1815,7 +1815,7 @@ namespace NetWorkedData
                         }
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         EditorGUI.EndDisabledGroup();
-                        if (NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateDev))
+                        if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateDev))
                         {
                             if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_DEV_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
                             {
@@ -1827,7 +1827,7 @@ namespace NetWorkedData
                         {
                             if (GUI.Button(tRect, "Need credentials", NWDGUI.KTableSearchButton))
                             {
-                                NWDEditorCredentialsManager.SharedInstanceFocus();
+                                NWDProjectCredentialsManager.SharedInstanceFocus();
                             }
                             tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         }
@@ -1904,7 +1904,7 @@ namespace NetWorkedData
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         EditorGUI.EndDisabledGroup();
 
-                        if (NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGeneratePreprod))
+                        if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGeneratePreprod))
                         {
                             if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_PREPROD_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
                             {
@@ -1916,7 +1916,7 @@ namespace NetWorkedData
                         {
                             if (GUI.Button(tRect, "Need credentials", NWDGUI.KTableSearchButton))
                             {
-                                NWDEditorCredentialsManager.SharedInstanceFocus();
+                                NWDProjectCredentialsManager.SharedInstanceFocus();
                             }
                             tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         }
@@ -1994,7 +1994,7 @@ namespace NetWorkedData
                         }
                         tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         EditorGUI.EndDisabledGroup();
-                        if (NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateProd))
+                        if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateProd))
                         {
                             if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_PROD_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
                             {
@@ -2006,7 +2006,7 @@ namespace NetWorkedData
                         {
                             if (GUI.Button(tRect, "Need credentials", NWDGUI.KTableSearchButton))
                             {
-                                NWDEditorCredentialsManager.SharedInstanceFocus();
+                                NWDProjectCredentialsManager.SharedInstanceFocus();
                             }
                             tRect.y += tRect.height + NWDGUI.kFieldMarge;
                         }
@@ -2376,7 +2376,7 @@ namespace NetWorkedData
 
             tRect.y += NWDGUI.Line(tWindowRectLine).height;
 
-            float tW = NWDEditorPrefs.GetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, 320);
+            float tW = NWDProjectPrefs.GetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, 320);
             Rect tWindowRectInpsector = new Rect(tRect.width - tW, tRect.position.y, tW, sEditorWindow.position.height - tRect.position.y);
             if (InspectorActions == true)
             {
@@ -2865,7 +2865,7 @@ namespace NetWorkedData
 
                 // TODO move in better place
                 //{
-                string tLastReferenceSelected = NWDEditorPrefs.GetString(LastSelectedObjectKey(), string.Empty);
+                string tLastReferenceSelected = NWDProjectPrefs.GetString(LastSelectedObjectKey(), string.Empty);
                 if (string.IsNullOrEmpty(tLastReferenceSelected) == false)
                 {
                     mObjectInEdition = GetDataByReference(tLastReferenceSelected);

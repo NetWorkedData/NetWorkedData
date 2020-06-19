@@ -72,8 +72,8 @@ namespace NetWorkedData
         public static void RestaureObjectInEdition()
         {
             //NWEBenchmark.Start();
-            string tTypeEdited = NWDEditorPrefs.GetString(K_NODE_EDITOR_LAST_TYPE_KEY);
-            string tLastReferenceEdited = NWDEditorPrefs.GetString(K_NODE_EDITOR_LAST_REFERENCE_KEY);
+            string tTypeEdited = NWDProjectPrefs.GetString(K_NODE_EDITOR_LAST_TYPE_KEY);
+            string tLastReferenceEdited = NWDProjectPrefs.GetString(K_NODE_EDITOR_LAST_REFERENCE_KEY);
 
             if (!string.IsNullOrEmpty(tTypeEdited) && !string.IsNullOrEmpty(tLastReferenceEdited))
             {
@@ -92,13 +92,13 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             if (sSelection == null)
             {
-                NWDEditorPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, string.Empty);
-                NWDEditorPrefs.SetString(K_NODE_EDITOR_LAST_REFERENCE_KEY, string.Empty);
+                NWDProjectPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, string.Empty);
+                NWDProjectPrefs.SetString(K_NODE_EDITOR_LAST_REFERENCE_KEY, string.Empty);
             }
             else
             {
-                NWDEditorPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, NWDBasisHelper.FindTypeInfos(sSelection.GetType()).ClassNamePHP);
-                NWDEditorPrefs.SetString(K_NODE_EDITOR_LAST_REFERENCE_KEY, sSelection.Reference);
+                NWDProjectPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, NWDBasisHelper.FindTypeInfos(sSelection.GetType()).ClassNamePHP);
+                NWDProjectPrefs.SetString(K_NODE_EDITOR_LAST_REFERENCE_KEY, sSelection.Reference);
             }
             //NWEBenchmark.Finish();
         }

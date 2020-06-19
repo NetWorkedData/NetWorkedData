@@ -26,7 +26,7 @@ namespace NetWorkedData
         #region const
         //-------------------------------------------------------------------------------------------------------------
         const string K_NETWORKEDDATA = "NeWeeDy/";
-        const string K_EDITOR = "Editor/";
+        const string K_EDITOR = "Project/";
         const string K_DOCUMENTATION = "Documentation/";
         const string K_APPLICATION = "Application/";
         const string K_LOCALIZATION = "Localization/";
@@ -89,10 +89,10 @@ namespace NetWorkedData
         #endregion
         #region Editor
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(K_NETWORKEDDATA + K_EDITOR + "Editor configuration", false, 20)]
-        public static void EditorPreferencesWindow()
+        [MenuItem(K_NETWORKEDDATA + K_EDITOR + "Project configuration", false, 20)]
+        public static void ProjectPreferencesWindow()
         {
-            NWDEditorConfigurationManager.SharedInstanceFocus();
+            NWDProjectConfigurationManager.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_EDITOR + "Synchronize window", false, 21)]
@@ -174,31 +174,31 @@ namespace NetWorkedData
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_PROD_ENVIRONMENT + K_WS_NEED_CREDENTIALS, false, 87)]
         public static void ClusterCredentialsWindow()
         {
-            NWDEditorCredentialsManager.SharedInstanceFocus();
+            NWDProjectCredentialsManager.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_ALL_ENVIRONMENT + K_WS_NEED_CREDENTIALS, true, 50)]
         public static bool NeedCredentialsValidMenu()
         {
-            return !NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate);
+            return !NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_DEV_ENVIRONMENT + K_WS_NEED_CREDENTIALS, true, 79)]
         public static bool NeedCredentialsValidMenuDev()
         {
-            return !NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateDev);
+            return !NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateDev);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_PREPROD_ENVIRONMENT + K_WS_NEED_CREDENTIALS, true, 83)]
         public static bool NeedCredentialsValidMenuPreprod()
         {
-            return !NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGeneratePreprod);
+            return !NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGeneratePreprod);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_PROD_ENVIRONMENT + K_WS_NEED_CREDENTIALS, true, 87)]
         public static bool NeedCredentialsValidMenuProd()
         {
-            return !NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateProd);
+            return !NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateProd);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + "Cluster datas", false, 32)]
@@ -214,7 +214,7 @@ namespace NetWorkedData
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_PROD_ENVIRONMENT + K_WS_REGENERATE, true, 88)]
         public static bool GenerateServersValidMenu()
         {
-            return NWDEditorCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate);
+            return NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_ALL_ENVIRONMENT + "Increment and generate WebServices", false, 51)]
@@ -373,8 +373,8 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_EDITOR_PREFERENCES, false, 20)]
         public static void EditorPreferenceShow()
         {
-            NWDEditorConfigurationManager.SharedInstance().ShowUtility();
-            NWDEditorConfigurationManager.SharedInstance().Focus();
+            NWDProjectConfigurationManager.SharedInstance().ShowUtility();
+            NWDProjectConfigurationManager.SharedInstance().Focus();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -467,18 +467,12 @@ namespace NetWorkedData
             NWDAppEnvironmentConfigurationManager.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// TheNWD app configuration window.
-        /// </summary>
         [MenuItem(NWDConstants.K_MENU_ENVIRONMENT, false, 64)]
         public static void EnvironementChooserShow()
         {
             NWDAppEnvironmentChooser.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// TheNWD app configuration window.
-        /// </summary>
         [MenuItem(NWDConstants.K_MENU_ENVIRONMENT_SYNC, false, 65)]
         public static void EnvironementSyncShow()
         {
@@ -535,8 +529,8 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_CREDENTIALS, false, 1000)]
         public static void EditorCredentialsManager()
         {
-            NWDEditorCredentialsManager.SharedInstance().Show();
-            NWDEditorCredentialsManager.SharedInstance().Focus();
+            NWDProjectCredentialsManager.SharedInstance().Show();
+            NWDProjectCredentialsManager.SharedInstance().Focus();
         }
         //-------------------------------------------------------------------------------------------------------------
         //		[MenuItem (NWDConstants.K_MENU_CREATE_CSHARP_FILES, false, 9022)]

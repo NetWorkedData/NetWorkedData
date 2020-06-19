@@ -236,7 +236,7 @@ namespace NetWorkedData
                 }
                 Repaint();
             };
-            SyncInfosTab = NWDEditorPrefs.GetInt("SyncInfosTab");
+            SyncInfosTab = NWDProjectPrefs.GetInt("SyncInfosTab");
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -616,7 +616,7 @@ namespace NetWorkedData
             if (SyncInfosTab != tSyncInfosTab)
             {
                 SyncInfosTab = tSyncInfosTab;
-                NWDEditorPrefs.SetInt("SyncInfosTab", SyncInfosTab);
+                NWDProjectPrefs.SetInt("SyncInfosTab", SyncInfosTab);
             }
             // add separator please
             if (SyncInfosTab == 0 || SyncInfosTab == 2)

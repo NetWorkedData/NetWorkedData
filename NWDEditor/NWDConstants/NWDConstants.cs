@@ -21,8 +21,13 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         public static string K_EDITOR_CLIPBOARD_LAST_LOG = "K_EDITOR_CLIPBOARD_LAST_LOG";
+        public static string K_EDITOR_SHOW_COMPILE = "K_EDITOR_SHOW_COMPILE";
         public static string K_EDITOR_USER_BUILDER = "NWD_USER_BUILDER";
         public static string K_EDITOR_PANEL_WIDTH = "K_EDITOR_PANEL_WIDTH";
+        //-------------------------------------------------------------------------------------------------------------
+        public static string K_EDITOR_BUILD_ENVIRONMENT = "EditorBuildEnvironment";
+        public static string K_EDITOR_BUILD_RENAME = "EditorBuildRename";
+        public static string K_EDITOR_BUILD_DATABASE_UPDATE = "EditorBuildDatabaseUpdate";
         //-------------------------------------------------------------------------------------------------------------
         public static string K_APP_CHOOSER_ENVIRONMENT = "Select Environment used in Player Mode (Game panel)";
         public static string K_APP_CHOOSER_ENVIRONMENT_TITLE = "Chooser";
@@ -35,8 +40,8 @@ namespace NetWorkedData
         public static string K_DATA_SELECTOR_TITLE = "Selector";
         public static string K_DATA_SELECTOR_TITLE_FOR = "Selector for ";
         public static string K_LOCALIZATION_CONFIGURATION_TITLE = "Localization";
-        public static string K_EDITOR_CONFIGURATION_TITLE = "Editor";
-        public static string K_PASSWORD_CONFIGURATION_TITLE = "Password";
+        public static string K_PROJECT_CONFIGURATION_TITLE = "Project";
+        public static string K_CREDENTIALS_CONFIGURATION_TITLE = "Credentials";
 
         public static string K_ENVIRONMENTS_CONFIGURATION_TITLE = "Environments";
 

@@ -29,13 +29,13 @@ namespace NetWorkedData
         //Both,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDEditorCredentialsManager : NWDEditorWindow
+    public class NWDProjectCredentialsManager : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance.
         /// </summary>
-        private static NWDEditorCredentialsManager kSharedInstance;
+        private static NWDProjectCredentialsManager kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The scroll position.
@@ -105,12 +105,12 @@ namespace NetWorkedData
         /// Returns the SharedInstance or instance one
         /// </summary>
         /// <returns></returns>
-        public static NWDEditorCredentialsManager SharedInstance()
+        public static NWDProjectCredentialsManager SharedInstance()
         {
             //NWEBenchmark.Start();
             if (kSharedInstance == null)
             {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorCredentialsManager)) as NWDEditorCredentialsManager;
+                kSharedInstance = EditorWindow.GetWindow(typeof(NWDProjectCredentialsManager)) as NWDProjectCredentialsManager;
             }
             //NWEBenchmark.Finish();
             return kSharedInstance;
@@ -133,8 +133,8 @@ namespace NetWorkedData
         /// </summary>
         public static void Refresh()
         {
-            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDEditorCredentialsManager));
-            foreach (NWDEditorCredentialsManager tWindow in tWindows)
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDProjectCredentialsManager));
+            foreach (NWDProjectCredentialsManager tWindow in tWindows)
             {
                 tWindow.Repaint();
             }
@@ -158,11 +158,11 @@ namespace NetWorkedData
         public void OnEnable()
         {
             //NWEBenchmark.Start();
-            TitleInit(NWDConstants.K_EDITOR_CONFIGURATION_TITLE, typeof(NWDEditorCredentialsManager));
-            SaveCredentials = EditorPrefs.GetBool(SaveCredentialsKey, false);
-            ShowPasswordInLog = EditorPrefs.GetBool(ShowPasswordInLogKey, false);
-            Password = EditorPrefs.GetString(PasswordKey, string.Empty);
-            VectorString = EditorPrefs.GetString(VectorStringKey, string.Empty);
+            TitleInit(NWDConstants.K_CREDENTIALS_CONFIGURATION_TITLE, typeof(NWDProjectCredentialsManager));
+            SaveCredentials = NWDProjectPrefs.GetBool(SaveCredentialsKey, false);
+            ShowPasswordInLog = NWDProjectPrefs.GetBool(ShowPasswordInLogKey, false);
+            Password = NWDProjectPrefs.GetString(PasswordKey, string.Empty);
+            VectorString = NWDProjectPrefs.GetString(VectorStringKey, string.Empty);
 
             //NWEBenchmark.Finish();
         }
@@ -174,7 +174,7 @@ namespace NetWorkedData
         {
             // for all NWDEditorWindow refresh
 
-            NWDEditorConfigurationManager.Refresh();
+            NWDProjectConfigurationManager.Refresh();
             NWDAppConfigurationManager.Refresh();
             NWDAppEnvironmentConfigurationManager.Refresh();
             NWDModelManager.Refresh();
@@ -196,38 +196,42 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             NWDGUI.LoadStyles();
-            NWDGUILayout.Title("Password of cluster");
+            NWDGUILayout.Title("Credentials for project");
             // start scroll
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
 
-            //General preferences
-            NWDGUILayout.Section("Enter the password use to decrypt passwords of cluster");
-
-            //EditorGUILayout.LabelField("Debug password", Password);
-            //EditorGUILayout.LabelField("Debug vector", VectorString);
-
             EditorGUI.BeginChangeCheck();
+
+            //General preferences
+            NWDGUILayout.Section("Credentials preferences");
+
             SaveCredentials = EditorGUILayout.Toggle("Save Credentials", SaveCredentials);
+            ShowPasswordInLog = EditorGUILayout.Toggle("Show passwords in Log", ShowPasswordInLog);
+
+            NWDGUILayout.Section("Credentials");
+
             Password = EditorGUILayout.PasswordField("General password", Password);
             VectorString = EditorGUILayout.PasswordField("General vector", VectorString);
-            ShowPasswordInLog = EditorGUILayout.Toggle("Show passwords in Log", ShowPasswordInLog);
+
             if (EditorGUI.EndChangeCheck())
             {
                 //Debug.Log("Change");
-                EditorPrefs.SetBool(SaveCredentialsKey, SaveCredentials);
+                NWDProjectPrefs.SetBool(SaveCredentialsKey, SaveCredentials);
                 if (SaveCredentials == true)
                 {
-                    EditorPrefs.SetBool(ShowPasswordInLogKey, ShowPasswordInLog);
-                    EditorPrefs.SetString(PasswordKey, Password);
-                    EditorPrefs.SetString(VectorStringKey, VectorString);
+                    NWDProjectPrefs.SetBool(ShowPasswordInLogKey, ShowPasswordInLog);
+                    NWDProjectPrefs.SetString(PasswordKey, Password);
+                    NWDProjectPrefs.SetString(VectorStringKey, VectorString);
                 }
                 else
                 {
-                    EditorPrefs.SetBool(ShowPasswordInLogKey, false);
-                    EditorPrefs.SetString(PasswordKey, string.Empty);
-                    EditorPrefs.SetString(VectorStringKey, string.Empty);
+                    NWDProjectPrefs.SetBool(ShowPasswordInLogKey, false);
+                    NWDProjectPrefs.SetString(PasswordKey, string.Empty);
+                    NWDProjectPrefs.SetString(VectorStringKey, string.Empty);
                 }
             }
+
+            NWDGUILayout.Section("Actions");
 
             if (GUILayout.Button("Flush"))
             {
@@ -246,10 +250,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void flush()
         {
-            EditorPrefs.SetBool(SaveCredentialsKey, false);
-            EditorPrefs.SetBool(ShowPasswordInLogKey, false);
-            EditorPrefs.SetString(PasswordKey, string.Empty);
-            EditorPrefs.SetString(VectorStringKey, string.Empty);
+            NWDProjectPrefs.SetBool(SaveCredentialsKey, false);
+            NWDProjectPrefs.SetBool(ShowPasswordInLogKey, false);
+            NWDProjectPrefs.SetString(PasswordKey, string.Empty);
+            NWDProjectPrefs.SetString(VectorStringKey, string.Empty);
             Password = string.Empty;
             VectorString = string.Empty;
             ShowPasswordInLog = false;

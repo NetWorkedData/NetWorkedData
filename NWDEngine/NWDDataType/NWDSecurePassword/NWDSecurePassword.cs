@@ -96,8 +96,8 @@ namespace NetWorkedData
             {
                 // Set AES bits size
                 Int32 sAesSize = 128;
-                string tKey = KeyLengthFix(NWDEditorCredentialsManager.Password, 24);
-                string tVector = KeyLengthFix(NWDEditorCredentialsManager.VectorString, 16);
+                string tKey = KeyLengthFix(NWDProjectCredentialsManager.Password, 24);
+                string tVector = KeyLengthFix(NWDProjectCredentialsManager.VectorString, 16);
                 // Encrypt the string to an array of bytes.
                 byte[] sKey = Encoding.ASCII.GetBytes(tKey);
                 byte[] sIV = Encoding.ASCII.GetBytes(tVector);
@@ -153,8 +153,8 @@ namespace NetWorkedData
             {
                 // Set AES bits size
                 Int32 sAesSize = 128;
-                string tKey = KeyLengthFix(NWDEditorCredentialsManager.Password, 24);
-                string tVector = KeyLengthFix(NWDEditorCredentialsManager.VectorString, 16);
+                string tKey = KeyLengthFix(NWDProjectCredentialsManager.Password, 24);
+                string tVector = KeyLengthFix(NWDProjectCredentialsManager.VectorString, 16);
                 byte[] sPlainText = Convert.FromBase64String(Value);
                 byte[] sKey = Encoding.ASCII.GetBytes(tKey);
                 byte[] sIV = Encoding.ASCII.GetBytes(tVector);
@@ -220,7 +220,7 @@ namespace NetWorkedData
             float tTiersWidthB = tTiersWidth - NWDGUI.kFieldMarge;
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
             EditorGUI.LabelField(new Rect(sPosition.x, sPosition.y, sPosition.width, NWDGUI.kLabelStyle.fixedHeight), tContent);
-            if (string.IsNullOrEmpty(NWDEditorCredentialsManager.Password) == false && string.IsNullOrEmpty(NWDEditorCredentialsManager.VectorString) == false)
+            if (string.IsNullOrEmpty(NWDProjectCredentialsManager.Password) == false && string.IsNullOrEmpty(NWDProjectCredentialsManager.VectorString) == false)
             {
                 if (string.IsNullOrEmpty(Value))
                 {
@@ -250,8 +250,8 @@ namespace NetWorkedData
                     sPosition.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
                     if (GUI.Button(new Rect(tX, sPosition.y, tWidth, NWDGUI.kPopupStyle.fixedHeight), "credentials window"))
                     {
-                        NWDEditorCredentialsManager.SharedInstance().Show();
-                        NWDEditorCredentialsManager.SharedInstance().Focus();
+                        NWDProjectCredentialsManager.SharedInstance().Show();
+                        NWDProjectCredentialsManager.SharedInstance().Focus();
                     }
                     sPosition.y += NWDGUI.kMiniButtonStyle.fixedHeight;
 
@@ -269,8 +269,8 @@ namespace NetWorkedData
                     sPosition.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
                     if (GUI.Button(new Rect(tX, sPosition.y, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Change credentials"))
                     {
-                        NWDEditorCredentialsManager.SharedInstance().Show();
-                        NWDEditorCredentialsManager.SharedInstance().Focus();
+                        NWDProjectCredentialsManager.SharedInstance().Show();
+                        NWDProjectCredentialsManager.SharedInstance().Focus();
                     }
                     sPosition.y += NWDGUI.kMiniButtonStyle.fixedHeight;
                     NWDGUI.EndRedArea();
@@ -284,8 +284,8 @@ namespace NetWorkedData
                 NWDGUI.BeginRedArea();
                 if (GUI.Button(new Rect(tX, sPosition.y, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Need credentials"))
                 {
-                    NWDEditorCredentialsManager.SharedInstance().Show();
-                    NWDEditorCredentialsManager.SharedInstance().Focus();
+                    NWDProjectCredentialsManager.SharedInstance().Show();
+                    NWDProjectCredentialsManager.SharedInstance().Focus();
                 }
                 sPosition.y += NWDGUI.kMiniButtonStyle.fixedHeight;
                 NWDGUI.EndRedArea();
