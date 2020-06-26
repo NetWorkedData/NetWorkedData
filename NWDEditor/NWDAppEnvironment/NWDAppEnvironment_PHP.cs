@@ -195,12 +195,12 @@ namespace NetWorkedData
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("$NWD_TMA = microtime (true);");
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
-            if (LogMode == true)
+            if (LogMode != NWDEnvironmentLogMode.NoLog)
             {
                 tConstantsFile.AppendLine("error_reporting (E_ALL);");
                 tConstantsFile.AppendLine("ini_set ('display_errors', 1);");
             }
-            if (LogMode == true)
+            if (LogMode != NWDEnvironmentLogMode.NoLog)
             {
                 tConstantsFile.AppendLine("// GLOBAL FOR DATABASE ACCESS ANALYZE");
                 tConstantsFile.AppendLine("global $SQL_ACCESS_COUNT;");
@@ -266,7 +266,7 @@ namespace NetWorkedData
                 tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['max'] = " + tServerDatabase.RangeMax.ToString() + ";");
                 tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['min'] = " + tServerDatabase.RangeMin.ToString() + ";");
             }
-            if (LogMode==true)
+            if (LogMode != NWDEnvironmentLogMode.NoLog)
             {
                 tConstantsFile.AppendLine("// add random for test");
                 tConstantsFile.AppendLine("shuffle($SQL_LIST);");
@@ -320,7 +320,7 @@ namespace NetWorkedData
             StringBuilder tManagementFile = new StringBuilder(string.Empty);
             tManagementFile.AppendLine("<?php");
             tManagementFile.AppendLine(Headlines());
-            if (LogMode == true)
+            if (LogMode != NWDEnvironmentLogMode.NoLog)
             {
                 tManagementFile.AppendLine("error_reporting (E_ALL);");
                 tManagementFile.AppendLine("ini_set ('display_errors', 1);");
@@ -372,7 +372,7 @@ namespace NetWorkedData
             StringBuilder tWebServices = new StringBuilder(string.Empty);
             tWebServices.AppendLine("<?php");
             tWebServices.AppendLine(Headlines());
-            if (LogMode == true)
+            if (LogMode != NWDEnvironmentLogMode.NoLog)
             {
                 tWebServices.AppendLine("error_reporting (E_ALL);");
                 tWebServices.AppendLine("ini_set ('display_errors', 1);");
@@ -391,8 +391,8 @@ namespace NetWorkedData
             tWebServices.AppendLine("{");
             tWebServices.AppendLine("if(NWDRequestTokenIsValid($uuid,$token) == true)");
             tWebServices.AppendLine("{");
-            tWebServices.AppendLine("if(TestBanAccount($uuid) == false)");
-            tWebServices.AppendLine("{");
+            //tWebServices.AppendLine("if(TestBanAccount($uuid) == false)");
+            //tWebServices.AppendLine("{");
             // I need include ALL tables management files to manage ALL tables
             foreach (Type tType in NWDDataManager.SharedInstance().ClassSynchronizeList)
             {
@@ -415,7 +415,7 @@ namespace NetWorkedData
                 }
                 tWebServices.AppendLine("}");
             }
-            tWebServices.AppendLine("}");
+            //tWebServices.AppendLine("}");
             tWebServices.AppendLine("}");
             tWebServices.AppendLine("}");
             tWebServices.AppendLine(NWD.K_CommentSeparator);
@@ -599,7 +599,7 @@ namespace NetWorkedData
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
             tFile.AppendLine(Headlines());
-            if (LogMode == true)
+            if (LogMode != NWDEnvironmentLogMode.NoLog)
             {
                 tFile.AppendLine("error_reporting (E_ALL);");
                 tFile.AppendLine("ini_set ('display_errors', 1);");
@@ -659,7 +659,7 @@ namespace NetWorkedData
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
             tFile.AppendLine(Headlines());
-            if (LogMode == true)
+            if (LogMode!= NWDEnvironmentLogMode.NoLog)
             {
                 tFile.AppendLine("error_reporting (E_ALL);");
                 tFile.AppendLine("ini_set ('display_errors', 1);");
@@ -880,7 +880,7 @@ namespace NetWorkedData
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
             tFile.AppendLine(Headlines());
-            if (LogMode == true)
+            if (LogMode != NWDEnvironmentLogMode.NoLog)
             {
                 tFile.AppendLine("error_reporting (E_ALL);");
                 tFile.AppendLine("ini_set ('display_errors', 1);");
@@ -943,7 +943,7 @@ namespace NetWorkedData
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
             tFile.AppendLine(Headlines());
-            if (LogMode == true)
+            if (LogMode != NWDEnvironmentLogMode.NoLog)
             {
                 tFile.AppendLine("error_reporting (E_ALL);");
                 tFile.AppendLine("ini_set ('display_errors', 1);");
@@ -963,7 +963,7 @@ namespace NetWorkedData
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
             tFile.AppendLine(Headlines());
-            if (LogMode == true)
+            if (LogMode != NWDEnvironmentLogMode.NoLog)
             {
                 tFile.AppendLine("error_reporting (E_ALL);");
                 tFile.AppendLine("ini_set ('display_errors', 1);");
@@ -985,7 +985,7 @@ namespace NetWorkedData
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
             tFile.AppendLine(Headlines());
-            if (LogMode == true)
+            if (LogMode != NWDEnvironmentLogMode.NoLog)
             {
                 tFile.AppendLine("error_reporting (E_ALL);");
                 tFile.AppendLine("ini_set ('display_errors', 1);");

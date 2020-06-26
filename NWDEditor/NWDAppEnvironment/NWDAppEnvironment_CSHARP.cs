@@ -49,7 +49,7 @@ namespace NetWorkedData
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.EditorWebTimeOut) + " = " + EditorWebTimeOut.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SaltFrequency) + " = " + SaltFrequency.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AddressPing) + " = \"" + AddressPing.Replace("\"", "\\\"") + "\";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AlwaysUseSSL) + " = " + AlwaysUseSSL.ToString().ToLower() + ";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AlwaysUseSSL) + " = " + AlwaysUseSSL.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AlwaysSecureData) + " = " + AlwaysSecureData.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.BuildDate) + " = \"" + BuildDate.Replace("\"", "\\\"") + "\";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AppName) + " = \"" + AppName.Replace("\"", "\\\"") + "\";");
@@ -62,8 +62,8 @@ namespace NetWorkedData
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.WritingModeWebService) + " = " + typeof(NWDWritingMode).Name + "." + WritingModeWebService.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.WritingModeEditor) + " = " + typeof(NWDWritingMode).Name + "." + WritingModeEditor.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.CartridgeColor) + " = new Color(" + NWDToolbox.FloatToString(CartridgeColor.r) + "F," +  NWDToolbox.FloatToString(CartridgeColor.g) + "F," + NWDToolbox.FloatToString(CartridgeColor.b) + "F," + NWDToolbox.FloatToString(CartridgeColor.a) + "F);");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.LogMode) + " = " + LogMode.ToString().ToLower() + ";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.LogInFileMode) + " = " + LogInFileMode.ToString().ToLower() + ";");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.LogMode) + " = " + typeof(NWDEnvironmentLogMode).Name + "." + LogMode.ToString() + ";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.LogInFileMode) + " = " + LogInFileMode.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.LoadBalancingLimit) + " = " + LoadBalancingLimit.ToString() + ";");
             //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RuntimeDefineDictionary) + " = new Dictionary<long, string>();");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RuntimeDefineDictionary) + ".Clear();");

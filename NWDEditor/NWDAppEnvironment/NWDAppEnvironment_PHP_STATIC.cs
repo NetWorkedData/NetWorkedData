@@ -27,8 +27,20 @@ namespace NetWorkedData
             tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this, "Calculate"));
             tFile.AppendLine(NWDError.PHP_BenchmarkStart(this, "Finish"));
             tFile.AppendLine(NWD.K_CommentSeparator);
-            if (LogMode == true)
+            if (LogMode != NWDEnvironmentLogMode.NoLog)
             {
+                tFile.AppendLine("if ($admin == true)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine(NWDError.PHP_log(this, "WS as Admin"));
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("else");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine(NWDError.PHP_log(this, "WS as Player"));
+                }
+                tFile.AppendLine("}");
                 tFile.AppendLine("//Insert logs for acces database debug");
                 tFile.AppendLine("global $SQL_ACCESS_COUNT;");
                 tFile.AppendLine("global $SQL_ACCESS_SQL;");
@@ -37,12 +49,7 @@ namespace NetWorkedData
             }
             tFile.AppendLine("// prevent include from function for exit (typical example: error('XXX', true);)");
             tFile.AppendLine("global $admin," + NWD.K_SQL_CON_EDITOR + ", $NWD_SLT_TMP, $NWD_TMA, $RRR_LOG, $REP, $WSBUILD, " + NWD.K_PHP_TIME_SYNC + ", $REF_NEEDED, $ACC_NEEDED, " + NWD.K_ENV + ", $NWD_SHA_VEC, $NWD_SHA_SEC, $NWD_SLT_STR, $NWD_SLT_END;");
-            tFile.AppendLine(NWD.K_CommentSeparator);
-            if (LogMode == true)
-            {
-                tFile.AppendLine("// add log");
-                tFile.AppendLine(NWDError.FUNCTIONPHP_respond + "();");
-            }
+           
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// web-services build");
             tFile.AppendLine("respondAdd('wsbuild',$WSBUILD);");
@@ -51,9 +58,16 @@ namespace NetWorkedData
             tFile.AppendLine("foreach(" + NWD.K_SQL_CON_EDITOR + " as $tRange=>$tConnexion)");
             tFile.AppendLine("{");
             {
+                tFile.AppendLine(NWDError.PHP_log(this, "close a sqlite connexion"));
                 tFile.AppendLine("mysqli_close($tConnexion);");
             }
             tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            if (LogMode != NWDEnvironmentLogMode.NoLog)
+            {
+                tFile.AppendLine("// add log");
+                tFile.AppendLine(NWDError.FUNCTIONPHP_respond + "();");
+            }
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// Insert error if necessary");
             tFile.AppendLine("" + NWDError.FUNCTIONPHP_errorResult + "();");
@@ -73,22 +87,26 @@ namespace NetWorkedData
             tFile.AppendLine("$temporalSalt = saltTemporal($NWD_SLT_TMP, 0);");
             tFile.AppendLine("if (isset($REP['" + NWD.K_WEB_REQUEST_TOKEN_KEY + "']))");
             tFile.AppendLine("{");
-            tFile.AppendLine("header('" + NWD.HashKey + ": '.sha1($temporalSalt.$NWD_SHA_VEC.$REP['" + NWD.K_WEB_REQUEST_TOKEN_KEY + "']));");
-            tFile.AppendLine("header('" + NWD.K_WEB_REQUEST_TOKEN_KEY + ": '.$REP['" + NWD.K_WEB_REQUEST_TOKEN_KEY + "']);");
+            {
+                tFile.AppendLine("header('" + NWD.HashKey + ": '.sha1($temporalSalt.$NWD_SHA_VEC.$REP['" + NWD.K_WEB_REQUEST_TOKEN_KEY + "']));");
+                tFile.AppendLine("header('" + NWD.K_WEB_REQUEST_TOKEN_KEY + ": '.$REP['" + NWD.K_WEB_REQUEST_TOKEN_KEY + "']);");
+            }
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("$json = json_encode($REP);");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("if (respondIsset('" + NWD.K_JSON_SECURE_KEY + "'))");
             tFile.AppendLine("{");
-            tFile.AppendLine("header('" + NWEUnityWebService.SecureKey + ": " + NWEUnityWebService.SecureDigestKey + "');");
-            if (LogMode == true)
             {
-                tFile.AppendLine("$REPSCR['" + NWD.K_WEB_LOG_Key + "'] = $REP['" + NWD.K_WEB_LOG_Key + "'];");
+                tFile.AppendLine("header('" + NWEUnityWebService.SecureKey + ": " + NWEUnityWebService.SecureDigestKey + "');");
+                if (LogMode != NWDEnvironmentLogMode.NoLog)
+                {
+                    tFile.AppendLine("$REPSCR['" + NWD.K_WEB_LOG_Key + "'] = $REP['" + NWD.K_WEB_LOG_Key + "'];");
+                }
+                tFile.AppendLine("$REPSCR['" + NWEUnityWebService.SecureKey + "'] = aes128Encrypt( $json, $NWD_SHA_SEC, $NWD_SHA_VEC);");
+                tFile.AppendLine("$REPSCR['" + NWEUnityWebService.SecureDigestKey + "'] = sha1($NWD_SLT_STR.$REPSCR['" + NWEUnityWebService.SecureKey + "'].$NWD_SLT_END);");
+                tFile.AppendLine("$json = json_encode($REPSCR);");
             }
-            tFile.AppendLine("$REPSCR['" + NWEUnityWebService.SecureKey + "'] = aes128Encrypt( $json, $NWD_SHA_SEC, $NWD_SHA_VEC);");
-            tFile.AppendLine("$REPSCR['" + NWEUnityWebService.SecureDigestKey + "'] = sha1($NWD_SLT_STR.$REPSCR['" + NWEUnityWebService.SecureKey + "'].$NWD_SLT_END);");
-            tFile.AppendLine("$json = json_encode($REPSCR);");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// write JSON");
@@ -336,7 +354,7 @@ namespace NetWorkedData
                         }
                         else
                         {
-                        tFile.AppendLine(NWDError.PHP_log(this, "Error in MySQL connexion on '.$SQL_LIST[$sRange]['host'].' for '.$SQL_LIST[$sRange]['user'].' with password ??????????? on database '.$SQL_LIST[$sRange]['database'].'"));
+                            tFile.AppendLine(NWDError.PHP_log(this, "Error in MySQL connexion on '.$SQL_LIST[$sRange]['host'].' for '.$SQL_LIST[$sRange]['user'].' with password ??????????? on database '.$SQL_LIST[$sRange]['database'].'"));
                         }
                         tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SQL00));
                         //tFile.AppendLine("include_once ('" + NWD.K_STATIC_FINISH_PHP + "');");
@@ -518,7 +536,7 @@ namespace NetWorkedData
                 tFile.AppendLine(NWDError.PHP_BenchmarkStart(this));
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
 
-                if (LogMode == true)
+                if (LogMode != NWDEnvironmentLogMode.NoLog)
                 {
                     tFile.AppendLine("global $SQL_ACCESS_COUNT;");
                     tFile.AppendLine("global $SQL_ACCESS_SQL;");
@@ -575,7 +593,7 @@ namespace NetWorkedData
             {
                 tFile.AppendLine(NWDError.PHP_BenchmarkStart(this));
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
-                if (LogMode == true)
+                if (LogMode != NWDEnvironmentLogMode.NoLog)
                 {
                     tFile.AppendLine("global $SQL_ACCESS_COUNT;");
                     tFile.AppendLine("global $SQL_ACCESS_SQL;");
@@ -634,7 +652,7 @@ namespace NetWorkedData
                 tFile.AppendLine("foreach (" + NWD.K_SQL_CON_EDITOR + " as $tRange => $tConnexion)");
                 tFile.AppendLine("{");
                 {
-                    if (LogMode == true)
+                    if (LogMode != NWDEnvironmentLogMode.NoLog)
                     {
                         tFile.AppendLine("global $SQL_ACCESS_COUNT;");
                         tFile.AppendLine("global $SQL_ACCESS_SQL;");
@@ -696,7 +714,7 @@ namespace NetWorkedData
                 tFile.AppendLine("foreach (" + NWD.K_SQL_CON_EDITOR + " as $tRange => $tConnexion)");
                 tFile.AppendLine("{");
                 {
-                    if (LogMode == true)
+                    if (LogMode != NWDEnvironmentLogMode.NoLog)
                     {
                         tFile.AppendLine("global $SQL_ACCESS_COUNT;");
                         tFile.AppendLine("global $SQL_ACCESS_SQL;");
@@ -1198,7 +1216,7 @@ namespace NetWorkedData
                                         tFile.AppendLine("if ($sGlobal == true)");
                                         tFile.AppendLine("{");
                                         {
-                                            tFile.AppendLine("$tPinCode = '"+tGlobalChar+"'.CodeRandomSizable($tSize++);");
+                                            tFile.AppendLine("$tPinCode = '" + tGlobalChar + "'.CodeRandomSizable($tSize++);");
                                         }
                                         tFile.AppendLine("}");
                                         tFile.AppendLine("else");
@@ -1315,7 +1333,7 @@ namespace NetWorkedData
             tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDIPBan>().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
             tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDRequestToken>().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
             tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDVersion>().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
-            tFile.AppendLine("if (IPBanOk() == true)");
+            //tFile.AppendLine("if (IPBanOk() == true)");
             tFile.AppendLine("{");
             //tFile.AppendLine("$ereg_os = '/^(editor|unity|ios|osx|android|web|win|wp8|ps3|ps4|psp|switch)$/';");
             //tFile.AppendLine("$ereg_version = '/^([0-9]{1,2})+(\\.[0-9]{1,3})*$/';");

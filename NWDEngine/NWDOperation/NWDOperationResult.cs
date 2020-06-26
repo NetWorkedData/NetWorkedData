@@ -36,6 +36,7 @@ namespace NetWorkedData
         public int avg { get; private set; }
         public float perform { get; private set; }
         public float performRequest { get; private set; }
+        public string URL { get; set; }
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, object> param { get; private set; }
         //-------------------------------------------------------------------------------------------------------------
@@ -123,7 +124,7 @@ namespace NetWorkedData
                         break;
                     case NWD.K_WEB_BENCHMARK_Key:
                         //#if UNITY_EDITOR
-                        if (NWDAppConfiguration.SharedInstance().SelectedEnvironment().LogMode == true)
+                        if (NWDAppConfiguration.SharedInstance().SelectedEnvironment().LogMode == NWDEnvironmentLogMode.LogInConsole)
                         {
                             foreach (string tL in tValue as List<object>)
                             {
@@ -134,7 +135,7 @@ namespace NetWorkedData
                         break;
                     case NWD.K_WEB_LOG_Key:
                         //#if UNITY_EDITOR
-                        if (NWDAppConfiguration.SharedInstance().SelectedEnvironment().LogMode == true)
+                        if (NWDAppConfiguration.SharedInstance().SelectedEnvironment().LogMode == NWDEnvironmentLogMode.LogInConsole)
                         {
                             foreach (string tL in tValue.ToString().Split(new string[] { "\\r" }, StringSplitOptions.RemoveEmptyEntries))
                             {

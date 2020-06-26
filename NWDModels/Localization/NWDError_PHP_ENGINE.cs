@@ -271,7 +271,7 @@ namespace NetWorkedData
         public static string PHP_ErrorSQL(NWDAppEnvironment sEnvironment, string sQueryRef, string sConnexion)
         {
             string rReturn = string.Empty;
-            if (sEnvironment.LogMode == false)
+            if (sEnvironment.LogMode == NWDEnvironmentLogMode.NoLog)
             {
                 rReturn = rReturn + "//";
             }
@@ -360,7 +360,7 @@ namespace NetWorkedData
         public static string PHP_log(NWDAppEnvironment sEnvironment, string sString)
         {
             string rReturn = string.Empty;
-            if (sEnvironment.LogMode == false)
+            if (sEnvironment.LogMode == NWDEnvironmentLogMode.NoLog)
             {
                 rReturn = rReturn + "//";
             }
@@ -371,7 +371,7 @@ namespace NetWorkedData
         public static string PHP_logTrace(NWDAppEnvironment sEnvironment)
         {
             string rReturn = string.Empty;
-            if (sEnvironment.LogMode == false)
+            if (sEnvironment.LogMode == NWDEnvironmentLogMode.NoLog)
             {
                 rReturn = rReturn + "//";
             }
@@ -382,7 +382,7 @@ namespace NetWorkedData
         public static string PHP_BenchmarkStart(NWDAppEnvironment sEnvironment, string sKey = "'.__FUNCTION__.' <i>'.basename(__FILE__).'</i>")
         {
             string rReturn = string.Empty;
-            if (sEnvironment.LogMode == false)
+            if (sEnvironment.LogMode == NWDEnvironmentLogMode.NoLog)
             {
                 rReturn = rReturn + "//";
             }
@@ -393,7 +393,7 @@ namespace NetWorkedData
         public static string PHP_BenchmarkStep(NWDAppEnvironment sEnvironment, string sInfos = "",  string sKey = "'.__FUNCTION__.' <i>'.basename(__FILE__).'</i>")
         {
             string rReturn = string.Empty;
-            if (sEnvironment.LogMode == false)
+            if (sEnvironment.LogMode == NWDEnvironmentLogMode.NoLog)
             {
                 rReturn = rReturn + "//";
             }
@@ -404,7 +404,7 @@ namespace NetWorkedData
         public static string PHP_BenchmarkFinish(NWDAppEnvironment sEnvironment, string sKey = "'.__FUNCTION__.' <i>'.basename(__FILE__).'</i>")
         {
             string rReturn = string.Empty;
-            if (sEnvironment.LogMode == false)
+            if (sEnvironment.LogMode == NWDEnvironmentLogMode.NoLog)
             {
                 rReturn = rReturn + "//";
             }

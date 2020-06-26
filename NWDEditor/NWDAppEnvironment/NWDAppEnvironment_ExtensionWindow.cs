@@ -66,14 +66,16 @@ namespace NetWorkedData
             SaltEnd = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("Salt end", SaltEnd));
             SaltFrequency = EditorGUILayout.IntField("Salt Frequency", SaltFrequency);
 
+            NWDGUILayout.SubSection("Log mode " + Environment);
+            LogMode = (NWDEnvironmentLogMode)EditorGUILayout.EnumPopup("Log Mode", LogMode);
+
             NWDGUILayout.SubSection("Network Ping tester " + Environment);
             AddressPing = EditorGUILayout.TextField("Address Ping (8.8.8.8)", AddressPing);
 
             NWDGUILayout.SubSection("Server Params for " + Environment);
-            AlwaysUseSSL = EditorGUILayout.Toggle("Always use HTTPS", AlwaysUseSSL);
+            //AlwaysUseSSL = EditorGUILayout.Toggle("Always use HTTPS", AlwaysUseSSL);
             AlwaysSecureData = EditorGUILayout.Toggle("Always Secure Data", AlwaysSecureData);
-            LogMode = EditorGUILayout.Toggle("Log Mode", LogMode);
-            LogInFileMode = EditorGUILayout.Toggle("Log in File Mode", LogInFileMode);
+            //LogInFileMode = EditorGUILayout.Toggle("Log in File Mode", LogInFileMode);
             EditorGUI.BeginDisabledGroup(true);
             ServerLanguage = (NWDServerLanguage)EditorGUILayout.EnumPopup("Server Language", ServerLanguage);
             EditorGUI.EndDisabledGroup();
@@ -84,8 +86,10 @@ namespace NetWorkedData
             RescueDelay = EditorGUILayout.IntField("Rescue delay", RescueDelay);
             RescueLoginLength = EditorGUILayout.IntField("Rescue Login length", RescueLoginLength);
             RescuePasswordLength = EditorGUILayout.IntField("Rescue Password length", RescuePasswordLength);
-            NWDGUILayout.SubSection("Mail Params for " + Environment);
-            NWDGUILayout.SubSection("Admin Key for " + Environment);
+
+
+            //NWDGUILayout.SubSection("Mail Params for " + Environment);
+            //NWDGUILayout.SubSection("Admin Key for " + Environment);
             //AdminKey = EditorGUILayout.TextField("AdminKey", AdminKey);
             //AdminInPlayer = EditorGUILayout.Toggle("Admin In Player", AdminInPlayer);
             NWDGUILayout.SubSection("Token Historic limit for " + Environment);

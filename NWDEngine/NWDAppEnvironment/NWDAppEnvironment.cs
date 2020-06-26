@@ -14,6 +14,14 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
+    public enum NWDEnvironmentLogMode : short
+    {
+        NoLog = 0,
+        LogInConsole = 1,
+        LogInFile = 2,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [Serializable]
     public enum NWDEnvironmentType : short
     {
         Prod = 0,
@@ -120,8 +128,8 @@ namespace NetWorkedData
         //public string ServerPassword = string.Empty;
         //public string ServerBase = "myDatabase";
 #endif
-        public bool LogMode = true;
-        public bool LogInFileMode = true;
+        public NWDEnvironmentLogMode LogMode = NWDEnvironmentLogMode.NoLog;
+        //public bool LogInFileMode = true;
         //public string AdminKey = string.Empty;
         //public string AdminKeyHash = string.Empty;
         //public bool AdminInPlayer = false;
@@ -129,7 +137,7 @@ namespace NetWorkedData
         public int SaltFrequency = 300;
         public string AddressPing = "8.8.8.8";
         //public string ServerHTTPS = "https://www.my-web-site.com/";
-        public bool AlwaysUseSSL = true;
+        //public bool AlwaysUseSSL = true;
         public bool AlwaysSecureData = false;
         //public string FacebookAppID = string.Empty;
         //public string FacebookAppSecret = string.Empty;
@@ -198,14 +206,14 @@ namespace NetWorkedData
             //        rReturn = tServer.ServerDNS;
             //    }
             //}
-            if (AlwaysUseSSL == true)
-            {
+            //if (AlwaysUseSSL == true)
+            //{
                 return "https://" + GetServerDNS();
-            }
-            else
-            {
-                return "http://" + GetServerDNS();
-            }
+            //}
+            //else
+            //{
+            //    return "http://" + GetServerDNS();
+            //}
         }
         //-------------------------------------------------------------------------------------------------------------
         public string GetConfigurationServerHTTPS()
@@ -216,14 +224,14 @@ namespace NetWorkedData
             {
                 if (tDomain.ValidInEnvironment(this))
                 {
-                    if (AlwaysUseSSL == true)
-                    {
+                    //if (AlwaysUseSSL == true)
+                    //{
                         rReturn = "https://" + NWDToolbox.CleanDNS(tDomain.ServerDNS);
-                    }
-                    else
-                    {
-                        rReturn = "http://" + NWDToolbox.CleanDNS(tDomain.ServerDNS);
-                    }
+                    //}
+                    //else
+                    //{
+                    //    rReturn = "http://" + NWDToolbox.CleanDNS(tDomain.ServerDNS);
+                    //}
                     break;
                 }
             }

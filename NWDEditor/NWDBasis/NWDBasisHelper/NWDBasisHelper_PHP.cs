@@ -1381,7 +1381,7 @@ namespace NetWorkedData
                 tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + "," + PHP_CONSTANT_WEBSERVICE() + ", " + NWD.K_PATH_BASE + ";");
                 tFile.AppendLine("global $REP;");
                 tFile.AppendLine("global $admin;");
-                if (sEnvironment.LogMode == true)
+                if (sEnvironment.LogMode != NWDEnvironmentLogMode.NoLog)
                 {
                     tFile.AppendLine("$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "_list'][] = $sTimeStamp;");
                 }

@@ -214,12 +214,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void DataDownloadedCompute(NWDOperationResult sData)
         {
-            //NWEBenchmark.Start();
+            NWEBenchmark.Start();
             NWDDataManager.SharedInstance().SynchronizationPullClassesDatas(ResultInfos, Environment, sData, TypeList, Special);
 #if UNITY_EDITOR
             NWDAppEnvironmentChooser.Refresh();
 #endif
-            //NWEBenchmark.Finish();
+           NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
