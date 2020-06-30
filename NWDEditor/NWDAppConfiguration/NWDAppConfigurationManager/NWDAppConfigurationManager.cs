@@ -16,7 +16,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// the App configuration manager window. It's editor window to parameter the NWD App in the project.
+    /// The <see cref="NWDAppConfigurationManager"/> is an editor window to parameter <see cref="NetWorkedData"/> in the application final compile.
     /// </summary>
     public class NWDAppConfigurationManager : NWDEditorWindow
     {
@@ -24,30 +24,30 @@ namespace NetWorkedData
         /// <summary>
         /// The shared instance.
         /// </summary>
-        private static NWDAppConfigurationManager kSharedInstance;
+        private static NWDAppConfigurationManager _kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The scroll position.
         /// </summary>
-        static Vector2 ScrollPosition;
+        private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Returns the SharedInstance or instance one
+        /// Returns the <see cref="_kSharedInstance"/> or instance one
         /// </summary>
         /// <returns></returns>
         public static NWDAppConfigurationManager SharedInstance()
         {
             //NWEBenchmark.Start();
-            if (kSharedInstance == null)
+            if (_kSharedInstance == null)
             {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppConfigurationManager)) as NWDAppConfigurationManager;
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppConfigurationManager)) as NWDAppConfigurationManager;
             }
             //NWEBenchmark.Finish();
-            return kSharedInstance;
+            return _kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Repaint all app configuration manager windows.
+        /// Repaint all <see cref="NWDAppConfigurationManager"/>.
         /// </summary>
         public static void Refresh()
         {
@@ -60,29 +60,17 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool IsSharedInstanced()
-        {
-            if (kSharedInstance != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Show the SharedInstance of app configuration manager window and focus on.
+        /// Show the <see cref="_kSharedInstance"/> of <see cref="NWDAppConfigurationManager"/> and focus on.
         /// </summary>
         /// <returns></returns>
         public static NWDAppConfigurationManager SharedInstanceFocus()
         {
-            //NWEBenchmark.Start();
+            NWEBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
-            //NWEBenchmark.Finish();
-            return kSharedInstance;
+            NWEBenchmark.Finish();
+            return _kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -115,7 +103,7 @@ namespace NetWorkedData
             NWDGUILayout.Title("App configurations");
             NWDGUILayout.Informations("The settings below modify the compiled binary. Be careful when making changes.!");
             NWDGUILayout.Line();
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             // start interface
 
 

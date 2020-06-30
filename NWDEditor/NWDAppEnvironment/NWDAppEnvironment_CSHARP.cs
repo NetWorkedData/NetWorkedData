@@ -16,6 +16,11 @@ namespace NetWorkedData
     public partial class NWDAppEnvironment
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Use <paramref name="sSelectedEnvironment"/> to define the good environment
+        /// </summary>
+        /// <param name="sSelectedEnvironment">sSelectedEnvironment </param>
+        /// <returns></returns>
         public string CreateAppConfigurationCsharp(NWDAppEnvironment sSelectedEnvironment)
         {
             //NWEBenchmark.Start();

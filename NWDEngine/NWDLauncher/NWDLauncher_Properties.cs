@@ -1,9 +1,22 @@
 //=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+// Define use for Debug and Benchmark only in this file!
+#if UNITY_EDITOR
+#define NET_WORKED_DATA_DEBUG
+#define NET_WORKED_DATA_BENCHMARK
+#elif DEBUG
+#define NET_WORKED_DATA_DEBUG
+#define NET_WORKED_DATA_BENCHMARK
+#else
+//#define NET_WORKED_DATA_DEBUG
+//#define NET_WORKED_DATA_BENCHMARK
+#endif
+//=====================================================================================================================
+
+#define NWDDEBUG_LOGMODE
 
 using System;
 using System.Collections.Generic;

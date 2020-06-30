@@ -36,7 +36,7 @@ namespace NetWorkedData
             //Debug.Log("NWDRequestToken Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
-        static NWDRequestToken kCurrent = null;
+        //static NWDRequestToken kCurrent = null;
         //-------------------------------------------------------------------------------------------------------------
         //public static NWDRequestToken GetRequestTokenOrCreate()
         //{

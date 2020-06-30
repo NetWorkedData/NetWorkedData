@@ -2,8 +2,18 @@
 //
 //  ideMobi 2020©
 //
-//  All rights reserved by ideMobi
-//
+//=====================================================================================================================
+// Define use for Debug and Benchmark only in this file!
+#if UNITY_EDITOR
+#define NET_WORKED_DATA_DEBUG
+#define NET_WORKED_DATA_BENCHMARK
+#elif DEBUG
+#define NET_WORKED_DATA_DEBUG
+#define NET_WORKED_DATA_BENCHMARK
+#else
+//#define NET_WORKED_DATA_DEBUG
+//#define NET_WORKED_DATA_BENCHMARK
+#endif
 //=====================================================================================================================
 
 using System;
@@ -28,6 +38,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private static void LaunchStandard()
         {
+
+            NWDDebug.Log("test");
             NWDEngineBenchmark.Watch.Start();
             if (ActiveBenchmark)
             {
@@ -98,7 +110,8 @@ namespace NetWorkedData
             {
                 //TimeFinish = NWEBenchmark.SinceStartup();
                 TimeFinish = Time.realtimeSinceStartup;
-                TimeNWDFinish = NWEBenchmark.Finish();
+                NWEBenchmark.Finish();
+                TimeNWDFinish = NWDEngineBenchmark.Watch.ElapsedMilliseconds / 1000.0F;
                 //LauncherBenchmarkToMarkdown();
             }
             NWDEngineBenchmark.Watch.Stop();

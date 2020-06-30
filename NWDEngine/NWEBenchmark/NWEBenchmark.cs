@@ -1,3 +1,8 @@
+#if UNITY_EDITOR
+#define NET_WORKED_DATA_BENCHMARK
+using UnityEditor;
+#endif
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,9 +15,11 @@ namespace NetWorkedData
     public class NWEBenchmark
     {
         //-------------------------------------------------------------------------------------------------------------
+        const string MACRO = "NET_WORKED_DATA_BENCHMARK";
+        //-------------------------------------------------------------------------------------------------------------
         private static Dictionary<string, long> cStartDico = new Dictionary<string, long>(new StringIndexKeyComparer());
         private static Dictionary<string, long> cStepDico = new Dictionary<string, long>(new StringIndexKeyComparer());
-        public static long BenchmarkError = 0;
+        //public static long BenchmarkError = 0;
         private static float FrameRate = -1;
         private static Stopwatch Watch = new Stopwatch();
         //private static float LastStep = 0;
@@ -31,7 +38,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static NWEBenchmark()
         {
-            //UnityEngine.Debug.Log("START NWEBenchmark CLASS");
             Watch.Start();
             if (Application.targetFrameRate == -1)
             {
@@ -49,35 +55,30 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
         public static void ResetAll()
         {
             Watch.Restart();
             cStartDico.Clear();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string GetKeyWihRandom()
-        {
-            return GetKey() + " " + NWDToolbox.RandomStringUnix(12);
-        }
+        //public static string GetKeyWihRandom()
+        //{
+        //    return GetKey() + " " + NWDToolbox.RandomStringUnix(12);
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        protected static string GetKey()
+        private static string GetKey()
         {
-            //long tStart = Watch.ElapsedMilliseconds;
-
             StackTrace st = new StackTrace();
             StackFrame sf = st.GetFrame(2);
             MethodBase tM = sf.GetMethod();
             string tDot = ".";
             if (tM.IsStatic == true) { tDot = ">"; }
             string tMethod = tM.DeclaringType.Name + tDot + tM.Name;
-
-            //long tStop = Watch.ElapsedMilliseconds - tStart;
-            //BenchmarkError += tStop;
-            //UnityEngine.Debug.Log("NWEBenchmark STOPWATCH GetKey() : " + (tStop / 1000.0F).ToString("F3") + " s");
-
             return tMethod;
         }
         //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
         public static void Start()
         {
             Start(GetKey());
@@ -100,6 +101,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
         public static void Start(string sKey)
         {
             //long tStart = Watch.ElapsedMilliseconds;
@@ -130,34 +132,39 @@ namespace NetWorkedData
             //UnityEngine.Debug.Log("NWEBenchmark STOPWATCH Start() : " + (tStop / 1000.0F).ToString("F3") + " s");
         }
         //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
         public static void Log(string sInfos = "")
         {
             UnityEngine.Debug.Log("benchmark : " + GetIndentation() + "|\t• " + " Log : " + sInfos);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static double SinceStartup(string sInfos = "")
-        {
-            double tTime = Time.realtimeSinceStartup;
-            UnityEngine.Debug.Log("benchmark : Realtime Since Startup : " + tTime.ToString("F3") + " seconds " + sInfos);
-            return tTime;
-        }
+        //public static double SinceStartup(string sInfos = "")
+        //{
+        //    double tTime = Time.realtimeSinceStartup;
+        //    UnityEngine.Debug.Log("benchmark : Realtime Since Startup : " + tTime.ToString("F3") + " seconds " + sInfos);
+        //    return tTime;
+        //}
         //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
         public static void LogWarning(string sInfos = "")
         {
             UnityEngine.Debug.LogWarning("benchmark : " + GetIndentation() + "|\t !!! " + " Log : " + sInfos);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static double Finish(bool sWithDebug = true, string sMoreInfos = "")
+        [Conditional(MACRO)]
+        public static void Finish(bool sWithDebug = true, string sMoreInfos = "")
         {
-            return Finish(GetKey(), sWithDebug, sMoreInfos);
+            Finish(GetKey(), sWithDebug, sMoreInfos);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static double Step(bool sWithDebug = true, string sMoreInfos = "")
+        [Conditional(MACRO)]
+        public static void Step(bool sWithDebug = true, string sMoreInfos = "")
         {
-            return Step(GetKey(), sWithDebug, sMoreInfos);
+            Step(GetKey(), sWithDebug, sMoreInfos);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static double Finish(string sKey, bool sWithDebug = true, string sMoreInfos = "")
+        [Conditional(MACRO)]
+        public static void Finish(string sKey, bool sWithDebug = true, string sMoreInfos = "")
         {
             //long tStart = Watch.ElapsedMilliseconds;
             if (cStepDico.ContainsKey(sKey) == true)
@@ -195,18 +202,11 @@ namespace NetWorkedData
             {
                 UnityEngine.Debug.Log("benchmark : error '" + GetIndentation() + sKey + "' has no start value. " + sMoreInfos);
             }
-
-            //long tStop = Watch.ElapsedMilliseconds - tStart;
-            //BenchmarkError += tStop;
-            //UnityEngine.Debug.Log("NWEBenchmark STOPWATCH Finish() : " + (tStop / 1000.0F).ToString("F3") + " s");
-
-            return rDelta;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static double Step(string sKey, bool sWithDebug = true, string sMoreInfos = "")
+        [Conditional(MACRO)]
+        public static void Step(string sKey, bool sWithDebug = true, string sMoreInfos = "")
         {
-            //long tStart = Watch.ElapsedMilliseconds;
-
             double rDeltaAbsolute = 0;
             double rDelta = 0;
             double rFrameSpend = 0;
@@ -245,11 +245,6 @@ namespace NetWorkedData
             {
                 cStepDico.Add(sKey, Watch.ElapsedMilliseconds);
             }
-            //long tStop = Watch.ElapsedMilliseconds - tStart;
-            //BenchmarkError += tStop;
-            //UnityEngine.Debug.Log("NWEBenchmark STOPWATCH Step() : " + (tStop / 1000.0F).ToString("F3") + " s");
-
-            return rDelta;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

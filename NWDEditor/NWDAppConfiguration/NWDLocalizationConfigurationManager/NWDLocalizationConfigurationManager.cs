@@ -21,24 +21,28 @@ namespace NetWorkedData
         /// <summary>
         /// The Shared Instance.
         /// </summary>
-        private static NWDLocalizationConfigurationManager kSharedInstance;
+        private static NWDLocalizationConfigurationManager _kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The scroll position.
         /// </summary>
-        static Vector2 ScrollPosition;
+        private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
         public static NWDLocalizationConfigurationManager SharedInstance()
         {
             //NWEBenchmark.Start();
-            if (kSharedInstance == null)
+            if (_kSharedInstance == null)
             {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWDLocalizationConfigurationManager)) as NWDLocalizationConfigurationManager;
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDLocalizationConfigurationManager)) as NWDLocalizationConfigurationManager;
             }
             //NWEBenchmark.Finish();
-            return kSharedInstance;
+            return _kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show the SharedInstance of <see cref="NWDLocalizationConfigurationManager"/> and focus on.
+        /// </summary>
+        /// <returns></returns>
         public static void SharedInstanceFocus()
         {
             //NWEBenchmark.Start();
@@ -58,7 +62,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static bool IsSharedInstanced()
         {
-            if (kSharedInstance != null)
+            if (_kSharedInstance != null)
             {
                 return true;
             }
@@ -82,7 +86,7 @@ namespace NetWorkedData
             NWDGUILayout.Title(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA);
             NWDGUILayout.Informations("Some informations");
             NWDGUILayout.Line();
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
 
             NWDGUILayout.Section(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA);
             Dictionary<string, string> tLanguageDico = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguageDico;

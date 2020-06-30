@@ -342,7 +342,7 @@ namespace NetWorkedData
                 tFile.AppendLine("$tResult = $Connexion->query($tQuery);");
                 tFile.AppendLine("if (!$tResult)");
                 tFile.AppendLine("{");
-                tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery", "$Connexion"));
+                //tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery", "$Connexion"));
                 tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx01, ClassNamePHP));
                 tFile.AppendLine("}");
             }
@@ -523,7 +523,7 @@ namespace NetWorkedData
                 tFile.AppendLine("if (!$tResult)");
                 tFile.AppendLine("{");
                 {
-                    tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery", "$Connexion"));
+                    //tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery", "$Connexion"));
                     tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx07, ClassNamePHP));
                 }
                 tFile.AppendLine("}");
@@ -544,7 +544,7 @@ namespace NetWorkedData
                 tFile.AppendLine("$tResult = $Connexion->query($tQuery);");
                 tFile.AppendLine("if (!$tResult)");
                 tFile.AppendLine("{");
-                tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery", "$Connexion"));
+                //tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery", "$Connexion"));
                 tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx07, ClassNamePHP));
                 tFile.AppendLine("}");
             }
@@ -564,7 +564,7 @@ namespace NetWorkedData
                 tFile.AppendLine("$tResult = $Connexion->query($tQuery);");
                 tFile.AppendLine("if (!$tResult)");
                 tFile.AppendLine("{");
-                tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery", "$Connexion"));
+                //tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery", "$Connexion"));
                 tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx08, ClassNamePHP));
                 tFile.AppendLine("}");
             }
@@ -584,7 +584,7 @@ namespace NetWorkedData
                 tFile.AppendLine("$tResult = $Connexion->query($tQuery);");
                 tFile.AppendLine("if (!$tResult)");
                 tFile.AppendLine("{");
-                tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery", "$Connexion"));
+                //tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery", "$Connexion"));
                 tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx09, ClassNamePHP));
                 tFile.AppendLine("}");
             }

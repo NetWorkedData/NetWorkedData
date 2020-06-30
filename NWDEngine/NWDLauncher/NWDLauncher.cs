@@ -1,8 +1,19 @@
 //=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
+//=====================================================================================================================
+// Define use for Debug and Benchmark only in this file!
+#if UNITY_EDITOR
+#define NET_WORKED_DATA_DEBUG
+#define NET_WORKED_DATA_BENCHMARK
+#elif DEBUG
+//#define NET_WORKED_DATA_DEBUG
+//#define NET_WORKED_DATA_BENCHMARK
+#else
+//#define NET_WORKED_DATA_DEBUG
+//#define NET_WORKED_DATA_BENCHMARK
+#endif
 //=====================================================================================================================
 
 using System;
@@ -269,10 +280,10 @@ namespace NetWorkedData
 
             if (ActiveBenchmark)
             {
-                UnityEngine.Debug.Log("benchmark : REPPORT | " + string.Join(" | ", tRepport.Keys) + " |");
-                UnityEngine.Debug.Log("benchmark : REPPORT | " + string.Join(" | ", tRepportLayout) + " |");
+                NWDDebug.Log("benchmark : REPPORT | " + string.Join(" | ", tRepport.Keys) + " |");
+                NWDDebug.Log("benchmark : REPPORT | " + string.Join(" | ", tRepportLayout) + " |");
             }
-            UnityEngine.Debug.Log("benchmark : REPPORT | " + string.Join(" | ", tRepport.Values) + " |");
+            NWDDebug.Log("benchmark : REPPORT | " + string.Join(" | ", tRepport.Values) + " |");
         }
         //-------------------------------------------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod]

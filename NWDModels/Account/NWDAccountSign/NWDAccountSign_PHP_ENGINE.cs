@@ -97,7 +97,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResultTest = " + NWD.K_SQL_CON + "->query($tQueryTest);");
             tFile.AppendLine("if (!$tResultTest)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryTest", NWD.K_SQL_CON));
+            //tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryTest", NWD.K_SQL_CON));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -115,7 +115,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResultUpdate = " + NWD.K_SQL_CON + "->query($tQueryUpdate);");
             tFile.AppendLine("if (!$tResultUpdate)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryUpdate", NWD.K_SQL_CON));
+            //tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryUpdate", NWD.K_SQL_CON));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -151,7 +151,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResultTest = " + NWD.K_SQL_CON + "->query($tQueryTest);");
             tFile.AppendLine("if (!$tResultTest)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryTest", NWD.K_SQL_CON));
+            //tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryTest", NWD.K_SQL_CON));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -169,7 +169,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResultUpdate = " + NWD.K_SQL_CON + "->query($tQueryUpdate);");
             tFile.AppendLine("if (!$tResultUpdate)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryUpdate", NWD.K_SQL_CON));
+            //tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryUpdate", NWD.K_SQL_CON));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -247,7 +247,7 @@ namespace NetWorkedData
             tFile.AppendLine("if (!$tResultSign)");
             tFile.AppendLine("{");
                     {
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuerySign", NWD.K_SQL_CON));
+            //tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuerySign", NWD.K_SQL_CON));
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_RESC01));
                     }
             tFile.AppendLine("}");

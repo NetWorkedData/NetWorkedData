@@ -1,26 +1,21 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:29:6
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
-//  All rights reserved by ideMobi
+//  ideMobi 2020©
 //
 //=====================================================================================================================
-
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
-using System.Collections;
-using System.IO;
-
+// Define use for Debug and Benchmark only in this file!
 #if UNITY_EDITOR
-using UnityEditor;
+#define NET_WORKED_DATA_DEBUG
+#define NET_WORKED_DATA_BENCHMARK
+#elif DEBUG
+#define NET_WORKED_DATA_DEBUG
+#define NET_WORKED_DATA_BENCHMARK
+#else
+//#define NET_WORKED_DATA_DEBUG
+//#define NET_WORKED_DATA_BENCHMARK
 #endif
+//=====================================================================================================================
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -28,10 +23,7 @@ namespace NetWorkedData
     public static partial class NWDLauncher
     {
         //-------------------------------------------------------------------------------------------------------------
-        //private static int CodePinTentative = 0;
-        //public static string CodePinValue;
-        //public static string CodePinValueConfirm;
-
+        
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

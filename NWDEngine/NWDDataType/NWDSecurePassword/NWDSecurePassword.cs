@@ -197,9 +197,9 @@ namespace NetWorkedData
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception sException)
                 {
-                    // Debug.Log(e.ToString());
+                    NWDDebug.Log(sException.ToString());
                 }
             }
             return rDecrypte;

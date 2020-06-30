@@ -21,19 +21,19 @@ namespace NetWorkedData
         Vector2 ScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// The Shared Instance.
+        /// The Shared Instance for deamon class.
         /// </summary>
-        public static NWDAppEnvironmentChooser kSharedInstance;
+        public static NWDAppEnvironmentChooser _kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppEnvironmentChooser SharedInstance()
         {
             //NWEBenchmark.Start();
-            if (kSharedInstance == null)
+            if (_kSharedInstance == null)
             {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentChooser)) as NWDAppEnvironmentChooser;
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentChooser)) as NWDAppEnvironmentChooser;
             }
             //NWEBenchmark.Finish();
-            return kSharedInstance;
+            return _kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SharedInstanceFocus()
@@ -55,7 +55,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static bool IsSharedInstanced()
         {
-            if (kSharedInstance != null)
+            if (_kSharedInstance != null)
             {
                 return true;
             }
@@ -258,7 +258,7 @@ namespace NetWorkedData
             {
             }
             NWDGUILayout.SubSection("Account informations");
-            string tAccountInfosReference = "?";
+            //string tAccountInfosReference = "?";
 
             if (NWDAccountInfos.CurrentData() != null)
             {

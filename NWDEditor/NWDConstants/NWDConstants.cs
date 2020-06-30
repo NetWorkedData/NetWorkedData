@@ -20,40 +20,40 @@ namespace NetWorkedData
     public partial class NWDConstants
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static string K_EDITOR_CLIPBOARD_LAST_LOG = "K_EDITOR_CLIPBOARD_LAST_LOG";
-        public static string K_EDITOR_SHOW_COMPILE = "K_EDITOR_SHOW_COMPILE";
-        public static string K_EDITOR_USER_BUILDER = "NWD_USER_BUILDER";
-        public static string K_EDITOR_PANEL_WIDTH = "K_EDITOR_PANEL_WIDTH";
+        public const string K_EDITOR_CLIPBOARD_LAST_LOG = "K_EDITOR_CLIPBOARD_LAST_LOG";
+        public const string K_EDITOR_SHOW_COMPILE = "K_EDITOR_SHOW_COMPILE";
+        public const string K_EDITOR_USER_BUILDER = "NWD_USER_BUILDER";
+        public const string K_EDITOR_PANEL_WIDTH = "K_EDITOR_PANEL_WIDTH";
 
         //-------------------------------------------------------------------------------------------------------------
-        public static string K_CREDENTIALS_PASSWORD = "PasswordKey_31564873413687653";
-        public static string K_CREDENTIALS_VECTOR = "VectorStringKey_79877414532159874";
-        public static string K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG = "ShowPasswordInLogKey_79585254215";
-        public static string K_CREDENTIALS_SAVE = "SaveCredentialsKey_7895452114789523654";
+        public const string K_CREDENTIALS_PASSWORD = "PasswordKey_31564873413687653";
+        public const string K_CREDENTIALS_VECTOR = "VectorStringKey_79877414532159874";
+        public const string K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG = "ShowPasswordInLogKey_79585254215";
+        public const string K_CREDENTIALS_SAVE = "SaveCredentialsKey_7895452114789523654";
         //-------------------------------------------------------------------------------------------------------------
-        public static string K_EDITOR_BUILD_ENVIRONMENT = "EditorBuildEnvironment";
-        public static string K_EDITOR_BUILD_RENAME = "EditorBuildRename";
-        public static string K_EDITOR_BUILD_DATABASE_UPDATE = "EditorBuildDatabaseUpdate";
+        public const string K_EDITOR_BUILD_ENVIRONMENT = "EditorBuildEnvironment";
+        public const string K_EDITOR_BUILD_RENAME = "EditorBuildRename";
+        public const string K_EDITOR_BUILD_DATABASE_UPDATE = "EditorBuildDatabaseUpdate";
         //-------------------------------------------------------------------------------------------------------------
-        public static string K_APP_CHOOSER_ENVIRONMENT = "Select Environment used in Player Mode (Game panel)";
-        public static string K_APP_CHOOSER_ENVIRONMENT_TITLE = "Chooser";
-        public static string K_APP_MODEL_MANAGER_TITLE = "Model Manager";
-        public static string K_APP_CLUSTER_SIZER_TITLE = "Cluster Sizer";
-        public static string K_APP_SYNC_ENVIRONMENT = "Synchronize your datas in the good environment";
+        public const string K_APP_CHOOSER_ENVIRONMENT = "Select Environment used in Player Mode (Game panel)";
+        public const string K_APP_CHOOSER_ENVIRONMENT_TITLE = "Chooser";
+        public const string K_APP_MODEL_MANAGER_TITLE = "Model Manager";
+        public const string K_APP_CLUSTER_SIZER_TITLE = "Cluster Sizer";
+        public const string K_APP_SYNC_ENVIRONMENT = "Synchronize your datas in the good environment";
 
-        public static string K_APP_SYNC_ENVIRONMENT_TITLE = "Sync";
-        public static string K_APP_CONFIGURATION_TITLE = "App configuration";
-        public static string K_DATA_SELECTOR_TITLE = "Selector";
-        public static string K_DATA_SELECTOR_TITLE_FOR = "Selector for ";
-        public static string K_LOCALIZATION_CONFIGURATION_TITLE = "Localization";
-        public static string K_PROJECT_CONFIGURATION_TITLE = "Project";
-        public static string K_CREDENTIALS_CONFIGURATION_TITLE = "Credentials";
+        public const string K_APP_SYNC_ENVIRONMENT_TITLE = "Sync";
+        public const string K_APP_CONFIGURATION_TITLE = "App configuration";
+        public const string K_DATA_SELECTOR_TITLE = "Selector";
+        public const string K_DATA_SELECTOR_TITLE_FOR = "Selector for ";
+        public const string K_LOCALIZATION_CONFIGURATION_TITLE = "Localization";
+        public const string K_PROJECT_CONFIGURATION_TITLE = "Project";
+        public const string K_CREDENTIALS_CONFIGURATION_TITLE = "Credentials";
 
-        public static string K_ENVIRONMENTS_CONFIGURATION_TITLE = "Environments";
+        public const string K_ENVIRONMENTS_CONFIGURATION_TITLE = "Environments";
 
-        public static string K_APP_SYNC_INSPECTOR_TITLE = "Net Worked Data"; 
-        public static string K_ALERT_SALT_SHORT_ERROR = "ALERT SALT ARE NOT MEMORIZE : RECCORD CONFIGURATIONS AND RECOMPILE!";
-        public static string K_APP_CLASS_SALT_REGENERATE = "Generate salts";
+        public const string K_APP_SYNC_INSPECTOR_TITLE = "Net Worked Data"; 
+        public const string K_ALERT_SALT_SHORT_ERROR = "ALERT SALT ARE NOT MEMORIZE : RECCORD CONFIGURATIONS AND RECOMPILE!";
+        public const string K_APP_CLASS_SALT_REGENERATE = "Generate salts";
         //-------------------------------------------------------------------------------------------------------------
         // NetWorked synchronize alert
         public const string K_SYNC_ALERT_TITLE = "ALERT PRODUCTION";

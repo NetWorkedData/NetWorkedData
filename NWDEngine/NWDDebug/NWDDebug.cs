@@ -5,13 +5,15 @@
 //
 //=====================================================================================================================
 
+#if UNITY_EDITOR
+#define NWDDEBUG_LOGMODE
+using UnityEditor;
+#endif
+
 using UnityEngine;
 using System.IO;
 using System;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+using System.Diagnostics;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -44,16 +46,18 @@ namespace NetWorkedData
         /// </summary>
         /// <param name="sString">S string.</param>
         /// <param name="sThis"></param>
+        [Conditional("NWDDEBUG_LOGMODE")]
         public static void Log(string sString, UnityEngine.Object sThis = null)
         {
             WriteConsole(sString, false, sThis);
-        } 
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Log Warning the specified sString.
         /// </summary>
         /// <param name="sString">S string.</param>
         /// <param name="sThis"></param>
+        //[Conditional("NWDDEBUG_LOGMODE")]
         public static void Warning(string sString, UnityEngine.Object sThis = null)
         {
             WriteConsole(sString, true, sThis);
@@ -73,22 +77,22 @@ namespace NetWorkedData
                 {
                     if (sThis != null)
                     {
-                        Debug.LogWarning(sString, sThis);
+                        UnityEngine.Debug.LogWarning(NWDAppEnvironment.SelectedEnvironment().Environment + ": " + sString, sThis);
                     }
                     else
                     {
-                        Debug.LogWarning(sString);
+                        UnityEngine.Debug.LogWarning(NWDAppEnvironment.SelectedEnvironment().Environment + ": " + sString);
                     }
                 }
                 else
                 {
                     if (sThis != null)
                     {
-                        Debug.Log(sString, sThis);
+                        UnityEngine.Debug.Log(NWDAppEnvironment.SelectedEnvironment().Environment + ": " + sString, sThis);
                     }
                     else
                     {
-                        Debug.Log(sString);
+                        UnityEngine.Debug.Log(NWDAppEnvironment.SelectedEnvironment().Environment + ": " + sString);
                     }
                 }
                 if (NWDAppEnvironment.SelectedEnvironment().LogMode == NWDEnvironmentLogMode.LogInFile)
@@ -98,7 +102,7 @@ namespace NetWorkedData
                     {
                         tFileDebug += "WARNING\r\n";
                     }
-                    tFileDebug += sString;
+                    tFileDebug += NWDAppEnvironment.SelectedEnvironment().Environment + ": " + sString;
                     tFileDebug = tFileDebug.Replace(",\"", ",\r\n\"").Replace("{", "\r\n{\r\n").Replace("}", "\r\n}\r\n").Replace("\r\n}\r\n,\r\n", "\r\n},\r\n");
                     tFileDebug = NWDToolbox.CSharpFormat(tFileDebug);
                     string tPath = Application.persistentDataPath + "/WEBLOG-" + DateTime.Now.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss") + ".txt";
