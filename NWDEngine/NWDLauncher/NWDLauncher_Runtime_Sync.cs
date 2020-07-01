@@ -3,13 +3,13 @@
 //  ideMobi 2020©
 //
 //=====================================================================================================================
-// Define use for Debug and Benchmark only in this file!
+// Define the use of Debug and Benchmark only for this file!
 #if UNITY_EDITOR
-#define NET_WORKED_DATA_DEBUG
-#define NET_WORKED_DATA_BENCHMARK
+//#define NET_WORKED_DATA_DEBUG
+//#define NET_WORKED_DATA_BENCHMARK
 #elif DEBUG
-#define NET_WORKED_DATA_DEBUG
-#define NET_WORKED_DATA_BENCHMARK
+//#define NET_WORKED_DATA_DEBUG
+//#define NET_WORKED_DATA_BENCHMARK
 #else
 //#define NET_WORKED_DATA_DEBUG
 //#define NET_WORKED_DATA_BENCHMARK

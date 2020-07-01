@@ -1,8 +1,19 @@
 //=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
+//=====================================================================================================================
+// Define the use of Debug and Benchmark only for this file!
+#if UNITY_EDITOR
+//#define NET_WORKED_DATA_DEBUG
+//#define NET_WORKED_DATA_BENCHMARK
+#elif DEBUG
+//#define NET_WORKED_DATA_DEBUG
+//#define NET_WORKED_DATA_BENCHMARK
+#else
+//#define NET_WORKED_DATA_DEBUG
+//#define NET_WORKED_DATA_BENCHMARK
+#endif
 //=====================================================================================================================
 
 using System;
@@ -11,16 +22,32 @@ using System.Diagnostics;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// This class is used to benchmark the performance of NetWorkedData engine 
+    /// </summary>
     public static class NWDEngineBenchmark
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Watch instance
+        /// </summary>
         public static Stopwatch Watch = new Stopwatch();
-        // engine
+        /// <summary>
+        ///  The reference for launching engine
+        /// </summary>
         public static long WatchEngineLaunch;
+        /// <summary>
+        /// The reference for launching and loading editor data
+        /// </summary>
         public static long WatchEditorLaunch;
+        /// <summary>
+        /// The reference for launching and loading account data
+        /// </summary>
         public static long WatchAccountLaunch;
+        /// <summary>
+        /// The reference for launching and loading all data
+        /// </summary>
         public static long WatchFinalLaunch;
         //-------------------------------------------------------------------------------------------------------------
         static string GetWatchEngineLaunch()
