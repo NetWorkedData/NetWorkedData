@@ -21,7 +21,7 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().PreprodEnvironment.SavePreferences();
             NWDAppConfiguration.SharedInstance().ProdEnvironment.SavePreferences();
 #else
-            sEnvironment.SavePreferences ();
+            sEnvironment.SavePreferences();
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().PreprodEnvironment.LoadPreferences();
             NWDAppConfiguration.SharedInstance().ProdEnvironment.LoadPreferences();
 #else
-            sEnvironment.LoadPreferences ();
+            sEnvironment.LoadPreferences();
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().PreprodEnvironment.ResetPreferences();
             NWDAppConfiguration.SharedInstance().ProdEnvironment.ResetPreferences();
 #else
-            sEnvironment.ResetPreferences ();
+            sEnvironment.ResetPreferences();
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -67,13 +67,13 @@ namespace NetWorkedData
         {
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             if (DeviceDatabaseLoaded == true)
             {
                 if (NWDLauncher.ActiveBenchmark)
                 {
-                    NWEBenchmark.Start("account language");
+                    NWDBenchmark.Start("account language");
                 }
                 NWDAccountPreference tAccountLanguage = NWDAccountPreference.GetByInternalKeyOrCreate(NWD.K_PlayerLanguageKey, new NWDMultiType(string.Empty));
                 if (tAccountLanguage != null)
@@ -92,32 +92,32 @@ namespace NetWorkedData
                 }
                 if (NWDLauncher.ActiveBenchmark)
                 {
-                    NWEBenchmark.Finish("account language", true, "PlayerLanguage = " + PlayerLanguage + "");
+                    NWDBenchmark.Finish("account language", true, "PlayerLanguage = " + PlayerLanguage + "");
                 }
             }
             else
             {
                 if (NWDLauncher.ActiveBenchmark)
                 {
-                    NWEBenchmark.Start("device language");
+                    NWDBenchmark.Start("device language");
                 }
                 PlayerLanguage = NWEPrefsManager.ShareInstance().getString(NWD.K_PlayerLanguageKey, PlayerLanguage);
                 if (NWDLauncher.ActiveBenchmark)
                 {
-                    NWEBenchmark.Finish("device language", true, "PlayerLanguage bypass by NWEPrefsManager :  " + PlayerLanguage + ""); ;
+                    NWDBenchmark.Finish("device language", true, "PlayerLanguage bypass by NWEPrefsManager :  " + PlayerLanguage + ""); ;
                 }
             }
             PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
 #if UNITY_EDITOR
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Step(true, "<color=red>PlayerLanguageLoad</color> Language is " + PlayerLanguage);
+                NWDBenchmark.Step(true, "<color=red>PlayerLanguageLoad</color> Language is " + PlayerLanguage);
             }
 #endif
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
             return PlayerLanguage;
         }

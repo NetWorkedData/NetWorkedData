@@ -18,7 +18,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReOrderAllLocalizations()
         {
-            NWEBenchmark.Start();
+            NWDBenchmark.Start();
             string tProgressBarTitle = "NetWorkedData Reorder localization";
             float tCountClass = NWDDataManager.SharedInstance().ClassTypeList.Count + 1;
             float tOperation = 1;
@@ -35,12 +35,12 @@ namespace NetWorkedData
             }
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
             EditorUtility.ClearProgressBar();
-            NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ExportToCSV()
         {
-            NWEBenchmark.Start();
+            NWDBenchmark.Start();
             // apply the pending modifications : prevent lost modification
             NWDDataManager.SharedInstance().DataQueueExecute();
             // ask for final file path
@@ -65,12 +65,12 @@ namespace NetWorkedData
                 // write file
                 File.WriteAllText(tPath, tFile);
             }
-            NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ImportFromCSV()
         {
-            NWEBenchmark.Start();
+            NWDBenchmark.Start();
             string tPath = EditorUtility.OpenFilePanel("Import Localization CSV", string.Empty, "csv");
             if (string.IsNullOrEmpty(tPath) == false)
             {
@@ -90,7 +90,7 @@ namespace NetWorkedData
                 }
                 NWDDataManager.SharedInstance().DataQueueExecute();
             }
-            NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

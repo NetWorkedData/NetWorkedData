@@ -49,7 +49,7 @@ namespace NetWorkedData
         {
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             EditorDatabaseLoaded = false;
             while (EditorDatabaseConnected == false)
@@ -74,7 +74,7 @@ namespace NetWorkedData
             EditorRefresh();
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -94,7 +94,7 @@ namespace NetWorkedData
         {
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             if (EditorDatabaseConnected == true)
             {
@@ -122,7 +122,7 @@ namespace NetWorkedData
             }
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -130,7 +130,7 @@ namespace NetWorkedData
         {
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             DeviceDatabaseLoaded = false;
             while (DeviceDatabaseConnected == false)
@@ -157,7 +157,7 @@ namespace NetWorkedData
             EditorRefresh();
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -178,7 +178,7 @@ namespace NetWorkedData
         {
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             if (DeviceDatabaseConnected == true)
             {
@@ -200,7 +200,7 @@ namespace NetWorkedData
             }
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -208,7 +208,7 @@ namespace NetWorkedData
         {
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             RowsCounterOp = 0;
             MethodCounterOp = 0;
@@ -237,8 +237,8 @@ namespace NetWorkedData
             NWDLauncher.RowInformations = "Rows indexed : " + RowsCounterOp + " rows. Used " + IndexationCounterOp + " operation(s) and " + MethodCounterOp + " method(s).";
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Log(NWDLauncher.RowInformations);
-                NWEBenchmark.Finish();
+                NWDBenchmark.Log(NWDLauncher.RowInformations);
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -249,14 +249,14 @@ namespace NetWorkedData
             {
                 if (NWDLauncher.ActiveBenchmark)
                 {
-                    NWEBenchmark.Start();
+                    NWDBenchmark.Start();
                 }
                 Type tType = ClassTypeList[sCounter];
                 tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 int tRow = tHelper.IndexInMemoryAllObjects();
                 if (NWDLauncher.ActiveBenchmark)
                 {
-                    NWEBenchmark.Finish(true, " " + tHelper.ClassNamePHP + " " + tRow + " rows indexed");
+                    NWDBenchmark.Finish(true, " " + tHelper.ClassNamePHP + " " + tRow + " rows indexed");
                 }
             }
             return tHelper;
@@ -270,7 +270,7 @@ namespace NetWorkedData
         {
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             RowsCounterOp = 0;
             MethodCounterOp = 0;
@@ -288,8 +288,8 @@ namespace NetWorkedData
             NWDLauncher.RowInformations = "Rows indexed : " + RowsCounterOp + " rows. Used " + IndexationCounterOp + " operation(s) and " + MethodCounterOp + " method(s).";
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Log(NWDLauncher.RowInformations);
-                NWEBenchmark.Finish();
+                NWDBenchmark.Log(NWDLauncher.RowInformations);
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -4,7 +4,7 @@
 //
 //=====================================================================================================================
 // Define the use of Log and Benchmark only for this file!
-// Add NWD_VERBOSE in scripting define symbols(Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
 #if NWD_VERBOSE
 #if UNITY_EDITOR
 #define NWD_LOG
@@ -36,10 +36,10 @@ namespace NetWorkedData
         private static void LaunchRuntimeSync()
         {
             NWDDebug.Log("Runtime Sync log is active");
-            NWDEngineBenchmark.Watch.Start();
+            NWDLauncherBenchmark.Watch.Start();
             //if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             NWDBundle tBasisBundle = NWDBundle.None;
             if (NWDAppConfiguration.SharedInstance().BundleDatas == false)
@@ -61,7 +61,7 @@ namespace NetWorkedData
             RestaureStandard();
 
 
-            NWDEngineBenchmark.WatchEngineLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherBenchmark.WatchEngineLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
             NotifyEngineReady();
 
             // connect editor
@@ -74,7 +74,7 @@ namespace NetWorkedData
             // index all data editor
             IndexEditorStandard();
 
-            NWDEngineBenchmark.WatchEditorLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherBenchmark.WatchEditorLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
             NotifyDataEditorReady();
 
             // connect account
@@ -86,7 +86,7 @@ namespace NetWorkedData
             // index all data
             IndexAccountStandard();
 
-            NWDEngineBenchmark.WatchAccountLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherBenchmark.WatchAccountLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
             NotifyDataAccountReady();
 
             // Special NWDAppConfiguration loaded()
@@ -94,25 +94,25 @@ namespace NetWorkedData
             // Ready!
             Ready();
 
-            NWDEngineBenchmark.WatchFinalLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherBenchmark.WatchFinalLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
             NotifyNetWorkedDataReady();
 
             //if (ActiveBenchmark)
             {
                 //TimeFinish = NWEBenchmark.SinceStartup();
                 TimeFinish = Time.realtimeSinceStartup;
-                NWEBenchmark.Finish();
-                TimeNWDFinish = NWDEngineBenchmark.Watch.ElapsedMilliseconds / 1000.0F;
+                NWDBenchmark.Finish();
+                TimeNWDFinish = NWDLauncherBenchmark.Watch.ElapsedMilliseconds / 1000.0F;
                 //LauncherBenchmarkToMarkdown();
             }
-            NWDEngineBenchmark.Watch.Stop();
+            NWDLauncherBenchmark.Watch.Stop();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void EngineRuntimeSync()
         {
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             State = NWDStatut.EngineStart;
             Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
@@ -141,7 +141,7 @@ namespace NetWorkedData
                     if (tType.IsSubclassOf(typeof(NWDBasisAccountRestricted)))
                     {
                         tEditorOnly = true;
-                        NWEBenchmark.LogWarning("exclude " + tType.Name);
+                        NWDBenchmark.LogWarning("exclude " + tType.Name);
                     }
                     //if (tType != typeof(NWDAccount))
                     //{
@@ -182,7 +182,7 @@ namespace NetWorkedData
             State = NWDStatut.EngineFinish;
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

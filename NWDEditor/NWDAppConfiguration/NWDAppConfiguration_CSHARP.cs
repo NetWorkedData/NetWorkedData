@@ -33,7 +33,7 @@ namespace NetWorkedData
         /// <param name="sEnvironment"></param>
         public void GenerateCSharpFile(NWDAppEnvironment sEnvironment)
         {
-            NWEBenchmark.Start();
+            NWDBenchmark.Start();
             if (NWDLauncher.LauncherIsReady())
             {
                 // generate file editor configuration in specific folder
@@ -43,7 +43,7 @@ namespace NetWorkedData
                 // generate file classes restaure configurations in specific folder
                 GenerateCSharpFile_Restaure(sEnvironment);
             }
-            NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -52,7 +52,7 @@ namespace NetWorkedData
         /// <param name="sEnvironment"></param>
         private void GenerateCSharpFile_Editor(NWDAppEnvironment sEnvironment)
         {
-            NWEBenchmark.Start();
+            NWDBenchmark.Start();
             //if (string.IsNullOrEmpty(RandomAppID))
             //{
             //    RandomAppID = NWDToolbox.RandomStringUnix(48);
@@ -114,7 +114,7 @@ namespace NetWorkedData
                 throw;
             }
 
-            NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
 
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -124,7 +124,7 @@ namespace NetWorkedData
         /// <param name="sEnvironment"></param>
         private void GenerateCSharpFile_Launcher(NWDAppEnvironment sEnvironment)
         {
-            NWEBenchmark.Start();
+            NWDBenchmark.Start();
 
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = NWDToolbox.DateTimeYYYYMMdd(tTime);
@@ -255,7 +255,7 @@ namespace NetWorkedData
                 Debug.LogException(e);
                 throw;
             }
-            NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -264,7 +264,7 @@ namespace NetWorkedData
         /// <param name="sEnvironment"></param>
         private void GenerateCSharpFile_Restaure(NWDAppEnvironment sEnvironment)
         {
-            NWEBenchmark.Start();
+            NWDBenchmark.Start();
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = NWDToolbox.DateTimeYYYYMMdd(tTime);
             string tYearString = NWDToolbox.DateTimeYYYY(tTime);
@@ -335,7 +335,7 @@ namespace NetWorkedData
                 Debug.LogException(e);
                 throw;
             }
-            NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

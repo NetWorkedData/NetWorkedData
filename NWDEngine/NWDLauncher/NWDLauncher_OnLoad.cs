@@ -4,7 +4,7 @@
 //
 //=====================================================================================================================
 // Define the use of Log and Benchmark only for this file!
-// Add NWD_VERBOSE in scripting define symbols(Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
 // EXECEPTION NEVER DEFINE HERE TO CHECK GLOBAL DEFINE SYMBOL OF PLATEFORM
 //#if NWD_VERBOSE
 //#if UNITY_EDITOR

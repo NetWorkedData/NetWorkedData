@@ -20,7 +20,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWEBenchmark
+    public class NWDBenchmark
     {
         //-------------------------------------------------------------------------------------------------------------
         const string MACRO = "NWD_BENCHMARK";
@@ -44,7 +44,7 @@ namespace NetWorkedData
 #endif
         private static int StartCount = 0;
         //-------------------------------------------------------------------------------------------------------------
-        static NWEBenchmark()
+        static NWDBenchmark()
         {
             Watch.Start();
             if (Application.targetFrameRate == -1)

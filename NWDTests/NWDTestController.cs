@@ -72,7 +72,7 @@ namespace NetWorkedData
                 }
                 if (BenchmarkText != null)
                 {
-                    BenchmarkText.text = NWDEngineBenchmark.GetWatch() + " " + LastSyncResultLog;
+                    BenchmarkText.text = NWDLauncherBenchmark.GetWatch() + " " + LastSyncResultLog;
                 }
 
                 if (FramePerSeconds != null)

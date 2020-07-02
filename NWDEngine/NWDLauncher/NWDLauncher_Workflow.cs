@@ -4,7 +4,7 @@
 //
 //=====================================================================================================================
 // Define the use of Log and Benchmark only for this file!
-// Add NWD_VERBOSE in scripting define symbols(Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
 #if NWD_VERBOSE
 #if UNITY_EDITOR
 #define NWD_LOG
@@ -33,7 +33,7 @@ namespace NetWorkedData
                 ActiveBenchmark = NWDAppConfiguration.SharedInstance().LauncherBenchmark;
                 StepSum = 0;
                 StepIndex = 0;
-                NWEBenchmark.Start("Launch");
+                NWDBenchmark.Start("Launch");
                 Launched = true;
                 //NWDToolbox.EditorAndPlaying("NWDLauncher Launch()");
                 bool tEditorByPass = false;
@@ -44,7 +44,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                             if (ActiveBenchmark)
                             {
-                                NWEBenchmark.Log("Launch in editor");
+                                NWDBenchmark.Log("Launch in editor");
                             }
                             tEditorByPass = true;
 #endif
@@ -54,7 +54,7 @@ namespace NetWorkedData
                         {
                             if (ActiveBenchmark)
                             {
-                                NWEBenchmark.Log("Launch as playmode");
+                                NWDBenchmark.Log("Launch as playmode");
                             }
                             tEditorByPass = true;
                         }
@@ -77,7 +77,7 @@ namespace NetWorkedData
                     {
                         if (ActiveBenchmark)
                         {
-                            NWEBenchmark.Log("Launch in runtime preload (sync)");
+                            NWDBenchmark.Log("Launch in runtime preload (sync)");
                         }
                         LaunchRuntimeSync();
                     }
@@ -85,14 +85,14 @@ namespace NetWorkedData
                     {
                         if (ActiveBenchmark)
                         {
-                            NWEBenchmark.Log("Launch in runtime by NWDGameDataManager.ShareInstance (async)");
+                            NWDBenchmark.Log("Launch in runtime by NWDGameDataManager.ShareInstance (async)");
                         }
                         //Launch_Runtime_Async(); // waiting order from NWDGameDataManager.ShareInstance()
                     }
                 }
                 //tSW.Stop();
                 //UnityEngine.Debug.Log("STOPWATCH : " + (tSW.ElapsedMilliseconds / 1000.0F).ToString("F3") + " s");
-                NWEBenchmark.Finish("Launch");
+                NWDBenchmark.Finish("Launch");
                 if (Preload == true)
                 {
                     if (ActiveBenchmark)

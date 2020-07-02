@@ -4,7 +4,7 @@
 //
 //=====================================================================================================================
 // Define the use of Log and Benchmark only for this file!
-// Add NWD_VERBOSE in scripting define symbols(Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
 #if NWD_VERBOSE
 #if UNITY_EDITOR
 #define NWD_LOG
@@ -58,10 +58,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static IEnumerator LaunchRuntimeAsync()
         {
-            NWDEngineBenchmark.Watch.Start();
+            NWDLauncherBenchmark.Watch.Start();
             //if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             NWDBundle tBasisBundle = NWDBundle.None;
             if (NWDAppConfiguration.SharedInstance().BundleDatas == false)
@@ -98,7 +98,7 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected + // index account class
                 0;
 
-            NWDEngineBenchmark.WatchEngineLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherBenchmark.WatchEngineLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
             NotifyEngineReady();
 
 
@@ -124,7 +124,7 @@ namespace NetWorkedData
             //tWaitTime = NWDDataManager.SharedInstance().AsyncIndexAllObjects();
             //yield return tWaitTime;
 
-            NWDEngineBenchmark.WatchEditorLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherBenchmark.WatchEditorLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
             NotifyDataEditorReady();
 
             // need account pincode
@@ -138,7 +138,7 @@ namespace NetWorkedData
             NotifyStep(true);
             yield return tWaitTime;
 
-            NWDEngineBenchmark.WatchAccountLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherBenchmark.WatchAccountLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
             NotifyDataAccountReady();
             NotifyStep(true);
 
@@ -168,24 +168,24 @@ namespace NetWorkedData
             {
                 //TimeFinish = NWEBenchmark.SinceStartup();
                 TimeFinish = Time.realtimeSinceStartup;
-                NWEBenchmark.Finish();
-                TimeNWDFinish = NWDEngineBenchmark.Watch.ElapsedMilliseconds / 1000.0F;
+                NWDBenchmark.Finish();
+                TimeNWDFinish = NWDLauncherBenchmark.Watch.ElapsedMilliseconds / 1000.0F;
                 LauncherBenchmarkToMarkdown();
                 if (NWBBenchmarkResult.CurrentData() != null)
                 {
                     NWBBenchmarkResult.CurrentData().BenchmarkNow();
                 }
             }
-            NWDEngineBenchmark.WatchFinalLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherBenchmark.WatchFinalLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
             NotifyNetWorkedDataReady();
-            NWDEngineBenchmark.Watch.Stop();
+            NWDLauncherBenchmark.Watch.Stop();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static IEnumerator EngineRuntimeAsync()
         {
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             State = NWDStatut.EngineStart;
             Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
@@ -216,7 +216,7 @@ namespace NetWorkedData
                     if (tType.IsSubclassOf(typeof(NWDBasisAccountRestricted)))
                     {
                         tEditorOnly = true;
-                        NWEBenchmark.LogWarning("exclude " + tType.Name);
+                        NWDBenchmark.LogWarning("exclude " + tType.Name);
                     }
                     //if (tType != typeof(NWDAccount))
                     //{
@@ -261,7 +261,7 @@ namespace NetWorkedData
             State = NWDStatut.EngineFinish;
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -269,7 +269,7 @@ namespace NetWorkedData
         {
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             State = NWDStatut.ClassDeclareStart;
             foreach (Type tType in AllNetWorkedDataTypes)
@@ -288,7 +288,7 @@ namespace NetWorkedData
             NotifyStep();
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

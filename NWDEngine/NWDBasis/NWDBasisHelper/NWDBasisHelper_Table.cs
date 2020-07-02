@@ -646,7 +646,7 @@ namespace NetWorkedData
             // else do with bundle 
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             int tCount = 0;
 #if UNITY_EDITOR
@@ -781,7 +781,7 @@ namespace NetWorkedData
                 //NWEBenchmark.Step(true, " " + ClassNamePHP + "Datas count = " + Datas.Count);
                 //NWEBenchmark.Step(true, " " + ClassNamePHP + "DatasByReference count = " + DatasByReference.Count);
                 //NWEBenchmark.Step(true, " " + ClassNamePHP + "DatasByInternalKey count = " + DatasByInternalKey.Count);
-                NWEBenchmark.Finish(true, " " + ClassNamePHP + " " + tCount + " row loaded! DatasByReference count = " + DatasByReference.Count);
+                NWDBenchmark.Finish(true, " " + ClassNamePHP + " " + tCount + " row loaded! DatasByReference count = " + DatasByReference.Count);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

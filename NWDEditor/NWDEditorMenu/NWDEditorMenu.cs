@@ -23,7 +23,7 @@ namespace NetWorkedData
     public abstract class NWDEditorMenu
     {
         //-------------------------------------------------------------------------------------------------------------
-        #region const
+#region const
         //-------------------------------------------------------------------------------------------------------------
         const string K_NETWORKEDDATA = "NeWeeDy/";
         const string K_EDITOR = "Project/";
@@ -43,17 +43,17 @@ namespace NetWorkedData
         const string K_WS_NEED_CREDENTIALS = "Need credentials";
         const string K_WS_EDITOR_CREDENTIALS = "Need editor credentials";
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
-        #region var
+#region var
         //-------------------------------------------------------------------------------------------------------------
         static bool kStopRecompile = false;
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
-        #region Menu
+#region Menu
         //-------------------------------------------------------------------------------------------------------------
-        #region ideMobi
+#region ideMobi
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + "Developed by idéMobi", false, 1)]
         public static void DevelopedBy()
@@ -70,8 +70,8 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        #region Documentation
+#endregion
+#region Documentation
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_DOCUMENTATION, false, 2)]
         [MenuItem(K_NETWORKEDDATA + K_DOCUMENTATION + "Website", false, 3)]
@@ -86,8 +86,8 @@ namespace NetWorkedData
             Application.OpenURL("https://www.net-worked-data.com");
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        #region Editor
+#endregion
+#region Editor
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_EDITOR + "Project configuration", false, 20)]
         public static void ProjectPreferencesWindow()
@@ -107,8 +107,8 @@ namespace NetWorkedData
             NWDAppEnvironmentChooser.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        #region Application
+#endregion
+#region Application
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_APPLICATION + "Application configuration", false, 24)]
         public static void AppConfigurationWindow()
@@ -116,8 +116,8 @@ namespace NetWorkedData
             NWDAppConfigurationManager.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        #region Localization
+#endregion
+#region Localization
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_LOCALIZATION + "Localization configuration", false, 25)]
         public static void LocalizationConfigurationWindow()
@@ -143,8 +143,8 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().DataLocalizationManager.ImportFromCSV();
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        #region Environment
+#endregion
+#region Environment
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_ENVIRONMENT + "Environment configuration", false, 27)]
         public static void EnvironmentConfigurationWindow()
@@ -164,8 +164,8 @@ namespace NetWorkedData
             NWDAppEnvironmentChooser.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        #region Cluster
+#endregion
+#region Cluster
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + "Credentials window", false, 40)]
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_ALL_ENVIRONMENT + K_WS_NEED_CREDENTIALS, false, 50)]
@@ -245,8 +245,8 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(NWDDataManager.SharedInstance().ClassTypeList, true, false);
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        #region Models
+#endregion
+#region Models
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_MODELS + "Create new class", false, 800)]
         public static void NewClass()
@@ -284,8 +284,8 @@ namespace NetWorkedData
             NWDAllClassesWindow.ShowAndFocusWindow();
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        #region Tools
+#endregion
+#region Tools
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_TOOLS + "Password Analyze", false, 9000)]
         public static void PasswordAnalyze()
@@ -305,7 +305,7 @@ namespace NetWorkedData
             NWDClusterSizer.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
-        #region Special Recompile
+#region Special Recompile
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_TOOLS + "Stop recompile", true)]
         public static bool TestStopRecompile()
@@ -339,11 +339,11 @@ namespace NetWorkedData
         {
             StopRecompile();
         }
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_MENU_IDEMOBI
         // no menu 
@@ -596,7 +596,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         // DEV 
-        #region DEV
+#region DEV
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_DEV_SFTP_WEBSERVICE, false, 9100)]
         public static void DevCreatePHPWitoutIncrement_SFTP()
@@ -636,9 +636,9 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         // 
-        #endregion
+#endregion
         //PREPROD
-        #region PREPROD
+#region PREPROD
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_PREPROD_SFTP_WEBSERVICE, false, 9100)]
         public static void PreprodCreatePHPWitoutIncrement_SFTP()
@@ -678,9 +678,9 @@ namespace NetWorkedData
             NWDAppEnvironmentSync.SharedInstance().Flush(NWDAppConfiguration.SharedInstance().DevEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //PROD
-        #region PROD
+#region PROD
         //-------------------------------------------------------------------------------------------------------------
         //[MenuItem (NWDConstants.K_MENU_BASE+NWDConstants.K_MENU_PROD, false, 9103)]
         //-------------------------------------------------------------------------------------------------------------
@@ -737,9 +737,9 @@ namespace NetWorkedData
             NWDAppEnvironmentSync.SharedInstance().Flush(NWDAppConfiguration.SharedInstance().ProdEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //LOCALS
-        #region LOCAL
+#region LOCAL
         //-------------------------------------------------------------------------------------------------------------
         //[MenuItem (NWDConstants.K_MENU_BASE+NWDConstants.K_MENU_LOCAL, false, 9200)]
         //-------------------------------------------------------------------------------------------------------------
@@ -894,7 +894,7 @@ namespace NetWorkedData
             }
             NWDDataManager.SharedInstance().DataQueueExecute();
         }
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
         static bool kBlock = false;
         //-------------------------------------------------------------------------------------------------------------
@@ -1001,20 +1001,20 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_REINDEX_ALL_DATAS, false, 9998)]
         public static void ReindexAllDatas()
         {
-            NWEBenchmark.Start();
+            NWDBenchmark.Start();
             foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.IndexInBaseAllObjects();
                 tHelper.IndexInMemoryAllObjects();
             }
-            NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_FLUSH_ACCOUNT_ALL_DATAS, false, 9999)]
         public static void FLUSH_ACCOUNT_ALL_DATAS()
         {
-            NWEBenchmark.Start();
+            NWDBenchmark.Start();
             NWDDataInspector.InspectNetWorkedData(null, true, false);
             if (EditorUtility.DisplayDialog("WARNING", "YOU WILL DELETE ALL DATAS OF PLAYERS!", "YES", "CANCEL"))
             {
@@ -1047,7 +1047,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

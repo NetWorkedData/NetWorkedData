@@ -29,7 +29,7 @@ namespace NetWorkedData
             //Debug.Log("<color=orange>### NWDLauncher AddIndexMethod()</color>");
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             State = NWDStatut.IndexMethodStart;
             Type[] tAllTypes = Assembly.GetExecutingAssembly().GetTypes();
@@ -42,7 +42,7 @@ namespace NetWorkedData
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tIndexer.GetDataClass());
                     if (tIndexer.GetIndexerType() == NWDIndexerType.InMemory)
                     {
-                    tHelper.IndexerInMemoryList.Add(tIndexer);
+                        tHelper.IndexerInMemoryList.Add(tIndexer);
                     }
                     else
                     {
@@ -53,7 +53,7 @@ namespace NetWorkedData
             State = NWDStatut.IndexMethodFinish;
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

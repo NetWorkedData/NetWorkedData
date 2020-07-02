@@ -134,7 +134,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void AccountUnTrash(string sAccountReference)
         {
-            NWEBenchmark.Start();
+            NWDBenchmark.Start();
             foreach (Type tType in NWDDataManager.SharedInstance().ClassAccountDependentList)
             {
                 if (tType != typeof(NWDAccount))
@@ -151,7 +151,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonTrashMe()
@@ -161,7 +161,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void AccountTrash(string sAccountReference)
         {
-            NWEBenchmark.Start();
+            NWDBenchmark.Start();
             foreach (Type tType in NWDDataManager.SharedInstance().ClassAccountDependentList)
             {
                 if (tType != typeof(NWDAccount))
@@ -178,7 +178,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
 
         //-------------------------------------------------------------------------------------------------------------

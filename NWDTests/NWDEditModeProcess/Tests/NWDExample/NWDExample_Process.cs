@@ -20,7 +20,7 @@ namespace NWDEditorProcess
         [UnityTest]
         public IEnumerator SyncEditorModelTest()
         {
-            NWEBenchmark.Start();
+            NWDBenchmark.Start();
             /////////////////////////////////////////////////////////////////////////////////////////////////////////
             while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
@@ -50,7 +50,7 @@ namespace NWDEditorProcess
             NWDUnitTests.DisableFakeDevice();
             Assert.IsTrue(tTest);
             /////////////////////////////////////////////////////////////////////////////////////////////////////////
-            NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

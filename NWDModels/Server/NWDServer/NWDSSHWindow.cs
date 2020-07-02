@@ -165,7 +165,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public IEnumerator ExecuteAsync()
         {
-            NWEBenchmark.Start();
+            NWDBenchmark.Start();
 
             IEnumerator tWaitTime = null;
 
@@ -397,7 +397,7 @@ namespace NetWorkedData
             yield return tWaitTime;
             DeltaAbsolute = Watch.ElapsedMilliseconds;
             Watch.Stop();
-            NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         const string kWhoamiOfThis = "this-is-the-whoami";

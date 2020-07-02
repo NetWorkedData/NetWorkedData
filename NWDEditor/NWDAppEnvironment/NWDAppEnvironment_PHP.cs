@@ -19,7 +19,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CreatePHP(List<Type> sTypeList, bool sCreateAll = true, bool sWriteOnDisk = true, NWDServerAuthentication sConn = null)
         {
-            NWEBenchmark.Start();
+            NWDBenchmark.Start();
             List<string> tFolders = CreatePHPFolder(sWriteOnDisk);
             Dictionary<string, string> tFilesAndDatas = new Dictionary<string, string>();
             CreatePHPManagementFile(tFilesAndDatas, sWriteOnDisk);
@@ -73,7 +73,7 @@ namespace NetWorkedData
                     sConn.SendFolderAndFiles(tFolders, tFilesAndDatas, false);
                 }
             }
-            NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public string Headlines()

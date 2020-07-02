@@ -4,7 +4,7 @@
 //
 //=====================================================================================================================
 // Define the use of Log and Benchmark only for this file!
-// Add NWD_VERBOSE in scripting define symbols(Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
 #if NWD_VERBOSE
 #if UNITY_EDITOR
 #define NWD_LOG
@@ -39,10 +39,10 @@ namespace NetWorkedData
         private static void LaunchStandard()
         {
             NWDDebug.Log("Editor log is active");
-            NWDEngineBenchmark.Watch.Start();
+            NWDLauncherBenchmark.Watch.Start();
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             NWDDataManager.SharedInstance().ClassInDeviceDatabaseList.Clear();
             NWDDataManager.SharedInstance().ClassInEditorDatabaseList.Clear();
@@ -64,7 +64,7 @@ namespace NetWorkedData
             // restaure models' param
             RestaureStandard();
 
-            NWDEngineBenchmark.WatchEngineLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherBenchmark.WatchEngineLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
 
             NotifyEngineReady();
             AddIndexMethod();
@@ -79,7 +79,7 @@ namespace NetWorkedData
             // index all data editor
             IndexEditorStandard();
 
-            NWDEngineBenchmark.WatchEditorLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherBenchmark.WatchEditorLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
 
             NotifyDataEditorReady();
 
@@ -92,7 +92,7 @@ namespace NetWorkedData
             // index all data
             IndexAccountStandard();
 
-            NWDEngineBenchmark.WatchAccountLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherBenchmark.WatchAccountLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
 
             NotifyDataAccountReady();
 
@@ -101,7 +101,7 @@ namespace NetWorkedData
             // Ready!
             Ready();
 
-            NWDEngineBenchmark.WatchFinalLaunch = NWDEngineBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherBenchmark.WatchFinalLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
 
             NotifyNetWorkedDataReady();
 
@@ -109,18 +109,18 @@ namespace NetWorkedData
             {
                 //TimeFinish = NWEBenchmark.SinceStartup();
                 TimeFinish = Time.realtimeSinceStartup;
-                NWEBenchmark.Finish();
-                TimeNWDFinish = NWDEngineBenchmark.Watch.ElapsedMilliseconds / 1000.0F;
+                NWDBenchmark.Finish();
+                TimeNWDFinish = NWDLauncherBenchmark.Watch.ElapsedMilliseconds / 1000.0F;
                 //LauncherBenchmarkToMarkdown();
             }
-            NWDEngineBenchmark.Watch.Stop();
+            NWDLauncherBenchmark.Watch.Stop();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void EngineStandard()
         {
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             State = NWDStatut.EngineStart;
             Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
@@ -173,7 +173,7 @@ namespace NetWorkedData
             State = NWDStatut.EngineFinish;
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -181,7 +181,7 @@ namespace NetWorkedData
         {
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             State = NWDStatut.ClassDeclareStart;
             int tClassDeclare = 0;
@@ -196,7 +196,7 @@ namespace NetWorkedData
             State = NWDStatut.ClassDeclareFinish;
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish(true, " classes delared : " + tClassDeclare);
+                NWDBenchmark.Finish(true, " classes delared : " + tClassDeclare);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -204,7 +204,7 @@ namespace NetWorkedData
         {
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             State = NWDStatut.ClassRestaureStart;
             //NWDTypeLauncher.AllTypes = AllNetWorkedDataTypes.ToArray();
@@ -220,7 +220,7 @@ namespace NetWorkedData
             State = NWDStatut.ClassRestaureFinish;
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -228,7 +228,7 @@ namespace NetWorkedData
         {
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             State = NWDStatut.DataEditorConnectionStart;
             if (NWDDataManager.SharedInstance().ConnectToDatabaseEditor())
@@ -241,7 +241,7 @@ namespace NetWorkedData
             }
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -249,14 +249,14 @@ namespace NetWorkedData
         {
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             State = NWDStatut.DataEditorTableCreateStart;
             NWDDataManager.SharedInstance().CreateAllTablesLocalEditor();
             State = NWDStatut.DataEditorTableCreateFinish;
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -264,14 +264,14 @@ namespace NetWorkedData
         {
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             State = NWDStatut.DataEditorLoadStart;
             NWDDataManager.SharedInstance().ReloadAllObjectsInEditorDatabase(sBundle);
             State = NWDStatut.DataEditorLoadFinish;
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -279,14 +279,14 @@ namespace NetWorkedData
         {
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             State = NWDStatut.DataEditorIndexStart;
             State = NWDStatut.DataEditorIndexFinish;
             State = NWDStatut.EditorReady;
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -294,7 +294,7 @@ namespace NetWorkedData
         {
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             State = NWDStatut.DataAccountConnectionStart;
             if (NWDDataManager.SharedInstance().ConnectToDatabaseAccount(string.Empty))
@@ -307,7 +307,7 @@ namespace NetWorkedData
             }
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -315,14 +315,14 @@ namespace NetWorkedData
         {
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             State = NWDStatut.DataAccountTableCreateStart;
             NWDDataManager.SharedInstance().CreateAllTablesLocalAccount();
             State = NWDStatut.DataAccountTableCreateFinish;
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -330,14 +330,14 @@ namespace NetWorkedData
         {
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             State = NWDStatut.DataAccountLoadStart;
             NWDDataManager.SharedInstance().ReloadAllObjectsInDeviceDatabase(sBundle);
             State = NWDStatut.DataAccountLoadFinish;
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -345,7 +345,7 @@ namespace NetWorkedData
         {
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             State = NWDStatut.DataAccountIndexStart;
             NWDDataManager.SharedInstance().IndexAllObjects();
@@ -353,7 +353,7 @@ namespace NetWorkedData
             State = NWDStatut.AccountReady;
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -361,12 +361,12 @@ namespace NetWorkedData
         {
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWDBenchmark.Start();
             }
             State = NWDStatut.NetWorkedDataReady;
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
 #if UNITY_EDITOR
             NWDProjectConfigurationManager.Refresh();

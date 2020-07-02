@@ -65,7 +65,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ImportCSV()
         {
-            NWEBenchmark.Start();
+            NWDBenchmark.Start();
             string tPath = EditorUtility.OpenFilePanel("Import Datas", string.Empty, KExportExtension);
             if (string.IsNullOrEmpty(tPath) == false)
             {
@@ -142,7 +142,7 @@ namespace NetWorkedData
                 }
                 NWDDataManager.SharedInstance().DataQueueExecute();
             }
-            NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

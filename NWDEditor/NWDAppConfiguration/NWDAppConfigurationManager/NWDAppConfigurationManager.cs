@@ -66,10 +66,10 @@ namespace NetWorkedData
         /// <returns></returns>
         public static NWDAppConfigurationManager SharedInstanceFocus()
         {
-            NWEBenchmark.Start();
+            NWDBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
-            NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
             return _kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------

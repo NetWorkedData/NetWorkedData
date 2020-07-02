@@ -25,8 +25,8 @@ namespace NetWorkedData
         {
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Start();
-                NWEBenchmark.Log("LibVersionNumber() = " + SQLite3.LibVersionNumber());
+                NWDBenchmark.Start();
+                NWDBenchmark.Log("LibVersionNumber() = " + SQLite3.LibVersionNumber());
             }
             bool rReturn = false;
             if (EditorDatabaseConnected == false && EditorDatabaseConnectionInProgress == false)
@@ -61,16 +61,16 @@ namespace NetWorkedData
                 if (!File.Exists(tPathEditor))
                 {
                     if (NWDLauncher.ActiveBenchmark)
-                        {
-                             NWEBenchmark.Start("Copy editor");
-                        }
+                    {
+                        NWEBenchmark.Start("Copy editor");
+                    }
                     // if it doesn't ->
                     // open StreamingAssets directory and load the db ->
                     if (NWDLauncher.ActiveBenchmark)
                     {
                         NWEBenchmark.Log("Application will copy editor database : " + tPathEditor);
                     }
-                NWDLauncher.CopyDatabase = true;
+                    NWDLauncher.CopyDatabase = true;
 #if UNITY_ANDROID
                     var tLoadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + DatabaseEditorName());  // this is the path to your StreamingAssets in android
                     while (!tLoadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
@@ -91,12 +91,12 @@ namespace NetWorkedData
                     var tLoadDb = Application.dataPath + "/" + NWD.K_StreamingAssets + "/" + DatabaseEditorName();
                     File.Copy(tLoadDb, tPathEditor);
 #else
-                    var tLoadDb = Application.dataPath + "/" + NWD.K_Resources+"/" + NWD.K_StreamingAssets + "/" + DatabaseEditorName();
+                    var tLoadDb = Application.dataPath + "/" + NWD.K_Resources + "/" + NWD.K_StreamingAssets + "/" + DatabaseEditorName();
                     File.Copy(tLoadDb, tPathEditor);
 #endif
                     if (NWDLauncher.ActiveBenchmark)
                     {
-                            NWEBenchmark.Finish("Copy editor");
+                        NWEBenchmark.Finish("Copy editor");
                     }
                 }
                 string tDatabasePathEditor = tPathEditor;
@@ -138,11 +138,11 @@ namespace NetWorkedData
                         var fileInfo = new System.IO.FileInfo(tDatabasePathEditor);
                         if (IsSecure())
                         {
-                            NWEBenchmark.Log("ConnectToDatabaseEditor () tDatabasePathEditor : " + tDatabasePathEditor + " (" + fileInfo.Length + " octets) : " + NWDAppConfiguration.SharedInstance().GetEditorPass());
+                            NWDBenchmark.Log("ConnectToDatabaseEditor () tDatabasePathEditor : " + tDatabasePathEditor + " (" + fileInfo.Length + " octets) : " + NWDAppConfiguration.SharedInstance().GetEditorPass());
                         }
                         else
                         {
-                            NWEBenchmark.Log("ConnectToDatabaseEditor () tDatabasePathEditor : " + tDatabasePathEditor + " (" + fileInfo.Length + " octets)");
+                            NWDBenchmark.Log("ConnectToDatabaseEditor () tDatabasePathEditor : " + tDatabasePathEditor + " (" + fileInfo.Length + " octets)");
                         }
                     }
                 }
@@ -161,7 +161,7 @@ namespace NetWorkedData
 
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
             return rReturn;
         }
@@ -202,8 +202,8 @@ namespace NetWorkedData
         {
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Start();
-                NWEBenchmark.Log("LibVersionNumber() = " + SQLite3.LibVersionNumber());
+                NWDBenchmark.Start();
+                NWDBenchmark.Log("LibVersionNumber() = " + SQLite3.LibVersionNumber());
             }
             bool rReturn = true;
             //Debug.LogWarning("ConnectToDatabaseAccount (" + sSurProtection + ")");
@@ -246,11 +246,11 @@ namespace NetWorkedData
                         var fileInfo = new System.IO.FileInfo(tDatabasePathAccount);
                         if (IsSecure())
                         {
-                            NWEBenchmark.Log("ConnectToDatabaseAccount () tDatabasePathAccount : " + tDatabasePathAccount + " (" + fileInfo.Length + " octets) : " + NWDAppConfiguration.SharedInstance().GetAccountPass(sSurProtection));
+                            NWDBenchmark.Log("ConnectToDatabaseAccount () tDatabasePathAccount : " + tDatabasePathAccount + " (" + fileInfo.Length + " octets) : " + NWDAppConfiguration.SharedInstance().GetAccountPass(sSurProtection));
                         }
                         else
                         {
-                            NWEBenchmark.Log("ConnectToDatabaseAccount () tDatabasePathAccount : " + tDatabasePathAccount + " (" + fileInfo.Length + " octets) ");
+                            NWDBenchmark.Log("ConnectToDatabaseAccount () tDatabasePathAccount : " + tDatabasePathAccount + " (" + fileInfo.Length + " octets) ");
                         }
                     }
                 }
@@ -268,7 +268,7 @@ namespace NetWorkedData
             }
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                NWDBenchmark.Finish();
             }
             return rReturn;
         }
