@@ -1,20 +1,21 @@
 ﻿//=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
+// Define the use of Log and Benchmark only for this file!
 #if UNITY_EDITOR
-#define NWDDEBUG_LOGMODE
-using UnityEditor;
+#define NWD_LOG
+#define NWD_BENCHMARK
+#elif DEBUG
+#define NWD_LOG
+#define NWD_BENCHMARK
 #endif
-
+//=====================================================================================================================
 using UnityEngine;
 using System.IO;
 using System;
 using System.Diagnostics;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -24,6 +25,8 @@ namespace NetWorkedData
     /// </summary>
     public static class NWDDebug
     {
+        //-------------------------------------------------------------------------------------------------------------
+        const string MACRO = "NWD_LOG";
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Return if logs are active or not 
@@ -46,8 +49,21 @@ namespace NetWorkedData
         /// </summary>
         /// <param name="sString">S string.</param>
         /// <param name="sThis"></param>
-        [Conditional("NWDDEBUG_LOGMODE")]
+        [Conditional(MACRO)]
         public static void Log(string sString, UnityEngine.Object sThis = null)
+        {
+            if (NWDAppEnvironment.SelectedEnvironment().LogMode != NWDEnvironmentLogMode.NoLog)
+            {
+                WriteConsole(sString, false, sThis);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Force log the specified sString.
+        /// </summary>
+        /// <param name="sString">S string.</param>
+        /// <param name="sThis"></param>
+        public static void ForceLog(string sString, UnityEngine.Object sThis = null)
         {
             WriteConsole(sString, false, sThis);
         }
@@ -71,8 +87,6 @@ namespace NetWorkedData
         /// <param name="sThis"></param>
         private static void WriteConsole(string sString, bool sWarning = false, UnityEngine.Object sThis = null)
         {
-            if (NWDAppEnvironment.SelectedEnvironment().LogMode != NWDEnvironmentLogMode.NoLog)
-            {
                 if (sWarning == true)
                 {
                     if (sThis != null)
@@ -114,7 +128,6 @@ namespace NetWorkedData
                     NWEClipboard.CopyToClipboard(sString);
                 }
 #endif
-            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }

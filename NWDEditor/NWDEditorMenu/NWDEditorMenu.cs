@@ -955,8 +955,9 @@ namespace NetWorkedData
             List<string> rList = new List<string>();
             foreach (FileInfo tFile in tInfo)
             {
-                if (tFile.Extension != ".meta" && tFile.Name[0] != '.')
-                {
+                //if (tFile.Extension != ".meta" && tFile.Name[0] != '.')
+                    if (tFile.Extension == ".cs" )
+                    {
                     rList.Add(sSubTab + "/" + tFile.Name);
                 }
             }

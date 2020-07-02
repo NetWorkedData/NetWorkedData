@@ -1,9 +1,17 @@
+//=====================================================================================================================
+//
+//  ideMobi 2020©
+//
+//=====================================================================================================================
+// Define the use of Log and Benchmark only for this file!
 #if UNITY_EDITOR
-#define NET_WORKED_DATA_BENCHMARK
-using UnityEditor;
+#define NWD_LOG
+#define NWD_BENCHMARK
+#elif DEBUG
+#define NWD_LOG
+#define NWD_BENCHMARK
 #endif
-
-using System;
+//=====================================================================================================================
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
@@ -15,7 +23,7 @@ namespace NetWorkedData
     public class NWEBenchmark
     {
         //-------------------------------------------------------------------------------------------------------------
-        const string MACRO = "NET_WORKED_DATA_BENCHMARK";
+        const string MACRO = "NWD_BENCHMARK";
         //-------------------------------------------------------------------------------------------------------------
         private static Dictionary<string, long> cStartDico = new Dictionary<string, long>(new StringIndexKeyComparer());
         private static Dictionary<string, long> cStepDico = new Dictionary<string, long>(new StringIndexKeyComparer());
