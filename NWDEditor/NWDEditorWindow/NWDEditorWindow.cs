@@ -46,6 +46,7 @@ namespace NetWorkedData
             NWDBenchmark.Start();
             if (EditorGUIUtility.isProSkin != ProSkinActive || TitleIsInit == false)
             {
+                NWDBenchmark.PrefReload();
                 TitleEnable();
             }
             NWDBenchmark.Finish();

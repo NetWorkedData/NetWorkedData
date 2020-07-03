@@ -59,12 +59,6 @@ namespace NetWorkedData
             Watch.Start();
 #if (UNITY_EDITOR)
             FrameRate = 60.0F;
-            if (EditorGUIUtility.isProSkin)
-            {
-                Green = "#2edd66";
-                Orange = "#ff9842";
-                Red = "#f46666";
-            }
 #elif (UNITY_ANDROID || UNITY_IOS)
                     FrameRate = 30.0F;
 #else
@@ -77,6 +71,21 @@ namespace NetWorkedData
         {
             BenchmarkLimit = NWDProjectPrefs.GetFloat(NWDConstants.K_EDITOR_BENCHMARK_LIMIT, 0.0F);
             BenchmarkShowStart = NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_BENCHMARK_SHOW_START);
+#if (UNITY_EDITOR)
+            FrameRate = 60.0F;
+            if (EditorGUIUtility.isProSkin)
+            {
+                Green = "#" + NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_GREEN_PRO);
+                Orange = "#" + NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_ORANGE_PRO);
+                Red = "#" + NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_RED_PRO);
+            }
+            else
+            {
+                Green = "#" + NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_GREEN);
+                Orange = "#" + NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_ORANGE);
+                Red = "#" + NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_RED);
+            }
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         [Conditional(MACRO)]
