@@ -1,8 +1,19 @@
 ﻿//=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
+//=====================================================================================================================
+// Define the use of Log and Benchmark only for this file!
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+#if NWD_VERBOSE
+#if UNITY_EDITOR
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#elif DEBUG
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#endif
+#endif
 //=====================================================================================================================
 
 #if UNITY_EDITOR
@@ -20,62 +31,57 @@ namespace NetWorkedData
         /// <summary>
         /// The Shared Instance.
         /// </summary>
-        private static NWDAppEnvironmentConfigurationManager kSharedInstance;
-        //-------------------------------------------------------------------------------------------------------------
-        Vector2 ScrollPosition;
-        static int TabSelected = 0;
+        private static NWDAppEnvironmentConfigurationManager _kSharedInstance;
+        /// <summary>
+        /// The Shared Instance for deamon class.
+        /// </summary>
+        private static Vector2 _kScrollPosition;
+        /// <summary>
+        /// The tab of environment selected.
+        /// </summary>
+        private static int _kTabSelected = 0;
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppEnvironmentConfigurationManager SharedInstance()
         {
-            //NWEBenchmark.Start();
-            if (kSharedInstance == null)
+            NWDBenchmark.Start();
+            if (_kSharedInstance == null)
             {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentConfigurationManager)) as NWDAppEnvironmentConfigurationManager;
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentConfigurationManager)) as NWDAppEnvironmentConfigurationManager;
             }
-            //NWEBenchmark.Finish();
-            return kSharedInstance;
+            NWDBenchmark.Finish();
+            return _kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppEnvironmentConfigurationManager SharedInstanceFocus()
         {
-            //NWEBenchmark.Start();
+            NWDBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
-            //NWEBenchmark.Finish();
-            return kSharedInstance;
+            NWDBenchmark.Finish();
+            return _kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void Refresh()
         {
+            NWDBenchmark.Start();
             var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDAppEnvironmentConfigurationManager));
             foreach (NWDAppEnvironmentConfigurationManager tWindow in tWindows)
             {
                 tWindow.Repaint();
             }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool IsSharedInstanced()
-        {
-            if (kSharedInstance != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
-            //NWEBenchmark.Start();
+            NWDBenchmark.Start();
             TitleInit(NWDConstants.K_ENVIRONMENTS_CONFIGURATION_TITLE, typeof(NWDAppEnvironmentConfigurationManager));
-            //NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void OnPreventGUI()
         {
-            //NWEBenchmark.Start();
+            NWDBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDGUILayout.Title("Configuration environments");
 
@@ -106,17 +112,17 @@ namespace NetWorkedData
                 NWDConstants.K_APP_CONFIGURATION_PROD
             };
             // Draw interface for environment chooser
-            int tTabSelect = GUILayout.Toolbar(TabSelected, tTabList);
-            if (tTabSelect != TabSelected)
+            int tTabSelect = GUILayout.Toolbar(_kTabSelected, tTabList);
+            if (tTabSelect != _kTabSelected)
             {
                 GUI.FocusControl(null);
-                ScrollPosition = Vector2.zero;
-                TabSelected = tTabSelect;
+                _kScrollPosition = Vector2.zero;
+                _kTabSelected = tTabSelect;
             }
             NWDGUILayout.LittleSpace();
             NWDGUILayout.Line();
             // Draw interface for environment selected inn scrollview
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             switch (tTabSelect)
             {
                 case 0:
@@ -146,7 +152,7 @@ namespace NetWorkedData
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
-            //NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

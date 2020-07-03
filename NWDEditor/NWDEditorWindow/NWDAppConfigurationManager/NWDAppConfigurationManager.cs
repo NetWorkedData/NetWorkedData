@@ -1,8 +1,19 @@
 ﻿//=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
+//=====================================================================================================================
+// Define the use of Log and Benchmark only for this file!
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+#if NWD_VERBOSE
+#if UNITY_EDITOR
+#define NWD_LOG
+#define NWD_BENCHMARK
+#elif DEBUG
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#endif
+#endif
 //=====================================================================================================================
 
 #if UNITY_EDITOR
@@ -32,17 +43,17 @@ namespace NetWorkedData
         private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Returns the <see cref="_kSharedInstance"/> or instance one
+        /// Show the <see cref="_kSharedInstance"/> of <see cref="NWDAppConfigurationManager"/> and focus on.
         /// </summary>
         /// <returns></returns>
         public static NWDAppConfigurationManager SharedInstance()
         {
-            //NWEBenchmark.Start();
+            NWDBenchmark.Start();
             if (_kSharedInstance == null)
             {
                 _kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppConfigurationManager)) as NWDAppConfigurationManager;
             }
-            //NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
             return _kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -51,13 +62,13 @@ namespace NetWorkedData
         /// </summary>
         public static void Refresh()
         {
-            //NWEBenchmark.Start();
+            NWDBenchmark.Start();
             var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDAppConfigurationManager));
             foreach (NWDAppConfigurationManager tWindow in tWindows)
             {
                 tWindow.Repaint();
             }
-            //NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -78,9 +89,9 @@ namespace NetWorkedData
         /// </summary>
         public void OnEnable()
         {
-            //NWEBenchmark.Start();
+            NWDBenchmark.Start();
             TitleInit(NWDConstants.K_APP_CONFIGURATION_TITLE, typeof(NWDAppConfigurationManager));
-            //NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -88,7 +99,7 @@ namespace NetWorkedData
         /// </summary>
         public override void OnPreventGUI()
         {
-            //NWEBenchmark.Start();
+            NWDBenchmark.Start();
             NWDGUI.LoadStyles();
             // Draw warning if salt for class is false
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
@@ -99,13 +110,12 @@ namespace NetWorkedData
                     NWDEditorWindow.GenerateCSharpFile();
                 }
             }
-            // begin scroll view
+
+            // Begin scroll view
             NWDGUILayout.Title("App configurations");
             NWDGUILayout.Informations("The settings below modify the compiled binary. Be careful when making changes.!");
             NWDGUILayout.Line();
             _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-            // start interface
-
 
             // Data tag
             float tMinWidht = 270.0F;
@@ -137,7 +147,6 @@ namespace NetWorkedData
                 EditorGUILayout.EndHorizontal();
             }
 
-
             NWDGUILayout.Section("Cache on compile");
             NWDGUILayout.SubSection("Override max methods in cache");
             NWDAppConfiguration.SharedInstance().OverrideCacheMethodEverywhere = EditorGUILayout.Toggle("Override All", NWDAppConfiguration.SharedInstance().OverrideCacheMethodEverywhere);
@@ -162,6 +171,7 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().AnonymousDeviceConnected = EditorGUILayout.ToggleLeft("Anonymous account connected from system device!", NWDAppConfiguration.SharedInstance().AnonymousDeviceConnected);
             NWDAppConfiguration.SharedInstance().PurgeOldAccountDatabase = EditorGUILayout.ToggleLeft("Purge Old Account", NWDAppConfiguration.SharedInstance().PurgeOldAccountDatabase);
 
+            // Web Services
             NWDGUILayout.Section("Web Services");
             NWDGUILayout.SubSection("Web Services config for all environments");
             Dictionary<int, bool> tWSList = new Dictionary<int, bool>();
@@ -312,7 +322,7 @@ namespace NetWorkedData
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
-            //NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

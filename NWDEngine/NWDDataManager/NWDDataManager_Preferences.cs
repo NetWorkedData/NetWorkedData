@@ -111,7 +111,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             if (NWDLauncher.ActiveBenchmark)
             {
-                NWDBenchmark.Step(true, "<color=red>PlayerLanguageLoad</color> Language is " + PlayerLanguage);
+                NWDBenchmark.Step(true, "<b>PlayerLanguageLoad</b> Language is " + PlayerLanguage);
             }
 #endif
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);

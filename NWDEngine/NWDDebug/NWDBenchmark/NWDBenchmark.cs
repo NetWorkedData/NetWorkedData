@@ -16,6 +16,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -43,24 +47,36 @@ namespace NetWorkedData
         public static float kMaxDefault = 0.015f;
 #endif
         private static int StartCount = 0;
+        private static float BenchmarkLimit = 0.0F;
+        private static bool BenchmarkShowStart = true;
+        private static string Green = "#036d1a";
+        private static string Orange = "#bf7301";
+        private static string Red = "#ce1f00";
         //-------------------------------------------------------------------------------------------------------------
         static NWDBenchmark()
         {
+            PrefReload();
             Watch.Start();
-            if (Application.targetFrameRate == -1)
-            {
 #if (UNITY_EDITOR)
-                FrameRate = 60.0F;
+            FrameRate = 60.0F;
+            if (EditorGUIUtility.isProSkin)
+            {
+                Green = "#2edd66";
+                Orange = "#ff9842";
+                Red = "#f46666";
+            }
 #elif (UNITY_ANDROID || UNITY_IOS)
                     FrameRate = 30.0F;
 #else
                     FrameRate = 60.0F;
 #endif
-            }
-            else
-            {
-                FrameRate = (float)Application.targetFrameRate;
-            }
+
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static public void PrefReload()
+        {
+            BenchmarkLimit = NWDProjectPrefs.GetFloat(NWDConstants.K_EDITOR_BENCHMARK_LIMIT, 0.0F);
+            BenchmarkShowStart = NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_BENCHMARK_SHOW_START);
         }
         //-------------------------------------------------------------------------------------------------------------
         [Conditional(MACRO)]
@@ -131,8 +147,11 @@ namespace NetWorkedData
                 {
                     cStepDico.Add(sKey, Watch.ElapsedMilliseconds);
                 }
-                string tLog = "benchmark : " + GetIndentation() + "•<b>" + sKey + "</b>\t" + " start now!";
-                UnityEngine.Debug.Log(tLog);
+                if (BenchmarkShowStart == true)
+                {
+                    string tLog = "benchmark : " + GetIndentation() + "•<b>" + sKey + "</b>\t" + " start now!";
+                    UnityEngine.Debug.Log(tLog);
+                }
             }
 
             //long tStop = Watch.ElapsedMilliseconds - tStart;
@@ -189,20 +208,25 @@ namespace NetWorkedData
             {
                 rDelta = (Watch.ElapsedMilliseconds - cStartDico[sKey]) / 1000.0F;
                 rFrameSpend = FrameRate * rDelta;
-                string tMaxColor = "green";
+                string tMaxColor = Green;
                 if (rDelta >= kWarningDefault)
                 {
-                    tMaxColor = "orange";
+                    tMaxColor = Orange;
                 }
                 if (rDelta >= kMaxDefault)
                 {
-                    tMaxColor = "red";
+                    tMaxColor = Red;
                 }
-                UnityEngine.Debug.Log("benchmark : " + GetIndentation() + "| <b><color=" + tMaxColor + ">" + rDelta.ToString("F3") + "</color></b>" + "");
-
-                string tLog = "benchmark : " + GetIndentation() + "•<b>" + sKey + "</b>\t" + " execute in <color=" + tMaxColor + ">" +
+                if (rDelta > BenchmarkLimit)
+                {
+                    if (BenchmarkShowStart == true)
+                    {
+                        UnityEngine.Debug.Log("benchmark : " + GetIndentation() + "| <b><color=" + tMaxColor + ">" + rDelta.ToString("F3") + "</color></b>" + "");
+                    }
+                    string tLog = "benchmark : " + GetIndentation() + "•<b>" + sKey + "</b>\t" + " execute in <color=" + tMaxColor + ">" +
                  rDelta.ToString("F3") + " seconds </color> spent " + rFrameSpend.ToString("F1") + "F/" + FrameRate + "Fps. " + sMoreInfos;
-                UnityEngine.Debug.Log(tLog);
+                    UnityEngine.Debug.Log(tLog);
+                }
                 StartCount--;
                 cStartDico.Remove(sKey);
             }
@@ -228,18 +252,21 @@ namespace NetWorkedData
                 }
                 rDelta = (Watch.ElapsedMilliseconds - LastStep) / 1000.0F;
                 rFrameSpend = FrameRate * rDelta;
-                string tMaxColor = "green";
+                string tMaxColor = Green;
                 if (rDelta >= kWarningDefault)
                 {
-                    tMaxColor = "orange";
+                    tMaxColor = Orange;
                 }
                 if (rDelta >= kMaxDefault)
                 {
-                    tMaxColor = "red";
+                    tMaxColor = Red;
                 }
-                string tLog = "benchmark : " + GetIndentation() + "|    <b>" + sKey + "</b>\t" + " step <color=" + tMaxColor + ">" +
-                rDelta.ToString("F3") + " seconds </color> spent " + rFrameSpend.ToString("F1") + "F/" + FrameRate + "Fps. (Delta Absolute = " + rDeltaAbsolute.ToString("F3") + ") " + sMoreInfos;
-                UnityEngine.Debug.Log(tLog);
+                if (rDelta > BenchmarkLimit)
+                {
+                    string tLog = "benchmark : " + GetIndentation() + "|    <b>" + sKey + "</b>\t" + " step <color=" + tMaxColor + ">" +
+                    rDelta.ToString("F3") + " seconds </color> spent " + rFrameSpend.ToString("F1") + "F/" + FrameRate + "Fps. (Delta Absolute = " + rDeltaAbsolute.ToString("F3") + ") " + sMoreInfos;
+                    UnityEngine.Debug.Log(tLog);
+                }
             }
             else
             {

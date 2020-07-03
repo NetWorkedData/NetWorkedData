@@ -1,8 +1,19 @@
 ﻿//=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
+//=====================================================================================================================
+// Define the use of Log and Benchmark only for this file!
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+#if NWD_VERBOSE
+#if UNITY_EDITOR
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#elif DEBUG
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#endif
+#endif
 //=====================================================================================================================
 
 #if UNITY_EDITOR
@@ -22,66 +33,68 @@ namespace NetWorkedData
         /// The Shared Instance.
         /// </summary>
         private static NWDLocalizationConfigurationManager _kSharedInstance;
-        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The scroll position.
         /// </summary>
         private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the <see cref="_kSharedInstance"/> or instance one
+        /// </summary>
+        /// <returns></returns>
         public static NWDLocalizationConfigurationManager SharedInstance()
         {
-            //NWEBenchmark.Start();
+            NWDBenchmark.Start();
             if (_kSharedInstance == null)
             {
                 _kSharedInstance = EditorWindow.GetWindow(typeof(NWDLocalizationConfigurationManager)) as NWDLocalizationConfigurationManager;
             }
-            //NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
             return _kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Show the SharedInstance of <see cref="NWDLocalizationConfigurationManager"/> and focus on.
+        /// Show the <see cref="_kSharedInstance"/> of <see cref="NWDLocalizationConfigurationManager"/> and focus on.
         /// </summary>
         /// <returns></returns>
         public static void SharedInstanceFocus()
         {
-            //NWEBenchmark.Start();
+            NWDBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
-            //NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Repaint all <see cref="NWDLocalizationConfigurationManager"/>.
+        /// </summary>
         public static void Refresh()
         {
+            NWDBenchmark.Start();
             var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDLocalizationConfigurationManager));
             foreach (NWDLocalizationConfigurationManager tWindow in tWindows)
             {
                 tWindow.Repaint();
             }
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool IsSharedInstanced()
-        {
-            if (_kSharedInstance != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// On enable action.
+        /// </summary>
         public void OnEnable()
         {
-            //NWEBenchmark.Start();
+            NWDBenchmark.Start();
             TitleInit(NWDConstants.K_LOCALIZATION_CONFIGURATION_TITLE, typeof(NWDLocalizationConfigurationManager));
-            //NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
         public override void OnPreventGUI()
         {
-            //NWEBenchmark.Start();
+            NWDBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDGUILayout.Title(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA);
             NWDGUILayout.Informations("Some informations");
@@ -178,7 +191,7 @@ namespace NetWorkedData
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
-            //NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

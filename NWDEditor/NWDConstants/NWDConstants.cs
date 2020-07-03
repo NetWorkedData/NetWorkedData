@@ -1,8 +1,19 @@
 ﻿//=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
+//=====================================================================================================================
+// Define the use of Log and Benchmark only for this file!
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+#if NWD_VERBOSE
+#if UNITY_EDITOR
+#define NWD_LOG
+#define NWD_BENCHMARK
+#elif DEBUG
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#endif
+#endif
 //=====================================================================================================================
 #if UNITY_EDITOR
 using System.Collections;
@@ -21,6 +32,8 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         public const string K_EDITOR_CLIPBOARD_LAST_LOG = "K_EDITOR_CLIPBOARD_LAST_LOG";
+        public const string K_EDITOR_BENCHMARK_SHOW_START = "K_EDITOR_BENCHMARK_SHOW_START";
+        public const string K_EDITOR_BENCHMARK_LIMIT = "K_EDITOR_BENCHMARK_LIMIT";
         public const string K_EDITOR_SHOW_COMPILE = "K_EDITOR_SHOW_COMPILE";
         public const string K_EDITOR_USER_BUILDER = "NWD_USER_BUILDER";
         public const string K_EDITOR_PANEL_WIDTH = "K_EDITOR_PANEL_WIDTH";

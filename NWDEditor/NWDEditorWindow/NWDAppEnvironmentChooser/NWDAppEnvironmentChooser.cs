@@ -1,8 +1,19 @@
 ﻿//=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
+//=====================================================================================================================
+// Define the use of Log and Benchmark only for this file!
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+#if NWD_VERBOSE
+#if UNITY_EDITOR
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#elif DEBUG
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#endif
+#endif
 //=====================================================================================================================
 
 #if UNITY_EDITOR
@@ -18,67 +29,78 @@ namespace NetWorkedData
     public class NWDAppEnvironmentChooser : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
-        Vector2 ScrollPosition;
-        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Scroll position in window
+        /// </summary>
+        private static Vector2 _kScrollPosition;
         /// <summary>
         /// The Shared Instance for deamon class.
         /// </summary>
-        public static NWDAppEnvironmentChooser _kSharedInstance;
+        private static NWDAppEnvironmentChooser _kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the <see cref="_kSharedInstance"/> or instance one
+        /// </summary>
+        /// <returns></returns>
         public static NWDAppEnvironmentChooser SharedInstance()
         {
-            //NWEBenchmark.Start();
+            NWDBenchmark.Start();
             if (_kSharedInstance == null)
             {
                 _kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentChooser)) as NWDAppEnvironmentChooser;
             }
-            //NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
             return _kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show the <see cref="_kSharedInstance"/> of <see cref="NWDAppEnvironmentChooser"/> and focus on.
+        /// </summary>
+        /// <returns></returns>
         public static void SharedInstanceFocus()
         {
-            //NWEBenchmark.Start();
+            NWDBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
-            //NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Repaint all <see cref="NWDAppEnvironmentChooser"/>.
+        /// </summary>
         public static void Refresh()
         {
+            NWDBenchmark.Start();
             var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDAppEnvironmentChooser));
             foreach (NWDAppEnvironmentChooser tWindow in tWindows)
             {
                 tWindow.Repaint();
             }
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool IsSharedInstanced()
-        {
-            if (_kSharedInstance != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// On enable action.
+        /// </summary>
         public void OnEnable()
         {
-            //NWEBenchmark.Start();
+            NWDBenchmark.Start();
             TitleInit(NWDConstants.K_APP_CHOOSER_ENVIRONMENT_TITLE, typeof(NWDAppEnvironmentChooser));
-            //NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
         public override void OnPreventGUI()
         {
-            //NWEBenchmark.Start();
+            NWDBenchmark.Start();
             NWDGUI.LoadStyles();
 
+            // Title
             NWDGUILayout.Title("Environment chooser");
 
+            // Section Compile bypass
             NWDGUILayout.Section("Compile bypass");
             EditorGUILayout.LabelField("Compile use", NWDLauncher.CompileAs().ToString());
             NWDCompileTypeBypass tByPass = (NWDCompileTypeBypass)EditorGUILayout.EnumPopup("ByPass mode", NWDLauncher.kByPass);
@@ -92,6 +114,7 @@ namespace NetWorkedData
                 NWDAppEnvironmentSync.Refresh();
             }
 
+            // Section Environments
             NWDGUILayout.Section("Environments");
             int tTabSelected = -1;
             if (NWDAppConfiguration.SharedInstance().DevEnvironment.Selected == true)
@@ -150,13 +173,13 @@ namespace NetWorkedData
                 }
                 NWDDataInspector.Refresh();
             }
-
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             this.minSize = new Vector2(300, 150);
             this.maxSize = new Vector2(300, 4096);
 
             //NWEBenchmark.Step();
 
+            // Section DNS bypass
             NWDGUILayout.Section("DNS bypass");
             EditorGUILayout.LabelField("DNS use", NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetServerDNS());
             List<NWDServerDomain> tServerDNSList = NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetServerDNSList();
@@ -199,14 +222,15 @@ namespace NetWorkedData
 
             //NWEBenchmark.Step();
 
+            // Section WebServices informations
             NWDGUILayout.Section("WebServices informations");
+
             // Show version selected
             EditorGUILayout.LabelField("Webservice version", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
             EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE, PlayerSettings.bundleVersion, EditorStyles.label);
 
-
+            // Section Devices informations
             NWDGUILayout.Section("Devices informations");
-            //SystemInfo.deviceUniqueIdentifier
             EditorGUILayout.LabelField("Device ID", SystemInfo.deviceUniqueIdentifier, EditorStyles.label);
             EditorGUILayout.LabelField("Secret Key used", NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevice(), EditorStyles.label);
             EditorGUILayout.LabelField("Secret Key editor", NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDeviceEditor(), EditorStyles.label);
@@ -220,8 +244,6 @@ namespace NetWorkedData
             {
                 EditorGUILayout.LabelField("Account Infos used", "ERROR NO ACCOUNT INFOS");
             }
-
-
             if (NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetAccountReference().Contains(NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE) == false)
             {
                 if (GUILayout.Button("Reset session"))
@@ -229,13 +251,13 @@ namespace NetWorkedData
                     NWDAppEnvironmentSync.SharedInstance().Reset(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                 }
             }
-
             NWDAccount tAccount = null;
             string tAccountReference = NWDAccount.CurrentReference();
             if (NWDBasisHelper.BasisHelper<NWDAccount>().DatasByReference.ContainsKey(tAccountReference))
             {
                 tAccount = NWDBasisHelper.BasisHelper<NWDAccount>().DatasByReference[tAccountReference] as NWDAccount;
             }
+
             NWDGUILayout.SubSection("Account");
             EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_REFERENCE, tAccountReference);
             if (tAccount != null)
@@ -257,9 +279,8 @@ namespace NetWorkedData
             else
             {
             }
-            NWDGUILayout.SubSection("Account informations");
-            //string tAccountInfosReference = "?";
 
+            NWDGUILayout.SubSection("Account informations");
             if (NWDAccountInfos.CurrentData() != null)
             {
                 EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_REFERENCE, NWDAccountInfos.CurrentData().Reference);
@@ -272,24 +293,6 @@ namespace NetWorkedData
             {
                 EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_REFERENCE, "ERROR NO ACCOUNT INFOS");
             }
-
-            //if (NWDBasisHelper.GetCorporateFirstData<NWDAccountInfos>(NWDAccount.CurrentReference(), null) != null)
-            //{
-            //    NWDAccountInfos tAccountInfos = NWDBasisHelper.GetCorporateFirstData<NWDAccountInfos>(NWDAccount.CurrentReference(), null);
-            //    tAccountInfosReference = tAccountInfos.Reference;
-            //    EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_REFERENCE, tAccountInfosReference);
-
-            //    if (GUILayout.Button(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_SELECT))
-            //    {
-            //        NWDDataInspector.InspectNetWorkedData(tAccountInfos, true, true);
-            //    }
-            //}
-            //else
-            //{
-            //    EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_REFERENCE, "ERROR NO ACCOUNT INFOS");
-            //}
-
-
 
             NWDGUILayout.SubSection("Gamse save informations");
             string tGameSaveReference = "?";
@@ -315,9 +318,10 @@ namespace NetWorkedData
             {
                 EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_REFERENCE, "ERROR NO GAMESAVE");
             }
+
             NWDGUILayout.BigSpace();
             GUILayout.EndScrollView();
-            //NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -1,8 +1,19 @@
 ﻿//=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
+//=====================================================================================================================
+// Define the use of Log and Benchmark only for this file!
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+#if NWD_VERBOSE
+#if UNITY_EDITOR
+#define NWD_LOG
+#define NWD_BENCHMARK
+#elif DEBUG
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#endif
+#endif
 //=====================================================================================================================
 
 #if UNITY_EDITOR
@@ -29,6 +40,8 @@ namespace NetWorkedData
         /// </summary>
         static Vector2 ScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
+        bool BenchmarkShowStart;
+        float BenchmarkLimit;
         bool Clipboard;
         string UserName;
         int PanelWidth;
@@ -136,6 +149,8 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             // get values
+            BenchmarkShowStart = NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_BENCHMARK_SHOW_START);
+            BenchmarkLimit = NWDProjectPrefs.GetFloat(NWDConstants.K_EDITOR_BENCHMARK_LIMIT);
             Clipboard = NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG);
             UserName = NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_USER_BUILDER, "(user)");
             PanelWidth = NWDProjectPrefs.GetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, 320);
@@ -150,6 +165,8 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             // set values
+            NWDProjectPrefs.SetBool(NWDConstants.K_EDITOR_BENCHMARK_SHOW_START, BenchmarkShowStart);
+            NWDProjectPrefs.SetFloat(NWDConstants.K_EDITOR_BENCHMARK_LIMIT, BenchmarkLimit);
             NWDProjectPrefs.SetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG, Clipboard);
             NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_USER_BUILDER, UserName);
             NWDProjectPrefs.SetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, PanelWidth);
@@ -157,6 +174,7 @@ namespace NetWorkedData
             SetEditorBuildEnvironment(EditorBuildEnvironment);
             SetEditorBuildRename(EditorBuildRename);
             SetEditorBuildDatabaseUpdate(EditorBuildDatabaseUpdate);
+            NWDBenchmark.PrefReload();
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -165,7 +183,7 @@ namespace NetWorkedData
         /// </summary>
         public override void OnPreventGUI()
         {
-            //NWEBenchmark.Start();
+            NWDBenchmark.Start();
             NWDGUI.LoadStyles();
 
             NWDGUILayout.Title("Project preferences");
@@ -177,14 +195,13 @@ namespace NetWorkedData
 
             //User preferences
             NWDGUILayout.Section("User preferences");
-            Clipboard = EditorGUILayout.ToggleLeft("Copy DebugLog In Clipoard", Clipboard);
             UserName = EditorGUILayout.TextField("User builder name", UserName);
             PanelWidth = EditorGUILayout.IntSlider("Panel data width", PanelWidth, 300, 400);
 
             //General preferences
             NWDGUILayout.Section("General preferences");
             ShowCompile = EditorGUILayout.Toggle("Show re-compile ", ShowCompile);
-          
+
             // build preference section
             NWDGUILayout.Section("Project build preferences");
             //define environment build
@@ -194,13 +211,21 @@ namespace NetWorkedData
             // define update database
             EditorBuildDatabaseUpdate = (NWDEditorBuildDatabaseUpdate)EditorGUILayout.EnumPopup("Copy database in build", EditorBuildDatabaseUpdate);
 
+
+            // build Debug section
+            NWDGUILayout.Section("Debug and Benchmark in Editor");
+            NWDGUILayout.Informations("Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)");
+            BenchmarkShowStart = EditorGUILayout.ToggleLeft("Benchmark show start", BenchmarkShowStart);
+            BenchmarkLimit = EditorGUILayout.Slider("Benchmark min show", BenchmarkLimit, 0F, 1.5F);
+            Clipboard = EditorGUILayout.ToggleLeft("Copy NWDDebug.Log in clipoard", Clipboard);
+
             if (EditorGUI.EndChangeCheck() == true)
             {
                 Save();
             }
-
             // end scroll
             GUILayout.EndScrollView();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

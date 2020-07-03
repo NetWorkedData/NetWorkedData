@@ -1,7 +1,21 @@
-﻿//  ideMobi 2020©
-//  All rights reserved by ideMobi
+﻿//=====================================================================================================================
+//
+//  ideMobi 2020©
 //
 //=====================================================================================================================
+// Define the use of Log and Benchmark only for this file!
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+#if NWD_VERBOSE
+#if UNITY_EDITOR
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#elif DEBUG
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#endif
+#endif
+//=====================================================================================================================
+
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
@@ -9,6 +23,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using System.IO;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -16,31 +31,37 @@ namespace NetWorkedData
     public class NWDEditorWindow : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
-        static List<NWDEditorWindow> AllWindowsList = new List<NWDEditorWindow>();
+        private static List<NWDEditorWindow> AllWindowsList = new List<NWDEditorWindow>();
+        //-------------------------------------------------------------------------------------------------------------
         private GUIContent IconAndTitleCompile;
         private GUIContent IconAndTitle;
-        protected bool ProSkinActive;
+        private bool ProSkinActive;
         private string EditorTitle;
         private Type EditorType;
         private bool TitleIsInit = false;
+        private bool Recompile = false;
         //-------------------------------------------------------------------------------------------------------------
         public void SkinChange()
         {
+            NWDBenchmark.Start();
             if (EditorGUIUtility.isProSkin != ProSkinActive || TitleIsInit == false)
             {
                 TitleEnable();
             }
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void TitleInit(string tTitle, Type tType)
         {
+            NWDBenchmark.Start();
             EditorTitle = tTitle;
             EditorType = tType;
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void TitleEnable()
         {
-            //NWEBenchmark.Start();
+            NWDBenchmark.Start();
             if (string.IsNullOrEmpty(EditorTitle) == false && EditorType != null)
             {
                 TitleIsInit = true;
@@ -95,11 +116,12 @@ namespace NetWorkedData
                     }
                 }
             }
-            //NWEBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void GenerateCSharpFile()
         {
+            NWDBenchmark.Start();
             if (NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_SHOW_COMPILE, true) == true)
             {
                 foreach (NWDEditorWindow tWindow in AllWindowsList)
@@ -109,12 +131,13 @@ namespace NetWorkedData
                 }
             }
             NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         [DidReloadScripts]
         private static void OnScriptsReloaded()
         {
-            //Debug.Log("NWDEditorWindow OnScriptsReloaded()");
+            NWDBenchmark.Start();
             if (AllWindowsList != null)
             {
                 foreach (NWDEditorWindow tWindow in AllWindowsList)
@@ -126,31 +149,32 @@ namespace NetWorkedData
                     }
                 }
             }
+            NWDBenchmark.Finish();
         }
-        //-------------------------------------------------------------------------------------------------------------
-        bool Recompile = false;
         //-------------------------------------------------------------------------------------------------------------
         public NWDEditorWindow()
         {
-            //Debug.Log("NWDEditorWindow()");
+            //NWDBenchmark.Start();
             if (AllWindowsList.Contains(this) == false)
             {
                 AllWindowsList.Add(this);
             }
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         ~NWDEditorWindow()
         {
-            //Debug.Log("~NWDEditorWindow()");
+            //NWDBenchmark.Start();
             if (AllWindowsList.Contains(this) == false)
             {
                 AllWindowsList.Remove(this);
             }
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
         {
-            //Debug.Log("NWDEditorWindow OnGUI()");
+            NWDBenchmark.Start();
             SkinChange();
             NWDGUI.LoadStyles();
             if (Recompile == false || EditorApplication.isCompiling == false)
@@ -185,11 +209,11 @@ namespace NetWorkedData
                 float tLogoSize = NWDGUI.kTitleStyle.fixedHeight;
                 GUI.Label(new Rect(position.width - tLogoSize, 0, tLogoSize, tLogoSize), NWDGUI.kNetWorkedDataLogoContent);
             }
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void OnPreventGUI()
         {
-            //Debug.Log("NWDEditorWindow OnPreventGUI()");
             throw new Exception("override OnPreventGUI() in place of OnGUI");
         }
         //-------------------------------------------------------------------------------------------------------------
