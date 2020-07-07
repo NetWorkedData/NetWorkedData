@@ -37,6 +37,7 @@ namespace NetWorkedData
             tFile.AppendLine("// FINISH");
             tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this, "Calculate"));
             tFile.AppendLine(NWDError.PHP_BenchmarkStart(this, "Finish"));
+            tFile.AppendLine("global $admin;");
             tFile.AppendLine(NWD.K_CommentSeparator);
             if (LogMode != NWDEnvironmentLogMode.NoLog)
             {
@@ -865,6 +866,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             {
                 tFile.AppendLine(NWDError.PHP_logTrace(this));
+                tFile.AppendLine("global $admin;");
                 tFile.AppendLine("$rReturn = false;");
                 tFile.AppendLine("$temporalSalt = saltTemporal($sFrequence, 0);");
                 tFile.AppendLine("$tHash = sha1($sAdminKey.$temporalSalt);");
@@ -890,6 +892,7 @@ namespace NetWorkedData
                     tFile.AppendLine("$rReturn = true;");
                 }
                 tFile.AppendLine("}");
+                tFile.AppendLine("$admin = $rReturn;");
                 tFile.AppendLine("return $rReturn;");
             }
             tFile.AppendLine("}");
@@ -2001,6 +2004,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("// connect for editor");
             tFile.AppendLine(NWD.K_SQL_CON_EDITOR + " = array();");
+            tFile.AppendLine("global $admin;");
             tFile.AppendLine("headerBrutalValue ('adminHash', '" + NWD.AdminHashKey + "');");
             tFile.AppendLine("$admin = adminHashTest ($adminHash, $NWD_ADM_KEY, $NWD_SLT_TMP);");
             tFile.AppendLine("if ($admin == true)");

@@ -1,10 +1,19 @@
 ﻿//=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
+// Define the use of Log and Benchmark only for this file!
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+#if NWD_VERBOSE
+#if UNITY_EDITOR
+#define NWD_LOG
+#define NWD_BENCHMARK
+#elif DEBUG
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#endif
+#endif
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -716,6 +725,8 @@ namespace NetWorkedData
                 //}
                 while (SQLite3.Step(stmtc) == SQLite3.Result.Row)
                 {
+                    NWDBenchmark.QuickStart("Data Loading");
+                    NWDBenchmark.QuickStart("Data Loading" + ClassNamePHP);
                     string tReferenceFromDataBase = SQLite3.ColumnString(stmtc, tReferenceIndex);
                     if (DatasByReference.ContainsKey(tReferenceFromDataBase) == false)
                     {
@@ -742,6 +753,8 @@ namespace NetWorkedData
                         }
                     }
                     tCount++;
+                    NWDBenchmark.QuickFinish("Data Loading" + ClassNamePHP);
+                    NWDBenchmark.QuickFinish("Data Loading");
                 }
                 //if (NWDLauncher.ActiveBenchmark)
                 //{

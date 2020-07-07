@@ -219,6 +219,8 @@ namespace NetWorkedData
                 tConstantsFile.AppendLine("$SQL_ACCESS_COUNT = 0;");
                 tConstantsFile.AppendLine("$SQL_ACCESS_SQL = array();");
             }
+
+            NWDCluster tNWDCluster = NWDCluster.SelectClusterforEnvironment(this);
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("// CONSTANT FOR EREG");
             tConstantsFile.AppendLine("$ereg_os = '/^(editor|unity|ios|osx|android|web|win|wp8|ps3|ps4|psp|switch)$/';");
@@ -239,22 +241,52 @@ namespace NetWorkedData
             tConstantsFile.AppendLine("$NWD_SLT_STR = '" + SaltStart.Replace("'", "\'") + "';");
             tConstantsFile.AppendLine("$NWD_SLT_END = '" + SaltEnd.Replace("'", "\'") + "';");
             //tConstantsFile.AppendLine("" + NWD.K_NWD_SLT_SRV + " = '" + SaltServer.Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("" + NWD.K_NWD_SLT_SRV + " = '" + NWDCluster.SelectClusterforEnvironment(this).SaltServer.Decrypt().Replace("'", "\'") + "';");
+            tConstantsFile.AppendLine("" + NWD.K_NWD_SLT_SRV + " = '" + tNWDCluster.SaltServer.Decrypt().Replace("'", "\'") + "';");
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("// CONSTANT FOR TEMPORAL SALT");
             tConstantsFile.AppendLine("$NWD_SLT_TMP = " + SaltFrequency.ToString() + ";");
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("// CONSTANT FOR SMTP");
-            tConstantsFile.AppendLine("$SMTP_HOST = '" + NWDCluster.SelectClusterforEnvironment(this).MailHost.Trim().Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("$SMTP_PORT = " + NWDCluster.SelectClusterforEnvironment(this).MailPort.ToString() + ";");
-            //tConstantsFile.AppendLine("$SMTP_DOMAIN = '" + MailDomain.Trim().Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("$SMTP_FROM = '" + NWDCluster.SelectClusterforEnvironment(this).MailFrom.Trim().Replace("'", "\'") + "';");
-            //tConstantsFile.AppendLine("$SMTP_REPLY = '" + MailReplyTo.Trim().Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("$SMTP_USER = '" + NWDCluster.SelectClusterforEnvironment(this).MailUserName.Trim().Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("$SMTP_PSW = '" + NWDCluster.SelectClusterforEnvironment(this).MailPassword.Decrypt().Trim().Replace("'", "\'") + "';");
-            //tConstantsFile.AppendLine("$SMTP_AUT = '" + MailAuthentication.Trim().Replace("'", "\'") + "';");
-            //tConstantsFile.AppendLine("$SMTP_STARTTLS = '" + MailEnableStarttlsAuto.Trim().Replace("'", "\'") + "';");
-            //tConstantsFile.AppendLine("$SMTP_OPENSSL = '" + MailOpenSSLVerifyMode.Trim().Replace("'", "\'") + "';");
+            if (string.IsNullOrEmpty(tNWDCluster.MailHost))
+            {
+                tConstantsFile.AppendLine("$SMTP_HOST = ''; // NOT DEFINED");
+            }
+            else
+            {
+            tConstantsFile.AppendLine("$SMTP_HOST = '" + tNWDCluster.MailHost.Trim().Replace("'", "\'") + "';");
+            }
+            if (string.IsNullOrEmpty(tNWDCluster.MailPort.ToString()))
+            {
+                tConstantsFile.AppendLine("$SMTP_PORT = ''; // NOT DEFINED");
+            }
+            else
+            {
+                tConstantsFile.AppendLine("$SMTP_PORT = " + tNWDCluster.MailPort.ToString() + ";");
+            }
+            if (string.IsNullOrEmpty(tNWDCluster.MailFrom))
+            {
+                tConstantsFile.AppendLine("$SMTP_FROM = ''; // NOT DEFINED");
+            }
+            else
+            {
+                tConstantsFile.AppendLine("$SMTP_FROM = '" + tNWDCluster.MailFrom.Trim().Replace("'", "\'") + "';");
+            }
+            if (string.IsNullOrEmpty(tNWDCluster.MailUserName))
+            {
+                tConstantsFile.AppendLine("$SMTP_USER = ''; // NOT DEFINED");
+            }
+            else
+            {
+                tConstantsFile.AppendLine("$SMTP_PSW = '" + tNWDCluster.MailUserName.Trim().Replace("'", "\'") + "';");
+            }
+            if (string.IsNullOrEmpty(tNWDCluster.MailPassword.Decrypt()))
+            {
+                tConstantsFile.AppendLine("$SMTP_PSW = ''; // NOT DEFINED");
+            }
+            else
+            {
+                tConstantsFile.AppendLine("$SMTP_PSW = '" + tNWDCluster.MailPassword.Decrypt().Trim().Replace("'", "\'") + "';");
+            }
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("// CONSTANT TO CONNECT TO SQL DATABASE");
             tConstantsFile.AppendLine("global $K_ConnectAllDatabases;");

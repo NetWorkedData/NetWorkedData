@@ -114,6 +114,7 @@ namespace NetWorkedData
                 //LauncherBenchmarkToMarkdown();
             }
             NWDLauncherBenchmark.Watch.Stop();
+            NWDBenchmark.AllResults();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void EngineStandard()

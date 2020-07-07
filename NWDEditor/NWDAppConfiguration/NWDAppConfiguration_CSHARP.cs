@@ -301,7 +301,7 @@ namespace NetWorkedData
             rReturnType.AppendLine("/// </summary>");
             rReturnType.AppendLine("public override bool RestaureTypesConfigurations()");
             rReturnType.AppendLine("{");
-            rReturnType.AppendLine("if (NWDLauncher.ActiveBenchmark == true) {NWEBenchmark.Start();};");
+            rReturnType.AppendLine("if (NWDLauncher.ActiveBenchmark == true) {NWDBenchmark.Start();};");
             List<Type> tAllTypes = new List<Type>(NWDLauncher.AllNetWorkedDataTypes);
             tAllTypes.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
             foreach (Type tType in tAllTypes)
@@ -312,7 +312,7 @@ namespace NetWorkedData
                     rReturnType.Append(tDatas.CreationCSHARPCallLoader());
                 }
             }
-            rReturnType.AppendLine("if (NWDLauncher.ActiveBenchmark == true) {NWEBenchmark.Finish();};");
+            rReturnType.AppendLine("if (NWDLauncher.ActiveBenchmark == true) {NWDBenchmark.Finish();};");
             rReturnType.AppendLine("return true;");
             rReturnType.AppendLine("}");
             rReturnType.AppendLine("//-------------------------------------------------------------------------------------------------------------");
