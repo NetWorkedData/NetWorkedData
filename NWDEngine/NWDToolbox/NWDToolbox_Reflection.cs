@@ -1,17 +1,23 @@
 ﻿//=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
-
+// Define the use of Log and Benchmark only for this file!
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+#if NWD_VERBOSE
+#if UNITY_EDITOR
+#define NWD_LOG
+#define NWD_BENCHMARK
+#elif DEBUG
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#endif
+#endif
+//=====================================================================================================================
 
 using System;
 using System.Linq.Expressions;
-using System.Reflection;
-
-using UnityEngine;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -20,32 +26,22 @@ namespace NetWorkedData
     public partial class NWDToolbox
     {
         //-------------------------------------------------------------------------------------------------------------
-        // string tPropertyPath = NWDToolbox.ExposeProperty(()=>NWDAppConfiguration.SharedInstance().DevEnvironment);
-        public static string ExposeProperty<T>(Expression<Func<T>> sProperty)
-        {
-            string tPath = string.Empty;
-            MemberExpression tExp = MemberInfo(sProperty);
-            if (tExp != null)
-            {
-                tPath = tExp.Member.DeclaringType.FullName + "." + tExp.Member.Name;
-            }
-            return tPath;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        // string tPropertyName = NWDToolbox.PropertyName(()=>NWDAppConfiguration.SharedInstance().DevEnvironment);
         public static string PropertyName<T>(Expression<Func<T>> sProperty)
         {
+            NWDBenchmark.QuickStart();
             string tPath = string.Empty;
             MemberExpression tExp = MemberInfo(sProperty);
             if (tExp != null)
             {
                 tPath = tExp.Member.Name;
             }
+            NWDBenchmark.QuickFinish();
             return tPath;
         }
         //-------------------------------------------------------------------------------------------------------------
         private static MemberExpression MemberInfo(Expression sMethod)
         {
+            //NWDBenchmark.QuickStart();
             MemberExpression rReturn = null;
             LambdaExpression tLambda = sMethod as LambdaExpression;
             if (tLambda != null)
@@ -59,14 +55,8 @@ namespace NetWorkedData
                     rReturn = tLambda.Body as MemberExpression;
                 }
             }
+            //NWDBenchmark.QuickFinish();
             return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void TEST()
-        {
-            string tPropertyName = NWDToolbox.PropertyName(() => NWDAppConfiguration.SharedInstance().DevEnvironment);
-            string tPropertyNameB = NWDToolbox.PropertyName(() => NWDConstants.kFieldNone);
-            //string tPropertyNameC = NWDToolbox.PropertyName(() => NWDConstants.ReferenceEquals);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

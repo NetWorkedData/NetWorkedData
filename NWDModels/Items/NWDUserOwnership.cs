@@ -17,74 +17,13 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    [NWDClassTrigrammeAttribute("UOWC")]
-    [NWDClassDescriptionAttribute("User Ownership C descriptions Class")]
-    [NWDClassMenuNameAttribute("User Ownership C")]
-    public partial class NWDUserOwnershipC : NWDBasisAccountDependent
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDUserOwnership : NWDBasisGameSaveDependent
     {
-        //-------------------------------------------------------------------------------------------------------------
-        public string Item { get; set; }
-        public int Quantity { get; set; }
-        public int QuantityUsed { get; set; }
-        public bool Discovered { get; set; }
-        public NWDDateTimeType DiscoveredDate { get; set; }
-        public string Name { get; set; }
-        public string OwnershipList { get; set; }
-        //public int Bundle { get; set; }
-        public int RangeAccesss { get; set; }
-        //public string Account { get; set; }
-        public string GameSave { get; set; }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDUserOwnershipC() { }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDUserOwnershipC(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
-        //-------------------------------------------------------------------------------------------------------------
-    }
-    [NWDClassTrigrammeAttribute("UOWB")]
-    [NWDClassDescriptionAttribute("User Ownership B descriptions Class")]
-    [NWDClassMenuNameAttribute("User Ownership B")]
-    public partial class NWDUserOwnershipB : NWDBasisAccountDependent
-    {
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDReferenceType<NWDAccount> Item { get; set; }
-        public int Quantity { get; set; }
-        public int QuantityUsed { get; set; }
-        public bool Discovered { get; set; }
-        public NWDDateTimeType DiscoveredDate { get; set; }
-        public string Name { get; set; }
-        public NWDReferencesArrayType<NWDUserOwnership> OwnershipList { get; set; }
-        //public int Bundle { get; set; }
-        public int RangeAccesss { get; set; }
-        //public string Account { get; set; }
-        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDUserOwnershipB() { }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDUserOwnershipB(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
-        //-------------------------------------------------------------------------------------------------------------
-    }
-    [NWDClassTrigrammeAttribute("UOWD")]
-    [NWDClassDescriptionAttribute("User Ownership D descriptions Class")]
-    [NWDClassMenuNameAttribute("User Ownership D")]
-    public partial class NWDUserOwnershipD : NWDBasisGameSaveDependent
-    {
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStart("Ownership", true, true, true)]
-        public NWDReferenceType<NWDItem> Item { get; set; }
-        [NWDInspectorGroupEnd]
-
-        [NWDInspectorGroupStart("Quantity ", true, true, true)]
-        public int Quantity { get; set; }
-        //TODO used in slot or in another system
-        //TODO create method use and unuse one!
-        //TODO directly dependence from usable in Item
+#if NWD_EXTENSION
+        [NWDInspectorGroupStart("In Extension", true, true, true)]
         [NWDInDevelopment]
         public int QuantityUsed { get; set; }
-        [NWDInspectorGroupEnd]
-
-        [NWDInspectorGroupStart("Acquisition", true, true, true)]
-        public bool Discovered { get; set; }
-        public NWDDateTimeType DiscoveredDate { get; set; }
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Customisation ", true, true, true)]
         public string Name { get; set; }
@@ -93,11 +32,7 @@ namespace NetWorkedData
         [NWDInspectorGroupStart("OLD-RENAME ", true, true, true)]
         [Obsolete]
         public NWDReferencesArrayType<NWDUserOwnership> OwnershipList { get; set; }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDUserOwnershipD() { }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDUserOwnershipD(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
-        //-------------------------------------------------------------------------------------------------------------
+#endif
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
@@ -106,14 +41,13 @@ namespace NetWorkedData
     /// acquisition statut or some particular values (A, B, C, etc.).
     /// It's a generic class for traditionla game.
     /// </summary>
-    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("UOW")]
     [NWDClassDescriptionAttribute("User Ownership descriptions Class")]
     [NWDClassMenuNameAttribute("User Ownership")]
     public partial class NWDUserOwnership : NWDBasisGameSaveDependent
     {
         //-------------------------------------------------------------------------------------------------------------
-        #region Properties
+#region Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Ownership", true, true, true)]
         public NWDReferenceType<NWDItem> Item { get; set; }
@@ -121,42 +55,23 @@ namespace NetWorkedData
 
         [NWDInspectorGroupStart("Quantity ", true, true, true)]
         public int Quantity { get; set; }
-        //TODO used in slot or in another system
-        //TODO create method use and unuse one!
-        //TODO directly dependence from usable in Item
-        [NWDInDevelopment]
-        public int QuantityUsed { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Acquisition", true, true, true)]
         public bool Discovered { get; set; }
         public NWDDateTimeType DiscoveredDate { get; set; }
-        [NWDInspectorGroupEnd]
-        [NWDInspectorGroupStart("Customisation ", true, true, true)]
-        public string Name { get; set; }
-        [NWDInspectorGroupEnd]
-
-        [NWDInspectorGroupStart("OLD-RENAME ", true, true, true)]
-        [Obsolete]
-        public NWDReferencesArrayType<NWDUserOwnership> OwnershipList { get; set; }
-        //public NWDReferencesQuantityType<NWDItemProperty> ParameterQuantity { get; set; }
-        //[NWDGroupEnd]
-        //[NWDGroupStart("Development addons", true, true, true)]
-        //public string JSON { get; set; }
-        //public string KeysValues { get; set; }
-        //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
-        #region Constructors
+#region Constructors
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserOwnership() {}
+        public NWDUserOwnership() { }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserOwnership(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) {}
+        public NWDUserOwnership(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
-        #region Class methods
+#region Class methods
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Quantities for item's reference if exists.
@@ -525,9 +440,9 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
-        #region Instance methods
+#region Instance methods
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
@@ -550,9 +465,9 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
-        #region NetWorkedData addons methods
+#region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
@@ -621,7 +536,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

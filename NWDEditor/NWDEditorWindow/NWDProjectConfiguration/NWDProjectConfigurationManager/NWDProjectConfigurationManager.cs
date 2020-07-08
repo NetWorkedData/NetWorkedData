@@ -32,10 +32,12 @@ namespace NetWorkedData
         const string kColorGreen_Pro = "2EDD66FF";
         const string kColorOrange_Pro = "FF9842FF";
         const string kColorRed_Pro = "FF7070FF";
+        const string kColorBlue_Pro = "7092FFFF";
 
         const string kColorGreen = "007626FF";
         const string kColorOrange = "B45200FF";
         const string kColorRed = "890000FF";
+        const string kColorBlue = "002089FF";
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance.
@@ -56,6 +58,7 @@ namespace NetWorkedData
         Color Green;
         Color Red;
         Color Orange;
+        Color Blue;
         NWDEditorBuildEnvironment EditorBuildEnvironment;
         NWDEditorBuildRename EditorBuildRename;
         NWDEditorBuildDatabaseUpdate EditorBuildDatabaseUpdate;
@@ -174,12 +177,14 @@ namespace NetWorkedData
                 Green = NWDToolbox.ColorFromString(NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_GREEN_PRO, kColorGreen_Pro));
                 Orange = NWDToolbox.ColorFromString(NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_ORANGE_PRO, kColorOrange_Pro));
                 Red = NWDToolbox.ColorFromString(NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_RED_PRO, kColorRed_Pro));
+                Blue = NWDToolbox.ColorFromString(NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_BLUE_PRO, kColorBlue_Pro));
             }
             else
             {
                 Green = NWDToolbox.ColorFromString(NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_GREEN, kColorGreen));
                 Orange = NWDToolbox.ColorFromString(NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_ORANGE, kColorOrange));
                 Red = NWDToolbox.ColorFromString(NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_RED, kColorRed));
+                Blue = NWDToolbox.ColorFromString(NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_BLUE, kColorBlue));
             }
             //NWEBenchmark.Finish();
         }
@@ -194,6 +199,7 @@ namespace NetWorkedData
             NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_USER_BUILDER, UserName);
             NWDProjectPrefs.SetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, PanelWidth);
             NWDProjectPrefs.SetBool(NWDConstants.K_EDITOR_SHOW_COMPILE, ShowCompile);
+
             SetEditorBuildEnvironment(EditorBuildEnvironment);
             SetEditorBuildRename(EditorBuildRename);
             SetEditorBuildDatabaseUpdate(EditorBuildDatabaseUpdate);
@@ -203,12 +209,14 @@ namespace NetWorkedData
                 NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_BENCHMARK_GREEN_PRO, NWDToolbox.ColorToString(Green));
                 NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_BENCHMARK_ORANGE_PRO, NWDToolbox.ColorToString(Orange));
                 NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_BENCHMARK_RED_PRO, NWDToolbox.ColorToString(Red));
+                NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_BENCHMARK_BLUE_PRO, NWDToolbox.ColorToString(Blue));
             }
             else
             {
                 NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_BENCHMARK_GREEN, NWDToolbox.ColorToString(Green));
                 NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_BENCHMARK_ORANGE, NWDToolbox.ColorToString(Orange));
                 NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_BENCHMARK_RED, NWDToolbox.ColorToString(Red));
+                NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_BENCHMARK_BLUE, NWDToolbox.ColorToString(Blue));
             }
 
             NWDBenchmark.PrefReload();
@@ -264,6 +272,7 @@ namespace NetWorkedData
             Green = EditorGUILayout.ColorField("Green highlight", Green);
             Orange = EditorGUILayout.ColorField("Orange highlight", Orange);
             Red = EditorGUILayout.ColorField("Red highlight", Red);
+            Blue = EditorGUILayout.ColorField("Blue highlight", Blue);
             if (GUILayout.Button("reset color"))
             {
                 if (EditorGUIUtility.isProSkin)
@@ -274,21 +283,30 @@ namespace NetWorkedData
                     Orange = NWDToolbox.ColorFromString(kColorOrange_Pro);
                     NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_BENCHMARK_RED_PRO, kColorRed_Pro);
                     Red = NWDToolbox.ColorFromString(kColorRed_Pro);
+                    NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_BENCHMARK_BLUE_PRO, kColorBlue_Pro);
+                    Blue = NWDToolbox.ColorFromString(kColorBlue_Pro);
                 }
                 else
                 {
-                    NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_BENCHMARK_GREEN_PRO, kColorGreen);
+                    NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_BENCHMARK_GREEN, kColorGreen);
                     Green = NWDToolbox.ColorFromString(kColorGreen);
-                    NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_BENCHMARK_ORANGE_PRO, kColorOrange);
+                    NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_BENCHMARK_ORANGE, kColorOrange);
                     Orange = NWDToolbox.ColorFromString(kColorOrange);
-                    NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_BENCHMARK_RED_PRO, kColorRed);
+                    NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_BENCHMARK_RED, kColorRed);
                     Red = NWDToolbox.ColorFromString(kColorRed);
+                    NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_BENCHMARK_BLUE, kColorBlue);
+                    Blue = NWDToolbox.ColorFromString(kColorBlue);
                 }
             }
 
             if (EditorGUI.EndChangeCheck() == true)
             {
-                Debug.Log("TEST <color=#" + NWDToolbox.ColorToString(Green) + ">green " + NWDToolbox.ColorToString(Green) + " </color> TEST <color=#" + NWDToolbox.ColorToString(Orange) + ">orange " + NWDToolbox.ColorToString(Orange) + " </color> TEST <color=#" + NWDToolbox.ColorToString(Red) + ">red " + NWDToolbox.ColorToString(Red) + " </color>");
+                Debug.Log("" +
+                    "TEST <color=#" + NWDToolbox.ColorToString(Green) + ">green " + NWDToolbox.ColorToString(Green) + " </color> " +
+                    "TEST <color=#" + NWDToolbox.ColorToString(Orange) + ">orange " + NWDToolbox.ColorToString(Orange) + " </color> " +
+                    "TEST <color=#" + NWDToolbox.ColorToString(Red) + ">red " + NWDToolbox.ColorToString(Red) + " </color>" +
+                    "TEST <color=#" + NWDToolbox.ColorToString(Blue) + ">blue " + NWDToolbox.ColorToString(Blue) + " </color>" +
+                    "");
                 Save();
             }
             // end scroll

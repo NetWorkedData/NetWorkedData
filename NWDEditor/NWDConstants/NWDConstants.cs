@@ -34,10 +34,12 @@ namespace NetWorkedData
         public const string K_EDITOR_BENCHMARK_GREEN = "K_EDITOR_BENCHMARK_GREEN";
         public const string K_EDITOR_BENCHMARK_RED = "K_EDITOR_BENCHMARK_RED";
         public const string K_EDITOR_BENCHMARK_ORANGE = "K_EDITOR_BENCHMARK_ORANGE";
+        public const string K_EDITOR_BENCHMARK_BLUE = "K_EDITOR_BENCHMARK_BLUE";
 
         public const string K_EDITOR_BENCHMARK_GREEN_PRO = "K_EDITOR_BENCHMARK_GREEN_PRO";
         public const string K_EDITOR_BENCHMARK_RED_PRO = "K_EDITOR_BENCHMARK_RED_PRO";
         public const string K_EDITOR_BENCHMARK_ORANGE_PRO = "K_EDITOR_BENCHMARK_ORANGE_PRO";
+        public const string K_EDITOR_BENCHMARK_BLUE_PRO = "K_EDITOR_BENCHMARK_BLUE_PRO";
 
         public const string K_EDITOR_CLIPBOARD_LAST_LOG = "K_EDITOR_CLIPBOARD_LAST_LOG";
         public const string K_EDITOR_BENCHMARK_SHOW_START = "K_EDITOR_BENCHMARK_SHOW_START";

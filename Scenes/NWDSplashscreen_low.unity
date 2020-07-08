@@ -1261,7 +1261,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '#AccountFake#'
+  m_Text: '#Account Fake#'
 --- !u!222 &239145340
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2431,7 +2431,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '#SyncCounterAccount#'
+  m_Text: '#Sync Counter Account#'
 --- !u!222 &779768431
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2509,7 +2509,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '#AlertTest#'
+  m_Text: '#Alert Test#'
 --- !u!222 &809103492
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2830,7 +2830,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '#SyncSomeAccount#'
+  m_Text: '#Sync Some Account#'
 --- !u!222 &961318482
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4105,7 +4105,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '#SyncAll#'
+  m_Text: '#Sync All#'
 --- !u!222 &1617002163
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4244,7 +4244,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '#TokenFake#'
+  m_Text: '#Token Fake#'
 --- !u!222 &1800606763
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4490,7 +4490,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '#NextScene#'
+  m_Text: '#Next Scene#'
 --- !u!222 &1885366699
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4568,7 +4568,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '#SyncSomeEditor#'
+  m_Text: '#Sync Some Editor#'
 --- !u!222 &1923251367
 CanvasRenderer:
   m_ObjectHideFlags: 0

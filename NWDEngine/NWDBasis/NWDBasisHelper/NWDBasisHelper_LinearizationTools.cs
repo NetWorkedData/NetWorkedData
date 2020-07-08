@@ -1,14 +1,19 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
+//  ideMobi 2020©
 //
-//  Date		2019-4-12 18:25:14
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
-//  All rights reserved by ideMobi
-//
+//=====================================================================================================================
+// Define the use of Log and Benchmark only for this file!
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+#if NWD_VERBOSE
+#if UNITY_EDITOR
+#define NWD_LOG
+#define NWD_BENCHMARK
+#elif DEBUG
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#endif
+#endif
 //=====================================================================================================================
 
 using System;
@@ -47,7 +52,6 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasisHelper
     {
-
         //-------------------------------------------------------------------------------------------------------------
         public double SizerCalculate(float sIndexationPercent = 0.15F)
         {
@@ -141,19 +145,13 @@ namespace NetWorkedData
                                                   string sReference,
                                                   NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
-            // 
             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
-            //Debug.Log("NewDataFromWeb ()");
             NWDTypeClass rReturnObject = null;
-            //rReturnObject = (NWDBasis)Activator.CreateInstance(ClassType());
             rReturnObject = (NWDTypeClass)Activator.CreateInstance(ClassType, new object[] { false });
             rReturnObject.InstanceInit();
             rReturnObject.Reference = sReference;
-
             rReturnObject.FillDataFromWeb(sEnvironment, sDataArray); // good value are inside
-
             AddData(rReturnObject);
-
             // Verif if Systeme can use the thread (option in Environment)
             if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolForce == false)
             {
@@ -221,8 +219,6 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().InsertData(rReturnObject, sWritingMode);
                 }
             }
-            //NWEBenchmark.Finish();
-            //Data waiting for queue to finish the process
             return rReturnObject;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -676,7 +672,6 @@ namespace NetWorkedData
             RefreshAllWindows();
         }
         //-------------------------------------------------------------------------------------------------------------
-
 #endif
         //-------------------------------------------------------------------------------------------------------------
     }

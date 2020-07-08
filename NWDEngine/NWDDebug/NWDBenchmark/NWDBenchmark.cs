@@ -53,9 +53,10 @@ namespace NetWorkedData
         private static int StartCount = 0;
         private static float BenchmarkLimit = 0.0F;
         private static bool BenchmarkShowStart = true;
-        private static string Green = "#036d1a";
-        private static string Orange = "#bf7301";
-        private static string Red = "#ce1f00";
+        private static string Green = "#007626FF";
+        private static string Orange = "#B45200FF";
+        private static string Red = "#890000FF";
+        private static string Blue = "#002089FF";
         //-------------------------------------------------------------------------------------------------------------
         static NWDBenchmark()
         {
@@ -82,12 +83,14 @@ namespace NetWorkedData
                 Green = "#" + NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_GREEN_PRO);
                 Orange = "#" + NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_ORANGE_PRO);
                 Red = "#" + NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_RED_PRO);
+                Blue = "#" + NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_BLUE_PRO);
             }
             else
             {
                 Green = "#" + NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_GREEN);
                 Orange = "#" + NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_ORANGE);
                 Red = "#" + NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_RED);
+                Blue = "#" + NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_BLUE);
             }
 #endif
         }
@@ -304,41 +307,53 @@ namespace NetWorkedData
         [Conditional(MACRO)]
         public static void QuickStart(string sKey = null)
         {
-            if (sKey == null)
+            string tKey = string.Empty;
+            if (sKey != null)
             {
-                sKey = GetKey();
+                tKey = GetKey();
+                tKey = tKey + " <color=" + Blue + ">" + sKey + "</color>";
             }
-            if (cQuickStartDico.ContainsKey(sKey) == true)
+            else
             {
-                //string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + " all ready started!";
+                tKey = GetKey();
+            }
+            if (cQuickStartDico.ContainsKey(tKey) == true)
+            {
+                //string tLog = "benchmark : " + GetIndentation() + "<b>" + tKey + "</b>\t" + " all ready started!";
                 //UnityEngine.Debug.Log(tLog);
             }
             else
             {
-                cQuickStartDico.Add(sKey, Watch.ElapsedMilliseconds);
+                cQuickStartDico.Add(tKey, Watch.ElapsedMilliseconds);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         [Conditional(MACRO)]
         public static void QuickFinish(string sKey = null)
         {
-            if (sKey == null)
+            string tKey = string.Empty;
+            if (sKey != null)
             {
-                sKey = GetKey();
-            }
-            if (cQuickStartDico.ContainsKey(sKey) == true)
-            {
-                double rDelta = (Watch.ElapsedMilliseconds - cQuickStartDico[sKey]) / 1000.0F;
-                cQuickStartDico.Remove(sKey);
-                if (kMethodResult.ContainsKey(sKey) == false)
-                {
-                    kMethodResult.Add(sKey, new List<double>());
-                }
-                kMethodResult[sKey].Add(rDelta);
+                tKey = GetKey();
+                tKey = tKey + " <color=" + Blue + ">" + sKey + "</color>";
             }
             else
             {
-                UnityEngine.Debug.Log("benchmark : error '" + sKey + "' has no QuickStart value.");
+                tKey = GetKey();
+            }
+            if (cQuickStartDico.ContainsKey(tKey) == true)
+            {
+                double rDelta = (Watch.ElapsedMilliseconds - cQuickStartDico[tKey]) / 1000.0F;
+                cQuickStartDico.Remove(tKey);
+                if (kMethodResult.ContainsKey(tKey) == false)
+                {
+                    kMethodResult.Add(tKey, new List<double>());
+                }
+                kMethodResult[tKey].Add(rDelta);
+            }
+            else
+            {
+                UnityEngine.Debug.Log("benchmark : error '" + tKey + "' has no QuickStart value.");
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -356,6 +371,7 @@ namespace NetWorkedData
                 List<double> tResultList = tResult.Value.OrderByDescending(d => d).ToList();
 
                 double rRawDelta = Enumerable.Average(tResultList);
+                double rRawSum = Enumerable.Sum(tResultList);
                 double rRawMax = Enumerable.Max(tResultList);
                 double rRawMin = Enumerable.Min(tResultList);
                 double rDelta = rRawDelta;
@@ -387,12 +403,26 @@ namespace NetWorkedData
                 {
                     tMaxColor = Red;
                 }
+
+
+                string tSumColor = Green;
+                if (rRawSum >= kWarningDefault)
+                {
+                    tSumColor = Orange;
+                }
+                if (rRawSum >= kMaxDefault)
+                {
+                    tSumColor = Red;
+                }
+
                 UnityEngine.Debug.Log("benchmark Result " +
-                    "'<b>" + tResult.Key + "</b>' has " + tResult.Value.Count + " value" + (tResult.Value.Count > 1 ? "s" : "") +
+                    "'<b>" + tResult.Key + "</b>' has " + tResultList.Count + " value" + (tResult.Value.Count > 1 ? "s" : "") +
                     " and average is <color=" + tMaxColor + ">" + rDelta.ToString("F6") + "</color> seconds" +
                     (tResult.Value.Count > 1 ? " (min " + rMin.ToString("F6") + " max " + rMax.ToString("F6") + ")" : "") +
-                    (AA == true ? " at 95%  with raw datas average <color=" + tMaxColor + ">" + rRawDelta.ToString("F6") + "</color> seconds (min " + rRawMin.ToString("F6") + " max " + rRawMax.ToString("F6") + ") " : " ") +
-                    " "
+                    (AA == true ? " at 95%  with " + tResult.Value.Count + " raw datas average <color=" + tMaxColor + ">" + rRawDelta.ToString("F6") + "</color> seconds (min " + rRawMin.ToString("F6") + " max " + rRawMax.ToString("F6") + ") " : " ") +
+                    (tResult.Value.Count > 1 ? " sum is <color=" + tSumColor + ">" + rRawSum.ToString("F6") + "</color> seconds" : "") +
+
+                    ""
                     );
 
             }

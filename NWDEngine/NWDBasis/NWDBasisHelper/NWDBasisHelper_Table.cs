@@ -14,6 +14,8 @@
 //#define NWD_BENCHMARK
 #endif
 #endif
+//=====================================================================================================================
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -23,22 +25,6 @@ using UnityEngine;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //public class NWDColumnInfo
-    //{
-    //    public string Name
-    //    {
-    //        get; set;
-    //    }
-    //    public int notnull
-    //    {
-    //        get; set;
-    //    }
-    //    public override string ToString()
-    //    {
-    //        return this.Name;
-    //    }
-    //}
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDSQLiteTableState : int
     {
@@ -50,9 +36,10 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasisHelper
     {
+        //-------------------------------------------------------------------------------------------------------------
         private string PropertyInfoToSQLiteType(PropertyInfo sPropertyInfo, bool sJustType = false)
         {
-            //-------------------------------------------------------------------------------------------------------------
+            NWDBenchmark.QuickStart();
             string rReturn = "varchar";
             Type tTypeOfThis = sPropertyInfo.PropertyType;
             if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
@@ -118,6 +105,7 @@ namespace NetWorkedData
                     //rReturn += " primary key autoincrement not null default 0 ";
                 }
             }
+            NWDBenchmark.QuickFinish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -513,6 +501,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void ReadCol(Type tTypeOfThis, PropertyInfo tProp, IntPtr stmtc, int i, object tD)
         {
+            NWDBenchmark.QuickStart();
             if (tTypeOfThis == typeof(int) ||
                                 tTypeOfThis == typeof(Int16) ||
                                 tTypeOfThis == typeof(Int32) ||
@@ -617,10 +606,12 @@ namespace NetWorkedData
                 tV.Value = SQLite3.ColumnInt64(stmtc, i);
                 return;
             }
+            NWDBenchmark.QuickFinish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void LoadFromDatabaseByBundle(NWDBundle sBundle, bool sOverrideMemory)
         {
+            NWDBenchmark.QuickStart();
             if (sBundle != NWDBundle.ALL && ClassType.IsSubclassOf(typeof(NWDBasisBundled)))
             {
                 LoadFromDatabase("WHERE `Bundle` = \"" + sBundle.ToLong() + "\"", sOverrideMemory);
@@ -629,28 +620,39 @@ namespace NetWorkedData
             {
                 LoadFromDatabase(string.Empty, sOverrideMemory);
             }
+            NWDBenchmark.QuickFinish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void VerifLoadFromDatabaseForEditor()
         {
+            NWDBenchmark.QuickStart();
             if (IsLoaded() == false)
             {
                 LoadFromDatabaseByBundle(NWDBundle.ALL, true);
             }
+            NWDBenchmark.QuickFinish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void LoadFromDatabaseByReference(string sReference, bool sOverrideMemory)
         {
+            NWDBenchmark.QuickStart();
             LoadFromDatabase("WHERE `Reference` = \"" + sReference + "\"", sOverrideMemory);
+            NWDBenchmark.QuickFinish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void LoadFromDatabaseByReferences(string[] sReferences, bool sOverrideMemory)
         {
+            NWDBenchmark.QuickStart();
             LoadFromDatabase("WHERE `Reference` IN \"" + string.Join("", sReferences) + "\"", sOverrideMemory);
+            NWDBenchmark.QuickFinish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void LoadFromDatabase(string sWhere, bool sOverrideMemory)
         {
+            Debug.Log("LoadFromDatabase" + ClassNamePHP);
+            NWDBenchmark.QuickStart();
+            NWDBenchmark.QuickStart("?");
+            NWDBenchmark.QuickStart("Data Loading " + ClassNamePHP);
             // if no bundle class 
             // else do with bundle 
             if (NWDLauncher.ActiveBenchmark)
@@ -718,15 +720,9 @@ namespace NetWorkedData
             try
             {
                 IntPtr stmtc = SQLite3.Prepare2(tConnectorHandle, tSQL);
-
-                //if (NWDLauncher.ActiveBenchmark)
-                //{
-                //    NWEBenchmark.Step();
-                //}
                 while (SQLite3.Step(stmtc) == SQLite3.Result.Row)
                 {
-                    NWDBenchmark.QuickStart("Data Loading");
-                    NWDBenchmark.QuickStart("Data Loading" + ClassNamePHP);
+                    NWDBenchmark.QuickStart("Data Loading row " + ClassNamePHP);
                     string tReferenceFromDataBase = SQLite3.ColumnString(stmtc, tReferenceIndex);
                     if (DatasByReference.ContainsKey(tReferenceFromDataBase) == false)
                     {
@@ -753,13 +749,8 @@ namespace NetWorkedData
                         }
                     }
                     tCount++;
-                    NWDBenchmark.QuickFinish("Data Loading" + ClassNamePHP);
-                    NWDBenchmark.QuickFinish("Data Loading");
+                    NWDBenchmark.QuickFinish("Data Loading row " + ClassNamePHP);
                 }
-                //if (NWDLauncher.ActiveBenchmark)
-                //{
-                //    NWEBenchmark.Step();
-                //}
                 SQLite3.Finalize(stmtc);
             }
             catch
@@ -796,6 +787,10 @@ namespace NetWorkedData
                 //NWEBenchmark.Step(true, " " + ClassNamePHP + "DatasByInternalKey count = " + DatasByInternalKey.Count);
                 NWDBenchmark.Finish(true, " " + ClassNamePHP + " " + tCount + " row loaded! DatasByReference count = " + DatasByReference.Count);
             }
+
+            NWDBenchmark.QuickFinish("Data Loading " + ClassNamePHP);
+            NWDBenchmark.QuickFinish("?");
+            NWDBenchmark.QuickFinish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void UnloadDataByReference(string sReference)
