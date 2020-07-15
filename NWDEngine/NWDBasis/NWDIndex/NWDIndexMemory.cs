@@ -24,7 +24,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[Obsolete("Use NWDIndexer herited class to Install() method in Helper")]
+    [Obsolete("Use NWDIndexer herited class to Install() method in Helper")]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class NWDIndexInMemory : Attribute
     {
@@ -35,7 +35,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[Obsolete("Use NWDIndexer herited class to Install() method in Helper")]
+    [Obsolete("Use NWDIndexer herited class to Install() method in Helper")]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class NWDDeindexInMemory : Attribute
     {
@@ -393,14 +393,25 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public TData FirstRawDataByKey(string sKeyReference)
         {
-            string rReturn = string.Empty;
+            //string rReturn = string.Empty;
             string[] tList = ReferencesDatasByKey(sKeyReference);
-            if (tList.Length > 0)
-            {
-                rReturn = tList[0];
-            }
             NWDBasisHelper tDataHelper = NWDBasisHelper.FindTypeInfos(typeof(TData));
-            return tDataHelper.GetDataByReference(rReturn) as TData;
+            // bug when reset table
+            //if (tList.Length > 0)
+            //{
+            //    rReturn = tList[0];
+            //}
+            // prevent bug
+            TData rReturn = null;
+            foreach (string tRef in tList)
+            {
+                rReturn = tDataHelper.GetDataByReference(tRef) as TData;
+                if (rReturn != null)
+                {
+                    break;
+                }
+            }
+            return rReturn;
 
         }
         //-------------------------------------------------------------------------------------------------------------

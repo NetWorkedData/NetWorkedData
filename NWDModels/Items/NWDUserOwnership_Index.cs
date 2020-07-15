@@ -17,12 +17,45 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public NWDIndex<NWDItem, NWDUserOwnership> Index = new NWDIndex<NWDItem, NWDUserOwnership>();
         //-------------------------------------------------------------------------------------------------------------
-        static public void Install()
+        public static string KeyToUse(NWDUserOwnership sData)
         {
-            Debug.Log("NWDUserOwnershipIndexer Install()");
-            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDUserOwnership));
-            //tHelper.IndexInMemoryMethodList.Add(tHelper.ClassType.GetMethod("InsertInLevelIndex"));
-            //tHelper.DeindexInMemoryMethodList.Add(tHelper.ClassType.GetMethod("RemoveFromLevelIndex"));
+            return sData.Item.GetReference() + NWDConstants.kFieldSeparatorA + sData.GameSave.GetReference();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string KeyToUse(string sData)
+        {
+            return sData + NWDConstants.kFieldSeparatorA + NWDGameSave.CurrentData().Reference;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void IndexData(NWDTypeClass sData)
+        {
+            //Debug.Log("<color=orange>### NWDBasisHelper IndexData()</color>");
+            NWDUserOwnership tUserOwnership = sData as NWDUserOwnership;
+            string tKey = KeyToUse(tUserOwnership);
+            Index.UpdateData(tUserOwnership, tKey);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DeindexData(NWDTypeClass sData)
+        {
+            //Debug.Log("<color=orange>### NWDBasisHelper DeindexData()</color>");
+            NWDUserOwnership tUserOwnership = sData as NWDUserOwnership;
+            Index.RemoveData(tUserOwnership);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<NWDUserOwnership> FindDatas(string sKey)
+        {
+            //Debug.Log("<color=orange>### NWDBasisHelper FindDatas()</color>");
+            string tKey = KeyToUse(sKey);
+            List<NWDUserOwnership> rReturn = new List<NWDUserOwnership>(Index.RawDatasByKey(tKey));
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserOwnership FindFirstData(string sKey)
+        {
+            string tKey = KeyToUse(sKey);
+            //Debug.Log("<color=orange>### NWDBasisHelper FindFirstData()</color> " + tKey);
+            NWDUserOwnership rReturn = Index.FirstRawDataByKey(tKey);
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
@@ -40,27 +73,6 @@ namespace NetWorkedData
     public partial class NWDUserOwnership : NWDBasisGameSaveDependent
     {
         //-------------------------------------------------------------------------------------------------------------
-        //[NWDIndexInMemory]
-        public void InsertInLevelIndex()
-        {
-            Debug.Log(BasisHelper().ClassNamePHP + " InsertInLevelIndex()");
-            // Re-add to the actual indexation ?
-            if (IsUsable())
-            {
-                // Re-add !
-                string tKey = Item.GetReference() + NWDConstants.kFieldSeparatorA + GameSave.GetReference();
-                NWDUserOwnershipIndexer.Index.UpdateData(this, tKey);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        //[NWDDeindexInMemory]
-        public void RemoveFromLevelIndex()
-        {
-            Debug.Log(BasisHelper().ClassNamePHP +" RemoveFromLevelIndex()");
-            // Remove from the actual indexation
-            NWDUserOwnershipIndexer.Index.RemoveData(this);
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public static NWDUserOwnership FindReachableByItem(NWDItem sKey, bool sOrCreate = true)
         {
             return FindReachableByItemReference(sKey.Reference, sOrCreate);
@@ -68,38 +80,47 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserOwnership FindReachableByItemReference(string sReference, bool sOrCreate = true)
         {
-            string tKey = sReference + NWDConstants.kFieldSeparatorA + NWDGameSave.CurrentData().Reference;
-            NWDUserOwnership rReturn = NWDUserOwnershipIndexer.Index.FirstRawDataByKey(tKey);
-            if (rReturn == null && sOrCreate == true)
+            NWDUserOwnership rReturn = NWDUserOwnershipIndexer.FindFirstData(sReference);
+            if (rReturn == null)
             {
-                rReturn = NWDBasisHelper.NewData<NWDUserOwnership>();
-#if UNITY_EDITOR
-                NWDItem tItem = NWDBasisHelper.GetRawDataByReference<NWDItem>(sReference);
-                if (tItem != null)
+                if (sOrCreate == true)
                 {
-                    if (tItem.Name != null)
+                    rReturn = NWDBasisHelper.NewData<NWDUserOwnership>();
+#if UNITY_EDITOR
+                    NWDItem tItem = NWDBasisHelper.GetRawDataByReference<NWDItem>(sReference);
+                    if (tItem != null)
                     {
-                        string tItemNameBase = tItem.Name.GetBaseString();
-                        if (tItemNameBase != null)
+                        if (tItem.Name != null)
                         {
-                            rReturn.InternalKey = tItemNameBase;
+                            string tItemNameBase = tItem.Name.GetBaseString();
+                            if (tItemNameBase != null)
+                            {
+                                rReturn.InternalKey = tItemNameBase;
+                            }
                         }
                     }
-                }
-                rReturn.InternalDescription = NWDUserNickname.GetNickname();
-
+                    rReturn.InternalDescription = NWDUserNickname.GetNickname();
 #endif
-                rReturn.Item.SetReference(sReference);
-                rReturn.Tag = NWDBasisTag.TagUserCreated;
-                rReturn.Quantity = 0;
-                rReturn.UpdateData();
-            }
+                    rReturn.Item.SetReference(sReference);
+                    rReturn.Tag = NWDBasisTag.TagUserCreated;
+                    rReturn.Quantity = 0;
+                    rReturn.UpdateData();
 #if UNITY_EDITOR
-            NWDItem tItemForPreview = NWDBasisHelper.GetRawDataByReference<NWDItem>(sReference);
-            if (tItemForPreview != null)
+                    rReturn.InternalKey = NWDUserOwnershipIndexer.KeyToUse(sReference);
+                    rReturn.InternalDescription = NWDUserOwnershipIndexer.KeyToUse(rReturn);
+#endif
+                }
+            }
+
+#if UNITY_EDITOR
+            if (rReturn != null)
             {
-                rReturn.Preview = tItemForPreview.Preview;
-                rReturn.UpdateDataIfModified();
+                NWDItem tItemForPreview = NWDBasisHelper.GetRawDataByReference<NWDItem>(sReference);
+                if (tItemForPreview != null)
+                {
+                    rReturn.Preview = tItemForPreview.Preview;
+                    rReturn.UpdateDataIfModified();
+                }
             }
 #endif
             return rReturn;
