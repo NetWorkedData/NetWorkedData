@@ -291,6 +291,10 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+       
+        public float InfosWidth;
+
+        //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public void DrawHeaderInEditor(Rect sRect, Rect sScrollRect, float sZoom)
@@ -375,12 +379,11 @@ namespace NetWorkedData
             tRect.x += tRect.width;
             tRect.width = sRect.width
                 - NWDGUI.kFieldMarge
-                //- NWDGUI.kTableIDWidth
                 - NWDGUI.kTableSelectWidth
                 - NWDGUI.kTablePrefabWidth * sZoom
                 - NWDGUI.KTableSearchWidth
                 - NWDGUI.KTableReferenceWidth
-                - NWDGUI.KTableRowWebModelWidth
+                - NWDGUI.KTableRowWebModelWidth*2
                 - NWDGUI.kTableIconWidth * 5;
             //if (kAccountDependent == false)
             if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
@@ -391,6 +394,7 @@ namespace NetWorkedData
             {
                 tRect.width = NWDGUI.KTableSearchWidth;
             }
+            InfosWidth = tRect.width;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_DESCRIPTION, NWDGUI.KTableHeaderInformations))
             {
                 if (SortType == NWDBasisEditorDatasSortType.ByInternalKeyAscendant)
@@ -409,6 +413,26 @@ namespace NetWorkedData
                 ChangeScroolPositionToSelection(sScrollRect);
             }
             tRect.x += tRect.width;
+            tRect.width = NWDGUI.KTableRowWebModelWidth;
+            if (GUI.Button(tRect, "Age", NWDGUI.KTableHeaderIcon))
+            {
+                if (SortType == NWDBasisEditorDatasSortType.ByAgeAscendant)
+                {
+                    SortType = NWDBasisEditorDatasSortType.ByAgeDescendant;
+                }
+                else if (SortType == NWDBasisEditorDatasSortType.ByAgeDescendant)
+                {
+                    SortType = NWDBasisEditorDatasSortType.ByAgeAscendant;
+                }
+                else
+                {
+                    SortType = NWDBasisEditorDatasSortType.ByAgeDescendant;
+                }
+                SortEditorTableDatas();
+                ChangeScroolPositionToSelection(sScrollRect);
+            }
+            tRect.x += tRect.width;
+
             tRect.width = NWDGUI.KTableRowWebModelWidth;
             if (GUI.Button(tRect, "webservice", NWDGUI.KTableHeaderIcon))
             {

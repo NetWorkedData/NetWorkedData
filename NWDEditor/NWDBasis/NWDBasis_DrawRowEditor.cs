@@ -43,6 +43,7 @@ namespace NetWorkedData
         public int AnalyzeStateInfos = 0;
         public int AnalyzeModel = 0;
         public string ModelInfos = string.Empty;
+        public string AgeOfDatas = string.Empty;
         //protected string ChecklistInfos = string.Empty;
         protected Texture2D ImageChecklist = NWDGUI.kImageSyncWaiting;
         public int AnalyzeChecklist = 0;
@@ -86,6 +87,10 @@ namespace NetWorkedData
             TestIntegrityResult = IntegrityIsValid();
             TestWebserviceVersionIsValid = WebserviceVersionIsValid();
             AnalyzePrefab = 1;
+
+            int Age = Mathf.FloorToInt((NWDToolbox.Timestamp() - DM) / (24 * 60 * 60));
+            AgeOfDatas = Age.ToString() + (Age > 1 ? " days" : " day");
+
             if (string.IsNullOrEmpty(Preview))
             {
                 AnalyzePrefab = 0;
@@ -127,8 +132,8 @@ namespace NetWorkedData
                 tDisableProd = true;
             }
             //if (AccountDependent() == true)
-                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
-                {
+            if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+            {
                 tDisableProd = true;
             }
 
@@ -409,13 +414,11 @@ namespace NetWorkedData
                 - NWDGUI.kFieldMarge
                 - NWDGUI.kScrollbar
                 - NWDGUI.kTableSelectWidth
-                //- NWDGUI.kTableIconWidth
-                //- NWDGUI.kTableIDWidth
                 - NWDGUI.kTablePrefabWidth * sZoom
-                - NWDGUI.kTableIconWidth * 5
                 - NWDGUI.KTableSearchWidth
-                - NWDGUI.KTableRowWebModelWidth
-                - NWDGUI.KTableReferenceWidth;
+                - NWDGUI.KTableReferenceWidth
+                - NWDGUI.KTableRowWebModelWidth*2
+                - NWDGUI.kTableIconWidth * 5;
 
             if (BasisHelper().TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             {
@@ -426,12 +429,20 @@ namespace NetWorkedData
             {
                 tRect.width = NWDGUI.KTableSearchWidth;
             }
+
+            tRect.width = BasisHelper().InfosWidth;
             GUI.Label(tRect, StringRow, NWDGUI.KTableRowInformations);
             tRect.x += tRect.width;
-            // Draw Disk State
+            // draw age
+            tRect.width = NWDGUI.KTableRowWebModelWidth;
+            GUI.Label(tRect, AgeOfDatas, NWDGUI.KTableRowStatut);
+            tRect.x += NWDGUI.KTableRowWebModelWidth;
+            // draw WebModel
             tRect.width = NWDGUI.KTableRowWebModelWidth;
             GUI.Label(tRect, ModelInfos, NWDGUI.KTableRowStatut);
             tRect.x += NWDGUI.KTableRowWebModelWidth;
+
+
             // draw check
             if (BasisHelper().TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             {

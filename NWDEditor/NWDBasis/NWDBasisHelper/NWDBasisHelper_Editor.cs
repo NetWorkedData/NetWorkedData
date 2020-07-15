@@ -59,6 +59,8 @@ namespace NetWorkedData
         ByChecklistDescendant,
         ByModelAscendant,
         ByModelDescendant,
+        ByAgeAscendant,
+        ByAgeDescendant,
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -492,6 +494,16 @@ namespace NetWorkedData
                 case NWDBasisEditorDatasSortType.ByModelDescendant:
                     {
                         EditorTableDatas.Sort((x, y) => y.AnalyzeModel.CompareTo(x.AnalyzeModel));
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByAgeAscendant:
+                    {
+                        EditorTableDatas.Sort((x, y) => x.DM.CompareTo(y.DM));
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByAgeDescendant:
+                    {
+                        EditorTableDatas.Sort((x, y) => y.DM.CompareTo(x.DM));
                     }
                     break;
             }
