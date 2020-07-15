@@ -38,10 +38,8 @@ namespace NetWorkedData
             if (rObject == null)
             {
                 rObject = NWDBasisHelper.NewData<NWDUserPreference>();
-                #if UNITY_EDITOR
                 rObject.InternalKey = sInternalKey;
                 rObject.InternalDescription = sInternalDescription;
-                #endif
                 rObject.Value = sDefaultValue;
                 rObject.Tag = NWDBasisTag.TagUserCreated;
                 rObject.SaveData();

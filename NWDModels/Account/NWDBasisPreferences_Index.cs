@@ -72,9 +72,9 @@ namespace NetWorkedData
                     rPref.StringValue = sStringDefault;
                 }
                 rPref.IntValue = sIntDefault;
-#if UNITY_EDITOR
                 rPref.InternalKey = (sKey + " " + tAccountReference).Replace(NWDConstants.kFieldSeparatorA, " ").Replace("  ", " ");
                 rPref.InternalDescription = sEnvironment.Environment;
+#if UNITY_EDITOR
                 rPref.Tag = NWDBasisTag.TagAdminCreated;
 #else
                 rPref.Tag = NWDBasisTag.TagUserCreated;
