@@ -154,7 +154,7 @@ namespace NetWorkedData
         public void InsertInIndex()
         {
             //Debug.Log("InsertInIndex reference =" + Reference);
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (IsEnable() == true
                 && IsTrashed() == false
                 && IntegrityIsValid() == true)
@@ -187,7 +187,7 @@ namespace NetWorkedData
             {
                 RemoveFromIndex();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         [NWDDeindexInMemory]
@@ -208,7 +208,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //static public List<NWDCraftBook> FindByIndex(NWDReferenceType<NWDRecipientGroup> sRecipientGroup, NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient)
         //{
-        //    //NWEBenchmark.Start();
+        //    //NWDBenchmark.Start();
         //    List<NWDCraftBook> rReturn = null;
         //    string tKey = IndexKey(true, sRecipientGroup, sItemGroupIngredient);
         //    string tKeyNoOrder = IndexKey(false, sRecipientGroup, sItemGroupIngredient);
@@ -220,13 +220,13 @@ namespace NetWorkedData
         //    {
         //        rReturn = kIndex[tKeyNoOrder];
         //    }
-        //    //NWEBenchmark.Finish();
+        //    //NWDBenchmark.Finish();
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
         //static public NWDCraftBook FindFirstByIndex(NWDReferenceType<NWDRecipientGroup> sRecipientGroup, NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient)
         //{
-        //    //NWEBenchmark.Start();
+        //    //NWDBenchmark.Start();
         //    NWDCraftBook rObject = null;
         //    List<NWDCraftBook> tReturn = FindByIndex(sRecipientGroup, sItemGroupIngredient);
         //    if (tReturn != null)
@@ -236,13 +236,13 @@ namespace NetWorkedData
         //            rObject = tReturn[0];
         //        }
         //    }
-        //    //NWEBenchmark.Finish();
+        //    //NWDBenchmark.Finish();
         //    return rObject;
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //static public NWDCraftBook FindFirstByIndex(NWDRecipientGroup sRecipientGroup, NWDReferencesArrayType<NWDItem> sItemIngredient)
         //{
-        //    //NWEBenchmark.Start();
+        //    //NWDBenchmark.Start();
         //    NWDCraftBook rObject = null;
         //    NWDReferenceType<NWDRecipientGroup> tRecipent = new NWDReferenceType<NWDRecipientGroup>();
         //    NWDReferencesArrayType<NWDItemGroup> tIngredients = new NWDReferencesArrayType<NWDItemGroup>();
@@ -265,7 +265,7 @@ namespace NetWorkedData
         //            rObject = tReturn[0];
         //        }
         //    }
-        //    //NWEBenchmark.Finish();
+        //    //NWDBenchmark.Finish();
         //    return rObject;
         //}
         //-------------------------------------------------------------------------------------------------------------

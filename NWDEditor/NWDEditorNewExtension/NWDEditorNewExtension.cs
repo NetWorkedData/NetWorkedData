@@ -50,12 +50,12 @@ namespace NetWorkedData
         /// <returns></returns>
         public static NWDEditorNewExtension SharedInstance()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorNewExtension)) as NWDEditorNewExtension;
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -65,10 +65,10 @@ namespace NetWorkedData
         /// <returns></returns>
         public static void SharedInstanceFocus()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         string ClassBase = "NWDBasis";
@@ -85,7 +85,7 @@ namespace NetWorkedData
         /// </summary>
         public void GenerateNewClass()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             GUI.FocusControl(null);
 
             if (string.IsNullOrEmpty(ClassBase))
@@ -144,12 +144,12 @@ namespace NetWorkedData
 
             Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(tFilePath);
             EditorGUIUtility.PingObject(Selection.activeObject);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
@@ -217,7 +217,7 @@ namespace NetWorkedData
             {
                 tListOfclass.Remove("NWDBasis");
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -225,7 +225,7 @@ namespace NetWorkedData
         /// </summary>
         public override void OnPreventGUI()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDGUILayout.Title("Custom Extension Generator");
             NWDGUILayout.Informations("Custom your class!");
@@ -307,7 +307,7 @@ namespace NetWorkedData
             }
             EditorGUI.EndDisabledGroup();
             NWDGUILayout.BigSpace();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -317,13 +317,13 @@ namespace NetWorkedData
         /// <param name="tObject">T object.</param>
         bool RemoveAllPredicate(KeyValuePair<string, string> tObject)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             bool tReturn = false;
             if (tObject.Key == string.Empty && tObject.Value == " ")
             {
                 tReturn = true;
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return tReturn;
         }
 

@@ -114,7 +114,7 @@ namespace NetWorkedData
         #region FILE CONSTANT
         public Dictionary<string, string> CreatePHPConstant(NWDAppEnvironment sEnvironment)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
@@ -147,20 +147,20 @@ namespace NetWorkedData
             tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
             rReturn.Add(ClassNamePHP + "/" + NWD.K_CONSTANTS_FILE, tFileFormatted);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, string> CreatePHPEngine(NWDAppEnvironment sEnvironment)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine(AddonPhpEngineCalculate(sEnvironment));
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
             rReturn.Add(ClassNamePHP + "/" + NWD.K_WS_ENGINE, tFileFormatted);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -301,7 +301,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, string> CreatePHPManagement(NWDAppEnvironment sEnvironment)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
             //string tClassName = ClassNamePHP;
             //string tTrigramme = ClassTrigramme;
@@ -632,7 +632,7 @@ namespace NetWorkedData
             tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
             rReturn.Add(ClassNamePHP + "/" + NWD.K_MANAGEMENT_FILE, tFileFormatted);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -644,7 +644,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, string> CreatePHPSynchronisation(NWDAppEnvironment sEnvironment)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
             //string tClassName = ClassNamePHP;
             //string tTableName = ClassTableName;
@@ -1712,13 +1712,13 @@ namespace NetWorkedData
 
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
             rReturn.Add(ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION, tFileFormatted);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, string> CreatePHP(NWDAppEnvironment sEnvironment, bool sPrepareOrder = true)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
             PrefLoad();
             if (sPrepareOrder == true)
@@ -1744,7 +1744,7 @@ namespace NetWorkedData
             {
                 rReturn.Add(tKeyValue.Key, tKeyValue.Value);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -80,7 +80,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator ExecuteAsync()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             Statut = NWEOperationState.Start;
             //Debug.Log("ExecuteAsync loading for path : " + Path);
             if (!string.IsNullOrEmpty(Path))
@@ -104,7 +104,7 @@ namespace NetWorkedData
                 }
             }
             Finish();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Cancel()

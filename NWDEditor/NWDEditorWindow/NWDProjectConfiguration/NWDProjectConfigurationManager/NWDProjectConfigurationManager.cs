@@ -69,12 +69,12 @@ namespace NetWorkedData
         /// <returns></returns>
         public static NWDProjectConfigurationManager SharedInstance()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDProjectConfigurationManager)) as NWDProjectConfigurationManager;
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -84,10 +84,10 @@ namespace NetWorkedData
         /// <returns></returns>
         public static NWDProjectConfigurationManager SharedInstanceFocus()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -150,17 +150,17 @@ namespace NetWorkedData
         /// </summary>
         public void OnEnable()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             // set title
             TitleInit(NWDConstants.K_PROJECT_CONFIGURATION_TITLE, typeof(NWDProjectConfigurationManager));
             // get values
             Load();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Load()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             // get values
             BenchmarkShowStart = NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_BENCHMARK_SHOW_START);
             BenchmarkLimit = NWDProjectPrefs.GetFloat(NWDConstants.K_EDITOR_BENCHMARK_LIMIT);
@@ -186,12 +186,12 @@ namespace NetWorkedData
                 Red = NWDToolbox.ColorFromString(NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_RED, kColorRed));
                 Blue = NWDToolbox.ColorFromString(NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_BLUE, kColorBlue));
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Save()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             // set values
             NWDProjectPrefs.SetBool(NWDConstants.K_EDITOR_BENCHMARK_SHOW_START, BenchmarkShowStart);
             NWDProjectPrefs.SetFloat(NWDConstants.K_EDITOR_BENCHMARK_LIMIT, BenchmarkLimit);
@@ -220,7 +220,7 @@ namespace NetWorkedData
             }
 
             NWDBenchmark.PrefReload();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

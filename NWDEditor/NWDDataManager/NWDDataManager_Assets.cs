@@ -35,7 +35,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ChangeAssetPath (string sOldPath, string sNewPath)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             //NWDDebug.Log("sOldPath = " + sOldPath + " to sNewPath " + sNewPath);
             string tProgressBarTitle = "NetWorkedData is looking for asset(s) in datas";
 			float tCountClass = ClassTypeList.Count + 2;
@@ -62,7 +62,7 @@ namespace NetWorkedData
             DataQueueExecute ();
 			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
 			EditorUtility.ClearProgressBar();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

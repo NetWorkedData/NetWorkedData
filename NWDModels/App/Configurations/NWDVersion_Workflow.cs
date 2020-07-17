@@ -59,7 +59,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             base.Initialization();
             if (Version != null)
             {
@@ -70,7 +70,7 @@ namespace NetWorkedData
                 }
                 InternalKey = Version.ToString();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override int WebModelToUse()
@@ -80,52 +80,52 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonTrashMe()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
 #if UNITY_EDITOR
             //PreventDefaultVersion(this);
 #endif
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonUnTrashMe()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
 #if UNITY_EDITOR
             //PreventDefaultVersion(this);
 #endif
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonEnableMe()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
 #if UNITY_EDITOR
             //PreventDefaultVersion(this);
 #endif
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonDisableMe()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
 #if UNITY_EDITOR
             //PreventDefaultVersion(this);
 #endif
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonDeletedMe()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
 #if UNITY_EDITOR
             GetDefaultVersion();
 #endif
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdateMe()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             InternalKey = Version.ToString();
 #if UNITY_EDITOR
             // Add QRCodeTexture
@@ -133,12 +133,12 @@ namespace NetWorkedData
             // Prevent Default Version if it's default value
             PreventDefaultVersion(this);
 #endif
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdatedMe()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             // do something when object finish to be updated
 #if UNITY_EDITOR
             // update bundle version
@@ -146,7 +146,7 @@ namespace NetWorkedData
             // refresh window
             NWDDataManager.SharedInstance().RepaintWindowsInManager(typeof(NWDVersion));
 #endif
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void RecommendationBy(NWDRecommendationType sType)

@@ -76,13 +76,13 @@ namespace NetWorkedData
                 {
                     if (NWDLauncher.ActiveBenchmark)
                     {
-                        NWEBenchmark.Start("Copy editor");
+                        NWDBenchmark.Start("Copy editor");
                     }
                     // if it doesn't ->
                     // open StreamingAssets directory and load the db ->
                     if (NWDLauncher.ActiveBenchmark)
                     {
-                        NWEBenchmark.Log("Application will copy editor database : " + tPathEditor);
+                        NWDBenchmark.Log("Application will copy editor database : " + tPathEditor);
                     }
                     NWDLauncher.CopyDatabase = true;
 #if UNITY_ANDROID
@@ -110,7 +110,7 @@ namespace NetWorkedData
 #endif
                     if (NWDLauncher.ActiveBenchmark)
                     {
-                        NWEBenchmark.Finish("Copy editor");
+                        NWDBenchmark.Finish("Copy editor");
                     }
                 }
                 string tDatabasePathEditor = tPathEditor;
@@ -313,7 +313,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CreateAllTablesLocalAccount()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             IntPtr stmt = SQLite3.Prepare2(SQLiteDeviceHandle, "BEGIN TRANSACTION");
             SQLite3.Step(stmt);
             SQLite3.Finalize(stmt);
@@ -402,7 +402,7 @@ namespace NetWorkedData
             stmt = SQLite3.Prepare2(SQLiteDeviceHandle, "COMMIT");
             SQLite3.Step(stmt);
             SQLite3.Finalize(stmt);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //public void CleanAllTablesLocalAccount()
@@ -445,7 +445,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CreateAllTablesLocalEditor()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             IntPtr stmt = SQLite3.Prepare2(SQLiteEditorHandle, "BEGIN TRANSACTION");
             SQLite3.Step(stmt);
             //SQLite3.Finalize(stmt);
@@ -535,7 +535,7 @@ namespace NetWorkedData
             stmt = SQLite3.Prepare2(SQLiteEditorHandle, "COMMIT");
             SQLite3.Step(stmt);
             SQLite3.Finalize(stmt);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void CleanAllTablesLocalEditor()

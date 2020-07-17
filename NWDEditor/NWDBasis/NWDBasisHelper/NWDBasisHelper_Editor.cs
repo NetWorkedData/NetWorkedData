@@ -114,7 +114,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string ActionsPrefkey<T>(Expression<Func<T>> sProperty)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             string tKey = "NWDBasisHelper_"; // prevent herited class
             //if (NWDAppConfiguration.SharedInstance().EditorTableCommun == true)
             //{
@@ -125,7 +125,7 @@ namespace NetWorkedData
                 tKey = tKey + ClassNamePHP + NWDToolbox.PropertyName(sProperty); ;
             }
             //Debug.Log("ActionsPrefkey() : " + tKey);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return tKey;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -212,7 +212,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ResetIconByDefaultIcon()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/NWDExample.psd";
             string tLookFor = ClassNamePHP + "";
             //Debug.Log("Loook for :" + tLookFor);
@@ -263,12 +263,12 @@ namespace NetWorkedData
             }
             Texture = null;
             TextureOfClass();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public Texture2D TextureOfClass()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (Texture == null)
             {
                 string tIconName = EditorGUIUtility.isProSkin ? ClassNamePHP + "_pro" : ClassNamePHP;
@@ -315,13 +315,13 @@ namespace NetWorkedData
                     }
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return Texture;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SelectScript()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             string tLookFor = ClassNamePHP + " t:script";
             //Debug.Log("Loook for :"+ tLookFor);
             string[] sGUIDs = AssetDatabase.FindAssets(tLookFor);
@@ -341,12 +341,12 @@ namespace NetWorkedData
                 EditorUtility.FocusProjectWindow();
                 Selection.activeObject = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(tPathString);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RowAnalyze()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (RowAnalyzed == false)
             {
                 foreach (NWDTypeClass tData in Datas)
@@ -357,13 +357,13 @@ namespace NetWorkedData
                 SortType = (NWDBasisEditorDatasSortType)NWDProjectPrefs.GetInt(ClassNamePHP + "_SortEditor");
                 SortEditorTableDatas();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
 
         //-------------------------------------------------------------------------------------------------------------
         public void SortEditorTableDatas()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             // first sort to order result constant
             //EditorTableDatas.Sort((x, y) => x.AnalyzeID.CompareTo(y.AnalyzeID));
             // reccord the new pref!
@@ -507,7 +507,7 @@ namespace NetWorkedData
                     }
                     break;
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDError Error(string sXCode, string sDescription)

@@ -80,7 +80,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void RowAnalyze()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             CanBeEdit = true; // change to false in draw editor
             //AnalyzeID = ID;
             AnalyzeModel = WebModel;
@@ -356,12 +356,12 @@ namespace NetWorkedData
             //Content = new GUIContent(InternalKey, PreviewTexture2D(), InternalDescription);
             Content = new GUIContent(InternalKey, PreviewTexture2D(), Reference + " : " + InternalDescription);
 
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override Rect DrawRowInEditor(Vector2 sMouseClickPosition, Rect sRectRow, bool sSelectAndClick, int sRow, float sZoom)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             Rect tRectRow = new Rect(0, NWDGUI.kTableRowHeight * sRow * sZoom, sRectRow.width, NWDGUI.kTableRowHeight * sZoom);
             Rect tRectRowLineWhite = new Rect(0, NWDGUI.kTableRowHeight * sRow * sZoom + 1, sRectRow.width, 1);
             Rect tRectRowLineBLack = new Rect(0, NWDGUI.kTableRowHeight * (sRow + 1) * sZoom, sRectRow.width, 1);
@@ -476,7 +476,7 @@ namespace NetWorkedData
             // finish line
             EditorGUI.DrawRect(tRectRowLineWhite, NWDGUI.kRowColorLineWhite);
             EditorGUI.DrawRect(tRectRowLineBLack, NWDGUI.kRowColorLineBlack);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return tRectRow;
         }
         //-------------------------------------------------------------------------------------------------------------

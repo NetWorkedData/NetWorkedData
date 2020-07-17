@@ -107,7 +107,7 @@ namespace NetWorkedData
 
             if (ActiveBenchmark)
             {
-                //TimeFinish = NWEBenchmark.SinceStartup();
+                //TimeFinish = NWDBenchmark.SinceStartup();
                 TimeFinish = Time.realtimeSinceStartup;
                 NWDBenchmark.Finish();
                 TimeNWDFinish = NWDLauncherBenchmark.Watch.ElapsedMilliseconds / 1000.0F;
@@ -209,9 +209,9 @@ namespace NetWorkedData
             }
             State = NWDStatut.ClassRestaureStart;
             //NWDTypeLauncher.AllTypes = AllNetWorkedDataTypes.ToArray();
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDAppConfiguration.SharedInstance().RestaureTypesConfigurations();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected = NWDDataManager.SharedInstance().ClassInEditorDatabaseList.Count;
             //Debug.Log("NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected = " + NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected);
             NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected = NWDDataManager.SharedInstance().ClassInDeviceDatabaseList.Count;
@@ -378,7 +378,7 @@ namespace NetWorkedData
             NWDAppEnvironmentChooser.Refresh();
             NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
 #endif
-            //Debug.Log("!!!! BenchmarkError = " + (NWEBenchmark.BenchmarkError / 1000.0F).ToString("F3") + " s !!!!");
+            //Debug.Log("!!!! BenchmarkError = " + (NWDBenchmark.BenchmarkError / 1000.0F).ToString("F3") + " s !!!!");
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -85,7 +85,7 @@ namespace NetWorkedData
         public NWDTypeClass SynchronizationTryToUse(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, string sData, bool sForceToUse = false)
         {
             //Debug.Log("SynchronizationTryToUse ()");
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDTypeClass rReturn = null;
             string[] tDataArray = sData.Split(NWDConstants.kStandardSeparator.ToCharArray());
             for (int tI = 0; tI < tDataArray.Length; tI++)
@@ -99,7 +99,7 @@ namespace NetWorkedData
             {
                 rReturn = SynchronizationInsertInBase(sInfos, sEnvironment, tDataArray);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
 
@@ -356,8 +356,8 @@ namespace NetWorkedData
         public string SynchronizationPullData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData, NWDOperationSpecial sSpecial)
         {
             //Debug.Log("NWDBasis SynchronizationPullData() " + ClassTableName);
-            //NWEBenchmark.Start();
-            //NWEBenchmark.Tag(ClassNamePHP());
+            //NWDBenchmark.Start();
+            //NWDBenchmark.Tag(ClassNamePHP());
             string rReturn = "NO";
             // Ok I receive data ... so I can reccord the last waiting timestamp as the good sync date
             if (sData.isError)
@@ -394,9 +394,9 @@ namespace NetWorkedData
                     if (tClassResult.ContainsKey(NWD.K_WEB_DATA_KEY))
                     {
                         tListOfRows = tClassResult[NWD.K_WEB_DATA_KEY] as List<object>;
-                        //NWEBenchmark.Increment(tListOfRows.Count);
+                        //NWDBenchmark.Increment(tListOfRows.Count);
                         //Debug.Log("TEST DATAS : " + tListOfRows.Count + " rows");
-                        //NWEBenchmark.Start("TEST DATAS");
+                        //NWDBenchmark.Start("TEST DATAS");
                         if (tListOfRows.Count > 0)
                         {
                             //Debug.Log("NWDBasis SynchronizationPullData() find "+tListOfRows.Count+" row for " + ClassName());
@@ -420,7 +420,7 @@ namespace NetWorkedData
                             NWDDataInspector.ShareInstance().Repaint();
 #endif
                         }
-                        //NWEBenchmark.Finish("TEST DATAS");
+                        //NWDBenchmark.Finish("TEST DATAS");
                     }
                     else
                     {
@@ -431,7 +431,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

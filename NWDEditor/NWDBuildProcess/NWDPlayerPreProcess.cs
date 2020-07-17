@@ -44,19 +44,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void Quit()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             //Force all datas to be write in database
             NWDDataManager.SharedInstance().DataQueueExecute();
             //Debug.Log("Play Mode State must recompile NWDParameter.cs file!");
             NWDEditorWindow.GenerateCSharpFile();
             //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             // NWDVersion.UpdateVersionBundle();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void PlayModeStateChangedCallback(PlayModeStateChange sState)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             //Debug.Log("Play Mode State Changed!");
             if (sState == PlayModeStateChange.ExitingEditMode)
             {
@@ -72,7 +72,7 @@ namespace NetWorkedData
             }
             // update bundle before playing to test with the good version 
             NWDVersion.UpdateVersionBundle();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

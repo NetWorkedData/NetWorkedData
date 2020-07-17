@@ -56,12 +56,12 @@ namespace NetWorkedData
         /// <returns></returns>
         public static NWDSSHWindow SharedInstance()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDSSHWindow)) as NWDSSHWindow;
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -70,13 +70,13 @@ namespace NetWorkedData
         /// </summary>
         public static void Refresh()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDSSHWindow));
             foreach (NWDSSHWindow tWindow in tWindows)
             {
                 tWindow.Repaint();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool IsSharedInstanced()
@@ -97,10 +97,10 @@ namespace NetWorkedData
         /// <returns></returns>
         public static NWDSSHWindow SharedInstanceFocus()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             SharedInstance().Show();
             SharedInstance().Focus();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -110,9 +110,9 @@ namespace NetWorkedData
         /// </summary>
         public void OnEnable()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             TitleInit("Console SSH", typeof(NWDSSHWindow));
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -120,7 +120,7 @@ namespace NetWorkedData
         /// </summary>
         public override void OnPreventGUI()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDGUI.LoadStyles();
 
             TextareaStyle = new GUIStyle(EditorStyles.textArea);
@@ -142,7 +142,7 @@ namespace NetWorkedData
                 EditorGUILayout.TextArea(TextResult.ToString(), TextareaStyle);
             }
             GUILayout.EndScrollView();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void ExecuteSSH(NWDServer sServer, string tScriptTitle, List<string> sCommandList, NWDSSHCommandBlock sCommandResultDelegate, int sAltPORT = -1, string sAltUser = null, string sAltPassword = null)
@@ -172,7 +172,7 @@ namespace NetWorkedData
             NWDSSHWindow tWindow = NWDSSHWindow.SharedInstanceFocus();
             Watch.Reset();
             Watch.Start();
-            EditorUtility.DisplayProgressBar(ScriptTitle, "Connexion...",0.0F);
+            EditorUtility.DisplayProgressBar(ScriptTitle, "Connexion...", 0.0F);
             Refresh();
             yield return tWaitTime;
             TextResult = new StringBuilder();
@@ -233,7 +233,7 @@ namespace NetWorkedData
             {
                 if (tClientSSH.IsConnected == true)
                 {
-                    TextResult.AppendLine("<i>#Local$ host respond.</i>");
+                    TextResult.AppendLine("<i>#Local$ host respond</i>");
                     if (tClientSSH.ConnectionInfo.IsAuthenticated == true)
                     {
                         TextResult.AppendLine("<i>#Local$ authenfication success</i>");
@@ -290,15 +290,29 @@ namespace NetWorkedData
                             }
                             TextResult.AppendLine("<i>--------------------</i>");
                         }
-
+                        //if (Server.SudoI == true)
+                        //{
+                        //    //RunCommand("sudo -i", tShellStream, TextResult);
+                        //    tUserEcho = RunCommand("whoami", tShellStream, TextResult);
+                        //    TextResult.AppendLine("<i>--------------------</i>");
+                        //    if (tUserEcho == "root")
+                        //    {
+                        //        TextResult.AppendLine("<i>#Local$ Good! root is connected!</i>");
+                        //    }
+                        //    else
+                        //    {
+                        //        TextResult.AppendLine("<i>#Local$ Fail! root is not connected!</i>");
+                        //        TextResult.AppendLine("<i>--------------------</i>");
+                        //    }
+                        //}
                         TextResult.AppendLine("<i>#Local$ Start command list!</i>");
                         TextResult.AppendLine("<i>--------------------</i>");
-                        CommandCount = CommandList.Count +1;
+                        CommandCount = CommandList.Count + 1;
                         CommandActual = 0;
                         EditorUtility.DisplayProgressBar(ScriptTitle, Infos + " (" + CommandActual.ToString() + "/" + CommandCount.ToString() + ")", (float)CommandActual / (float)CommandCount);
                         foreach (string tCommandLine in CommandList)
                         {
-                        EditorUtility.DisplayProgressBar(ScriptTitle, tCommandLine + " (" + CommandActual.ToString() + "/" + CommandCount.ToString() + ")", (float)CommandActual / (float)CommandCount);
+                            EditorUtility.DisplayProgressBar(ScriptTitle, tCommandLine + " (" + CommandActual.ToString() + "/" + CommandCount.ToString() + ")", (float)CommandActual / (float)CommandCount);
                             Refresh();
                             yield return tWaitTime;
                             if (string.IsNullOrEmpty(tCommandLine) == false)

@@ -50,7 +50,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnPostprocessBuild(BuildReport report)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             //Debug.Log ("NWDBuildPostProcess OnPostprocessBuild for target " + target + " at path " + path);
             BuildTarget tBuildTarget = EditorUserBuildSettings.activeBuildTarget;
             switch (tBuildTarget)
@@ -272,7 +272,7 @@ namespace NetWorkedData
                     }
                     break;
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

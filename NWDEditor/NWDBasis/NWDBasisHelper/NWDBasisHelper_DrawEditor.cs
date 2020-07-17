@@ -110,7 +110,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DrawTypeInInspector()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             DrawTypeInformations();
 
             if (SaltValid == false)
@@ -277,19 +277,19 @@ namespace NetWorkedData
                     GenerateFileIcon();
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SelectedFirstObjectInTable(EditorWindow sEditorWindow)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (EditorTableDatas.Count > 0)
             {
                 NWDTypeClass sObject = EditorTableDatas.ElementAt(0);
                 SetObjectInEdition(sObject);
                 sEditorWindow.Focus();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -177,7 +177,7 @@ namespace NetWorkedData
             this.minSize = new Vector2(300, 150);
             this.maxSize = new Vector2(300, 4096);
 
-            //NWEBenchmark.Step();
+            //NWDBenchmark.Step();
 
             // Section DNS bypass
             NWDGUILayout.Section("DNS bypass");
@@ -203,7 +203,7 @@ namespace NetWorkedData
                 }
                 NWDAccountInfos.CurrentData().SaveData();
             }
-            //NWEBenchmark.Step();
+            //NWDBenchmark.Step();
 
             bool tDNSSelectable = NWDAccountInfos.CurrentData() == null;
             EditorGUI.BeginDisabledGroup(tDNSSelectable);
@@ -220,7 +220,7 @@ namespace NetWorkedData
             }
             EditorGUI.EndDisabledGroup();
 
-            //NWEBenchmark.Step();
+            //NWDBenchmark.Step();
 
             // Section WebServices informations
             NWDGUILayout.Section("WebServices informations");

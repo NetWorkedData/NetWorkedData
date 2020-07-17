@@ -76,7 +76,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnPreprocessBuild(BuildReport report)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             Debug.Log("NWDBuildPreProcess OnPreprocessBuild");
 
             // prevent error not exist (delete by dev)
@@ -263,7 +263,7 @@ namespace NetWorkedData
             }
 
             NWDEditorWindow.GenerateCSharpFile();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

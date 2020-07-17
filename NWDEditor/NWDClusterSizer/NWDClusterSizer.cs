@@ -47,21 +47,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDClusterSizer SharedInstance()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDClusterSizer)) as NWDClusterSizer;
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDClusterSizer SharedInstanceFocus()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -96,7 +96,7 @@ namespace NetWorkedData
             TypeAccountList.Clear();
             TypeAndMin.Clear();
             TypeAndMax.Clear();
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             foreach (Type tType in NWDDataManager.SharedInstance().ClassNotAccountDependentList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
@@ -128,7 +128,7 @@ namespace NetWorkedData
             TypeAccountList.Sort((tA, tB) => string.Compare(tA.ClassNamePHP, tB.ClassNamePHP, StringComparison.Ordinal));
 
             ByPassMinMaxValue();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void SetMinMax(Type sType, int sMin, int sMax)
@@ -158,7 +158,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void OnPreventGUI()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDGUILayout.Title(NWDConstants.K_APP_CLUSTER_SIZER_TITLE);
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
@@ -262,7 +262,7 @@ namespace NetWorkedData
 
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             EditorGUIUtility.labelWidth = tLabelWidth;
 
 

@@ -33,7 +33,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void NodeCardAnalyze(NWDNodeCard sCard)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             sCard.ClassTexture = BasisHelper().TextureOfClass();
             bool tDataAlReadyAnalyze = false;
             foreach (NWDNodeCard tCard in sCard.ParentDocument.AllCardsAnalyzed)
@@ -111,7 +111,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

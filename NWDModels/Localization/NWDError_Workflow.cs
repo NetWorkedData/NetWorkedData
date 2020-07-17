@@ -28,18 +28,18 @@ namespace NetWorkedData
         public void GenerateBasisError()
         {
             // TODO : too long ... thaht take 0.501 seconds
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (IsLoaded() == true)
             {
                 GenerateServerErreur();
                 GenerateGenericErreur();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateServerErreur()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDError.CreateGenericError(NWDError.NWDError_ERR01, "ERROR error", "Invalid Request.", "OK", NWDErrorType.Alert);
             NWDError.CreateGenericError(NWDError.NWDError_RESC04, "ERROR error", "Invalid Reference match.", "OK", NWDErrorType.Alert);
             NWDError.CreateGenericError(NWDError.NWDError_RESC03, "Rescue error", "Too much match.", "OK", NWDErrorType.Alert);
@@ -180,12 +180,12 @@ namespace NetWorkedData
             NWDError.CreateGenericError(NWDError.NWDError_RescuePageError, "{APP} Rescue request", "{APP} rescue error!", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError(NWDError.NWDError_RescueAnswerLogin, "{APP} Rescue Answer Login", "{APP} rescue informations new login is : {LOGIN} new password is : {PASSWORD}", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError(NWDError.NWDError_RescueAnswerEmail, "{APP} Rescue Answer Email", "{APP} rescue informations new password is : {PASSWORD} ", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateGenericErreur()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDError.CreateGenericError(NWDError.NWDError_XXx01, "Error in  model XXX", "error in request creation in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(NWDError.NWDError_XXx02, "Error in  model XXX", "error in request creation add primary key in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(NWDError.NWDError_XXx03, "Error in  model XXX", "error in request creation add autoincrement modify in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
@@ -206,15 +206,15 @@ namespace NetWorkedData
             NWDError.CreateGenericError(NWDError.NWDError_XXx99, "Error in  model XXX", "error columns number in XXX (upgrade table?)", "OK", NWDErrorType.UnityEditor, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(NWDError.NWDError_XXx88, "Error in  model XXX", "integrity of one datas is false, break in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(NWDError.NWDError_XXx77, "Error in  model XXX", "error update log in XXX (upgrade table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void ClassDatasAreLoaded()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             base.ClassDatasAreLoaded();
             //GenerateBasisError();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -231,13 +231,13 @@ namespace NetWorkedData
         /// </summary>
         public void WritingLockAdd()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             WritingLocksCounter++;
             if (NWDDataManager.SharedInstance().kDataInWriting.Contains(this) == false)
             {
                 NWDDataManager.SharedInstance().kDataInWriting.Add(this);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -245,7 +245,7 @@ namespace NetWorkedData
         /// </summary>
         public void WritingLockRemove()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             WritingLocksCounter--;
             if (WritingLocksCounter == 0)
             {
@@ -255,7 +255,7 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().kDataInWriting.Remove(this);
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool IsEnable()
@@ -356,7 +356,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool TrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             bool rReturn = false;
             if (XX == 0)
             {
@@ -368,12 +368,12 @@ namespace NetWorkedData
                 this.UpdateData(true, sWritingMode);
             }
             return rReturn;
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool UnTrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             bool rReturn = false;
             if (XX <= 1)
             {
@@ -383,7 +383,7 @@ namespace NetWorkedData
                 this.UpdateData(true, sWritingMode);
             }
             return rReturn;
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool UnTrashable() { return XX <= 1; }

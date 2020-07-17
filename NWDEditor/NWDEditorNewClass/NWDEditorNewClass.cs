@@ -50,21 +50,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDEditorNewClass SharedInstance()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorNewClass)) as NWDEditorNewClass;
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SharedInstanceFocus()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
 
@@ -104,7 +104,7 @@ namespace NetWorkedData
         /// </summary>
         public void GenerateNewClass()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             GUI.FocusControl(null);
 
             if (string.IsNullOrEmpty(ClassBase))
@@ -193,12 +193,12 @@ namespace NetWorkedData
             EditorGUIUtility.PingObject(Selection.activeObject);
 
             AssetDatabase.ImportAsset(tOwnerClassesFolderPath);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             TitleInit("Custom Class", typeof(NWDEditorNewClass));
             tListOfType = new List<string>();
             tListOfType.Add(" ");
@@ -275,7 +275,7 @@ namespace NetWorkedData
             //tListOfclass.Insert(0, typeof(NWDBasisAccountRestricted).Name); // not accessible to create Data in framework
             tListOfclass.Insert(0, typeof(NWDBasisBundled).Name);
             tListOfclass.Insert(0, typeof(NWDBasis).Name);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -283,7 +283,7 @@ namespace NetWorkedData
         /// </summary>
         public override void OnPreventGUI()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDGUILayout.Title("Custom class Generator");
             NWDGUILayout.Informations("Custom your class!");
@@ -450,7 +450,7 @@ namespace NetWorkedData
             }
             EditorGUI.EndDisabledGroup();
             NWDGUILayout.BigSpace();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -460,13 +460,13 @@ namespace NetWorkedData
         /// <param name="tObject">T object.</param>
         bool RemoveAllPredicate(KeyValuePair<string, string> tObject)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             bool tReturn = false;
             if (tObject.Key == string.Empty && tObject.Value == " ")
             {
                 tReturn = true;
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return tReturn;
         }
 

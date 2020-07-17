@@ -77,10 +77,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void SharedInstanceFocus()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             SharedInstance().Show();
             SharedInstance().Focus();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         string Password = string.Empty;

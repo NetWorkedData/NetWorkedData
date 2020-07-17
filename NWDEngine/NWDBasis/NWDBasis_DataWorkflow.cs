@@ -72,7 +72,7 @@ namespace NetWorkedData
         ///// <param name="sAccountReference">S account reference.</param>
         //public static K GetDataByReference(string sReference, string sAccountReference = null)
         //{
-        //    NWEBenchmark.Start();
+        //    NWDBenchmark.Start();
         //    K rReturn = null;
         //    int tIndex = Datas().ObjectsByReferenceList.IndexOf(sReference);
         //    if (tIndex >= 0)
@@ -83,7 +83,7 @@ namespace NetWorkedData
         //            rReturn = tObject;
         //        }
         //    }
-        //    NWEBenchmark.Finish();
+        //    NWDBenchmark.Finish();
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
@@ -103,7 +103,7 @@ namespace NetWorkedData
         //                                     string sAccountReference = null,
         //                                     bool sFlushOlderDupplicate = false)
         //{
-        //    NWEBenchmark.Start();
+        //    NWDBenchmark.Start();
         //    K rReturn = null;
         //    // We cannot use ObjectsByKeyList to find Internal key because the objetc is pehaps lock fo this user
         //    // Must use the GetAllObjects(null) and chekc the good object
@@ -163,7 +163,7 @@ namespace NetWorkedData
         //        rReturn.InternalDescription = sInternalDescription;
         //        rReturn.UpdateData(true, sWritingMode);
         //    }
-        //    NWEBenchmark.Finish();
+        //    NWDBenchmark.Finish();
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------

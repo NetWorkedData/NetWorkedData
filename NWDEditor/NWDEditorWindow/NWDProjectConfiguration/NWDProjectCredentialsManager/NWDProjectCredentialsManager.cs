@@ -113,12 +113,12 @@ namespace NetWorkedData
         /// <returns></returns>
         public static NWDProjectCredentialsManager SharedInstance()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDProjectCredentialsManager)) as NWDProjectCredentialsManager;
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -128,10 +128,10 @@ namespace NetWorkedData
         /// <returns></returns>
         public static void SharedInstanceFocus()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -163,11 +163,11 @@ namespace NetWorkedData
         /// </summary>
         public void OnEnable()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             TitleInit(NWDConstants.K_CREDENTIALS_CONFIGURATION_TITLE, typeof(NWDProjectCredentialsManager));
             Load();
             // get values
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -194,18 +194,18 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void Load()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             // get values
             SaveCredentials = NWDProjectPrefs.GetBool(NWDConstants.K_CREDENTIALS_SAVE, false);
             ShowPasswordInLog = NWDProjectPrefs.GetBool(NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, false);
             Password = NWDProjectPrefs.GetString(NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
             VectorString = NWDProjectPrefs.GetString(NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Save()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             // set values
             NWDProjectPrefs.SetBool(NWDConstants.K_CREDENTIALS_SAVE, SaveCredentials);
             if (SaveCredentials == true)
@@ -220,7 +220,7 @@ namespace NetWorkedData
                 NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
                 NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void flush()
@@ -237,7 +237,7 @@ namespace NetWorkedData
         /// </summary>
         public override void OnPreventGUI()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDGUILayout.Title("Credentials for project");
             // start scroll
@@ -276,7 +276,7 @@ namespace NetWorkedData
             }
             // end scroll
             GUILayout.EndScrollView();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

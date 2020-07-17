@@ -36,27 +36,27 @@ namespace NetWorkedData
         //TODO : RENAME!
         public void DrawInEditor(EditorWindow sEditorWindow, bool sAutoSelect = false)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             DrawTableEditor(sEditorWindow);
             if (sAutoSelect == true)
             {
                 SelectedFirstObjectInTable(sEditorWindow);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public string GetReferenceOfDataInEdition()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             string rReturn = null;
             NWDTypeClass tObject = GetObjectInEdition() as NWDTypeClass;
             if (tObject != null)
             {
                 rReturn = string.Copy(tObject.Reference);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ namespace NetWorkedData
         //TODO : RENAME!
         public void RestaureDataInEditionByReference(string sReference)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDTypeClass tObject = null;
             if (sReference != null)
             {
@@ -80,14 +80,14 @@ namespace NetWorkedData
                     }
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public void SelectAllObjectInTableList()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
             foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
             {
@@ -98,14 +98,14 @@ namespace NetWorkedData
                 EditorTableDatasSelected[tObject] = true;
             }
             //IntegritySelection();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public void DeselectAllObjectInTableList()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
             foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
             {
@@ -116,14 +116,14 @@ namespace NetWorkedData
                 EditorTableDatasSelected[tObject] = false;
             }
             //IntegritySelection();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public void InverseSelectionOfAllObjectInTableList()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
             foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
             {
@@ -133,7 +133,7 @@ namespace NetWorkedData
             {
                 EditorTableDatasSelected[tObject] = !EditorTableDatasSelected[tObject];
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             //IntegritySelection();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -141,7 +141,7 @@ namespace NetWorkedData
         //TODO : RENAME!
         public void SelectAllObjectEnableInTableList()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
             foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
             {
@@ -152,14 +152,14 @@ namespace NetWorkedData
                 EditorTableDatasSelected[tObject] = tObject.IsEnable();
             }
             //IntegritySelection();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public void SelectAllObjectDisableInTableList()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
             foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
             {
@@ -170,14 +170,14 @@ namespace NetWorkedData
                 EditorTableDatasSelected[tObject] = !tObject.IsEnable();
             }
             //IntegritySelection();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public float DrawPagesTab(Rect sRect)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             float rReturn = sRect.height;
             float tWidth = sRect.width;
             float tTabWidth = 35.0f;
@@ -229,7 +229,7 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().DataQueueExecute();
             }
             m_PageSelected = t_PageSelected;
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -237,7 +237,7 @@ namespace NetWorkedData
         //TODO : RENAME!
         public void ChangeScroolPositionToSelection()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
             foreach (EditorWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(ClassType))
             {
@@ -254,14 +254,14 @@ namespace NetWorkedData
                 Rect tScrollRect = new Rect(0, tRect.y + NWDGUI.kTableHeaderHeight, tWindowRect.width, tScrollHeight);
                 ChangeScroolPositionToSelection(tScrollRect);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public void ChangeScroolPositionToSelection(Rect sScrollRect)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             int tIndexSelected = EditorTableDatas.IndexOf(GetObjectInEdition());
             float tNumberPage = tIndexSelected / m_ItemPerPage;
             int tPageExpected = (int)Math.Floor(tNumberPage);
@@ -288,7 +288,7 @@ namespace NetWorkedData
                 }
                 tAreaVisible = new Rect(m_ScrollPositionList.x, m_ScrollPositionList.y, sScrollRect.width, sScrollRect.height);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
        
@@ -299,7 +299,7 @@ namespace NetWorkedData
         //TODO : RENAME!
         public void DrawHeaderInEditor(Rect sRect, Rect sScrollRect, float sZoom)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             GUI.BeginScrollView(
                     sRect,
                     Vector2.zero,
@@ -593,14 +593,14 @@ namespace NetWorkedData
                 ChangeScroolPositionToSelection(sScrollRect);
             }
             GUI.EndScrollView();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public void DrawHeaderBottomInEditor(Rect sRect, Rect sScrollRect)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             GUI.BeginScrollView(
                     sRect,
                     Vector2.zero,
@@ -740,7 +740,7 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
             }
             GUI.EndScrollView();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
@@ -748,7 +748,7 @@ namespace NetWorkedData
         public Rect DrawTableEditorTop(Rect sRect)
         {
             int tMaxForMenuOrTextField = 25;
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             EditorGUIUtility.labelWidth = NWDGUI.KTableSearchLabelWidth;
             Rect rRect = new Rect(sRect.x, sRect.y, sRect.width, 0);
             if (SearchActions == true)
@@ -1036,7 +1036,7 @@ namespace NetWorkedData
                 tRect.height = NWDGUI.KTableSearchToggle.fixedHeight;
                 rRect.height = NWDGUI.KTableSearchToggle.fixedHeight * 5 + NWDGUI.kFieldMarge * 5;
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rRect;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1044,7 +1044,7 @@ namespace NetWorkedData
         //TODO : RENAME!
         public Rect DrawTableEditorBottom(Rect sRect)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             Rect rRect = new Rect(sRect.x, sRect.y, sRect.width, 0);
 
             Rect tRectActionLeft = Rect.zero;
@@ -2350,14 +2350,14 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
                 NWDEditorWindow.GenerateCSharpFile();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rRect;
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : RENAME!
         public void DrawTableEditor(EditorWindow sEditorWindow)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             float tOldLabelWidth = EditorGUIUtility.labelWidth;
             bool rLoaded = AllDatabaseIsLoaded();
 
@@ -2918,7 +2918,7 @@ namespace NetWorkedData
                 }
                 NWDGUI.LineVertical(tWindowRectInpsector);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

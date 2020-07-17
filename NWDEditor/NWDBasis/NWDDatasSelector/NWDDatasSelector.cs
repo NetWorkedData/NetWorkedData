@@ -37,7 +37,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             // Init Title and icon 
             if (IconAndTitle == null)
             {
@@ -59,12 +59,12 @@ namespace NetWorkedData
                 titleContent = IconAndTitle;
             }
             NWDGUI.LoadStylesReforce();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void OnLostFocus()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (SelectorBasis != null)
             {
                 if (SelectorBasis.SelectedBlock != null)
@@ -73,17 +73,17 @@ namespace NetWorkedData
                 }
             }
             Close();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void OnPreventGUI()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (SelectorBasis != null)
             {
                 SelectorBasis.OnGUI();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
@@ -180,7 +180,7 @@ namespace NetWorkedData
 
         static public string Field(NWDBasisHelper sHelper, Rect sRect, GUIContent sContent, string sReference, bool sDisabled, float sInsertion = 0)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             sHelper.RowAnalyze();
             NWDGUI.LoadStyles();
             string tReference = sReference;
@@ -306,7 +306,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return tReference;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -357,7 +357,7 @@ namespace NetWorkedData
                         NWDDatasSelectorBlock sSelectedBlock = null,
                         string sSelection = "")
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             Helper = sHelper;
             Helper.RowAnalyze();
             Initialization();
@@ -412,12 +412,12 @@ namespace NetWorkedData
 
             SelectorWindow.ShowUtility();
             SelectorWindow.Focus();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         void Initialization()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             LoadPreference();
 
             // Tag management
@@ -432,13 +432,13 @@ namespace NetWorkedData
                 TagStringList.Add("No Tag");
             }
 
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         void Filter()
         {
             SavePreference();
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             ResultList = new List<NWDTypeClass>();
             string tIntLower = "";
             if (string.IsNullOrEmpty(InternalResearch) == false)
@@ -527,7 +527,7 @@ namespace NetWorkedData
                 }
             }
             ResultList.Sort((tA, tB) => string.Compare(tA.InternalKey, tB.InternalKey, StringComparison.Ordinal));
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void DesignChange()
@@ -566,7 +566,7 @@ namespace NetWorkedData
             GUILayout.Label(Helper.TextureOfClass(), GUILayout.Width(NWDGUI.kIconWidth), GUILayout.Height(NWDGUI.kIconWidth));
             GUILayout.EndVertical();
             GUILayout.BeginVertical();
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             //Vector2 tSelectionVector = SelectorWindow.ScrollPosition;
             //Debug.Log("OnGUI with selection : " + ActualSelection);
             string tNewInternalResearch = EditorGUILayout.TextField("Internal filter", InternalResearch);

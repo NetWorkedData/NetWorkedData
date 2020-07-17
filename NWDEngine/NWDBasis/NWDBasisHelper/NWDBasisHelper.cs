@@ -257,7 +257,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void InitHelper(Type sType, bool sBase = false)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             TemplateHelper.SetClassType(sType);
             string tClassTrigramme = "XXX";
             if (sType.GetCustomAttributes(typeof(NWDClassTrigrammeAttribute), true).Length > 0)
@@ -294,7 +294,7 @@ namespace NetWorkedData
             ClassDescription = tDescription;
 #endif
 
-            //NWEBenchmark.Step();
+            //NWDBenchmark.Step();
             // insert basic infos
             ClassType = sType;
             ClassTableName = sType.Name;
@@ -304,7 +304,7 @@ namespace NetWorkedData
             ClassNamePHP = rClassName;
             ClassPrefBaseKey = ClassNamePHP + "_";
             ClassTrigramme = tClassTrigramme;
-            //NWEBenchmark.Step();
+            //NWDBenchmark.Step();
             // TODO:  ... too long! that take 0.006s ... it's too much!
 
             //foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
@@ -340,9 +340,9 @@ namespace NetWorkedData
             //}
 
 
-            //NWEBenchmark.Step();
+            //NWDBenchmark.Step();
             PrefLoad();
-            // NWEBenchmark.Step();
+            // NWDBenchmark.Step();
             bool rAssetConnected = false;
             bool rLockedObject = true;
             List<PropertyInfo> tPropertyList = new List<PropertyInfo>();
@@ -359,7 +359,7 @@ namespace NetWorkedData
             //{
             //    rAccountConnected = true;
             //}
-            //NWEBenchmark.Step();
+            //NWDBenchmark.Step();
             PropertiesArray = sType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             List<PropertyInfo> tDataPropertiesArray = new List<PropertyInfo>();
             foreach (PropertyInfo tProp in sType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
@@ -456,7 +456,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            //NWEBenchmark.Step();
+            //NWDBenchmark.Step();
             NWDDataPropertiesArray = tDataPropertiesArray.ToArray();
             //kAccountDependent = rAccountConnected;
             // reccord class' object is account dependent properties
@@ -473,7 +473,7 @@ namespace NetWorkedData
             kAssetDependent = rAssetConnected;
             kAssetDependentProperties = tAssetPropertyList;
             NWDClassClusterAttribute tClusterAttribute = null;
-            //NWEBenchmark.Step();
+            //NWDBenchmark.Step();
             if (sType.GetCustomAttributes(typeof(NWDClassClusterAttribute), true).Length > 0)
             {
                 tClusterAttribute = (NWDClassClusterAttribute)sType.GetCustomAttributes(typeof(NWDClassClusterAttribute), true)[0];
@@ -488,13 +488,13 @@ namespace NetWorkedData
                 ClusterMin = 0;
                 ClusterMax = 2048;
             }
-            //NWEBenchmark.Step();
-            //NWEBenchmark.Finish(true, ClassNamePHP);
+            //NWDBenchmark.Step();
+            //NWDBenchmark.Finish(true, ClassNamePHP);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void InstallHelper()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (StringsDictionary.ContainsKey(ClassNamePHP))
             {
                 Debug.LogWarning(ClassNamePHP + " already in StringsDictionary!");
@@ -580,12 +580,12 @@ namespace NetWorkedData
             //Debug.Log("ClassInEditorDatabaseRumberExpected = " + NWDDataManager.SharedInstance().ClassInEditorDatabaseList.Count);
             //Debug.Log("ClassInDeviceDatabaseNumberExpected = " + NWDDataManager.SharedInstance().ClassInDeviceDatabaseList.Count);
 
-            //NWEBenchmark.Finish(true, "mixte mode " + ClassNamePHP);
+            //NWDBenchmark.Finish(true, "mixte mode " + ClassNamePHP);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDBasisHelper Declare(Type sType, Type sTypeHelper)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDBenchmark.QuickStart();
             NWDBasisHelper tTypeInfos = null;
             if (sType.IsSubclassOf(typeof(NWDTypeClass)))
@@ -608,22 +608,22 @@ namespace NetWorkedData
                     {
                         tTypeInfos = new NWDBasisHelper();
                     }
-                    //NWEBenchmark.Step();
+                    //NWDBenchmark.Step();
                     tTypeInfos.InitHelper(sType);
-                    //NWEBenchmark.Step();
+                    //NWDBenchmark.Step();
                     tTypeInfos.InstallHelper();
-                    //NWEBenchmark.Step();
+                    //NWDBenchmark.Step();
                     tTypeInfos.ClassInitialization();
-                    //NWEBenchmark.Step();
+                    //NWDBenchmark.Step();
 #if UNITY_EDITOR
                     tTypeInfos.LoadEditorPrefererences();
-                    //NWEBenchmark.Step();
+                    //NWDBenchmark.Step();
 #endif
                     tTypeInfos.ClassLoaded = true;
                     TypesDictionary.Add(sType, tTypeInfos);
                 }
             }
-            //NWEBenchmark.Finish(true, "Declare NWDBasisHelper " + sType.Name);
+            //NWDBenchmark.Finish(true, "Declare NWDBasisHelper " + sType.Name);
             NWDBenchmark.QuickFinish();
             return tTypeInfos;
         }
@@ -913,7 +913,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ResetDatas()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             DatasLoaded = false;
             Datas.Clear();
             DatasByReference.Clear();
@@ -927,7 +927,7 @@ namespace NetWorkedData
             EditorDatasMenu.Clear();
             EditorDatasMenu.Add("---", string.Empty);
 #endif
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool AllDatabaseIsIndexed()
@@ -963,7 +963,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //private void AddDataReachable(NWDTypeClass sData)
         //{
-        //    NWEBenchmark.Start();
+        //    NWDBenchmark.Start();
         //    if (sData.ReachableState() == true)
         //    {
         //        string tReference = sData.ReferenceUsedValue();
@@ -988,7 +988,7 @@ namespace NetWorkedData
         //            DatasReachableByReverseInternalKey.Add(sData, tInternalKey);
         //        }
         //    }
-        //    NWEBenchmark.Finish();
+        //    NWDBenchmark.Finish();
         //}
         //-------------------------------------------------------------------------------------------------------------
         public void AddData(NWDTypeClass sData)
@@ -1047,7 +1047,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //private void RemoveDataReachable(NWDTypeClass sData)
         //{
-        //    NWEBenchmark.Start();
+        //    NWDBenchmark.Start();
         //    string tReference = sData.ReferenceUsedValue();
         //    // Anyway I check if Data is already in datalist
         //    if (DatasReachableByReference.ContainsKey(tReference) == true)
@@ -1067,13 +1067,13 @@ namespace NetWorkedData
         //        }
         //        DatasReachableByReverseInternalKey.Remove(sData);
         //    }
-        //    NWEBenchmark.Finish();
+        //    NWDBenchmark.Finish();
         //}
         //-------------------------------------------------------------------------------------------------------------
         public void RemoveData(NWDTypeClass sData)
         {
             //Debug.Log("NWDDatas RemoveData()");
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             // get reference
             string tReference = sData.Reference;
             // Anyway I check if Data is already in datalist
@@ -1126,7 +1126,7 @@ namespace NetWorkedData
             }
             /*NEW*/
 #endif
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //public void UpdateDataReachable(NWDTypeClass sData)
@@ -1250,7 +1250,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //public NWDTypeClass[] GetAllDatas(NWDDatasFilter sFilter)
         //{
-        //    NWEBenchmark.Start();
+        //    NWDBenchmark.Start();
         //    NWDTypeClass[] rReturn;
         //    switch (sFilter)
         //    {
@@ -1305,13 +1305,13 @@ namespace NetWorkedData
         //            }
         //            break;
         //    }
-        //    NWEBenchmark.Finish();
+        //    NWDBenchmark.Finish();
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public NWDTypeClass[] GetDatasByInternalKey(string sInternalKey, NWDDatasFilter sFilter)
         //{
-        //    NWEBenchmark.Start();
+        //    NWDBenchmark.Start();
         //    NWDTypeClass[] rReturn = null;
         //    switch (sFilter)
         //    {
@@ -1385,13 +1385,13 @@ namespace NetWorkedData
         //            }
         //            break;
         //    }
-        //    NWEBenchmark.Finish();
+        //    NWDBenchmark.Finish();
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public NWDTypeClass GetFirstDatasByInternalKey(string sInternalKey, NWDDatasFilter sFilter)
         //{
-        //    NWEBenchmark.Start();
+        //    NWDBenchmark.Start();
         //    NWDTypeClass rReturn = null;
         //    switch (sFilter)
         //    {
@@ -1471,14 +1471,14 @@ namespace NetWorkedData
         //            }
         //            break;
         //    }
-        //    NWEBenchmark.Finish();
+        //    NWDBenchmark.Finish();
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public NWDTypeClass GetDataByReference(string sReference, NWDDatasFilter sFilter)
         //{
         //    // TODO
-        //    NWEBenchmark.Start();
+        //    NWDBenchmark.Start();
         //    NWDTypeClass rReturn = null;
         //    switch (sFilter)
         //    {
@@ -1539,7 +1539,7 @@ namespace NetWorkedData
         //            }
         //            break;
         //    }
-        //    NWEBenchmark.Finish();
+        //    NWDBenchmark.Finish();
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------

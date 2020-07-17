@@ -714,7 +714,7 @@ namespace NetWorkedData
             //PropertyInfo[] tPropTypeArrayToCreate = tPropTypelistToCreate.ToArray();
             //if (NWDLauncher.ActiveBenchmark)
             //{
-            //    NWEBenchmark.Step();
+            //    NWDBenchmark.Step();
             //}
             string tSQL = "SELECT `" + string.Join("`, `", tColumnList) + "` FROM `" + ClassNamePHP + "` " + sWhere + ";";
             try
@@ -773,7 +773,7 @@ namespace NetWorkedData
             DatasLoaded = true;
             //if (NWDLauncher.ActiveBenchmark)
             //{
-            //    NWEBenchmark.Step(true, " " + ClassNamePHP + " " + tCount + " row loaded! Select ... " + sWhere);
+            //    NWDBenchmark.Step(true, " " + ClassNamePHP + " " + tCount + " row loaded! Select ... " + sWhere);
             //}
             ClassDatasAreLoaded();
 #if UNITY_EDITOR
@@ -782,9 +782,9 @@ namespace NetWorkedData
 #endif
             if (NWDLauncher.ActiveBenchmark)
             {
-                //NWEBenchmark.Step(true, " " + ClassNamePHP + "Datas count = " + Datas.Count);
-                //NWEBenchmark.Step(true, " " + ClassNamePHP + "DatasByReference count = " + DatasByReference.Count);
-                //NWEBenchmark.Step(true, " " + ClassNamePHP + "DatasByInternalKey count = " + DatasByInternalKey.Count);
+                //NWDBenchmark.Step(true, " " + ClassNamePHP + "Datas count = " + Datas.Count);
+                //NWDBenchmark.Step(true, " " + ClassNamePHP + "DatasByReference count = " + DatasByReference.Count);
+                //NWDBenchmark.Step(true, " " + ClassNamePHP + "DatasByInternalKey count = " + DatasByInternalKey.Count);
                 NWDBenchmark.Finish(true, " " + ClassNamePHP + " " + tCount + " row loaded! DatasByReference count = " + DatasByReference.Count);
             }
 

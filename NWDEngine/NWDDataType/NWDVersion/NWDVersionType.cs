@@ -63,12 +63,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetIntValue(int sNewIntValue)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             string tNewIntValue = sNewIntValue.ToString("00000");
             tNewIntValue = tNewIntValue.Insert(tNewIntValue.Length - 4, ".");
             tNewIntValue = tNewIntValue.Insert(tNewIntValue.Length - 2, ".");
             Value = tNewIntValue;
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void BaseVerif()

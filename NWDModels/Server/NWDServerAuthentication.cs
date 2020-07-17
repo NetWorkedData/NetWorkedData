@@ -52,7 +52,7 @@ namespace NetWorkedData
         {
             Debug.Log("NWDServerAuthentication ConnectSFTP()");
             bool rReturn = false;
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (SftpConnexion == null)
             {
                 SftpConnexion = new SftpClient(Host, Port, User, Password);
@@ -75,14 +75,14 @@ namespace NetWorkedData
                     Debug.Log("NWDServerAuthentication ConnectSFTP() not connected");
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DeconnectSFTP()
         {
             Debug.Log("NWDServerAuthentication DeconnectSFTP()");
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (SftpConnexion != null)
             {
                 try
@@ -105,33 +105,33 @@ namespace NetWorkedData
                 }
             }
             SftpConnexion = null;
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetMaintenance(NWDAppEnvironment sEnvironment, bool sMaintenance)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             SetHTACCESS(sEnvironment, sMaintenance, false);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetObsolete(NWDAppEnvironment sEnvironment, bool sObsolete)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             SetHTACCESS(sEnvironment, false, sObsolete);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetActivate(NWDAppEnvironment sEnvironment)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             SetHTACCESS(sEnvironment, false, false);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetHTACCESS(NWDAppEnvironment sEnvironment, bool sMaintenance, bool sObsolete)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             // connect SFTP
             if (ConnectSFTP())
             {
@@ -179,13 +179,13 @@ namespace NetWorkedData
                 //SFTPHost will close
                 DeconnectSFTP();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
 
         //-------------------------------------------------------------------------------------------------------------
         public void TestSFTPWrite()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             // prepare the destination
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             string tDestinationFolder = tWebServiceFolder + "/";
@@ -213,13 +213,13 @@ namespace NetWorkedData
             {
                 Debug.Log("An exception has been caught " + e.ToString());
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
 
         //-------------------------------------------------------------------------------------------------------------
         public void SendFiles(NWDAppEnvironment sEnvironment, string sFolder, string sAlternate, string[] sWSFiles)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (ConnectSFTP())
             {
                 string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
@@ -274,19 +274,19 @@ namespace NetWorkedData
                 }
                 DeconnectSFTP();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SendFile(NWDAppEnvironment sEnvironment, string sAlternate, string sFolder, string sWSFile)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             SendFiles(sEnvironment, sAlternate, sFolder, new string[] { sWSFile });
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SendFolderAndFiles(List<string> sFolders, Dictionary<string, string> sFilesAndDatas, bool sFolderRecurssive = false)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             float tCountClass = sFolders.Count + sFilesAndDatas.Count + 1.0F;
             float tOperation = 1.0F;
             string tTitle = "Send file on server " + Host;
@@ -370,7 +370,7 @@ namespace NetWorkedData
                 }
                 EditorUtility.ClearProgressBar();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

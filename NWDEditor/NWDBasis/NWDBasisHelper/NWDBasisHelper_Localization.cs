@@ -34,26 +34,26 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReOrderLocalizations(List<NWDTypeClass> sDatas)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (NWDTypeClass tObject in sDatas)
             {
                 tObject.ReOrderLocalizationsValues(tLanguageArray);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ReOrderAllLocalizations()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             ReOrderLocalizations(Datas);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ExportLocalization(bool sOnlySelection = false)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             //Debug.Log ("ExportThisLocalization");
             NWDDataManager.SharedInstance().DataQueueExecute();
             // ask for final file path
@@ -73,12 +73,12 @@ namespace NetWorkedData
                 // write file
                 File.WriteAllText(tPath, tFile);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public string ExportLocalizationInCSV(bool sOnlySelection = false)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             string tRows = string.Empty;
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
@@ -99,13 +99,13 @@ namespace NetWorkedData
                     }
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return tRows;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ImportAllLocalizations(string[] sLanguageArray, string[] sCSVFileArray)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             //Debug.Log ("ImportAllLocalizations");
             int tI = 0;
             int tCount = sCSVFileArray.Length;
@@ -118,12 +118,12 @@ namespace NetWorkedData
             {
                 ImportLocalization(sLanguageArray, tKeysArray, sCSVFileArray[tI]);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ImportLocalization(string[] sLanguageArray, string[] sKeysArray, string sCSVrow)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             //Debug.Log ("sCSVrow = " + sCSVrow);
             //string tHeaders = "\"Type\";\"Reference\";\"InternalKey\";\"InternalDescription\";\"PropertyName\";\"" + 
             string[] tValuesArray = sCSVrow.Split(new string[] { ";" }, StringSplitOptions.None);
@@ -191,7 +191,7 @@ namespace NetWorkedData
                 }
             }
             NWDDataManager.SharedInstance().DataQueueExecute();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

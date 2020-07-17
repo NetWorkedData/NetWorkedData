@@ -36,7 +36,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DrawInEditor(EditorWindow sEditorWindow)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDGUILayout.Section("Configuration for " + Environment + " environment");
             NWDGUILayout.SubSection("Cluster data used for  " + Environment);
             NWDCluster tCluster = NWDCluster.SelectClusterforEnvironment(this);
@@ -180,7 +180,7 @@ namespace NetWorkedData
             RuntimeDefineDictionary = tRuntimeExtensionDictionaryNext;
             FormatVerification();
             NWDGUILayout.LittleSpace();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

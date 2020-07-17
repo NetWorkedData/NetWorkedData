@@ -179,7 +179,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string GetServerDNS()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             //string rReturn = ServerHTTPS;
             string rReturn = GetConfigurationServerHTTPS();
             NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
@@ -196,7 +196,7 @@ namespace NetWorkedData
                 }
             }
             rReturn = NWDToolbox.CleanDNS(rReturn);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -273,11 +273,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDAppEnvironment(string sEnvironement, bool sSelected)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             this.Environment = sEnvironement;
             this.Selected = sSelected;
             FormatVerification();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -398,16 +398,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void FormatVerification()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
 #if UNITY_EDITOR
-            //NWEBenchmark.Start("eee");
+            //NWDBenchmark.Start("eee");
             // Debug.Log ("VerifySecurity");
             // clean the salts
             DataSHAPassword = NWDToolbox.SaltCleaner(DataSHAPassword);
             DataSHAVector = NWDToolbox.SaltCleaner(DataSHAVector);
             SaltStart = NWDToolbox.SaltCleaner(SaltStart);
             SaltEnd = NWDToolbox.SaltCleaner(SaltEnd);
-            //NWEBenchmark.Finish("eee");
+            //NWDBenchmark.Finish("eee");
 
 
             //SaltServer = NWDToolbox.SaltCleaner(SaltServer);
@@ -451,7 +451,7 @@ namespace NetWorkedData
                 TokenHistoric = 3;
             }
 #endif
-            //NWEBenchmark.Finish(true, Environment);
+            //NWDBenchmark.Finish(true, Environment);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

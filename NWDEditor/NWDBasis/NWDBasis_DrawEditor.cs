@@ -49,7 +49,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public Texture2D ReloadPreview()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             PreviewTexture = null;
             PreviewObject = null;
             if (string.IsNullOrEmpty(Preview) == false)
@@ -69,7 +69,7 @@ namespace NetWorkedData
             {
                 PreviewTexture = BasisHelper().TextureOfClass();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return PreviewTexture;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -81,14 +81,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DrawPreviewTexture2D(Vector2 sOrigin)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             DrawPreviewTexture2D(new Rect(sOrigin.x, sOrigin.y, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize));
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawPreviewTexture2D(Rect sRect)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             Texture2D tTexture = PreviewTexture2D();
             if (tTexture != null)
             {
@@ -98,7 +98,7 @@ namespace NetWorkedData
             {
                 GUI.DrawTexture(sRect, BasisHelper().TextureOfClass(), ScaleMode.ScaleToFit, true);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
@@ -1231,7 +1231,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void ErrorCheck()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             ErrorLog = string.Empty;
             bool tErrorResult = false;
             Type tType = ClassType();
@@ -1317,7 +1317,7 @@ namespace NetWorkedData
             {
                 ErrorLog = "No error detected";
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

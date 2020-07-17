@@ -149,7 +149,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void Install()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             DevEnvironment = new NWDAppEnvironment(NWDConstants.K_DEVELOPMENT_NAME, false);
             PreprodEnvironment = new NWDAppEnvironment(NWDConstants.K_PREPRODUCTION_NAME, false);
             ProdEnvironment = new NWDAppEnvironment(NWDConstants.K_PRODUCTION_NAME, false);
@@ -306,7 +306,7 @@ namespace NetWorkedData
                 TagList.Add(23, "UnitTest Not Delete");
             }
 #endif
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

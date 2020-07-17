@@ -39,7 +39,7 @@ namespace NetWorkedData
         {
             //if (NWDLauncher.ActiveBenchmark)
             //{
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             //}
             if (string.IsNullOrEmpty(GetAccountReference()))
             {
@@ -53,7 +53,7 @@ namespace NetWorkedData
             }
             //if (NWDLauncher.ActiveBenchmark)
             //{
-            //NWEBenchmark.Finish(true, "RequesToken = " + RequesToken);
+            //NWDBenchmark.Finish(true, "RequesToken = " + RequesToken);
             //}
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -61,7 +61,7 @@ namespace NetWorkedData
         {
             //if (NWDLauncher.ActiveBenchmark)
             //{
-            //    NWEBenchmark.Start();
+            //    NWDBenchmark.Start();
             //}
             SetAccountReference(NWEPrefsManager.ShareInstance().getString(Environment + kPlayerAccountReferenceKey));
             RequesToken = NWDBasisPreferences.GetString(kRequesTokenKey, this, string.Empty, false);
@@ -73,7 +73,7 @@ namespace NetWorkedData
             }
             //if (NWDLauncher.ActiveBenchmark)
             //{
-            //    NWEBenchmark.Finish(true, "RequesToken = " + RequesToken);
+            //    NWDBenchmark.Finish(true, "RequesToken = " + RequesToken);
             //}
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ namespace NetWorkedData
         {
             //if (NWDLauncher.ActiveBenchmark)
             //{
-            //    NWEBenchmark.Start();
+            //    NWDBenchmark.Start();
             //}
             SavePreferences();
             NWDDataManager.SharedInstance().DataQueueExecute();
@@ -108,7 +108,7 @@ namespace NetWorkedData
 #endif
             //if (NWDLauncher.ActiveBenchmark)
             //{
-            //    NWEBenchmark.Finish(true, "RequesToken = " + RequesToken);
+            //    NWDBenchmark.Finish(true, "RequesToken = " + RequesToken);
             //}
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -26,7 +26,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void ChangeAssetPathMe(string sOldPath, string sNewPath)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             //Debug.Log("OVERRIDE Reference = " + Reference + " sOldPath = " + sOldPath + " to sNewPath " + sNewPath);
             if (IntegrityIsValid() == true)
             {
@@ -56,7 +56,7 @@ namespace NetWorkedData
                     UpdateData(true, NWDWritingMode.ByDefaultLocal);
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

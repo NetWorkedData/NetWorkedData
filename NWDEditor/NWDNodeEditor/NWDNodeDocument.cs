@@ -153,14 +153,14 @@ namespace NetWorkedData
         /// </summary>
         public void SavePreferences()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             Dictionary<string, NWDClasseAnalyseEnum> tAnalyzeStyleClassesCopy = new Dictionary<string, NWDClasseAnalyseEnum>(AnalyzeStyleClasses);
             foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClassesCopy)
             {
                 NWDProjectPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
             }
             NWDProjectPrefs.SetString("NWDNodeEditorLanguage", Language);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -168,14 +168,14 @@ namespace NetWorkedData
         /// </summary>
         public void LoadPreferences()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             Dictionary<string, NWDClasseAnalyseEnum> tAnalyzeStyleClassesCopy = new Dictionary<string, NWDClasseAnalyseEnum>(AnalyzeStyleClasses);
             foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClassesCopy)
             {
                 AnalyzeStyleClasses[tKeyValue.Key] = (NWDClasseAnalyseEnum)NWDProjectPrefs.GetInt("NWDEditorNodal_" + tKeyValue.Key, (int)NWDClasseAnalyseEnum.Analyze);
             }
             Language = NWDProjectPrefs.GetString("NWDNodeEditorLanguage");
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             FixeMargePreference = NWDProjectPrefs.GetBool("FixeMargePreference");
             DrawInformationsArea = NWDProjectPrefs.GetBool("TopCard");
             DrawPropertiesArea = NWDProjectPrefs.GetBool("MiddleCard");
@@ -188,7 +188,7 @@ namespace NetWorkedData
         /// </summary>
         public void DrawPreferences()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             bool tChanged = false;
             float tX = 0;
             float tY = 0;
@@ -356,7 +356,7 @@ namespace NetWorkedData
                 Handles.DrawLine(new Vector2(tX + DocumentMarge, 0), new Vector2(tX + DocumentMarge, Math.Max(EditorWindow.position.height, DocumentHeight)));
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public float DrawAnalyzer(Rect sRect, NWDNodeCard sNodalCard, string sClassName)
@@ -402,7 +402,7 @@ namespace NetWorkedData
         /// </summary>
         public void ReEvaluateLayout()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             DocumentWidth = DocumentMarge;
             foreach (KeyValuePair<int, List<NWDNodeCard>> tColumnList in MatrixCards)
             {
@@ -417,7 +417,7 @@ namespace NetWorkedData
             DocumentWidth += CardMarge;
             DocumentHeight = Math.Max(DocumentHeight, DocumentPrefHeight);
 
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -518,7 +518,7 @@ namespace NetWorkedData
         /// </summary>
         public void LoadClasses()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             AnalyzeStyleClasses = new Dictionary<string, NWDClasseAnalyseEnum>();
             TypeList = NWDDataManager.SharedInstance().ClassTypeList;
             TypeList.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
@@ -533,7 +533,7 @@ namespace NetWorkedData
                 AnalyzeStyleClasses.Add(tType.Name, NWDClasseAnalyseEnum.Analyze);
             }
             LoadPreferences();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -543,7 +543,7 @@ namespace NetWorkedData
         /// <param name="tReset">If set to <c>true</c> t reset.</param>
         public void SetData(NWDTypeClass sObject, bool tReset = true)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (NWDBasisHelper.FindTypeInfos(sObject.GetType()).AllDatabaseIsLoaded())
             {
                 if (tReset == true)
@@ -573,7 +573,7 @@ namespace NetWorkedData
                 }
                 ReEvaluateLayout();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -581,13 +581,13 @@ namespace NetWorkedData
         /// </summary>
         public void ReAnalyze()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (OriginalData != null)
             {
                 SetData(OriginalData.DataObject, false);
             }
             ReEvaluateLayout();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -595,7 +595,7 @@ namespace NetWorkedData
         /// </summary>
         public void ReAnalyzeIfNecessary(object sObjectModified)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (OriginalData != null)
             {
                 bool tNeedBeReAnalyze = false;
@@ -613,7 +613,7 @@ namespace NetWorkedData
                 }
             }
             ReEvaluateLayout();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -623,7 +623,7 @@ namespace NetWorkedData
         /// <param name="sViewRect">S view rect.</param>
         public void Draw(Rect sViewRect, Rect sVisibleRect)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             DrawCanvas(sViewRect);
             DrawBackgroundLine();
             DrawCard(sVisibleRect);
@@ -632,7 +632,7 @@ namespace NetWorkedData
             {
                 DrawPreferences();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -641,9 +641,9 @@ namespace NetWorkedData
         /// <param name="sViewRect">S view rect.</param>
         public void DrawCanvas(Rect sViewRect)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             Rect sDocumentRect = Dimension();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -651,12 +651,12 @@ namespace NetWorkedData
         /// </summary>
         public void DrawBackgroundLine()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             foreach (NWDNodeCard tCard in AllCards)
             {
                 tCard.DrawConnection(AllCards);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -664,12 +664,12 @@ namespace NetWorkedData
         /// </summary>
         public void DrawCard(Rect sVisibleRect)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             foreach (NWDNodeCard tCard in AllCards)
             {
                 tCard.DrawCard(sVisibleRect);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -677,12 +677,12 @@ namespace NetWorkedData
         /// </summary>
         public void DrawForwardPlot()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             foreach (NWDNodeCard tCard in AllCards)
             {
                 tCard.DrawForwardPlot();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

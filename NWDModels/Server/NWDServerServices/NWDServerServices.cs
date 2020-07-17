@@ -12,8 +12,6 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDInternalKeyNotEditable]
-    //[NWDClassUnityEditorOnlyAttribute]
-    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("SSS")]
     [NWDClassDescriptionAttribute("Server Services descriptions Class")]
     [NWDClassMenuNameAttribute("Server Services")]
@@ -23,6 +21,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Server SSH")]
         public NWDReferenceType<NWDServer> Server { get; set; }
+        public NWDServerContinent Continent { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Server Services")]

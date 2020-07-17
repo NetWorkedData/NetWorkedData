@@ -54,21 +54,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppEnvironmentSync SharedInstance()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentSync)) as NWDAppEnvironmentSync;
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppEnvironmentSync SharedInstanceFocus()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -83,19 +83,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static bool IsSharedInstance()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             bool rReturn = false;
             if (kSharedInstance != null)
             {
                 rReturn = true;
             }
             return rReturn;
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             TitleInit(NWDConstants.K_APP_SYNC_ENVIRONMENT_TITLE, typeof(NWDAppEnvironmentSync));
 
             if (LastInfos == null)
@@ -248,12 +248,12 @@ namespace NetWorkedData
                 Repaint();
             };
             SyncInfosTab = NWDProjectPrefs.GetInt("SyncInfosTab");
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void OnPreventGUI()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDGUILayout.Title("WebService Sync");
             NWDGUILayout.Line();
@@ -266,12 +266,12 @@ namespace NetWorkedData
             //DatasLocal();
             NWDGUILayout.BigSpace();
             EditorGUILayout.EndScrollView();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void WritingDatabaseState()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDGUILayout.Section("Database writing");
             // use these bools to fix the bug of error on redraw
             this.minSize = new Vector2(300, 200);
@@ -290,12 +290,12 @@ namespace NetWorkedData
             {
                 GUILayout.Label(tObjectInQueue + " Objects in waiting to update");
             }
-            //NWEBenchmark.Finsih();
+            //NWDBenchmark.Finsih();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void WebServicesSync()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             float tWidthThird = Mathf.Floor((position.width - NWDGUI.KTAB_BAR_HEIGHT) / 3.0F);
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
             NWDAppEnvironment tDevEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
@@ -603,12 +603,12 @@ namespace NetWorkedData
                 OperationSynchroAllClasses(tEnvironment, false, true, NWDOperationSpecial.Special);
                 GUIUtility.ExitGUI();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void WebServicesLastSync()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (LastInfos == null)
             {
                 LastInfos = new NWDOperationResult();
@@ -738,12 +738,12 @@ namespace NetWorkedData
                 EditorGUILayout.LabelField("Sync duration", (LastInfos.Benchmark.GetTotalTime()/1000.0F).ToString("#0.000") + " s", EditorStyles.boldLabel);
             }
             GUILayout.Space(NWDGUI.kFieldMarge);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void WebServicesTools()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             float tWidthThird = Mathf.Floor((position.width - NWDGUI.KTAB_BAR_HEIGHT) / 3.0F);
             NWDGUILayout.Section("Webservice " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + " tools");
             GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
@@ -827,12 +827,12 @@ namespace NetWorkedData
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
             GUILayout.Space(NWDGUI.kFieldMarge);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //public void DatasLocal()
         //{
-        //    //NWEBenchmark.Start();
+        //    //NWDBenchmark.Start();
         //    NWDGUILayout.Section("Local datas");
         //    if (GUILayout.Button("Clean all local tables", NWDGUI.KTableSearchButton))
         //    {
@@ -857,12 +857,12 @@ namespace NetWorkedData
         //        }
         //    }
         //    GUILayout.Space(NWDGUI.kFieldMarge);
-        //    //NWEBenchmark.Finish();
+        //    //NWDBenchmark.Finish();
         //}
         //-------------------------------------------------------------------------------------------------------------
         public void HackTools()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDGUILayout.Section("Test anti-hack");
             if (GUILayout.Button("Use false token", NWDGUI.KTableSearchButton))
             {
@@ -878,7 +878,7 @@ namespace NetWorkedData
             }
             NWDGUI.EndRedArea();
             GUILayout.Space(NWDGUI.kFieldMarge);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OperationSynchroAllClasses(NWDAppEnvironment sEnvironment,
@@ -887,9 +887,9 @@ namespace NetWorkedData
                                            NWDOperationSpecial sOperation = NWDOperationSpecial.None)
         {
             Debug.Log("OperationSynchroAllClasses () with Operation " + sOperation.ToString());
-            //NWEBenchmark.Start(sOperation.ToString());
+            //NWDBenchmark.Start(sOperation.ToString());
             OperationSynchro(sEnvironment, NWDDataManager.SharedInstance().ClassSynchronizeList, sForceSync, sPriority, sOperation);
-            //NWEBenchmark.Finish(sOperation.ToString());       
+            //NWDBenchmark.Finish(sOperation.ToString());       
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OperationSynchro(NWDAppEnvironment sEnvironment,
@@ -898,7 +898,7 @@ namespace NetWorkedData
                                            bool sPriority = false,
                                            NWDOperationSpecial sOperation = NWDOperationSpecial.None)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             bool tOk = false;
             if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
             {
@@ -923,7 +923,7 @@ namespace NetWorkedData
                 StartProcess(sEnvironment);
                 NWDOperationWebSynchronisation.AddOperation("App Environnement Sync " + sOperation.ToString(), SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, null, sForceSync, sPriority, sOperation);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
 
         //-------------------------------------------------------------------------------------------------------------
@@ -931,7 +931,7 @@ namespace NetWorkedData
                                            Dictionary<Type, List<string>> sTypeAndReferences,
                                            bool sPriority = false)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             bool tOk = false;
             if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
             {
@@ -956,12 +956,12 @@ namespace NetWorkedData
                 StartProcess(sEnvironment);
                 NWDOperationWebSynchronisation.AddOperation("App Environnement pull reference ", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, null, sTypeAndReferences, false, sPriority, NWDOperationSpecial.PullReference);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OperationManagement(NWDAppEnvironment sEnvironment, bool sForceSync = true)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             bool tOk = false;
             if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
             {
@@ -986,7 +986,7 @@ namespace NetWorkedData
                 StartProcess(sEnvironment);
                 NWDOperationWebManagement.AddOperation("App Table management Sync ", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sForceSync);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OperationSynchroBlank(NWDAppEnvironment sEnvironment)
@@ -997,7 +997,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void Reset(NWDAppEnvironment sEnvironment)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             StartProcess(sEnvironment);
             sEnvironment.ResetPreferences();
             if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
@@ -1015,20 +1015,20 @@ namespace NetWorkedData
                 ProdIcon = NWDGUI.kImageWaiting;
                 ProdSessionExpired = false;
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Flush(NWDAppEnvironment sEnvironment)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             StartProcess(sEnvironment);
             NWDDataManager.SharedInstance().WebOperationQueue.Flush(sEnvironment.Environment);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void StartProcess(NWDAppEnvironment sEnvironment)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             DevIcon = NWDGUI.kImageWaiting;
             PreprodIcon = NWDGUI.kImageWaiting;
             ProdIcon = NWDGUI.kImageWaiting;
@@ -1048,7 +1048,7 @@ namespace NetWorkedData
                 ProdIcon = NWDGUI.kImageWaiting;
                 ProdSessionExpired = false;
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -158,7 +158,7 @@ namespace NetWorkedData
                     // NWDHelper override start
                     //rReturn.AppendLine("base.InitHelper(sType);");
                     //rReturn.AppendLine("Debug.Log(\"PLAYING MODE InitHelper()\");");
-                    //rReturn.AppendLine("NWEBenchmark.Start();");
+                    //rReturn.AppendLine("NWDBenchmark.Start();");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => TemplateHelper) + ".SetClassType(typeof(" + ClassNamePHP + "));");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassType) + " = typeof(" + ClassNamePHP + ");");
                     //rReturn.AppendLine(NWDToolbox.PropertyName(() => BasisType) + " = "+typeof(NWDBasisType).Name+ "."+ BasisType.ToString()+ ";");
@@ -434,16 +434,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string CreationCSHARPCallLoader()
         {
-            //NWEBenchmark.St art();
+            //NWDBenchmark.St art();
             StringBuilder rReturn = new StringBuilder(string.Empty);
             rReturn.AppendLine(ClassNamePHP + NWD.K_LOADER + "();");
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         public string CreationCSHARP()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
             CreationCSHARP_PreCompileOption(tApp.OverrideCacheMethod);
             // Write data ...
@@ -529,7 +529,7 @@ namespace NetWorkedData
             }
             rReturn.AppendLine("}");
             rReturn.AppendLine("}");
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------

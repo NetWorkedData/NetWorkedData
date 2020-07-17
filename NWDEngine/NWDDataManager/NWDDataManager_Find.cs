@@ -106,23 +106,23 @@ namespace NetWorkedData
             }
             if (EditorDatabaseConnected == true)
             {
-                //NWEBenchmark.Start("LoadData");
+                //NWDBenchmark.Start("LoadData");
                 EditorDatabaseLoaded = false;
                 ClassInEditorDatabaseRumberExpected = ClassInEditorDatabaseList.Count;
                 ClassInEditorDatabaseNumberLoaded = 0;
                 //double tBenchmark = 0.0F;
                 foreach (Type tType in ClassInEditorDatabaseList)
                 {
-                    //NWEBenchmark.Start("LoadData " + tType.Name);
+                    //NWDBenchmark.Start("LoadData " + tType.Name);
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                     tHelper.LoadFromDatabaseByBundle(sBundle, true);
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
                     ClassInEditorDatabaseNumberLoaded++;
                     ClassNumberLoaded = ClassInEditorDatabaseNumberLoaded + ClassInDeviceDatabaseNumberLoaded;
-                    //tBenchmark += NWEBenchmark.Finish("LoadData " + tType.Name);
+                    //tBenchmark += NWDBenchmark.Finish("LoadData " + tType.Name);
                 }
                 NWDDataManager.SharedInstance().EditorDatabaseLoaded = true;
-                //NWEBenchmark.Finish("LoadData", true, "with total = " + tBenchmark.ToString("F5") + "s in total");
+                //NWDBenchmark.Finish("LoadData", true, "with total = " + tBenchmark.ToString("F5") + "s in total");
                 AccountLanguageLoad();
                 //LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
                 EditorRefresh();

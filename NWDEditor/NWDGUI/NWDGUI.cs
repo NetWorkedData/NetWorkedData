@@ -472,7 +472,7 @@ namespace NetWorkedData
             //-------------------------------------------------------------------------------------------------------------
             public static void LoadStyles()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (StyleLoaded == false)
             {
                 LoadColor();
@@ -760,7 +760,7 @@ namespace NetWorkedData
                 kDatasSelectorYOffset = 2;
 
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Rect MargeLeftRight(Rect sRect)

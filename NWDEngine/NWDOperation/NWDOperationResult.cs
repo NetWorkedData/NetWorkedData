@@ -68,7 +68,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetData(Dictionary<string, object> sData)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             foreach (KeyValuePair<string, object> k in sData)
             {
                 string tKey = k.Key;
@@ -159,14 +159,14 @@ namespace NetWorkedData
                         break;
                 }
             }
-            //NWEBenchmark.Step();
+            //NWDBenchmark.Step();
             if (isError)
             {
                 errorDesc = NWDError.FindDataByCode(errorCode) as NWDError;
             }
-            //NWEBenchmark.Step();
+            //NWDBenchmark.Step();
             param = new Dictionary<string, object>(sData);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetError(NWDError sError)

@@ -164,8 +164,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator ExecuteAsync()
         {
-            //string tBenchmark = NWEBenchmark.GetKeyWihRandom();
-            //NWEBenchmark.Start(tBenchmark);
+            //string tBenchmark = NWDBenchmark.GetKeyWihRandom();
+            //NWDBenchmark.Start(tBenchmark);
             //Debug.Log("NWDOperationWebUnity ExecuteAsync()");
             ResultInfos = new NWDOperationResult();
             ResultInfos.Benchmark.Start();
@@ -224,7 +224,7 @@ namespace NetWorkedData
             WWWForm tWWWForm = InsertDataInRequest(ResultInfos);
             ResultInfos.OctetUpload = tWWWForm.data.Length;
             ResultInfos.URL = ServerBase();
-            //NWEBenchmark.Step(tBenchmark);
+            //NWDBenchmark.Step(tBenchmark);
 
             using (Request = UnityWebRequest.Post(ServerBase(), tWWWForm))
             {
@@ -303,7 +303,7 @@ namespace NetWorkedData
                     //ResultInfos.Benchmark.DownloadIsFinished();
                     if (Request.isDone == true)
                     {
-                        //NWEBenchmark.Step(tBenchmark);
+                        //NWDBenchmark.Step(tBenchmark);
                         string tDataConverted = Request.downloadHandler.text;
                         ResultInfos.OctetDownload = tDataConverted.Length;
                         // Notification of an Download is done
@@ -312,7 +312,7 @@ namespace NetWorkedData
                         DebugShowHeaderDownloaded(tDataConverted);
                         // Debug Show Header Up vs Down
                         DebugShowHeaderTotal(tDataConverted);
-                        //NWEBenchmark.Step(tBenchmark);
+                        //NWDBenchmark.Step(tBenchmark);
                         // Check for error
                         if (tDataConverted.Equals(string.Empty))
                         {
@@ -322,11 +322,11 @@ namespace NetWorkedData
                             //FailInvoke(Request.downloadProgress, ResultInfos);
                             FinalStatut = NWDOperationFinalStatut.Fail;
                             DebugShowHeaderOnError(tDataConverted);
-                            //NWEBenchmark.Step(tBenchmark);
+                            //NWDBenchmark.Step(tBenchmark);
                         }
                         else
                         {
-                            //NWEBenchmark.Step(tBenchmark);
+                            //NWDBenchmark.Step(tBenchmark);
                             if (string.IsNullOrEmpty(Request.GetResponseHeader(NWD.K_OBSOLETE_HEADER_KEY)) == true)
                             {
                                 if (string.IsNullOrEmpty(Request.GetResponseHeader(NWD.K_MAINTENANCE_HEADER_KEY)) == true)
@@ -379,7 +379,7 @@ namespace NetWorkedData
                                                 ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_RQT98));
                                             }
                                         }
-                                        //NWEBenchmark.Step(tBenchmark);
+                                        //NWDBenchmark.Step(tBenchmark);
                                         // Request in Progress, send Invoke
                                         ProgressInvoke(1.0f, ResultInfos);
                                         ResultInfos.SetData(tData);
@@ -417,7 +417,7 @@ namespace NetWorkedData
                                                 }
                                             }
                                         }
-                                        //NWEBenchmark.Step(tBenchmark);
+                                        //NWDBenchmark.Step(tBenchmark);
                                         // Check if error
                                         if (ResultInfos.isError)
                                         {
@@ -478,16 +478,16 @@ namespace NetWorkedData
                                         }
                                         else
                                         {
-                                            //NWEBenchmark.Step(tBenchmark);
+                                            //NWDBenchmark.Step(tBenchmark);
                                             Statut = NWEOperationState.Success;
                                             if (ResultInfos.isNewUser)
                                             {
                                                 tUserChange = true;
-                                                //NWEBenchmark.Log(" CHANGE USER");
+                                                //NWDBenchmark.Log(" CHANGE USER");
                                                 CanRestart();
                                                 if (ResultInfos.isUserTransfert)
                                                 {
-                                                    //NWEBenchmark.Log(" IS TRANSFERT USER");
+                                                    //NWDBenchmark.Log(" IS TRANSFERT USER");
                                                     NWDGDPR.Log("The temporary account will be transfert to certified account...");
                                                     if (!ResultInfos.uuid.Equals(string.Empty))
                                                     {
@@ -501,7 +501,7 @@ namespace NetWorkedData
                                                     {
                                                         // the best way is to delete all data in the database ... it's slow but better for security
                                                         // change database will be an option, but not secure, the data stay in the old database anyway it's crypted!
-                                                        //NWEBenchmark.Start("PURGE ACCOUNT DATABASE");
+                                                        //NWDBenchmark.Start("PURGE ACCOUNT DATABASE");
                                                         if (Application.isEditor == false)
                                                         {
                                                             NWDGDPR.Log("Purge database from all old account informations. The old account will be deleted from this device...");
@@ -516,9 +516,9 @@ namespace NetWorkedData
                                                         }
                                                         else
                                                         {
-                                                            //NWEBenchmark.Log("!!! bypassed because it's editor");
+                                                            //NWDBenchmark.Log("!!! bypassed because it's editor");
                                                         }
-                                                        //NWEBenchmark.Finish("PURGE ACCOUNT DATABASE");
+                                                        //NWDBenchmark.Finish("PURGE ACCOUNT DATABASE");
                                                     }
                                                 }
                                                 NWDGDPR.Log("New certified account valid on this device!");
@@ -528,7 +528,7 @@ namespace NetWorkedData
                                                 Environment.SetAccountReference(ResultInfos.uuid);
                                             }
 
-                                            //NWEBenchmark.Step(tBenchmark);
+                                            //NWDBenchmark.Step(tBenchmark);
                                             DataDownloadedCompute(ResultInfos);
 
                                             // Notification of a Download success
@@ -552,9 +552,9 @@ namespace NetWorkedData
                         }
                     }
                     // Save preference localy
-                    //NWEBenchmark.Step(tBenchmark);
+                    //NWDBenchmark.Step(tBenchmark);
                     Environment.SavePreferences();
-                    //NWEBenchmark.Step(tBenchmark);
+                    //NWDBenchmark.Step(tBenchmark);
 
                     // Notification of current Account have change
                     if (tUserChange == true)
@@ -563,7 +563,7 @@ namespace NetWorkedData
                     }
                 }
 
-                //NWEBenchmark.Step(tBenchmark);
+                //NWDBenchmark.Step(tBenchmark);
                 if (ResultInfos.isError)
                 {
                     if (ResultInfos.errorDesc != null)
@@ -589,14 +589,14 @@ namespace NetWorkedData
                     //FailInvoke(Request.downloadProgress, ResultInfos);
                     FinalStatut = NWDOperationFinalStatut.Fail;
                 }
-                //NWEBenchmark.Step(tBenchmark);
+                //NWDBenchmark.Step(tBenchmark);
                 Finish();
             }
-            //NWEBenchmark.Step(tBenchmark);
+            //NWDBenchmark.Step(tBenchmark);
 #if UNITY_EDITOR
             NWDAppEnvironmentChooser.Refresh();
 #endif
-            //NWEBenchmark.Finish(tBenchmark);
+            //NWDBenchmark.Finish(tBenchmark);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Cancel()

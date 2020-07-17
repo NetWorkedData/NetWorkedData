@@ -40,13 +40,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 		public override void OnInspectorGUI ()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDBasisObjectInspector tTarget = (NWDBasisObjectInspector)target;
 			if (tTarget.mObjectInEdition != null)
 			{
                 tTarget.mObjectInEdition.DrawEditor(Rect.zero, false, null);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

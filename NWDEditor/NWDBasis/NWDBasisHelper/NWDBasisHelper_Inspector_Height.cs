@@ -40,7 +40,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void NewDrawObjectInspectorHeightInvisible(object sObject, NWDNodeCard sNodalCard)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (Property != null)
             {
                 Type tTypeOfThis = Property.PropertyType;
@@ -86,14 +86,14 @@ namespace NetWorkedData
                     }
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
 
 
         //-------------------------------------------------------------------------------------------------------------
         public float NewDrawObjectInspectorHeight(object sObject, NWDNodeCard sNodalCard, float sWidth)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             float tY = SpaceBefore;
             float tIndent = Indent * NWDGUI.kFieldIndent;
             if (Property != null)
@@ -342,7 +342,7 @@ namespace NetWorkedData
                 }
             }
             return tY;
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

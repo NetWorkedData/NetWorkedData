@@ -55,11 +55,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetDrawable(bool sOpen = true)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             string tKey = Key();
             //EditorPrefs.HasKey(tKey);
             NWDProjectPrefs.SetBool(tKey, sOpen);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool GetDrawable()
@@ -100,7 +100,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public float NewDrawObjectInspector(object sObject, NWDNodeCard sNodalCard, float sX, float sY, float sWidth)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             float tWidth = sWidth;
             float tX = sX;
             float tY = sY;
@@ -506,7 +506,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -521,7 +521,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void AnalyzeForInspector()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (LoadStyle == false)
             {
                 LoadStyle = true;
@@ -771,12 +771,12 @@ namespace NetWorkedData
                 InspectorHelper.Open = true;
                 InspectorHelper.Name = ClassNamePHP + "_hj444gf445675xhcjh444vk";
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public GUIContent GetGUIContent(string sReference)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             GUIContent rReturn = null;
             if (string.IsNullOrEmpty(sReference) == false)
             {
@@ -819,7 +819,7 @@ namespace NetWorkedData
             {
                 rReturn = new GUIContent(NWDConstants.kFieldNone);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

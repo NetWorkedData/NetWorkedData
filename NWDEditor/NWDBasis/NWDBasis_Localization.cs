@@ -37,7 +37,7 @@ namespace NetWorkedData
         /// <param name="sLanguageArray">languages array to use.</param>
         public override void ReOrderLocalizationsValues(string[] sLanguageArray)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (IntegrityIsValid() == true)
             {
                 bool tUpdate = false;
@@ -64,7 +64,7 @@ namespace NetWorkedData
                     UpdateData();
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -74,7 +74,7 @@ namespace NetWorkedData
         /// <param name="sLanguageArray">S language array.</param>
         public override string ExportCSV(string[] sLanguageArray)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             string tRows = string.Empty;
             Type tType = ClassType();
             List<string> tPropertiesList = BasisHelper().PropertiesOrderArray();
@@ -126,7 +126,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return tRows;
         }
         //-------------------------------------------------------------------------------------------------------------

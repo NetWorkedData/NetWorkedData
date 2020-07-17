@@ -388,14 +388,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static bool ConditionalItem(NWDReferenceConditionalType<NWDItem> sConditional)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             bool rReturn = true;
             if (sConditional.Reference != null)
             {
                 NWDUserOwnership rOwnershipToUse = FindReachableByItemReference(sConditional.Reference);
                 rReturn = sConditional.isValid(rOwnershipToUse.Quantity);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

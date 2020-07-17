@@ -34,14 +34,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static bool GenericErrorExists(string sDomain, string sCode)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             bool rReturn = false;
             if (GetBasisHelper() != null)
             {
                 string tReference = GetBasisHelper().ClassTrigramme + "-" + sDomain + NWEConstants.K_MINUS + sCode;
                 rReturn = GetBasisHelper().DatasByReference.ContainsKey(tReference);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDError  CreateGenericError(string sDomain_sCode, string sTitle, string sDescription, string sValidation, NWDErrorType sType = NWDErrorType.LogVerbose, NWDBasisTag sTag = NWDBasisTag.TagInternal)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDError tError = null;
             if (GetBasisHelper() != null)
             {
@@ -103,7 +103,7 @@ namespace NetWorkedData
                     tError.UpdateData(true, NWDWritingMode.ByEditorDefault);
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return tError;
         }
         //-------------------------------------------------------------------------------------------------------------

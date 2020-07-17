@@ -33,21 +33,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public string CheckLocalization(string sLanguage)
         {
-            //NWEBenchmark.Start("????");
-            //NWEBenchmark.Finish("????");
+            //NWDBenchmark.Start("????");
+            //NWDBenchmark.Finish("????");
 
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             string rReturn = sLanguage;
-            //NWEBenchmark.Start("1");
+            //NWDBenchmark.Start("1");
             NWDDataLocalizationManager tDataLocalizationManager = NWDAppConfiguration.SharedInstance().DataLocalizationManager;
-            //NWEBenchmark.Finish("1");
-            //NWEBenchmark.Start("2");
+            //NWDBenchmark.Finish("1");
+            //NWDBenchmark.Start("2");
             if (tDataLocalizationManager.LanguagesString.Contains(sLanguage) == false)
             {
                 rReturn = NWDAppConfiguration.SharedInstance().ProjetcLanguage;
             }
-            //NWEBenchmark.Finish("2");
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish("2");
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

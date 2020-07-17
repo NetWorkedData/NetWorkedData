@@ -160,13 +160,13 @@ namespace NetWorkedData
             yield return tWaitTime;
 
 
-            //NWEBenchmark.Log(" NWDDataManager.SharedInstance().ClassEditorExpected = " + NWDDataManager.SharedInstance().ClassEditorExpected);
-            //NWEBenchmark.Log(" NWDDataManager.SharedInstance().ClassAccountExpected = " + NWDDataManager.SharedInstance().ClassAccountExpected);
-            //NWEBenchmark.Log(" StepSum = " + StepSum + " and StepIndex =" + StepIndex);
+            //NWDBenchmark.Log(" NWDDataManager.SharedInstance().ClassEditorExpected = " + NWDDataManager.SharedInstance().ClassEditorExpected);
+            //NWDBenchmark.Log(" NWDDataManager.SharedInstance().ClassAccountExpected = " + NWDDataManager.SharedInstance().ClassAccountExpected);
+            //NWDBenchmark.Log(" StepSum = " + StepSum + " and StepIndex =" + StepIndex);
 
             if (ActiveBenchmark)
             {
-                //TimeFinish = NWEBenchmark.SinceStartup();
+                //TimeFinish = NWDBenchmark.SinceStartup();
                 TimeFinish = Time.realtimeSinceStartup;
                 NWDBenchmark.Finish();
                 TimeNWDFinish = NWDLauncherBenchmark.Watch.ElapsedMilliseconds / 1000.0F;
@@ -191,12 +191,12 @@ namespace NetWorkedData
             Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
             AllNetWorkedDataTypes.Clear();
             BasisToHelperList.Clear();
-            //NWEBenchmark.Start("get_refelexion");
+            //NWDBenchmark.Start("get_refelexion");
             List<Type> tTypeList = new List<Type>();
             Type[] tAllTypes = Assembly.GetExecutingAssembly().GetTypes();
             Type[] tAllNWDTypes = (from Type type in tAllTypes where type.IsSubclassOf(typeof(NWDTypeClass)) select type).ToArray();
             Type[] tAllHelperDTypes = (from Type type in tAllTypes where type.IsSubclassOf(typeof(NWDBasisHelper)) select type).ToArray();
-            //NWEBenchmark.Finish("get_refelexion");
+            //NWDBenchmark.Finish("get_refelexion");
             foreach (Type tType in tAllNWDTypes)
             {
                 if (tType != typeof(NWDBasis) &&
@@ -223,7 +223,7 @@ namespace NetWorkedData
                     //    if (tType.GetCustomAttributes(typeof(NWDClassUnityEditorOnlyAttribute), true).Length > 0)
                     //    {
                     //        tEditorOnly = true;
-                    //        NWEBenchmark.LogWarning("exclude " + tType.Name);
+                    //        NWDBenchmark.LogWarning("exclude " + tType.Name);
                     //    }
                     //}
                     if (tEditorOnly == false)

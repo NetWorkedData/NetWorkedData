@@ -34,7 +34,7 @@ namespace NetWorkedData
         /// <returns></returns>
         public string CreateAppConfigurationCsharp(NWDAppEnvironment sSelectedEnvironment)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             StringBuilder rReturn = new StringBuilder(string.Empty);
             string tPropertyName = "null";
 
@@ -118,7 +118,7 @@ namespace NetWorkedData
             rReturn.AppendLine("#if UNITY_EDITOR");
             rReturn.AppendLine(tPropertyName + ".FormatVerification ();");
             rReturn.AppendLine("#endif");
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------

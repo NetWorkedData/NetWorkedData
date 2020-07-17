@@ -39,7 +39,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDDataInspector ShareInstance()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (kShareInstance == null)
             {
                 EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDDataInspector));
@@ -48,7 +48,7 @@ namespace NetWorkedData
                 kShareInstance.minSize = new Vector2(250, 540);
                 kShareInstance.maxSize = new Vector2(600, 2048);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return kShareInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DataPreview()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             ActualIndex--;
             if (ActualIndex < 0)
             {
@@ -95,7 +95,7 @@ namespace NetWorkedData
                 RemoveActualFocus = true;
                 Focus();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void InspectNetWorkedDataNext()
@@ -105,7 +105,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DataNext()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             ActualIndex++;
             if (ActualIndex >= mObjectsList.Count)
             {
@@ -119,7 +119,7 @@ namespace NetWorkedData
                 RemoveActualFocus = true;
                 Focus();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool InspectNetWorkedPreview()
@@ -144,7 +144,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void InspectNetWorkedData(NWDTypeClass sTarget, bool sResetStack = true, bool sFocus = true)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (sTarget != null)
             {
                 if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).AllDatabaseIsLoaded())
@@ -160,12 +160,12 @@ namespace NetWorkedData
             {
                 ShareInstance().Data(null, true, sFocus);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Data(NWDTypeClass sTarget, bool sResetStack = true, bool sFocus = true)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (sTarget != null)
             {
                 if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).AllDatabaseIsLoaded())
@@ -213,7 +213,7 @@ namespace NetWorkedData
                 }
                 NWDNodeEditor.Refresh();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDTypeClass ObjectInEdition()
@@ -246,7 +246,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void OnPreventGUI()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             minSize = new Vector2(NWDGUI.kNodeCardWidth, NWDGUI.kNodeCardHeight);
             maxSize = new Vector2(NWDGUI.kNodeCardWidth * 2, NWDGUI.kNodeCardHeight * 2);
             if (RemoveActualFocus == true)
@@ -262,7 +262,7 @@ namespace NetWorkedData
             {
                 mObjectInEdition.DrawEditor(new Rect(0, 0, position.width, position.height), true, null);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

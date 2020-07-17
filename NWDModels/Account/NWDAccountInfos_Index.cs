@@ -28,24 +28,24 @@ namespace NetWorkedData
         /// <returns></returns>
         public static NWDAccountInfos CurrentData()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDAccountInfos tInfos = null;
             if (kAccountInfos == null)
             {
                 //Debug.Log("<color=red> ###### I NEED THE CURRENT DATA </color>");
-                //NWEBenchmark.Step();
+                //NWDBenchmark.Step();
                 if (NWDLauncher.GetState() == NWDStatut.NetWorkedDataReady)
                 //if (NWDBasisHelper.FindTypeInfos(typeof(NWDAccountInfos)).IsLoaded())
                 {
                     string tUniqueReference = NWDAccount.GetUniqueReferenceFromCurrentAccount<NWDAccountInfos>();
                     tInfos = NWDBasisHelper.GetRawDataByReference<NWDAccountInfos>(tUniqueReference);
-                    //NWEBenchmark.Step();
+                    //NWDBenchmark.Step();
                     if (tInfos == null && string.IsNullOrEmpty(tUniqueReference) == false)
                     {
                         tInfos = NWDBasisHelper.NewDataWithReference<NWDAccountInfos>(tUniqueReference);
                         tInfos.SaveData();
                     }
-                    //NWEBenchmark.Step();
+                    //NWDBenchmark.Step();
                     //Debug.Log("<color=red> ###### I NEED THE CURRENT DATA  I RETURN " + tUniqueReference + "</color>");
                     kAccountInfos = tInfos;
                 }
@@ -54,8 +54,8 @@ namespace NetWorkedData
             {
                 tInfos = kAccountInfos;
             }
-            //NWEBenchmark.Step();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Step();
+            //NWDBenchmark.Finish();
             return tInfos;
         }
         //-------------------------------------------------------------------------------------------------------------

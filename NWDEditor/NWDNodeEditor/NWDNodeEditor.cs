@@ -55,7 +55,7 @@ namespace NetWorkedData
         /// </summary>
         public static NWDNodeEditor SharedInstance()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (kNodeEditorSharedInstance == null)
             {
                 kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
@@ -64,7 +64,7 @@ namespace NetWorkedData
                 ReAnalyzeAll();
                 kNodeEditorSharedInstance.Focus();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return kNodeEditorSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -74,15 +74,15 @@ namespace NetWorkedData
         /// <returns></returns>
         public static void SharedInstanceFocus()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             SharedInstance().Show();
             SharedInstance().Focus();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void RestaureObjectInEdition()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             string tTypeEdited = NWDProjectPrefs.GetString(K_NODE_EDITOR_LAST_TYPE_KEY);
             string tLastReferenceEdited = NWDProjectPrefs.GetString(K_NODE_EDITOR_LAST_REFERENCE_KEY);
 
@@ -95,12 +95,12 @@ namespace NetWorkedData
                     SetObjectInNodeWindow(tData);
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SaveObjectInEdition(NWDTypeClass sSelection)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (sSelection == null)
             {
                 NWDProjectPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, string.Empty);
@@ -111,7 +111,7 @@ namespace NetWorkedData
                 NWDProjectPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, NWDBasisHelper.FindTypeInfos(sSelection.GetType()).ClassNamePHP);
                 NWDProjectPrefs.SetString(K_NODE_EDITOR_LAST_REFERENCE_KEY, sSelection.Reference);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -120,7 +120,7 @@ namespace NetWorkedData
         /// <param name="sSelection">S selection.</param>
         public static void SetObjectInNodeWindow(NWDTypeClass sSelection)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (sSelection != null)
             {
                 if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).AllDatabaseIsLoaded())
@@ -132,7 +132,7 @@ namespace NetWorkedData
                     SaveObjectInEdition(sSelection);
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -140,7 +140,7 @@ namespace NetWorkedData
         /// </summary>
         public static void Refresh()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             //if (kNodeEditorSharedInstance != null)
             //{
             //    kNodeEditorSharedInstance.Repaint();
@@ -150,7 +150,7 @@ namespace NetWorkedData
             {
                 tWindow.Repaint();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -158,26 +158,26 @@ namespace NetWorkedData
         /// </summary>
         public static void ReAnalyzeIfNecessary(object sObjectModified)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (kNodeEditorSharedInstance != null)
             {
                 kNodeEditorSharedInstance.Document.EditorWindow = kNodeEditorSharedInstance;
                 kNodeEditorSharedInstance.Document.ReAnalyzeIfNecessary(sObjectModified);
                 kNodeEditorSharedInstance.Repaint();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void ReAnalyzeAll()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (kNodeEditorSharedInstance != null)
             {
                 kNodeEditorSharedInstance.Document.EditorWindow = kNodeEditorSharedInstance;
                 kNodeEditorSharedInstance.Document.ReAnalyze();
                 kNodeEditorSharedInstance.Repaint();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -195,14 +195,14 @@ namespace NetWorkedData
         /// <param name="sSelection">S selection.</param>
         public static void UpdateNodeWindow(NWDTypeClass sSelection)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (kNodeEditorSharedInstance != null)
             {
                 kNodeEditorSharedInstance.Document.EditorWindow = kNodeEditorSharedInstance;
                 kNodeEditorSharedInstance.Document.ReAnalyze();
                 kNodeEditorSharedInstance.Repaint();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -211,14 +211,14 @@ namespace NetWorkedData
         /// <param name="sSelection">S selection.</param>
         public void SetSelection(NWDTypeClass sSelection)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).AllDatabaseIsLoaded())
             {
                 Document.EditorWindow = this;
                 Document.SetData(sSelection);
                 Repaint();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -237,12 +237,12 @@ namespace NetWorkedData
         /// </summary>
         public void OnEnable()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             TitleInit(NWDConstants.K_EDITOR_NODE_WINDOW_TITLE, typeof(NWDNodeEditor));
             Document.EditorWindow = this;
             Document.LoadClasses();
             Repaint();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -250,7 +250,7 @@ namespace NetWorkedData
         /// </summary>
         public override void OnPreventGUI()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDGUI.LoadStyles();
             float tX = Document.DocumentMarge + 15;
             if (Document.FixeMargePreference == false)
@@ -311,7 +311,7 @@ namespace NetWorkedData
                     DragDetect = false;
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public string GetLanguage()

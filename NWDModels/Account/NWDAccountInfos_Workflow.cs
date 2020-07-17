@@ -38,7 +38,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void LoadBalacing(int sAvg)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             //Debug.Log("LoadBalacing() " + sAvg);
             bool tChangeServer = true;
             NWDAccountInfos rAccountInfos = CurrentData();
@@ -95,7 +95,7 @@ namespace NetWorkedData
                     rAccountInfos.UpdateDataIfModified();
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /*public static NWDAccountInfos GetCurrentAccount()

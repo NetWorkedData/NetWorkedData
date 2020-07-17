@@ -76,7 +76,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void Analyze(NWDNodeDocument sDocument)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             ParentDocument = sDocument;
             sDocument.ColumnMaxCount(Column);
             // I analyze the properties of data.
@@ -84,12 +84,12 @@ namespace NetWorkedData
             {
                 DataObject.NodeCardAnalyze(this);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public List<NWDNodeCard> AddPropertyResult(object[] sObjectsArray)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             List<NWDNodeCard> rResult = new List<NWDNodeCard>();
             foreach (NWDTypeClass tObject in sObjectsArray)
             {
@@ -129,13 +129,13 @@ namespace NetWorkedData
                     }
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
         public float ReEvaluateLayout(float sY)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             float tX = ParentDocument.DocumentMarge + ParentDocument.CardMarge + Column * (NWDGUI.kNodeCardWidth + ParentDocument.CardMarge);
             if (ParentDocument.FixeMargePreference == true)
             {
@@ -147,25 +147,25 @@ namespace NetWorkedData
             PlotsList.Clear();
             TotalHeight = 0;
             CardRect = new Rect(tX, tY, NWDGUI.kNodeCardWidth, DataObject.DrawEditorTotalHeight(this, NWDGUI.kNodeCardWidth));
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return CardRect.height;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawCard(Rect sVisibleRect)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (sVisibleRect.Overlaps(CardRect))
             {
                 GUI.Box(NWDGUI.UnMargeAll(CardRect), " ", EditorStyles.helpBox);
                 DataObject.DrawEditor(CardRect, false, this);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawConnection(List<NWDNodeCard> sAllCards)
         {
             PlotsList.Clear();
-            // NWEBenchmark.Start();
+            // NWDBenchmark.Start();
             float Tangent = ParentDocument.CardMarge;
             Vector2 tOrign = new Vector2(Position.x - NWDGUI.kFieldMarge, Position.y + NWDGUI.kEditWidthMini * 3);
             Vector2 tOrignPa = new Vector2(Position.x - Tangent, Position.y);
@@ -205,12 +205,12 @@ namespace NetWorkedData
                     }
                 }
             }
-            // NWEBenchmark.Finish();
+            // NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawForwardPlot()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             foreach (Vector2 tPlot in PlotsList)
             {
                 Handles.color = NWDGUI.kNodeLineColor;
@@ -218,7 +218,7 @@ namespace NetWorkedData
                 Handles.color = NWDGUI.kNodeOverLineColor;
                 Handles.DrawSolidDisc(tPlot, Vector3.forward, NWDGUI.kFieldMarge - 1.0F);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

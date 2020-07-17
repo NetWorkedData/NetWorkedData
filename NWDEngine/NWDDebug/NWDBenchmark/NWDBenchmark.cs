@@ -74,9 +74,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public void PrefReload()
         {
+#if (UNITY_EDITOR)
             BenchmarkLimit = NWDProjectPrefs.GetFloat(NWDConstants.K_EDITOR_BENCHMARK_LIMIT, 0.0F);
             BenchmarkShowStart = NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_BENCHMARK_SHOW_START);
-#if (UNITY_EDITOR)
             FrameRate = 60.0F;
             if (EditorGUIUtility.isProSkin)
             {
@@ -172,7 +172,7 @@ namespace NetWorkedData
 
             //long tStop = Watch.ElapsedMilliseconds - tStart;
             //BenchmarkError += tStop;
-            //UnityEngine.Debug.Log("NWEBenchmark STOPWATCH Start() : " + (tStop / 1000.0F).ToString("F3") + " s");
+            //UnityEngine.Debug.Log("NWDBenchmark STOPWATCH Start() : " + (tStop / 1000.0F).ToString("F3") + " s");
         }
         //-------------------------------------------------------------------------------------------------------------
         [Conditional(MACRO)]

@@ -99,7 +99,7 @@ namespace NetWorkedData
 
             //if (ActiveBenchmark)
             {
-                //TimeFinish = NWEBenchmark.SinceStartup();
+                //TimeFinish = NWDBenchmark.SinceStartup();
                 TimeFinish = Time.realtimeSinceStartup;
                 NWDBenchmark.Finish();
                 TimeNWDFinish = NWDLauncherBenchmark.Watch.ElapsedMilliseconds / 1000.0F;
@@ -148,7 +148,7 @@ namespace NetWorkedData
                     //    if (tType.GetCustomAttributes(typeof(NWDClassUnityEditorOnlyAttribute), true).Length > 0)
                     //    {
                     //        tEditorOnly = true;
-                    //        NWEBenchmark.LogWarning("exclude " + tType.Name);
+                    //        NWDBenchmark.LogWarning("exclude " + tType.Name);
                     //    }
                     //}
                     if (tEditorOnly == false)

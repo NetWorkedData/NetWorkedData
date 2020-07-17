@@ -36,14 +36,14 @@ public class NWDPreferencesScript : MonoBehaviour
     //-------------------------------------------------------------------------------------------------------------
     void OnEnable()
     {
-        //NWEBenchmark.Start();
-        //NWEBenchmark.Finish();
+        //NWDBenchmark.Start();
+        //NWDBenchmark.Finish();
     }
     //-------------------------------------------------------------------------------------------------------------
     void OnDisable()
     {
-        //NWEBenchmark.Start();
-        //NWEBenchmark.Finish();
+        //NWDBenchmark.Start();
+        //NWDBenchmark.Finish();
     }
     //-------------------------------------------------------------------------------------------------------------
 }

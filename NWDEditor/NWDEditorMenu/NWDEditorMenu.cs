@@ -231,11 +231,13 @@ namespace NetWorkedData
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_ALL_ENVIRONMENT + "Increment and generate WebServices", false, 51)]
         public static void GenerateServersGenerateAll()
         {
+            NWDDataManager.SharedInstance().CreatePHPAllClass(true, false);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_ALL_ENVIRONMENT + K_WS_REGENERATE, false, 52)]
         public static void GenerateServersRegenerateAll()
         {
+            NWDDataManager.SharedInstance().CreatePHPAllClass(false, false);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_DEV_ENVIRONMENT + K_WS_REGENERATE, false, 80)]

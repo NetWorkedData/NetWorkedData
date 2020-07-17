@@ -104,7 +104,7 @@ namespace NetWorkedData
             rReturnObject.PropertiesAutofill();
             rReturnObject.Initialization();
             rReturnObject.InsertData(sAutoDate, sWritingMode);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturnObject;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -124,7 +124,7 @@ namespace NetWorkedData
         /// <param name="sWritingMode">S writing mode.</param>
         public static T NewDataWithReference<T>(string sReference, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDBasisHelper tHelper = BasisHelper<T>();
             return tHelper.NewDataWithReference(sReference, sAutoDate, sWritingMode) as T;
         }
@@ -185,23 +185,23 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //public static List<T> GetEditorDatasList<T>() where T : NWDTypeClass, new()
         //{
-        //    //NWEBenchmark.Start();
+        //    //NWDBenchmark.Start();
         //    List<T> rReturn = BasisHelper<T>().Datas as List<T>;
-        //    //NWEBenchmark.Finish();
+        //    //NWDBenchmark.Finish();
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public static T[] GetEditorDatas<T>() where T : NWDTypeClass, new()
         //{
-        //    //NWEBenchmark.Start();
+        //    //NWDBenchmark.Start();
         //    T[] rReturn = BasisHelper<T>().Datas.ToArray() as T[];
-        //    //NWEBenchmark.Finish();
+        //    //NWDBenchmark.Finish();
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
         public static T GetEditorDataByReference<T>(string sReference, bool sTryOnDisk = false) where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             T rReturn = null;
             if (BasisHelper<T>().DatasByReference.ContainsKey(sReference))
             {
@@ -218,13 +218,13 @@ namespace NetWorkedData
                     }
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static T[] GetEditorDatasByInternalKey<T>(string sInternalKey) where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             List<T> rReturn;
             if (BasisHelper<T>().DatasByInternalKey.ContainsKey(sInternalKey))
             {
@@ -234,20 +234,20 @@ namespace NetWorkedData
             {
                 rReturn = new List<T>();
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static T GetEditorFirstDataByInternalKey<T>(string sInternalKey) where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             T rReturn = null;
             T[] rDatas = GetEditorDatasByInternalKey<T>(sInternalKey);
             if (rDatas.Length > 0)
             {
                 rReturn = rDatas[0];
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -263,28 +263,28 @@ namespace NetWorkedData
         // ANCIEN GetAllObjects()
         public static T[] GetRawDatas<T>() where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             T[] rReturn = GetRawDatasList<T>().ToArray() as T[];
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static T GetRawFirstData<T>() where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             T rReturn = null;
             T[] rDatas = GetRawDatas<T>();
             if (rDatas.Length > 0)
             {
                 rReturn = rDatas[0];
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static T GetRawDataByReference<T>(string sReference, bool sTryOnDisk = false) where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             T rReturn = null;
             if (string.IsNullOrEmpty(sReference) == false)
             {
@@ -310,13 +310,13 @@ namespace NetWorkedData
                 }
                 rReturn = QuickFilter<T>(rReturn, null, null);
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static T[] GetRawDatasByInternalKey<T>(string sInternalKey) where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             List<NWDTypeClass> tReturn;
             if (BasisHelper<T>().DatasByInternalKey.ContainsKey(sInternalKey))
             {
@@ -327,20 +327,20 @@ namespace NetWorkedData
                 tReturn = new List<NWDTypeClass>();
             }
             List<T> rReturn = QuickFilterDatas<T>(tReturn, null, null);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static T GetRawFirstDataByInternalKey<T>(string sInternalKey) where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             T rReturn = null;
             T[] rDatas = GetRawDatasByInternalKey<T>(sInternalKey);
             if (rDatas.Length > 0)
             {
                 rReturn = rDatas[0];
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -361,20 +361,20 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static T GetCorporateFirstData<T>(string sAccountReference, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             T rReturn = null;
             T[] rDatas = GetCorporateDatas<T>(sAccountReference, sGameSave);
             if (rDatas.Length > 0)
             {
                 rReturn = rDatas[0];
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static T GetCorporateDataByReference<T>(string sReference, string sAccountReference, NWDGameSave sGameSave = null, bool sTryOnDisk = false) where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             T rReturn = null;
             if (BasisHelper<T>().DatasByReference.ContainsKey(sReference))
             {
@@ -392,13 +392,13 @@ namespace NetWorkedData
                 }
             }
             rReturn = QuickFilter<T>(rReturn, sAccountReference, sGameSave);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static T[] GetCorporateDatasByInternalKey<T>(string sInternalKey, string sAccountReference, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             List<NWDTypeClass> tReturn;
             if (BasisHelper<T>().DatasByInternalKey.ContainsKey(sInternalKey))
             {
@@ -409,20 +409,20 @@ namespace NetWorkedData
                 tReturn = new List<NWDTypeClass>();
             }
             List<T> rReturn = QuickFilterDatas<T>(tReturn, sAccountReference, sGameSave);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static T GetCorporateFirstDataByInternalKey<T>(string sInternalKey, string sAccountReference, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             T rReturn = null;
             T[] rDatas = GetCorporateDatasByInternalKey<T>(sInternalKey, sAccountReference);
             if (rDatas.Length > 0)
             {
                 rReturn = rDatas[0];
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -466,7 +466,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private NWDTypeClass QuickFilter(NWDTypeClass sData, string sAccountReference = null, NWDGameSave sGameSave = null)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDTypeClass rReturn = null;
             if (sData != null)
             {
@@ -529,7 +529,7 @@ namespace NetWorkedData
 
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -677,7 +677,7 @@ namespace NetWorkedData
         //        private static T LoadDataByReference<T>(string sReference) where T : NWDTypeClass, new()
         //        {
         //            Debug.Log("LoadDataByReference(" + sReference + ")");
-        //            NWEBenchmark.Start();
+        //            NWDBenchmark.Start();
         //            T rReturn = null;
         //            NWDBasisHelper tTypeInfos = BasisHelper<T>();
         //            if (tTypeInfos.DatasByReference.ContainsKey(sReference) == false)
@@ -706,7 +706,7 @@ namespace NetWorkedData
         //                    }
         //                }
         //            }
-        //            NWEBenchmark.Finish();
+        //            NWDBenchmark.Finish();
         //#if UNITY_EDITOR
         //            BasisHelper<T>().FilterTableEditor();
         //            BasisHelper<T>().RepaintTableEditor();
@@ -716,7 +716,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //        private static void LoadDataToSync<T>(NWDAppEnvironment sEnvironment) where T : NWDTypeClass, new()
         //        {
-        //            NWEBenchmark.Start();
+        //            NWDBenchmark.Start();
         //            NWDBasisHelper tTypeInfos = BasisHelper<T>();
         //            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
         //            if (tTypeInfos.kAccountDependent)
@@ -746,7 +746,7 @@ namespace NetWorkedData
         //                    }
         //                }
         //            }
-        //            NWEBenchmark.Finish();
+        //            NWDBenchmark.Finish();
         //#if UNITY_EDITOR
         //            BasisHelper<T>().FilterTableEditor();
         //            BasisHelper<T>().RepaintTableEditor();
@@ -758,7 +758,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //        public static T[] SelectDatasWhereRequest<T>(string sWhere = "`AC`=1;") where T : NWDTypeClass, new()
         //        {
-        //            NWEBenchmark.Start();
+        //            NWDBenchmark.Start();
         //            List<T> rResult = new List<T>();
         //            NWDBasisHelper tTypeInfos = BasisHelper<T>();
         //            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
@@ -790,7 +790,7 @@ namespace NetWorkedData
         //                    }
         //                }
         //            }
-        //            NWEBenchmark.Finish();
+        //            NWDBenchmark.Finish();
         //#if UNITY_EDITOR
         //            BasisHelper<T>().FilterTableEditor();
         //            BasisHelper<T>().RepaintTableEditor();
@@ -829,7 +829,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static T DuplicateData<T>(T sData, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             T rReturnObject = null;
             if (sData != null)
             {
@@ -892,7 +892,7 @@ namespace NetWorkedData
             {
                 Debug.LogWarning("Data is null, no dupplicate possibility");
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturnObject;
         }
         //-------------------------------------------------------------------------------------------------------------

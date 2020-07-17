@@ -452,9 +452,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string SaltCleaner(string sString)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             string rReturn = SaltCleanerRgx.Replace(sString, string.Empty);
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -729,7 +729,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string CSharpFormat(string sString)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             StringBuilder rReturn = new StringBuilder();
             int tIndentCount = 0;
             string tString = NewLineUnixFix(sString);
@@ -760,7 +760,7 @@ namespace NetWorkedData
                     tIndentCount--;
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn.ToString().TrimEnd(new char[] { '\n', '\r' });
         }
 #if UNITY_EDITOR

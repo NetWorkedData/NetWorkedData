@@ -38,7 +38,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //public string New_ReferenceConnectionHeight(string sValue, bool sShowInspector)
         //{
-        //    //NWEBenchmark.Start();
+        //    //NWDBenchmark.Start();
         //    float tWidth = EditorGUIUtility.currentViewWidth;
         //    GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
         //    tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent(NWEConstants.K_A), tWidth);
@@ -60,13 +60,13 @@ namespace NetWorkedData
         //            rReturn += tObject.DrawInspectorHeight(null, tWidth) + NWDGUI.kFieldMarge * 2;
         //        }
         //    }
-        //    //NWEBenchmark.Finish();
+        //    //NWDBenchmark.Finish();
         //    return rReturn.ToString();
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public virtual string New_ReferenceConnectionField(Rect sPosition, string sEntitled, string sValue, string sToolsTips, bool sShowInspector, bool sEditionEnable, bool sEditButton, bool sNewButton)
         //{
-        //    //NWEBenchmark.Start();
+        //    //NWDBenchmark.Start();
         //    NWDGUI.LoadStyles();
         //    float tX = sPosition.x;
         //    float tY = sPosition.y;
@@ -159,13 +159,13 @@ namespace NetWorkedData
         //            }
         //        }
         //    }
-        //    //NWEBenchmark.Finish();
+        //    //NWDBenchmark.Finish();
         //    return tValue;
         //}
         //-------------------------------------------------------------------------------------------------------------
         public virtual float ReferenceConnectionHeightSerialized(SerializedProperty sProperty, bool sShowInspector)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDGUI.LoadStyles();
             float tWidth = EditorGUIUtility.currentViewWidth;
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
@@ -205,13 +205,13 @@ namespace NetWorkedData
                     rReturn = rReturn + tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
                 }
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void ReferenceConnectionFieldSerialized(Rect sPosition, string sEntitled, SerializedProperty sProperty, string sToolsTips, bool sShowInspector)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             GUIContent tLabelContent = new GUIContent(sEntitled);
 
             // begin draw property with tLabel
@@ -302,7 +302,7 @@ namespace NetWorkedData
                 }
             }
             EditorGUI.EndProperty();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

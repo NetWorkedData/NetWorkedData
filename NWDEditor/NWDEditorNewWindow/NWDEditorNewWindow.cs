@@ -52,12 +52,12 @@ namespace NetWorkedData
         /// <returns></returns>
         public static NWDEditorNewWindow SharedInstance()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorNewWindow)) as NWDEditorNewWindow;
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -67,10 +67,10 @@ namespace NetWorkedData
         /// <returns></returns>
         public static void SharedInstanceFocus()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -78,7 +78,7 @@ namespace NetWorkedData
         /// </summary>
         public void GenerateNewWindow()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             GUI.FocusControl(null);
             // get the NWDExample code source
             string tClassExamplePath = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDWindowExample/NWDWindowExample.cs";
@@ -160,7 +160,7 @@ namespace NetWorkedData
             }
             AssetDatabase.WriteImportSettingsIfDirty(tIconPathNewPro);
 
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -168,9 +168,9 @@ namespace NetWorkedData
         /// </summary>
         public void OnEnable()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             TitleInit("Custom Window Manager", typeof(NWDEditorNewWindow));
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -178,7 +178,7 @@ namespace NetWorkedData
         /// </summary>
         public override void OnPreventGUI()
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             NWDGUILayout.Title("Custom Window Manager ");
             NWDGUILayout.Informations("Custom your window!");
             NWDGUILayout.Line();
@@ -307,7 +307,7 @@ namespace NetWorkedData
             EditorGUI.EndDisabledGroup();
             NWDGUILayout.BigSpace();
             // calculate the good dimension for window
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -317,13 +317,13 @@ namespace NetWorkedData
         /// <param name="tObject">T object.</param>
         bool RemoveAllPredicate(KeyValuePair<string, string> tObject)
         {
-            //NWEBenchmark.Start();
+            //NWDBenchmark.Start();
             bool tReturn = false;
             if (tObject.Key == "" && tObject.Value == " ")
             {
                 tReturn = true;
             }
-            //NWEBenchmark.Finish();
+            //NWDBenchmark.Finish();
             return tReturn;
         }
 
