@@ -23,10 +23,13 @@ namespace NetWorkedData
     public partial class NWDBasisCheckList : NWEDataTypeMaskGeneric<NWDBasisCheckList>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDBasisCheckList Translate = Add(1, "Translate");
-        public static NWDBasisCheckList Asset = Add(2, "Asset");
-        public static NWDBasisCheckList Description = Add(3, "Description");
-        public static NWDBasisCheckList Test = Add(4, "Test");
+        public static NWDBasisCheckList Translate = Add(1, "Need Translate");
+        public static NWDBasisCheckList Asset = Add(2, "Need Asset");
+        public static NWDBasisCheckList Description = Add(3, "Need Description");
+        public static NWDBasisCheckList Test = Add(4, "Need Test");
+
+
+        public static NWDBasisCheckList WTF = Add(9, "WTF!");
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

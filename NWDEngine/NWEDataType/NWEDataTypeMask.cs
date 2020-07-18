@@ -233,7 +233,8 @@ namespace NetWorkedData
                 }
             }
             //stringLog.AppendLine("before field tTemporaryFlags = " + Convert.ToString(tTemporaryFlags, 2));
-
+          
+            //tTemporaryFlags = EditorGUI.MaskField(sPosition, new GUIContent(sEntitled, ConcatRepresentations()), tTemporaryFlags, kListString.ToArray(), sStyle);
             tTemporaryFlags = EditorGUI.MaskField(sPosition, sEntitled, tTemporaryFlags, kListString.ToArray(), sStyle);
             sPosition.y += EditorStyles.layerMaskField.fixedHeight;
 
@@ -310,6 +311,24 @@ namespace NetWorkedData
                 }
             }
             return rReturn as K;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string ConcatRepresentations()
+        {
+            return string.Join(",", Representations());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string[] Representations()
+        {
+            List<string> rResult = new List<string>();
+            foreach (KeyValuePair<long, K> tValuePair in kList)
+            {
+                if (this.ContainsMask(tValuePair.Value))
+                {
+                    rResult.Add(tValuePair.Value.Representation);
+                }
+            }
+            return rResult.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override string ToString()

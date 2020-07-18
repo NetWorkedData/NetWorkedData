@@ -38,6 +38,9 @@ namespace NetWorkedData
             int tI = 0;
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[2, tI]));
             tI++;
+            EditorGUI.LabelField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Continent", Continent.ConcatRepresentations());
+            tI++;
+
             if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
             {
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[2, tI]), "Credentials window"))
