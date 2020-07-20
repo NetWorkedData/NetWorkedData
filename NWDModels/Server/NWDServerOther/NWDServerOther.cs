@@ -1,7 +1,6 @@
 ﻿//=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -18,6 +17,7 @@ namespace NetWorkedData
         PushNotifications = 8,
         Streaming = 9,
         WebServer = 12,
+        WebDAV = 45,
         GitLab = 99,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -34,6 +34,17 @@ namespace NetWorkedData
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Server used for")]
         public NWDServerOtherType ServerType { get; set; }
+
+
+
+        [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.WebDAV, false)]
+        public string WebDAV_User { get; set; }
+        [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.WebDAV, false)]
+        public NWDSecurePassword WebDAV_Password { get; set; }
+        [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.WebDAV, false)]
+        public string WebDAV_Access { get; set; }
+
+
 
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.GitLab, false)]
         public string GitLabDomainNameServer { get; set; }

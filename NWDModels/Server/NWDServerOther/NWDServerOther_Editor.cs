@@ -1,13 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:29:11
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
-//  All rights reserved by ideMobi
+//  ideMobi 2020©
 //
 //=====================================================================================================================
 
@@ -112,6 +105,131 @@ namespace NetWorkedData
                 });
                     }
                     tI++;
+
+
+
+
+
+                    //-----------------
+
+
+                    if (ServerType == NWDServerOtherType.WebDAV)
+                    {
+                        string tServerDNS = tServer.DomainNameServer;
+
+
+                        //-----------------
+                        //EditorGUI.BeginDisabledGroup(UserInstalled == false);
+                        tButtonTitle = new GUIContent("Install User webdav", "Install webdav");
+                        if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                        {
+                            if (string.IsNullOrEmpty(tServerDNS) == false )
+                            {
+                                tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
+                {
+
+                "useradd --shell /bin/false " + WebDAV_User + "",
+                "echo " + WebDAV_User + ":" + WebDAV_Password.Decrypt() + " | chpasswd",
+                "mkdir /home/" + WebDAV_User + "",
+                "chown root /home/" + WebDAV_User + "",
+                "chmod go-w  /home/" + WebDAV_User + "",
+
+                        "systemctl stop apache2",
+                        "apt-get -y install apache2-utils",
+                        "systemctl start apache2",
+                        "a2enmod dav* ",
+                        "systemctl restart apache2",
+
+                        "mkdir /home/webdav",
+                        "chown www-data. /home/webdav",
+                        "chmod 770 /home/webdav",
+
+                        "mkdir /home/webdav/user",
+                        "chown www-data. /home/webdav/user",
+                        "chmod 770 /home/webdav/user",
+                        "mkdir /home/webdav/psswd",
+                        "chown www-data. /home/webdav/psswd",
+                        "chmod 770 /home/webdav/psswd",
+
+                        "mkdir /home/webdav/user/" + WebDAV_User + "",
+                        "chown www-data. /home/webdav/user/" + WebDAV_User + "",
+                        "chmod 770 /home/webdav/user/" + WebDAV_User + "",
+                        "mkdir /home/webdav/psswd/" + WebDAV_User + "",
+                        "chown www-data. /home/webdav/psswd/" + WebDAV_User + "",
+                        "chmod 770 /home/webdav/psswd/" + WebDAV_User + "",
+
+
+                        // create virtual host without SSL
+                        
+                "a2dissite " + WebDAV_User + "-webdav.conf",
+                "systemctl restart apache2",
+
+                "rm /etc/apache2/sites-available/" + WebDAV_User + "-webdav.conf",
+                "rm /home/webdav/" + WebDAV_User + "/.htpasswd",
+                "rm /home/webdav/psswd/" + WebDAV_User + "/.htpasswd",
+
+
+                "ls /home/webdav/user/" + WebDAV_User + "",
+
+                "echo \"Alias /" + NWDToolbox.UnixCleaner(WebDAV_Access) + " /home/webdav/user/" + WebDAV_User + "\" > /etc/apache2/sites-available/" + WebDAV_User + "-webdav.conf",
+                "sed -i '$ a <Location /" + NWDToolbox.UnixCleaner(WebDAV_Access) + ">' /etc/apache2/sites-available/" + WebDAV_User + "-webdav.conf",
+                "sed -i '$ a DAV On' /etc/apache2/sites-available/" + WebDAV_User + "-webdav.conf",
+                "sed -i '$ a SSLRequireSSL' /etc/apache2/sites-available/" + WebDAV_User + "-webdav.conf",
+                "sed -i '$ a Options None' /etc/apache2/sites-available/" + WebDAV_User + "-webdav.conf",
+                "sed -i '$ a AuthType Basic' /etc/apache2/sites-available/" + WebDAV_User + "-webdav.conf",
+                "sed -i '$ a AuthName WebDAV' /etc/apache2/sites-available/" + WebDAV_User + "-webdav.conf",
+                "sed -i '$ a AuthUserFile /home/webdav/psswd/" + WebDAV_User + "/.htpasswd' /etc/apache2/sites-available/" + WebDAV_User + "-webdav.conf",
+                "sed -i '$ a <RequireAny>' /etc/apache2/sites-available/" + WebDAV_User + "-webdav.conf",
+                "sed -i '$ a Require method GET POST OPTIONS' /etc/apache2/sites-available/" + WebDAV_User + "-webdav.conf",
+                "sed -i '$ a Require valid-user' /etc/apache2/sites-available/" + WebDAV_User + "-webdav.conf",
+                "sed -i '$ a </RequireAny>' /etc/apache2/sites-available/" + WebDAV_User + "-webdav.conf",
+                "sed -i '$ a </Location>' /etc/apache2/sites-available/" + WebDAV_User + "-webdav.conf",
+
+                "echo \" \" > /home/webdav/psswd/" + WebDAV_User + "/.htpasswd",
+                "htpasswd -b /home/webdav/psswd/" + WebDAV_User + "/.htpasswd " + WebDAV_User + " " + WebDAV_Password.Decrypt() + "",
+
+                "a2ensite " + WebDAV_User + "-webdav.conf",
+
+                "systemctl restart apache2",
+
+               // "certbot --agree-tos -n --no-eff-email --apache --redirect --email " + "nocontact@no.com" + " -d " + tServer.IP.ToString() + "",
+
+
+            },
+                                   delegate (string sCommand, string sResult)
+                                   {
+                                   });
+                            }
+                        }
+                        //EditorGUI.EndDisabledGroup();
+                        tI++;
+                        //-----------------
+
+
+
+
+                        //-----------------
+                        //EditorGUI.BeginDisabledGroup(UserInstalled == false);
+                        tButtonTitle = new GUIContent("ls User webdav", "ls webdav");
+                        if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                        {
+                            if (string.IsNullOrEmpty(tServerDNS) == false)
+                            {
+                                tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
+                            {
+                                "ls /home/webdav/user/" + WebDAV_User + "",
+                             }, delegate (string sCommand, string sResult)
+                             {
+                             });
+                            }
+                        }
+                        //EditorGUI.EndDisabledGroup();
+                        tI++;
+                        //-----------------
+
+                    }
+
+                    //-----------------
 
                     if (ServerType == NWDServerOtherType.GitLab)
                     {

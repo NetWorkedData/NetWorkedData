@@ -1,7 +1,6 @@
 ﻿//=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -17,12 +16,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDServerOther()
         {
-            //Debug.Log("NWDServerConfig Constructor");
+            //Debug.Log("NWDServerOther Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDServerOther(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDServerConfig Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDServerOther Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD

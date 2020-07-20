@@ -1,13 +1,6 @@
 //=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:42:16
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
-//  All rights reserved by ideMobi
+//  ideMobi 2020©
 //
 //=====================================================================================================================
 
@@ -61,6 +54,13 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonUpdateMe()
         {
+            //WebDAV_Access = NWDToolbox.TextProtect(NWDToolbox.AplhaNumericCleaner(NWDToolbox.TextUnprotect(WebDAV_Access)));
+            //WebDAV_User = NWDToolbox.TextProtect(NWDToolbox.AplhaCleaner(NWDToolbox.TextUnprotect(WebDAV_User)));
+
+
+            WebDAV_Access = NWDToolbox.UnixCleaner(WebDAV_Access);
+            WebDAV_User = NWDToolbox.AplhaCleaner(WebDAV_User);
+
             base.AddonUpdateMe();
         }
         //-------------------------------------------------------------------------------------------------------------
