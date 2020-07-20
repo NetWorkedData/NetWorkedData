@@ -196,7 +196,8 @@ namespace NetWorkedData
                             string tValue = Property.GetValue(sObject, null) as string;
                             if (string.IsNullOrEmpty(tValue) == false)
                             {
-                                tValue = NWDToolbox.TextUnprotect(tValue);
+                                //TODO remove protection of string ?
+                                //tValue = NWDToolbox.TextUnprotect(tValue);
                             }
                             tFieldRect.height = tH;
                             string tValueNext = tValue;
@@ -215,7 +216,8 @@ namespace NetWorkedData
                             tY += tH;
                             if (tValueNext != tValue)
                             {
-                                tValueNext = NWDToolbox.TextProtect(tValueNext);
+                                //TODO remove protection of string ?
+                                //tValueNext = NWDToolbox.TextProtect(tValueNext);
                                 Property.SetValue(sObject, tValueNext, null);
                                 //rNeedBeUpdate = true;
                             }

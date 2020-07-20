@@ -226,8 +226,8 @@ namespace NetWorkedData
             NWDSecurePassword tTemporary = new NWDSecurePassword();
             tTemporary.Value = Value;
             float tX = sPosition.x + EditorGUIUtility.labelWidth;
-            float tWidth = sPosition.width - EditorGUIUtility.labelWidth + NWDGUI.kFieldMarge;
-            float tTiersWidth = Mathf.Ceil(tWidth / 2.0F);
+            float tWidth = sPosition.width - EditorGUIUtility.labelWidth;
+            float tTiersWidth = Mathf.Ceil((tWidth + NWDGUI.kFieldMarge) / 2.0F);
             float tTiersWidthB = tTiersWidth - NWDGUI.kFieldMarge;
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
             EditorGUI.LabelField(new Rect(sPosition.x, sPosition.y, sPosition.width, NWDGUI.kLabelStyle.fixedHeight), tContent);
@@ -246,8 +246,8 @@ namespace NetWorkedData
                 {
                     int tIndentLevel = EditorGUI.indentLevel;
                     EditorGUI.indentLevel = 0;
-                    tdecode = EditorGUI.TextField(new Rect(tX, sPosition.y, tWidth, NWDGUI.kLabelStyle.fixedHeight), tdecode);
-                    sPosition.y += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    tdecode = EditorGUI.TextField(new Rect(tX, sPosition.y, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), tdecode);
+                    sPosition.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                     if (GUI.Button(new Rect(tX, sPosition.y, tTiersWidthB, NWDGUI.kMiniButtonStyle.fixedHeight), "Test it"))
                     {
                         NWEPassAnalyseWindow.SharedInstance().AnalyzePassword(tdecode);
@@ -259,7 +259,7 @@ namespace NetWorkedData
                     string tencode = InternalCryptAes(tdecode);
                     tTemporary.Value = tencode;
                     sPosition.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    if (GUI.Button(new Rect(tX, sPosition.y, tWidth, NWDGUI.kPopupStyle.fixedHeight), "credentials window"))
+                    if (GUI.Button(new Rect(tX, sPosition.y, tWidth, NWDGUI.kPopupStyle.fixedHeight), "Credentials window"))
                     {
                         NWDProjectCredentialsManager.SharedInstance().Show();
                         NWDProjectCredentialsManager.SharedInstance().Focus();

@@ -325,6 +325,135 @@ namespace NetWorkedData
                     EditorGUI.EndDisabledGroup();
                     tI++;
                     //-----------------
+
+                    /*
+
+
+                    //-----------------
+                    //EditorGUI.BeginDisabledGroup(UserInstalled == false);
+                    tButtonTitle = new GUIContent("Install User webdav", "Install webdav");
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        if (tServerDomain != null)
+                        {
+                            string _NoSSL = "_NoSSL";
+                            string _SSL = "";
+                            tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
+                {
+
+                "useradd --shell /bin/false " + User + "",
+                "echo " + User + ":" + Secure_Password.Decrypt() + " | chpasswd",
+                "mkdir /home/" + User + "",
+                "chown root /home/" + User + "",
+                "chmod go-w  /home/" + User + "",
+
+                        "systemctl stop apache2",
+                        "apt-get -y install apache2-utils",
+                        "systemctl start apache2",
+                        "a2enmod dav* ",
+                        "systemctl restart apache2",
+
+                        "mkdir /home/webdav",
+                        "chown www-data. /home/webdav",
+                        "chmod 770 /home/webdav",
+
+                        "mkdir /home/webdav/user",
+                        "chown www-data. /home/webdav/user",
+                        "chmod 770 /home/webdav/user",
+                        "mkdir /home/webdav/psswd",
+                        "chown www-data. /home/webdav/psswd",
+                        "chmod 770 /home/webdav/psswd",
+
+                        "mkdir /home/webdav/user/" + User + "",
+                        "chown www-data. /home/webdav/user/" + User + "",
+                        "chmod 770 /home/webdav/user/" + User + "",
+                        "mkdir /home/webdav/psswd/" + User + "",
+                        "chown www-data. /home/webdav/psswd/" + User + "",
+                        "chmod 770 /home/webdav/psswd/" + User + "",
+
+
+                        // create virtual host without SSL
+                        
+                "a2dissite " + User + "-webdav.conf",
+                "systemctl restart apache2",
+
+                "rm /etc/apache2/sites-available/" + User + "-webdav.conf",
+                "rm /home/webdav/" + User + "/.htpasswd",
+                "rm /home/webdav/psswd/" + User + "/.htpasswd",
+
+
+                "ls /home/webdav/user/" + User + "",
+
+                "echo \"Alias /" + User + " /home/webdav/user/" + User + "\" > /etc/apache2/sites-available/" + User + "-webdav.conf",
+                "sed -i '$ a <Location /" + User + ">' /etc/apache2/sites-available/" + User + "-webdav.conf",
+                "sed -i '$ a DAV On' /etc/apache2/sites-available/" + User + "-webdav.conf",
+                "sed -i '$ a SSLRequireSSL' /etc/apache2/sites-available/" + User + "-webdav.conf",
+                "sed -i '$ a Options None' /etc/apache2/sites-available/" + User + "-webdav.conf",
+                "sed -i '$ a AuthType Basic' /etc/apache2/sites-available/" + User + "-webdav.conf",
+                "sed -i '$ a AuthName WebDAV' /etc/apache2/sites-available/" + User + "-webdav.conf",
+                "sed -i '$ a AuthUserFile /home/webdav/psswd/" + User + "/.htpasswd' /etc/apache2/sites-available/" + User + "-webdav.conf",
+                "sed -i '$ a <RequireAny>' /etc/apache2/sites-available/" + User + "-webdav.conf",
+                "sed -i '$ a Require method GET POST OPTIONS' /etc/apache2/sites-available/" + User + "-webdav.conf",
+                "sed -i '$ a Require valid-user' /etc/apache2/sites-available/" + User + "-webdav.conf",
+                "sed -i '$ a </RequireAny>' /etc/apache2/sites-available/" + User + "-webdav.conf",
+                "sed -i '$ a </Location>' /etc/apache2/sites-available/" + User + "-webdav.conf",
+
+                "echo \" \" > /home/webdav/psswd/" + User + "/.htpasswd",
+                "htpasswd -b /home/webdav/psswd/" + User + "/.htpasswd " + User + " " + Secure_Password.Decrypt() + "",
+
+                "a2ensite " + User + "-webdav.conf",
+
+                "systemctl restart apache2",
+
+                "certbot --agree-tos -n --no-eff-email --apache --redirect --email " + Email + " -d " + tServer.IP.ToString() + "",
+
+
+            },
+                               delegate (string sCommand, string sResult)
+                               {
+                                   if (sCommand == "service sshd restart")
+                                   {
+                                       UserInstalled = true;
+                                       UpdateDataIfModified();
+                                   };
+                               });
+                        }
+                    }
+                    //EditorGUI.EndDisabledGroup();
+                    tI++;
+                    //-----------------
+
+
+
+
+                    //-----------------
+                    //EditorGUI.BeginDisabledGroup(UserInstalled == false);
+                    tButtonTitle = new GUIContent("ls User webdav", "ls webdav");
+                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    {
+                        if (tServerDomain != null)
+                        {
+                            tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
+                            {
+                                "ls /home/webdav/user/" + User + "",
+                             }, delegate (string sCommand, string sResult)
+                                {
+                                });
+                         }
+                    }
+                    //EditorGUI.EndDisabledGroup();
+                    tI++;
+                    //-----------------
+
+
+
+
+                    */
+
+
+
+
+
                     tButtonTitle = new GUIContent("Check apache", "check apache ");
                     if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                     {

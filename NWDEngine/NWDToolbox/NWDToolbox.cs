@@ -407,6 +407,13 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        static Regex AplhaCleanerRgx = new Regex("[^a-zA-Z]");
+        //-------------------------------------------------------------------------------------------------------------
+        public static string AplhaCleaner(string sString)
+        {
+            return AplhaCleanerRgx.Replace(sString, string.Empty);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         static Regex AplhaNumericCleanerRgx = new Regex("[^a-zA-Z0-9]");
         //-------------------------------------------------------------------------------------------------------------
         public static string AplhaNumericCleaner(string sString)
