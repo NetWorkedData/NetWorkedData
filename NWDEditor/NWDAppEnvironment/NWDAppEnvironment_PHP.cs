@@ -28,9 +28,23 @@ namespace NetWorkedData
     public partial class NWDAppEnvironment
     {
         //-------------------------------------------------------------------------------------------------------------
+        static void LoadDataNecessary()
+        {
+            NWDBenchmark.Start();
+            NWDBasisHelper.BasisHelper<NWDError>().LoadDataForWorkflow();
+            NWDBasisHelper.BasisHelper<NWDCluster>().LoadDataForWorkflow();
+            NWDBasisHelper.BasisHelper<NWDServerDomain>().LoadDataForWorkflow();
+            NWDBasisHelper.BasisHelper<NWDServer>().LoadDataForWorkflow();
+            NWDBasisHelper.BasisHelper<NWDServerServices>().LoadDataForWorkflow();
+            NWDBasisHelper.BasisHelper<NWDServerDatas>().LoadDataForWorkflow();
+            NWDBasisHelper.BasisHelper<NWDServerOther>().LoadDataForWorkflow();
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void CreatePHP(List<Type> sTypeList, bool sCreateAll = true, bool sWriteOnDisk = true, NWDServerAuthentication sConn = null)
         {
             NWDBenchmark.Start();
+            LoadDataNecessary();
             List<string> tFolders = CreatePHPFolder(sWriteOnDisk);
             Dictionary<string, string> tFilesAndDatas = new Dictionary<string, string>();
             CreatePHPManagementFile(tFilesAndDatas, sWriteOnDisk);
@@ -91,12 +105,10 @@ namespace NetWorkedData
         {
             //NWDBenchmark.Start();
             StringBuilder rReturn = new StringBuilder(string.Empty);
-
             string tWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = NWDToolbox.DateTimeYYYYMMdd(tTime);
             string tYearString = NWDToolbox.DateTimeYYYY(tTime);
-
             rReturn.AppendLine(NWD.K_CommentSeparator);
             rReturn.AppendLine("//" + tWebService + " for " + Environment + " Environment");
             rReturn.AppendLine(NWD.K_CommentAutogenerate + tDateTimeString);
@@ -183,6 +195,7 @@ namespace NetWorkedData
         private void CreatePHPErrorGenerate(bool sWriteOnDisk = true)
         {
             //NWDBenchmark.Start();
+            LoadDataNecessary();
             // regenerate basis error
             NWDErrorHelper tErrorHelper = NWDBasisHelper.BasisHelper<NWDError>() as NWDErrorHelper;
             tErrorHelper.GenerateBasisError();
@@ -199,6 +212,7 @@ namespace NetWorkedData
         private void CreatePHPConstantsFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             //NWDBenchmark.Start();
+            LoadDataNecessary();
             StringBuilder tConstantsFile = new StringBuilder(string.Empty);
             tConstantsFile.AppendLine("<?php");
             tConstantsFile.AppendLine(Headlines());
@@ -253,7 +267,7 @@ namespace NetWorkedData
             }
             else
             {
-            tConstantsFile.AppendLine("$SMTP_HOST = '" + tNWDCluster.MailHost.Trim().Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$SMTP_HOST = '" + tNWDCluster.MailHost.Trim().Replace("'", "\'") + "';");
             }
             if (string.IsNullOrEmpty(tNWDCluster.MailPort.ToString()))
             {
@@ -360,6 +374,7 @@ namespace NetWorkedData
         private void CreatePHPManagementFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             //NWDBenchmark.Start();
+            LoadDataNecessary();
             StringBuilder tManagementFile = new StringBuilder(string.Empty);
             tManagementFile.AppendLine("<?php");
             tManagementFile.AppendLine(Headlines());
@@ -412,6 +427,7 @@ namespace NetWorkedData
         private void CreatePHPWebservicesFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             //NWDBenchmark.Start();
+            LoadDataNecessary();
             StringBuilder tWebServices = new StringBuilder(string.Empty);
             tWebServices.AppendLine("<?php");
             tWebServices.AppendLine(Headlines());
@@ -639,6 +655,7 @@ namespace NetWorkedData
         private void CreatePHPRescueFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             //NWDBenchmark.Start();
+            LoadDataNecessary();
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
             tFile.AppendLine(Headlines());
@@ -699,10 +716,11 @@ namespace NetWorkedData
         private void CreatePHPAuthenticationFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             //NWDBenchmark.Start();
+            LoadDataNecessary();
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
             tFile.AppendLine(Headlines());
-            if (LogMode!= NWDEnvironmentLogMode.NoLog)
+            if (LogMode != NWDEnvironmentLogMode.NoLog)
             {
                 tFile.AppendLine("error_reporting (E_ALL);");
                 tFile.AppendLine("ini_set ('display_errors', 1);");
@@ -920,6 +938,7 @@ namespace NetWorkedData
         private void CreatePHPBlankFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             //NWDBenchmark.Start();
+            LoadDataNecessary();
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
             tFile.AppendLine(Headlines());
@@ -983,6 +1002,7 @@ namespace NetWorkedData
         private void CreatePHPIndexFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             //NWDBenchmark.Start();
+            LoadDataNecessary();
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
             tFile.AppendLine(Headlines());
@@ -1003,6 +1023,7 @@ namespace NetWorkedData
         private void CreatePHPMaintenanceFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             //NWDBenchmark.Start();
+            LoadDataNecessary();
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
             tFile.AppendLine(Headlines());
@@ -1025,6 +1046,7 @@ namespace NetWorkedData
         private void CreatePHPObsoleteFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             //NWDBenchmark.Start();
+            LoadDataNecessary();
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
             tFile.AppendLine(Headlines());
@@ -1047,6 +1069,7 @@ namespace NetWorkedData
         private void CreatePHPDotHTAccessFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             //NWDBenchmark.Start();
+            LoadDataNecessary();
             if (sWriteOnDisk == false)
             {
                 sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_HTACCESS, "deny from all");

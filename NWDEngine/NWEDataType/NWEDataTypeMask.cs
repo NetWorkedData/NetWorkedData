@@ -233,7 +233,7 @@ namespace NetWorkedData
                 }
             }
             //stringLog.AppendLine("before field tTemporaryFlags = " + Convert.ToString(tTemporaryFlags, 2));
-          
+
             //tTemporaryFlags = EditorGUI.MaskField(sPosition, new GUIContent(sEntitled, ConcatRepresentations()), tTemporaryFlags, kListString.ToArray(), sStyle);
             tTemporaryFlags = EditorGUI.MaskField(sPosition, sEntitled, tTemporaryFlags, kListString.ToArray(), sStyle);
             sPosition.y += EditorStyles.layerMaskField.fixedHeight;
@@ -325,7 +325,10 @@ namespace NetWorkedData
             {
                 if (this.ContainsMask(tValuePair.Value))
                 {
-                    rResult.Add(tValuePair.Value.Representation);
+                    if (string.IsNullOrEmpty(tValuePair.Value.Representation) == false)
+                    {
+                        rResult.Add(tValuePair.Value.Representation);
+                    }
                 }
             }
             return rResult.ToArray();

@@ -17,8 +17,8 @@ namespace NetWorkedData
     /// 
     /// </summary>
     [NWDTypeWindowParamAttribute(
-        "Servers",
-        "Servers",
+        "Clusters",
+        "Clusters",
         new Type[] {
             typeof(NWDCluster),
             typeof(NWDServer),

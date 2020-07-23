@@ -811,6 +811,21 @@ namespace NetWorkedData
         {
             // reset datas
             ResetDatas();
+            // and reset the last sync to 0
+            // but the bug persit with the datas pull because BuildTimestamp is defini
+            // you must use an pullforce after that!
+            SynchronizationSetNewTimestamp(NWDAppConfiguration.SharedInstance().SelectedEnvironment(), -1);
+#if UNITY_EDITOR
+            // in editor mode reste to 0 all environment
+            SynchronizationSetNewTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment, -1);
+            SynchronizationSetNewTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment, -1);
+            SynchronizationSetNewTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment, -1);
+
+            NWDAppConfiguration.SharedInstance().DevEnvironment.BuildTimestamp = 0;
+            NWDAppConfiguration.SharedInstance().PreprodEnvironment.BuildTimestamp = 0;
+            NWDAppConfiguration.SharedInstance().ProdEnvironment.BuildTimestamp = 0;
+#endif
+
             // delete indexes and table
             IntPtr tConnectorHandle = NWDDataManager.SharedInstance().SQLiteDeviceHandle;
             //if (kAccountDependent == false)

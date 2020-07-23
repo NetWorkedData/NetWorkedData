@@ -55,15 +55,18 @@ namespace NetWorkedData
             {
                 tAccountDependent = true;
             }
-                int rReturn = NWDBasisPreferences.GetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, 0, tAccountDependent);
+            int rReturn = NWDBasisPreferences.GetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, 0, tAccountDependent);
             // Modified by the version of bundle
             if (tAccountDependent == false)
             {
-                int tTimestampMin = NWDAppConfiguration.SharedInstance().SelectedEnvironment().BuildTimestamp;
-                if (tTimestampMin > rReturn)
+                if (rReturn < 0 == false)
                 {
-                    rReturn = tTimestampMin;
-                    // the reccord will be do by the webservice answer
+                    int tTimestampMin = NWDAppConfiguration.SharedInstance().SelectedEnvironment().BuildTimestamp;
+                    if (tTimestampMin > rReturn)
+                    {
+                        rReturn = tTimestampMin;
+                        // the reccord will be do by the webservice answer
+                    }
                 }
             }
             return rReturn;
@@ -75,7 +78,7 @@ namespace NetWorkedData
         //    New_SynchronizationResetTimestamp(NWDAppEnvironment.SelectedEnvironment());
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public void  SynchronizationSetNewTimestamp(NWDAppEnvironment sEnvironment, int sNewTimestamp)
+        public void SynchronizationSetNewTimestamp(NWDAppEnvironment sEnvironment, int sNewTimestamp)
         {
             //NWDBasisPreferences.SetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, sNewTimestamp, kAccountDependent);
             NWDBasisPreferences.SetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, sNewTimestamp, TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent);

@@ -301,6 +301,7 @@ namespace NetWorkedData
         [NWDInspectorGroupStart("DNS use to find IP")]
         [NWDTooltips("Optional DNS of this server (not the public DNS, just usable DNS)")]
         public string DomainNameServer { get; set; }
+        public NWDServerContinent Continent { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Authentification SSH / SFTP")]

@@ -44,6 +44,7 @@ namespace NetWorkedData
         public override void AddonInsertMe()
         {
             base.AddonInsertMe();
+            Continent = NWDServerContinent.Everythings;
             // do something when object will be inserted
             // TODO verif if method is call in good place in good timing
         }

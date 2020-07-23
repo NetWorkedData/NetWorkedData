@@ -130,6 +130,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
+        public void LoadDataForWorkflow()
+        {
+            if (IsLoaded() == false)
+            {
+                LoadFromDatabase("", false);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void RepaintTableEditor()
         {
             NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);

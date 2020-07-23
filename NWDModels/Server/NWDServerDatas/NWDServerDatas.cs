@@ -23,7 +23,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Server SSH")]
         public NWDReferenceType<NWDServer> Server { get; set; }
-        public NWDServerContinent Continent { get; set; }
+        //public NWDServerContinent Continent { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Data Account Range")]

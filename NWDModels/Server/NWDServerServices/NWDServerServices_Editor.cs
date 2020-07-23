@@ -37,8 +37,8 @@ namespace NetWorkedData
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
 
-            EditorGUI.LabelField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Continent", Continent.ConcatRepresentations());
-            tI++;
+            //EditorGUI.LabelField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Continent", Continent.ConcatRepresentations());
+            //tI++;
 
 
             if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
@@ -143,6 +143,7 @@ namespace NetWorkedData
                             tCommandList.Add("apt-get -y install php-zip");
                             tCommandList.Add("apt-get -y install php-mail");
                             tCommandList.Add("apt-get -y install php-pear");
+                            tCommandList.Add("apt-get -y install php-geoip");
                             tCommandList.Add("apt-get -y install libapache2-mod-php");
                             tCommandList.Add("pear install Net_SMTP");
                         }
