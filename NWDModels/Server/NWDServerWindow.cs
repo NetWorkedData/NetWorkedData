@@ -1,7 +1,6 @@
 ﻿//=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -33,7 +32,6 @@ namespace NetWorkedData
     )]
     public class NWDServerWindow : NWDBasisWindow<NWDServerWindow>
     {
-
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/Cluster sizer", false, 60)]
         public static void ClusterSizerMenuMethod()

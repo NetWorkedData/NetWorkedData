@@ -1,22 +1,24 @@
 ﻿//=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
 #if UNITY_EDITOR
-using System;
-using System.Text;
+
 using UnityEngine;
 using UnityEditor;
-using Renci.SshNet;
+
+using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Collections;
 using System.Diagnostics;
-using Unity.EditorCoroutines.Editor;
+
+// using Renci lib
+using Renci.SshNet;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -159,8 +161,7 @@ namespace NetWorkedData
             AltUser = sAltUser;
             AltPassword = sAltPassword;
             ScriptTitle = tScriptTitle;
-            //ExecuteAsync();
-            EditorCoroutineUtility.StartCoroutineOwnerless(ExecuteAsync());
+            NWDEditorCoroutineToolbox.StartCoroutine(ExecuteAsync());
         }
         //-------------------------------------------------------------------------------------------------------------
         public IEnumerator ExecuteAsync()

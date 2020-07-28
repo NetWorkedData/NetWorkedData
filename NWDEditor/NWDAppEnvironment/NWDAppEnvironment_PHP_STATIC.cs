@@ -65,6 +65,25 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// web-services build");
             tFile.AppendLine("respondAdd('wsbuild',$WSBUILD);");
+
+
+
+            // add geoip for test
+            tFile.AppendLine("if (isset($_SERVER[\"GEOIP_CONTINENT_CODE\"]))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$continent = $_SERVER[\"GEOIP_CONTINENT_CODE\"];");
+            tFile.AppendLine("}");
+            tFile.AppendLine("elseif(function_exists(\"geoip_continent_code_by_name\") && isset($_SERVER['REMOTE_ADDR']))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$continent = geoip_continent_code_by_name($_SERVER['REMOTE_ADDR']);");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$continent = 'unknown';");
+            tFile.AppendLine("}");
+            tFile.AppendLine("respondAdd('continent',$continent);");
+            // finish geoip for test
+
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("//disconnect mysql");
             tFile.AppendLine("foreach(" + NWD.K_SQL_CON_EDITOR + " as $tRange=>$tConnexion)");

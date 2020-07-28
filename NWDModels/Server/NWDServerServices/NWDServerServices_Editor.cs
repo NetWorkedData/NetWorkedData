@@ -154,7 +154,6 @@ namespace NetWorkedData
                             tCommandList.Add("sudo a2dismod php7.3");
                             tCommandList.Add("sudo a2enconf php7.3-fpm");
                             tCommandList.Add("sudo a2enmod proxy_fcgi");
-                            tCommandList.Add("systemctl restart apache2");
                             tCommandList.Add("apt-get -y install php-mysql");
                             tCommandList.Add("apt-get -y install php-curl");
                             tCommandList.Add("apt-get -y install php-json");
@@ -165,7 +164,16 @@ namespace NetWorkedData
                             tCommandList.Add("apt-get -y install php-mail");
                             tCommandList.Add("apt-get -y install php-pear");
                             tCommandList.Add("pear install Net_SMTP");
-                            tCommandList.Add("systemctl restart apache2");
+
+                            // try install Geoip
+                            tCommandList.Add("apt-get -y install php-geoip");
+                            tCommandList.Add("apt-get -y install geoip-bin");
+                            tCommandList.Add("apt-get -y install libapache2-mod-geoip");
+                            tCommandList.Add("apt-get -y install libgeoip1");
+                            tCommandList.Add("a2enmod geoip");
+                            tCommandList.Add("sed -i 's/^.*GeoIPEnable On.*$/GeoIPEnable Off/g' /etc/apache2/mods-available/geoip.conf");
+                            //tCommandList.Add("sed -i 's/^.*GeoIPEnable Off.*$/GeoIPEnable On/g' /etc/apache2/mods-available/geoip.conf");
+
                         }
                         tCommandList.Add("systemctl restart apache2");
                         tCommandList.Add("echo \"<color=red> -> php folder default</color>\"");

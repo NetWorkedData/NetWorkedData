@@ -2,8 +2,7 @@
     "name": "NetWorkedDataAssembly",
     "references": [
         "Unity.TextMeshPro",
-        "SceneTransitionSystemAssembly",
-        "Unity.EditorCoroutines.Editor"
+        "SceneTransitionSystemAssembly"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
