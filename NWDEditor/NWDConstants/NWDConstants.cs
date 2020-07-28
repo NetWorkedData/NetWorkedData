@@ -321,7 +321,8 @@ namespace NetWorkedData
 
         public const string K_APP_BASIS_WARNING_ZONE = "WARNING ZONE";
         public const string K_APP_BASIS_DELETE = "Delete";
-        public const string K_APP_BASIS_PULL_FROM_SERVER = "Restaure";
+        public const string K_APP_BASIS_PULL_FROM_SERVER = "Pull";
+        public const string K_APP_BASIS_PUSH_TO_SERVER = "Push";
         public const string K_APP_BASIS_DELETE_WARNING = "Warning";
         public const string K_APP_BASIS_DELETE_MESSAGE = "Do you want to delete this object?";
         public const string K_APP_BASIS_DELETE_OK = "Delete it";

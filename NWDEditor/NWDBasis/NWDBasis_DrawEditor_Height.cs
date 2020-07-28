@@ -244,7 +244,7 @@ namespace NetWorkedData
             }
             if (tDraw == true)
             {
-                tH = NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 4, false) + NWDGUI.kFieldMarge;
+                tH = NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 7, false) + NWDGUI.kFieldMarge;
             }
             if (sWithScrollview == true)
             {

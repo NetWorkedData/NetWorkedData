@@ -1017,8 +1017,8 @@ namespace NetWorkedData
                 }
                 NWDGUI.Line(NWDGUI.UnMargeLeftRight(tActionRectO));//, Color.yellow);
                 Rect tActionRect = new Rect(tActionRectO.x, tActionRectO.y + NWDGUI.kFieldMarge, tActionRectO.width, tActionRectO.height - NWDGUI.kFieldMarge);
-                Rect[,] tMatrixRect = NWDGUI.DiviseArea(tActionRect, 4, 4, true);
-                GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, tLine], tMatrixRect[3, tLine]), NWDConstants.K_APP_BASIS_ACTION_ZONE, NWDGUI.kBoldLabelStyle);
+                Rect[,] tMatrixRect = NWDGUI.DiviseArea(tActionRect, 3, 7, true);
+                GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, tLine], tMatrixRect[2, tLine]), NWDConstants.K_APP_BASIS_ACTION_ZONE, NWDGUI.kBoldLabelStyle);
                 tLine++;
                 if (GUI.Button(tMatrixRect[0, tLine], NWDConstants.K_BUTTON_EDITOR_NODAL, NWDGUI.kMiniButtonStyle))
                 {
@@ -1031,34 +1031,11 @@ namespace NetWorkedData
                     UpdateData(true, NWDWritingMode.ByEditorDefault);
                     NWDDataManager.SharedInstance().DataQueueExecute();
                 }
-                if (GUI.Button(tMatrixRect[2, tLine], NWDConstants.K_APP_BASIS_DUPPLICATE, NWDGUI.kMiniButtonStyle))
-                {
-                    UpdateDataIfModified(true, NWDWritingMode.ByEditorDefault);
-                    NWDTypeClass tNexObject = NWDBasisHelper.DuplicateData(this, true, NWDWritingMode.ByEditorDefault);
-                    if (BasisHelper().m_SearchTag != NWDBasisTag.NoTag)
-                    {
-                        tNexObject.Tag = BasisHelper().m_SearchTag;
-                        tNexObject.UpdateData();
-                    }
-                    BasisHelper().SetObjectInEdition(tNexObject);
-                    BasisHelper().m_PageSelected = BasisHelper().m_MaxPage * 3;
-                    NWDDataManager.SharedInstance().DataQueueExecute();
-                }
-                //if (GUI.Button(tMatrixRect[3, tLine], NWDConstants.K_APP_BASIS_RESELECT, NWDGUI.kMiniButtonStyle))
-                //{
-                //    foreach (NWDTypeWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(ClassType()))
-                //    {
-                //        tWindow.Focus();
-                //        tWindow.SelectTab(ClassType());
-                //    }
-                //    BasisHelper().SetObjectInEdition(this, false, true);
-                //    BasisHelper().ChangeScroolPositionToSelection();
-                //}
 
                 EditorGUI.BeginDisabledGroup(IsTrashed());
                 if (AC == false)
                 {
-                    if (GUI.Button(tMatrixRect[3, tLine], NWDConstants.K_APP_BASIS_REACTIVE, NWDGUI.kMiniButtonStyle))
+                    if (GUI.Button(tMatrixRect[2, tLine], NWDConstants.K_APP_BASIS_REACTIVE, NWDGUI.kMiniButtonStyle))
                     {
 
                         if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_REACTIVE_WARNING,
@@ -1073,7 +1050,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    if (GUI.Button(tMatrixRect[3, tLine], NWDConstants.K_APP_BASIS_DISACTIVE, NWDGUI.kMiniButtonStyle))
+                    if (GUI.Button(tMatrixRect[2, tLine], NWDConstants.K_APP_BASIS_DISACTIVE, NWDGUI.kMiniButtonStyle))
                     {
                         DisableData();
                     }
@@ -1081,7 +1058,7 @@ namespace NetWorkedData
                 EditorGUI.EndDisabledGroup();
                 EditorGUI.EndDisabledGroup();
                 tLine++;
-                GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, tLine], tMatrixRect[3, tLine]), NWDConstants.K_APP_BASIS_WARNING_ZONE, NWDGUI.kBoldLabelStyle);
+                GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, tLine], tMatrixRect[2, tLine]), NWDConstants.K_APP_BASIS_WARNING_ZONE, NWDGUI.kBoldLabelStyle);
                 tLine++;
                 NWDGUI.BeginRedArea();
 
@@ -1127,24 +1104,174 @@ namespace NetWorkedData
                         BasisHelper().RepaintTableEditor();
                     }
                 }
+                if (GUI.Button(tMatrixRect[2, tLine], NWDConstants.K_APP_BASIS_DUPPLICATE, NWDGUI.kMiniButtonStyle))
+                {
+                    UpdateDataIfModified(true, NWDWritingMode.ByEditorDefault);
+                    NWDTypeClass tNexObject = NWDBasisHelper.DuplicateData(this, true, NWDWritingMode.ByEditorDefault);
+                    if (BasisHelper().m_SearchTag != NWDBasisTag.NoTag)
+                    {
+                        tNexObject.Tag = BasisHelper().m_SearchTag;
+                        tNexObject.UpdateData();
+                    }
+                    BasisHelper().SetObjectInEdition(tNexObject);
+                    BasisHelper().m_PageSelected = BasisHelper().m_MaxPage * 3;
+                    NWDDataManager.SharedInstance().DataQueueExecute();
+                }
+                tLine++;
 
                 // TODO Change!!! .... we need restaure from environment!!!
-                //if (GUI.Button(tMatrixRect[2, tLine], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.kMiniButtonStyle))
-                //{
-                //    //if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_DELETE_WARNING,
-                //    //        NWDConstants.K_APP_BASIS_DELETE_MESSAGE,
-                //    //        NWDConstants.K_APP_BASIS_DELETE_OK,
-                //    //        NWDConstants.K_APP_BASIS_DELETE_CANCEL))
-                //    //{
-                //    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
-                //    tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
-                //    NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate {
-                //        BasisHelper().RepaintTableEditor();
-                //    });
-                //    //}
-                //}
+
+                NWDGUI.EndRedArea();
+
+                GUI.Label(tMatrixRect[0, tLine], NWDConstants.K_DEVELOPMENT_NAME, NWDGUI.KTableSearchTitle);
+                GUI.Label(tMatrixRect[1, tLine], NWDConstants.K_PREPRODUCTION_NAME, NWDGUI.KTableSearchTitle);
+                GUI.Label(tMatrixRect[2, tLine], NWDConstants.K_PRODUCTION_NAME, NWDGUI.KTableSearchTitle);
+
+                tLine++;
+
+                NWDGUI.BeginRedArea();
+
+                if (BasisHelper().TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable
+                    //&& DevSync >= 0
+                    )
+                {
+                    if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
+                    {
+                        if (DS > 0 && DevSync == 1)
+                        {
+                            if (GUI.Button(tMatrixRect[0, tLine], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER + " " + NWDConstants.K_DEVELOPMENT_NAME, NWDGUI.kMiniButtonStyle))
+                            {
+                                GUI.FocusControl(null);
+                                Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                                tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
+                                NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate
+                                {
+                                    BasisHelper().RepaintTableEditor();
+                                }, null, null, null, false, NWDAppConfiguration.SharedInstance().DevEnvironment);
+                            }
+                        }
+                        //if (GUI.Button(tMatrixRect[0, tLine + 1], NWDConstants.K_APP_BASIS_PUSH_TO_SERVER + " " + NWDConstants.K_DEVELOPMENT_NAME, NWDGUI.kMiniButtonStyle))
+                        //{
+                        //}
+                        GUI.Label(tMatrixRect[0, tLine + 1], "push in dev", NWDGUI.KTableSearchTitle);
+                    }
+                    else
+                    {
+
+                        GUI.Label(tMatrixRect[0, tLine], "no config", NWDGUI.kNoConfigStyle);
+                    }
+                }
+                else
+                {
+                    GUI.Label(tMatrixRect[0, tLine], "sync forbidden", NWDGUI.kNoConfigStyle);
+                }
+
+                if (BasisHelper().TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable
+                    // && PreprodSync >= 0
+                    )
+                {
+                    if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
+                    {
+                        if (DS > 0 && PreprodSync == 1)
+                        {
+                            if (GUI.Button(tMatrixRect[1, tLine], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER + " " + NWDConstants.K_PREPRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
+                            {
+                                GUI.FocusControl(null);
+                                Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                                tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
+                                NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate
+                                {
+                                    BasisHelper().RepaintTableEditor();
+                                }, null, null, null, false, NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                            }
+                        }
+                        //if (GUI.Button(tMatrixRect[1, tLine + 1], NWDConstants.K_APP_BASIS_PUSH_TO_SERVER + " " + NWDConstants.K_PREPRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
+                        //{
+                        //}
+                        GUI.Label(tMatrixRect[1, tLine + 1], "push in dev", NWDGUI.KTableSearchTitle);
+                    }
+                    else
+                    {
+
+                        GUI.Label(tMatrixRect[1, tLine], "no config", NWDGUI.kNoConfigStyle);
+                    }
+                }
+                else
+                {
+                    GUI.Label(tMatrixRect[1, tLine], "sync forbidden", NWDGUI.kNoConfigStyle);
+                }
+
+                if (BasisHelper().TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable && BasisHelper().TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent
+                    // && ProdSync >= 0
+                    )
+                {
+                    if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
+                    {
+                        if (DS > 0 && ProdSync == 1)
+                        {
+                            if (GUI.Button(tMatrixRect[2, tLine], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER + " " + NWDConstants.K_PRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
+                            {
+                                GUI.FocusControl(null);
+                                Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                                tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
+                                NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate
+                                {
+                                    BasisHelper().RepaintTableEditor();
+                                }, null, null, null, false, NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                            }
+                        }
+                        //if (GUI.Button(tMatrixRect[2, tLine + 1], NWDConstants.K_APP_BASIS_PUSH_TO_SERVER + " " + NWDConstants.K_PRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
+                        //{
+                        //}
+                        GUI.Label(tMatrixRect[2, tLine + 1], "push in dev", NWDGUI.KTableSearchTitle);
+                    }
+                    else
+                    {
+
+                        GUI.Label(tMatrixRect[2, tLine], "no config", NWDGUI.kNoConfigStyle);
+                    }
+                }
+                else
+                {
+                    GUI.Label(tMatrixRect[2, tLine], "sync forbidden", NWDGUI.kNoConfigStyle);
+                }
 
 
+
+
+
+                /*
+
+
+                if (GUI.Button(tMatrixRect[0, tLine], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER + " Dev", NWDGUI.kMiniButtonStyle))
+                {
+                    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                    tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
+                    NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate
+                    {
+                        BasisHelper().RepaintTableEditor();
+                    });
+                }
+                if (GUI.Button(tMatrixRect[1, tLine], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER + " Preprod", NWDGUI.kMiniButtonStyle))
+                {
+                    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                    tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
+                    NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate
+                    {
+                        BasisHelper().RepaintTableEditor();
+                    });
+                }
+                if (GUI.Button(tMatrixRect[2, tLine], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER + " Prod", NWDGUI.kMiniButtonStyle))
+                {
+                    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                    tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
+                    NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate
+                    {
+                        BasisHelper().RepaintTableEditor();
+                    });
+                }
+
+                */
 
                 //if (GUI.Button(tMatrixRect[2, tLine], NWDConstants.K_APP_BASIS_NEW_SHORT_REFERENCE, NWDGUI.kMiniButtonStyle))
                 //{
