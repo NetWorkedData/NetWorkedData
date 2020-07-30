@@ -1152,7 +1152,7 @@ namespace NetWorkedData
 
                             }
                         }
-                        if (DS > 0 && DevSync == 1)
+                        if ((DevSync == 0 || DevSync ==1))
                         {
                             if (GUI.Button(tMatrixRect[0, tLine + 1], NWDConstants.K_APP_BASIS_PUSH_TO_SERVER + " " + NWDConstants.K_DEVELOPMENT_NAME, NWDGUI.kMiniButtonStyle))
                             {
@@ -1202,7 +1202,7 @@ namespace NetWorkedData
                                 BasisHelper().PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().PreprodEnvironment, tTypeAndReferences);
                             }
                         }
-                        if (DS > 0 && PreprodSync == 1)
+                        if ((PreprodSync == 0 || PreprodSync == 1))
                         {
                             if (GUI.Button(tMatrixRect[1, tLine + 1], NWDConstants.K_APP_BASIS_PUSH_TO_SERVER + " " + NWDConstants.K_PREPRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
                             {
@@ -1252,7 +1252,7 @@ namespace NetWorkedData
                                 BasisHelper().PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().ProdEnvironment, tTypeAndReferences);
                             }
                         }
-                        if (DS > 0 && ProdSync == 1)
+                        if ((ProdSync == 0 || ProdSync == 1))
                         {
                             if (GUI.Button(tMatrixRect[2, tLine + 1], NWDConstants.K_APP_BASIS_PUSH_TO_SERVER + " " + NWDConstants.K_PRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
                             {

@@ -137,36 +137,39 @@ namespace NetWorkedData
                 tDisableProd = true;
             }
 
+            if (DS == 0)
+            {
+                ImageSync = NWDGUI.NWDSyncGeneralRequired;
+            }
+
             if (DevSync < 0 && PreprodSync < 0 && (ProdSync < 0 || tDisableProd == true))
             {
                 ImageSync = NWDGUI.kImageSyncGeneralForbidden;
+                AnalyzeSync = KSyncForbidden;
             }
             else
             {
                 if (DS > 0)
                 {
-                    if (DevSync > 1 && PreprodSync < 1 && ProdSync < 1 && DS == DevSync)
+                   
+                    if (DevSync > 1 && PreprodSync > 1 && ProdSync > 1)
                     {
                         ImageSync = NWDGUI.kImageSyncGeneralSuccessed;
                         AnalyzeSync = KSyncSuccessed;
                     }
-                    else if (DevSync > 1 && PreprodSync > 1 && ProdSync < 1 && (DS == DevSync || DS == PreprodSync))
-                    {
-                        ImageSync = NWDGUI.kImageSyncGeneralSuccessed;
-                        AnalyzeSync = KSyncSuccessed;
-                    }
-                    else if (DS < DM)
+                    if (DevSync > PreprodSync || PreprodSync > ProdSync || DevSync > ProdSync)
                     {
                         ImageSync = NWDGUI.kImageSyncGeneralForward;
                         AnalyzeSync = KSyncForward;
                     }
-                    else
+                    if (DS < DM)
                     {
                         ImageSync = NWDGUI.kImageSyncGeneralWaiting;
                         AnalyzeSync = KSyncWaiting;
                     }
                 }
             }
+
             if (DevSync == 0)
             {
                 ImageDevSync = NWDGUI.kImageSyncRequired;
@@ -417,7 +420,7 @@ namespace NetWorkedData
                 - NWDGUI.kTablePrefabWidth * sZoom
                 - NWDGUI.KTableSearchWidth
                 - NWDGUI.KTableReferenceWidth
-                - NWDGUI.KTableRowWebModelWidth*2
+                - NWDGUI.KTableRowWebModelWidth * 2
                 - NWDGUI.kTableIconWidth * 5;
 
             if (BasisHelper().TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)

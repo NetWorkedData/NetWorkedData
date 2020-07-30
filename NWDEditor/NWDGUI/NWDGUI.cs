@@ -75,6 +75,7 @@ namespace NetWorkedData
 
         public static Texture2D kImageSyncForbidden = NWDFindPackage.PackageEditor("NWDSyncForbidden");
         public static Texture2D kImageSyncGeneralForbidden = NWDFindPackage.PackageEditor("NWDSyncGeneralForbidden");
+        public static Texture2D NWDSyncGeneralRequired = NWDFindPackage.PackageEditor("NWDSyncGeneralRequired");
         public static Texture2D kImageRed = NWDFindPackage.PackageEditor("NWDRed");
         public static Texture2D kImageGreen = NWDFindPackage.PackageEditor("NWDGreen");
         public static Texture2D kImageSyncRequired = NWDFindPackage.PackageEditor("NWDSyncRequired");
