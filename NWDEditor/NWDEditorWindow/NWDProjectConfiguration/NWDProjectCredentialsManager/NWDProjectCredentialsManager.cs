@@ -34,10 +34,6 @@ namespace NetWorkedData
         ForSFTPGenerateDev,
         ForSFTPGeneratePreprod,
         ForSFTPGenerateProd,
-        //ForDevSync,
-        //ForPreprodSync,
-        //ForProdSync,
-        //Both,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDProjectCredentialsManager : NWDEditorWindow
@@ -95,14 +91,9 @@ namespace NetWorkedData
                     break;
                 case NWDCredentialsRequired.ForSFTPGenerateProd:
                     {
-                        //rReturn = string.IsNullOrEmpty(Password) == false && string.IsNullOrEmpty(VectorString) == false;
+                        rReturn = string.IsNullOrEmpty(Password) == false && string.IsNullOrEmpty(VectorString) == false;
                     }
                     break;
-                    //case NWDCredentialsRequired.Both:
-                    //    {
-                    //        rReturn = string.IsNullOrEmpty(Password) == false && string.IsNullOrEmpty(VectorString) == false;
-                    //    }
-                    //    break;
             }
             return rReturn;
         }

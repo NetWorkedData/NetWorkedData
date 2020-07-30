@@ -888,12 +888,13 @@ namespace NetWorkedData
         {
             Debug.Log("OperationSynchroAllClasses () with Operation " + sOperation.ToString());
             //NWDBenchmark.Start(sOperation.ToString());
-            OperationSynchro(sEnvironment, NWDDataManager.SharedInstance().ClassSynchronizeList, sForceSync, sPriority, sOperation);
+            OperationSynchro(sEnvironment, NWDDataManager.SharedInstance().ClassSynchronizeList, null, sForceSync, sPriority, sOperation);
             //NWDBenchmark.Finish(sOperation.ToString());       
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OperationSynchro(NWDAppEnvironment sEnvironment,
                                            List<Type> sTypeList = null,
+                                           Dictionary<Type, List<string>> sTypeAndReferences = null,
                                            bool sForceSync = false,
                                            bool sPriority = false,
                                            NWDOperationSpecial sOperation = NWDOperationSpecial.None)
@@ -921,7 +922,7 @@ namespace NetWorkedData
                     EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                 }
                 StartProcess(sEnvironment);
-                NWDOperationWebSynchronisation.AddOperation("App Environnement Sync " + sOperation.ToString(), SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, null, sForceSync, sPriority, sOperation);
+                NWDOperationWebSynchronisation.AddOperation("App Environnement Sync " + sOperation.ToString(), SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, sTypeAndReferences, sForceSync, sPriority, sOperation);
             }
             //NWDBenchmark.Finish();
         }

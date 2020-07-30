@@ -1144,10 +1144,12 @@ namespace NetWorkedData
                                 GUI.FocusControl(null);
                                 Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
                                 tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
-                                NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate
-                                {
-                                    BasisHelper().RepaintTableEditor();
-                                }, null, null, null, false, NWDAppConfiguration.SharedInstance().DevEnvironment);
+                                //NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate
+                                //{
+                                //    BasisHelper().RepaintTableEditor();
+                                //}, null, null, null, false, NWDAppConfiguration.SharedInstance().DevEnvironment);
+                                BasisHelper().PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().DevEnvironment, tTypeAndReferences);
+
                             }
                         }
                         if (DS > 0 && DevSync == 1)
@@ -1157,10 +1159,11 @@ namespace NetWorkedData
                                 GUI.FocusControl(null);
                                 Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
                                 tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
-                                NWDDataManager.SharedInstance().AddWebRequestPushReferencesWithBlock(tTypeAndReferences, delegate
-                                {
-                                    BasisHelper().RepaintTableEditor();
-                                }, null, null, null, false, NWDAppConfiguration.SharedInstance().DevEnvironment);
+                                //NWDDataManager.SharedInstance().AddWebRequestPushReferencesWithBlock(tTypeAndReferences, delegate
+                                //{
+                                //    BasisHelper().RepaintTableEditor();
+                                //}, null, null, null, false, NWDAppConfiguration.SharedInstance().DevEnvironment);
+                                BasisHelper().PushFromWebServiceReferences(NWDAppConfiguration.SharedInstance().DevEnvironment, tTypeAndReferences);
                             }
                         }
                         else
@@ -1192,10 +1195,11 @@ namespace NetWorkedData
                                 GUI.FocusControl(null);
                                 Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
                                 tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
-                                NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate
-                                {
-                                    BasisHelper().RepaintTableEditor();
-                                }, null, null, null, false, NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                                //NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate
+                                //{
+                                //    BasisHelper().RepaintTableEditor();
+                                //}, null, null, null, false, NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                                BasisHelper().PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().PreprodEnvironment, tTypeAndReferences);
                             }
                         }
                         if (DS > 0 && PreprodSync == 1)
@@ -1205,10 +1209,11 @@ namespace NetWorkedData
                                 GUI.FocusControl(null);
                                 Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
                                 tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
-                                NWDDataManager.SharedInstance().AddWebRequestPushReferencesWithBlock(tTypeAndReferences, delegate
-                                {
-                                    BasisHelper().RepaintTableEditor();
-                                }, null, null, null, false, NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                                //NWDDataManager.SharedInstance().AddWebRequestPushReferencesWithBlock(tTypeAndReferences, delegate
+                                //{
+                                //    BasisHelper().RepaintTableEditor();
+                                //}, null, null, null, false, NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                                BasisHelper().PushFromWebServiceReferences(NWDAppConfiguration.SharedInstance().PreprodEnvironment, tTypeAndReferences);
                             }
                         }
                         else
@@ -1240,10 +1245,11 @@ namespace NetWorkedData
                                 GUI.FocusControl(null);
                                 Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
                                 tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
-                                NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate
-                                {
-                                    BasisHelper().RepaintTableEditor();
-                                }, null, null, null, false, NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                                //NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate
+                                //{
+                                //    BasisHelper().RepaintTableEditor();
+                                //}, null, null, null, false, NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                                BasisHelper().PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().ProdEnvironment, tTypeAndReferences);
                             }
                         }
                         if (DS > 0 && ProdSync == 1)
@@ -1253,10 +1259,11 @@ namespace NetWorkedData
                                 GUI.FocusControl(null);
                                 Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
                                 tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
-                                NWDDataManager.SharedInstance().AddWebRequestPushReferencesWithBlock(tTypeAndReferences, delegate
-                                {
-                                    BasisHelper().RepaintTableEditor();
-                                }, null, null, null, false, NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                                //NWDDataManager.SharedInstance().AddWebRequestPushReferencesWithBlock(tTypeAndReferences, delegate
+                                //{
+                                //    BasisHelper().RepaintTableEditor();
+                                //}, null, null, null, false, NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                                BasisHelper().PushFromWebServiceReferences(NWDAppConfiguration.SharedInstance().ProdEnvironment, tTypeAndReferences);
                             }
                         }
                         else

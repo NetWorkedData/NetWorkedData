@@ -1271,7 +1271,7 @@ namespace NetWorkedData
                             tFile.AppendLine("foreach($tResult['datas'][$tConnexionKey] as $tRow)");
                             tFile.AppendLine("{");
                             {
-                                tFile.AppendLine("$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
+                                tFile.AppendLine("$r = implode('|',$tRow); if (in_array($r,$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "']) == false){$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'][] = $r;};");
 
                                 tFile.Append(AddonPhpGetCalculate(sEnvironment));
                             }
@@ -1364,7 +1364,7 @@ namespace NetWorkedData
                             tFile.AppendLine("foreach($tResult['datas'][$tConnexionKey] as $tRow)");
                             tFile.AppendLine("{");
                             {
-                                tFile.AppendLine("$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
+                                tFile.AppendLine("$r = implode('|',$tRow); if (in_array($r,$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "']) == false){$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'][] = $r;};");
 
                                 tFile.Append(AddonPhpGetCalculate(sEnvironment));
                             }
@@ -1470,7 +1470,7 @@ namespace NetWorkedData
                             tFile.AppendLine("foreach($tResult['datas'][$tConnexionKey] as $tRow)");
                             tFile.AppendLine("{");
                             {
-                                tFile.AppendLine("$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
+                                tFile.AppendLine("$r = implode('|',$tRow); if (in_array($r,$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "']) == false){$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'][] = $r;};");
 
                                 tFile.Append(AddonPhpGetCalculate(sEnvironment));
                             }
@@ -1490,7 +1490,7 @@ namespace NetWorkedData
 
 
             tFile.AppendLine("// " + PHP_FUNCTION_SPECIAL() + "");
-            tFile.AppendLine("function " + PHP_FUNCTION_SPECIAL() + " ($sTimeStamp, $sAccountReferences)");
+            tFile.AppendLine("function " + PHP_FUNCTION_SPECIAL() + " ($sAccountReferences)");
             tFile.AppendLine("{");
             //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global $WSBUILD, " + NWD.K_ENV + ", " + NWD.K_NWD_SLT_SRV + ", " + NWD.K_PHP_TIME_SYNC + ", $NWD_FLOAT_FORMAT, $ACC_NEEDED, " + NWD.K_PATH_BASE + ", $REF_NEEDED, $REP;");
@@ -1541,7 +1541,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
             tFile.AppendLine("{");
-            tFile.AppendLine("" + PHP_FUNCTION_SPECIAL() + " ($sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "'], $tAccountReferenceSure);");
+            tFile.AppendLine("" + PHP_FUNCTION_SPECIAL() + " ($tAccountReferenceSure);");
             tFile.AppendLine(NWDError.PHP_log(sEnvironment, "SPECIAL : SPECIAL"));
             tFile.AppendLine("}");
             tFile.AppendLine("}");

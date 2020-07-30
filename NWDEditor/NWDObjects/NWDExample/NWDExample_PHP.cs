@@ -98,7 +98,7 @@ namespace NetWorkedData
         {
             StringBuilder rReturn = new StringBuilder();
             rReturn.Append(base.AddonPhpSpecialCalculate(sEnvironment));
-            rReturn.AppendLine("// in function " + PHP_FUNCTION_SPECIAL() + " ($sTimeStamp, $sAccountReferences)");
+            rReturn.AppendLine("// in function " + PHP_FUNCTION_SPECIAL() + " ($sAccountReferences)");
             rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassNamePHP + " Special'] ='success!!!';");
             rReturn.AppendLine("// use public override string  AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)");
             return rReturn.ToString();
