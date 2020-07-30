@@ -437,7 +437,7 @@ namespace NetWorkedData
                     //}
 
                     if (tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID)
-                        //&& tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference)
+                       //&& tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference)
                        && tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DM)
                        && tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DC)
                        && tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().AC)
@@ -1652,7 +1652,14 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
             tFile.AppendLine("{");
+            tFile.AppendLine("if (isset($sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "']))");
+            tFile.AppendLine("{");
             tFile.AppendLine("" + PHP_FUNCTION_UPDATE_DATA() + " ($sCsvValue, $sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "'], $tAccountReferenceSure, $sAdmin);");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("" + PHP_FUNCTION_UPDATE_DATA() + " ($sCsvValue, " + NWD.K_PHP_TIME_SYNC + ", $tAccountReferenceSure, $sAdmin);");
+            tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("}");

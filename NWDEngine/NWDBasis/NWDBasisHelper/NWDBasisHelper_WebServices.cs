@@ -267,6 +267,27 @@ namespace NetWorkedData
                     }
                 }
             }
+            if (sSpecial == NWDOperationSpecial.PushReference)
+            {
+                // addd reference in result
+                if (sTypeAndReferences.ContainsKey(ClassType))
+                {
+                    foreach (string tReference in sTypeAndReferences[ClassType])
+                    {
+                        NWDTypeClass tObject = GetDataByReference(tReference);
+                        if (tObject != null)
+                        {
+                            LoadFromDatabaseByReference(tReference, false);
+                        }
+                        if (tObject != null)
+                        {
+                            tResults.Add(tObject);
+                        }
+                    }
+                }
+            }
+
+
             if (tResults != null)
             {
                 foreach (NWDTypeClass tItem in tResults)
@@ -332,6 +353,14 @@ namespace NetWorkedData
                 rSendDatas.Add(sSpecial.ToString().ToLower(), "true");
             }
             else if (sSpecial == NWDOperationSpecial.PullReference)
+            {
+                if (sTypeAndReferences.ContainsKey(ClassType))
+                {
+                    rSendDatas.Add(NWD.K_WEB_ACTION_REF_KEY, sTypeAndReferences[ClassType]);
+                    rSendDatas.Add(sSpecial.ToString().ToLower(), "true");
+                }
+            }
+            else if (sSpecial == NWDOperationSpecial.PushReference)
             {
                 if (sTypeAndReferences.ContainsKey(ClassType))
                 {

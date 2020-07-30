@@ -235,6 +235,8 @@ namespace NetWorkedData
             }
 
             NWDCluster tNWDCluster = NWDCluster.SelectClusterforEnvironment(this);
+            // prevent null effect
+            tNWDCluster.NotNullChecker();
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("// CONSTANT FOR EREG");
             tConstantsFile.AppendLine("$ereg_os = '/^(editor|unity|ios|osx|android|web|win|wp8|ps3|ps4|psp|switch)$/';");

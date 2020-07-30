@@ -46,6 +46,7 @@ namespace NetWorkedData
         Pull = 5,
 
         PullReference = 6,
+        PushReference = 7,
 
         Indexes = 8,
     }
@@ -116,7 +117,7 @@ namespace NetWorkedData
                 {
                     sTypeList = new List<Type>();
                     rReturn.TypeAndReferences = new Dictionary<Type, List<string>>();
-                    rReturn.Special = NWDOperationSpecial.PullReference;
+                    //rReturn.Special = NWDOperationSpecial.PullReference;
                     foreach (KeyValuePair<Type, List<string>> tKeyValue in sTypeAndReferences)
                     {
                         NWDBasisHelper tHelperSync = NWDBasisHelper.FindTypeInfos(tKeyValue.Key);

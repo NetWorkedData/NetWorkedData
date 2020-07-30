@@ -1137,7 +1137,7 @@ namespace NetWorkedData
                 {
                     if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
                     {
-                        if (DS > 0 && DevSync == 1)
+                        //if (DS > 0 && DevSync == 1)
                         {
                             if (GUI.Button(tMatrixRect[0, tLine], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER + " " + NWDConstants.K_DEVELOPMENT_NAME, NWDGUI.kMiniButtonStyle))
                             {
@@ -1150,10 +1150,23 @@ namespace NetWorkedData
                                 }, null, null, null, false, NWDAppConfiguration.SharedInstance().DevEnvironment);
                             }
                         }
-                        //if (GUI.Button(tMatrixRect[0, tLine + 1], NWDConstants.K_APP_BASIS_PUSH_TO_SERVER + " " + NWDConstants.K_DEVELOPMENT_NAME, NWDGUI.kMiniButtonStyle))
-                        //{
-                        //}
-                        GUI.Label(tMatrixRect[0, tLine + 1], "push in dev", NWDGUI.KTableSearchTitle);
+                        if (DS > 0 && DevSync == 1)
+                        {
+                            if (GUI.Button(tMatrixRect[0, tLine + 1], NWDConstants.K_APP_BASIS_PUSH_TO_SERVER + " " + NWDConstants.K_DEVELOPMENT_NAME, NWDGUI.kMiniButtonStyle))
+                            {
+                                GUI.FocusControl(null);
+                                Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                                tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
+                                NWDDataManager.SharedInstance().AddWebRequestPushReferencesWithBlock(tTypeAndReferences, delegate
+                                {
+                                    BasisHelper().RepaintTableEditor();
+                                }, null, null, null, false, NWDAppConfiguration.SharedInstance().DevEnvironment);
+                            }
+                        }
+                        else
+                        {
+                            GUI.Label(tMatrixRect[0, tLine + 1], ImageDevSync, NWDGUI.KTableRowStatut);
+                        }
                     }
                     else
                     {
@@ -1172,7 +1185,7 @@ namespace NetWorkedData
                 {
                     if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
                     {
-                        if (DS > 0 && PreprodSync == 1)
+                        //if (DS > 0 && PreprodSync == 1)
                         {
                             if (GUI.Button(tMatrixRect[1, tLine], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER + " " + NWDConstants.K_PREPRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
                             {
@@ -1185,10 +1198,23 @@ namespace NetWorkedData
                                 }, null, null, null, false, NWDAppConfiguration.SharedInstance().PreprodEnvironment);
                             }
                         }
-                        //if (GUI.Button(tMatrixRect[1, tLine + 1], NWDConstants.K_APP_BASIS_PUSH_TO_SERVER + " " + NWDConstants.K_PREPRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
-                        //{
-                        //}
-                        GUI.Label(tMatrixRect[1, tLine + 1], "push in dev", NWDGUI.KTableSearchTitle);
+                        if (DS > 0 && PreprodSync == 1)
+                        {
+                            if (GUI.Button(tMatrixRect[1, tLine + 1], NWDConstants.K_APP_BASIS_PUSH_TO_SERVER + " " + NWDConstants.K_PREPRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
+                            {
+                                GUI.FocusControl(null);
+                                Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                                tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
+                                NWDDataManager.SharedInstance().AddWebRequestPushReferencesWithBlock(tTypeAndReferences, delegate
+                                {
+                                    BasisHelper().RepaintTableEditor();
+                                }, null, null, null, false, NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                            }
+                        }
+                        else
+                        {
+                            GUI.Label(tMatrixRect[1, tLine + 1], ImagePreprodSync, NWDGUI.KTableRowStatut);
+                        }
                     }
                     else
                     {
@@ -1207,7 +1233,7 @@ namespace NetWorkedData
                 {
                     if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
                     {
-                        if (DS > 0 && ProdSync == 1)
+                        //if (DS > 0 && ProdSync == 1)
                         {
                             if (GUI.Button(tMatrixRect[2, tLine], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER + " " + NWDConstants.K_PRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
                             {
@@ -1220,10 +1246,23 @@ namespace NetWorkedData
                                 }, null, null, null, false, NWDAppConfiguration.SharedInstance().ProdEnvironment);
                             }
                         }
-                        //if (GUI.Button(tMatrixRect[2, tLine + 1], NWDConstants.K_APP_BASIS_PUSH_TO_SERVER + " " + NWDConstants.K_PRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
-                        //{
-                        //}
-                        GUI.Label(tMatrixRect[2, tLine + 1], "push in dev", NWDGUI.KTableSearchTitle);
+                        if (DS > 0 && ProdSync == 1)
+                        {
+                            if (GUI.Button(tMatrixRect[2, tLine + 1], NWDConstants.K_APP_BASIS_PUSH_TO_SERVER + " " + NWDConstants.K_PRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
+                            {
+                                GUI.FocusControl(null);
+                                Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                                tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
+                                NWDDataManager.SharedInstance().AddWebRequestPushReferencesWithBlock(tTypeAndReferences, delegate
+                                {
+                                    BasisHelper().RepaintTableEditor();
+                                }, null, null, null, false, NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                            }
+                        }
+                        else
+                        {
+                            GUI.Label(tMatrixRect[2, tLine + 1], ImageProdSync, NWDGUI.KTableRowStatut);
+                        }
                     }
                     else
                     {
