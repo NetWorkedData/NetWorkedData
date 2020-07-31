@@ -718,6 +718,11 @@ namespace NetWorkedData
                 //}
 
 
+
+                #region Begin environment toggle
+                /*
+
+
                 bool tDisableDev = false;
                 bool tDisablePreprod = false;
                 bool tDisableProd = false;
@@ -894,6 +899,11 @@ namespace NetWorkedData
                     UpdateData();
                     BasisHelper().RepaintTableEditor();
                 }
+
+
+                */
+                #endregion
+
                 tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
 
                 EditorGUI.EndDisabledGroup();
@@ -1017,7 +1027,7 @@ namespace NetWorkedData
                 }
                 NWDGUI.Line(NWDGUI.UnMargeLeftRight(tActionRectO));//, Color.yellow);
                 Rect tActionRect = new Rect(tActionRectO.x, tActionRectO.y + NWDGUI.kFieldMarge, tActionRectO.width, tActionRectO.height - NWDGUI.kFieldMarge);
-                Rect[,] tMatrixRect = NWDGUI.DiviseArea(tActionRect, 3, 7, true);
+                Rect[,] tMatrixRect = NWDGUI.DiviseArea(tActionRect, 3, 8, true);
                 GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, tLine], tMatrixRect[2, tLine]), NWDConstants.K_APP_BASIS_ACTION_ZONE, NWDGUI.kBoldLabelStyle);
                 tLine++;
                 if (GUI.Button(tMatrixRect[0, tLine], NWDConstants.K_BUTTON_EDITOR_NODAL, NWDGUI.kMiniButtonStyle))
@@ -1131,15 +1141,69 @@ namespace NetWorkedData
 
                 NWDGUI.BeginRedArea();
 
+
+                bool tDisableDev = false;
+                bool tDisablePreprod = false;
+                bool tDisableProd = false;
+                if (NWDDataManager.SharedInstance().ClassUnSynchronizeList.Contains(ClassType()))
+                {
+                    tDisableDev = true;
+                    tDisablePreprod = true;
+                    tDisableProd = true;
+                }
+                //if (AccountDependent() == true)
+                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+                {
+                    tDisableDev = true;
+                    tDisablePreprod = true;
+                    tDisableProd = true;
+                }
+
+                bool tDevLockAnalyze = false;
+                if (DevSync >= 0)
+                {
+                    tDevLockAnalyze = true;
+                }
+
+                bool tPreprodLockAnalyze = false;
+                if (PreprodSync >= 0)
+                {
+                    tPreprodLockAnalyze = true;
+                }
+
+                bool tProdLockAnalyze = false;
+                if (ProdSync >= 0)
+                {
+                    tProdLockAnalyze = true;
+                }
+                if (tDisableProd == true)
+                {
+                    tProdLockAnalyze = false;
+                }
+
+                bool tDevLock = tPreprodLockAnalyze;
+                bool tPreprodLock = tPreprodLockAnalyze;
+                bool tProdLock = tPreprodLockAnalyze;
+
+                EditorGUI.BeginDisabledGroup(tDisableDev);
+                if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
+                {
+                    tDevLock = EditorGUI.ToggleLeft(tMatrixRect[0, tLine], "Dev", tDevLockAnalyze);
+                }
+                else
+                {
+                    GUI.Label(tMatrixRect[0, tLine], "no Dev");
+                }
+                EditorGUI.EndDisabledGroup();
                 if (BasisHelper().TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable
                     //&& DevSync >= 0
                     )
                 {
                     if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
                     {
-                        //if (DS > 0 && DevSync == 1)
+                        if (DevSync > -1)
                         {
-                            if (GUI.Button(tMatrixRect[0, tLine], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER + " " + NWDConstants.K_DEVELOPMENT_NAME, NWDGUI.kMiniButtonStyle))
+                            if (GUI.Button(tMatrixRect[0, tLine + 1], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER + " " + NWDConstants.K_DEVELOPMENT_NAME, NWDGUI.kMiniButtonStyle))
                             {
                                 GUI.FocusControl(null);
                                 Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
@@ -1152,9 +1216,13 @@ namespace NetWorkedData
 
                             }
                         }
-                        if ((DevSync == 0 || DevSync ==1))
+                        else
                         {
-                            if (GUI.Button(tMatrixRect[0, tLine + 1], NWDConstants.K_APP_BASIS_PUSH_TO_SERVER + " " + NWDConstants.K_DEVELOPMENT_NAME, NWDGUI.kMiniButtonStyle))
+                            GUI.Label(tMatrixRect[0, tLine + 1], ImageDevSync, NWDGUI.KTableRowStatut);
+                        }
+                        if ((DevSync == 0 || DevSync == 1))
+                        {
+                            if (GUI.Button(tMatrixRect[0, tLine + 2], NWDConstants.K_APP_BASIS_PUSH_TO_SERVER + " " + NWDConstants.K_DEVELOPMENT_NAME, NWDGUI.kMiniButtonStyle))
                             {
                                 GUI.FocusControl(null);
                                 Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
@@ -1168,29 +1236,41 @@ namespace NetWorkedData
                         }
                         else
                         {
-                            GUI.Label(tMatrixRect[0, tLine + 1], ImageDevSync, NWDGUI.KTableRowStatut);
+                            GUI.Label(tMatrixRect[0, tLine + 2], ImageDevSync, NWDGUI.KTableRowStatut);
                         }
                     }
                     else
                     {
 
-                        GUI.Label(tMatrixRect[0, tLine], "no config", NWDGUI.kNoConfigStyle);
+                        GUI.Label(tMatrixRect[0, tLine + 1], "no config", NWDGUI.kNoConfigStyle);
                     }
                 }
                 else
                 {
-                    GUI.Label(tMatrixRect[0, tLine], "sync forbidden", NWDGUI.kNoConfigStyle);
+                    GUI.Label(tMatrixRect[0, tLine + 1], "sync forbidden", NWDGUI.kNoConfigStyle);
                 }
 
+
+
+                EditorGUI.BeginDisabledGroup(tDisablePreprod);
+                if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
+                {
+                    tPreprodLock = EditorGUI.ToggleLeft(tMatrixRect[1, tLine], "Preprod", tPreprodLockAnalyze);
+                }
+                else
+                {
+                    GUI.Label(tMatrixRect[1, tLine], "no Preprod");
+                }
+                EditorGUI.EndDisabledGroup();
                 if (BasisHelper().TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable
                     // && PreprodSync >= 0
                     )
                 {
                     if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
                     {
-                        //if (DS > 0 && PreprodSync == 1)
+                        if (PreprodSync > -1)
                         {
-                            if (GUI.Button(tMatrixRect[1, tLine], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER + " " + NWDConstants.K_PREPRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
+                            if (GUI.Button(tMatrixRect[1, tLine + 1], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER + " " + NWDConstants.K_PREPRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
                             {
                                 GUI.FocusControl(null);
                                 Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
@@ -1202,9 +1282,13 @@ namespace NetWorkedData
                                 BasisHelper().PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().PreprodEnvironment, tTypeAndReferences);
                             }
                         }
+                        else
+                        {
+                            GUI.Label(tMatrixRect[1, tLine + 1], ImagePreprodSync, NWDGUI.KTableRowStatut);
+                        }
                         if ((PreprodSync == 0 || PreprodSync == 1))
                         {
-                            if (GUI.Button(tMatrixRect[1, tLine + 1], NWDConstants.K_APP_BASIS_PUSH_TO_SERVER + " " + NWDConstants.K_PREPRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
+                            if (GUI.Button(tMatrixRect[1, tLine + 2], NWDConstants.K_APP_BASIS_PUSH_TO_SERVER + " " + NWDConstants.K_PREPRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
                             {
                                 GUI.FocusControl(null);
                                 Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
@@ -1218,29 +1302,41 @@ namespace NetWorkedData
                         }
                         else
                         {
-                            GUI.Label(tMatrixRect[1, tLine + 1], ImagePreprodSync, NWDGUI.KTableRowStatut);
+                            GUI.Label(tMatrixRect[1, tLine + 2], ImagePreprodSync, NWDGUI.KTableRowStatut);
                         }
                     }
                     else
                     {
 
-                        GUI.Label(tMatrixRect[1, tLine], "no config", NWDGUI.kNoConfigStyle);
+                        GUI.Label(tMatrixRect[1, tLine + 1], "no config", NWDGUI.kNoConfigStyle);
                     }
                 }
                 else
                 {
-                    GUI.Label(tMatrixRect[1, tLine], "sync forbidden", NWDGUI.kNoConfigStyle);
+                    GUI.Label(tMatrixRect[1, tLine + 1], "sync forbidden", NWDGUI.kNoConfigStyle);
                 }
 
+
+
+                EditorGUI.BeginDisabledGroup(tDisableProd);
+                if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
+                {
+                    tProdLock = EditorGUI.ToggleLeft(tMatrixRect[2, tLine], "Prod", tProdLockAnalyze);
+                }
+                else
+                {
+                    GUI.Label(tMatrixRect[2, tLine], "no Prod");
+                }
+                EditorGUI.EndDisabledGroup();
                 if (BasisHelper().TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable && BasisHelper().TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent
                     // && ProdSync >= 0
                     )
                 {
                     if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
                     {
-                        //if (DS > 0 && ProdSync == 1)
+                        if (ProdSync > -1)
                         {
-                            if (GUI.Button(tMatrixRect[2, tLine], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER + " " + NWDConstants.K_PRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
+                            if (GUI.Button(tMatrixRect[2, tLine + 1], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER + " " + NWDConstants.K_PRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
                             {
                                 GUI.FocusControl(null);
                                 Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
@@ -1252,9 +1348,13 @@ namespace NetWorkedData
                                 BasisHelper().PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().ProdEnvironment, tTypeAndReferences);
                             }
                         }
+                        else
+                        {
+                            GUI.Label(tMatrixRect[2, tLine + 1], ImageProdSync, NWDGUI.KTableRowStatut);
+                        }
                         if ((ProdSync == 0 || ProdSync == 1))
                         {
-                            if (GUI.Button(tMatrixRect[2, tLine + 1], NWDConstants.K_APP_BASIS_PUSH_TO_SERVER + " " + NWDConstants.K_PRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
+                            if (GUI.Button(tMatrixRect[2, tLine + 2], NWDConstants.K_APP_BASIS_PUSH_TO_SERVER + " " + NWDConstants.K_PRODUCTION_NAME, NWDGUI.kMiniButtonStyle))
                             {
                                 GUI.FocusControl(null);
                                 Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
@@ -1268,21 +1368,115 @@ namespace NetWorkedData
                         }
                         else
                         {
-                            GUI.Label(tMatrixRect[2, tLine + 1], ImageProdSync, NWDGUI.KTableRowStatut);
+                            GUI.Label(tMatrixRect[2, tLine + 2], ImageProdSync, NWDGUI.KTableRowStatut);
                         }
                     }
                     else
                     {
 
-                        GUI.Label(tMatrixRect[2, tLine], "no config", NWDGUI.kNoConfigStyle);
+                        GUI.Label(tMatrixRect[2, tLine + 1], "no config", NWDGUI.kNoConfigStyle);
                     }
                 }
                 else
                 {
-                    GUI.Label(tMatrixRect[2, tLine], "sync forbidden", NWDGUI.kNoConfigStyle);
+                    GUI.Label(tMatrixRect[2, tLine + 1], "sync forbidden", NWDGUI.kNoConfigStyle);
                 }
 
 
+
+                if (tDevLockAnalyze != tDevLock)
+                {
+                    if (tDevLock == false)
+                    {
+                        if (DevSync == 0)
+                        {
+                            DevSync = -1;
+                        }
+                        else if (DevSync == 1)
+                        {
+                            DevSync = -2;
+                        }
+                        else
+                        {
+                            DevSync = -Math.Abs(DevSync);
+                        }
+                    }
+                    else
+                    {
+                        if (DevSync == -1)
+                        {
+                            DevSync = 0;
+                        }
+                        else
+                        {
+                            DevSync = 1;
+                        }
+                    }
+                    UpdateData();
+                    BasisHelper().RepaintTableEditor();
+                }
+                if (tPreprodLockAnalyze != tPreprodLock)
+                {
+                    if (tPreprodLock == false)
+                    {
+                        if (PreprodSync == 0)
+                        {
+                            PreprodSync = -1;
+                        }
+                        else if (PreprodSync == 1)
+                        {
+                            PreprodSync = -2;
+                        }
+                        else
+                        {
+                            PreprodSync = -Math.Abs(PreprodSync);
+                        }
+                    }
+                    else
+                    {
+                        if (PreprodSync == -1)
+                        {
+                            PreprodSync = 0;
+                        }
+                        else
+                        {
+                            PreprodSync = 1;
+                        }
+                    }
+                    UpdateData();
+                    BasisHelper().RepaintTableEditor();
+                }
+                if (tProdLockAnalyze != tProdLock)
+                {
+                    if (tProdLock == false)
+                    {
+                        if (ProdSync == 0)
+                        {
+                            ProdSync = -1;
+                        }
+                        else if (ProdSync == 1)
+                        {
+                            ProdSync = -2;
+                        }
+                        else
+                        {
+                            ProdSync = -Math.Abs(ProdSync);
+                        }
+                    }
+                    else
+                    {
+                        if (ProdSync == -1)
+                        {
+                            ProdSync = 0;
+                        }
+                        else
+                        {
+                            ProdSync = 1;
+                        }
+                    }
+                    UpdateData();
+                    BasisHelper().RepaintTableEditor();
+                }
 
 
 

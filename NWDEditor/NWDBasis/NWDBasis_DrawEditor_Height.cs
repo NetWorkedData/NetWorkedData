@@ -119,7 +119,7 @@ namespace NetWorkedData
                 }
                 tH += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                 tH += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-                tH += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                //tH += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                 // Tag management
                 tH += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                 //if (BasisHelper().kAccountDependent == false)
@@ -244,7 +244,7 @@ namespace NetWorkedData
             }
             if (tDraw == true)
             {
-                tH = NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 7, false) + NWDGUI.kFieldMarge;
+                tH = NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 8, false) + NWDGUI.kFieldMarge;
             }
             if (sWithScrollview == true)
             {

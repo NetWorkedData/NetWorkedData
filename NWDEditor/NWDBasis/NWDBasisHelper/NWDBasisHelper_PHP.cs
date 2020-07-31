@@ -1170,9 +1170,6 @@ namespace NetWorkedData
             }
             //"}" );
             tFile.AppendLine("}");
-            tFile.AppendLine("// Solution for post calculate on server");
-
-            tFile.Append(AddonPhpPostCalculate(sEnvironment));
 
             tFile.AppendLine("// Update is finished!");
 
@@ -1181,6 +1178,10 @@ namespace NetWorkedData
             {
                 tFile.AppendLine("}");
             }
+
+            tFile.AppendLine("// Solution for post calculate on server");
+            tFile.Append(AddonPhpPostCalculate(sEnvironment));
+
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -1271,6 +1272,7 @@ namespace NetWorkedData
                             tFile.AppendLine("foreach($tResult['datas'][$tConnexionKey] as $tRow)");
                             tFile.AppendLine("{");
                             {
+                                tFile.AppendLine("if (isset($REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "']) == false) {$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'] = array(); }");
                                 tFile.AppendLine("$r = implode('|',$tRow); if (in_array($r,$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "']) == false){$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'][] = $r;};");
 
                                 tFile.Append(AddonPhpGetCalculate(sEnvironment));
@@ -1364,6 +1366,7 @@ namespace NetWorkedData
                             tFile.AppendLine("foreach($tResult['datas'][$tConnexionKey] as $tRow)");
                             tFile.AppendLine("{");
                             {
+                                tFile.AppendLine("if (isset($REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "']) == false) {$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'] = array(); }");
                                 tFile.AppendLine("$r = implode('|',$tRow); if (in_array($r,$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "']) == false){$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'][] = $r;};");
 
                                 tFile.Append(AddonPhpGetCalculate(sEnvironment));
@@ -1470,6 +1473,7 @@ namespace NetWorkedData
                             tFile.AppendLine("foreach($tResult['datas'][$tConnexionKey] as $tRow)");
                             tFile.AppendLine("{");
                             {
+                                tFile.AppendLine("if (isset($REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "']) == false) {$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'] = array(); }");
                                 tFile.AppendLine("$r = implode('|',$tRow); if (in_array($r,$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "']) == false){$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'][] = $r;};");
 
                                 tFile.Append(AddonPhpGetCalculate(sEnvironment));
