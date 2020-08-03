@@ -419,9 +419,10 @@ namespace NetWorkedData
         /// Save data.
         /// </summary>
         /// <param name="sWritingMode">S writing mode.</param>
-        public void SaveData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        public void SaveData(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
         {
             UpdateData(true, sWritingMode);
+            NWDDataManager.SharedInstance().DataQueueExecute();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -429,13 +430,13 @@ namespace NetWorkedData
         /// </summary>
         /// <returns><c>true</c>, if data if modified : save, <c>false</c> otherwise.</returns>
         /// <param name="sWritingMode">S writing mode.</param>
-        public bool SaveDataIfModified(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        public bool SaveDataIfModified(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
         {
             bool tReturn = false;
             if (this.Integrity != this.IntegrityValue())
             {
                 tReturn = true;
-                UpdateData(true, sWritingMode);
+                SaveData(sWritingMode);
             }
             return tReturn;
         }

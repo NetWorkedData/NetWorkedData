@@ -1,8 +1,19 @@
 //=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
+//=====================================================================================================================
+// Define the use of Log and Benchmark only for this file!
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+#if NWD_VERBOSE
+#if UNITY_EDITOR
+#define NWD_LOG
+#define NWD_BENCHMARK
+#elif DEBUG
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#endif
+#endif
 //=====================================================================================================================
 
 using System;
@@ -15,46 +26,21 @@ namespace NetWorkedData
     public partial class NWDAccountAvatar : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------
-        static protected NWDIndex<NWDAccount, NWDAccountAvatar> kAccountIndex = new NWDIndex<NWDAccount, NWDAccountAvatar>();
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInMemory]
-        public void InsertInAccountIndex()
-        {
-            // Re-add to the actual indexation ?
-            if (IsUsable())
-            {
-                // Re-add !
-                string tKey = Account.GetReference();
-                kAccountIndex.UpdateData(this, tKey);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDDeindexInMemory]
-        public void RemoveFromAccountIndex()
-        {
-            // Remove from the actual indexation
-            kAccountIndex.RemoveData(this);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountAvatar FindFirstDataByAccount(string sAccountReference, bool sOrCreate = true)
-        {
-            NWDAccountAvatar rReturn = kAccountIndex.FirstRawDataByKey(sAccountReference);
-            if (rReturn == null && sOrCreate == true)
-            {
-                rReturn = NWDBasisHelper.NewData<NWDAccountAvatar>();
-                rReturn.Account.SetReference(sAccountReference);
-                rReturn.Tag = NWDBasisTag.TagUserCreated;
-                rReturn.UpdateData();
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountAvatar CurrentData()
         {
-            return FindFirstDataByAccount(NWDAccount.CurrentReference(), true);
+            NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
+            NWDAccountAvatar tReturn = tAccountInfos.Avatar.GetReachableData();
+            return tReturn;
         }
-            //-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SetCurrentData(NWDAccountAvatar sAccountAvatar)
+        {
+            NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
+            tAccountInfos.Avatar.SetData(sAccountAvatar);
+            tAccountInfos.UpdateData();
         }
+        //-------------------------------------------------------------------------------------------------------------
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

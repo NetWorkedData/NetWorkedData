@@ -1,8 +1,19 @@
 ﻿//=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
+//=====================================================================================================================
+// Define the use of Log and Benchmark only for this file!
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+#if NWD_VERBOSE
+#if UNITY_EDITOR
+#define NWD_LOG
+#define NWD_BENCHMARK
+#elif DEBUG
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#endif
+#endif
 //=====================================================================================================================
 
 using System;
@@ -33,7 +44,6 @@ namespace NetWorkedData
                 {
                     case NWDCompileType.Editor:
                         {
-                            //tAccountReference = NWDCompileType.Editor.ToString() + NWDConstants.kFieldSeparatorA + sEnvironment.GetAccountReference();
                             tAccountReference = NWDCompileType.Editor.ToString();
                         }
                         break;
@@ -54,11 +64,11 @@ namespace NetWorkedData
                 tAccountReference = "General";
             }
             string tKey = sEnvironment.Environment + NWDConstants.kFieldSeparatorA + sKey + NWDConstants.kFieldSeparatorA + tAccountReference;
-            //Debug.Log("I need basis NWDBasisPreferences with reference " + tKey);
+            NWDDebug.Log("I need basis NWDBasisPreferences with reference " + tKey);
             NWDBasisPreferences rPref = NWDBasisHelper.GetRawDataByReference<NWDBasisPreferences>(tKey);
             if (rPref == null)
             {
-                //Debug.Log("I need create basis preferences with reference " + tKey);
+                NWDDebug.Log("I need create basis preferences with reference " + tKey);
                 rPref = NWDBasisHelper.NewDataWithReference<NWDBasisPreferences>(tKey);
                 rPref.DevSync = -1;
                 rPref.PreprodSync = -1;
@@ -83,7 +93,7 @@ namespace NetWorkedData
             }
             else
             {
-                //Debug.Log("basis preferences with reference " + tKey + " exists ... I return it");
+                NWDDebug.Log("basis preferences with reference " + tKey + " exists ... I return it");
             }
             return rPref;
         }

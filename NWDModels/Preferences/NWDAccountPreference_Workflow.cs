@@ -1,11 +1,20 @@
 ﻿//=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
-
+// Define the use of Log and Benchmark only for this file!
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+#if NWD_VERBOSE
+#if UNITY_EDITOR
+#define NWD_LOG
+#define NWD_BENCHMARK
+#elif DEBUG
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#endif
+#endif
+//=====================================================================================================================
 using System;
 using UnityEngine;
 using System.Collections.Generic;
@@ -14,7 +23,6 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("APR")]
     [NWDClassDescriptionAttribute("Account Preference")]
     [NWDClassMenuNameAttribute("Account Preference")]

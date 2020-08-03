@@ -1,14 +1,19 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
+//  ideMobi 2020©
 //
-//  Date		2019-4-12 18:29:11
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
-//  All rights reserved by ideMobi
-//
+//=====================================================================================================================
+// Define the use of Log and Benchmark only for this file!
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+#if NWD_VERBOSE
+#if UNITY_EDITOR
+#define NWD_LOG
+#define NWD_BENCHMARK
+#elif DEBUG
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#endif
+#endif
 //=====================================================================================================================
 
 using System;

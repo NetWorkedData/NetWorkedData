@@ -1,8 +1,19 @@
 //=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
+//=====================================================================================================================
+// Define the use of Log and Benchmark only for this file!
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+#if NWD_VERBOSE
+#if UNITY_EDITOR
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#elif DEBUG
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#endif
+#endif
 //=====================================================================================================================
 
 using System;
@@ -23,17 +34,16 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Get the current account infos instance for the current account
+        /// Get the current <see cref="NWDAccountInfos"/> instance for the current <see cref="NWDAccount"/>.
         /// </summary>
         /// <returns></returns>
         public static NWDAccountInfos CurrentData()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             NWDAccountInfos tInfos = null;
             if (kAccountInfos == null)
             {
-                //Debug.Log("<color=red> ###### I NEED THE CURRENT DATA </color>");
-                //NWDBenchmark.Step();
+                NWDBenchmark.Step();
                 if (NWDLauncher.GetState() == NWDStatut.NetWorkedDataReady)
                 //if (NWDBasisHelper.FindTypeInfos(typeof(NWDAccountInfos)).IsLoaded())
                 {
@@ -45,8 +55,7 @@ namespace NetWorkedData
                         tInfos = NWDBasisHelper.NewDataWithReference<NWDAccountInfos>(tUniqueReference);
                         tInfos.SaveData();
                     }
-                    //NWDBenchmark.Step();
-                    //Debug.Log("<color=red> ###### I NEED THE CURRENT DATA  I RETURN " + tUniqueReference + "</color>");
+                    NWDBenchmark.Step();
                     kAccountInfos = tInfos;
                 }
             }
@@ -54,21 +63,24 @@ namespace NetWorkedData
             {
                 tInfos = kAccountInfos;
             }
-            //NWDBenchmark.Step();
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
             return tInfos;
         }
         //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
         public static NWDAccountInfos CurrentDataForAccount(string sAccountReference)
         {
+            NWDBenchmark.Start();
             NWDAccountInfos tInfos = null;
             if (NWDBasisHelper.FindTypeInfos(typeof(NWDAccountInfos)).IsLoaded())
             {
                 string tUniqueReference = NWDAccount.GetUniqueReference(sAccountReference, typeof(NWDAccountInfos));
                 tInfos = NWDBasisHelper.GetRawDataByReference<NWDAccountInfos>(tUniqueReference);
             }
+            NWDBenchmark.Finish();
             return tInfos;
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
