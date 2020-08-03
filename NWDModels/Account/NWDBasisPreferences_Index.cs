@@ -7,8 +7,8 @@
 // Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
 #if NWD_VERBOSE
 #if UNITY_EDITOR
-#define NWD_LOG
-#define NWD_BENCHMARK
+//#define NWD_LOG
+//#define NWD_BENCHMARK
 #elif DEBUG
 //#define NWD_LOG
 //#define NWD_BENCHMARK
@@ -64,11 +64,11 @@ namespace NetWorkedData
                 tAccountReference = "General";
             }
             string tKey = sEnvironment.Environment + NWDConstants.kFieldSeparatorA + sKey + NWDConstants.kFieldSeparatorA + tAccountReference;
-            NWDDebug.Log("I need basis NWDBasisPreferences with reference " + tKey);
+           // NWDDebug.Log("I need basis NWDBasisPreferences with reference " + tKey);
             NWDBasisPreferences rPref = NWDBasisHelper.GetRawDataByReference<NWDBasisPreferences>(tKey);
             if (rPref == null)
             {
-                NWDDebug.Log("I need create basis preferences with reference " + tKey);
+               // NWDDebug.Log("I need create basis preferences with reference " + tKey);
                 rPref = NWDBasisHelper.NewDataWithReference<NWDBasisPreferences>(tKey);
                 rPref.DevSync = -1;
                 rPref.PreprodSync = -1;
@@ -91,10 +91,10 @@ namespace NetWorkedData
 #endif
                 rPref.SaveData();
             }
-            else
-            {
-                NWDDebug.Log("basis preferences with reference " + tKey + " exists ... I return it");
-            }
+            //else
+            //{
+            //    NWDDebug.Log("basis preferences with reference " + tKey + " exists ... I return it");
+            //}
             return rPref;
         }
         //-------------------------------------------------------------------------------------------------------------

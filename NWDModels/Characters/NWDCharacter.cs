@@ -21,7 +21,6 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("CHR")]
     [NWDClassDescriptionAttribute("Character descriptions Class")]
     [NWDClassMenuNameAttribute("Character")]

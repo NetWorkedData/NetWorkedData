@@ -470,7 +470,7 @@ namespace NetWorkedData
                     {
                         if (tKeyValue.Key < LastWebBuild)
                         {
-                            rReturn.AppendLine("#if UnityEditor");
+                            rReturn.AppendLine("#if UNITY_EDITOR");
                         }
                         rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.WebModelPropertiesOrder) + ".Add(" + tKeyValue.Key + ", new List<string>(){\"" + string.Join("\", \"", tKeyValue.Value.ToArray()) + "\"});");
                         if (tKeyValue.Key < LastWebBuild)
@@ -489,7 +489,7 @@ namespace NetWorkedData
                     {
                         if (tKeyValue.Key < LastWebBuild)
                         {
-                            rReturn.AppendLine("#if UnityEditor");
+                            rReturn.AppendLine("#if UNITY_EDITOR");
                         }
                         rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.WebServiceWebModel) + ".Add(" + tKeyValue.Key + ", " + tKeyValue.Value + ");");
                         if (tKeyValue.Key < LastWebBuild)
@@ -510,15 +510,15 @@ namespace NetWorkedData
                     {
                         if (tApp.WSList[tKeyValue.Key] == true)
                         {
-                            if (tKeyValue.Key < LastWebBuild)
-                            {
-                                rReturn.AppendLine("#if UnityEditor");
-                            }
+                            //if (tKeyValue.Key < LastWebBuild)
+                            //{
+                            //    rReturn.AppendLine("#if UNITY_EDITOR");
+                            //}
                             rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.WebModelSQLOrder) + ".Add(" + tKeyValue.Key + ", \"" + tKeyValue.Value.Replace("\"", "\\\"") + "\");");
-                            if (tKeyValue.Key < LastWebBuild)
-                            {
-                                rReturn.AppendLine("#endif");
-                            }
+                            //if (tKeyValue.Key < LastWebBuild)
+                            //{
+                            //    rReturn.AppendLine("#endif");
+                            //}
                         }
                     }
                 }

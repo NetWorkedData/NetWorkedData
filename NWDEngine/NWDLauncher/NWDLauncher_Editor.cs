@@ -208,16 +208,30 @@ namespace NetWorkedData
                 NWDBenchmark.Start();
             }
             State = NWDStatut.ClassRestaureStart;
-            //NWDTypeLauncher.AllTypes = AllNetWorkedDataTypes.ToArray();
-            //NWDBenchmark.Start();
+            if (ActiveBenchmark)
+            {
+                NWDBenchmark.Step();
+            }
             NWDAppConfiguration.SharedInstance().RestaureTypesConfigurations();
-            //NWDBenchmark.Finish();
+            if (ActiveBenchmark)
+            {
+                NWDBenchmark.Step();
+            }
             NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected = NWDDataManager.SharedInstance().ClassInEditorDatabaseList.Count;
-            //Debug.Log("NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected = " + NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected);
+            if (ActiveBenchmark)
+            {
+                NWDBenchmark.Step();
+            }
             NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected = NWDDataManager.SharedInstance().ClassInDeviceDatabaseList.Count;
-            //Debug.Log("NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected = " + NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected);
+            if (ActiveBenchmark)
+            {
+                NWDBenchmark.Step();
+            }
             NWDDataManager.SharedInstance().ClassNumberExpected = NWDDataManager.SharedInstance().ClassInEditorDatabaseRumberExpected + NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected;
-            //Debug.Log("NWDDataManager.SharedInstance().ClassNumberExpected = " + NWDDataManager.SharedInstance().ClassNumberExpected);
+            if (ActiveBenchmark)
+            {
+                NWDBenchmark.Step();
+            }
             State = NWDStatut.ClassRestaureFinish;
             if (ActiveBenchmark)
             {

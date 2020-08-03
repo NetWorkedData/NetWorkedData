@@ -80,32 +80,6 @@ namespace NetWorkedData
             return new List<NWDItem>(NWDIndexFamilyItem.RawDatasByKey(sFamily));
         }
         //-------------------------------------------------------------------------------------------------------------
-        static protected NWDIndex<NWDFamily, NWDItem> kFamilyIndex = new NWDIndex<NWDFamily, NWDItem>();
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInMemory]
-        public void IndexInMemoryFamilyIndex()
-        {
-            //Debug.Log("index in memory");
-            if (FamilyList != null)
-            {
-                kFamilyIndex.UpdateData(this, FamilyList.GetRawDatas());
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Desindex from NWDIndexFamilyItem
-        /// </summary>
-        [NWDDeindexInMemory]
-        public void DesindexInMemoryFamilyIndex()
-        {
-            kFamilyIndex.RemoveData(this);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static List<NWDItem> FindInMemoryFamilyIndex(NWDFamily sFamily)
-        {
-            return new List<NWDItem>(kFamilyIndex.RawDatasByKey(sFamily));
-        }
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
