@@ -14,6 +14,28 @@
 //#define NWD_BENCHMARK
 #endif
 #endif
+
+//=====================================================================================================================
+//namespace MacroDefineEditor
+//{
+//    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//    // You can create custom enum of macro
+//    // Just follow this example class
+//    public class NWD_EXAMPLE_MACRO_DefineBool : MDEDataTypeBoolGeneric<NWD_EXAMPLE_MACRO_DefineBool>
+//    {
+//        //-------------------------------------------------------------------------------------------------------------
+//        // the title of enum controller
+//        public static string Title = SetTitle("NWD_EXAMPLE_MACRO");
+//        //-------------------------------------------------------------------------------------------------------------
+//        // declare one value
+//        public static NWD_EXAMPLE_MACRO_DefineBool Macro = SetValue("NWD_EXAMPLE_MACRO");
+//        //-------------------------------------------------------------------------------------------------------------
+//    }
+//    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//}
+//=====================================================================================================================
+
+//MACRO_DEFINE #if NWD_EXAMPLE_MACRO
 //=====================================================================================================================
 
 using System;
@@ -31,13 +53,10 @@ namespace NetWorkedData
     /// <summary>
     /// NWDExample class. This class is use for (complete description here).
     /// </summary>
-    //[NWDClassUnityEditorOnlyAttribute()]
-    //[NWDClassServerSynchronizeAttribute(true)]
+    //MACRO_DEFINE [NWDClassMacroAttribute("NWD_EXAMPLE_MACRO")]
     [NWDClassTrigrammeAttribute("NWDExample_Tri")]
     [NWDClassDescriptionAttribute("NWDExample_Description")]
     [NWDClassMenuNameAttribute("NWDExample_MenuName")]
-    //[NWDInternalKeyNotEditableAttribute]
-    //[NWDInternalDescriptionNotEditable]
     public partial class NWDExample : NWDBasis
     {
         //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
@@ -76,3 +95,4 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+//MACRO_DEFINE #endif //NWD_EXAMPLE_MACRO

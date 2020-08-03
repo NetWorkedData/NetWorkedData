@@ -84,7 +84,7 @@ namespace NetWorkedData
         //    AssetDatabase.ImportAsset(tFilePath + ".cs");
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public static void GenerateFileUnitTest(string sClassNamePHP)
+        public static void GenerateFileUnitTest(string sClassNamePHP, string sMacro)
         {
             string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder() + "/" + sClassNamePHP + "/Tests";
             Directory.CreateDirectory(tOwnerClassesFolderPath);
@@ -98,6 +98,13 @@ namespace NetWorkedData
             string tClassExamplePath_Workflow = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/Tests/NWDExample_UnitTests.cs";
             string tClassExample_UnitTests = File.ReadAllText(tClassExamplePath_Workflow);
             tClassExample_UnitTests = tClassExample_UnitTests.Replace("NWDExample", sClassNamePHP);
+
+            if (string.IsNullOrEmpty(sMacro) == false)
+            {
+                tClassExample_UnitTests = tClassExample_UnitTests.Replace("NWD_EXAMPLE_MACRO", sMacro);
+                tClassExample_UnitTests = tClassExample_UnitTests.Replace("//MACRO_DEFINE ", "");
+            }
+
             string tFilePath_UnitTests = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_UnitTests";
             int tG = 0;
             while (File.Exists(tFilePath_UnitTests + ".cs") == true)
@@ -110,7 +117,7 @@ namespace NetWorkedData
             AssetDatabase.ImportAsset(tFilePath_UnitTests + ".cs");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void GenerateFileConnection(string sClassNamePHP, string sClassNameBasis)
+        public static void GenerateFileConnection(string sClassNamePHP, string sClassNameBasis, string sMacro)
         {
             string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder() + "/" + sClassNamePHP;
             // create directories
@@ -120,6 +127,12 @@ namespace NetWorkedData
             string tClassExample_Connection = File.ReadAllText(tClassExamplePath_Workflow);
             tClassExample_Connection = tClassExample_Connection.Replace("NWDExample", sClassNamePHP);
             tClassExample_Connection = tClassExample_Connection.Replace("NWDBasis", sClassNameBasis);
+
+            if (string.IsNullOrEmpty(sMacro) == false)
+            {
+                tClassExample_Connection = tClassExample_Connection.Replace("NWD_EXAMPLE_MACRO", sMacro);
+                tClassExample_Connection = tClassExample_Connection.Replace("//MACRO_DEFINE ", "");
+            }
             string tFilePath_Connection = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_Connection";
             int tG = 0;
             while (File.Exists(tFilePath_Connection + ".cs") == true)
@@ -132,7 +145,7 @@ namespace NetWorkedData
             AssetDatabase.ImportAsset(tFilePath_Connection + ".cs");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void GenerateFileWorkflow(string sClassNamePHP, string sClassNameBasis)
+        public static void GenerateFileWorkflow(string sClassNamePHP, string sClassNameBasis, string sMacro)
         {
             string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder() + "/" + sClassNamePHP;
             // create directories
@@ -142,6 +155,12 @@ namespace NetWorkedData
             string tClassExample_Workflow = File.ReadAllText(tClassExamplePath_Workflow);
             tClassExample_Workflow = tClassExample_Workflow.Replace("NWDExample", sClassNamePHP);
             tClassExample_Workflow = tClassExample_Workflow.Replace("NWDBasis", sClassNameBasis);
+
+            if (string.IsNullOrEmpty(sMacro) == false)
+            {
+                tClassExample_Workflow = tClassExample_Workflow.Replace("NWD_EXAMPLE_MACRO", sMacro);
+                tClassExample_Workflow = tClassExample_Workflow.Replace("//MACRO_DEFINE ", "");
+            }
             string tFilePath_Workflow = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_Workflow";
             int tG = 0;
             while (File.Exists(tFilePath_Workflow + ".cs") == true)
@@ -154,7 +173,7 @@ namespace NetWorkedData
             AssetDatabase.ImportAsset(tFilePath_Workflow + ".cs");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void GenerateFileEditor(string sClassNamePHP, string sClassNameBasis)
+        public static void GenerateFileEditor(string sClassNamePHP, string sClassNameBasis, string sMacro)
         {
             string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder() + "/" + sClassNamePHP;
             // create directories
@@ -164,6 +183,12 @@ namespace NetWorkedData
             string tClassExample_Editor = File.ReadAllText(tClassExamplePath_Editor);
             tClassExample_Editor = tClassExample_Editor.Replace("NWDExample", sClassNamePHP);
             tClassExample_Editor = tClassExample_Editor.Replace("NWDBasis", sClassNameBasis);
+
+            if (string.IsNullOrEmpty(sMacro) == false)
+            {
+                tClassExample_Editor = tClassExample_Editor.Replace("NWD_EXAMPLE_MACRO", sMacro);
+                tClassExample_Editor = tClassExample_Editor.Replace("//MACRO_DEFINE ", "");
+            }
             string tFilePath_Editor = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_Editor";
             int tG = 0;
             while (File.Exists(tFilePath_Editor + ".cs") == true)
@@ -176,7 +201,7 @@ namespace NetWorkedData
             AssetDatabase.ImportAsset(tFilePath_Editor + ".cs");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void GenerateFileIndex(string sClassNamePHP, string sClassNameBasis)
+        public static void GenerateFileIndex(string sClassNamePHP, string sClassNameBasis, string sMacro)
         {
             string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder() + "/" + sClassNamePHP;
             // create directories
@@ -186,6 +211,12 @@ namespace NetWorkedData
             string tClassExample_Index = File.ReadAllText(tClassExamplePath_Index);
             tClassExample_Index = tClassExample_Index.Replace("NWDExample", sClassNamePHP);
             tClassExample_Index = tClassExample_Index.Replace("NWDBasis", sClassNameBasis);
+
+            if (string.IsNullOrEmpty(sMacro) == false)
+            {
+                tClassExample_Index = tClassExample_Index.Replace("NWD_EXAMPLE_MACRO", sMacro);
+                tClassExample_Index = tClassExample_Index.Replace("//MACRO_DEFINE ", "");
+            }
             string tFilePath_Index = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_Index";
             int tG = 0;
             while (File.Exists(tFilePath_Index + ".cs") == true)
@@ -198,7 +229,7 @@ namespace NetWorkedData
             AssetDatabase.ImportAsset(tFilePath_Index + ".cs");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void GenerateFilePHP(string sClassNamePHP, string sClassNameBasis)
+        public static void GenerateFilePHP(string sClassNamePHP, string sClassNameBasis, string sMacro)
         {
             string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder() + "/" + sClassNamePHP;
             // create directories
@@ -208,6 +239,12 @@ namespace NetWorkedData
             string tClassExample_PHP = File.ReadAllText(tClassExamplePath_PHP);
             tClassExample_PHP = tClassExample_PHP.Replace("NWDExample", sClassNamePHP);
             tClassExample_PHP = tClassExample_PHP.Replace("NWDBasis", sClassNameBasis);
+
+            if (string.IsNullOrEmpty(sMacro) == false)
+            {
+                tClassExample_PHP = tClassExample_PHP.Replace("NWD_EXAMPLE_MACRO", sMacro);
+                tClassExample_PHP = tClassExample_PHP.Replace("//MACRO_DEFINE ", "");
+            }
             string tFilePath_PHP = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_PHP";
             int tG = 0;
             while (File.Exists(tFilePath_PHP + ".cs") == true)
@@ -220,7 +257,7 @@ namespace NetWorkedData
             AssetDatabase.ImportAsset(tFilePath_PHP + ".cs");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void GenerateFileOverride(string sClassNamePHP, string sClassNameBasis)
+        public static void GenerateFileOverride(string sClassNamePHP, string sClassNameBasis, string sMacro)
         {
             string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder() + "/" + sClassNamePHP;
             // create directories
@@ -230,6 +267,12 @@ namespace NetWorkedData
             string tClassExample_Override = File.ReadAllText(tClassExamplePath_Override);
             tClassExample_Override = tClassExample_Override.Replace("NWDExample", sClassNamePHP);
             tClassExample_Override = tClassExample_Override.Replace("NWDBasis", sClassNameBasis);
+
+            if (string.IsNullOrEmpty(sMacro) == false)
+            {
+                tClassExample_Override = tClassExample_Override.Replace("NWD_EXAMPLE_MACRO", sMacro);
+                tClassExample_Override = tClassExample_Override.Replace("//MACRO_DEFINE ", "");
+            }
             string tFilePath_Override = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_Override";
             int tG = 0;
             while (File.Exists(tFilePath_Override + ".cs") == true)
@@ -242,7 +285,7 @@ namespace NetWorkedData
             AssetDatabase.ImportAsset(tFilePath_Override + ".cs");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void GenerateFileExtension(string sClassNamePHP, string sClassNameBasis)
+        public static void GenerateFileExtension(string sClassNamePHP, string sClassNameBasis, string sMacro)
         {
             string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder() + "/" + sClassNamePHP;
             // create directories
@@ -252,6 +295,12 @@ namespace NetWorkedData
             string tClassExample_Extension = File.ReadAllText(tClassExamplePath_Extension);
             tClassExample_Extension = tClassExample_Extension.Replace("NWDExample", sClassNamePHP);
             tClassExample_Extension = tClassExample_Extension.Replace("NWDBasis", sClassNameBasis);
+
+            if (string.IsNullOrEmpty(sMacro) == false)
+            {
+                tClassExample_Extension = tClassExample_Extension.Replace("NWD_EXAMPLE_MACRO", sMacro);
+                tClassExample_Extension = tClassExample_Extension.Replace("//MACRO_DEFINE ", "");
+            }
             string tFilePath_Extension = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_Extension";
             int tG = 0;
             while (File.Exists(tFilePath_Extension + ".cs") == true)
@@ -264,7 +313,7 @@ namespace NetWorkedData
             AssetDatabase.ImportAsset(tFilePath_Extension + ".cs");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void GenerateFileHelper(string sClassNamePHP, string sClassNameBasis)
+        public static void GenerateFileHelper(string sClassNamePHP, string sClassNameBasis, string sMacro)
         {
             string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder() + "/" + sClassNamePHP;
             // create directories
@@ -274,6 +323,12 @@ namespace NetWorkedData
             string tClassExample_Helper = File.ReadAllText(tClassExamplePath_Helper);
             tClassExample_Helper = tClassExample_Helper.Replace("NWDExample", sClassNamePHP);
             tClassExample_Helper = tClassExample_Helper.Replace("NWDBasis", sClassNameBasis);
+
+            if (string.IsNullOrEmpty(sMacro) == false)
+            {
+                tClassExample_Helper = tClassExample_Helper.Replace("NWD_EXAMPLE_MACRO", sMacro);
+                tClassExample_Helper = tClassExample_Helper.Replace("//MACRO_DEFINE ", "");
+            }
             string tFilePath_Helper = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_Helper";
             int tG = 0;
             while (File.Exists(tFilePath_Helper + ".cs") == true)

@@ -14,6 +14,8 @@
 //#define NWD_BENCHMARK
 #endif
 #endif
+
+//MACRO_DEFINE #if NWD_EXAMPLE_MACRO
 //=====================================================================================================================
 
 #if UNITY_EDITOR
@@ -106,3 +108,4 @@ namespace NetWorkedData
 }
 //=====================================================================================================================
 #endif
+//MACRO_DEFINE #endif //NWD_EXAMPLE_MACRO

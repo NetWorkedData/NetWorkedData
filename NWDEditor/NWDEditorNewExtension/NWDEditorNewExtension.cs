@@ -121,6 +121,18 @@ namespace NetWorkedData
             tClassExample = tClassExample.Replace("//#warning", "#warning");
             tClassExample = tClassExample.Replace("NWDExample", ClassBase);
             NWDBasisHelper tBasisHelper = NWDBasisHelper.FindTypeInfos(ClassBase);
+
+            string tMacro = null;
+            foreach (NWDClassMacroAttribute tMacroAttribute in tBasisHelper.ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
+            {
+                tMacro = tMacroAttribute.Macro;
+            }
+            if (string.IsNullOrEmpty(tMacro) == false)
+            {
+                tClassExample = tClassExample.Replace("NWD_EXAMPLE_MACRO", tMacro);
+                tClassExample = tClassExample.Replace("//MACRO_DEFINE ", "");
+            }
+
             string tClassParent = "NWDBasis?";
             if (tBasisHelper.ClassType != null)
             {

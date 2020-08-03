@@ -342,7 +342,15 @@ namespace NetWorkedData
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
                 if (tDatas != null)
                 {
+                    foreach (NWDClassMacroAttribute tMacro in tDatas.ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
+                    {
+                        rReturnType.AppendLine("#if " + tMacro.Macro);
+                    }
                     rReturnType.Append(tDatas.CreationCSHARPCallLoader());
+                    foreach (NWDClassMacroAttribute tMacro in tDatas.ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
+                    {
+                        rReturnType.AppendLine("#endif //" + tMacro.Macro);
+                    }
                 }
             }
             rReturnType.AppendLine("if (NWDLauncher.ActiveBenchmark == true) {NWDBenchmark.Finish();};");
@@ -362,7 +370,14 @@ namespace NetWorkedData
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
                 if (tDatas != null)
                 {
+
                     StringBuilder rReturnClass = new StringBuilder(string.Empty);
+
+                   foreach (NWDClassMacroAttribute tMacro in tDatas.ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute),true))
+                    {
+                            rReturnClass.AppendLine("#if "+ tMacro.Macro);
+                    }
+
                     rReturnClass.AppendLine("//=====================================================================================================================");
                     rReturnClass.AppendLine(NWD.K_CommentCopyright + tYearString);
                     rReturnClass.AppendLine(NWD.K_CommentCreator);
@@ -396,6 +411,10 @@ namespace NetWorkedData
                     rReturnClass.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                     rReturnClass.AppendLine("}");
                     rReturnClass.AppendLine("//=====================================================================================================================");
+                    foreach (NWDClassMacroAttribute tMacro in tDatas.ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
+                    {
+                        rReturnClass.AppendLine("#endif //" + tMacro.Macro);
+                    }
                     string tPathTypeClass = tOwnerConfigurationFolderPath + "/NWDConfigurations_"+ tDatas.ClassNamePHP +".cs";
                     string rReturnClassFormatted = NWDToolbox.CSharpFormat(rReturnClass.ToString());
                     File.WriteAllText(tPathTypeClass, rReturnClassFormatted);

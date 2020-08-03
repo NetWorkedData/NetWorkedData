@@ -66,6 +66,10 @@ namespace NetWorkedData
                     string tYearString = NWDToolbox.DateTimeYYYY(tTime);
 
                     StringBuilder rReturn = new StringBuilder(string.Empty);
+                    foreach (NWDClassMacroAttribute tMacro in ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
+                    {
+                        rReturn.AppendLine("#if " + tMacro.Macro);
+                    }
                     rReturn.AppendLine("//=====================================================================================================================");
                     //rReturn.AppendLine(NWD.K_CommentAutogenerate + tDateTimeString);
                     rReturn.AppendLine(NWD.K_CommentCopyright + tYearString);
@@ -409,6 +413,10 @@ namespace NetWorkedData
                     rReturn.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                     rReturn.AppendLine("}");
                     rReturn.AppendLine("//=====================================================================================================================");
+                    foreach (NWDClassMacroAttribute tMacro in ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
+                    {
+                        rReturn.AppendLine("#endif //" + tMacro.Macro);
+                    }
                     rReturn.ToString();
                     string rReturnTypeFormatted = NWDToolbox.CSharpFormat(rReturn.ToString());
                     File.WriteAllText(tPathType, rReturnTypeFormatted);

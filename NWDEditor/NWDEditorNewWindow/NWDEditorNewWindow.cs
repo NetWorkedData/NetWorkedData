@@ -36,6 +36,7 @@ namespace NetWorkedData
         Vector2 ScrollPosition = Vector2.zero;
         //-------------------------------------------------------------------------------------------------------------
         string WindowName = string.Empty;
+        string WindowMacro = string.Empty;
         string WindowMenuName = string.Empty;
         string WindowDescription = string.Empty;
         int WindowMenuPosition = 0; // 0-1000 + 2000 : => [2000 … 3000]
@@ -89,6 +90,11 @@ namespace NetWorkedData
             tClassExample = tClassExample.Replace("12345", (2000 + WindowMenuPosition).ToString());
             tClassExample = tClassExample.Replace("NWDWindowExample", WindowName);
             tClassExample = tClassExample.Replace("//[MenuItem ", "[MenuItem ");
+            if (string.IsNullOrEmpty(WindowMacro) == false)
+            {
+                tClassExample = tClassExample.Replace("NWD_EXAMPLE_MACRO", WindowMacro);
+                tClassExample = tClassExample.Replace("//MACRO_DEFINE ", "");
+            }
             // place the classes
             string tClassesLinearize = string.Empty;
             foreach (string tKey in ClassesList)
@@ -220,6 +226,7 @@ namespace NetWorkedData
             NWDGUILayout.SubSection("Window description");
             // futur class description
             WindowDescription = EditorGUILayout.TextField("Description", WindowDescription);
+            WindowMacro = EditorGUILayout.TextField("Macro limit", WindowMacro);
             WindowDescription = WindowDescription.Replace("\\", string.Empty);
             NWDGUILayout.SubSection("Menu in interface");
             // futur class menu name

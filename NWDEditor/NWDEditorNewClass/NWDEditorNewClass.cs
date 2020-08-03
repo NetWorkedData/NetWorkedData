@@ -95,6 +95,8 @@ namespace NetWorkedData
         List<KeyValuePair<string, string>> ClassNameProperties = new List<KeyValuePair<string, string>>();
 
 
+        string MacroLimit = string.Empty;
+
         List<string> tListOfType = new List<string>();
         List<string> tListOfclass = new List<string>();
         NWDTemplateHelper TemplateHelper = new NWDTemplateHelper();
@@ -123,12 +125,18 @@ namespace NetWorkedData
             //{
             //    tClassExample = tClassExample.Replace("[" +typeof(NWDClassServerSynchronizeAttribute).Name+"(true)]", "["+typeof(NWDClassServerSynchronizeAttribute).Name+"(false)]");
             //}
+            Debug.Log("MacroLimit = " + MacroLimit);
             tClassExample = tClassExample.Replace("NWDExample_Tri", ClassNameTrigramme);
             tClassExample = tClassExample.Replace("NWDExample_Description", ClassNameDescription);
             tClassExample = tClassExample.Replace("NWDExample_MenuName", ClassNameMenuName);
             tClassExample = tClassExample.Replace("//#warning", "#warning");
             tClassExample = tClassExample.Replace("NWDExample", ClassName);
             tClassExample = tClassExample.Replace("NWDBasis", ClassBase);
+            if (string.IsNullOrEmpty(MacroLimit) == false)
+            {
+                tClassExample = tClassExample.Replace("NWD_EXAMPLE_MACRO", MacroLimit);
+                tClassExample = tClassExample.Replace("//MACRO_DEFINE ", "");
+            }
             // prepare properties 
             Dictionary<string, string> tPropertiesDico = new Dictionary<string, string>(new StringIndexKeyComparer());
             foreach (KeyValuePair<string, string> tKeyValue in ClassNameProperties)
@@ -165,30 +173,33 @@ namespace NetWorkedData
             // write file connection with unity
             if (ClassUnityConnection == true)
             {
-                GenerateFileConnection(ClassName, ClassBase);
+                GenerateFileConnection(ClassName, ClassBase, MacroLimit);
             }
             // write file workflow
-            GenerateFileWorkflow(ClassName, ClassBase);
+            GenerateFileWorkflow(ClassName, ClassBase, MacroLimit);
             // write file helper
-            GenerateFileHelper(ClassName, ClassBase);
+            GenerateFileHelper(ClassName, ClassBase, MacroLimit);
             // write file override
-            GenerateFileOverride(ClassName, ClassBase);
+            GenerateFileOverride(ClassName, ClassBase, MacroLimit);
             // write file editor
-            GenerateFileEditor(ClassName, ClassBase);
+            GenerateFileEditor(ClassName, ClassBase, MacroLimit);
             // write file index example
-            GenerateFileIndex(ClassName, ClassBase);
+            GenerateFileIndex(ClassName, ClassBase, MacroLimit);
             // write file PHP extension
-            GenerateFilePHP(ClassName, ClassBase);
+            GenerateFilePHP(ClassName, ClassBase, MacroLimit);
             // write icon to modify
             GenerateFileIcon(ClassName);
             // write file UnitTests
-            GenerateFileUnitTest(ClassName);
+            GenerateFileUnitTest(ClassName, MacroLimit);
             // flush params
-            ClassName = string.Empty;
-            ClassNameTrigramme = string.Empty;
-            ClassNameDescription = string.Empty;
-            ClassNameMenuName = string.Empty;
-            ClassNameProperties = new List<KeyValuePair<string, string>>();
+
+            //ClassName = string.Empty;
+            //ClassNameTrigramme = string.Empty;
+            //ClassNameDescription = string.Empty;
+            //ClassNameMenuName = string.Empty;
+            //MacroLimit = string.Empty;
+            //ClassNameProperties = new List<KeyValuePair<string, string>>();
+
             Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(tFilePath);
             EditorGUIUtility.PingObject(Selection.activeObject);
 
@@ -369,6 +380,7 @@ namespace NetWorkedData
                     EditorGUILayout.LabelField(" ", "trigramme is Ok!");
                 }
             }
+            MacroLimit = EditorGUILayout.TextField("Macro limit", MacroLimit);
             NWDGUILayout.SubSection("Class description");
             ClassNameDescription = EditorGUILayout.TextField("Description", ClassNameDescription, GUILayout.Height(80.0F));
             ClassNameDescription = ClassNameDescription.Replace("\\", string.Empty);

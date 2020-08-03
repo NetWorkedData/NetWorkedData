@@ -35,38 +35,72 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFileUnitTest()
         {
-            NWDEditorNewClass.GenerateFileUnitTest(ClassNamePHP);
+            string tMacro = null;
+            foreach (NWDClassMacroAttribute tMacroAttribute in ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
+            {
+                tMacro = tMacroAttribute.Macro;
+            }
+            NWDEditorNewClass.GenerateFileUnitTest(ClassNamePHP, tMacro);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFileConnection()
         {
-            Debug.Log("Basis class is " + ClassType.BaseType.Name);
-            NWDEditorNewClass.GenerateFileConnection(ClassNamePHP, ClassType.BaseType.Name);
+            string tMacro = null;
+            foreach (NWDClassMacroAttribute tMacroAttribute in ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
+            {
+                tMacro = tMacroAttribute.Macro;
+            }
+            NWDEditorNewClass.GenerateFileConnection(ClassNamePHP, ClassType.BaseType.Name, tMacro);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFileWorkflow()
         {
-            NWDEditorNewClass.GenerateFileWorkflow(ClassNamePHP, ClassType.BaseType.Name);
+            string tMacro = null;
+            foreach (NWDClassMacroAttribute tMacroAttribute in ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
+            {
+                tMacro = tMacroAttribute.Macro;
+            }
+            NWDEditorNewClass.GenerateFileWorkflow(ClassNamePHP, ClassType.BaseType.Name, tMacro);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFileHelper()
         {
-            NWDEditorNewClass.GenerateFileHelper(ClassNamePHP, ClassType.BaseType.Name);
+            string tMacro = null;
+            foreach (NWDClassMacroAttribute tMacroAttribute in ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
+            {
+                tMacro = tMacroAttribute.Macro;
+            }
+            NWDEditorNewClass.GenerateFileHelper(ClassNamePHP, ClassType.BaseType.Name, tMacro);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFileEditor()
         {
-            NWDEditorNewClass.GenerateFileEditor(ClassNamePHP, ClassType.BaseType.Name);
+            string tMacro = null;
+            foreach (NWDClassMacroAttribute tMacroAttribute in ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
+            {
+                tMacro = tMacroAttribute.Macro;
+            }
+            NWDEditorNewClass.GenerateFileEditor(ClassNamePHP, ClassType.BaseType.Name, tMacro);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFileIndex()
         {
-            NWDEditorNewClass.GenerateFileIndex(ClassNamePHP, ClassType.BaseType.Name);
+            string tMacro = null;
+            foreach (NWDClassMacroAttribute tMacroAttribute in ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
+            {
+                tMacro = tMacroAttribute.Macro;
+            }
+            NWDEditorNewClass.GenerateFileIndex(ClassNamePHP, ClassType.BaseType.Name, tMacro);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFilePHP()
         {
-            NWDEditorNewClass.GenerateFilePHP(ClassNamePHP, ClassType.BaseType.Name);
+            string tMacro = null;
+            foreach (NWDClassMacroAttribute tMacroAttribute in ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
+            {
+                tMacro = tMacroAttribute.Macro;
+            }
+            NWDEditorNewClass.GenerateFilePHP(ClassNamePHP, ClassType.BaseType.Name, tMacro);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFileIcon()
@@ -76,12 +110,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFileExtension()
         {
-            NWDEditorNewClass.GenerateFileExtension(ClassNamePHP, ClassType.BaseType.Name);
+            string tMacro = null;
+            foreach (NWDClassMacroAttribute tMacroAttribute in ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
+            {
+                tMacro = tMacroAttribute.Macro;
+            }
+            NWDEditorNewClass.GenerateFileExtension(ClassNamePHP, ClassType.BaseType.Name, tMacro);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFileOverride()
         {
-            NWDEditorNewClass.GenerateFileOverride(ClassNamePHP, ClassType.BaseType.Name);
+            string tMacro = null;
+            foreach (NWDClassMacroAttribute tMacroAttribute in ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
+            {
+                tMacro = tMacroAttribute.Macro;
+            }
+            NWDEditorNewClass.GenerateFileOverride(ClassNamePHP, ClassType.BaseType.Name, tMacro);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -1,15 +1,28 @@
 //=====================================================================================================================
 //
 //  ideMobi 2020©
-//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+// Define the use of Log and Benchmark only for this file!
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+#if NWD_VERBOSE
+#if UNITY_EDITOR
+#define NWD_LOG
+#define NWD_BENCHMARK
+#elif DEBUG
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#endif
+#endif
+//=====================================================================================================================
+//MACRO_DEFINE #if NWD_EXAMPLE_MACRO
 #if UNITY_INCLUDE_TESTS
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using NUnit.Framework;
 using NetWorkedData;
+
 //=====================================================================================================================
 namespace NWDEditorTests
 {
@@ -424,3 +437,4 @@ namespace NWDEditorTests
 }
 //=====================================================================================================================
 #endif
+//MACRO_DEFINE #endif //NWD_EXAMPLE_MACRO
