@@ -79,6 +79,17 @@ namespace NetWorkedData
             rReturn.AppendLine(NWD.K_CommentCopyright + tYearString);
             rReturn.AppendLine(NWD.K_CommentCreator);
             rReturn.AppendLine("//=====================================================================================================================");
+            rReturn.AppendLine("#if NWD_VERBOSE");
+            rReturn.AppendLine("#if UNITY_EDITOR");
+            rReturn.AppendLine("#define NWD_LOG");
+            rReturn.AppendLine("#define NWD_BENCHMARK");
+            rReturn.AppendLine("#elif DEBUG");
+            rReturn.AppendLine("#define NWD_LOG");
+            rReturn.AppendLine("#define NWD_BENCHMARK");
+            rReturn.AppendLine("#endif");
+            rReturn.AppendLine("#endif");
+            rReturn.AppendLine("//=====================================================================================================================");
+
             rReturn.AppendLine("using UnityEngine;");
             rReturn.AppendLine("//=====================================================================================================================");
             rReturn.AppendLine("namespace NetWorkedData");
@@ -148,6 +159,16 @@ namespace NetWorkedData
             rReturn.AppendLine("//=====================================================================================================================");
             rReturn.AppendLine(NWD.K_CommentCopyright + tYearString);
             rReturn.AppendLine(NWD.K_CommentCreator);
+            rReturn.AppendLine("//=====================================================================================================================");
+            rReturn.AppendLine("#if NWD_VERBOSE");
+            rReturn.AppendLine("#if UNITY_EDITOR");
+            rReturn.AppendLine("#define NWD_LOG");
+            rReturn.AppendLine("#define NWD_BENCHMARK");
+            rReturn.AppendLine("#elif DEBUG");
+            rReturn.AppendLine("#define NWD_LOG");
+            rReturn.AppendLine("#define NWD_BENCHMARK");
+            rReturn.AppendLine("#endif");
+            rReturn.AppendLine("#endif");
             rReturn.AppendLine("//=====================================================================================================================");
             rReturn.AppendLine("using System.Collections;");
             rReturn.AppendLine("using System.Collections.Generic;");
@@ -288,6 +309,16 @@ namespace NetWorkedData
             rReturnType.AppendLine(NWD.K_CommentCopyright + tYearString);
             rReturnType.AppendLine(NWD.K_CommentCreator);
             rReturnType.AppendLine("//=====================================================================================================================");
+            rReturnType.AppendLine("#if NWD_VERBOSE");
+            rReturnType.AppendLine("#if UNITY_EDITOR");
+            rReturnType.AppendLine("#define NWD_LOG");
+            rReturnType.AppendLine("#define NWD_BENCHMARK");
+            rReturnType.AppendLine("#elif DEBUG");
+            rReturnType.AppendLine("#define NWD_LOG");
+            rReturnType.AppendLine("#define NWD_BENCHMARK");
+            rReturnType.AppendLine("#endif");
+            rReturnType.AppendLine("#endif");
+            rReturnType.AppendLine("//=====================================================================================================================");
             rReturnType.AppendLine("using System.Collections;");
             rReturnType.AppendLine("using System.Collections.Generic;");
             rReturnType.AppendLine("using UnityEngine;");
@@ -318,18 +349,6 @@ namespace NetWorkedData
             rReturnType.AppendLine("return true;");
             rReturnType.AppendLine("}");
             rReturnType.AppendLine("//-------------------------------------------------------------------------------------------------------------");
-            foreach (Type tType in tAllTypes)
-            {
-                NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
-                if (tDatas != null)
-                {
-                    rReturnType.AppendLine("/// <summary>");
-                    rReturnType.AppendLine("/// Restaure the configurations for " + tDatas.ClassNamePHP + "");
-                    rReturnType.AppendLine("/// </summary>");
-                    rReturnType.AppendLine(tDatas.CreationCSHARP());
-                    rReturnType.AppendLine("//-------------------------------------------------------------------------------------------------------------");
-                }
-            }
             rReturnType.AppendLine("}");
             rReturnType.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             rReturnType.AppendLine("}");
@@ -337,6 +356,58 @@ namespace NetWorkedData
             string tPathType = tOwnerConfigurationFolderPath + "/NWDConfigurations_Classes.cs";
             string rReturnTypeFormatted = NWDToolbox.CSharpFormat(rReturnType.ToString());
             File.WriteAllText(tPathType, rReturnTypeFormatted);
+
+            foreach (Type tType in tAllTypes)
+            {
+                NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
+                if (tDatas != null)
+                {
+                    StringBuilder rReturnClass = new StringBuilder(string.Empty);
+                    rReturnClass.AppendLine("//=====================================================================================================================");
+                    rReturnClass.AppendLine(NWD.K_CommentCopyright + tYearString);
+                    rReturnClass.AppendLine(NWD.K_CommentCreator);
+                    rReturnClass.AppendLine("//=====================================================================================================================");
+                    rReturnClass.AppendLine("#if NWD_VERBOSE");
+                    rReturnClass.AppendLine("#if UNITY_EDITOR");
+                    rReturnClass.AppendLine("#define NWD_LOG");
+                    rReturnClass.AppendLine("#define NWD_BENCHMARK");
+                    rReturnClass.AppendLine("#elif DEBUG");
+                    rReturnClass.AppendLine("#define NWD_LOG");
+                    rReturnClass.AppendLine("#define NWD_BENCHMARK");
+                    rReturnClass.AppendLine("#endif");
+                    rReturnClass.AppendLine("#endif");
+                    rReturnClass.AppendLine("//=====================================================================================================================");
+                    rReturnClass.AppendLine("using System.Collections;");
+                    rReturnClass.AppendLine("using System.Collections.Generic;");
+                    rReturnClass.AppendLine("using UnityEngine;");
+                    rReturnClass.AppendLine("//=====================================================================================================================");
+                    rReturnClass.AppendLine("namespace NetWorkedData");
+                    rReturnClass.AppendLine("{");
+                    rReturnClass.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                    rReturnClass.AppendLine("public partial class NWDAppConfiguration : NWDApp");
+                    rReturnClass.AppendLine("{");
+                    rReturnClass.AppendLine("//-------------------------------------------------------------------------------------------------------------");
+                    rReturnClass.AppendLine("/// <summary>");
+                    rReturnClass.AppendLine("/// Restaure the configurations for " + tDatas.ClassNamePHP + "");
+                    rReturnClass.AppendLine("/// </summary>");
+                    rReturnClass.AppendLine(tDatas.CreationCSHARP());
+                    rReturnClass.AppendLine("//-------------------------------------------------------------------------------------------------------------");
+                    rReturnClass.AppendLine("}");
+                    rReturnClass.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                    rReturnClass.AppendLine("}");
+                    rReturnClass.AppendLine("//=====================================================================================================================");
+                    string tPathTypeClass = tOwnerConfigurationFolderPath + "/NWDConfigurations_"+ tDatas.ClassNamePHP +".cs";
+                    string rReturnClassFormatted = NWDToolbox.CSharpFormat(rReturnClass.ToString());
+                    File.WriteAllText(tPathTypeClass, rReturnClassFormatted);
+                }
+            }
+            //rReturnType.AppendLine("}");
+            //rReturnType.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            //rReturnType.AppendLine("}");
+            //rReturnType.AppendLine("//=====================================================================================================================");
+            //string tPathType = tOwnerConfigurationFolderPath + "/NWDConfigurations_Classes.cs";
+            //string rReturnTypeFormatted = NWDToolbox.CSharpFormat(rReturnType.ToString());
+            //File.WriteAllText(tPathType, rReturnTypeFormatted);
 
             try
             {
