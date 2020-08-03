@@ -47,6 +47,8 @@ namespace NetWorkedData
             NWDBenchmark.Start();
             if (NWDLauncher.LauncherIsReady())
             {
+                // save datas
+                NWDDataManager.SharedInstance().DataQueueExecute();
                 // generate file editor configuration in specific folder
                 GenerateCSharpFile_Editor(sEnvironment);
                 // generate file launcher configuration in specific folder

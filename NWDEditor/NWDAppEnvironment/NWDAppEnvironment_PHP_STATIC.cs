@@ -61,7 +61,7 @@ namespace NetWorkedData
             }
             tFile.AppendLine("// prevent include from function for exit (typical example: error('XXX', true);)");
             tFile.AppendLine("global $admin," + NWD.K_SQL_CON_EDITOR + ", $NWD_SLT_TMP, $NWD_TMA, $RRR_LOG, $REP, $WSBUILD, " + NWD.K_PHP_TIME_SYNC + ", $REF_NEEDED, $ACC_NEEDED, " + NWD.K_ENV + ", $NWD_SHA_VEC, $NWD_SHA_SEC, $NWD_SLT_STR, $NWD_SLT_END;");
-           
+
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// web-services build");
             tFile.AppendLine("respondAdd('wsbuild',$WSBUILD);");
@@ -2025,13 +2025,25 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_SQL_CON_EDITOR + " = array();");
             tFile.AppendLine("global $admin;");
             tFile.AppendLine("headerBrutalValue ('adminHash', '" + NWD.AdminHashKey + "');");
-            tFile.AppendLine("$admin = adminHashTest ($adminHash, $NWD_ADM_KEY, $NWD_SLT_TMP);");
-            tFile.AppendLine("if ($admin == true)");
+
+            tFile.AppendLine("if ($adminHash != '')");
             tFile.AppendLine("{");
             {
-                tFile.AppendLine(NWDError.PHP_BenchmarkStart(this, "ConnectAllDataBase"));
-                tFile.AppendLine("ConnectAllDatabases();");
-                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this, "ConnectAllDataBase"));
+                tFile.AppendLine("$admin = adminHashTest ($adminHash, $NWD_ADM_KEY, $NWD_SLT_TMP);");
+                tFile.AppendLine("if ($admin == true)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine(NWDError.PHP_BenchmarkStart(this, "ConnectAllDataBase"));
+                    tFile.AppendLine("ConnectAllDatabases();");
+                    tFile.AppendLine(NWDError.PHP_BenchmarkFinish(this, "ConnectAllDataBase"));
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("else");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_ADMIN));
+                }
+                tFile.AppendLine("}");
             }
             tFile.AppendLine("}");
 

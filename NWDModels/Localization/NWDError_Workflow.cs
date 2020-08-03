@@ -40,6 +40,7 @@ namespace NetWorkedData
         public void GenerateServerErreur()
         {
             //NWDBenchmark.Start();
+            NWDError.CreateGenericError(NWDError.NWDError_ADMIN, "ADMIN", "error your are not admin", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError(NWDError.NWDError_ERR01, "ERROR error", "Invalid Request.", "OK", NWDErrorType.Alert);
             NWDError.CreateGenericError(NWDError.NWDError_RESC04, "ERROR error", "Invalid Reference match.", "OK", NWDErrorType.Alert);
             NWDError.CreateGenericError(NWDError.NWDError_RESC03, "Rescue error", "Too much match.", "OK", NWDErrorType.Alert);

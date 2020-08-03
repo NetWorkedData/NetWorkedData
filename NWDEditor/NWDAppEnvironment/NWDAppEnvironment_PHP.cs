@@ -44,6 +44,8 @@ namespace NetWorkedData
         public void CreatePHP(List<Type> sTypeList, bool sCreateAll = true, bool sWriteOnDisk = true, NWDServerAuthentication sConn = null)
         {
             NWDBenchmark.Start();
+            // save datas
+            NWDDataManager.SharedInstance().DataQueueExecute();
             LoadDataNecessary();
             List<string> tFolders = CreatePHPFolder(sWriteOnDisk);
             Dictionary<string, string> tFilesAndDatas = new Dictionary<string, string>();

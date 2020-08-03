@@ -3797,7 +3797,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '#Blank test Third#'
+  m_Text: '#Blank test zeeee prod    #'
 --- !u!222 &1484890461
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5289,7 +5289,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '#Reset session#'
+  m_Text: '#Reset session dev#'
 --- !u!222 &2107022174
 CanvasRenderer:
   m_ObjectHideFlags: 0
