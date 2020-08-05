@@ -22,45 +22,44 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserAvatar : NWDBasisGameSaveDependent
+    public class NWDUserAvatarIndexer : NWDIndexer<NWDUserAvatar>
     {
         //-------------------------------------------------------------------------------------------------------------
-        static protected NWDIndex<NWDGameSave,NWDUserAvatar> kIndex = new NWDIndex<NWDGameSave, NWDUserAvatar>();
+        static protected NWDIndex<NWDGameSave, NWDUserAvatar> kIndex = new NWDIndex<NWDGameSave, NWDUserAvatar>();
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInMemory]
-        public void InsertInTipKeyIndex()
+        public override void IndexData(NWDTypeClass sData)
         {
-            // Re-add to the actual indexation ?
-            if (IsUsable())
+            NWDUserAvatar tData = (NWDUserAvatar)sData;
+            if (tData.IsUsable())
             {
-                // Re-add !
-                kIndex.UpdateData(this, this.GameSave.GetReference());
+                kIndex.UpdateData(tData, tData.GameSave.GetReference());
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDDeindexInMemory]
-        public void RemoveFromTipKeyIndex()
+        public override void DeindexData(NWDTypeClass sData)
         {
-            // Remove from the actual indexation
-            kIndex.RemoveData(this);
+            NWDUserAvatar tData = (NWDUserAvatar)sData;
+            kIndex.RemoveData(tData);
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserAvatar FindFirstDataByKey(NWDGameSave sKeyValue)
+        {
+            return kIndex.FirstRawDataByKey(sKeyValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDUserAvatar : NWDBasisGameSaveDependent
+    {
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserAvatar CurrentData(bool sOrCreate = true)
         {
-            //NWDUserAvatar rReturn = kIndex.RawFirstDataByKey(NWDGameSave.CurrentData());
-            //if (rReturn == null && sOrCreate == true)
-            //{
-            //    rReturn = NWDBasisHelper.NewData<NWDUserAvatar>();
-            //    rReturn.GameSave.SetData(NWDGameSave.CurrentData());
-            //    rReturn.UpdateData();
-            //}
-            //return rReturn;
 
             NWDUserAvatar rReturn = null;
             NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDUserAvatar));
             if (tHelper.AllDatabaseIsLoaded() && tHelper.AllDatabaseIsIndexed() == true)
             {
-                rReturn = kIndex.FirstRawDataByKey(NWDGameSave.CurrentData());
+                rReturn = NWDUserAvatarIndexer.FindFirstDataByKey(NWDGameSave.CurrentData());
                 if (rReturn == null && sOrCreate == true)
                 {
                     rReturn = NWDBasisHelper.NewData<NWDUserAvatar>();

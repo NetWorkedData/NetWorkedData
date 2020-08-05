@@ -16,27 +16,35 @@
 #endif
 //=====================================================================================================================
 using System;
-
-//=====================================================================================================================
-//
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
-//
-// Read License-en or Licence-fr
-//
-//=====================================================================================================================
 using UnityEngine;
-//using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDMessageIndexer : NWDIndexer<NWDMessage>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public override void IndexData(NWDTypeClass sData)
+        {
+            NWDMessage tData = (NWDMessage)sData;
+            tData.InsertInCodeIndex();
+            tData.InsertInDomainCodeIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DeindexData(NWDTypeClass sData)
+        {
+            NWDMessage tData = (NWDMessage)sData;
+            tData.RemoveFromCodeIndex();
+            tData.RemoveFromDomainCodeIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDMessage : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndexSimple<NWDMessage> kCodeIndex = new NWDIndexSimple<NWDMessage>();
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInMemory]
         public void InsertInCodeIndex()
         {
             // Re-add to the actual indexation ?
@@ -47,7 +55,6 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDDeindexInMemory]
         public void RemoveFromCodeIndex()
         {
             // Remove from the actual indexation
@@ -61,7 +68,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndexSimple<NWDMessage> kDomainCodeIndex = new NWDIndexSimple<NWDMessage>();
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInMemory]
         public void InsertInDomainCodeIndex()
         {
             // Re-add to the actual indexation ?
@@ -72,7 +78,6 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDDeindexInMemory]
         public void RemoveFromDomainCodeIndex()
         {
             // Remove from the actual indexation

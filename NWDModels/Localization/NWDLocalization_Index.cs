@@ -24,27 +24,24 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDLocalization : NWDBasis
+    public class NWDLocalizationIndexer : NWDIndexer<NWDLocalization>
     {
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndexSimple<NWDLocalization> kKeyIndex = new NWDIndexSimple<NWDLocalization>();
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInMemory]
-        public void InsertInKeyIndex()
+        public override void IndexData(NWDTypeClass sData)
         {
-            // Re-add to the actual indexation ?
-            if (IsUsable() && string.IsNullOrEmpty(KeyValue) == false)
+            NWDLocalization tData = (NWDLocalization)sData;
+            if (tData.IsUsable() && string.IsNullOrEmpty(tData.KeyValue) == false)
             {
-                // Re-add !
-                kKeyIndex.InsertData(this, this.KeyValue);
+                kKeyIndex.InsertData(tData, tData.KeyValue);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDDeindexInMemory]
-        public void RemoveFromKeyIndex()
+        public override void DeindexData(NWDTypeClass sData)
         {
-            // Remove from the actual indexation
-            kKeyIndex.RemoveData(this);
+            NWDLocalization tData = (NWDLocalization)sData;
+            kKeyIndex.RemoveData(tData);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDLocalization FindFirstDataByKey(string sKeyValue)
@@ -55,6 +52,21 @@ namespace NetWorkedData
         public static List<NWDLocalization> RawDatasWithKey()
         {
             return kKeyIndex.RawDatas();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDLocalization : NWDBasis
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDLocalization FindFirstDataByKey(string sKeyValue)
+        {
+            return NWDLocalizationIndexer.FindFirstDataByKey(sKeyValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<NWDLocalization> RawDatasWithKey()
+        {
+            return NWDLocalizationIndexer.RawDatasWithKey();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

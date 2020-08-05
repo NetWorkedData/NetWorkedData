@@ -22,12 +22,28 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDUserPreferenceIndexer : NWDIndexer<NWDUserPreference>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public override void IndexData(NWDTypeClass sData)
+        {
+            NWDUserPreference tData = (NWDUserPreference)sData;
+            tData.InsertInLevelIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DeindexData(NWDTypeClass sData)
+        {
+            NWDUserPreference tData = (NWDUserPreference)sData;
+            tData.RemoveFromLevelIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDUserPreference : NWDBasisGameSaveDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDPreferenceKey, NWDUserPreference> kAchievementKeyIndex = new NWDIndex<NWDPreferenceKey, NWDUserPreference>();
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInMemory]
         public void InsertInLevelIndex()
         {
             // Re-add to the actual indexation ?
@@ -39,7 +55,6 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDDeindexInMemory]
         public void RemoveFromLevelIndex()
         {
             // Remove from the actual indexation

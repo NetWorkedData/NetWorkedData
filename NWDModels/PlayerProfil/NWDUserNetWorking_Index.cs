@@ -21,12 +21,28 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDUserNetWorkingIndexer : NWDIndexer<NWDUserNetWorking>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public override void IndexData(NWDTypeClass sData)
+        {
+            NWDUserNetWorking tData = (NWDUserNetWorking)sData;
+            tData.InsertInTipKeyIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DeindexData(NWDTypeClass sData)
+        {
+            NWDUserNetWorking tData = (NWDUserNetWorking)sData;
+            tData.RemoveFromTipKeyIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDUserNetWorking : NWDBasisGameSaveDependent
     {
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDGameSave, NWDUserNetWorking> kIndex = new NWDIndex<NWDGameSave, NWDUserNetWorking>();
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInMemory]
         public void InsertInTipKeyIndex()
         {
             // Re-add to the actual indexation ?
@@ -37,7 +53,6 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDDeindexInMemory]
         public void RemoveFromTipKeyIndex()
         {
             // Remove from the actual indexation

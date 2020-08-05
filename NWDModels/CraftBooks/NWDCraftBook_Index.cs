@@ -23,27 +23,28 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDCraftBookIndexer : NWDIndexer<NWDCraftBook>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public override void IndexData(NWDTypeClass sData)
+        {
+            NWDCraftBook tData = (NWDCraftBook)sData;
+            tData.InsertInIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DeindexData(NWDTypeClass sData)
+        {
+            NWDCraftBook tData = (NWDCraftBook)sData;
+            tData.RemoveFromIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDCraftBook : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         //static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;
         static Dictionary<string, List<NWDCraftBook>> kIndex = new Dictionary<string, List<NWDCraftBook>>(new StringIndexKeyComparer());
-        //-------------------------------------------------------------------------------------------------------------
-        //static string IndexKey(bool sOrderIsImportant, NWDReferenceType<NWDRecipientGroup> sRecipientGroup, NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient)
-        //{
-        //    string rReturn = string.Empty;
-        //    if (sOrderIsImportant == false)
-        //    {
-        //        rReturn = sOrderIsImportant.ToString() + "*" + sRecipientGroup.GetReference() + "*" + string.Join(NWEConstants.K_HASHTAG, sItemGroupIngredient.GetSortedReferences());
-        //    }
-        //    else
-        //    {
-        //        rReturn = sOrderIsImportant.ToString() + "*" + sRecipientGroup.GetReference() + "*" + string.Join(NWEConstants.K_HASHTAG, sItemGroupIngredient.GetReferences());
-        //    }
-        //    // Use to Hash more quickly
-        //    rReturn = NWESecurityTools.GenerateSha(rReturn, NWESecurityShaTypeEnum.Sha1);
-        //    return rReturn;
-        //}
         //-------------------------------------------------------------------------------------------------------------
         public static List<NWDCraftBook> CraftBookForItem(NWDItem sRecipient, NWDReferencesArrayType<NWDItem> sItems)
         {
@@ -154,7 +155,6 @@ namespace NetWorkedData
             return rResult.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInMemory]
         public void InsertInIndex()
         {
             //Debug.Log("InsertInIndex reference =" + Reference);
@@ -194,7 +194,6 @@ namespace NetWorkedData
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDDeindexInMemory]
         public void RemoveFromIndex()
         {
             if (RecipeHashesArray != null)
@@ -209,69 +208,6 @@ namespace NetWorkedData
                 }
             }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //static public List<NWDCraftBook> FindByIndex(NWDReferenceType<NWDRecipientGroup> sRecipientGroup, NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient)
-        //{
-        //    //NWDBenchmark.Start();
-        //    List<NWDCraftBook> rReturn = null;
-        //    string tKey = IndexKey(true, sRecipientGroup, sItemGroupIngredient);
-        //    string tKeyNoOrder = IndexKey(false, sRecipientGroup, sItemGroupIngredient);
-        //    if (kIndex.ContainsKey(tKey))
-        //    {
-        //        rReturn = kIndex[tKey];
-        //    }
-        //    else if (kIndex.ContainsKey(tKeyNoOrder))
-        //    {
-        //        rReturn = kIndex[tKeyNoOrder];
-        //    }
-        //    //NWDBenchmark.Finish();
-        //    return rReturn;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //static public NWDCraftBook FindFirstByIndex(NWDReferenceType<NWDRecipientGroup> sRecipientGroup, NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient)
-        //{
-        //    //NWDBenchmark.Start();
-        //    NWDCraftBook rObject = null;
-        //    List<NWDCraftBook> tReturn = FindByIndex(sRecipientGroup, sItemGroupIngredient);
-        //    if (tReturn != null)
-        //    {
-        //        if (tReturn.Count > 0)
-        //        {
-        //            rObject = tReturn[0];
-        //        }
-        //    }
-        //    //NWDBenchmark.Finish();
-        //    return rObject;
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //static public NWDCraftBook FindFirstByIndex(NWDRecipientGroup sRecipientGroup, NWDReferencesArrayType<NWDItem> sItemIngredient)
-        //{
-        //    //NWDBenchmark.Start();
-        //    NWDCraftBook rObject = null;
-        //    NWDReferenceType<NWDRecipientGroup> tRecipent = new NWDReferenceType<NWDRecipientGroup>();
-        //    NWDReferencesArrayType<NWDItemGroup> tIngredients = new NWDReferencesArrayType<NWDItemGroup>();
-        //    tRecipent.SetObject(sRecipientGroup);
-        //    // TODO : RECOMPOSE ALL POSSIBILITIES!
-
-
-        //    foreach (NWDItem tItem in sItemIngredient.GetObjects())
-        //    {
-        //        if (tItem.ItemGroupList.GetObjects().Length > 0)
-        //        {
-        //            tIngredients.AddObject(tItem.ItemGroupList.GetObjects()[0]);
-        //        }
-        //    }
-        //    List<NWDCraftBook> tReturn = FindByIndex(tRecipent, tIngredients);
-        //    if (tReturn != null)
-        //    {
-        //        if (tReturn.Count > 0)
-        //        {
-        //            rObject = tReturn[0];
-        //        }
-        //    }
-        //    //NWDBenchmark.Finish();
-        //    return rObject;
-        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

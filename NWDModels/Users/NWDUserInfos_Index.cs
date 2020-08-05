@@ -22,67 +22,35 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserInfos : NWDBasisGameSaveDependent
+    public class NWDUserInfosIndexer : NWDIndexer<NWDUserInfos>
     {
         //-------------------------------------------------------------------------------------------------------------
-        private static protected NWDIndex<NWDGameSave, NWDUserInfos> kIndex = new NWDIndex<NWDGameSave, NWDUserInfos>();
+        static protected NWDIndex<NWDGameSave, NWDUserInfos> kIndex = new NWDIndex<NWDGameSave, NWDUserInfos>();
         //-------------------------------------------------------------------------------------------------------------
-        private static NWDUserInfos kCurrent = null;
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInMemory]
-        public void InsertInTipKeyIndex()
+        public override void IndexData(NWDTypeClass sData)
         {
-            // Re-add to the actual indexation ?
-            if (IsUsable())
+            NWDUserInfos tData = (NWDUserInfos)sData;
+            if (tData.IsUsable())
             {
-                // Re-add !
-                kIndex.UpdateData(this, this.GameSave.GetReference());
+                kIndex.UpdateData(tData, tData.GameSave.GetReference());
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDDeindexInMemory]
-        public void RemoveFromTipKeyIndex()
+        public override void DeindexData(NWDTypeClass sData)
         {
-            // Remove from the actual indexation
-            kIndex.RemoveData(this);
+            NWDUserInfos tData = (NWDUserInfos)sData;
+            kIndex.RemoveData(tData);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserInfos FindFirstDataByAccount(string sAccountReference, bool sOrCreate = true)
+        public static NWDUserInfos FindFirstDataByKey(NWDGameSave sKeyValue)
         {
-            if (kCurrent != null)
-            {
-                if (kCurrent.Account.GetReference() != sAccountReference)
-                {
-                    kCurrent = null;
-                }
-            }
-
-            if (kCurrent == null)
-            {
-                NWDUserInfos tUserInfos = NWDBasisHelper.GetCorporateFirstData<NWDUserInfos>(NWDAccount.CurrentReference());
-                //NWDUserInfos tUserInfos = kIndex.RawFirstDataByKey(NWDGameSave.CurrentData());
-                if (tUserInfos == null && sOrCreate)
-                {
-                    tUserInfos = NWDBasisHelper.NewData<NWDUserInfos>();
-
-#if UNITY_EDITOR
-                    tUserInfos.InternalKey = NWDAccount.CurrentReference();
-#endif
-
-                    tUserInfos.GameSave.SetData(NWDGameSave.CurrentData());
-                    tUserInfos.Account.SetReference(NWDAccount.CurrentReference());
-                    tUserInfos.Tag = NWDBasisTag.TagUserCreated;
-                    tUserInfos.SaveData();
-                }
-                kCurrent = tUserInfos;
-            }
-            return kCurrent;
+            return kIndex.FirstRawDataByKey(sKeyValue);
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public static NWDUserInfos CurrentData()
-        //{
-        //    return FindFirstDataByAccount(NWDAccount.CurrentReference(), true);
-        //}
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDUserInfos : NWDBasisGameSaveDependent
+    {
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserInfos CurrentData(bool sOrCreate = true)
         {
@@ -90,7 +58,7 @@ namespace NetWorkedData
             NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDUserInfos));
             if (tHelper.AllDatabaseIsLoaded() && tHelper.AllDatabaseIsIndexed() == true)
             {
-                rReturn = kIndex.FirstRawDataByKey(NWDGameSave.CurrentData());
+                rReturn = NWDUserInfosIndexer.FindFirstDataByKey(NWDGameSave.CurrentData());
                 if (rReturn == null && sOrCreate == true)
                 {
                     rReturn = NWDBasisHelper.NewData<NWDUserInfos>();
@@ -100,7 +68,6 @@ namespace NetWorkedData
             }
             return rReturn;
         }
-
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Get the current account infos instance for the current account
@@ -117,40 +84,6 @@ namespace NetWorkedData
             }
             return tInfos;
         }
-
-        //-------------------------------------------------------------------------------------------------------------
-        /*public static NWDUserInfos CurrentData()
-        {
-            if (kCurrent != null)
-            {
-                if (kCurrent.Account.GetReference() != NWDAccount.CurrentReference())
-                {
-                    kCurrent = null;
-                }
-            }
-
-            if (kCurrent == null)
-            {
-                NWDUserInfos tUserInfos = NWDBasisHelper.GetCorporateFirstData<NWDUserInfos>(NWDAccount.CurrentReference());
-                //NWDUserInfos tUserInfos = kIndex.RawFirstDataByKey(NWDGameSave.CurrentData());
-                if (tUserInfos == null)
-                {
-                    tUserInfos = NWDBasisHelper.NewData<NWDUserInfos>();
-                    
-                    #if UNITY_EDITOR
-                    tUserInfos.InternalKey = NWDAccount.CurrentReference();
-                    #endif
-
-                    tUserInfos.GameSave.SetData(NWDGameSave.CurrentData());
-                    tUserInfos.Account.SetReference(NWDAccount.CurrentReference());
-                    tUserInfos.Tag = NWDBasisTag.TagUserCreated;
-                    tUserInfos.SaveData();
-                }
-                kCurrent = tUserInfos;
-            }
-
-            return kCurrent;
-        }*/
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -22,17 +22,32 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDAccountPreferenceIndexer : NWDIndexer<NWDAccountPreference>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public override void IndexData(NWDTypeClass sData)
+        {
+            NWDAccountPreference tData = (NWDAccountPreference)sData;
+            tData.InsertInLevelIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DeindexData(NWDTypeClass sData)
+        {
+            NWDAccountPreference tData = (NWDAccountPreference)sData;
+            tData.RemoveFromLevelIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAccountPreference : NWDBasisAccountDependent
     {
-
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDPreferenceKey, NWDAccountPreference> kAchievementKeyIndex = new NWDIndex<NWDPreferenceKey, NWDAccountPreference>();
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInMemory]
         public void InsertInLevelIndex()
         {
             // Re-add to the actual indexation ?
-            if (IsUsable())
+            if (IsUsable() && PreferenceKey!=null)
             {
                 // Re-add !
                 string tKey = PreferenceKey.GetReference() + NWDConstants.kFieldSeparatorA + this.Account.GetReference();
@@ -40,7 +55,6 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDDeindexInMemory]
         public void RemoveFromLevelIndex()
         {
             // Remove from the actual indexation
