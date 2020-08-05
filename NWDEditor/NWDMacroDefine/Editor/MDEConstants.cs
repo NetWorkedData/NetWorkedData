@@ -10,15 +10,8 @@
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using System;
-using System.IO;
-using System.Text.RegularExpressions;
-using System.Linq;
 
+#if UNITY_EDITOR
 //=====================================================================================================================
 namespace MacroDefineEditor
 {
@@ -55,3 +48,4 @@ namespace MacroDefineEditor
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif
