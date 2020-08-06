@@ -1,13 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-09-9 18:24:43
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	MacroDefineEditor for Unity3D
-//
-//  All rights reserved by ideMobi
+//  ideMobi 2020©
 //
 //=====================================================================================================================
 
@@ -22,10 +15,10 @@ using System.Text.RegularExpressions;
 using System.Linq;
 
 //=====================================================================================================================
-namespace MacroDefineEditor
+namespace NetWorkedData.MacroDefine
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class MDEMacroDefineEditor : EditorWindow
+    public class MDEMacroDefineEditor : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
         public static MDEMacroDefineEditor kSharedInstance;
@@ -44,7 +37,7 @@ namespace MacroDefineEditor
         Dictionary<BuildTargetGroup, List<string>> ActiveGroupMacroDefine = new Dictionary<BuildTargetGroup, List<string>>();
         Dictionary<BuildTargetGroup, List<string>> ActiveGroupMacroDefineOriginal = new Dictionary<BuildTargetGroup, List<string>>();
         List<MDEDataTypeEnum> EnumTypeList = new List<MDEDataTypeEnum>();
-        List<MDEDataTypeBool> BoolTypeList = new List<MDEDataTypeBool>();
+        List<NWDMacroDefinerBool> BoolTypeList = new List<NWDMacroDefinerBool>();
         List<string> AllMacrosOriginal = new List<string>();
         string NewMacro = string.Empty;
         Vector2 ScroolPoint;
@@ -97,14 +90,15 @@ namespace MacroDefineEditor
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
+            TitleInit(NWDConstants.K_APP_MACRO_DEFINE_TITLE, typeof(MDEMacroDefineEditor));
             Load();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Load()
         {
             waiting = false;
-            titleContent = new GUIContent(MDEConstants.MacroDefineEditor, AssetDatabase.LoadAssetAtPath<Texture2D>(MDEFindPackage.PathOfPackage("/Resources/Textures/MDEIcon.psd")));
-            ImageLogo = AssetDatabase.LoadAssetAtPath<Texture2D>(MDEFindPackage.PathOfPackage("/Resources/Textures/IdemobiIconAlpha.png"));
+            //titleContent = new GUIContent(MDEConstants.MacroDefineEditor, AssetDatabase.LoadAssetAtPath<Texture2D>(MDEFindPackage.PathOfPackage("/Resources/Textures/MDEIcon.psd")));
+            //ImageLogo = AssetDatabase.LoadAssetAtPath<Texture2D>(MDEFindPackage.PathOfPackage("/Resources/Textures/IdemobiIconAlpha.png"));
             ActiveGroup.Clear();
             ActiveGroupMacroDefine.Clear();
             ActiveGroupMacroDefineOriginal.Clear();
@@ -181,17 +175,17 @@ namespace MacroDefineEditor
                 }
             }
             Type[] tAllBoolTypes = (from System.Type type in tAllTypes
-                                    where type.IsSubclassOf(typeof(MDEDataTypeBool))
+                                    where type.IsSubclassOf(typeof(NWDMacroDefinerBool))
                                     select type).ToArray();
             foreach (Type tType in tAllBoolTypes)
             {
                 if (tType.IsGenericType == false)
                 {
-                    MDEDataTypeBool tBool = Activator.CreateInstance(tType, null) as MDEDataTypeBool;
+                    NWDMacroDefinerBool tBool = Activator.CreateInstance(tType, null) as NWDMacroDefinerBool;
                     BoolTypeList.Add(tBool);
                 }
             }
-            foreach (MDEDataTypeBool tBool in BoolTypeList)
+            foreach (NWDMacroDefinerBool tBool in BoolTypeList)
             {
                 List<string> tArrayMacro = tBool.StringValuesArray();
                 foreach (string tM in tArrayMacro)
@@ -240,10 +234,11 @@ namespace MacroDefineEditor
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void OnGUI()
+        public override void OnPreventGUI()
         {
             DefineGUI();
 
+            NWDGUILayout.Title("Macro Define for project");
             //if (waiting == false)
             //{
             BuildTargetGroup tBuildTargetGroupActiveNow = BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget);
@@ -313,6 +308,7 @@ namespace MacroDefineEditor
                         foreach (MDEDataTypeEnum tEnum in EnumTypeList)
                         {
                             List<string> tArrayMacro = tEnum.StringValuesArray();
+                            List<string> tArrayRepresentation = tEnum.RepresentationValuesArray();
                             int tIndex = 0;
                             List<string> tToRemove = new List<string>();
                             foreach (string tMM in tArrayMacro)
@@ -328,7 +324,7 @@ namespace MacroDefineEditor
                                 ActiveGroupMacroDefine[tBuildTargetGroup].Remove(tR);
                             }
                             //GUILayout.Label(tEnum.GetTitle());
-                            tIndex = EditorGUILayout.Popup(tEnum.GetTitle(), tIndex, tArrayMacro.ToArray());
+                            tIndex = EditorGUILayout.Popup(tEnum.GetTitle(), tIndex, tArrayRepresentation.ToArray());
                             if (tIndex >= 0)
                             {
                                 if (tArrayMacro[tIndex] != MDEConstants.NONE)
@@ -345,7 +341,7 @@ namespace MacroDefineEditor
                     GUILayout.BeginVertical(EditorStyles.helpBox);
                         GUILayout.Label(MDEConstants.BoolArea, TitleStyle);
 
-                        foreach (MDEDataTypeBool tBool in BoolTypeList)
+                        foreach (NWDMacroDefinerBool tBool in BoolTypeList)
                         {
                             List<string> tArrayMacro = tBool.StringValuesArray();
                             if (tArrayMacro.Count == 2)
@@ -423,6 +419,14 @@ namespace MacroDefineEditor
             {
                 Load();
             }
+
+
+
+            NWDGUILayout.Section("Macro Define informations");
+            NWDGUILayout.Informations("If you want create new macro, use generic from "+typeof(MDEDataTypeEnumGeneric<>).Name+ " or " + typeof(MDEDataTypeBoolGeneric<>).Name + "!");
+
+            NWDGUILayout.Section("Macro add");
+
             GUILayout.Space(10.0F);
             GUILayout.Label(MDEConstants.NewMacroArea, EditorStyles.boldLabel);
             NewMacro = EditorGUILayout.TextField(MDEConstants.NewMacro, NewMacro);
@@ -443,7 +447,8 @@ namespace MacroDefineEditor
             }
             EditorGUI.EndDisabledGroup();
 
-            GUILayout.Space(10.0F);
+            NWDGUILayout.Section("Macro Define save");
+
             GUILayout.Label(MDEConstants.SaveArea, EditorStyles.boldLabel);
             bool tCheckModified = false;
 
@@ -472,9 +477,10 @@ namespace MacroDefineEditor
                     }
                 }
             }
-
+            NWDGUI.BeginRedArea();
             EditorGUI.BeginDisabledGroup(!tCheckModified);
-            if (GUILayout.Button(MDEConstants.Save))
+            //if (GUILayout.Button(MDEConstants.Save))
+            if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
             {
                 if (EditorUtility.DisplayDialog(MDEConstants.AlertTitle, MDEConstants.AlertMessage, MDEConstants.AlertOK, MDEConstants.AlertCancel))
                 {
@@ -487,20 +493,10 @@ namespace MacroDefineEditor
                         PlayerSettings.SetScriptingDefineSymbolsForGroup(tBuildTargetGroupSet, tSymbos);
                     }
                 }
+                NWDEditorWindow.GenerateCSharpFile();
             }
             EditorGUI.EndDisabledGroup();
-
-            GUILayout.Space(20.0F);
-            GUILayout.FlexibleSpace();
-            GUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
-            GUILayout.Label(ImageContent, StyleImage, GUILayout.Height(64.0F), GUILayout.Width(64.0F));
-            GUILayout.FlexibleSpace();
-            GUILayout.EndHorizontal();
-            //GUILayout.Label(new GUIContent("idéMobi ©"), StyleBold);
-            //GUILayout.Label(new GUIContent("Copyright 2019"), StyleBold);
-            //GUILayout.Label(new GUIContent("idéMobi is a french society. All rights based on french law."), Style);
-            GUILayout.Space(10.0F);
+            NWDGUI.EndRedArea();
 
             if (tReload)
             {

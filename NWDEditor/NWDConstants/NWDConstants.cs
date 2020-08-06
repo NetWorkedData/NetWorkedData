@@ -60,6 +60,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public const string K_APP_CHOOSER_ENVIRONMENT = "Select Environment used in Player Mode (Game panel)";
         public const string K_APP_CHOOSER_ENVIRONMENT_TITLE = "Chooser";
+        public const string K_APP_MACRO_DEFINE_TITLE = "Macro Define";
         public const string K_APP_MODEL_MANAGER_TITLE = "Model Manager";
         public const string K_APP_CLUSTER_SIZER_TITLE = "Cluster Sizer";
         public const string K_APP_SYNC_ENVIRONMENT = "Synchronize your datas in the good environment";

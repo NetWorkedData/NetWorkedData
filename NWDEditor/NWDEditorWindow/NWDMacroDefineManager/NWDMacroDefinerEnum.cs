@@ -1,13 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-09-9 18:24:43
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	MacroDefineEditor for Unity3D
-//
-//  All rights reserved by ideMobi
+//  ideMobi 2020©
 //
 //=====================================================================================================================
 
@@ -20,7 +13,7 @@ using System.Globalization;
 using UnityEditor;
 
 //=====================================================================================================================
-namespace MacroDefineEditor
+namespace NetWorkedData.MacroDefine
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
@@ -76,6 +69,12 @@ namespace MacroDefineEditor
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual List<string> StringValuesArray()
+        {
+            List<string> rList = new List<string>();
+            return rList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual List<string> RepresentationValuesArray()
         {
             List<string> rList = new List<string>();
             return rList;
@@ -208,6 +207,24 @@ namespace MacroDefineEditor
             return rList;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override List<string> RepresentationValuesArray()
+        {
+            List<string> rList = new List<string>();
+            foreach (KeyValuePair<long, K> tKeyPair in kList)
+            {
+                string tName = MDEConstants.NONE;
+                if (tKeyPair.Value != null)
+                {
+                    tName = tKeyPair.Value.Representation;
+                }
+                if (string.IsNullOrEmpty(tName) == false)
+                {
+                    rList.Add(tName);
+                }
+            }
+            return rList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = "")
         {
             MDEDataTypeEnum tTemporary = new MDEDataTypeEnum();
@@ -269,6 +286,11 @@ namespace MacroDefineEditor
         protected static K AddNone()
         {
             return Add(0, MDEConstants.NONE, MDEConstants.NONE, false);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        protected static K AddNone(string sRepresentation)
+        {
+            return Add(0, MDEConstants.NONE, sRepresentation, false);
         }
         //-------------------------------------------------------------------------------------------------------------
         protected static K Add(int sID, string sName)

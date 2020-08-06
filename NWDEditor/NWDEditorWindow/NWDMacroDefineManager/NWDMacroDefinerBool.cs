@@ -1,13 +1,6 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-09-9 18:24:43
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	MacroDefineEditor for Unity3D
-//
-//  All rights reserved by ideMobi
+//  ideMobi 2020©
 //
 //=====================================================================================================================
 
@@ -20,11 +13,11 @@ using System.Globalization;
 using UnityEditor;
 
 //=====================================================================================================================
-namespace MacroDefineEditor
+namespace NetWorkedData.MacroDefine
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
-    public class MDEDataTypeBool : IComparable
+    public class NWDMacroDefinerBool : IComparable
     {
         //-------------------------------------------------------------------------------------------------------------
         public long Value;
@@ -32,7 +25,7 @@ namespace MacroDefineEditor
         public string Representation;
         public bool Overridable = true;
         //-------------------------------------------------------------------------------------------------------------
-        public MDEDataTypeBool()
+        public NWDMacroDefinerBool()
         {
             Value = 0;
             Name = null;
@@ -69,7 +62,7 @@ namespace MacroDefineEditor
         //-------------------------------------------------------------------------------------------------------------
         public virtual object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = "")
         {
-            MDEDataTypeBool tTemporary = new MDEDataTypeBool();
+            NWDMacroDefinerBool tTemporary = new NWDMacroDefinerBool();
             tTemporary.Value = Value;
             //FAKE
             return tTemporary;
@@ -107,7 +100,7 @@ namespace MacroDefineEditor
             return GetType().Name;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool operator ==(MDEDataTypeBool sA, MDEDataTypeBool sB)
+        public static bool operator ==(NWDMacroDefinerBool sA, NWDMacroDefinerBool sB)
         {
             if ((object)sA == null && (object)sB == null)
             {
@@ -132,7 +125,7 @@ namespace MacroDefineEditor
             return false;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool operator !=(MDEDataTypeBool sA, MDEDataTypeBool sB)
+        public static bool operator !=(NWDMacroDefinerBool sA, NWDMacroDefinerBool sB)
         {
             if ((object)sA == null && (object)sB == null)
             {
@@ -159,7 +152,7 @@ namespace MacroDefineEditor
         //-------------------------------------------------------------------------------------------------------------
         public override bool Equals(object obj)
         {
-            var otherValue = obj as MDEDataTypeBool;
+            var otherValue = obj as NWDMacroDefinerBool;
 
             if (otherValue == null)
                 return false;
@@ -170,7 +163,7 @@ namespace MacroDefineEditor
             return typeMatches && valueMatches;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public int CompareTo(object sOther) => Value.CompareTo(((MDEDataTypeBool)sOther).Value);
+        public int CompareTo(object sOther) => Value.CompareTo(((NWDMacroDefinerBool)sOther).Value);
         //-------------------------------------------------------------------------------------------------------------
         public override int GetHashCode()
         {
@@ -180,7 +173,7 @@ namespace MacroDefineEditor
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
-    public class MDEDataTypeBoolGeneric<K> : MDEDataTypeBool where K : MDEDataTypeBoolGeneric<K>, new()
+    public class MDEDataTypeBoolGeneric<K> : NWDMacroDefinerBool where K : MDEDataTypeBoolGeneric<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         static readonly Dictionary<long, K> kList = new Dictionary<long, K>();
@@ -210,7 +203,7 @@ namespace MacroDefineEditor
         //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = "")
         {
-            MDEDataTypeBool tTemporary = new MDEDataTypeBool();
+            NWDMacroDefinerBool tTemporary = new NWDMacroDefinerBool();
             tTemporary.Value = Value;
             List<long> kListIndex = new List<long>();
             List<K> kListK = new List<K>();
@@ -331,7 +324,7 @@ namespace MacroDefineEditor
             EditorGUI.BeginProperty(position, label, property);
             K tTarget = fieldInfo.GetValue(property.serializedObject.targetObject) as K;
             EditorGUI.BeginChangeCheck();
-            MDEDataTypeBool tResult = tTarget.ControlField(position, property.displayName, false, property.tooltip) as MDEDataTypeBool;
+            NWDMacroDefinerBool tResult = tTarget.ControlField(position, property.displayName, false, property.tooltip) as NWDMacroDefinerBool;
             if (EditorGUI.EndChangeCheck())
             {
                 K tTargetFinal = MDEDataTypeBoolGeneric<K>.GetForValue(tResult.Value);

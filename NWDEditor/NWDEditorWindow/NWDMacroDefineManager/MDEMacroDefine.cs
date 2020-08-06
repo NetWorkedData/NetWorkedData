@@ -1,13 +1,6 @@
 //=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-09-9 18:24:43
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	MacroDefineEditor for Unity3D
-//
-//  All rights reserved by ideMobi
+//  ideMobi 2020©
 //
 //=====================================================================================================================
 
@@ -18,7 +11,7 @@ using UnityEditor;
 using UnityEditor.Build;
 
 //=====================================================================================================================
-namespace MacroDefineEditor
+namespace NetWorkedData.MacroDefine
 {
 	[InitializeOnLoad]
 	/// <summary>
