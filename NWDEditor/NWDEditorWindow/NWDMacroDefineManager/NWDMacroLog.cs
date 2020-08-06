@@ -1,15 +1,21 @@
 ﻿//=====================================================================================================================
-//Copyright NetWorkedDatas ideMobi 2020
-//Created by Jean-François CONTART 
+//
+//  ideMobi 2020©
+//
 //=====================================================================================================================
+// Define the use of Log and Benchmark only for this file!
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
 #if NWD_VERBOSE
 #if UNITY_EDITOR
-#define NWD_LOG
-#define NWD_BENCHMARK
+//#define NWD_LOG
+//#define NWD_BENCHMARK
 #elif DEBUG
-#define NWD_LOG
-#define NWD_BENCHMARK
+//#define NWD_LOG
+//#define NWD_BENCHMARK
 #endif
+#else
+#undef NWD_LOG
+#undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
 using System.Collections;
@@ -45,9 +51,9 @@ namespace NetWorkedData.MacroDefine
         public static string Title = SetTitle("Log");
         //-------------------------------------------------------------------------------------------------------------
         // declare all values
-        public static NWDLog None = AddNone("no Log");
+        public static NWDLog None = AddNone("no global Log");
         // string will be convert in UNIX format automatically
-        public static NWDLog Sample = Add(2, "NWD_LOG", "with Log");
+        public static NWDLog Sample = Add(2, "NWD_LOG", "with global Log");
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -60,9 +66,9 @@ namespace NetWorkedData.MacroDefine
         public static string Title = SetTitle("Benchmark");
         //-------------------------------------------------------------------------------------------------------------
         // declare all values
-        public static NWDBenchmark None = AddNone("no Benchmark");
+        public static NWDBenchmark None = AddNone("no global Benchmark");
         // string will be convert in UNIX format automatically
-        public static NWDBenchmark Sample = Add(2, "NWD_BENCHMARK", "with Benchmark");
+        public static NWDBenchmark Sample = Add(2, "NWD_BENCHMARK", "with global Benchmark");
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

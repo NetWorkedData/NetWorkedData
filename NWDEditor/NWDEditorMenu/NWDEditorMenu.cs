@@ -27,6 +27,7 @@ using UnityEngine;
 using System.Reflection;
 using UnityEditor;
 using System.Text;
+using NetWorkedData.MacroDefine;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -107,6 +108,12 @@ namespace NetWorkedData
         public static void ProjectPreferencesWindow()
         {
             NWDProjectConfigurationManager.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_EDITOR + "Macro configuration", false, 20)]
+        public static void MacroPreferencesWindow()
+        {
+            MDEMacroDefineEditor.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_EDITOR + "Synchronize window", false, 21)]

@@ -3,6 +3,21 @@
 //  ideMobi 2020©
 //
 //=====================================================================================================================
+// Define the use of Log and Benchmark only for this file!
+// Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
+#if NWD_VERBOSE
+#if UNITY_EDITOR
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#elif DEBUG
+//#define NWD_LOG
+//#define NWD_BENCHMARK
+#endif
+#else
+#undef NWD_LOG
+#undef NWD_BENCHMARK
+#endif
+//=====================================================================================================================
 
 #if UNITY_EDITOR
 
@@ -20,8 +35,6 @@ namespace NetWorkedData.MacroDefine
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class MDEMacroDefineEditor : NWDEditorWindow
     {
-        //-------------------------------------------------------------------------------------------------------------
-        public static MDEMacroDefineEditor kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
         private bool waiting = false;
         private GUIStyle TitleStyle;
@@ -42,11 +55,37 @@ namespace NetWorkedData.MacroDefine
         string NewMacro = string.Empty;
         Vector2 ScroolPoint;
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(MDEConstants.Menu, false, 860)]
-        public static void OpenSceneManager()
+        /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        private static MDEMacroDefineEditor kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the SharedInstance or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static MDEMacroDefineEditor SharedInstance()
         {
-            kSharedInstance = EditorWindow.GetWindow(typeof(MDEMacroDefineEditor)) as MDEMacroDefineEditor;
-            kSharedInstance.Focus();
+            //NWDBenchmark.Start();
+            if (kSharedInstance == null)
+            {
+                kSharedInstance = EditorWindow.GetWindow(typeof(MDEMacroDefineEditor)) as MDEMacroDefineEditor;
+            }
+            //NWDBenchmark.Finish();
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show the SharedInstance of Editor Configuration Manager Window and focus on.
+        /// </summary>
+        /// <returns></returns>
+        public static MDEMacroDefineEditor SharedInstanceFocus()
+        {
+            //NWDBenchmark.Start();
+            SharedInstance().ShowUtility();
+            SharedInstance().Focus();
+            //NWDBenchmark.Finish();
+            return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string UnixCleaner(string sString)
