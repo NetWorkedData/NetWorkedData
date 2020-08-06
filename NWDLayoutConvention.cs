@@ -13,6 +13,9 @@
 //#define NWD_LOG
 //#define NWD_BENCHMARK
 #endif
+#else
+#undef NWD_LOG
+#undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
 //
