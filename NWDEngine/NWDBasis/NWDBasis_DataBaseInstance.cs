@@ -119,18 +119,15 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void PropertiesPrevent()
         {
-            if (NWDAppConfiguration.SharedInstance().NeverNullDataType == false)
+            if (BasisHelper().NWDDataPropertiesArray != null)
             {
-                if (BasisHelper().NWDDataPropertiesArray != null)
+                foreach (var tPropertyInfo in BasisHelper().NWDDataPropertiesArray)
                 {
-                    foreach (var tPropertyInfo in BasisHelper().NWDDataPropertiesArray)
+                    Type tTypeOfThis = tPropertyInfo.PropertyType;
+                    if (tPropertyInfo.GetValue(this) == null)
                     {
-                        Type tTypeOfThis = tPropertyInfo.PropertyType;
-                        if (tPropertyInfo.GetValue(this) == null)
-                        {
-                            NWEDataType tObject = (NWEDataType)Activator.CreateInstance(tTypeOfThis);
-                            tPropertyInfo.SetValue(this, tObject, null);
-                        }
+                        NWEDataType tObject = (NWEDataType)Activator.CreateInstance(tTypeOfThis);
+                        tPropertyInfo.SetValue(this, tObject, null);
                     }
                 }
             }
@@ -138,68 +135,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void PropertiesAutofill()
         {
-            base.PropertiesAutofill();
-            if (NWDAppConfiguration.SharedInstance().NeverNullDataType == true)
-            {
-                if (BasisHelper().NWDDataPropertiesArray != null)
-                {
-                    foreach (var tPropertyInfo in BasisHelper().NWDDataPropertiesArray)
-                    {
-                        Type tTypeOfThis = tPropertyInfo.PropertyType;
-                        if (tPropertyInfo.GetValue(this) == null)
-                        {
-                            object tObject = (object)Activator.CreateInstance(tTypeOfThis);
-                            tPropertyInfo.SetValue(this, tObject, null);
-                        }
-                        /*
-                        if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
-                        {
-                            if (tPropertyInfo.GetValue(this) == null)
-                            {
-                                NWEDataType tObject = (NWEDataType)Activator.CreateInstance(tTypeOfThis);
-                                tPropertyInfo.SetValue(this, tObject, null);
-                            }
-                        }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
-                        {
-                            if (tPropertyInfo.GetValue(this) == null)
-                            {
-                                NWEDataTypeInt tObject = (NWEDataTypeInt)Activator.CreateInstance(tTypeOfThis);
-                                //tObject.SetLong(0);
-                                tPropertyInfo.SetValue(this, tObject, null);
-                            }
-                        }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
-                        {
-                            if (tPropertyInfo.GetValue(this) == null)
-                            {
-                                NWEDataTypeFloat tObject = (NWEDataTypeFloat)Activator.CreateInstance(tTypeOfThis);
-                                //tObject.SetDouble(0);
-                                tPropertyInfo.SetValue(this, tObject, null);
-                            }
-                        }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
-                        {
-                            if (tPropertyInfo.GetValue(this) == null)
-                            {
-                                NWEDataTypeEnum tObject = (NWEDataTypeEnum)Activator.CreateInstance(tTypeOfThis);
-                                //tObject.SetLong(0);
-                                tPropertyInfo.SetValue(this, tObject, null);
-                            }
-                        }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
-                        {
-                            if (tPropertyInfo.GetValue(this) == null)
-                            {
-                                NWEDataTypeMask tObject = (NWEDataTypeMask)Activator.CreateInstance(tTypeOfThis);
-                                //tObject.SetLong(0);
-                                tPropertyInfo.SetValue(this, tObject, null);
-                            }
-                        }
-                        */
-                    }
-                }
-            }
+#if NWD_NEVER_NULL_DATATYPE
+            PropertiesPrevent();
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void InstanceInit()

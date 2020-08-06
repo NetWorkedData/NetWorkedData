@@ -234,7 +234,7 @@ namespace NetWorkedData
             // Database informations
             NWDGUILayout.Section("Databases");
             NWDGUILayout.SubSection("Databases parameters");
-            NWDAppConfiguration.SharedInstance().NeverNullDataType = EditorGUILayout.Toggle("Never Null Data Type", NWDAppConfiguration.SharedInstance().NeverNullDataType);
+            //NWDAppConfiguration.SharedInstance().NeverNullDataType = EditorGUILayout.Toggle("Never Null Data Type", NWDAppConfiguration.SharedInstance().NeverNullDataType);
             NWDAppConfiguration.SharedInstance().AutoDeleteTrashDatas = EditorGUILayout.Toggle("Auto Delete Trash Datas", NWDAppConfiguration.SharedInstance().AutoDeleteTrashDatas);
             NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
             NWDAppConfiguration.SharedInstance().BundleDatas = EditorGUILayout.Toggle("Bundle Datas", NWDAppConfiguration.SharedInstance().BundleDatas);

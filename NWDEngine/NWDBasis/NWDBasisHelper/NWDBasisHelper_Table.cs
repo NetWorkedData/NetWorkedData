@@ -545,9 +545,14 @@ namespace NetWorkedData
                 if (tV == null)
                 {
                     string tVV = SQLite3.ColumnString(stmtc, i);
-                    if (string.IsNullOrEmpty(tVV) && NWDAppConfiguration.SharedInstance().NeverNullDataType == false)
+                    //if (string.IsNullOrEmpty(tVV) && NWDAppConfiguration.SharedInstance().NeverNullDataType == false)
+                    if (string.IsNullOrEmpty(tVV))
                     {
-                        // do nothing!
+#if NWD_NEVER_NULL_DATATYPE
+                        tV = Activator.CreateInstance(tTypeOfThis) as NWEDataType;
+                        tV.Value = tVV;
+                        tProp.SetValue(tD, tV);
+#endif
                     }
                     else
                     {

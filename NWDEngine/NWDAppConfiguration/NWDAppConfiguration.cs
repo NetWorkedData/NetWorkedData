@@ -114,7 +114,7 @@ namespace NetWorkedData
         public int LauncherClassEditorStep = 0;
         public int LauncherClassAccountStep = 0;
         //-------------------------------------------------------------------------------------------------------------
-        public bool NeverNullDataType = true;
+        //public bool NeverNullDataType = true;
         //-------------------------------------------------------------------------------------------------------------
         #endregion
 
