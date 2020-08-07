@@ -413,6 +413,8 @@ namespace NetWorkedData.MacroDefine
                 {
                     AllMacrosOriginal.Add(UnixCleaner(NewMacro));
                     AllMacrosOriginal.Sort();
+                    Modified = true;
+                    GUI.FocusControl(null);
                 }
                 NewMacro = string.Empty;
             }
