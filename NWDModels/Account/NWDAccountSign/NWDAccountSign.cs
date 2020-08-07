@@ -20,7 +20,10 @@
 //=====================================================================================================================
 using System;
 using System.Collections.Generic;
-
+//=====================================================================================================================
+#if UNITY_EDITOR
+using NetWorkedData.NWDEditor;
+#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -82,7 +85,9 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("Account Sign to connect by hash of sign")]
     [NWDClassMenuNameAttribute("Account Sign")]
     [NWDForceSecureData]
+#if UNITY_EDITOR
     [NWDClassClusterAttribute(3, 32)]
+#endif
     public partial class NWDAccountSign : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------

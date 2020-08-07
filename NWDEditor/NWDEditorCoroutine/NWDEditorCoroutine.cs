@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDEditorCoroutine

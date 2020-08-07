@@ -25,9 +25,10 @@ using System.Linq;
 using System.Reflection;
 using System.IO;
 using UnityEngine;
+//=====================================================================================================================
 #if UNITY_EDITOR
 using UnityEditor;
-using UnityEditorInternal;
+using NetWorkedData.NWDEditor;
 #endif
 //=====================================================================================================================
 namespace NetWorkedData

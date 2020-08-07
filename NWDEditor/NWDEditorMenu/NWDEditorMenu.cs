@@ -29,7 +29,7 @@ using UnityEditor;
 using System.Text;
 using NetWorkedData.MacroDefine;
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>

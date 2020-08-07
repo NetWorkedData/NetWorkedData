@@ -21,9 +21,8 @@
 #if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
-
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public delegate void NWDDataManagerDialogDelegate(string sValue);

@@ -20,7 +20,10 @@
 //=====================================================================================================================
 using System;
 using System.Collections.Generic;
-
+//=====================================================================================================================
+#if UNITY_EDITOR
+using NetWorkedData.NWDEditor;
+#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -41,7 +44,9 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UIF")]
     [NWDClassDescriptionAttribute("General User Informations")]
     [NWDClassMenuNameAttribute("User Infos")]
+#if UNITY_EDITOR
     [NWDClassClusterAttribute(1, 32)]
+#endif
     public partial class NWDUserInfos : NWDBasisGameSaveDependent
     {
         //-------------------------------------------------------------------------------------------------------------

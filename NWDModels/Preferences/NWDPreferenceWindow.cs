@@ -22,7 +22,7 @@ using System;
 #if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDTypeWindowParamAttribute(

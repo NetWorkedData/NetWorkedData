@@ -19,7 +19,10 @@
 #endif
 //=====================================================================================================================
 using System;
-
+//=====================================================================================================================
+#if UNITY_EDITOR
+using NetWorkedData.NWDEditor;
+#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -38,8 +41,8 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UNW")]
     [NWDClassDescriptionAttribute("User statut on Network")]
     [NWDClassMenuNameAttribute("User Net Working")]
-    [NWDClassClusterAttribute(1, 32)]
 #if UNITY_EDITOR
+    [NWDClassClusterAttribute(1, 32)]
     [NWDWindowOwner(typeof(NWDUserWindow))]
 #endif
     public partial class NWDUserNetWorking : NWDBasisGameSaveDependent

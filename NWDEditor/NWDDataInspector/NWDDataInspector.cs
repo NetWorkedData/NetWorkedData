@@ -27,7 +27,7 @@ using UnityEngine;
 using System.IO;
 using UnityEditor;
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDDataInspector : NWDEditorWindow

@@ -28,7 +28,7 @@ using UnityEngine;
 using System.IO;
 using UnityEditor;
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDBasisWindow<K> : NWDTypeWindow where K : NWDBasisWindow<K>, new()

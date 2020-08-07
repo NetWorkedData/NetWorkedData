@@ -18,7 +18,6 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
-
 #if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
@@ -26,9 +25,8 @@ using System;
 using System.Text;
 using System.IO;
 using System.Security.Cryptography;
-
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDCredentialsRequired : int

@@ -14,7 +14,6 @@
 //#define NWD_BENCHMARK
 #endif
 #endif
-
 //MACRO_DEFINE #if NWD_EXAMPLE_MACRO
 //=====================================================================================================================
 
@@ -25,7 +24,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDTypeWindowParamAttribute("NWDWindowExample_Name",

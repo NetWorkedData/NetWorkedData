@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDTypeWindowParamAttribute("NWD All",

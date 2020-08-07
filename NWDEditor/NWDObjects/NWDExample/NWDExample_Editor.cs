@@ -14,10 +14,8 @@
 //#define NWD_BENCHMARK
 #endif
 #endif
-
 //MACRO_DEFINE #if NWD_EXAMPLE_MACRO
 //=====================================================================================================================
-
 #if UNITY_EDITOR
 using System;
 using System.Collections;
@@ -26,8 +24,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+//=====================================================================================================================
 using UnityEditor;
-
+using NetWorkedData.NWDEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {

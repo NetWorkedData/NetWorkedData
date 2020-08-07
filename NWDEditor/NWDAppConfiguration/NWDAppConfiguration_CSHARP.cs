@@ -18,7 +18,6 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
-
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
@@ -26,8 +25,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+//=====================================================================================================================
 using UnityEditor;
-
+using NetWorkedData.NWDEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {

@@ -18,19 +18,16 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
-
 using System;
 using System.IO;
-
 using UnityEngine;
 using System.Text;
 using System.Security.Cryptography;
-
-
+//=====================================================================================================================
 #if UNITY_EDITOR
 using UnityEditor;
+using NetWorkedData.NWDEditor;
 #endif
-
 //=====================================================================================================================
 namespace NetWorkedData
 {

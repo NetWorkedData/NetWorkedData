@@ -22,7 +22,7 @@
 using System.Collections;
 using UnityEngine;
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public static class NWDEditorCoroutineToolbox

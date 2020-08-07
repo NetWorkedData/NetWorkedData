@@ -22,7 +22,7 @@
 #if UNITY_EDITOR
 using System;
 using UnityEditor;
-
+using NetWorkedData.NWDEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {

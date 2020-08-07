@@ -21,9 +21,8 @@
 #if UNITY_EDITOR
 using System;
 using UnityEditor;
-
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDTypeWindowParamAttribute("Classification",

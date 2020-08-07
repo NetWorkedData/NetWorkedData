@@ -26,7 +26,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Linq.Expressions;
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDDatasSelectorWindow : NWDEditorWindow

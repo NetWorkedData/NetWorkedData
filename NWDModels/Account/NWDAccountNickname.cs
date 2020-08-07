@@ -19,16 +19,17 @@
 #endif
 //=====================================================================================================================
 #if NWD_ACCOUNT_IDENTITY
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-
 using UnityEngine;
-
+//=====================================================================================================================
+#if UNITY_EDITOR
+using NetWorkedData.NWDEditor;
+#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -37,12 +38,14 @@ namespace NetWorkedData
     /// This class create a data for account's nickname.
     /// It generate a <see cref="UniqueNickname"/> when synchronize on cluster with the challenge <see cref="ClusterChallenge"/> and the <see cref="Nickname"/>.
     /// </summary>
+#if UNITY_EDITOR
+    [NWDClassClusterAttribute(1, 10)]
+#endif
     [NWDClassMacro("NWD_ACCOUNT_IDENTITY")]
     [NWDClassTrigrammeAttribute("ANN")]
     [NWDClassDescriptionAttribute("This class create a data for account's nickname." +
         " It generate a UniqueNickname when synchronise on the cluster with the challenge selected.")]
     [NWDClassMenuNameAttribute("Account Nickname")]
-    [NWDClassClusterAttribute(1, 10)]
     public partial class NWDAccountNickname : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------

@@ -18,9 +18,7 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
-
 #if UNITY_EDITOR
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,9 +26,8 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System;
 using UnityEditor;
-
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDEditorNewWindow : NWDEditorWindow

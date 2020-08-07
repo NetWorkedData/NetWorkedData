@@ -19,7 +19,10 @@
 #endif
 //=====================================================================================================================
 using System;
-
+//=====================================================================================================================
+#if UNITY_EDITOR
+using NetWorkedData.NWDEditor;
+#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -28,7 +31,9 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute(NWDAccount.K_ACCOUNT_PREFIX_TRIGRAM)]
     [NWDClassDescriptionAttribute("Account descriptions Class")]
     [NWDClassMenuNameAttribute("Account")]
+#if UNITY_EDITOR
     [NWDClassClusterAttribute(1, 2)]
+#endif
     public partial class NWDAccount : NWDBasisAccountRestricted
     {
         //-------------------------------------------------------------------------------------------------------------

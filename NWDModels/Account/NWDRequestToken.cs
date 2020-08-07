@@ -18,13 +18,19 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
+#if UNITY_EDITOR
+using NetWorkedData.NWDEditor;
+#endif
+//=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassTrigrammeAttribute("RQT")]
     [NWDClassDescriptionAttribute("RequestToken descriptions Class")]
     [NWDClassMenuNameAttribute("RequestToken")]
+#if UNITY_EDITOR
     [NWDClassClusterAttribute(1, 6)]
+#endif
     public partial class NWDRequestToken : NWDBasisAccountRestricted
     {
         const string K_TOKEN_DELETE_INDEX = "K_TOKEN_DELETE_INDEX";

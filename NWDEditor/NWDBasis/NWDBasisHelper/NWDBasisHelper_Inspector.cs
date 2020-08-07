@@ -24,7 +24,9 @@ using System.Linq;
 using System.Reflection;
 using System;
 using UnityEngine;
+//=====================================================================================================================
 using UnityEditor;
+using NetWorkedData.NWDEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {

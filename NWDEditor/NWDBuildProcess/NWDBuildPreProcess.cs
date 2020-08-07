@@ -18,21 +18,16 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
-
 #if UNITY_EDITOR
-
 using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
 using System;
-
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
-
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDEditorBuildEnvironment : int

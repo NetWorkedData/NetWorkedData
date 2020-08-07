@@ -18,10 +18,12 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
-
 using System;
 using System.Collections.Generic;
-
+//=====================================================================================================================
+#if UNITY_EDITOR
+using NetWorkedData.NWDEditor;
+#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -32,7 +34,9 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("AIF")]
     [NWDClassDescriptionAttribute("General Account Informations")]
     [NWDClassMenuNameAttribute("Account Infos")]
+#if UNITY_EDITOR
     [NWDClassClusterAttribute(1, 2)]
+#endif
     public partial class NWDAccountInfos : NWDBasisAccountDependent
     {
         //-------------------------------------------------------------------------------------------------------------

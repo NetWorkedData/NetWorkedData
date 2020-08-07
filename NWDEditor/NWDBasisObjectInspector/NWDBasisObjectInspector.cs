@@ -26,7 +26,7 @@ using UnityEditor;
 using System.Reflection;
 using System;
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public class NWDBasisObjectInspector : ScriptableObject

@@ -19,15 +19,13 @@
 #endif
 //=====================================================================================================================
 #if UNITY_EDITOR
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using BasicToolBox;
 using UnityEditor;
 using UnityEditor.Build;
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [InitializeOnLoad]

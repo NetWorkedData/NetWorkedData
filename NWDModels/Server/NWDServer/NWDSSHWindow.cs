@@ -19,10 +19,6 @@
 #endif
 //=====================================================================================================================
 #if UNITY_EDITOR
-
-using UnityEngine;
-using UnityEditor;
-
 using System;
 using System.Text;
 using System.Collections.Generic;
@@ -30,12 +26,12 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Collections;
 using System.Diagnostics;
-
-// using Renci lib
-using Renci.SshNet;
-
+using UnityEngine;
 //=====================================================================================================================
-namespace NetWorkedData
+using Renci.SshNet;
+using UnityEditor;
+//=====================================================================================================================
+namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public delegate void NWDSSHCommandBlock(string sCommand, string sResult);

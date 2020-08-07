@@ -26,9 +26,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-//using BasicToolBox;
+//=====================================================================================================================
+#if UNITY_EDITOR
 using UnityEditor;
-
+using NetWorkedData.NWDEditor;
+#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {

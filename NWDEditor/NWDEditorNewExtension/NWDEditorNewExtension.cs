@@ -27,10 +27,9 @@ using System;
 using System.Reflection;
 using System.IO;
 using UnityEditor;
-//using BasicToolBox;
 using System.Linq;
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>

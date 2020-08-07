@@ -22,14 +22,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using UnityEngine;
 using System;
 using System.Reflection;
 using System.IO;
+using UnityEngine;
 using UnityEditor;
-//using BasicToolBox;
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDNodeCard
