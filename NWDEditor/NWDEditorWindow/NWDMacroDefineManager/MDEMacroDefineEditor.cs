@@ -35,15 +35,6 @@ namespace NetWorkedData.MacroDefine
     public class MDEMacroDefineEditor : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
-        private bool waiting = false;
-        //private GUIStyle TitleStyle;
-        //private GUIStyle ButtonStyle;
-        //GUIStyle Style;
-        //GUIStyle StyleBold;
-        //GUIStyle StyleItalic;
-        //GUIStyle StyleImage;
-        //GUIContent ImageContent;
-        //-------------------------------------------------------------------------------------------------------------
         List<BuildTargetGroup> ActiveGroup = new List<BuildTargetGroup>();
         Dictionary<BuildTargetGroup, List<string>> ActiveGroupMacroDefine = new Dictionary<BuildTargetGroup, List<string>>();
         Dictionary<BuildTargetGroup, List<string>> ActiveGroupMacroDefineOriginal = new Dictionary<BuildTargetGroup, List<string>>();
@@ -52,6 +43,7 @@ namespace NetWorkedData.MacroDefine
         List<string> AllMacrosOriginal = new List<string>();
         string NewMacro = string.Empty;
         Vector2 ScroolPoint;
+        bool Modified = false;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance.
@@ -117,12 +109,12 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         public void Awake()
         {
-            waiting = false;
+            //waiting = false;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Start()
         {
-            waiting = false;
+            //waiting = false;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
@@ -133,16 +125,12 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         public void Load()
         {
-            waiting = false;
-            //titleContent = new GUIContent(MDEConstants.MacroDefineEditor, AssetDatabase.LoadAssetAtPath<Texture2D>(MDEFindPackage.PathOfPackage("/Resources/Textures/MDEIcon.psd")));
-            //ImageLogo = AssetDatabase.LoadAssetAtPath<Texture2D>(MDEFindPackage.PathOfPackage("/Resources/Textures/IdemobiIconAlpha.png"));
+            Modified = false;
             ActiveGroup.Clear();
             ActiveGroupMacroDefine.Clear();
             ActiveGroupMacroDefineOriginal.Clear();
             NewMacro = string.Empty;
             ReadPref();
-            // TODO Open file and read macro define
-
             Array BuildTargetArray = Enum.GetValues(typeof(BuildTarget));
             foreach (BuildTarget tBuildTarget in BuildTargetArray)
             {
@@ -186,7 +174,6 @@ namespace NetWorkedData.MacroDefine
             BoolTypeList.Clear();
             List<Type> tTypeList = new List<Type>();
             // Find all Type of NWDType
-            //BTBBenchmark.Start("Launcher() reflexion");
             Type[] tAllTypes = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
             // sort and filter by NWDBasis (NWDTypeClass subclass)
             Type[] tAllEnumTypes = (from System.Type type in tAllTypes
@@ -233,60 +220,20 @@ namespace NetWorkedData.MacroDefine
                     }
                 }
             }
-            //AllMacrosOriginal.Remove(MDEMacroDefine.kMacro);
             AllMacrosOriginal.Sort();
         }
         //-------------------------------------------------------------------------------------------------------------
-        //private void DefineGUI()
-        //{
-        //    if (TitleStyle == null)
-        //    {
-        //        TitleStyle = new GUIStyle(EditorStyles.boldLabel);
-        //        TitleStyle.alignment = TextAnchor.MiddleCenter;
-
-        //        ButtonStyle = new GUIStyle(EditorStyles.miniButton);
-
-        //        Style = new GUIStyle(GUI.skin.label);
-        //        Style.richText = true;
-        //        Style.wordWrap = true;
-        //        Style.alignment = TextAnchor.MiddleCenter;
-
-        //        StyleBold = new GUIStyle(GUI.skin.label);
-        //        StyleBold.richText = true;
-        //        StyleBold.wordWrap = true;
-        //        StyleBold.fontStyle = FontStyle.Bold;
-        //        StyleBold.alignment = TextAnchor.MiddleCenter;
-
-        //        StyleItalic = new GUIStyle(GUI.skin.label);
-        //        StyleItalic.richText = true;
-        //        StyleItalic.wordWrap = true;
-        //        StyleItalic.fontStyle = FontStyle.Italic;
-
-        //        StyleImage = new GUIStyle(GUI.skin.label);
-        //        StyleImage.imagePosition = ImagePosition.ImageOnly;
-        //        StyleImage.alignment = TextAnchor.MiddleCenter;
-        //    }
-        //}
-        //-------------------------------------------------------------------------------------------------------------
         public override void OnPreventGUI()
         {
-            //DefineGUI();
-
             NWDGUILayout.Title("Macro Define for project");
-            //if (waiting == false)
-            //{
             BuildTargetGroup tBuildTargetGroupActiveNow = BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget);
-            //Color tBackground = GUI.backgroundColor;
             bool tReload = false;
             ScroolPoint = GUILayout.BeginScrollView(ScroolPoint);
-
-
             GUILayout.Space(10.0F);
             GUILayout.BeginHorizontal();
-
             GUILayout.BeginVertical(GUILayout.MinWidth(MDEConstants.ManagementWidth), GUILayout.ExpandWidth(true));
             GUILayout.BeginVertical();
-            GUILayout.Label(MDEConstants.Management,NWDGUI.KTableHeaderStatut);
+            GUILayout.Label(MDEConstants.Management, NWDGUI.KTableHeaderStatut);
             GUILayout.EndVertical();
             GUILayout.BeginVertical();
             foreach (string tM in AllMacrosOriginal)
@@ -294,7 +241,14 @@ namespace NetWorkedData.MacroDefine
                 if (GUILayout.Button(MDEConstants.Remove, GUILayout.Height(MDEConstants.RowHeight)))
                 {
                     AllMacrosOriginal.Remove(tM);
-                    //WritePref();
+                    foreach (BuildTargetGroup tBuildTargetGroup in ActiveGroup)
+                    {
+                        if (ActiveGroupMacroDefine[tBuildTargetGroup].Contains(tM) == true)
+                        {
+                            ActiveGroupMacroDefine[tBuildTargetGroup].Remove(tM);
+                        }
+                    }
+                    Modified = true;
                     GUIUtility.ExitGUI();
                 }
             }
@@ -305,7 +259,6 @@ namespace NetWorkedData.MacroDefine
                 GUILayout.BeginVertical(GUILayout.MaxWidth(260));
                 if (tBuildTargetGroupActiveNow == tBuildTargetGroup)
                 {
-                    //GUI.backgroundColor = Color.red;
                     NWDGUI.BeginRedArea();
                 }
                 GUILayout.BeginVertical();
@@ -356,7 +309,6 @@ namespace NetWorkedData.MacroDefine
                             {
                                 ActiveGroupMacroDefine[tBuildTargetGroup].Remove(tR);
                             }
-                            //GUILayout.Label(tEnum.GetTitle());
                             tIndex = EditorGUILayout.Popup(tEnum.GetTitle(), tIndex, tArrayRepresentation.ToArray());
                             if (tIndex >= 0)
                             {
@@ -393,7 +345,6 @@ namespace NetWorkedData.MacroDefine
                                 {
                                     ActiveGroupMacroDefine[tBuildTargetGroup].Remove(tR);
                                 }
-                                //GUILayout.Label(tBool.GetTitle());
                                 bool tSelected = false;
                                 if (tIndex == 1)
                                 {
@@ -431,34 +382,23 @@ namespace NetWorkedData.MacroDefine
                     }
                     GUILayout.FlexibleSpace();
                 }
-
-                // add owner macro
-                //if (ActiveGroupMacroDefine[tBuildTargetGroup].Contains(MDEMacroDefine.kMacro) == false)
-                //{
-                //    ActiveGroupMacroDefine[tBuildTargetGroup].Add(MDEMacroDefine.kMacro);
-                //}
                 ActiveGroupMacroDefine[tBuildTargetGroup].Sort();
-                // for debug
                 GUILayout.BeginVertical(EditorStyles.helpBox);
                 GUILayout.Label(MDEConstants.Result, NWDGUI.kInspectorReferenceCenter);
-                GUILayout.TextArea(string.Join("; ", ActiveGroupMacroDefine[tBuildTargetGroup]));
+                GUILayout.TextArea(string.Join(";\n", ActiveGroupMacroDefine[tBuildTargetGroup]));
                 GUILayout.EndVertical();
                 GUILayout.EndVertical();
-                //GUI.backgroundColor = tBackground;
                 NWDGUI.EndRedArea();
             }
             GUILayout.EndHorizontal();
             GUILayout.EndScrollView();
             if (GUILayout.Button(MDEConstants.Reload))
             {
-                Load();
+                tReload = true;
+                //Load();
             }
-
-
-
             NWDGUILayout.Section("Macro Define informations");
             NWDGUILayout.Informations("If you want create new macro, use generic from " + typeof(MDEDataTypeEnumGeneric<>).Name + " or " + typeof(MDEDataTypeBoolGeneric<>).Name + "!");
-
             NWDGUILayout.Section("Macro add");
             GUILayout.Label(MDEConstants.NewMacroArea, EditorStyles.boldLabel);
             NewMacro = EditorGUILayout.TextField(MDEConstants.NewMacro, NewMacro);
@@ -474,16 +414,11 @@ namespace NetWorkedData.MacroDefine
                     AllMacrosOriginal.Add(UnixCleaner(NewMacro));
                     AllMacrosOriginal.Sort();
                 }
-                //WritePref();
                 NewMacro = string.Empty;
             }
             EditorGUI.EndDisabledGroup();
-
             NWDGUILayout.Section("Macro Define save");
-
             GUILayout.Label(MDEConstants.SaveArea, EditorStyles.boldLabel);
-            bool tCheckModified = false;
-
             foreach (BuildTargetGroup tBuildTargetGroup in ActiveGroup)
             {
                 if (ActiveGroupMacroDefine.ContainsKey(tBuildTargetGroup))
@@ -492,56 +427,42 @@ namespace NetWorkedData.MacroDefine
                     {
                         if (ActiveGroupMacroDefineOriginal[tBuildTargetGroup].Contains(tNewMacro) == false)
                         {
-                            tCheckModified = true;
+                            Modified = true;
                             break;
                         }
                     }
-                    if (waiting == false)
+                    foreach (string tOldMacro in ActiveGroupMacroDefineOriginal[tBuildTargetGroup])
                     {
-                        foreach (string tOldMacro in ActiveGroupMacroDefineOriginal[tBuildTargetGroup])
+                        if (ActiveGroupMacroDefine[tBuildTargetGroup].Contains(tOldMacro) == false)
                         {
-                            if (ActiveGroupMacroDefine[tBuildTargetGroup].Contains(tOldMacro) == false)
-                            {
-                                tCheckModified = true;
-                                break;
-                            }
+                            Modified = true;
+                            break;
                         }
                     }
                 }
             }
             NWDGUI.BeginRedArea();
-            EditorGUI.BeginDisabledGroup(!tCheckModified);
-            //if (GUILayout.Button(MDEConstants.Save))
+            EditorGUI.BeginDisabledGroup(!Modified);
             if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
             {
                 if (EditorUtility.DisplayDialog(MDEConstants.AlertTitle, MDEConstants.AlertMessage, MDEConstants.AlertOK, MDEConstants.AlertCancel))
                 {
-                    waiting = false;
                     WritePref();
                     foreach (BuildTargetGroup tBuildTargetGroupSet in ActiveGroup)
                     {
                         string tSymbos = string.Join(";", ActiveGroupMacroDefine[tBuildTargetGroupSet]);
-                        //Debug.Log("SetScriptingDefineSymbolsForGroup " + tBuildTargetGroupSet.ToString() + " " + tSymbos);
                         PlayerSettings.SetScriptingDefineSymbolsForGroup(tBuildTargetGroupSet, tSymbos);
                     }
+                    Modified = false;
                 }
                 NWDEditorWindow.GenerateCSharpFile();
             }
             EditorGUI.EndDisabledGroup();
             NWDGUI.EndRedArea();
-
             if (tReload)
             {
                 Load();
             }
-            //}
-            //else
-            //{
-            //    GUILayout.FlexibleSpace();
-            //    GUILayout.Label("... recompile in progress ...", TitleStyle);
-            //    GUILayout.FlexibleSpace();
-            //    AssetDatabase.Refresh();
-            //}
         }
         //-------------------------------------------------------------------------------------------------------------
     }
