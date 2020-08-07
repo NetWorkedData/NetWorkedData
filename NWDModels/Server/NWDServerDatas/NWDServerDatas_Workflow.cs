@@ -18,10 +18,9 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
-
+#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -217,7 +216,6 @@ namespace NetWorkedData
             InternalDescription = string.Join(" / ", tDescription);
         }
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
         public NWDServerDatabaseAuthentication GetServerDatabase(NWDAppEnvironment sEnvironment)
         {
             NWDServerDatabaseAuthentication rReturn = null;
@@ -244,9 +242,9 @@ namespace NetWorkedData
             }
             return rReturn.ToArray();
         }
-#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

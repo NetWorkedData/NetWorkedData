@@ -112,7 +112,9 @@ namespace NetWorkedData
                             }
                         }
                     }
+#if NWD_USER_IDENTITY
                     rReturn.InternalDescription = NWDUserNickname.GetNickname();
+#endif
 #endif
                     rReturn.Item.SetReference(sReference);
                     rReturn.Tag = NWDBasisTag.TagUserCreated;

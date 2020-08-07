@@ -33,7 +33,7 @@ namespace NetWorkedData.MacroDefine
     {
         //-------------------------------------------------------------------------------------------------------------
         // the title of enum controller
-        public static string Title = SetTitle("Unit tests");
+        public static string Title = SetTitle("NWD Unit tests");
         //-------------------------------------------------------------------------------------------------------------
         // declare one value
         public static NWDTestUnitMacro Macro = SetValue("NWD_UNIT_TESTS");

@@ -18,6 +18,7 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
+#if NWD_USER_IDENTITY
 using System;
 using UnityEngine;
 
@@ -48,7 +49,7 @@ namespace NetWorkedData
     }
 #endif
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassMacro("NWD_USER_IDENTITY")]
     [NWDClassTrigrammeAttribute("UAV")]
     [NWDClassDescriptionAttribute("Avatar composer for user")]
     [NWDClassMenuNameAttribute("User Avatar")]
@@ -70,3 +71,4 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

@@ -264,8 +264,12 @@ namespace NetWorkedData
         string Enrichment(string sText)
         {
             string rText = NWDLocalization.Enrichment(sText);
+#if NWD_USER_IDENTITY
             rText = NWDUserNickname.Enrichment(rText);
+#endif
+#if NWD_ACCOUNT_IDENTITY
             rText = NWDAccountNickname.Enrichment(rText);
+#endif
             return rText;
         }
 #if UNITY_EDITOR

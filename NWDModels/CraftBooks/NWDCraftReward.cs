@@ -18,6 +18,7 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
+#if NWD_CRAFTBOOK
 using System;
 using System.Collections.Generic;
 
@@ -25,11 +26,10 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassMacro("NWD_CRAFTBOOK")]
     [NWDClassTrigrammeAttribute("CFW")]
     [NWDClassDescriptionAttribute("Craft Reward")]
     [NWDClassMenuNameAttribute("Craft Reward")]
-    //[NWDInternalKeyNotEditableAttribute]
     public partial class NWDCraftReward : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -54,3 +54,4 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

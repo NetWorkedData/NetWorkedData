@@ -18,13 +18,14 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
+#if NWD_INTERMESSAGE
 using System;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassMacro("NWD_INTERMESSAGE")]
     [NWDClassTrigrammeAttribute("UIM")]
     [NWDClassDescriptionAttribute("Post message to user to user ")]
     [NWDClassMenuNameAttribute("User Inter Message")]
@@ -118,3 +119,4 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

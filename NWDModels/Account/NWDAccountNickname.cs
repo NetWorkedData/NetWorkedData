@@ -18,6 +18,7 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
+#if NWD_ACCOUNT_IDENTITY
 
 using System;
 using System.Collections;
@@ -36,7 +37,7 @@ namespace NetWorkedData
     /// This class create a data for account's nickname.
     /// It generate a <see cref="UniqueNickname"/> when synchronize on cluster with the challenge <see cref="ClusterChallenge"/> and the <see cref="Nickname"/>.
     /// </summary>
-    //[NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassMacro("NWD_ACCOUNT_IDENTITY")]
     [NWDClassTrigrammeAttribute("ANN")]
     [NWDClassDescriptionAttribute("This class create a data for account's nickname." +
         " It generate a UniqueNickname when synchronise on the cluster with the challenge selected.")]
@@ -76,3 +77,4 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

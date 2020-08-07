@@ -18,6 +18,7 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -34,8 +35,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public void CheckAllCluster()
         {
-            //Debug.Log("NWDClusterAnalyzer CheckAllCluster()");
-#if UNITY_EDITOR
             if (kInProgress == false)
             {
                 //Debug.Log("NWDClusterAnalyzer start process!");
@@ -339,10 +338,10 @@ namespace NetWorkedData
             {
                 //Debug.Log("NWDClusterAnalyzer in progres...");
             }
-#endif
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

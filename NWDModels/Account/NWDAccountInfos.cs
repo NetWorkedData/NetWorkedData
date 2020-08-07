@@ -37,8 +37,10 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Player Informations")]
+#if NWD_ACCOUNT_IDENTITY
         public NWDReferenceType<NWDAccountAvatar> Avatar { get; set; }
         public NWDReferenceType<NWDAccountNickname> Nickname { get; set; }
+#endif
         public NWDReferenceType<NWDGameSave> CurrentGameSave { get; set; }
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Host")]

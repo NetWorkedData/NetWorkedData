@@ -33,7 +33,7 @@ namespace NetWorkedData.MacroDefine
     {
         //-------------------------------------------------------------------------------------------------------------
         // the title of enum controller
-        public static string Title = SetTitle("Verbose");
+        public static string Title = SetTitle("NWD Verbose");
         //-------------------------------------------------------------------------------------------------------------
         // declare all values
         public static NWDVerbose None = AddNone("not Verbose");
@@ -48,7 +48,7 @@ namespace NetWorkedData.MacroDefine
     {
         //-------------------------------------------------------------------------------------------------------------
         // the title of enum controller
-        public static string Title = SetTitle("Log");
+        public static string Title = SetTitle("NWD Log");
         //-------------------------------------------------------------------------------------------------------------
         // declare all values
         public static NWDLog None = AddNone("no global Log");
@@ -63,7 +63,7 @@ namespace NetWorkedData.MacroDefine
     {
         //-------------------------------------------------------------------------------------------------------------
         // the title of enum controller
-        public static string Title = SetTitle("Benchmark");
+        public static string Title = SetTitle("NWD Benchmark");
         //-------------------------------------------------------------------------------------------------------------
         // declare all values
         public static NWDBenchmark None = AddNone("no global Benchmark");

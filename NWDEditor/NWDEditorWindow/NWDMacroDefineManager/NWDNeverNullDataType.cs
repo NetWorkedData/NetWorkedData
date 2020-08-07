@@ -33,7 +33,7 @@ namespace NetWorkedData.MacroDefine
     {
         //-------------------------------------------------------------------------------------------------------------
         // the title of enum controller
-        public static string Title = SetTitle("Never Null Data Type");
+        public static string Title = SetTitle("NWD Never Null Data Type");
         //-------------------------------------------------------------------------------------------------------------
         // declare all values
         public static NWDNeverNullDataType None = AddNone("can be Null");

@@ -18,6 +18,7 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
+#if NWD_USER_IDENTITY
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -49,7 +50,7 @@ namespace NetWorkedData
     /// This class create a data for user's nickname (limit by <see cref="NWDAccount"/> and <see cref="NWDGameSave"/>).
     /// It generate a <see cref="UniqueNickname"/> when synchronize on cluster with the challenge <see cref="ClusterChallenge"/> and the <see cref="Nickname"/>.
     /// </summary>
-    //[NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassMacro("NWD_USER_IDENTITY")]
     [NWDClassTrigrammeAttribute("UNN")]
     [NWDClassDescriptionAttribute("This class create a data for user's nickname (user is player for an Account + GameSave)." +
         " It generate a UniqueNickname when synchronise on the cluster with the challenge selected.")]
@@ -88,3 +89,4 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

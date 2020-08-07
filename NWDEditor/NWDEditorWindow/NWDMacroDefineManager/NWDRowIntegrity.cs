@@ -33,7 +33,7 @@ namespace NetWorkedData.MacroDefine
     {
         //-------------------------------------------------------------------------------------------------------------
         // the title of enum controller
-        public static string Title = SetTitle("Row integrity");
+        public static string Title = SetTitle("NWD Row integrity");
         //-------------------------------------------------------------------------------------------------------------
         // declare all values
         public static NWDRowIntegrity None = AddNone("with Integrity");

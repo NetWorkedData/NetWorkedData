@@ -101,10 +101,12 @@ namespace NetWorkedData
             {
                 NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_MESSAGE, this);
             }
+#if NWD_INTERMESSAGE
             if (_UserMessage != null)
             {
                 NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_NEWS_NOTIFICATION, this);
             }
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         private void ErrorPostComplete()
@@ -140,14 +142,17 @@ namespace NetWorkedData
                 }
             }
         }
+
         //-------------------------------------------------------------------------------------------------------------
         private void InterMessagePostComplete()
         {
+#if NWD_INTERMESSAGE
             if (_UserMessage != null)
             {
                 _UserMessage.Read = true;
                 _UserMessage.SaveData();
             }
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public void IsShowing()
@@ -158,11 +163,13 @@ namespace NetWorkedData
             if (_Message != null)
             {
             }
+#if NWD_INTERMESSAGE
             if (_UserMessage != null)
             {
                 _UserMessage.Distribute = true;
                 _UserMessage.SaveData();
             }
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Validate()
@@ -210,9 +217,11 @@ namespace NetWorkedData
             if (_Message != null)
             {
             }
+#if NWD_INTERMESSAGE
             if (_UserMessage != null)
             {
             }
+#endif
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -226,10 +235,13 @@ namespace NetWorkedData
             {
                 rReturn = _Message.Type;
             }
+
+#if NWD_INTERMESSAGE
             if (_UserMessage != null)
             {
                 rReturn = _UserMessage.Message.GetRawData().Type;
             }
+#endif
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -242,10 +254,12 @@ namespace NetWorkedData
             if (_Message != null)
             {
             }
+#if NWD_INTERMESSAGE
             if (_UserMessage != null)
             {
                 rReturn = _UserMessage.Message.GetRawData().Style;
             }
+#endif
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -260,10 +274,12 @@ namespace NetWorkedData
             {
                 rReturn = _Message.Domain;
             }
+#if NWD_INTERMESSAGE
             if (_UserMessage != null)
             {
                 rReturn = _UserMessage.Message.GetRawData().Domain;
             }
+#endif
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -278,10 +294,12 @@ namespace NetWorkedData
             {
                 rReturn = _Message.Code;
             }
+#if NWD_INTERMESSAGE
             if (_UserMessage != null)
             {
                 rReturn = _UserMessage.Message.GetRawData().Code;
             }
+#endif
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -296,10 +314,12 @@ namespace NetWorkedData
             {
                 rReturn = _Message.Title.GetLocalString();
             }
+#if NWD_INTERMESSAGE
             if (_UserMessage != null)
             {
                 rReturn = _UserMessage.TitleRichText(false);
             }
+#endif
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -314,10 +334,12 @@ namespace NetWorkedData
             {
                 rReturn = _Message.Description.GetLocalString();
             }
+#if NWD_INTERMESSAGE
             if (_UserMessage != null)
             {
                 rReturn = _UserMessage.MessageRichText(false);
             }
+#endif
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -332,10 +354,12 @@ namespace NetWorkedData
             {
                 rReturn = _Message.Validation.GetLocalString();
             }
+#if NWD_INTERMESSAGE
             if (_UserMessage != null)
             {
                 rReturn = _UserMessage.ValidationRichText(false);
             }
+#endif
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -355,10 +379,12 @@ namespace NetWorkedData
             {
                 rReturn = _Message.Cancel.GetLocalString();
             }
+#if NWD_INTERMESSAGE
             if (_UserMessage != null)
             {
                 rReturn = _UserMessage.CancelRichText(false);
             }
+#endif
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

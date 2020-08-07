@@ -18,6 +18,7 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
+#if NWD_INTERMESSAGE
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -140,14 +141,18 @@ namespace NetWorkedData
             rInterMessage.Message.SetData(sMessage);
             rInterMessage.Style = sMessage.Style;
             rInterMessage.Type = sMessage.Type;
+#if NWD_USER_IDENTITY
             rInterMessage.ReplaceSenderNickname = NWDUserNickname.GetNickname();
+#endif
             rInterMessage.ReplaceCharacters = sReplaceCharacters;
             rInterMessage.ReplaceItems = sReplaceItems;
             rInterMessage.ReplaceItemPacks = sReplaceItemPack;
             rInterMessage.ReplacePacks = sReplacePacks;
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
+#if NWD_USER_IDENTITY
             rInterMessage.InternalKey = NWDUserNickname.GetNickname() + " - " + sMessage.Title.GetBaseString();
-            #endif
+#endif
+#endif
             rInterMessage.Tag = NWDBasisTag.TagUserCreated;
             rInterMessage.SaveData();
 
@@ -306,6 +311,7 @@ namespace NetWorkedData
             }
             return rReturn;
         }
+#if NWD_USER_IDENTITY
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserNickname PublisherNickname()
         {
@@ -326,6 +332,7 @@ namespace NetWorkedData
         {
             return NWDBasisHelper.GetCorporateFirstData<NWDUserAvatar>(Receiver.GetReference(), NWDGameSave.SelectCurrentDataForAccount(Receiver.GetReference()));
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public string Enrichment(string sText, string sLanguage = null, bool sBold = true)
         {
@@ -339,8 +346,12 @@ namespace NetWorkedData
 
             // Replace Tag by user Nickname
             string rText = NWDLocalization.Enrichment(sText, sLanguage, sBold);
+#if NWD_USER_IDENTITY
             rText = NWDUserNickname.Enrichment(rText, sBold);
+#endif
+#if NWD_ACCOUNT_IDENTITY
             rText = NWDAccountNickname.Enrichment(rText, sLanguage, sBold);
+#endif
 
             // Replace Tag by sender Nickname
             rText = rText.Replace("#SenderNickname#", tBstart + ReplaceSenderNickname + tBend);
@@ -385,3 +396,4 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

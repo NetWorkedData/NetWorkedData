@@ -34,8 +34,10 @@ namespace NetWorkedData
             typeof(NWDAccount),
             typeof(NWDAccountInfos),
             typeof(NWDAccountSign),
+#if NWD_ACCOUNT_IDENTITY
             typeof(NWDAccountNickname),
             typeof(NWDAccountAvatar),
+#endif
             typeof(NWDAccountPreference),
             typeof(NWDGameSave),
         }
@@ -61,6 +63,7 @@ namespace NetWorkedData
             ShowWindow(typeof(NWDAccountSign));
         }
         //-------------------------------------------------------------------------------------------------------------
+#if NWD_ACCOUNT_IDENTITY
         [MenuItem(NWDConstants.K_MENU_BASE + "Account/Nickname", false, 303)]
         public static void MenuMethodNickname()
         {
@@ -72,6 +75,7 @@ namespace NetWorkedData
         {
             ShowWindow(typeof(NWDAccountAvatar));
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_BASE + "Account/Preference", false, 305)]
         public static void MenuMethodPreference()

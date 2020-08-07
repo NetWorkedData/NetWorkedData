@@ -122,6 +122,7 @@ namespace NetWorkedData
             return rAccountInfos;
         }*/
         //-------------------------------------------------------------------------------------------------------------
+#if NWD_ACCOUNT_IDENTITY
         public static string GetCurrentNickname()
         {
             NWDAccountNickname tNickname = CurrentData().Nickname.GetReachableData();
@@ -164,6 +165,7 @@ namespace NetWorkedData
             }
             return rSprite;
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public static void SetCurrentLastSignIn()
         {
@@ -183,6 +185,7 @@ namespace NetWorkedData
         //=============================================================================================================
         // PUBLIC METHOD
         //-------------------------------------------------------------------------------------------------------------
+#if NWD_ACCOUNT_IDENTITY
         public string GetAbsoluteNickname()
         {
             string rNickname = NWEConstants.K_MINUS;
@@ -215,6 +218,7 @@ namespace NetWorkedData
             }
             return rAvatar;
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public string GetAbsoluteLocalizedLastSignIn(NWDLocalizationConnection sConnectionDay, NWDLocalizationConnection sConnectionHour)
         {
@@ -260,6 +264,7 @@ namespace NetWorkedData
             return rDifference.Days.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
+#if NWD_ACCOUNT_IDENTITY
         public void SetAvatar(NWDItem sAvatar)
         {
             NWDAccountAvatar tAvatar = Avatar.GetRawData();
@@ -292,6 +297,7 @@ namespace NetWorkedData
             Nickname.SetData(tNickname);
             SaveData();
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public void StartOnDevice()
         {

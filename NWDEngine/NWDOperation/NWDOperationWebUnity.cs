@@ -491,12 +491,14 @@ namespace NetWorkedData
                                                 if (ResultInfos.isUserTransfert)
                                                 {
                                                     //NWDBenchmark.Log(" IS TRANSFERT USER");
+#if NWD_RGPD
                                                     NWDGDPR.Log("The temporary account will be transfert to certified account...");
                                                     if (!ResultInfos.uuid.Equals(string.Empty))
                                                     {
                                                         NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, ResultInfos.preview_user, ResultInfos.next_user /*, ResultInfos.signkey*/);
                                                     }
                                                     NWDGDPR.Log("The temporary account was transfert to certified account!");
+#endif
                                                 }
                                                 else
                                                 {
@@ -507,7 +509,9 @@ namespace NetWorkedData
                                                         //NWDBenchmark.Start("PURGE ACCOUNT DATABASE");
                                                         if (Application.isEditor == false)
                                                         {
+                                                            #if NWD_RGPD
                                                             NWDGDPR.Log("Purge database from all old account informations. The old account will be deleted from this device...");
+                                                            #endif
                                                             // I drop all table account connected?
                                                             foreach (Type tType in NWDDataManager.SharedInstance().ClassAccountDependentList)
                                                             {
@@ -515,7 +519,9 @@ namespace NetWorkedData
                                                                 tHelper.FlushTable();
                                                                 //tHelper.ResetDatas();
                                                             }
+                                                            #if NWD_RGPD
                                                             NWDGDPR.Log("The old account was deleted from this device!");
+                                                            #endif
                                                         }
                                                         else
                                                         {
@@ -524,7 +530,9 @@ namespace NetWorkedData
                                                         //NWDBenchmark.Finish("PURGE ACCOUNT DATABASE");
                                                     }
                                                 }
+                                                            #if NWD_RGPD
                                                 NWDGDPR.Log("New certified account valid on this device!");
+                                                            #endif
                                             }
                                             if (!ResultInfos.uuid.Equals(string.Empty))
                                             {

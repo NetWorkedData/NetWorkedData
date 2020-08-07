@@ -207,6 +207,8 @@ namespace NetWorkedData
                         // oh item group not contains me! WHYYYYYYYY
                         tItem.ItemGroupList.AddData(this);
                         tItem.UpdateData();
+
+#if NWD_CRAFTBOOK
                         foreach (NWDCraftBook tCraftbook in NWDBasisHelper.BasisHelper<NWDCraftBook>().Datas)
                             {
                             if (tCraftbook.ItemGroupIngredient.ContainsData(this))
@@ -215,6 +217,7 @@ namespace NetWorkedData
                                 tCraftbook.UpdateDataIfModified();
                             }
                         }
+#endif
                     }
                 }
                 else
@@ -224,6 +227,7 @@ namespace NetWorkedData
                         // Oh This ItemGroup contains me but I not refere it ... remove me from it
                         tItem.ItemGroupList.RemoveDatas(new NWDItemGroup[] { this });
                         tItem.UpdateData();
+#if NWD_CRAFTBOOK
                         foreach (NWDCraftBook tCraftbook in NWDBasisHelper.BasisHelper<NWDCraftBook>().Datas)
                         {
                             if (tCraftbook.ItemGroupIngredient.ContainsData(this))
@@ -232,6 +236,7 @@ namespace NetWorkedData
                                 tCraftbook.UpdateDataIfModified();
                             }
                         }
+#endif
                     }
                     else
                     {
@@ -268,9 +273,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
 
         //		public static List<NWDItemGroup> GetItemGroupForItem (NWDItem sItem)

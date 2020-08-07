@@ -18,6 +18,7 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
+#if NWD_CRAFTBOOK
 using System;
 using System.Collections.Generic;
 
@@ -30,7 +31,7 @@ namespace NetWorkedData
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassMacro("NWD_CRAFTBOOK")]
     [NWDClassTrigrammeAttribute("CFR")]
     [NWDClassDescriptionAttribute("Craft Recipient descriptions Class")]
     [NWDClassMenuNameAttribute("Craft Recipient")]
@@ -105,3 +106,4 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

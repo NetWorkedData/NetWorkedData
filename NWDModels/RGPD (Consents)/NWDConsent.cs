@@ -18,13 +18,15 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
+#if NWD_RGPD
+//=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// NWDConsent class. This class is used to reccord the consent available in the game. 
     /// </summary>
-    //[NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassMacro("NWD_RGPD")]
     [NWDClassTrigrammeAttribute("CST")]
     [NWDClassDescriptionAttribute("NWDConsent class. This class is used to reccord the consent available in the game for RGPD")]
     [NWDClassMenuNameAttribute("Consent")]
@@ -72,3 +74,4 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

@@ -18,6 +18,7 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
+#if NWD_CRAFTBOOK
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,7 +36,7 @@ namespace NetWorkedData
         }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassMacro("NWD_CRAFTBOOK")]
     [NWDClassTrigrammeAttribute("CFB")]
     [NWDClassDescriptionAttribute("CraftBook Recipes descriptions Class")]
     [NWDClassMenuNameAttribute("CraftBook")]
@@ -113,3 +114,4 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

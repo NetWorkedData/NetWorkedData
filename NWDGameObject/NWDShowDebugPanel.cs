@@ -93,8 +93,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void GDPRTestAction()
         {
+#if NWD_RGPD
             NWDGDPR.ExtractAndSave();
-            //Debug.Log(NWDGDPR.ExtractAndSave());
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AlertTestAction()

@@ -19,6 +19,7 @@
 #endif
 //=====================================================================================================================
 
+#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,7 +31,7 @@ namespace NetWorkedData
     public partial class NWDCluster : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
+
         public void CheckUnicityCluster()
         {
             foreach (NWDCluster tCluster in NWDBasisHelper.GetReachableDatas<NWDCluster>())
@@ -237,9 +238,9 @@ namespace NetWorkedData
             // TODO verif if method is call in good place in good timing
         }
         //-------------------------------------------------------------------------------------------------------------
-#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

@@ -352,8 +352,10 @@ namespace NetWorkedData
             // Please sync these classes on cluster 
             NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(new List<Type>(){
                 typeof(NWDAccountInfos),
+#if NWD_ACCOUNT_IDENTITY
                 typeof(NWDAccountAvatar),
                 typeof(NWDAccountNickname),
+#endif
                 typeof(NWDAccountPreference),
             },
             delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)

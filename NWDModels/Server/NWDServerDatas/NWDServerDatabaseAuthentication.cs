@@ -19,16 +19,15 @@
 #endif
 //=====================================================================================================================
 
+#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
 
-#if UNITY_EDITOR
 using Renci.SshNet;
 using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -49,8 +48,6 @@ namespace NetWorkedData
         public int RangeMax;
         public int RangeMin;
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
         public NWDServerDatabaseAuthentication(string sTitle, string sNameID, string sRange, int sRangeMin, int sRangeMax, string sMaxUser, string sHost, int sPort, string sDatabase, string sUser, string sPassword)
         {
             //----- for debug notion
@@ -69,9 +66,8 @@ namespace NetWorkedData
             Password = sPassword;
         }
         //-------------------------------------------------------------------------------------------------------------
-#endif
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

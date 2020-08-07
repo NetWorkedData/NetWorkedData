@@ -19,6 +19,7 @@
 #endif
 //=====================================================================================================================
 
+#if UNITY_EDITOR
 using System;
 using UnityEngine;
 using System.Collections.Generic;
@@ -34,6 +35,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDCluster class. This class is use for (complete description here).
     /// </summary>
+    [NWDClassMacro("UNITY_EDITOR")]
     [NWDClassTrigrammeAttribute("CLS")]
     [NWDClassDescriptionAttribute("Cluster")]
     [NWDClassMenuNameAttribute("Cluster")]
@@ -105,3 +107,4 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

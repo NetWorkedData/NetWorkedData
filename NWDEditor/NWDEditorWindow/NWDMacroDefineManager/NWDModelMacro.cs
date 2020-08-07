@@ -36,7 +36,7 @@ namespace NetWorkedData.MacroDefine
         public static string Title = SetTitle("NWD RGPD");
         //-------------------------------------------------------------------------------------------------------------
         // declare one value
-        public static NWDRGPDMacro Macro = SetValue("NWD_RGPD");
+        public static NWDRGPDMacro MacroBool = SetValue("NWD_RGPD");
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -49,7 +49,7 @@ namespace NetWorkedData.MacroDefine
         public static string Title = SetTitle("NWD Craftbook");
         //-------------------------------------------------------------------------------------------------------------
         // declare one value
-        public static NWDCraftbookMacro Macro = SetValue("NWD_CRAFTBOOK");
+        public static NWDCraftbookMacro MacroBool = SetValue("NWD_CRAFTBOOK");
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -62,7 +62,23 @@ namespace NetWorkedData.MacroDefine
         public static string Title = SetTitle("NWD InterMessage");
         //-------------------------------------------------------------------------------------------------------------
         // declare one value
-        public static NWDInterMessageMacro Macro = SetValue("NWD_INTERMESSAGE");
+        public static NWDInterMessageMacro MacroBool = SetValue("NWD_INTERMESSAGE");
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // You can create custom enum of macro
+    // Just follow this example class
+    public class NWDIdentityMacro : MDEDataTypeEnumGeneric<NWDIdentityMacro>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        // the title of enum controller
+        public static string Title = SetTitle("NWD Identity");
+        //-------------------------------------------------------------------------------------------------------------
+        // declare all values
+        public static NWDIdentityMacro None = AddNone("no identity"); // It's optional
+        // string will be convert in UNIX format automatically
+        public static NWDIdentityMacro AccountIdentity = Add(1, "NWD_ACCOUNT_IDENTITY", "Global (account)");
+        public static NWDIdentityMacro UserIdentity = Add(2, "NWD_USER_IDENTITY", "by GameSave (user)");
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
