@@ -104,6 +104,7 @@ namespace NetWorkedData
             rReturn.AppendLine("/// <summary>");
             rReturn.AppendLine("/// Restaure the configurations ");
             rReturn.AppendLine("/// </summary>");
+            rReturn.AppendLine("[NWDAppConfigurationRestaure()]");
             rReturn.AppendLine("public bool RestaureEditorConfigurations()");
             rReturn.AppendLine("{");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.BuilderUser) + " = \"" + NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_USER_BUILDER, "(user)") + "\";");
@@ -324,6 +325,7 @@ namespace NetWorkedData
             rReturnType.AppendLine("//=====================================================================================================================");
             rReturnType.AppendLine("using System.Collections;");
             rReturnType.AppendLine("using System.Collections.Generic;");
+            rReturnType.AppendLine("using System.Reflection;");
             rReturnType.AppendLine("using UnityEngine;");
             rReturnType.AppendLine("//=====================================================================================================================");
             rReturnType.AppendLine("namespace NetWorkedData");
@@ -338,8 +340,23 @@ namespace NetWorkedData
             rReturnType.AppendLine("public override bool RestaureTypesConfigurations()");
             rReturnType.AppendLine("{");
             rReturnType.AppendLine("if (NWDLauncher.ActiveBenchmark == true) {NWDBenchmark.Start();};");
+
+            rReturnType.AppendLine("foreach (MethodInfo tMethod in this.GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance))");
+            rReturnType.AppendLine("{");
+            {
+                rReturnType.AppendLine("if (tMethod.GetCustomAttributes(typeof(" + typeof(NWDAppConfigurationRestaure).Name + "), true).Length > 0)");
+                rReturnType.AppendLine("{");
+                {
+                    rReturnType.AppendLine("tMethod.Invoke(this, null);");
+                    //rReturnType.AppendLine("Debug.Log(tMethod.Name);");
+                }
+                rReturnType.AppendLine("}");
+            }
+            rReturnType.AppendLine("}");
+
             List<Type> tAllTypes = new List<Type>(NWDLauncher.AllNetWorkedDataTypes);
             tAllTypes.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
+            /*
             foreach (Type tType in tAllTypes)
             {
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
@@ -356,6 +373,7 @@ namespace NetWorkedData
                     }
                 }
             }
+            */
             rReturnType.AppendLine("if (NWDLauncher.ActiveBenchmark == true) {NWDBenchmark.Finish();};");
             rReturnType.AppendLine("return true;");
             rReturnType.AppendLine("}");
@@ -376,9 +394,9 @@ namespace NetWorkedData
 
                     StringBuilder rReturnClass = new StringBuilder(string.Empty);
 
-                   foreach (NWDClassMacroAttribute tMacro in tDatas.ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute),true))
+                    foreach (NWDClassMacroAttribute tMacro in tDatas.ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
                     {
-                            rReturnClass.AppendLine("#if "+ tMacro.Macro);
+                        rReturnClass.AppendLine("#if " + tMacro.Macro);
                     }
 
                     rReturnClass.AppendLine("//=====================================================================================================================");
@@ -408,6 +426,7 @@ namespace NetWorkedData
                     rReturnClass.AppendLine("/// <summary>");
                     rReturnClass.AppendLine("/// Restaure the configurations for " + tDatas.ClassNamePHP + "");
                     rReturnClass.AppendLine("/// </summary>");
+                    rReturnClass.AppendLine("[" + typeof(NWDAppConfigurationRestaure).Name + "]");
                     rReturnClass.AppendLine(tDatas.CreationCSHARP());
                     rReturnClass.AppendLine("//-------------------------------------------------------------------------------------------------------------");
                     rReturnClass.AppendLine("}");
@@ -418,7 +437,7 @@ namespace NetWorkedData
                     {
                         rReturnClass.AppendLine("#endif //" + tMacro.Macro);
                     }
-                    string tPathTypeClass = tOwnerConfigurationFolderPath + "/NWDConfigurations_"+ tDatas.ClassNamePHP +".cs";
+                    string tPathTypeClass = tOwnerConfigurationFolderPath + "/NWDConfigurations_" + tDatas.ClassNamePHP + ".cs";
                     string rReturnClassFormatted = NWDToolbox.CSharpFormat(rReturnClass.ToString());
                     File.WriteAllText(tPathTypeClass, rReturnClassFormatted);
                 }

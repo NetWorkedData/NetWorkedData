@@ -457,7 +457,7 @@ namespace NetWorkedData.MacroDefine
                     }
                     Modified = false;
                 }
-                NWDEditorWindow.GenerateCSharpFile();
+                //NWDEditorWindow.GenerateCSharpFile();
             }
             EditorGUI.EndDisabledGroup();
             NWDGUI.EndRedArea();
