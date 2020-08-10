@@ -76,17 +76,19 @@ namespace NetWorkedData
             foreach (Type tType in sTypeList)
             {
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
-                tFolders.Add(DBFolder(sWriteOnDisk) + tDatas.ClassNamePHP);
-
-                Dictionary<string, string> tResult = NWDBasisHelper.FindTypeInfos(tType).CreatePHP(this, true);
-                foreach (KeyValuePair<string, string> tKeyValue in tResult)
+                if (tDatas.TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
                 {
-                    tFilesAndDatas.Add(DBFolder(sWriteOnDisk) + tKeyValue.Key, tKeyValue.Value);
-                }
-                Dictionary<string, string> tResultAddOn = NWDBasisHelper.FindTypeInfos(tType).CreatePHPAddonFiles(this, sWriteOnDisk);
-                foreach (KeyValuePair<string, string> tKeyValue in tResultAddOn)
-                {
-                    tFilesAndDatas.Add(tKeyValue.Key, tKeyValue.Value);
+                    tFolders.Add(DBFolder(sWriteOnDisk) + tDatas.ClassNamePHP);
+                    Dictionary<string, string> tResult = NWDBasisHelper.FindTypeInfos(tType).CreatePHP(this, true);
+                    foreach (KeyValuePair<string, string> tKeyValue in tResult)
+                    {
+                        tFilesAndDatas.Add(DBFolder(sWriteOnDisk) + tKeyValue.Key, tKeyValue.Value);
+                    }
+                    Dictionary<string, string> tResultAddOn = NWDBasisHelper.FindTypeInfos(tType).CreatePHPAddonFiles(this, sWriteOnDisk);
+                    foreach (KeyValuePair<string, string> tKeyValue in tResultAddOn)
+                    {
+                        tFilesAndDatas.Add(tKeyValue.Key, tKeyValue.Value);
+                    }
                 }
             }
             if (sWriteOnDisk == true)
@@ -412,9 +414,13 @@ namespace NetWorkedData
             // I need include ALL tables management files to manage ALL tables
             foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
             {
-                string tClassName = NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP;
-                tManagementFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + tClassName + "/" + NWD.K_MANAGEMENT_FILE + "');");
-                tManagementFile.AppendLine(NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_CREATE_TABLE() + "();");
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                if (tHelper.TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+                {
+                    string tClassName = NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP;
+                    tManagementFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + tClassName + "/" + NWD.K_MANAGEMENT_FILE + "');");
+                    tManagementFile.AppendLine(NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_CREATE_TABLE() + "();");
+                }
             }
             tManagementFile.AppendLine("}");
             tManagementFile.AppendLine(NWD.K_CommentSeparator);
@@ -463,25 +469,28 @@ namespace NetWorkedData
             // I need include ALL tables management files to manage ALL tables
             foreach (Type tType in NWDDataManager.SharedInstance().ClassSynchronizeList)
             {
-                tWebServices.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
-                tWebServices.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-                tWebServices.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
-                tWebServices.AppendLine("}");
-            }
-            // I need to prevent Non synchronized class from editor
-            if (this == NWDAppConfiguration.SharedInstance().DevEnvironment || this == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
-            {
-
-                tWebServices.AppendLine("if ($admin == true)\n{");
-                foreach (Type tType in NWDDataManager.SharedInstance().ClassUnSynchronizeList)
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                if (tHelper.TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
                 {
                     tWebServices.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
                     tWebServices.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
                     tWebServices.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
                     tWebServices.AppendLine("}");
                 }
-                tWebServices.AppendLine("}");
             }
+            // I need to prevent Non synchronized class from editor
+            //if (this == NWDAppConfiguration.SharedInstance().DevEnvironment || this == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+            //{
+            //    tWebServices.AppendLine("if ($admin == true)\n{");
+            //    foreach (Type tType in NWDDataManager.SharedInstance().ClassUnSynchronizeList)
+            //    {
+            //        tWebServices.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
+            //        tWebServices.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+            //        tWebServices.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
+            //        tWebServices.AppendLine("}");
+            //    }
+            //    tWebServices.AppendLine("}");
+            //}
             //tWebServices.AppendLine("}");
             tWebServices.AppendLine("}");
             tWebServices.AppendLine("}");

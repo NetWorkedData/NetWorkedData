@@ -128,7 +128,7 @@ namespace NetWorkedData
                 }
             }
             // use index percent
-            Sizer += Mathf.FloorToInt((float)Sizer * sIndexationPercent); 
+            Sizer += Mathf.FloorToInt((float)Sizer * sIndexationPercent);
             return Sizer;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -140,7 +140,7 @@ namespace NetWorkedData
         public string WebServiceSign(int sWebBuild)
         {
             //return string.Join(NWDConstants.kStandardSeparator, PropertiesOrderArray(sWebBuild).ToArray());
-            return NWESecurityTools.GenerateSha(SaltEnd+string.Join(NWDConstants.kFieldSeparatorD, PropertiesOrderArray(sWebBuild).ToArray()));
+            return NWESecurityTools.GenerateSha(SaltEnd + string.Join(NWDConstants.kFieldSeparatorD, PropertiesOrderArray(sWebBuild).ToArray()));
         }
         //-------------------------------------------------------------------------------------------------------------
         private NWDTypeClass NewDataFromWeb(NWDAppEnvironment sEnvironment,
@@ -367,8 +367,16 @@ namespace NetWorkedData
                 WebModelSQLOrder.Add(0, SLQSelect(0));
             }
 #if UNITY_EDITOR
-            WebModelDegraded = ModelDegraded();
-            WebModelChanged = ModelChanged();
+            if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+            {
+                WebModelDegraded = ModelDegraded();
+                WebModelChanged = ModelChanged();
+            }
+            else
+            {
+                WebModelDegraded = false;
+                WebModelChanged = false;
+            }
             RefreshAllWindows();
 #endif
         }
@@ -453,52 +461,45 @@ namespace NetWorkedData
         public bool ModelDegraded()
         {
             bool rReturn = false;
-            int tLasBuild = LastWebBuild;
-            int tActualWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
-            int tActualWebBuildMax = NWDAppConfiguration.SharedInstance().WebBuildMax + 1;
-            WebModelDegradationList.Clear();
-            Dictionary<int, List<string>> tModel_Properties = new Dictionary<int, List<string>>(WebModelPropertiesOrder);
-            if (tModel_Properties.ContainsKey( tActualWebBuildMax) == false )
+            if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
             {
-            tModel_Properties.Add(tActualWebBuildMax, PropertiesOrderArray(-1));
-            }
-
-            if (tModel_Properties.Count > 0)
-            {
-                List<int> tKeyList = new List<int>();
-                foreach (KeyValuePair<int, List<string>> tModel_Prop in tModel_Properties)
+                int tLasBuild = LastWebBuild;
+                int tActualWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
+                int tActualWebBuildMax = NWDAppConfiguration.SharedInstance().WebBuildMax + 1;
+                WebModelDegradationList.Clear();
+                Dictionary<int, List<string>> tModel_Properties = new Dictionary<int, List<string>>(WebModelPropertiesOrder);
+                if (tModel_Properties.ContainsKey(tActualWebBuildMax) == false)
                 {
-                    tKeyList.Add(tModel_Prop.Key);
+                    tModel_Properties.Add(tActualWebBuildMax, PropertiesOrderArray(-1));
                 }
-                tKeyList.Sort();
-                List<string> tProp = tModel_Properties[tKeyList[0]];
-                //int tCounter = tProp.Count;
-                foreach (int tKey in tKeyList)
+                if (tModel_Properties.Count > 0)
                 {
-                    List<string> tPropList = tModel_Properties[tKey];
-                    //if (tCounter < tPropList.Count)
-                    //{
-                    //    // the number of properties is reduce beetween two version !!!!!
-                    //    rReturn = true;
-                    //}
-                    List<string> tResultRemove = new List<string>(tProp);
-                    foreach (string tR in tPropList)
+                    List<int> tKeyList = new List<int>();
+                    foreach (KeyValuePair<int, List<string>> tModel_Prop in tModel_Properties)
                     {
-                        tResultRemove.Remove(tR);
+                        tKeyList.Add(tModel_Prop.Key);
                     }
-                    if (tResultRemove.Count > 0)
+                    tKeyList.Sort();
+                    List<string> tProp = tModel_Properties[tKeyList[0]];
+                    foreach (int tKey in tKeyList)
                     {
-                        foreach (string tR in tResultRemove)
+                        List<string> tPropList = tModel_Properties[tKey];
+                        List<string> tResultRemove = new List<string>(tProp);
+                        foreach (string tR in tPropList)
                         {
-                            WebModelDegradationList.Add(tR);
-                            //Debug.Log("... il reste " + tR + " en trop dans le modele " + tKey + " de " + ClassNamePHP);
+                            tResultRemove.Remove(tR);
                         }
-                        // the properties is not increment beetween two versions !!!!!
-                        rReturn = true;
-                        break;
+                        if (tResultRemove.Count > 0)
+                        {
+                            foreach (string tR in tResultRemove)
+                            {
+                                WebModelDegradationList.Add(tR);
+                            }
+                            rReturn = true;
+                            break;
+                        }
+                        tProp = tPropList;
                     }
-                    tProp = tPropList;
-                    //tCounter = tProp.Count;
                 }
             }
             return rReturn;
@@ -507,22 +508,25 @@ namespace NetWorkedData
         public bool ModelChanged()
         {
             bool rReturn = false;
-            int tLasBuild = LastWebBuild;
-            int tActualWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
-            if (WebModelSQLOrder.ContainsKey(tLasBuild))
+            if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
             {
-                if (SLQSelect() != WebModelSQLOrder[tLasBuild])
+                int tLasBuild = LastWebBuild;
+                int tActualWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
+                if (WebModelSQLOrder.ContainsKey(tLasBuild))
                 {
-                    Debug.LogWarning("THE MODEL " + ClassNamePHP + " CHANGED FROM THE PREVIEW DATAS WEBSERVICE (" + tLasBuild + " / " + tActualWebBuild + ")!");
-                    Debug.LogWarning("new : " + SLQSelect());
-                    Debug.LogWarning("old : " + WebModelSQLOrder[tLasBuild]);
+                    if (SLQSelect() != WebModelSQLOrder[tLasBuild])
+                    {
+                        Debug.LogWarning("THE MODEL " + ClassNamePHP + " CHANGED FROM THE PREVIEW DATAS WEBSERVICE (" + tLasBuild + " / " + tActualWebBuild + ")!");
+                        Debug.LogWarning("new : " + SLQSelect());
+                        Debug.LogWarning("old : " + WebModelSQLOrder[tLasBuild]);
+                        rReturn = true;
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("THE MODEL" + ClassNamePHP + " CHANGED FOR UNKNOW WEBSERVICE(" + tLasBuild + "?/ " + tActualWebBuild + ")!");
                     rReturn = true;
                 }
-            }
-            else
-            {
-                Debug.LogWarning("THE MODEL" + ClassNamePHP + " CHANGED FOR UNKNOW WEBSERVICE(" + tLasBuild + "?/ " + tActualWebBuild + ")!");
-                rReturn = true;
             }
             return rReturn;
         }
@@ -530,26 +534,29 @@ namespace NetWorkedData
         public string ModelChangedGetChange()
         {
             string rReturn = string.Empty;
-            int tLasBuild = LastWebBuild;
-            int tActualWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
-            if (WebModelSQLOrder.ContainsKey(tLasBuild))
+            if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
             {
-                if (SLQSelect() != WebModelSQLOrder[tLasBuild])
+                int tLasBuild = LastWebBuild;
+                int tActualWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
+                if (WebModelSQLOrder.ContainsKey(tLasBuild))
                 {
-                    List<string> tListA  = new  List<string>(SLQSelect().Split(new char[]{','}));
-                    List<string> tListB= new  List<string>(WebModelSQLOrder[tLasBuild].Split(new char[]{','}));
-                    foreach (string t in  tListA)
+                    if (SLQSelect() != WebModelSQLOrder[tLasBuild])
                     {
-                        if (tListB.Contains(t)==false)
+                        List<string> tListA = new List<string>(SLQSelect().Split(new char[] { ',' }));
+                        List<string> tListB = new List<string>(WebModelSQLOrder[tLasBuild].Split(new char[] { ',' }));
+                        foreach (string t in tListA)
                         {
-                            rReturn += "\n+ Add : " +t;
+                            if (tListB.Contains(t) == false)
+                            {
+                                rReturn += "\n+ Add : " + t;
+                            }
                         }
-                    }
-                    foreach (string t in tListB)
-                    {
-                        if (tListA.Contains(t) == false)
+                        foreach (string t in tListB)
                         {
-                            rReturn += "\n- Remove : " + t;
+                            if (tListA.Contains(t) == false)
+                            {
+                                rReturn += "\n- Remove : " + t;
+                            }
                         }
                     }
                 }
