@@ -18,6 +18,7 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
+#if NWD_USER_NETWORKING
 using System;
 //=====================================================================================================================
 #if UNITY_EDITOR
@@ -37,7 +38,7 @@ namespace NetWorkedData
         Masked = 9,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassMacro("NWD_USER_NETWORKING")]
     [NWDClassTrigrammeAttribute("UNW")]
     [NWDClassDescriptionAttribute("User statut on Network")]
     [NWDClassMenuNameAttribute("User Net Working")]
@@ -70,3 +71,4 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

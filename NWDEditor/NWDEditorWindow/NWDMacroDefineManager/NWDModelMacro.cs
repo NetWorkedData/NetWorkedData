@@ -32,7 +32,7 @@ namespace NetWorkedData.MacroDefine
     public class NWDRGPDMacro : MDEDataTypeBoolGeneric<NWDRGPDMacro>
     {
         //-------------------------------------------------------------------------------------------------------------
-        // the title of enum controller
+        // the title of bool controller
         public static string Title = SetTitle("NWD RGPD");
         //-------------------------------------------------------------------------------------------------------------
         // declare one value
@@ -45,7 +45,7 @@ namespace NetWorkedData.MacroDefine
     public class NWDCraftbookMacro : MDEDataTypeBoolGeneric<NWDCraftbookMacro>
     {
         //-------------------------------------------------------------------------------------------------------------
-        // the title of enum controller
+        // the title of bool controller
         public static string Title = SetTitle("NWD Craftbook");
         //-------------------------------------------------------------------------------------------------------------
         // declare one value
@@ -58,7 +58,7 @@ namespace NetWorkedData.MacroDefine
     public class NWDInterMessageMacro : MDEDataTypeBoolGeneric<NWDInterMessageMacro>
     {
         //-------------------------------------------------------------------------------------------------------------
-        // the title of enum controller
+        // the title of bool controller
         public static string Title = SetTitle("NWD InterMessage");
         //-------------------------------------------------------------------------------------------------------------
         // declare one value
@@ -77,8 +77,61 @@ namespace NetWorkedData.MacroDefine
         // declare all values
         public static NWDIdentityMacro None = AddNone("no identity"); // It's optional
         // string will be convert in UNIX format automatically
-        public static NWDIdentityMacro AccountIdentity = Add(1, "NWD_ACCOUNT_IDENTITY", "Global (account)");
+        public static NWDIdentityMacro AccountIdentity = Add(1, "NWD_ACCOUNT_IDENTITY", "global (account)");
         public static NWDIdentityMacro UserIdentity = Add(2, "NWD_USER_IDENTITY", "by GameSave (user)");
+        public static NWDIdentityMacro BothIdentity = Add(3, "NWD_BOTH_IDENTITY", "both", "NWD_USER_IDENTITY,NWD_ACCOUNT_IDENTITY");
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // You can create custom bool of macro
+    // Just follow this example class
+    public class NWDClassificationMacro : MDEDataTypeBoolGeneric<NWDClassificationMacro>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        // the title of bool controller
+        public static string Title = SetTitle("NWD Classification");
+        //-------------------------------------------------------------------------------------------------------------
+        // declare one value
+        public static NWDClassificationMacro MacroBool = SetValue("NWD_CLASSIFICATION");
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // You can create custom bool of macro
+    // Just follow this example class
+    public class NWDItemPackMacro : MDEDataTypeBoolGeneric<NWDItemPackMacro>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        // the title of bool controller
+        public static string Title = SetTitle("NWD ItemPack");
+        //-------------------------------------------------------------------------------------------------------------
+        // declare one value
+        public static NWDItemPackMacro MacroBool = SetValue("NWD_ITEMPACK");
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // You can create custom bool of macro
+    // Just follow this example class
+    public class NWDUserNetWorkingMacro : MDEDataTypeBoolGeneric<NWDUserNetWorkingMacro>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        // the title of bool controller
+        public static string Title = SetTitle("NWD User NetWorking");
+        //-------------------------------------------------------------------------------------------------------------
+        // declare one value
+        public static NWDUserNetWorkingMacro MacroBool = SetValue("NWD_USER_NETWORKING", "NWD_QUEST");
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // You can create custom bool of macro
+    // Just follow this example class
+    public class NWDQuestMacro : MDEDataTypeBoolGeneric<NWDQuestMacro>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        // the title of bool controller
+        public static string Title = SetTitle("NWD Quest");
+        //-------------------------------------------------------------------------------------------------------------
+        // declare one value
+        public static NWDQuestMacro MacroBool = SetValue("NWD_QUEST");
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -18,13 +18,14 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
+#if NWD_CLASSIFICATION
 using System;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//[NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassMacro("NWD_CLASSIFICATION")]
     [NWDClassTrigrammeAttribute("KWD")]
     [NWDClassDescriptionAttribute("This class is used to reccord the keyword available in the game")]
     [NWDClassMenuNameAttribute("Keyword")]
@@ -47,3 +48,4 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

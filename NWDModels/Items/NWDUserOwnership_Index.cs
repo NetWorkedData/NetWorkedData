@@ -141,6 +141,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+#if NWD_CLASSIFICATION
         public static NWDUserOwnership[] FindReachableByItemCategory(NWDCategory sCategory, bool sOrCreate = true)
         {
             List<NWDUserOwnership> rReturn = new List<NWDUserOwnership>();
@@ -154,6 +155,7 @@ namespace NetWorkedData
             }
             return rReturn.ToArray();
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

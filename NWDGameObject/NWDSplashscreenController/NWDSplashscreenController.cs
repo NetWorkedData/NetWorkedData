@@ -400,9 +400,11 @@ namespace NetWorkedData
             //UnityEngine.Debug.Log("<color=red>!!!!!</color><color=orange>SyncSomeEditor</color>" + " state : " + NWDLauncher.GetState().ToString());
             NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(new List<Type>() {
                 typeof(NWDItem),
+#if NWD_CLASSIFICATION
                 typeof(NWDCategory),
                 typeof(NWDFamily),
                 typeof(NWDKeyword),
+#endif
                 typeof(NWDLocalization),
             },
             delegate (NWEOperation sOperation, float sProgress, NWEOperationResult sInfos)

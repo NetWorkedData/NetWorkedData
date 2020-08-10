@@ -38,6 +38,7 @@ namespace NetWorkedData.MacroDefine
         public string Name;
         public string Representation;
         public bool Overridable = true;
+        public string Addon;
         //-------------------------------------------------------------------------------------------------------------
         public MDEDataTypeEnum()
         {
@@ -45,6 +46,7 @@ namespace NetWorkedData.MacroDefine
             Name = null;
             Representation = null;
             Overridable = true;
+            Addon = null;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override string ToString()
@@ -83,6 +85,12 @@ namespace NetWorkedData.MacroDefine
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual List<string> StringValuesArray()
+        {
+            List<string> rList = new List<string>();
+            return rList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual List<string> StringValuesArrayAdd()
         {
             List<string> rList = new List<string>();
             return rList;
@@ -239,6 +247,28 @@ namespace NetWorkedData.MacroDefine
             return rList;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override List<string> StringValuesArrayAdd()
+        {
+            List<string> rList = new List<string>();
+            foreach (KeyValuePair<long, K> tKeyPair in kList)
+            {
+                string tName = string.Empty;
+                if (tKeyPair.Value != null)
+                {
+                    tName = tKeyPair.Value.Name;
+                    if (tKeyPair.Value.Addon != null)
+                    {
+                        tName = tName + ";" + tKeyPair.Value.Addon;
+                    }
+                }
+                if (string.IsNullOrEmpty(tName) == false)
+                {
+                    rList.Add(tName);
+                }
+            }
+            return rList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = "")
         {
             MDEDataTypeEnum tTemporary = new MDEDataTypeEnum();
@@ -317,22 +347,22 @@ namespace NetWorkedData.MacroDefine
             return Add(sID, sName, null, false);
         }
         //-------------------------------------------------------------------------------------------------------------
-        protected static K Add(int sID, string sName, string sRepresentation)
+        protected static K Add(int sID, string sName, string sRepresentation, string sAddList = null)
         {
-            return Add(sID, sName, sRepresentation, true);
+            return Add(sID, sName, sRepresentation, true, sAddList);
         }
         //-------------------------------------------------------------------------------------------------------------
-        protected static K AddProtected(int sID, string sName, string sRepresentation)
+        protected static K AddProtected(int sID, string sName, string sRepresentation, string sAddList = null)
         {
-            return Add(sID, sName, sRepresentation, false);
+            return Add(sID, sName, sRepresentation, false, sAddList);
         }
         //-------------------------------------------------------------------------------------------------------------
-        protected static K AddOverride(int sID, string sName, string sRepresentation)
+        protected static K AddOverride(int sID, string sName, string sRepresentation, string sAddList = null)
         {
-            return Add(sID, sName, sRepresentation, false);
+            return Add(sID, sName, sRepresentation, false, sAddList);
         }
         //-------------------------------------------------------------------------------------------------------------
-        protected static K Add(int sID, string sName, string sRepresentation, bool sOverridable)
+        protected static K Add(int sID, string sName, string sRepresentation, bool sOverridable, string sAddList = null)
         {
             sName = MDEMacroDefineEditor.UnixCleaner(sName);
             K rReturn;
@@ -343,6 +373,11 @@ namespace NetWorkedData.MacroDefine
                 rReturn.Name = sName;
                 rReturn.Representation = sRepresentation;
                 rReturn.Overridable = sOverridable;
+                if (string.IsNullOrEmpty(sAddList) == false)
+                {
+                    string[] sList = sAddList.Split(new char[] { ';', ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    rReturn.Addon = string.Join(";", sList);
+                }
                 kList.Add(sID, rReturn);
             }
             else

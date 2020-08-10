@@ -294,6 +294,7 @@ namespace NetWorkedData.MacroDefine
                         foreach (MDEDataTypeEnum tEnum in EnumTypeList)
                         {
                             List<string> tArrayMacro = tEnum.StringValuesArray();
+                            List<string> tArrayMacroAdd = tEnum.StringValuesArrayAdd();
                             List<string> tArrayRepresentation = tEnum.RepresentationValuesArray();
                             int tIndex = 0;
                             List<string> tToRemove = new List<string>();
@@ -314,7 +315,15 @@ namespace NetWorkedData.MacroDefine
                             {
                                 if (tArrayMacro[tIndex] != MDEConstants.NONE)
                                 {
-                                    ActiveGroupMacroDefine[tBuildTargetGroup].Add(tArrayMacro[tIndex]);
+                                    //ActiveGroupMacroDefine[tBuildTargetGroup].Add(tArrayMacro[tIndex]);
+                                    string[] sList = tArrayMacroAdd[tIndex].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                                    foreach (string tAdd in sList)
+                                    {
+                                        if (ActiveGroupMacroDefine[tBuildTargetGroup].Contains(tAdd) == false)
+                                        {
+                                            ActiveGroupMacroDefine[tBuildTargetGroup].Add(tAdd);
+                                        }
+                                    }
                                 }
                             }
                             GUILayout.Space(5.0F);
@@ -329,6 +338,7 @@ namespace NetWorkedData.MacroDefine
                         foreach (NWDMacroDefinerBool tBool in BoolTypeList)
                         {
                             List<string> tArrayMacro = tBool.StringValuesArray();
+                            List<string> tArrayMacroAdd = tBool.StringValuesArrayAdd();
                             if (tArrayMacro.Count == 2)
                             {
                                 int tIndex = 0;
@@ -350,7 +360,7 @@ namespace NetWorkedData.MacroDefine
                                 {
                                     tSelected = true;
                                 }
-                                tSelected = EditorGUILayout.Toggle(new GUIContent(tBool.GetTitle(), tArrayMacro[1]), tSelected);
+                                tSelected = EditorGUILayout.Toggle(new GUIContent(tBool.GetTitle(), tArrayMacroAdd[1]), tSelected);
                                 if (tSelected == false)
                                 {
                                     tIndex = 0;
@@ -363,7 +373,14 @@ namespace NetWorkedData.MacroDefine
                                 {
                                     if (tArrayMacro[tIndex] != MDEConstants.NONE)
                                     {
-                                        ActiveGroupMacroDefine[tBuildTargetGroup].Add(tArrayMacro[tIndex]);
+                                        string[] sList = tArrayMacroAdd[tIndex].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                                        foreach (string tAdd in sList)
+                                        {
+                                            if (ActiveGroupMacroDefine[tBuildTargetGroup].Contains(tAdd) == false)
+                                            {
+                                                ActiveGroupMacroDefine[tBuildTargetGroup].Add(tAdd);
+                                            }
+                                        }
                                     }
                                 }
                                 GUILayout.Space(5.0F);

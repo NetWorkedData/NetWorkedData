@@ -18,6 +18,7 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
+#if NWD_CLASSIFICATION
 using System;
 using System.Reflection;
 using System.Collections.Generic;
@@ -27,20 +28,21 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassTrigrammeAttribute("xxc")]
+    [NWDClassMacro("NWD_CLASSIFICATION")]
+    [NWDClassTrigrammeAttribute("xxf")]
     [NWDClassDescriptionAttribute("index")]
-    [NWDClassMenuNameAttribute("Index Categorie->Item")]
-    public partial class NWDIndexCategorieItem : NWDEditorIndex<NWDIndexCategorieItem, NWDCategory, NWDItem>
+    [NWDClassMenuNameAttribute("Index Family->Item")]
+    public partial class NWDIndexFamilyItem : NWDEditorIndex<NWDIndexFamilyItem, NWDFamily, NWDItem>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDIndexCategorieItem()
+        public NWDIndexFamilyItem()
         {
-            //Debug.Log("NWDIndexCategorieItem Constructor");
+            //Debug.Log("NWDIndexFamilyItem Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDIndexCategorieItem(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDIndexFamilyItem(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDIndexCategorieItem Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDIndexFamilyItem Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
     }
@@ -48,28 +50,42 @@ namespace NetWorkedData
     public partial class NWDItem : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupOrder("Classification", 0)]
-        public NWDReferencesListType<NWDCategory> CategoryList
+        [NWDInspectorGroupOrder("Classification", 1)]
+        public NWDReferencesListType<NWDFamily> FamilyList
         {
             get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static List<NWDItem> FindByCategory(NWDCategory sCategory)
+        /// <summary>
+        /// Index with NWDIndexFamilyItem
+        /// </summary>
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInBase]
+        public void IndexInBaseFamilyIndex()
         {
-            List<NWDItem> rReturn = new List<NWDItem>();
-            foreach (NWDCategory tCategories in sCategory.CascadeCategoryList.GetRawDatas())
+            //Debug.Log("index in base");
+            if (FamilyList != null)
             {
-                rReturn.AddRange(NWDIndexCategorieItem.RawDatasByKey(tCategories));
+                NWDIndexFamilyItem.UpdateData(this, FamilyList.GetRawDatas());
             }
-            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static List<NWDItem> FindByCategoryInverse(NWDCategory sCategory)
+        /// <summary>
+        /// Desindex from NWDIndexFamilyItem
+        /// </summary>
+        [NWDDeindexInBase]
+        public void DesindexInBaseFamilyIndex()
         {
-            return new List<NWDItem>(NWDIndexCategorieItem.RawDatasByKey(sCategory));
+            NWDIndexFamilyItem.RemoveData(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<NWDItem> FindInBaseFamilyIndex(NWDFamily sFamily)
+        {
+            return new List<NWDItem>(NWDIndexFamilyItem.RawDatasByKey(sFamily));
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

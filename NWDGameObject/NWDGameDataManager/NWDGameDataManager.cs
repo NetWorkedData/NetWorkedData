@@ -330,12 +330,13 @@ namespace NetWorkedData
                     /* NWDDataManagerMainThread tGameDataManagerMainThread = */
                     tObjToSpawn.AddComponent<NWDDataManagerMainThread>();
                     // Add component to check user online
-                    /*NWDUserNetWorkingScript tUserNetWorkingScript = */
+/*NWDUserNetWorkingScript tUserNetWorkingScript = */
+#if NWD_USER_NETWORKING
                     tObjToSpawn.AddComponent<NWDUserNetWorkingScript>();
                     // Add component to check the network state
                     NWDNetworkCheck tNetWorkCheckScript = tObjToSpawn.AddComponent<NWDNetworkCheck>();
                     tGameDataManager.NetWorkCheck = tNetWorkCheckScript;
-
+#endif
                     // keep k_Singleton
                     //kUnitySingleton = tObjToSpawn.GetComponent<NWDGameDataManager>();
                     kUnitySingleton = tGameDataManager;

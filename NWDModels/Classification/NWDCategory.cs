@@ -18,6 +18,7 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
+#if NWD_CLASSIFICATION
 using System;
 using System.Collections.Generic;
 
@@ -72,7 +73,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassMacro("NWD_CLASSIFICATION")]
     [NWDClassTrigrammeAttribute("CAT")]
     [NWDClassDescriptionAttribute("This class is used to reccord the category available in the game")]
     [NWDClassMenuNameAttribute("Category")]
@@ -112,3 +113,4 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

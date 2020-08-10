@@ -18,13 +18,13 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
+#if NWD_CLASSIFICATION
 using System;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassMacro("NWD_CLASSIFICATION")]
     [NWDClassTrigrammeAttribute("FAM")]
     [NWDClassDescriptionAttribute("This class is used to reccord the family available in the game")]
     [NWDClassMenuNameAttribute("Family")]
@@ -53,3 +53,4 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif
