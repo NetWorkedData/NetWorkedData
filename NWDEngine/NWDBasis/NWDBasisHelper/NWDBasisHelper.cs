@@ -482,6 +482,8 @@ namespace NetWorkedData
             // reccord if class' object is asset dependent
             kAssetDependent = rAssetConnected;
             kAssetDependentProperties = tAssetPropertyList;
+
+#if UNITY_EDITOR
             NWDClassClusterAttribute tClusterAttribute = null;
             //NWDBenchmark.Step();
             if (sType.GetCustomAttributes(typeof(NWDClassClusterAttribute), true).Length > 0)
@@ -498,6 +500,7 @@ namespace NetWorkedData
                 ClusterMin = 0;
                 ClusterMax = 2048;
             }
+#endif
             //NWDBenchmark.Step();
             //NWDBenchmark.Finish(true, ClassNamePHP);
         }

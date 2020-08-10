@@ -23,7 +23,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using NetWorkedData.NWDEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -48,6 +48,7 @@ namespace NetWorkedData
         {
             NWDBenchmark.Start();
             // save datas
+            NWDProjectCredentialsManager.SharedInstance().ShowUtility();
             NWDDataManager.SharedInstance().DataQueueExecute();
             LoadDataNecessary();
             List<string> tFolders = CreatePHPFolder(sWriteOnDisk);
