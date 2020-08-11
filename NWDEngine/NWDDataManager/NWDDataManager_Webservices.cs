@@ -459,12 +459,13 @@ namespace NetWorkedData
                 }
             }
             SharedInstance().DataQueueExecute();
-#if NWD_CRUD_NOTIFICATION
             if (tUpdateData)
             {
+                //SharedInstance().DataQueueExecute();
+#if NWD_CRUD_NOTIFICATION
                 NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_DATAS_WEB_UPDATE, null));
-            }
 #endif
+            }
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
