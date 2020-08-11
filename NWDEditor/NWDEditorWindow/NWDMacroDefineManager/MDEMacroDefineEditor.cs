@@ -291,6 +291,7 @@ namespace NetWorkedData.MacroDefine
                     {
                         GUILayout.BeginVertical();
                         GUILayout.Label(MDEConstants.EnumArea, NWDGUI.KTableHeaderStatut);
+                        EnumTypeList.Sort((tA, tB) => string.Compare(tA.GetTitle(), tB.GetTitle(), StringComparison.Ordinal));
                         foreach (MDEDataTypeEnum tEnum in EnumTypeList)
                         {
                             List<string> tArrayMacro = tEnum.StringValuesArray();
@@ -334,7 +335,7 @@ namespace NetWorkedData.MacroDefine
                     {
                         GUILayout.BeginVertical();
                         GUILayout.Label(MDEConstants.BoolArea, NWDGUI.KTableHeaderStatut);
-
+                        BoolTypeList.Sort((tA, tB) => string.Compare(tA.GetTitle(), tB.GetTitle(), StringComparison.Ordinal));
                         foreach (NWDMacroDefinerBool tBool in BoolTypeList)
                         {
                             List<string> tArrayMacro = tBool.StringValuesArray();

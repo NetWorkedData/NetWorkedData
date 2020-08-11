@@ -65,21 +65,47 @@ namespace NetWorkedData.MacroDefine
         public static NWDInterMessageMacro MacroBool = SetValue("NWD_INTERMESSAGE");
         //-------------------------------------------------------------------------------------------------------------
     }
+    ////+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //// You can create custom enum of macro
+    //// Just follow this example class
+    //public class NWDIdentityMacro : MDEDataTypeEnumGeneric<NWDIdentityMacro>
+    //{
+    //    //-------------------------------------------------------------------------------------------------------------
+    //    // the title of enum controller
+    //    public static string Title = SetTitle("NWD Identity");
+    //    //-------------------------------------------------------------------------------------------------------------
+    //    // declare all values
+    //    public static NWDIdentityMacro None = AddNone("no identity"); // It's optional
+    //    // string will be convert in UNIX format automatically
+    //    public static NWDIdentityMacro AccountIdentity = Add(1, "NWD_ACCOUNT_IDENTITY", "global (account)");
+    //    public static NWDIdentityMacro UserIdentity = Add(2, "NWD_USER_IDENTITY", "by GameSave (user)");
+    //    public static NWDIdentityMacro BothIdentity = Add(3, "NWD_BOTH_IDENTITY", "both", "NWD_USER_IDENTITY,NWD_ACCOUNT_IDENTITY");
+    //    //-------------------------------------------------------------------------------------------------------------
+    //}
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // You can create custom enum of macro
+    // You can create custom bool of macro
     // Just follow this example class
-    public class NWDIdentityMacro : MDEDataTypeEnumGeneric<NWDIdentityMacro>
+    public class NWDUserIdentityMacro : MDEDataTypeBoolGeneric<NWDUserIdentityMacro>
     {
         //-------------------------------------------------------------------------------------------------------------
-        // the title of enum controller
-        public static string Title = SetTitle("NWD Identity");
+        // the title of bool controller
+        public static string Title = SetTitle("NWD User Identity");
         //-------------------------------------------------------------------------------------------------------------
-        // declare all values
-        public static NWDIdentityMacro None = AddNone("no identity"); // It's optional
-        // string will be convert in UNIX format automatically
-        public static NWDIdentityMacro AccountIdentity = Add(1, "NWD_ACCOUNT_IDENTITY", "global (account)");
-        public static NWDIdentityMacro UserIdentity = Add(2, "NWD_USER_IDENTITY", "by GameSave (user)");
-        public static NWDIdentityMacro BothIdentity = Add(3, "NWD_BOTH_IDENTITY", "both", "NWD_USER_IDENTITY,NWD_ACCOUNT_IDENTITY");
+        // declare one value
+        public static NWDUserIdentityMacro MacroBool = SetValue("NWD_USER_IDENTITY");
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // You can create custom bool of macro
+    // Just follow this example class
+    public class NWDAccountIdentityMacro : MDEDataTypeBoolGeneric<NWDAccountIdentityMacro>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        // the title of bool controller
+        public static string Title = SetTitle("NWD Account Identity");
+        //-------------------------------------------------------------------------------------------------------------
+        // declare one value
+        public static NWDAccountIdentityMacro MacroBool = SetValue("NWD_ACCOUNT_IDENTITY");
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -118,7 +144,7 @@ namespace NetWorkedData.MacroDefine
         public static string Title = SetTitle("NWD User NetWorking");
         //-------------------------------------------------------------------------------------------------------------
         // declare one value
-        public static NWDUserNetWorkingMacro MacroBool = SetValue("NWD_USER_NETWORKING", "NWD_QUEST");
+        public static NWDUserNetWorkingMacro MacroBool = SetValue("NWD_USER_NETWORKING");
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
