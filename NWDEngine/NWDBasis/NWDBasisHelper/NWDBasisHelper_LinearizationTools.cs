@@ -252,6 +252,8 @@ namespace NetWorkedData
         public bool TestIntegrityValueFromCSV(string[] sDataArray)
         {
             bool rReturn = true;
+#if NWD_INTEGRITY_NONE
+#else
             string tActualIntegrity = GetIntegrityValueFromCSV(sDataArray);
             StringBuilder tAssembly = new StringBuilder();
             tAssembly.Append(sDataArray[0] + sDataArray[1]);
@@ -265,6 +267,7 @@ namespace NetWorkedData
             {
                 rReturn = false;
             }
+#endif
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

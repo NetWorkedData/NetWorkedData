@@ -184,105 +184,43 @@ namespace NetWorkedData
                     }
                     else
                     {
-                        // verif if value is conforme for localization
                         if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataType)))
                         {
                             NWEDataType tValueNWEDataType = (NWEDataType)tValue;
                             tValueNWEDataType.BaseVerif();
                             tProp.SetValue(this, tValue, null);
                         }
-                        //if (tProp.PropertyType.IsSubclassOf(typeof(NWDMultiType)))
-                        //{
-                        //    NWDMultiType tValueNWEDataType = (NWDMultiType)tValue;
-                        //    tValueNWEDataType.BaseVerif();
-                        //    tProp.SetValue(this, tValue, null);
-                        //}
                     }
                 }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Updates the integrity. Set the integrity value of object's data in the field Integrity.
-        /// </summary>
         public override void UpdateIntegrity()
         {
-            //Debug.Log("NWDBasis UpdateIntegrity()");
+#if NWD_INTEGRITY_NONE
+            Integrity = string.Empty;
+#else
             NotNullChecker();
-
-            if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)
-            {
-#if UNITY_EDITOR
-                //ServerLog = IntegrityAssembly();
+            Integrity = IntegrityValue();
 #endif
-                Integrity = IntegrityValue();
-            }
-            else
-            {
-#if UNITY_EDITOR
-                //ServerLog = string.Empty;
-#endif
-                Integrity = string.Empty;
-            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public override bool IntegrityIsValid()
         {
-            if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)
-            {
-                return Integrity == IntegrityValue();
-            }
-            else
-            {
-                return true;
-            }
+#if NWD_INTEGRITY_NONE
+            return true;
+#else
+            return Integrity == IntegrityValue();
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Tests the integrity.
-        /// </summary>
-        /// <returns><c>true</c>, if integrity is validated, <c>false</c> if integrity is not validate.</returns>
-        //public override bool TestIntegrity()
-        //{
-        //    bool rReturn = false;
-        //    if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)
-        //    {
-        //        // test integrity
-        //        if (Integrity == IntegrityValue())
-        //        {
-        //            rReturn = true;
-        //        }
-        //        else
-        //        {
-        //            //DisableData();
-        //            //DD = NWDToolbox.Timestamp();
-        //            //AC = false;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        rReturn = true;
-        //    }
-        //    return rReturn;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Integrity value for this object's data.
-        /// </summary>
-        /// <returns>The value.</returns>
         public string IntegrityValue()
         {
-            //NWDBasisHelper tHelper = BasisHelper(); // it's slower than call directly BasisHelper() !?
-            if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)
-            {
-                // TODO reduce complexity by shortly hashsum
-                // TODO override IntegrityAssembly() in compile file
-                return BasisHelper().HashSum(BasisHelper().SaltStart + IntegrityAssembly() + BasisHelper().SaltEnd);
-            }
-            else
-            {
-                return string.Empty;
-            }
+#if NWD_INTEGRITY_NONE
+            return string.Empty;
+#else
+            return BasisHelper().HashSum(BasisHelper().SaltStart + IntegrityAssembly() + BasisHelper().SaltEnd);
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

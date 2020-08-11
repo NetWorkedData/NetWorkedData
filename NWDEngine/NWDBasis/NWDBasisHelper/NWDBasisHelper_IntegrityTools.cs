@@ -72,6 +72,8 @@ namespace NetWorkedData
         public void RecalculateAllIntegrities()
         {
             //loop
+#if NWD_INTEGRITY_NONE
+#else
             foreach (NWDTypeClass tData in Datas)
             {
                 // update integrity value
@@ -79,6 +81,7 @@ namespace NetWorkedData
                 // force to write object in database
                 tData.UpdateData();
             }
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
     }

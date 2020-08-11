@@ -94,6 +94,9 @@ namespace NetWorkedData
             {
                 tDataArray[tI] = NWDToolbox.TextCSVUnprotect(tDataArray[tI]);
             }
+#if NWD_INTEGRITY_NONE
+            rReturn = SynchronizationInsertInBase(sInfos, sEnvironment, tDataArray);
+#else
             // I need to test the integrity of datas... 
             bool tIntegrityTest = true;
             tIntegrityTest = TestIntegrityValueFromCSV(tDataArray);
@@ -101,6 +104,7 @@ namespace NetWorkedData
             {
                 rReturn = SynchronizationInsertInBase(sInfos, sEnvironment, tDataArray);
             }
+#endif
             //NWDBenchmark.Finish();
             return rReturn;
         }
@@ -384,12 +388,12 @@ namespace NetWorkedData
         /// Synchronizations the pull data.
         /// </summary>
         /// <param name="sData">S data.</param>
-        public string SynchronizationPullData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData, NWDOperationSpecial sSpecial)
+        public bool SynchronizationPullData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData, NWDOperationSpecial sSpecial)
         {
             //Debug.Log("NWDBasis SynchronizationPullData() " + ClassTableName);
             //NWDBenchmark.Start();
             //NWDBenchmark.Tag(ClassNamePHP());
-            string rReturn = "NO";
+            bool rReturn = false;
             // Ok I receive data ... so I can reccord the last waiting timestamp as the good sync date
             if (sData.isError)
             {
@@ -444,7 +448,7 @@ namespace NetWorkedData
                                 //}
                             }
 
-                            rReturn = "YES";
+                            rReturn = true;
 #if UNITY_EDITOR
                             //FilterTableEditor();
                             RepaintTableEditor();

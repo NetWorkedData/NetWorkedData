@@ -440,22 +440,22 @@ namespace NetWorkedData
             bool tUpdateData = false;
             if (sTypeList != null)
             {
-                List<string> tClassNameSync = new List<string>();
-                List<string> tClassNameNotSync = new List<string>();
-                List<string> tClassNameNotFound = new List<string>();
+                //List<string> tClassNameSync = new List<string>();
+                //List<string> tClassNameNotSync = new List<string>();
+                //List<string> tClassNameNotFound = new List<string>();
 
                 foreach (Type tType in sTypeList)
                 {
-                    string tResult = NWDBasisHelper.FindTypeInfos(tType).SynchronizationPullData(sInfos, sEnvironment, sData, sSpecial);
-                    if (tResult == "YES")
+                    bool tResult = NWDBasisHelper.FindTypeInfos(tType).SynchronizationPullData(sInfos, sEnvironment, sData, sSpecial);
+                    if (tResult == true)
                     {
                         tUpdateData = true;
-                        tClassNameSync.Add(tType.Name);
+                        //tClassNameSync.Add(tType.Name);
                     }
-                    else
-                    {
-                        tClassNameNotSync.Add(tType.Name);
-                    }
+                    //else
+                    //{
+                    //    tClassNameNotSync.Add(tType.Name);
+                    //}
                 }
             }
             SharedInstance().DataQueueExecute();

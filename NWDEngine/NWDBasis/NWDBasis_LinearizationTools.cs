@@ -250,6 +250,9 @@ namespace NetWorkedData
         // TODO Override compiler?
         public virtual string IntegrityAssembly()
         {
+#if NWD_INTEGRITY_NONE
+            return string.Empty;;
+#else
             string[] tValues = Assembly();
             tValues[2] = "";
             tValues[3] = "";
@@ -258,6 +261,7 @@ namespace NetWorkedData
             tValues[6] = "";
             tValues[tValues.Length - 1] = "";
             return string.Join("", tValues);
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         // TODO Override compiler?

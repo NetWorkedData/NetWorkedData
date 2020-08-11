@@ -798,6 +798,8 @@ namespace NetWorkedData
                     tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
                     tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ";");
                     tFile.AppendLine("$rReturn = true;");
+#if NWD_INTEGRITY_NONE
+#else
                     tFile.AppendLine("$tCsvList = explode('" + NWDConstants.kStandardSeparator + "',$sCsv);");
                     tFile.AppendLine("$tIntegrity = array_pop($tCsvList);");
                     tFile.AppendLine("unset($tCsvList[" + NWDBasisHelper.CSV_IndexOf<NWDExample>(NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DS)) + "]);//remove " + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DS) + "");
@@ -815,6 +817,7 @@ namespace NetWorkedData
                         tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx88, ClassNamePHP));
                     }
                     tFile.AppendLine("}");
+#endif
                     tFile.AppendLine("return $rReturn;");
                 }
                 tFile.AppendLine("}");
@@ -827,6 +830,10 @@ namespace NetWorkedData
                 {
                     tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
                     tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ";");
+#if NWD_INTEGRITY_NONE
+                    tFile.AppendLine("array_pop($sCsvArray);");
+                    tFile.AppendLine("$sCsvArray[] = '';");
+#else
                     tFile.AppendLine("$sCsvList = $sCsvArray;");
                     tFile.AppendLine("$sCsvList[$sIndex] = $sValue;");
                     tFile.AppendLine("$tIntegrity = array_pop($sCsvList);");
@@ -841,6 +848,7 @@ namespace NetWorkedData
                     tFile.AppendLine("$sCsvArray[$sIndex] = $sValue;");
                     tFile.AppendLine("array_pop($sCsvArray);");
                     tFile.AppendLine("$sCsvArray[] = $tCalculate;");
+#endif
                     tFile.AppendLine("return $sCsvArray;");
                 }
                 tFile.AppendLine("}");
@@ -853,6 +861,17 @@ namespace NetWorkedData
                 {
                     tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
                     tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ";");
+
+#if NWD_INTEGRITY_NONE
+                    tFile.AppendLine("foreach(array_keys($sIndexesAndValues) as $tKey)");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("$sCsvArray[$tKey] = $sIndexesAndValues[$tKey];");
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("array_pop($sCsvArray);");
+                    tFile.AppendLine("$sCsvArray[] = '';");
+#else
                     tFile.AppendLine("$sCsvList = $sCsvArray;");
                     tFile.AppendLine("foreach(array_keys($sIndexesAndValues) as $tKey)");
                     tFile.AppendLine("{");
@@ -877,6 +896,7 @@ namespace NetWorkedData
                     tFile.AppendLine("}");
                     tFile.AppendLine("array_pop($sCsvArray);");
                     tFile.AppendLine("$sCsvArray[] = $tCalculate;");
+#endif
                     tFile.AppendLine("return $sCsvArray;");
                 }
                 tFile.AppendLine("}");
@@ -938,6 +958,9 @@ namespace NetWorkedData
                 tFile.AppendLine("function " + PHP_FUNCTION_INTEGRITY_GENERATE() + " ($sRow)");
                 tFile.AppendLine("{");
                 {
+#if NWD_INTEGRITY_NONE
+                    tFile.AppendLine("return '';");
+#else
                     tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
                     tFile.AppendLine("global " + NWD.K_ENV + ", " + NWD.K_NWD_SLT_SRV + ";");
                     tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ";");
@@ -949,6 +972,7 @@ namespace NetWorkedData
                     tFile.AppendLine(";");
                     tFile.AppendLine(NWDError.PHP_log(sEnvironment, "sDataString : '.$sDataString.'"));
                     tFile.AppendLine("return str_replace('" + NWDConstants.kStandardSeparator + "', '', md5(" + PHP_CONSTANT_SALT_A() + ".$sDataString." + PHP_CONSTANT_SALT_B() + "));");
+#endif
                 }
                 tFile.AppendLine("}");
                 tFile.AppendLine(NWD.K_CommentSeparator);

@@ -246,7 +246,7 @@ namespace NetWorkedData.NWDEditor
                 NWDAppConfiguration.SharedInstance().LauncherFaster = 1;
             }
             //EditorGUI.EndDisabledGroup();
-            NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
+            //NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
             // Database editor informations
             string tDatabasePathEditor = NWD.K_StreamingAssets + "/" + NWDDataManager.SharedInstance().DatabaseEditorName();
             NWDGUILayout.SubSection("Databases editor config for all environments");
