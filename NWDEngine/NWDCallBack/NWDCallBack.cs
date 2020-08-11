@@ -48,15 +48,19 @@ namespace NetWorkedData
         //public NWDCallBackEvent AccountChangedEvent;
         public bool TrackAccountSessionExpired = true;
         //public NWDCallBackEvent AccountSessionExpiredEvent;
+#if NWD_CRUD_NOTIFICATION
         [Header("Track NetWorkedData Local change")]
         public bool TrackDataLocalDelete = true;
         //public NWDCallBackEvent DataLocalDeleteEvent;
         public bool TrackDataLocalInsert = true;
         //public NWDCallBackEvent DataLocalInsertEvent;
         public bool TrackDataLocalUpdate = true;
+#endif
         //public NWDCallBackEvent DataLocalUpdateEvent;
         [Header("Track NetWorkedData Web change")]
+#if NWD_CRUD_NOTIFICATION
         public bool TrackDatasWebUpdate = true;
+#endif
         //public NWDCallBackEvent DatasWebUpdateEvent;
         public bool TrackWebOperationError = true;
         //public NWDCallBackEvent WebOperationErrorEvent;
@@ -114,7 +118,7 @@ namespace NetWorkedData
                 });
             }
             // change data
-
+#if NWD_CRUD_NOTIFICATION
             if (TrackDataLocalInsert == true)
             {
                 tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_LOCAL_INSERT, delegate (NWENotification sNotification)
@@ -147,6 +151,7 @@ namespace NetWorkedData
                     NotificationDatasWebUpdate(sNotification);
                 });
             }
+#endif
             // error
 
             if (TrackError == true)
@@ -291,10 +296,12 @@ namespace NetWorkedData
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ACCOUNT_BANNED);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ACCOUNT_CHANGE);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ACCOUNT_SESSION_EXPIRED);
+#if NWD_CRUD_NOTIFICATION
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
+#endif
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ERROR);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_OFFLINE);

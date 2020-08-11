@@ -43,11 +43,13 @@ namespace NetWorkedData
         public const string K_LANGUAGE_CHANGED = "K_LANGUAGE_CHANGED"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
         // Datas modification from local
+#if NWD_CRUD_NOTIFICATION
         public const string K_DATA_LOCAL_INSERT = "K_DATA_LOCAL_INSERTD_eBf75rez";  // OK Needed by test & verify
         public const string K_DATA_LOCAL_UPDATE = "K_DATA_LOCAL_UPDATE_eDe24rez";  // OK Needed by test & verify
         public const string K_DATA_LOCAL_DELETE = "K_DATA_LOCAL_DELETE_Ur4rerez";  // OK Needed by test & verify
         // Datas modification from web
         public const string K_DATAS_WEB_UPDATE = "K_DATAS_WEB_UPDATE_LOe245rz"; // OK Needed by test & verify
+#endif
         //-------------------------------------------------------------------------------------------------------------
         // receipt Error message
         public const string K_ERROR = "K_ERROR_Okk4ez6S";

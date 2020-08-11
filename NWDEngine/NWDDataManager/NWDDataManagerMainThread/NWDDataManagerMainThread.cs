@@ -211,21 +211,27 @@ namespace NetWorkedData
             {
                 //Debug.Log("NWDDataManagerMainThread Update() InsertCompleted detected!");
                 InsertCompleted--;
+                #if NWD_CRUD_NOTIFICATION
                 NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
+#endif
             }
             // not necessary to lock int
             if (UpdateCompleted > 0)
             {
                 //Debug.Log("NWDDataManagerMainThread Update() UpdateCompleted detected!");
                 UpdateCompleted--;
+#if NWD_CRUD_NOTIFICATION
                 NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
+#endif
             }
             // not necessary to lock int
             if (DeleteCompleted > 0)
             {
                 //Debug.Log("NWDDataManagerMainThread Update() DeleteCompleted detected!");
                 DeleteCompleted--;
+#if NWD_CRUD_NOTIFICATION
                 NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
+#endif
             }
             // necessary to lock list
             lock (ListInsertCompleted)
@@ -235,7 +241,9 @@ namespace NetWorkedData
                     //Debug.Log("NWDDataManagerMainThread Update() ListInsertCompleted detected!");
                     List<Type> tTypeList =  ListInsertCompleted[0];
                     ListInsertCompleted.RemoveAt(0);
+#if NWD_CRUD_NOTIFICATION
                     NWENotificationManager.SharedInstance().PostNotification(tTypeList, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
+#endif
 #if UNITY_EDITOR
                     foreach (Type tType in tTypeList)
                         {
@@ -252,7 +260,9 @@ namespace NetWorkedData
                     //Debug.Log("NWDDataManagerMainThread Update() ListUpdateCompleted detected!");
                     List<Type> tTypeList = ListUpdateCompleted[0];
                     ListUpdateCompleted.RemoveAt(0);
+#if NWD_CRUD_NOTIFICATION
                     NWENotificationManager.SharedInstance().PostNotification(tTypeList, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
+#endif
 #if UNITY_EDITOR
                     foreach (Type tType in tTypeList)
                     {
@@ -269,7 +279,10 @@ namespace NetWorkedData
                     //Debug.Log("NWDDataManagerMainThread Update() ListDeleteCompleted detected!");
                     List<Type> tTypeList = ListDeleteCompleted[0];
                     ListDeleteCompleted.RemoveAt(0);
+                    #if NWD_CRUD_NOTIFICATION
                     NWENotificationManager.SharedInstance().PostNotification(tTypeList, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
+#endif
+
 #if UNITY_EDITOR
                     foreach (Type tType in tTypeList)
                     {

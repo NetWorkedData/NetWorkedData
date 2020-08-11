@@ -76,16 +76,16 @@ namespace NetWorkedData
             foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeLoadedList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-            Debug.Log(" class "+tHelper.ClassNamePHP+" row nb =" +tHelper.Datas.Count);
+                Debug.Log(" class " + tHelper.ClassNamePHP + " row nb =" + tHelper.Datas.Count);
             }
 
             if (ParameterConnection != null)
             {
-            Debug.Log("NWDShowDebugPanel ParametersTestAction() ParameterConnection not null ParameterConnection.reference = "+ParameterConnection.Reference);
+                Debug.Log("NWDShowDebugPanel ParametersTestAction() ParameterConnection not null ParameterConnection.reference = " + ParameterConnection.Reference);
                 NWDParameter tParam = ParameterConnection.GetReachableData();
                 if (tParam != null)
                 {
-                  Debug.Log("NWDShowDebugPanel ParametersTestAction() tParam not null get local string = " + tParam.Name.GetLocalString());
+                    Debug.Log("NWDShowDebugPanel ParametersTestAction() tParam not null get local string = " + tParam.Name.GetLocalString());
                     TextDebug.text = tParam.Name.GetLocalString();
                 }
             }
@@ -144,11 +144,12 @@ namespace NetWorkedData
         {
             // Add notification for NetWokedData update
             NWDDataManager.SharedInstance().InformationsUpdate();
+#if NWD_CRUD_NOTIFICATION
             NWENotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE, delegate (NWENotification sNotification)
             {
                 NWDDataManager.SharedInstance().InformationsUpdate();
             });
-
+#endif
             // Add callback to 
             //#if COLORED_ADVANCED_DEBUG
             //CADDebugOverlay.CADDebugOverlayAddOn += CADDebugOverlayAddOnCallBack;
@@ -166,11 +167,11 @@ namespace NetWorkedData
                     CartridgeImageSecond.color = tVersion.Cartridge.GetColor();
                 }
             }
-                if (CartridgeText != null)
+            if (CartridgeText != null)
             {
-                CartridgeText.text = NWDAppEnvironment.SelectedEnvironment().Environment + " " + Application.version+
-                    " (" + Application.systemLanguage + ">" + NWDDataManager.SharedInstance().PlayerLanguage + ") " + 
-                    " WS" + NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")+
+                CartridgeText.text = NWDAppEnvironment.SelectedEnvironment().Environment + " " + Application.version +
+                    " (" + Application.systemLanguage + ">" + NWDDataManager.SharedInstance().PlayerLanguage + ") " +
+                    " WS" + NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000") +
                     " ©Unity3D " + Application.unityVersion + string.Empty;
             }
         }
@@ -200,9 +201,9 @@ namespace NetWorkedData
             UpdateParameterText();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationDownloadSuccessed (NWENotification sNotification)
+        public override void NotificationWebOperationDownloadSuccessed(NWENotification sNotification)
         {
-            Debug.Log("NWDShowDebugPanel NotificationWebOperationDownloadSuccessed()"); 
+            Debug.Log("NWDShowDebugPanel NotificationWebOperationDownloadSuccessed()");
             UpdateParameterText();
         }
         //-------------------------------------------------------------------------------------------------------------

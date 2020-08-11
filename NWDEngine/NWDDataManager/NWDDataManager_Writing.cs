@@ -318,7 +318,9 @@ namespace NetWorkedData
                     {
                         //NWDDebug.Log("NWDDataManager UpdateData() MainThread");
                         UpdateDataExecute(sObject);
+#if NWD_CRUD_NOTIFICATION
                         NWENotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
+#endif
                     }
                     break;
                 case NWDWritingMode.PoolThread:
@@ -440,8 +442,8 @@ namespace NetWorkedData
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion Update Data
-        #region Delete Data
+#endregion Update Data
+#region Delete Data
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Delete data in database.
@@ -459,7 +461,9 @@ namespace NetWorkedData
                     {
                         //NWDDebug.Log("NWDDataManager DeleteData() MainThread");
                         DeleteDataExecute(sObject);
+#if NWD_CRUD_NOTIFICATION
                         NWENotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
+#endif
                     }
                     break;
                 case NWDWritingMode.PoolThread:
@@ -572,7 +576,7 @@ namespace NetWorkedData
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion Delete Data
+#endregion Delete Data
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

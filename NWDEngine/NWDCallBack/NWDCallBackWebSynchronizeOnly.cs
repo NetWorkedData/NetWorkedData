@@ -43,10 +43,12 @@ namespace NetWorkedData
             // get NWENotificationManager shared instance from the NWDGameDataManager Singleton
             NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
             // change from web data
+#if NWD_CRUD_NOTIFICATION
             tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE, delegate (NWENotification sNotification)
             {
                 NotificationDatasWebUpdate(sNotification);
             });
+#endif
 
             // error
             tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_ERROR, delegate (NWENotification sNotification)
@@ -132,9 +134,10 @@ namespace NetWorkedData
         {
             // get NWENotificationManager shared instance from the NWDGameDataManager Singleton
             NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
-
-			// remove this from NWENotificationManager
-			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE);
+            // remove this from NWENotificationManager
+#if NWD_CRUD_NOTIFICATION
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE);
+#endif
 			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ERROR);
 			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_OFFLINE);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_ONLINE);
