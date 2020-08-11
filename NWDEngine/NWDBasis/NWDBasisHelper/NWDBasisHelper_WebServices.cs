@@ -51,7 +51,7 @@ namespace NetWorkedData
                 {
                     if (tObject.IsTrashed() == true && NWDAppConfiguration.SharedInstance().AutoDeleteTrashDatas == true)
                     {
-                        Debug.Log("DATA With Reference " + tObject.Reference + " will be delete ... just after insert :-p");
+                        NWDDebug.Log("DATA With Reference " + tObject.Reference + " will be deleted ... just after insert");
                         tObject.DeleteData();
                     }
                 }
@@ -73,7 +73,7 @@ namespace NetWorkedData
                 {
                     if (tObject.IsTrashed() == true && NWDAppConfiguration.SharedInstance().AutoDeleteTrashDatas == true)
                     {
-                        Debug.Log("DATA With Reference " + tObject.Reference + " will be delete");
+                        NWDDebug.Log("DATA With Reference " + tObject.Reference + " will be deleted");
                         tObject.DeleteData();
                     }
                 }
