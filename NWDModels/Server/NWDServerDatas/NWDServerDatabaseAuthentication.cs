@@ -18,17 +18,14 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
-
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
-
-using Renci.SshNet;
 using UnityEditor;
-
+using Renci.SshNet;
 //=====================================================================================================================
 namespace NetWorkedData
 {
