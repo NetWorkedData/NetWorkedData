@@ -32,6 +32,10 @@ namespace NetWorkedData.NWDEditor
         new Type[] {
             typeof(NWDItem),
             typeof(NWDItemGroup),
+#if NWD_ITEMPACK
+            typeof(NWDPack),
+            typeof(NWDItemPack),
+#endif
         }
     )]
     public partial class NWDItemWindow : NWDBasisWindow<NWDItemWindow>

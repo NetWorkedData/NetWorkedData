@@ -18,6 +18,7 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
+#if NWD_ITEMPACK
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassMacro("NWD_ITEMPACK")]
     [NWDClassTrigrammeAttribute("PCK")]
     [NWDClassDescriptionAttribute("Pack descriptions Class")]
     [NWDClassMenuNameAttribute("Pack")]
@@ -82,3 +83,4 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif
