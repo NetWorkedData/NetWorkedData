@@ -34,6 +34,8 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         // the title of enum controller
         public static string Title = SetTitle("NWD CRUD Notification");
+        public static string Group = SetGroup(MDEConstants.GroupEngine);
+        public static int Order = SetOrder(11);
         //-------------------------------------------------------------------------------------------------------------
         // declare all values
         public static NWDNotificationMacro None = AddNone("without CRUD notification");

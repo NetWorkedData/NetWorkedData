@@ -34,6 +34,8 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         // the title of enum controller
         public static string Title = SetTitle("NWD Row integrity");
+        public static string Group = SetGroup(MDEConstants.GroupEngine);
+        public static int Order = SetOrder(5);
         //-------------------------------------------------------------------------------------------------------------
         // declare all values
         public static NWDRowIntegrity None = AddNone("with Integrity");

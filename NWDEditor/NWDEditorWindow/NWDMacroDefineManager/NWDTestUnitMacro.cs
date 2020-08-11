@@ -34,6 +34,8 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         // the title of enum controller
         public static string Title = SetTitle("NWD Unit tests");
+        public static string Group = SetGroup(MDEConstants.GroupEngine);
+        public static int Order = SetOrder(30);
         //-------------------------------------------------------------------------------------------------------------
         // declare one value
         public static NWDTestUnitMacro Macro = SetValue("NWD_UNIT_TESTS");

@@ -29,183 +29,195 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData.MacroDefine
 {
+  //  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  //  [Serializable]
+  //  public class MDEDataTypeEnum : IComparable
+  //  {
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public long Value;
+  //      public string Name;
+  //      public string Representation;
+  //      public bool Overridable = true;
+  //      public string Addon;
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public MDEDataTypeEnum()
+  //      {
+  //          Value = 0;
+  //          Name = null;
+  //          Representation = null;
+  //          Overridable = true;
+  //          Addon = null;
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public override string ToString()
+  //      {
+  //          return Value.ToString(CultureInfo.InvariantCulture);
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public long ToLong()
+  //      {
+  //          return Value;
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public long GetLong()
+  //      {
+  //          return Value;
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public void SetLong(long sLong)
+  //      {
+  //          Value = sLong;
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public bool InError = false;
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public virtual float ControlFieldHeight()
+  //      {
+  //          return EditorStyles.popup.fixedHeight;
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public virtual object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = "")
+  //      {
+  //          MDEDataTypeEnum tTemporary = new MDEDataTypeEnum();
+  //          tTemporary.Value = Value;
+  //          //FAKE
+  //          return tTemporary;
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public virtual List<string> StringValuesArray()
+  //      {
+  //          List<string> rList = new List<string>();
+  //          return rList;
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public virtual List<string> StringValuesArrayAdd()
+  //      {
+  //          List<string> rList = new List<string>();
+  //          return rList;
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public virtual List<string> RepresentationValuesArray()
+  //      {
+  //          List<string> rList = new List<string>();
+  //          return rList;
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public virtual bool IsInError()
+  //      {
+  //          return InError;
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public virtual bool ErrorAnalyze()
+  //      {
+  //          InError = false;
+  //          return InError;
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public virtual void Default()
+  //      {
+  //          Value = 0;
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public void Flush()
+  //      {
+  //          Value = 0;
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public virtual string GetTitle()
+  //      {
+		//	return GetType().Name;
+		//}
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public virtual string GetGroup()
+  //      {
+		//	return string.Empty;
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public virtual int GetOrder()
+  //      {
+  //          return 0;
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public static bool operator ==(MDEDataTypeEnum sA, MDEDataTypeEnum sB)
+  //      {
+  //          if ((object)sA == null && (object)sB == null)
+  //          {
+  //              return true;
+  //          }
+  //          else if ((object)sA == null)
+  //          {
+  //              return false;
+  //          }
+  //          else if ((object)sB == null)
+  //          {
+  //              return false;
+  //          }
+  //          else
+  //          {
+  //              var typeMatches = sA.GetType().Equals(sB.GetType());
+  //              if (typeMatches)
+  //              {
+  //                  return sA.Value.Equals(sB.Value);
+  //              }
+  //          }
+  //          return false;
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public static bool operator !=(MDEDataTypeEnum sA, MDEDataTypeEnum sB)
+  //      {
+  //          if ((object)sA == null && (object)sB == null)
+  //          {
+  //              return false;
+  //          }
+  //          else if ((object)sA == null)
+  //          {
+  //              return true;
+  //          }
+  //          else if ((object)sB == null)
+  //          {
+  //              return true;
+  //          }
+  //          else
+  //          {
+  //              var typeMatches = sA.GetType().Equals(sB.GetType());
+  //              if (typeMatches)
+  //              {
+  //                  return !sA.Value.Equals(sB.Value);
+  //              }
+  //          }
+  //          return false;
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public override bool Equals(object obj)
+  //      {
+  //          var otherValue = obj as MDEDataTypeEnum;
+
+  //          if (otherValue == null)
+  //              return false;
+
+  //          var typeMatches = GetType().Equals(obj.GetType());
+  //          var valueMatches = Value.Equals(otherValue.Value);
+
+  //          return typeMatches && valueMatches;
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public int CompareTo(object sOther) => Value.CompareTo(((MDEDataTypeEnum)sOther).Value);
+  //      //-------------------------------------------------------------------------------------------------------------
+  //      public override int GetHashCode()
+  //      {
+  //          return base.GetHashCode();
+  //      }
+  //      //-------------------------------------------------------------------------------------------------------------
+  //  }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
-    public class MDEDataTypeEnum : IComparable
-    {
-        //-------------------------------------------------------------------------------------------------------------
-        public long Value;
-        public string Name;
-        public string Representation;
-        public bool Overridable = true;
-        public string Addon;
-        //-------------------------------------------------------------------------------------------------------------
-        public MDEDataTypeEnum()
-        {
-            Value = 0;
-            Name = null;
-            Representation = null;
-            Overridable = true;
-            Addon = null;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override string ToString()
-        {
-            return Value.ToString(CultureInfo.InvariantCulture);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public long ToLong()
-        {
-            return Value;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public long GetLong()
-        {
-            return Value;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void SetLong(long sLong)
-        {
-            Value = sLong;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public bool InError = false;
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual float ControlFieldHeight()
-        {
-            return EditorStyles.popup.fixedHeight;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = "")
-        {
-            MDEDataTypeEnum tTemporary = new MDEDataTypeEnum();
-            tTemporary.Value = Value;
-            //FAKE
-            return tTemporary;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual List<string> StringValuesArray()
-        {
-            List<string> rList = new List<string>();
-            return rList;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual List<string> StringValuesArrayAdd()
-        {
-            List<string> rList = new List<string>();
-            return rList;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual List<string> RepresentationValuesArray()
-        {
-            List<string> rList = new List<string>();
-            return rList;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual bool IsInError()
-        {
-            return InError;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual bool ErrorAnalyze()
-        {
-            InError = false;
-            return InError;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void Default()
-        {
-            Value = 0;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void Flush()
-        {
-            Value = 0;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual string GetTitle()
-        {
-			return GetType().Name;
-		}
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool operator ==(MDEDataTypeEnum sA, MDEDataTypeEnum sB)
-        {
-            if ((object)sA == null && (object)sB == null)
-            {
-                return true;
-            }
-            else if ((object)sA == null)
-            {
-                return false;
-            }
-            else if ((object)sB == null)
-            {
-                return false;
-            }
-            else
-            {
-                var typeMatches = sA.GetType().Equals(sB.GetType());
-                if (typeMatches)
-                {
-                    return sA.Value.Equals(sB.Value);
-                }
-            }
-            return false;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool operator !=(MDEDataTypeEnum sA, MDEDataTypeEnum sB)
-        {
-            if ((object)sA == null && (object)sB == null)
-            {
-                return false;
-            }
-            else if ((object)sA == null)
-            {
-                return true;
-            }
-            else if ((object)sB == null)
-            {
-                return true;
-            }
-            else
-            {
-                var typeMatches = sA.GetType().Equals(sB.GetType());
-                if (typeMatches)
-                {
-                    return !sA.Value.Equals(sB.Value);
-                }
-            }
-            return false;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override bool Equals(object obj)
-        {
-            var otherValue = obj as MDEDataTypeEnum;
-
-            if (otherValue == null)
-                return false;
-
-            var typeMatches = GetType().Equals(obj.GetType());
-            var valueMatches = Value.Equals(otherValue.Value);
-
-            return typeMatches && valueMatches;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public int CompareTo(object sOther) => Value.CompareTo(((MDEDataTypeEnum)sOther).Value);
-        //-------------------------------------------------------------------------------------------------------------
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [Serializable]
-    public class MDEDataTypeEnumGeneric<K> : MDEDataTypeEnum where K : MDEDataTypeEnumGeneric<K>, new()
+    public class MDEDataTypeEnumGeneric<K> : NWDMacroEnumDefiner where K : MDEDataTypeEnumGeneric<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         static readonly Dictionary<long, K> kList = new Dictionary<long, K>();
-        private static string kTitle;
+        private static string kTitle = string.Empty;
+        private static string kGroup = string.Empty;
+        private static int kOrder = 0;
         //-------------------------------------------------------------------------------------------------------------
         public MDEDataTypeEnumGeneric()
         {
@@ -271,7 +283,7 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = "")
         {
-            MDEDataTypeEnum tTemporary = new MDEDataTypeEnum();
+            NWDMacroDefiner tTemporary = new NWDMacroDefiner();
             tTemporary.Value = Value;
             List<long> kListIndex = new List<long>();
             List<K> kListK = new List<K>();
@@ -313,6 +325,18 @@ namespace NetWorkedData.MacroDefine
             return kTitle;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string SetGroup(string sGroup)
+        {
+            kGroup = sGroup;
+            return kGroup;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static int SetOrder(int sOrder)
+        {
+            kOrder = sOrder;
+            return kOrder;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override string GetTitle()
         {
             if (string.IsNullOrEmpty(kTitle))
@@ -320,6 +344,16 @@ namespace NetWorkedData.MacroDefine
 				kTitle = GetType().Name;
 			}
             return kTitle;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override string GetGroup()
+        {
+            return kGroup;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override int GetOrder()
+        {
+            return kOrder;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K GetForValue(long sID)
@@ -429,7 +463,7 @@ namespace NetWorkedData.MacroDefine
             EditorGUI.BeginProperty(position, label, property);
             K tTarget = fieldInfo.GetValue(property.serializedObject.targetObject) as K;
             EditorGUI.BeginChangeCheck();
-            MDEDataTypeEnum tResult = tTarget.ControlField(position, property.displayName, false, property.tooltip) as MDEDataTypeEnum;
+            NWDMacroDefiner tResult = tTarget.ControlField(position, property.displayName, false, property.tooltip) as NWDMacroDefiner;
             if (EditorGUI.EndChangeCheck())
             {
                 K tTargetFinal = MDEDataTypeEnumGeneric<K>.GetForValue(tResult.Value);

@@ -34,6 +34,8 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         // the title of enum controller
         public static string Title = SetTitle("NWD Never Null Data Type");
+        public static string Group = SetGroup(MDEConstants.GroupEngine);
+        public static int Order = SetOrder(10);
         //-------------------------------------------------------------------------------------------------------------
         // declare all values
         public static NWDNeverNullDataType None = AddNone("can be Null");

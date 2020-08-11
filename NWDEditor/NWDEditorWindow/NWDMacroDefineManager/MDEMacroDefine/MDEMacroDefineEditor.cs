@@ -38,8 +38,9 @@ namespace NetWorkedData.MacroDefine
         List<BuildTargetGroup> ActiveGroup = new List<BuildTargetGroup>();
         Dictionary<BuildTargetGroup, List<string>> ActiveGroupMacroDefine = new Dictionary<BuildTargetGroup, List<string>>();
         Dictionary<BuildTargetGroup, List<string>> ActiveGroupMacroDefineOriginal = new Dictionary<BuildTargetGroup, List<string>>();
-        List<MDEDataTypeEnum> EnumTypeList = new List<MDEDataTypeEnum>();
-        List<NWDMacroDefinerBool> BoolTypeList = new List<NWDMacroDefinerBool>();
+        List<NWDMacroDefiner> EnumTypeList = new List<NWDMacroDefiner>();
+        List<NWDMacroDefiner> BoolTypeList = new List<NWDMacroDefiner>();
+        Dictionary<string, List<NWDMacroDefiner>> MacroTypeList = new Dictionary<string, List<NWDMacroDefiner>>();
         List<string> AllMacrosOriginal = new List<string>();
         string NewMacro = string.Empty;
         Vector2 ScroolPoint;
@@ -177,46 +178,65 @@ namespace NetWorkedData.MacroDefine
             Type[] tAllTypes = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
             // sort and filter by NWDBasis (NWDTypeClass subclass)
             Type[] tAllEnumTypes = (from System.Type type in tAllTypes
-                                    where type.IsSubclassOf(typeof(MDEDataTypeEnum))
+                                    where type.IsSubclassOf(typeof(NWDMacroDefiner))
                                     select type).ToArray();
             foreach (Type tType in tAllEnumTypes)
             {
+                //Debug.Log("test " + tType.Name + " base = " + tType.BaseType.Name);
                 if (tType.IsGenericType == false)
                 {
-                    MDEDataTypeEnum tEnum = Activator.CreateInstance(tType, null) as MDEDataTypeEnum;
-                    EnumTypeList.Add(tEnum);
-                }
-            }
-            foreach (MDEDataTypeEnum tEnum in EnumTypeList)
-            {
-                List<string> tArrayMacro = tEnum.StringValuesArray();
-                foreach (string tM in tArrayMacro)
-                {
-                    if (AllMacrosOriginal.Contains(tM))
+                    //Debug.Log("test " + tType.Name + " is not genereic");
+                    if (tType.IsSubclassOf(typeof(NWDMacroEnumDefiner)))
                     {
-                        AllMacrosOriginal.Remove(tM);
+                        NWDMacroDefiner tEnum = Activator.CreateInstance(tType, null) as NWDMacroDefiner;
+                        string tGroup = tEnum.GetGroup();
+                        if (string.IsNullOrEmpty(tGroup))
+                        {
+                            EnumTypeList.Add(tEnum);
+                        }
+                        else
+                        {
+                            if (MacroTypeList.ContainsKey(tGroup) == false)
+                            {
+                                MacroTypeList.Add(tGroup, new List<NWDMacroDefiner>());
+                            }
+                            MacroTypeList[tGroup].Add(tEnum);
+                            MacroTypeList[tGroup].Sort((tA, tB) => tA.GetOrder().CompareTo(tB.GetOrder()));
+                        }
+                        List<string> tArrayMacro = tEnum.StringValuesArray();
+                        foreach (string tM in tArrayMacro)
+                        {
+                            if (AllMacrosOriginal.Contains(tM))
+                            {
+                                AllMacrosOriginal.Remove(tM);
+                            }
+                        }
                     }
-                }
-            }
-            Type[] tAllBoolTypes = (from System.Type type in tAllTypes
-                                    where type.IsSubclassOf(typeof(NWDMacroDefinerBool))
-                                    select type).ToArray();
-            foreach (Type tType in tAllBoolTypes)
-            {
-                if (tType.IsGenericType == false)
-                {
-                    NWDMacroDefinerBool tBool = Activator.CreateInstance(tType, null) as NWDMacroDefinerBool;
-                    BoolTypeList.Add(tBool);
-                }
-            }
-            foreach (NWDMacroDefinerBool tBool in BoolTypeList)
-            {
-                List<string> tArrayMacro = tBool.StringValuesArray();
-                foreach (string tM in tArrayMacro)
-                {
-                    if (AllMacrosOriginal.Contains(tM))
+                    if (tType.IsSubclassOf(typeof(NWDMacroBoolDefiner)))
                     {
-                        AllMacrosOriginal.Remove(tM);
+                        NWDMacroDefiner tBool = Activator.CreateInstance(tType, null) as NWDMacroDefiner;
+                        string tGroup = tBool.GetGroup();
+                        if (string.IsNullOrEmpty(tGroup))
+                        {
+                            BoolTypeList.Add(tBool);
+                        }
+                        else
+                        {
+                            if (MacroTypeList.ContainsKey(tGroup) == false)
+                            {
+                                MacroTypeList.Add(tGroup, new List<NWDMacroDefiner>());
+                            }
+                            MacroTypeList[tGroup].Add(tBool);
+                            MacroTypeList[tGroup].Sort((tA, tB) => tA.GetOrder().CompareTo(tB.GetOrder()));
+                        }
+                        List<string> tArrayMacro = tBool.StringValuesArray();
+                        foreach (string tM in tArrayMacro)
+                        {
+                            if (AllMacrosOriginal.Contains(tM))
+                            {
+                                AllMacrosOriginal.Remove(tM);
+                            }
+                        }
                     }
                 }
             }
@@ -287,12 +307,114 @@ namespace NetWorkedData.MacroDefine
                         }
                     }
                     GUILayout.EndVertical();
+
+                    if (MacroTypeList.Count > 0)
+                    {
+                        foreach (KeyValuePair<string, List<NWDMacroDefiner>> tKeyValue in MacroTypeList)
+                        {
+                            GUILayout.BeginVertical();
+                            GUILayout.Label(tKeyValue.Key, NWDGUI.KTableHeaderStatut);
+                            foreach (NWDMacroDefiner tMacro in tKeyValue.Value)
+                            {
+                                if (tMacro.GetType().IsSubclassOf(typeof(NWDMacroEnumDefiner)))
+                                {
+                                    List<string> tArrayMacro = tMacro.StringValuesArray();
+                                    List<string> tArrayMacroAdd = tMacro.StringValuesArrayAdd();
+                                    List<string> tArrayRepresentation = tMacro.RepresentationValuesArray();
+                                    int tIndex = 0;
+                                    List<string> tToRemove = new List<string>();
+                                    foreach (string tMM in tArrayMacro)
+                                    {
+                                        if (ActiveGroupMacroDefine[tBuildTargetGroup].Contains(tMM))
+                                        {
+                                            tToRemove.Add(tMM);
+                                            tIndex = tArrayMacro.IndexOf(tMM);
+                                        }
+                                    }
+                                    foreach (string tR in tToRemove)
+                                    {
+                                        ActiveGroupMacroDefine[tBuildTargetGroup].Remove(tR);
+                                    }
+                                    tIndex = EditorGUILayout.Popup(tMacro.GetTitle(), tIndex, tArrayRepresentation.ToArray());
+                                    if (tIndex >= 0)
+                                    {
+                                        if (tArrayMacro[tIndex] != MDEConstants.NONE)
+                                        {
+                                            //ActiveGroupMacroDefine[tBuildTargetGroup].Add(tArrayMacro[tIndex]);
+                                            string[] sList = tArrayMacroAdd[tIndex].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                                            foreach (string tAdd in sList)
+                                            {
+                                                if (ActiveGroupMacroDefine[tBuildTargetGroup].Contains(tAdd) == false)
+                                                {
+                                                    ActiveGroupMacroDefine[tBuildTargetGroup].Add(tAdd);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    GUILayout.Space(5.0F);
+                                }
+                                if (tMacro.GetType().IsSubclassOf(typeof(NWDMacroBoolDefiner)))
+                                {
+                                    List<string> tArrayMacro = tMacro.StringValuesArray();
+                                    List<string> tArrayMacroAdd = tMacro.StringValuesArrayAdd();
+                                    if (tArrayMacro.Count == 2)
+                                    {
+                                        int tIndex = 0;
+                                        List<string> tToRemove = new List<string>();
+                                        foreach (string tMM in tArrayMacro)
+                                        {
+                                            if (ActiveGroupMacroDefine[tBuildTargetGroup].Contains(tMM))
+                                            {
+                                                tToRemove.Add(tMM);
+                                                tIndex = tArrayMacro.IndexOf(tMM);
+                                            }
+                                        }
+                                        foreach (string tR in tToRemove)
+                                        {
+                                            ActiveGroupMacroDefine[tBuildTargetGroup].Remove(tR);
+                                        }
+                                        bool tSelected = false;
+                                        if (tIndex == 1)
+                                        {
+                                            tSelected = true;
+                                        }
+                                        tSelected = EditorGUILayout.Toggle(new GUIContent(tMacro.GetTitle(), tArrayMacroAdd[1]), tSelected);
+                                        if (tSelected == false)
+                                        {
+                                            tIndex = 0;
+                                        }
+                                        else
+                                        {
+                                            tIndex = 1;
+                                        }
+                                        if (tIndex >= 0)
+                                        {
+                                            if (tArrayMacro[tIndex] != MDEConstants.NONE)
+                                            {
+                                                string[] sList = tArrayMacroAdd[tIndex].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                                                foreach (string tAdd in sList)
+                                                {
+                                                    if (ActiveGroupMacroDefine[tBuildTargetGroup].Contains(tAdd) == false)
+                                                    {
+                                                        ActiveGroupMacroDefine[tBuildTargetGroup].Add(tAdd);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        GUILayout.Space(5.0F);
+                                    }
+                                }
+                            }
+                            GUILayout.EndVertical();
+                        }
+                    }
+
                     if (EnumTypeList.Count > 0)
                     {
                         GUILayout.BeginVertical();
                         GUILayout.Label(MDEConstants.EnumArea, NWDGUI.KTableHeaderStatut);
                         EnumTypeList.Sort((tA, tB) => string.Compare(tA.GetTitle(), tB.GetTitle(), StringComparison.Ordinal));
-                        foreach (MDEDataTypeEnum tEnum in EnumTypeList)
+                        foreach (NWDMacroDefiner tEnum in EnumTypeList)
                         {
                             List<string> tArrayMacro = tEnum.StringValuesArray();
                             List<string> tArrayMacroAdd = tEnum.StringValuesArrayAdd();
@@ -336,7 +458,7 @@ namespace NetWorkedData.MacroDefine
                         GUILayout.BeginVertical();
                         GUILayout.Label(MDEConstants.BoolArea, NWDGUI.KTableHeaderStatut);
                         BoolTypeList.Sort((tA, tB) => string.Compare(tA.GetTitle(), tB.GetTitle(), StringComparison.Ordinal));
-                        foreach (NWDMacroDefinerBool tBool in BoolTypeList)
+                        foreach (NWDMacroDefiner tBool in BoolTypeList)
                         {
                             List<string> tArrayMacro = tBool.StringValuesArray();
                             List<string> tArrayMacroAdd = tBool.StringValuesArrayAdd();

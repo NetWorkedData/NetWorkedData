@@ -34,6 +34,8 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         // the title of bool controller
         public static string Title = SetTitle("NWD RGPD");
+        public static string Group = SetGroup(MDEConstants.GroupOptions);
+        public static int Order = SetOrder(0);
         //-------------------------------------------------------------------------------------------------------------
         // declare one value
         public static NWDRGPDMacro MacroBool = SetValue("NWD_RGPD");
@@ -47,6 +49,8 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         // the title of bool controller
         public static string Title = SetTitle("NWD Craftbook");
+        public static string Group = SetGroup(MDEConstants.GroupModule);
+        public static int Order = SetOrder(0);
         //-------------------------------------------------------------------------------------------------------------
         // declare one value
         public static NWDCraftbookMacro MacroBool = SetValue("NWD_CRAFTBOOK");
@@ -60,6 +64,8 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         // the title of bool controller
         public static string Title = SetTitle("NWD InterMessage");
+        public static string Group = SetGroup(MDEConstants.GroupModule);
+        public static int Order = SetOrder(0);
         //-------------------------------------------------------------------------------------------------------------
         // declare one value
         public static NWDInterMessageMacro MacroBool = SetValue("NWD_INTERMESSAGE");
@@ -90,6 +96,8 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         // the title of bool controller
         public static string Title = SetTitle("NWD User Identity");
+        public static string Group = SetGroup(MDEConstants.GroupOptions);
+        public static int Order = SetOrder(3);
         //-------------------------------------------------------------------------------------------------------------
         // declare one value
         public static NWDUserIdentityMacro MacroBool = SetValue("NWD_USER_IDENTITY");
@@ -103,6 +111,8 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         // the title of bool controller
         public static string Title = SetTitle("NWD Account Identity");
+        public static string Group = SetGroup(MDEConstants.GroupOptions);
+        public static int Order = SetOrder(2);
         //-------------------------------------------------------------------------------------------------------------
         // declare one value
         public static NWDAccountIdentityMacro MacroBool = SetValue("NWD_ACCOUNT_IDENTITY");
@@ -116,6 +126,8 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         // the title of bool controller
         public static string Title = SetTitle("NWD Classification");
+        public static string Group = SetGroup(MDEConstants.GroupModule);
+        public static int Order = SetOrder(0);
         //-------------------------------------------------------------------------------------------------------------
         // declare one value
         public static NWDClassificationMacro MacroBool = SetValue("NWD_CLASSIFICATION");
@@ -129,6 +141,8 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         // the title of bool controller
         public static string Title = SetTitle("NWD ItemPack");
+        public static string Group = SetGroup(MDEConstants.GroupModule);
+        public static int Order = SetOrder(0);
         //-------------------------------------------------------------------------------------------------------------
         // declare one value
         public static NWDItemPackMacro MacroBool = SetValue("NWD_ITEMPACK");
@@ -142,6 +156,8 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         // the title of bool controller
         public static string Title = SetTitle("NWD User NetWorking");
+        public static string Group = SetGroup(MDEConstants.GroupModule);
+        public static int Order = SetOrder(0);
         //-------------------------------------------------------------------------------------------------------------
         // declare one value
         public static NWDUserNetWorkingMacro MacroBool = SetValue("NWD_USER_NETWORKING");
@@ -155,6 +171,8 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         // the title of bool controller
         public static string Title = SetTitle("NWD Quest");
+        public static string Group = SetGroup(MDEConstants.GroupQuest);
+        public static int Order = SetOrder(0);
         //-------------------------------------------------------------------------------------------------------------
         // declare one value
         public static NWDQuestMacro MacroBool = SetValue("NWD_QUEST");

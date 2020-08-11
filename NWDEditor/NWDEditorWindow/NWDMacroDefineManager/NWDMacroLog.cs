@@ -27,6 +27,18 @@ using UnityEngine;
 namespace NetWorkedData.MacroDefine
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class MDEConstants
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public static string GroupEngine = "NetWorkedData Engine";
+        //-------------------------------------------------------------------------------------------------------------
+        public static string GroupOptions = "NetWorkedData Options";
+        //-------------------------------------------------------------------------------------------------------------
+        public static string GroupModule = "NetWorkedData Modules";
+        public static string GroupQuest = "NetWorkedData Quest";
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // You can create custom enum of macro
     // Just follow this example class
     public class NWDVerbose : MDEDataTypeEnumGeneric<NWDVerbose>
@@ -34,6 +46,8 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         // the title of enum controller
         public static string Title = SetTitle("NWD Verbose");
+        public static string Group = SetGroup(MDEConstants.GroupEngine);
+        public static int Order = SetOrder(0);
         //-------------------------------------------------------------------------------------------------------------
         // declare all values
         public static NWDVerbose None = AddNone("not Verbose");
@@ -49,6 +63,8 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         // the title of enum controller
         public static string Title = SetTitle("NWD Log");
+        public static string Group = SetGroup(MDEConstants.GroupEngine);
+        public static int Order = SetOrder(1);
         //-------------------------------------------------------------------------------------------------------------
         // declare all values
         public static NWDLog None = AddNone("no global Log");
@@ -64,6 +80,8 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         // the title of enum controller
         public static string Title = SetTitle("NWD Benchmark");
+        public static string Group = SetGroup(MDEConstants.GroupEngine);
+        public static int Order = SetOrder(3);
         //-------------------------------------------------------------------------------------------------------------
         // declare all values
         public static NWDBenchmark None = AddNone("no global Benchmark");

@@ -32,7 +32,7 @@ namespace NetWorkedData.MacroDefine
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
-    public class NWDMacroDefinerBool : IComparable
+    public class NWDMacroDefiner : IComparable
     {
         //-------------------------------------------------------------------------------------------------------------
         public long Value;
@@ -41,7 +41,7 @@ namespace NetWorkedData.MacroDefine
         public bool Overridable = true;
         public string Addon;
         //-------------------------------------------------------------------------------------------------------------
-        public NWDMacroDefinerBool()
+        public NWDMacroDefiner()
         {
             Value = 0;
             Name = null;
@@ -79,7 +79,7 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         public virtual object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = "")
         {
-            NWDMacroDefinerBool tTemporary = new NWDMacroDefinerBool();
+            NWDMacroDefiner tTemporary = new NWDMacroDefiner();
             tTemporary.Value = Value;
             //FAKE
             return tTemporary;
@@ -92,6 +92,12 @@ namespace NetWorkedData.MacroDefine
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual List<string> StringValuesArrayAdd()
+        {
+            List<string> rList = new List<string>();
+            return rList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual List<string> RepresentationValuesArray()
         {
             List<string> rList = new List<string>();
             return rList;
@@ -123,7 +129,17 @@ namespace NetWorkedData.MacroDefine
             return GetType().Name;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool operator ==(NWDMacroDefinerBool sA, NWDMacroDefinerBool sB)
+        public virtual string GetGroup()
+        {
+            return string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual int GetOrder()
+        {
+            return 0;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool operator ==(NWDMacroDefiner sA, NWDMacroDefiner sB)
         {
             if ((object)sA == null && (object)sB == null)
             {
@@ -148,7 +164,7 @@ namespace NetWorkedData.MacroDefine
             return false;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool operator !=(NWDMacroDefinerBool sA, NWDMacroDefinerBool sB)
+        public static bool operator !=(NWDMacroDefiner sA, NWDMacroDefiner sB)
         {
             if ((object)sA == null && (object)sB == null)
             {
@@ -175,7 +191,7 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         public override bool Equals(object obj)
         {
-            var otherValue = obj as NWDMacroDefinerBool;
+            var otherValue = obj as NWDMacroDefiner;
 
             if (otherValue == null)
                 return false;
@@ -186,7 +202,7 @@ namespace NetWorkedData.MacroDefine
             return typeMatches && valueMatches;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public int CompareTo(object sOther) => Value.CompareTo(((NWDMacroDefinerBool)sOther).Value);
+        public int CompareTo(object sOther) => Value.CompareTo(((NWDMacroDefiner)sOther).Value);
         //-------------------------------------------------------------------------------------------------------------
         public override int GetHashCode()
         {
@@ -195,12 +211,22 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDMacroBoolDefiner : NWDMacroDefiner
+    {
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDMacroEnumDefiner : NWDMacroDefiner
+    {
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
-    public class MDEDataTypeBoolGeneric<K> : NWDMacroDefinerBool where K : MDEDataTypeBoolGeneric<K>, new()
+    public class MDEDataTypeBoolGeneric<K> : NWDMacroBoolDefiner where K : MDEDataTypeBoolGeneric<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         static readonly Dictionary<long, K> kList = new Dictionary<long, K>();
-        private static string kTitle;
+        private static string kTitle = string.Empty;
+        private static string kGroup = string.Empty;
+        private static int kOrder = 0;
         //-------------------------------------------------------------------------------------------------------------
         public MDEDataTypeBoolGeneric()
         {
@@ -248,7 +274,7 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = "")
         {
-            NWDMacroDefinerBool tTemporary = new NWDMacroDefinerBool();
+            NWDMacroDefiner tTemporary = new NWDMacroDefiner();
             tTemporary.Value = Value;
             List<long> kListIndex = new List<long>();
             List<K> kListK = new List<K>();
@@ -282,6 +308,18 @@ namespace NetWorkedData.MacroDefine
             return kTitle;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string SetGroup(string sGroup)
+        {
+            kGroup = sGroup;
+            return kGroup;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static int SetOrder(int sOrder)
+        {
+            kOrder = sOrder;
+            return kOrder;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override string GetTitle()
         {
             if (string.IsNullOrEmpty(kTitle))
@@ -289,6 +327,16 @@ namespace NetWorkedData.MacroDefine
                 kTitle = GetType().Name;
             }
             return kTitle;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override string GetGroup()
+        {
+            return kGroup;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override int GetOrder()
+        {
+            return kOrder;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K GetForValue(long sID)
@@ -374,7 +422,7 @@ namespace NetWorkedData.MacroDefine
             EditorGUI.BeginProperty(position, label, property);
             K tTarget = fieldInfo.GetValue(property.serializedObject.targetObject) as K;
             EditorGUI.BeginChangeCheck();
-            NWDMacroDefinerBool tResult = tTarget.ControlField(position, property.displayName, false, property.tooltip) as NWDMacroDefinerBool;
+            NWDMacroDefiner tResult = tTarget.ControlField(position, property.displayName, false, property.tooltip) as NWDMacroDefiner;
             if (EditorGUI.EndChangeCheck())
             {
                 K tTargetFinal = MDEDataTypeBoolGeneric<K>.GetForValue(tResult.Value);
