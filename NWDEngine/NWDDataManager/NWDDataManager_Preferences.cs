@@ -71,7 +71,7 @@ namespace NetWorkedData
             }
             else
             {
-                NWEPrefsManager.ShareInstance().set(NWD.K_PlayerLanguageKey, sNewLanguage);
+                NWDRuntimePrefs.ShareInstance().set(NWD.K_PlayerLanguageKey, sNewLanguage);
             }
             PlayerLanguage = sNewLanguage;
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
@@ -115,7 +115,7 @@ namespace NetWorkedData
                 {
                     NWDBenchmark.Start("device language");
                 }
-                PlayerLanguage = NWEPrefsManager.ShareInstance().getString(NWD.K_PlayerLanguageKey, PlayerLanguage);
+                PlayerLanguage = NWDRuntimePrefs.ShareInstance().getString(NWD.K_PlayerLanguageKey, PlayerLanguage);
                 if (NWDLauncher.ActiveBenchmark)
                 {
                     NWDBenchmark.Finish("device language", true, "PlayerLanguage bypass by NWEPrefsManager :  " + PlayerLanguage + ""); ;

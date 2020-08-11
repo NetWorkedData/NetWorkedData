@@ -51,7 +51,7 @@ namespace NetWorkedData
             }
             else
             {
-                NWEPrefsManager.ShareInstance().set(Environment + kPlayerAccountReferenceKey, GetAccountReference());
+                NWDRuntimePrefs.ShareInstance().set(Environment + kPlayerAccountReferenceKey, GetAccountReference());
                 NWDBasisPreferences.SetString(kRequesTokenKey, this, RequesToken, false);
                 NWDDataManager.SharedInstance().DataQueueExecute();
             }
@@ -67,7 +67,7 @@ namespace NetWorkedData
             //{
             //    NWDBenchmark.Start();
             //}
-            SetAccountReference(NWEPrefsManager.ShareInstance().getString(Environment + kPlayerAccountReferenceKey));
+            SetAccountReference(NWDRuntimePrefs.ShareInstance().getString(Environment + kPlayerAccountReferenceKey));
             RequesToken = NWDBasisPreferences.GetString(kRequesTokenKey, this, string.Empty, false);
             if (string.IsNullOrEmpty(GetAccountReference()))
             {

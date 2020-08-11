@@ -374,7 +374,7 @@ namespace NetWorkedData
             }
             else
             {
-                rReturn = NWEPrefsManager.ShareInstance().getString(kSecretKeyDevicePlayerKey, NWDToolbox.RandomStringUnix(kSecretKeyDevicePlayerLength));
+                rReturn = NWDRuntimePrefs.ShareInstance().getString(kSecretKeyDevicePlayerKey, NWDToolbox.RandomStringUnix(kSecretKeyDevicePlayerLength));
             }
 #if UNITY_INCLUDE_TESTS
             if (NWDUnitTests.IsFakeDevice())
@@ -387,7 +387,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SecretKeyDevicePlayerReset()
         {
-            NWEPrefsManager.ShareInstance().set(kSecretKeyDevicePlayerKey, NWDToolbox.RandomStringUnix(kSecretKeyDevicePlayerLength));
+            NWDRuntimePrefs.ShareInstance().set(kSecretKeyDevicePlayerKey, NWDToolbox.RandomStringUnix(kSecretKeyDevicePlayerLength));
 #if UNITY_INCLUDE_TESTS
             if (NWDUnitTests.IsFakeDevice())
             {

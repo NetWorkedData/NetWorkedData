@@ -7,8 +7,8 @@
 // Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
 #if NWD_VERBOSE
 #if UNITY_EDITOR
-#define NWD_LOG
-#define NWD_BENCHMARK
+//#define NWD_LOG
+//#define NWD_BENCHMARK
 #elif DEBUG
 //#define NWD_LOG
 //#define NWD_BENCHMARK
@@ -30,19 +30,20 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// NWE Prefs Manager. This class is an override of EditorPrefs and PlayerPrefs.
+    /// NWDRuntimePrefs. This class is an override of EditorPrefs and PlayerPrefs.
     /// </summary>
-	public class NWEPrefsManager
+	public class NWDRuntimePrefs
     {
         //-------------------------------------------------------------------------------------------------------------
-        private static NWEPrefsManager kSharedInstance = null;
-        private static string kFirstLaunch = "IDEPrefsManager_kFirstLaunch";
+        private static NWDRuntimePrefs kSharedInstance = null;
+        private static string kFirstLaunch = "NWDRuntimePrefs_kFirstLaunch";
         //-------------------------------------------------------------------------------------------------------------
-        public static NWEPrefsManager ShareInstance()
+        public static NWDRuntimePrefs ShareInstance()
         {
+            
             if (kSharedInstance == null)
             {
-                kSharedInstance = new NWEPrefsManager();
+                kSharedInstance = new NWDRuntimePrefs();
             }
 
             return kSharedInstance;

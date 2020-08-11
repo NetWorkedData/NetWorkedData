@@ -295,12 +295,12 @@ namespace NetWorkedData
             bool rReturn = false;
             // Get saved App version from pref
             int tBuildTimeStamp = NWDAppConfiguration.SharedInstance().SelectedEnvironment().BuildTimestamp;
-            int tBuildTimeStampActual = NWEPrefsManager.ShareInstance().getInt("APP_VERSION");
+            int tBuildTimeStampActual = NWDRuntimePrefs.ShareInstance().getInt("APP_VERSION");
             // test version
             if (tBuildTimeStamp > tBuildTimeStampActual)
             {
                 rReturn = true;
-                NWEPrefsManager.ShareInstance().set("APP_VERSION", tBuildTimeStamp);
+                NWDRuntimePrefs.ShareInstance().set("APP_VERSION", tBuildTimeStamp);
             }
             // Save App version in pref for futur used
             if (rReturn == true)
