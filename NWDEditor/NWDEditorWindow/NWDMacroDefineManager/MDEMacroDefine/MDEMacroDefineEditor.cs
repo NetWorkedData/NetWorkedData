@@ -173,6 +173,7 @@ namespace NetWorkedData.MacroDefine
 
             EnumTypeList.Clear();
             BoolTypeList.Clear();
+            MacroTypeList.Clear();
             List<Type> tTypeList = new List<Type>();
             // Find all Type of NWDType
             Type[] tAllTypes = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
