@@ -180,12 +180,12 @@ namespace NetWorkedData
                             tCommandList.Add("pear install Net_SMTP");
 
                             // try install Geoip
-                            tCommandList.Add("apt-get -y install php-geoip");
-                            tCommandList.Add("apt-get -y install geoip-bin");
-                            tCommandList.Add("apt-get -y install libapache2-mod-geoip");
-                            tCommandList.Add("apt-get -y install libgeoip1");
-                            tCommandList.Add("a2enmod geoip");
-                            tCommandList.Add("sed -i 's/^.*GeoIPEnable On.*$/GeoIPEnable Off/g' /etc/apache2/mods-available/geoip.conf");
+                            //tCommandList.Add("apt-get -y install php-geoip");
+                            //tCommandList.Add("apt-get -y install geoip-bin");
+                            //tCommandList.Add("apt-get -y install libapache2-mod-geoip");
+                            //tCommandList.Add("apt-get -y install libgeoip1");
+                            //tCommandList.Add("a2enmod geoip");
+                            //tCommandList.Add("sed -i 's/^.*GeoIPEnable On.*$/GeoIPEnable Off/g' /etc/apache2/mods-available/geoip.conf");
                             //tCommandList.Add("sed -i 's/^.*GeoIPEnable Off.*$/GeoIPEnable On/g' /etc/apache2/mods-available/geoip.conf");
 
                         }
@@ -198,10 +198,17 @@ namespace NetWorkedData
                         tCommandList.Add("echo $\"<?php echo phpinfo();?>\" > /var/www/html/phpinfo.php");
                         tCommandList.Add("echo $\"Are you lost? Ok, I'll help you, you're in front of a screen!\" > /var/www/html/index.html");
 
-                        tCommandList.Add("echo \"<color=red> -> install Let's Encrypt Certbot</color>\"");
-                        tCommandList.Add("echo $\"deb http://ftp.debian.org/debian stretch-backports main\" >> /etc/apt/sources.list.d/backports.list");
-                        tCommandList.Add("apt-get update");
-                        tCommandList.Add("apt-get -y install python-certbot-apache -t stretch-backports");
+                        if (tServer.Distribution == NWDServerDistribution.debian9)
+                        {
+                            tCommandList.Add("echo \"<color=red> -> install Let's Encrypt Certbot</color>\"");
+                            tCommandList.Add("echo $\"deb http://ftp.debian.org/debian stretch-backports main\" >> /etc/apt/sources.list.d/backports.list");
+                            tCommandList.Add("apt-get update");
+                            tCommandList.Add("apt-get -y install python-certbot-apache -t stretch-backports");
+                        }
+                        if (tServer.Distribution == NWDServerDistribution.debian10)
+                        {
+                            tCommandList.Add("apt-get -y install certbot python-certbot-apache");
+                        }
 
                         tCommandList.Add("echo \"<color=red> -> apache restart</color>\"");
                         tCommandList.Add("systemctl restart apache2");
@@ -272,8 +279,9 @@ namespace NetWorkedData
                 "sed -i '$ a AllowOverride all' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
                 "sed -i '$ a Require all granted' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
                 "sed -i '$ a </Directory>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
-                "sed -i '$ a ErrorLog /var/log/apache2/" + tServerDomain.ServerDNS + "-error.log' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
                 "sed -i '$ a LogLevel error' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "sed -i '$ a ErrorLog /var/log/apache2/" + tServerDomain.ServerDNS + "-error.log' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
+                "sed -i '$ a CustomLog /var/log/apache2/" + tServerDomain.ServerDNS + "-ssl-access.log combined env=NoLog' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _NoSSL +"_ws.conf",
                 "sed -i '$ a </VirtualHost>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
                 "a2ensite " + tServerDomain.ServerDNS + _NoSSL+"_ws.conf",
 
@@ -294,15 +302,15 @@ namespace NetWorkedData
                 "sed -i '$ a AllowOverride all' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 "sed -i '$ a Require all granted' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 "sed -i '$ a </Directory>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
-                "sed -i '$ a ErrorLog /var/log/apache2/" + tServerDomain.ServerDNS + "-error.log' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 "sed -i '$ a LogLevel error' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a ErrorLog /var/log/apache2/" + tServerDomain.ServerDNS + "-error.log' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                "sed -i '$ a CustomLog /var/log/apache2/" + tServerDomain.ServerDNS + "-ssl-access.log combined env=NoLog' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 "sed -i '$ a SSLEngine On' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 //"sed -i '$ a SSLProtocol all -SSLv2 -SSLv3 -TLSv1 -TLSv1.1' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 "sed -i '$ a SSLProtocol +TLSv1.2 +TLSv1.3' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 "sed -i '$ a SSLCipherSuite ALL:!DH:!EXPORT:!RC4:+HIGH:+MEDIUM:!LOW:!aNULL:!eNULL' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 "sed -i '$ a SSLCertificateFile /home/" + User + "/ssl/" + tServerDomain.ServerDNS + ".crt' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 "sed -i '$ a SSLCertificateKeyFile /home/" + User + "/ssl/" + tServerDomain.ServerDNS + ".key' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
-                "sed -i '$ a CustomLog /var/log/apache2/" + tServerDomain.ServerDNS + "-ssl-access.log combined' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 "sed -i '$ a </VirtualHost>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _SSL +"_ws.conf",
                 "sed -i '$ a </IfModule>' /etc/apache2/sites-available/" + tServerDomain.ServerDNS + _SSL +"_ws.conf",
                 "a2ensite " + tServerDomain.ServerDNS + _SSL +"_ws.conf",

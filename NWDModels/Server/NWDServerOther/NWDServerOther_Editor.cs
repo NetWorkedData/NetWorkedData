@@ -138,7 +138,7 @@ namespace NetWorkedData
                         tButtonTitle = new GUIContent("Install User webdav", "Install webdav");
                         if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
                         {
-                            if (string.IsNullOrEmpty(tServerDNS) == false )
+                            if (string.IsNullOrEmpty(tServerDNS) == false)
                             {
                                 tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
@@ -352,13 +352,18 @@ namespace NetWorkedData
                             tCommandList.Add("echo \"<color=red> -> files default</color>\"");
                             tCommandList.Add("echo $\"<?php echo phpinfo();?>\" > /var/www/html/phpinfo.php");
                             tCommandList.Add("echo $\"Are you lost? Ok, I'll help you, you're in front of a screen!\" > /var/www/html/index.html");
-
-                            tCommandList.Add("echo \"<color=red> -> install Let's Encrypt Certbot</color>\"");
-                            tCommandList.Add("echo $\"deb http://ftp.debian.org/debian stretch-backports main\" >> /etc/apt/sources.list.d/backports.list");
-                            tCommandList.Add("apt-get update");
-                            tCommandList.Add("apt-get -y install python-certbot-apache -t stretch-backports");
-
-                            tCommandList.Add("echo \"<color=red> -> apache restart</color>\"");
+                            if (tServer.Distribution == NWDServerDistribution.debian10)
+                            {
+                                tCommandList.Add("echo \"<color=red> -> install Let's Encrypt Certbot</color>\"");
+                                tCommandList.Add("echo $\"deb http://ftp.debian.org/debian stretch-backports main\" >> /etc/apt/sources.list.d/backports.list");
+                                tCommandList.Add("apt-get update");
+                                tCommandList.Add("apt-get -y install python-certbot-apache -t stretch-backports");
+                            }
+                            if (tServer.Distribution == NWDServerDistribution.debian10)
+                            {
+                                tCommandList.Add("apt-get -y install certbot python-certbot-apache");
+                            }
+                                tCommandList.Add("echo \"<color=red> -> apache restart</color>\"");
                             tCommandList.Add("systemctl restart apache2");
 
                             if (tServer != null)

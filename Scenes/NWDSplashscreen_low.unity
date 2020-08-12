@@ -4263,7 +4263,7 @@ MonoBehaviour:
   EngineVersion: {fileID: 1121710395}
   FramePerSeconds: {fileID: 119513367}
   NextButton: {fileID: 1205535224}
-  SyncCounterButton: {fileID: 0}
+  SyncCounterButton: {fileID: 235812869}
   SyncSomeAccountButton: {fileID: 43845022}
   SyncSomeEditorButton: {fileID: 1853797711}
   SyncAllButton: {fileID: 1067369564}
