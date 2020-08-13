@@ -57,7 +57,7 @@ namespace NetWorkedData
         public Text SynchroTest;
         public NWDLocalizationConnection SynchroTextTest;
         //-------------------------------------------------------------------------------------------------------------
-        string LastSyncResultLog = string.Empty;
+        public string LastSyncResultLog = string.Empty;
         //-------------------------------------------------------------------------------------------------------------
         private void Start()
         {
