@@ -28,7 +28,6 @@ using System.IO;
 //=====================================================================================================================
 namespace NetWorkedData.NWDEditor
 {
-
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDSplitDirection
     {
@@ -36,34 +35,93 @@ namespace NetWorkedData.NWDEditor
         Vertical
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    class NWDSpliArea
+    class NWDSplitArea
     {
         //-------------------------------------------------------------------------------------------------------------
-        static NWDSpliArea ActiveZone = null;
+        private static uint LineWidth = 1;
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SetGlobalLineWidth(uint sWidth = 1)
+        {
+            if (sWidth > 0)
+            {
+                LineWidth = sWidth;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private static uint LineOffset = 0;
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SetGlobalLineOffset(uint sOffset = 0)
+        {
+            LineOffset = sOffset;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static NWDSplitArea ActiveZone = null;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// range 0-1
         /// </summary>
         public float Split = 0.5f;
+        /// <summary>
+        /// 50 to prevent scroolview with bar
+        /// </summary>
         public float Min = 50.0f;
         //-------------------------------------------------------------------------------------------------------------
         private bool Init = false;
         private NWDSplitDirection Direction = NWDSplitDirection.Horizontal;
         private Rect Origin;
-        private Rect First;
-        private Rect Second;
+        private Rect AreaOne;
+        private Rect AreaTwo;
         private Rect Line;
+        private float Width = 0.50f;
+        private float Offset = 0.0f;
         private Rect LineAction;
-        public float Border = 0.50f;
-        private float ActionOffset = 3.0f;
-        public float LineOffset = 0.0f;
-        private EditorWindow EditorWind;
+        private int ActionOffset = 4;
+        private EditorWindow WindowToUse;
         private string PrefKey;
-        public bool Resizable = true;
+        private bool Resizable = true;
         private bool AreaOneDraw = false;
         private bool AreaTwoDraw = false;
         private Color AreaOneColor = Color.black;
         private Color AreaTwoColor = Color.black;
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDSplitArea(NWDSplitDirection sDirection = NWDSplitDirection.Vertical, string sPrefKey = null)
+        {
+            Width = (float)LineWidth / 2.0f;
+            Offset = LineOffset;
+            Direction = sDirection;
+            if (string.IsNullOrEmpty(sPrefKey) == false)
+            {
+                PrefKey = sPrefKey;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetResizable(bool sResizable = true)
+        {
+            Resizable = sResizable;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetLineOffset(int sOffset = 0)
+        {
+            Offset = Mathf.Abs(sOffset);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetLineWidth(int sWidth = 1)
+        {
+            if (sWidth > 0)
+            {
+                Width = ((float)sWidth) / 2.0f;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetLineLarge()
+        {
+            SetLineWidth(2);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetLineThin()
+        {
+            SetLineWidth(1);
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void SetColorAreaOne(Color sColor)
         {
@@ -87,57 +145,78 @@ namespace NetWorkedData.NWDEditor
             AreaTwoDraw = false;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDSpliArea(NWDSplitDirection sDirection = NWDSplitDirection.Vertical, string sPrefKey = null)
+        public Rect GetAreaOne(int sMarge = 0)
         {
-            Direction = sDirection;
-            if (string.IsNullOrEmpty(sPrefKey) == false)
+            if (sMarge != 0)
             {
-                PrefKey = sPrefKey;
+                return Reducer(AreaOne, sMarge);
             }
+            else
+            {
+                return AreaOne;
+            }
+
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Rect GetAreaTwo(int sMarge = 0)
+        {
+            if (sMarge != 0)
+            {
+                return Reducer(AreaTwo, sMarge);
+            }
+            else
+            {
+                return AreaTwo;
+            }
+
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private Rect Reducer(Rect sRect, int sMarge)
+        {
+            return new Rect(sRect.x + sMarge, sRect.y + sMarge, sRect.width - sMarge * 2.0f, sRect.height - sMarge * 2.0f);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ResizeSplit(EditorWindow sEditorWind, Rect sOrigin)
         {
-            EditorWind = sEditorWind;
+            WindowToUse = sEditorWind;
             Origin = sOrigin;
             if (Direction == NWDSplitDirection.Vertical)
             {
-                float tVA = Origin.width * Split - Border;
-                float tVB = Origin.width * (1 - Split) - Border;
+                float tVA = Origin.width * Split - Width;
+                float tVB = Origin.width * (1 - Split) - Width;
                 if (tVA < Min)
                 {
                     tVA = Min;
-                    tVB = Origin.width - tVA - Border * 2;
+                    tVB = Origin.width - tVA - Width * 2;
                 }
                 if (tVB < Min)
                 {
                     tVB = Min;
-                    tVA = Origin.width - tVB - Border * 2;
+                    tVA = Origin.width - tVB - Width * 2;
                 }
-                First = new Rect(Origin.x, Origin.y, tVA, Origin.height);
-                Second = new Rect(Origin.x + tVA + Border * 2, Origin.y, tVB + Border, Origin.height);
-                Line = new Rect(Origin.x + tVA, Origin.y + LineOffset, Border * 2, Origin.height - LineOffset * 2);
-                LineAction = new Rect(Line.x - ActionOffset, Line.y - ActionOffset, Line.width + ActionOffset * 2, Line.height + ActionOffset * 2);
+                AreaOne = new Rect(Origin.x, Origin.y, tVA, Origin.height);
+                AreaTwo = new Rect(Origin.x + tVA + Width * 2, Origin.y, tVB + Width, Origin.height);
+                Line = new Rect(Origin.x + tVA, Origin.y + Offset, Width * 2, Origin.height - Offset * 2);
             }
             else
             {
-                float tVA = Origin.height * Split - Border;
-                float tVB = Origin.height * (1 - Split) - Border;
+                float tVA = Origin.height * Split - Width;
+                float tVB = Origin.height * (1 - Split) - Width;
                 if (tVA < Min)
                 {
                     tVA = Min;
-                    tVB = Origin.height - tVA - Border * 2;
+                    tVB = Origin.height - tVA - Width * 2;
                 }
                 if (tVB < Min)
                 {
                     tVB = Min;
-                    tVA = Origin.height - tVB - Border * 2;
+                    tVA = Origin.height - tVB - Width * 2;
                 }
-                First = new Rect(Origin.x, Origin.y, Origin.width, tVA);
-                Second = new Rect(Origin.x, Origin.y + tVA + Border * 2, Origin.width, tVB + Border);
-                Line = new Rect(Origin.x + LineOffset, Origin.y + tVA, Origin.width - LineOffset * 2, Border * 2);
-                LineAction = new Rect(Line.x - ActionOffset, Line.y - ActionOffset, Line.width + ActionOffset * 2, Line.height + ActionOffset * 2);
+                AreaOne = new Rect(Origin.x, Origin.y, Origin.width, tVA);
+                AreaTwo = new Rect(Origin.x, Origin.y + tVA + Width * 2, Origin.width, tVB + Width);
+                Line = new Rect(Origin.x + Offset, Origin.y + tVA, Origin.width - Offset * 2, Width * 2);
             }
+            LineAction = Reducer(Line, -ActionOffset);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI(EditorWindow sEditorWind)
@@ -183,17 +262,17 @@ namespace NetWorkedData.NWDEditor
                     if (Direction == NWDSplitDirection.Vertical)
                     {
                         Split = (Event.current.mousePosition.x - Origin.x) / Origin.width;
-                        ResizeSplit(EditorWind, Origin);
+                        ResizeSplit(WindowToUse, Origin);
                     }
                     else
                     {
                         Split = (Event.current.mousePosition.y - Origin.y) / Origin.height;
-                        ResizeSplit(EditorWind, Origin);
+                        ResizeSplit(WindowToUse, Origin);
                     }
-                    EditorWind.Repaint();
+                    WindowToUse.Repaint();
                 }
-                if (AreaOneDraw == true) { EditorGUI.DrawRect(First, AreaOneColor); }
-                if (AreaTwoDraw == true) { EditorGUI.DrawRect(Second, AreaTwoColor); }
+                if (AreaOneDraw == true) { EditorGUI.DrawRect(AreaOne, AreaOneColor); }
+                if (AreaTwoDraw == true) { EditorGUI.DrawRect(AreaTwo, AreaTwoColor); }
                 if (EditorGUIUtility.isProSkin)
                 {
                     EditorGUI.DrawRect(Line, Color.black);
@@ -205,8 +284,8 @@ namespace NetWorkedData.NWDEditor
             }
             else
             {
-                if (AreaOneDraw == true) { EditorGUI.DrawRect(First, AreaOneColor); }
-                if (AreaTwoDraw == true) { EditorGUI.DrawRect(Second, AreaTwoColor); }
+                if (AreaOneDraw == true) { EditorGUI.DrawRect(AreaOne, AreaOneColor); }
+                if (AreaTwoDraw == true) { EditorGUI.DrawRect(AreaTwo, AreaTwoColor); }
                 if (EditorGUIUtility.isProSkin)
                 {
                     EditorGUI.DrawRect(Line, new Color(0.5f, 0.5f, 0.5f, 0.5f));
@@ -216,18 +295,6 @@ namespace NetWorkedData.NWDEditor
                     EditorGUI.DrawRect(Line, new Color(0.5f, 0.5f, 0.5f, 0.5f));
                 }
             }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public Rect GetAreaOne()
-        {
-            return First;
-
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public Rect GetAreaTwo()
-        {
-            return Second;
-
         }
         //-------------------------------------------------------------------------------------------------------------
     }
@@ -426,52 +493,61 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDExmpleSpiltView : NWDEditorWindow
+    public class NWDExmpleSplitView : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
-        static NWDExmpleSpiltView TestWindow = null;
+        static NWDExmpleSplitView TestWindow = null;
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem("TEST/test split", false, 21)]
         static public void AndroidShowActivityIndicatorOnLoading()
         {
             if (TestWindow == null)
             {
-                TestWindow = EditorWindow.GetWindow(typeof(NWDExmpleSpiltView)) as NWDExmpleSpiltView;
+                TestWindow = EditorWindow.GetWindow(typeof(NWDExmpleSplitView)) as NWDExmpleSplitView;
                 TestWindow.TitleInit("SplitTest");
             }
             TestWindow.Show();
             TestWindow.Focus();
         }
         //-------------------------------------------------------------------------------------------------------------
-        NWDSpliArea SplitMe = new NWDSpliArea(NWDSplitDirection.Vertical, "eee");
-        NWDSpliArea SplitMeAgain = new NWDSpliArea(NWDSplitDirection.Horizontal, "kkkk");
-        NWDSpliArea SplitThree = new NWDSpliArea(NWDSplitDirection.Vertical, "ooooo");
+        NWDSplitArea SplitOne;
+        NWDSplitArea SplitTwo;
+        NWDSplitArea SplitThree;
+        //NWDSpliArea SplitOne = new NWDSpliArea(NWDSplitDirection.Vertical, "eee");
+        //NWDSpliArea SplitTwo = new NWDSpliArea(NWDSplitDirection.Horizontal, "kkkk");
+        //NWDSpliArea SplitThree = new NWDSpliArea(NWDSplitDirection.Vertical, "ooooo");
         Vector2 ScrollA = Vector2.zero;
         Vector2 ScrollB = Vector2.zero;
         //-------------------------------------------------------------------------------------------------------------
         private void OnEnable()
         {
-            //SplitMeAgain.Resizable = false;
-            //SplitMeAgain.Split = 0.25F;
-            SplitMe.Min = SplitThree.Min * 2;
-            //SplitMeAgain.SetColorAreaOne(Color.blue);
-            //SplitMeAgain.SetColorAreaTwo(Color.red);
+            //NWDSplitArea.SetGlobalLineWidth(0);
+            //NWDSplitArea.SetGlobalLineOffset(4);
+            SplitOne = new NWDSplitArea(NWDSplitDirection.Vertical, "eee");
+            SplitTwo = new NWDSplitArea(NWDSplitDirection.Horizontal, "kkkk");
+            SplitThree = new NWDSplitArea(NWDSplitDirection.Vertical, "ooooo");
+
+            //SplitOne.SetLineWidth(2);
+            //SplitOne.SetLineOffset(2);
+            //SplitOne.SetResizable(false);
+            //SplitOne.Split = 0.5F;
+            SplitOne.Min = SplitThree.Min * 2;
+            //SplitThree.SetColorAreaOne(Color.blue);
+            //SplitThree.SetColorAreaTwo(Color.red);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void OnPreventGUI()
         {
-            SplitMe.OnGUI(this);
-            SplitMeAgain.OnGUI(this, SplitMe.GetAreaTwo());
-            SplitThree.OnGUI(this, SplitMeAgain.GetAreaOne());
+            SplitOne.OnGUI(this);
+            SplitTwo.OnGUI(this, SplitOne.GetAreaTwo());
+            SplitThree.OnGUI(this, SplitTwo.GetAreaOne());
 
-
-            GUILayout.BeginArea(SplitMe.GetAreaOne());
+            GUILayout.BeginArea(SplitOne.GetAreaOne(5));
             GUILayout.Button("Click me");
             GUILayout.Button("Or me");
             GUILayout.EndArea();
 
-
-            GUILayout.BeginArea(SplitMeAgain.GetAreaTwo());
+            GUILayout.BeginArea(SplitTwo.GetAreaTwo(5));
             GUILayout.Button("Click me");
             GUILayout.Button("Or me");
             GUILayout.EndArea();
@@ -487,7 +563,7 @@ namespace NetWorkedData.NWDEditor
             GUILayout.EndArea();
 
             GUILayout.BeginArea(SplitThree.GetAreaTwo());
-            ScrollA= GUILayout.BeginScrollView(ScrollA);
+            ScrollA = GUILayout.BeginScrollView(ScrollA);
             GUILayout.Button("Click me");
             GUILayout.Button("Or me");
             GUILayout.Button("Or me");
