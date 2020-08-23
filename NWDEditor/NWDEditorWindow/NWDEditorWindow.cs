@@ -542,27 +542,52 @@ namespace NetWorkedData.NWDEditor
             SplitTwo.OnGUI(this, SplitOne.GetAreaTwo());
             SplitThree.OnGUI(this, SplitTwo.GetAreaOne());
 
-            GUILayout.BeginArea(SplitOne.GetAreaOne(5));
+            GUILayout.BeginArea(SplitOne.GetAreaOne());
+            NWDGUILayout.Title("jjjj");
+            NWDGUILayout.Section("jjjj");
+            NWDGUILayout.SubSection("jjjj");
             GUILayout.Button("Click me");
             GUILayout.Button("Or me");
+            NWDGUILayout.Section("jjjj");
+            NWDGUILayout.SubSection("jjjj");
+            GUILayout.Button("Click me");
+            GUILayout.Button("Or me");
+            NWDGUILayout.SubSection("jjjj");
+            GUILayout.Button("Click me");
+            GUILayout.Button("Or me");
+            NWDGUILayout.SubSection("jjjj");
+            NWDGUILayout.Informations("jjjj");
+            NWDGUILayout.Separator();
+            NWDGUILayout.Informations("jjjj");
             GUILayout.EndArea();
 
-            GUILayout.BeginArea(SplitTwo.GetAreaTwo(5));
+            GUILayout.BeginArea(SplitTwo.GetAreaTwo());
+            NWDGUILayout.Title("jjjj");
             GUILayout.Button("Click me");
             GUILayout.Button("Or me");
             GUILayout.EndArea();
 
             GUILayout.BeginArea(SplitThree.GetAreaOne());
             ScrollB = GUILayout.BeginScrollView(ScrollB);
+            NWDGUILayout.Title("jjjj");
+            GUILayout.Label("jjjj");
+            NWDGUILayout.Section("jjjj");
+            NWDGUILayout.SubSection("jjjj");
+            NWDGUILayout.WarningBox("jjjj");
+            NWDGUI.BeginRedArea();
             GUILayout.Button("Click me");
             GUILayout.Button("Or me");
             GUILayout.Button("Or me");
+            NWDGUI.EndRedArea();
+            NWDGUI.BeginColorArea( Color.blue);
             GUILayout.Button("Or me");
             GUILayout.Button("Or me");
+            NWDGUI.EndColorArea();
             GUILayout.EndScrollView();
             GUILayout.EndArea();
 
             GUILayout.BeginArea(SplitThree.GetAreaTwo());
+            NWDGUILayout.Title("jjjj");
             ScrollA = GUILayout.BeginScrollView(ScrollA);
             GUILayout.Button("Click me");
             GUILayout.Button("Or me");
