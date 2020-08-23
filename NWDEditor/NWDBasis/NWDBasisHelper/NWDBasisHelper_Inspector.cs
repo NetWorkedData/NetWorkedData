@@ -737,8 +737,14 @@ namespace NetWorkedData
                         if (PropertiesInWebModel.Contains(tProp.Name) == false)
                         //if (tListB.Contains(tProp.Name) == false)
                         {
-                            tProperty.Name = "!!! " + tProperty.Name + "";
-                            tProperty.NotEditable = true;
+                            if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+                            {
+                                tProperty.Name = "!!! " + tProperty.Name + "";
+                                if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+                                {
+                                    tProperty.NotEditable = true;
+                                }
+                            }
                         }
                     }
                 }

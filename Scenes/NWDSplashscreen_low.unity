@@ -2475,7 +2475,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '#Blank test one#'
+  m_Text: '#Blank test#'
 --- !u!222 &725500039
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2686,7 +2686,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '#Sync just Counter#'
+  m_Text: '#Sync Counter Account#'
 --- !u!222 &779768431
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4562,7 +4562,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '#Blank test third#'
+  m_Text: '#Blank test Third#'
 --- !u!222 &1484890461
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5533,7 +5533,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '#Next scene#'
+  m_Text: '#Next Scene#'
 --- !u!222 &1885366699
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5612,7 +5612,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '#Sync some editor#'
+  m_Text: '#Sync Some Editor#'
 --- !u!222 &1923251367
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6337,7 +6337,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '#Blank test second#'
+  m_Text: '#Blank test Second#'
 --- !u!222 &2094401690
 CanvasRenderer:
   m_ObjectHideFlags: 0

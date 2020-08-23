@@ -27,6 +27,7 @@ namespace NetWorkedData
     public enum NWDServerOtherType : int
     {
         No = 0,
+        ActionServer = 1,
         Email = 3,
         PushNotifications = 8,
         Streaming = 9,
@@ -51,6 +52,8 @@ namespace NetWorkedData
         public NWDServerOtherType ServerType { get; set; }
 
 
+        [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.ActionServer, false)]
+        public NWDStringsArrayType ActionServer { get; set; }
 
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.WebDAV, false)]
         public string WebDAV_User { get; set; }

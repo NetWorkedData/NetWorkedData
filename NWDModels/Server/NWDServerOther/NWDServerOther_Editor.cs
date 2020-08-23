@@ -126,8 +126,18 @@ namespace NetWorkedData
 
 
                     //-----------------
+                    if (ServerType == NWDServerOtherType.ActionServer)
+                    {
+                        tButtonTitle = new GUIContent("Run Action", "run action in server");
+                        if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                        {
+                            tServer.ExecuteSSH(tButtonTitle.text, ActionServer.GetStringList(), null);
+                        }
+                    }
+                    tI++;
 
 
+                    //-----------------
                     if (ServerType == NWDServerOtherType.WebDAV)
                     {
                         string tServerDNS = tServer.DomainNameServer;
@@ -363,7 +373,7 @@ namespace NetWorkedData
                             {
                                 tCommandList.Add("apt-get -y install certbot python-certbot-apache");
                             }
-                                tCommandList.Add("echo \"<color=red> -> apache restart</color>\"");
+                            tCommandList.Add("echo \"<color=red> -> apache restart</color>\"");
                             tCommandList.Add("systemctl restart apache2");
 
                             if (tServer != null)

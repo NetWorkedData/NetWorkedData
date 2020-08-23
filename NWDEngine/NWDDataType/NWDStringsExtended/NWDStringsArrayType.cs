@@ -77,6 +77,22 @@ namespace NetWorkedData
             Value = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public List<string> GetStringList()
+        {
+            List<string> tList = new List<string>();
+            if (Value != null && Value != string.Empty)
+            {
+                string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+                tList = new List<string>(tValueArray);
+            }
+            return tList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string[] GetStringArray()
+        {
+            return GetStringList().ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void AddReferences(string[] sReferences)
         {
             List<string> tList = new List<string>();
@@ -165,14 +181,14 @@ namespace NetWorkedData
                 {
                     if (i > 0)
                     {
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge), tY-1, NWDGUI.kUpDownWidth, NWDGUI.kTextFieldStyle.fixedHeight), NWDGUI.kUpContentIcon, NWDGUI.kIconButtonStyle))
+                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge), tY - 1, NWDGUI.kUpDownWidth, NWDGUI.kTextFieldStyle.fixedHeight), NWDGUI.kUpContentIcon, NWDGUI.kIconButtonStyle))
                         {
                             tUp = true;
                             tIndexToMove = i;
                         }
                         if (i < tValueList.Count - 2)
                         {
-                            if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge) * 2, tY-1, NWDGUI.kUpDownWidth, NWDGUI.kTextFieldStyle.fixedHeight), NWDGUI.kDownContentIcon, NWDGUI.kIconButtonStyle))
+                            if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge) * 2, tY - 1, NWDGUI.kUpDownWidth, NWDGUI.kTextFieldStyle.fixedHeight), NWDGUI.kDownContentIcon, NWDGUI.kIconButtonStyle))
                             {
                                 tDown = true;
                                 tIndexToMove = i;
