@@ -299,6 +299,33 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDEditorWindowReimport : AssetPostprocessor
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        void OnPreprocessAsset()
+        {
+            NWDBenchmark.Start();
+            NWDEditorWindow.OnBeforeAssemblyReload();
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void OnPostprocessAsset()
+        {
+            NWDBenchmark.Start();
+            NWDEditorWindow.OnAfterAssemblyReload();
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [DidReloadScripts]
+        private static void OnScriptsReloaded()
+        {
+            NWDBenchmark.Start();
+            NWDEditorWindow.OnAfterAssemblyReload();
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDEditorWindow : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -311,6 +338,48 @@ namespace NetWorkedData.NWDEditor
         private Type EditorType;
         private bool TitleIsInit = false;
         private bool Recompile = false;
+        //-------------------------------------------------------------------------------------------------------------
+        public static void OnBeforeAssemblyReload()
+        {
+            Debug.Log("Before Assembly Reload");
+            NWDBenchmark.Start();
+            if (NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_SHOW_COMPILE, true) == true)
+            {
+                if (AllWindowsList != null)
+                {
+                    foreach (NWDEditorWindow tWindow in AllWindowsList)
+                    {
+                        if (tWindow != null)
+                        {
+                            tWindow.Recompile = true;
+                            tWindow.Repaint();
+                        }
+                    }
+                }
+            }
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void OnAfterAssemblyReload()
+        {
+            Debug.Log("After Assembly Reload");
+            NWDBenchmark.Start();
+            if (NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_SHOW_COMPILE, true) == true)
+            {
+                if (AllWindowsList != null)
+                {
+                    foreach (NWDEditorWindow tWindow in AllWindowsList)
+                    {
+                        if (tWindow != null)
+                        {
+                            tWindow.Recompile = false;
+                            tWindow.Repaint();
+                        }
+                    }
+                }
+            }
+            NWDBenchmark.Finish();
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void SkinChange()
         {
@@ -396,33 +465,8 @@ namespace NetWorkedData.NWDEditor
         public static void GenerateCSharpFile()
         {
             NWDBenchmark.Start();
-            if (NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_SHOW_COMPILE, true) == true)
-            {
-                foreach (NWDEditorWindow tWindow in AllWindowsList)
-                {
-                    tWindow.Recompile = true;
-                    tWindow.Repaint();
-                }
-            }
+            OnBeforeAssemblyReload();
             NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-            NWDBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [DidReloadScripts]
-        private static void OnScriptsReloaded()
-        {
-            NWDBenchmark.Start();
-            if (AllWindowsList != null)
-            {
-                foreach (NWDEditorWindow tWindow in AllWindowsList)
-                {
-                    if (tWindow != null)
-                    {
-                        tWindow.Recompile = false;
-                        tWindow.Repaint();
-                    }
-                }
-            }
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -579,7 +623,7 @@ namespace NetWorkedData.NWDEditor
             GUILayout.Button("Or me");
             GUILayout.Button("Or me");
             NWDGUI.EndRedArea();
-            NWDGUI.BeginColorArea( Color.blue);
+            NWDGUI.BeginColorArea(Color.blue);
             GUILayout.Button("Or me");
             GUILayout.Button("Or me");
             NWDGUI.EndColorArea();
@@ -593,14 +637,18 @@ namespace NetWorkedData.NWDEditor
             GUILayout.Button("Or me");
             GUILayout.Button("Or me");
             GUILayout.Button("Or me");
+            if (NWDGUILayout.AlertBoxButton("alert box", "ok")) { }
+            GUILayout.Button("Or me");
+            GUILayout.Button("Or me");
+            NWDGUILayout.ErrorBox("error box");
             GUILayout.Button("Or me");
             GUILayout.Button("Or me");
             GUILayout.Button("Or me");
+            NWDGUILayout.WarningBox("warning box");
             GUILayout.Button("Or me");
             GUILayout.Button("Or me");
             GUILayout.Button("Or me");
-            GUILayout.Button("Or me");
-            GUILayout.Button("Or me");
+            NWDGUILayout.HelpBox("help box");
             GUILayout.Button("Or me");
             GUILayout.Button("Or me");
             GUILayout.EndScrollView();
