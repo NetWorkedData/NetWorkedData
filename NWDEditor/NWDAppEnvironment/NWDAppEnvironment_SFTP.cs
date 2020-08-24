@@ -86,7 +86,7 @@ namespace NetWorkedData
                 Debug.Log("tConn : " + tConn.Host + " to foler root : " + tConn.Folder);
                 tConn.SendFolderAndFiles(sFolders, sFilesAndDatas, sFolderRecurssive);
             }
-            NWDAppEnvironmentSync.SharedInstance().OperationSynchroAllClasses(this, false, true, NWDOperationSpecial.Upgrade);
+            NWDAppEnvironmentSyncContent.SharedInstance().OperationSynchroAllClasses(this, false, true, NWDOperationSpecial.Upgrade);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

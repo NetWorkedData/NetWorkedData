@@ -28,10 +28,13 @@ using UnityEditor;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDAppEnvironmentSync : NWDEditorWindow
+    public class NWDAppEnvironmentSyncContent
     {
         //-------------------------------------------------------------------------------------------------------------
-        private static NWDAppEnvironmentSync kSharedInstance;
+        /// <summary>
+        /// Scroll position in window
+        /// </summary>
+        private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
         Texture2D DevIcon;
         Texture2D PreprodIcon;
@@ -44,6 +47,7 @@ namespace NetWorkedData.NWDEditor
         bool ProdSessionExpired = false;
         int SyncInfosTab = 0;
         Vector2 ScrollPosition;
+        bool Init = false;
         //-------------------------------------------------------------------------------------------------------------
         NWDOperationResult LastInfos; // = new NWDOperationResult();
         //-------------------------------------------------------------------------------------------------------------
@@ -52,221 +56,233 @@ namespace NetWorkedData.NWDEditor
         private NWEOperationBlock CancelBlock = null;
         private NWEOperationBlock ProgressBlock = null;
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAppEnvironmentSync SharedInstance()
+        /// <summary>
+        /// The Shared Instance for deamon class.
+        /// </summary>
+        private static NWDAppEnvironmentSyncContent _kSharedInstanceContent;
+        List<NWDEditorWindow> EditorWindowList = new List<NWDEditorWindow>();
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static NWDAppEnvironmentSyncContent SharedInstance()
         {
-            //NWDBenchmark.Start();
-            if (kSharedInstance == null)
+            NWDBenchmark.Start();
+            if (_kSharedInstanceContent == null)
             {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentSync)) as NWDAppEnvironmentSync;
+                _kSharedInstanceContent = new NWDAppEnvironmentSyncContent();
             }
-            //NWDBenchmark.Finish();
-            return kSharedInstance;
+            NWDBenchmark.Finish();
+            return _kSharedInstanceContent;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDAppEnvironmentSync SharedInstanceFocus()
-        {
-            //NWDBenchmark.Start();
-            SharedInstance().ShowUtility();
-            SharedInstance().Focus();
-            //NWDBenchmark.Finish();
-            return kSharedInstance;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void Refresh()
-        {
-            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDAppEnvironmentSync));
-            foreach (NWDAppEnvironmentSync tWindow in tWindows)
-            {
-                tWindow.Repaint();
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool IsSharedInstance()
-        {
-            //NWDBenchmark.Start();
-            bool rReturn = false;
-            if (kSharedInstance != null)
-            {
-                rReturn = true;
-            }
-            return rReturn;
-            //NWDBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void OnEnable()
-        {
-            //NWDBenchmark.Start();
-            TitleInit(NWDConstants.K_APP_SYNC_ENVIRONMENT_TITLE, typeof(NWDAppEnvironmentSync));
 
-            if (LastInfos == null)
+        //-------------------------------------------------------------------------------------------------------------
+        public void OnDisable(NWDEditorWindow sEditorWindow)
+        {
+            if (EditorWindowList.Contains(sEditorWindow))
             {
-                LastInfos = new NWDOperationResult();
+                EditorWindowList.Remove(sEditorWindow);
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void OnEnable(NWDEditorWindow sEditorWindowsss)
+        {
+            if (EditorWindowList.Contains(sEditorWindowsss) == false)
+            {
+                EditorWindowList.Add(sEditorWindowsss);
+            }
+            if (Init == false)
+            {
+                Init = true;
 
-            DevIcon = NWDGUI.kImageWaiting;
-            PreprodIcon = NWDGUI.kImageWaiting;
-            ProdIcon = NWDGUI.kImageWaiting;
-            // SUCCESS BLOCK
-            SuccessBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bInfos)
-            {
-                LastInfos = (NWDOperationResult)bInfos;
-                NWDError tError = LastInfos.errorDesc;
-                string tErrorCode = LastInfos.errorCode;
-                if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
+                if (LastInfos == null)
                 {
-                    DevIcon = NWDGUI.kImageGreen;
-                    DevProgress = "Finished";
-                    DevSessionExpired = false;
+                    LastInfos = new NWDOperationResult();
                 }
-                if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment)
-                {
-                    PreprodIcon = NWDGUI.kImageGreen;
-                    PreprodProgress = "Finished";
-                    PreprodSessionExpired = false;
-                }
-                if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment)
-                {
-                    ProdIcon = NWDGUI.kImageGreen;
-                    ProdProgress = "Finished";
-                    ProdSessionExpired = false;
-                }
-                Repaint();
-            };
-            // FAIL BLOCK
-            FailBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bInfos)
-            {
-                if (bOperation != null)
+
+                DevIcon = NWDGUI.kImageWaiting;
+                PreprodIcon = NWDGUI.kImageWaiting;
+                ProdIcon = NWDGUI.kImageWaiting;
+                // SUCCESS BLOCK
+                SuccessBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bInfos)
                 {
                     LastInfos = (NWDOperationResult)bInfos;
                     NWDError tError = LastInfos.errorDesc;
                     string tErrorCode = LastInfos.errorCode;
                     if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
                     {
-                        DevIcon = NWDGUI.kImageRed;
-                        DevProgress = "Failed";
-                        if (tErrorCode.Contains("RQT"))
-                        {
-                            DevSessionExpired = true;
-                        }
+                        DevIcon = NWDGUI.kImageGreen;
+                        DevProgress = "Finished";
+                        DevSessionExpired = false;
                     }
                     if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment)
                     {
-                        PreprodIcon = NWDGUI.kImageRed;
-                        PreprodProgress = "Failed";
-                        if (tErrorCode.Contains("RQT"))
-                        {
-                            PreprodSessionExpired = true;
-                        }
+                        PreprodIcon = NWDGUI.kImageGreen;
+                        PreprodProgress = "Finished";
+                        PreprodSessionExpired = false;
                     }
                     if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment)
                     {
-                        ProdIcon = NWDGUI.kImageRed;
-                        ProdProgress = "Failed";
-                        if (tErrorCode.Contains("RQT"))
-                        {
-                            ProdSessionExpired = true;
-                        }
+                        ProdIcon = NWDGUI.kImageGreen;
+                        ProdProgress = "Finished";
+                        ProdSessionExpired = false;
                     }
-                    Repaint();
-                    if (LastInfos.isError)
+                    foreach (NWDEditorWindow tEditorWindow in EditorWindowList)
                     {
-                        if (tErrorCode.Contains("RQT"))
+                        tEditorWindow.Repaint();
+                    }
+                };
+                // FAIL BLOCK
+                FailBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bInfos)
+                {
+                    if (bOperation != null)
+                    {
+                        LastInfos = (NWDOperationResult)bInfos;
+                        NWDError tError = LastInfos.errorDesc;
+                        string tErrorCode = LastInfos.errorCode;
+                        if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
                         {
-                            Debug.LogWarning("Alert Session expired(error code " + LastInfos.errorCode);
+                            DevIcon = NWDGUI.kImageRed;
+                            DevProgress = "Failed";
+                            if (tErrorCode.Contains("RQT"))
+                            {
+                                DevSessionExpired = true;
+                            }
+                        }
+                        if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment)
+                        {
+                            PreprodIcon = NWDGUI.kImageRed;
+                            PreprodProgress = "Failed";
+                            if (tErrorCode.Contains("RQT"))
+                            {
+                                PreprodSessionExpired = true;
+                            }
+                        }
+                        if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment)
+                        {
+                            ProdIcon = NWDGUI.kImageRed;
+                            ProdProgress = "Failed";
+                            if (tErrorCode.Contains("RQT"))
+                            {
+                                ProdSessionExpired = true;
+                            }
+                        }
+                        foreach (NWDEditorWindow tEditorWindow in EditorWindowList)
+                        {
+                            tEditorWindow.Repaint();
+                        }
+                        if (LastInfos.isError)
+                        {
+                            if (tErrorCode.Contains("RQT"))
+                            {
+                                Debug.LogWarning("Alert Session expired(error code " + LastInfos.errorCode);
                             //EditorUtility.DisplayDialog("Alert", "Session expired (error code " + LastInfos.errorCode + ")", "Ok");
                         }
-                        else
-                        {
-                            string tTitle = "ERROR";
-                            string tDescription = "Unknown error (error code " + LastInfos.errorCode + ")";
-                            if (LastInfos.errorDesc != null)
+                            else
                             {
-                                tTitle = LastInfos.errorDesc.Domain;
-                                tDescription = LastInfos.errorDesc.Code;
-                                if (LastInfos.errorDesc.Description != null)
+                                string tTitle = "ERROR";
+                                string tDescription = "Unknown error (error code " + LastInfos.errorCode + ")";
+                                if (LastInfos.errorDesc != null)
                                 {
-                                    tDescription += " : " + LastInfos.errorDesc.Description.GetBaseString();
-                                }
+                                    tTitle = LastInfos.errorDesc.Domain;
+                                    tDescription = LastInfos.errorDesc.Code;
+                                    if (LastInfos.errorDesc.Description != null)
+                                    {
+                                        tDescription += " : " + LastInfos.errorDesc.Description.GetBaseString();
+                                    }
 #if UNITY_EDITOR
                                 Debug.LogWarning("" + tTitle + " " + tDescription);
                                 //LastInfos.errorDesc.ShowAlert(LastInfos.errorInfos);
 #endif
                             }
+                            }
                         }
                     }
-                }
-                else
+                    else
+                    {
+                        Debug.LogWarning("Operation hardly failed!!");
+                    }
+                    foreach (NWDEditorWindow tEditorWindow in EditorWindowList)
+                    {
+                        tEditorWindow.Repaint();
+                    }
+                };
+                //CANCEL BLOCK
+                CancelBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bInfos)
                 {
-                    Debug.LogWarning("Operation hardly failed!!");
-                }
-                Repaint();
-            };
-            //CANCEL BLOCK
-            CancelBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bInfos)
-            {
-                LastInfos = (NWDOperationResult)bInfos;
-                NWDError tError = LastInfos.errorDesc;
-                string tErrorCode = LastInfos.errorCode;
-                if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
+                    LastInfos = (NWDOperationResult)bInfos;
+                    NWDError tError = LastInfos.errorDesc;
+                    string tErrorCode = LastInfos.errorCode;
+                    if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
+                    {
+                        DevIcon = NWDGUI.kImageSyncForbidden;
+                        DevProgress = "Cancelled";
+                    }
+                    if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment)
+                    {
+                        PreprodIcon = NWDGUI.kImageSyncForbidden;
+                        PreprodProgress = "Cancelled";
+                    }
+                    if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment)
+                    {
+                        ProdIcon = NWDGUI.kImageSyncForbidden;
+                        ProdProgress = "Cancelled";
+                    }
+                    foreach (NWDEditorWindow tEditorWindow in EditorWindowList)
+                    {
+                        tEditorWindow.Repaint();
+                    }
+                };
+                // PROGRESS BLOCK
+                ProgressBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bInfos)
                 {
-                    DevIcon = NWDGUI.kImageSyncForbidden;
-                    DevProgress = "Cancelled";
-                }
-                if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment)
-                {
-                    PreprodIcon = NWDGUI.kImageSyncForbidden;
-                    PreprodProgress = "Cancelled";
-                }
-                if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment)
-                {
-                    ProdIcon = NWDGUI.kImageSyncForbidden;
-                    ProdProgress = "Cancelled";
-                }
-                Repaint();
-            };
-            // PROGRESS BLOCK
-            ProgressBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bInfos)
-            {
-                LastInfos = (NWDOperationResult)bInfos;
-                NWDError tError = LastInfos.errorDesc;
-                string tErrorCode = LastInfos.errorCode;
-                if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
-                {
-                    DevIcon = NWDGUI.kImageSyncWaiting;
-                    DevProgress = (bProgress * 100.0F).ToString("000.00") + "%";
-                }
-                if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment)
-                {
-                    PreprodIcon = NWDGUI.kImageSyncWaiting;
-                    PreprodProgress = (bProgress * 100.0F).ToString("000.00") + "%";
-                }
-                if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment)
-                {
-                    ProdIcon = NWDGUI.kImageSyncWaiting;
-                    ProdProgress = (bProgress * 100.0F).ToString("000.00") + "%";
-                }
-                Repaint();
-            };
-            SyncInfosTab = NWDProjectPrefs.GetInt("SyncInfosTab");
-            //NWDBenchmark.Finish();
+                    LastInfos = (NWDOperationResult)bInfos;
+                    NWDError tError = LastInfos.errorDesc;
+                    string tErrorCode = LastInfos.errorCode;
+                    if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
+                    {
+                        DevIcon = NWDGUI.kImageSyncWaiting;
+                        DevProgress = (bProgress * 100.0F).ToString("000.00") + "%";
+                    }
+                    if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment)
+                    {
+                        PreprodIcon = NWDGUI.kImageSyncWaiting;
+                        PreprodProgress = (bProgress * 100.0F).ToString("000.00") + "%";
+                    }
+                    if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment)
+                    {
+                        ProdIcon = NWDGUI.kImageSyncWaiting;
+                        ProdProgress = (bProgress * 100.0F).ToString("000.00") + "%";
+                    }
+                    foreach (NWDEditorWindow tEditorWindow in EditorWindowList)
+                    {
+                        tEditorWindow.Repaint();
+                    }
+                };
+                SyncInfosTab = NWDProjectPrefs.GetInt("SyncInfosTab");
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void OnPreventGUI()
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
+        public void OnPreventGUI(Rect sRect)
         {
-            //NWDBenchmark.Start();
-            NWDGUI.LoadStyles();
+            NWDBenchmark.Start();
             NWDGUILayout.Title("WebService Sync");
             NWDGUILayout.Line();
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-            WebServicesSync();
+            float tRectWidth = sRect.width;
+            WebServicesSync(tRectWidth);
             WebServicesLastSync();
-            WebServicesTools();
+            WebServicesTools(tRectWidth);
             HackTools();
             WritingDatabaseState();
             //DatasLocal();
             NWDGUILayout.BigSpace();
             EditorGUILayout.EndScrollView();
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void WritingDatabaseState()
@@ -274,8 +290,6 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Start();
             NWDGUILayout.Section("Database writing");
             // use these bools to fix the bug of error on redraw
-            this.minSize = new Vector2(300, 200);
-            this.maxSize = new Vector2(300, 4096);
 
             int tObjectInQueue = NWDDataManager.SharedInstance().DataQueueCounter();
             if (tObjectInQueue == 0)
@@ -293,10 +307,10 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Finsih();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void WebServicesSync()
+        public void WebServicesSync(float sRectWidth)
         {
             //NWDBenchmark.Start();
-            float tWidthThird = Mathf.Floor((position.width - NWDGUI.KTAB_BAR_HEIGHT) / 3.0F);
+            float tWidthThird = Mathf.Floor((sRectWidth - NWDGUI.KTAB_BAR_HEIGHT) / 3.0F);
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
             NWDAppEnvironment tDevEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
             NWDAppEnvironment tPreprodEnvironment = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
@@ -621,7 +635,7 @@ namespace NetWorkedData.NWDEditor
 
 
             NWDGUILayout.Section("Webservice " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + " last request");
-            EditorGUILayout.LabelField("URL",LastInfos.URL);
+            EditorGUILayout.LabelField("URL", LastInfos.URL);
             EditorGUILayout.LabelField("Webservice version", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
             EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE, PlayerSettings.bundleVersion, EditorStyles.label);
             int tSyncInfosTab = GUILayout.Toolbar(SyncInfosTab, new string[] { "all", "seconds", "rows", "weight" });
@@ -671,7 +685,7 @@ namespace NetWorkedData.NWDEditor
                 //EditorGUILayout.LabelField("Network Download", (LastInfos.Benchmark.GetDownloadTime() / 1000.0F).ToString("#0.000") + " s");
                 //EditorGUILayout.LabelField("Network Download", (tDowloadNetMilliseconds - LastInfos.performRequest).ToString("#0.000") + " s");
                 double tNetWork = LastInfos.Benchmark.GetUploadTime() + LastInfos.Benchmark.GetPerformTime() + LastInfos.Benchmark.GetDownloadTime() - LastInfos.perform;
-                if (tNetWork<0)
+                if (tNetWork < 0)
                 {
                     tNetWork = 0; // network in progress... dont calculate!
                 }
@@ -735,16 +749,16 @@ namespace NetWorkedData.NWDEditor
             if (SyncInfosTab == 0 || SyncInfosTab == 1)
             {
                 EditorGUILayout.LabelField("DataBase compute", (LastInfos.Benchmark.GetComputeTime() / 1000.0F).ToString("#0.000") + " s");
-                EditorGUILayout.LabelField("Sync duration", (LastInfos.Benchmark.GetTotalTime()/1000.0F).ToString("#0.000") + " s", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Sync duration", (LastInfos.Benchmark.GetTotalTime() / 1000.0F).ToString("#0.000") + " s", EditorStyles.boldLabel);
             }
             GUILayout.Space(NWDGUI.kFieldMarge);
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void WebServicesTools()
+        public void WebServicesTools(float sRectWidth)
         {
             //NWDBenchmark.Start();
-            float tWidthThird = Mathf.Floor((position.width - NWDGUI.KTAB_BAR_HEIGHT) / 3.0F);
+            float tWidthThird = Mathf.Floor((sRectWidth - NWDGUI.KTAB_BAR_HEIGHT) / 3.0F);
             NWDGUILayout.Section("Webservice " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + " tools");
             GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
             GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
@@ -1049,6 +1063,78 @@ namespace NetWorkedData.NWDEditor
                 ProdIcon = NWDGUI.kImageWaiting;
                 ProdSessionExpired = false;
             }
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDAppEnvironmentSync : NWDEditorWindow
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        private static NWDAppEnvironmentSync kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAppEnvironmentSync SharedInstance()
+        {
+            //NWDBenchmark.Start();
+            if (kSharedInstance == null)
+            {
+                kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentSync)) as NWDAppEnvironmentSync;
+            }
+            //NWDBenchmark.Finish();
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAppEnvironmentSync SharedInstanceFocus()
+        {
+            //NWDBenchmark.Start();
+            SharedInstance().ShowUtility();
+            SharedInstance().Focus();
+            //NWDBenchmark.Finish();
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void Refresh()
+        {
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDAppEnvironmentSync));
+            foreach (NWDAppEnvironmentSync tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool IsSharedInstance()
+        {
+            //NWDBenchmark.Start();
+            bool rReturn = false;
+            if (kSharedInstance != null)
+            {
+                rReturn = true;
+            }
+            return rReturn;
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void OnEnable()
+        {
+            //NWDBenchmark.Start();
+            TitleInit(NWDConstants.K_APP_SYNC_ENVIRONMENT_TITLE, typeof(NWDAppEnvironmentSync));
+            NWDAppEnvironmentSyncContent.SharedInstance().OnEnable(this);
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void OnDisable()
+        {
+            NWDAppEnvironmentSyncContent.SharedInstance().OnDisable(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void OnPreventGUI()
+        {
+            //NWDBenchmark.Start();
+            NWDGUI.LoadStyles();
+            this.minSize = new Vector2(300, 200);
+            this.maxSize = new Vector2(300, 4096);
+            NWDAppEnvironmentSyncContent.SharedInstance().OnPreventGUI(position);
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

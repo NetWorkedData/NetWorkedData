@@ -208,7 +208,7 @@ namespace NetWorkedData.NWDEditor
             {
                 if (GUILayout.Button("Reset session"))
                 {
-                    NWDAppEnvironmentSync.SharedInstance().Reset(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                    NWDAppEnvironmentSyncContent.SharedInstance().Reset(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                 }
             }
             NWDAccount tAccount = null;
