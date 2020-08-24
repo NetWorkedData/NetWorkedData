@@ -25,78 +25,41 @@ using System.IO;
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData.NWDEditor
-{
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDLocalizationConfigurationManager : NWDEditorWindow
+{//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDLocalizationConfigurationManagerContent
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// The Shared Instance.
-        /// </summary>
-        private static NWDLocalizationConfigurationManager _kSharedInstance;
-        /// <summary>
-        /// The scroll position.
+        /// Scroll position in window
         /// </summary>
         private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Returns the <see cref="_kSharedInstance"/> or instance one
+        /// The Shared Instance for deamon class.
+        /// </summary>
+        private static NWDLocalizationConfigurationManagerContent _kSharedInstanceContent;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
         /// </summary>
         /// <returns></returns>
-        public static NWDLocalizationConfigurationManager SharedInstance()
+        public static NWDLocalizationConfigurationManagerContent SharedInstance()
         {
             NWDBenchmark.Start();
-            if (_kSharedInstance == null)
+            if (_kSharedInstanceContent == null)
             {
-                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDLocalizationConfigurationManager)) as NWDLocalizationConfigurationManager;
+                _kSharedInstanceContent = new NWDLocalizationConfigurationManagerContent();
             }
             NWDBenchmark.Finish();
-            return _kSharedInstance;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Show the <see cref="_kSharedInstance"/> of <see cref="NWDLocalizationConfigurationManager"/> and focus on.
-        /// </summary>
-        /// <returns></returns>
-        public static void SharedInstanceFocus()
-        {
-            NWDBenchmark.Start();
-            SharedInstance().ShowUtility();
-            SharedInstance().Focus();
-            NWDBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Repaint all <see cref="NWDLocalizationConfigurationManager"/>.
-        /// </summary>
-        public static void Refresh()
-        {
-            NWDBenchmark.Start();
-            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDLocalizationConfigurationManager));
-            foreach (NWDLocalizationConfigurationManager tWindow in tWindows)
-            {
-                tWindow.Repaint();
-            }
-            NWDBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// On enable action.
-        /// </summary>
-        public void OnEnable()
-        {
-            NWDBenchmark.Start();
-            TitleInit(NWDConstants.K_LOCALIZATION_CONFIGURATION_TITLE, typeof(NWDLocalizationConfigurationManager));
-            NWDBenchmark.Finish();
+            return _kSharedInstanceContent;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         ///  On GUI drawing.
         /// </summary>
-        public override void OnPreventGUI()
+        public void OnPreventGUI(float sWidthUsed)
         {
             NWDBenchmark.Start();
-            NWDGUI.LoadStyles();
             NWDGUILayout.Title(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA);
             NWDGUILayout.Informations("Some informations");
             NWDGUILayout.Line();
@@ -109,8 +72,7 @@ namespace NetWorkedData.NWDEditor
             List<string> tResult = new List<string>();
             float tToggleWidth = 140.0f;
             int tColunm = 0;
-            float tWidthUsed = EditorGUIUtility.currentViewWidth;
-            int tColunmMax = Mathf.CeilToInt(tWidthUsed / tToggleWidth) - 1;
+            int tColunmMax = Mathf.CeilToInt(sWidthUsed / tToggleWidth) - 1;
             if (tColunmMax < 1)
             {
                 tColunmMax = 1;
@@ -192,6 +154,78 @@ namespace NetWorkedData.NWDEditor
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDLocalizationConfigurationManager : NWDEditorWindow
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        private static NWDLocalizationConfigurationManager _kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the <see cref="_kSharedInstance"/> or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static NWDLocalizationConfigurationManager SharedInstance()
+        {
+            NWDBenchmark.Start();
+            if (_kSharedInstance == null)
+            {
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDLocalizationConfigurationManager)) as NWDLocalizationConfigurationManager;
+            }
+            NWDBenchmark.Finish();
+            return _kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show the <see cref="_kSharedInstance"/> of <see cref="NWDLocalizationConfigurationManager"/> and focus on.
+        /// </summary>
+        /// <returns></returns>
+        public static void SharedInstanceFocus()
+        {
+            NWDBenchmark.Start();
+            SharedInstance().ShowUtility();
+            SharedInstance().Focus();
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Repaint all <see cref="NWDLocalizationConfigurationManager"/>.
+        /// </summary>
+        public static void Refresh()
+        {
+            NWDBenchmark.Start();
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDLocalizationConfigurationManager));
+            foreach (NWDLocalizationConfigurationManager tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// On enable action.
+        /// </summary>
+        public void OnEnable()
+        {
+            NWDBenchmark.Start();
+            TitleInit(NWDConstants.K_LOCALIZATION_CONFIGURATION_TITLE, typeof(NWDLocalizationConfigurationManager));
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
+        public override void OnPreventGUI()
+        {
+            NWDBenchmark.Start();
+            NWDGUI.LoadStyles();
+            NWDLocalizationConfigurationManagerContent.SharedInstance().OnPreventGUI(EditorGUIUtility.currentViewWidth);
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

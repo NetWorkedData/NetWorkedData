@@ -128,7 +128,7 @@ namespace NetWorkedData
                 tI++;
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Flush credentials"))
                 {
-                    NWDProjectCredentialsManager.FlushCredentials(NWDCredentialsRequired.ForSFTPGenerate);
+                    NWDProjectCredentialsManagerContent.FlushCredentials(NWDCredentialsRequired.ForSFTPGenerate);
                 }
                 tI++;
                 NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));

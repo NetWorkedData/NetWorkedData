@@ -145,6 +145,26 @@ namespace NetWorkedData.NWDEditor
             AreaTwoDraw = false;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void BeginAreaOne(int sMarge = 0)
+        {
+            GUILayout.BeginArea(GetAreaOne(sMarge));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void EndAreaOne()
+        {
+            GUILayout.EndArea();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void BeginAreaTwo(int sMarge = 0)
+        {
+            GUILayout.BeginArea(GetAreaTwo(sMarge));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void EndAreaTwo()
+        {
+            GUILayout.EndArea();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public Rect GetAreaOne(int sMarge = 0)
         {
             if (sMarge != 0)
@@ -586,32 +606,39 @@ namespace NetWorkedData.NWDEditor
             SplitTwo.OnGUI(this, SplitOne.GetAreaTwo());
             SplitThree.OnGUI(this, SplitTwo.GetAreaOne());
 
-            GUILayout.BeginArea(SplitOne.GetAreaOne());
-            NWDGUILayout.Title("jjjj");
-            NWDGUILayout.Section("jjjj");
-            NWDGUILayout.SubSection("jjjj");
-            GUILayout.Button("Click me");
-            GUILayout.Button("Or me");
-            NWDGUILayout.Section("jjjj");
-            NWDGUILayout.SubSection("jjjj");
-            GUILayout.Button("Click me");
-            GUILayout.Button("Or me");
-            NWDGUILayout.SubSection("jjjj");
-            GUILayout.Button("Click me");
-            GUILayout.Button("Or me");
-            NWDGUILayout.SubSection("jjjj");
-            NWDGUILayout.Informations("jjjj");
-            NWDGUILayout.Separator();
-            NWDGUILayout.Informations("jjjj");
-            GUILayout.EndArea();
+            SplitOne.BeginAreaOne();
+            NWDAppConfigurationManagerContent.SharedInstance().OnPreventGUI();
+            //NWDGUILayout.Title("jjjj");
+            //NWDGUILayout.Section("jjjj");
+            //NWDGUILayout.SubSection("jjjj");
+            //GUILayout.Button("Click me");
+            //GUILayout.Button("Or me");
+            //NWDGUILayout.Section("jjjj");
+            //NWDGUILayout.SubSection("jjjj");
+            //GUILayout.Button("Click me");
+            //GUILayout.Button("Or me");
+            //NWDGUILayout.SubSection("jjjj");
+            //GUILayout.Button("Click me");
+            //GUILayout.Button("Or me");
+            //NWDGUILayout.SubSection("jjjj");
+            //NWDGUILayout.Informations("jjjj");
+            //NWDGUILayout.Separator();
+            //NWDGUILayout.Informations("jjjj");
+            SplitOne.EndAreaOne();
 
-            GUILayout.BeginArea(SplitTwo.GetAreaTwo());
-            NWDGUILayout.Title("jjjj");
-            GUILayout.Button("Click me");
-            GUILayout.Button("Or me");
-            GUILayout.EndArea();
+            SplitTwo.BeginAreaTwo();
+            //NWDGUILayout.Title("jjjj");
+            //GUILayout.Button("Click me");
+            //GUILayout.Button("Or me");
 
-            GUILayout.BeginArea(SplitThree.GetAreaOne());
+            NWDProjectCredentialsManagerContent.SharedInstance().OnPreventGUI();
+            //NWDProjectConfigurationManagerContent.SharedInstance().OnPreventGUI();
+            //NWDLocalizationConfigurationManagerContent.SharedInstance().OnPreventGUI(SplitTwo.GetAreaTwo().width);
+            //NWDAppEnvironmentConfigurationManagerContent.SharedInstance().OnPreventGUI();
+            //NWDAppEnvironmentChooserContent.SharedInstance().OnPreventGUI();
+            SplitTwo.EndAreaTwo();
+
+            SplitThree.BeginAreaOne();
             ScrollB = GUILayout.BeginScrollView(ScrollB);
             NWDGUILayout.Title("jjjj");
             GUILayout.Label("jjjj");
@@ -628,9 +655,9 @@ namespace NetWorkedData.NWDEditor
             GUILayout.Button("Or me");
             NWDGUI.EndColorArea();
             GUILayout.EndScrollView();
-            GUILayout.EndArea();
+            SplitThree.EndAreaOne();
 
-            GUILayout.BeginArea(SplitThree.GetAreaTwo());
+            SplitThree.BeginAreaTwo();
             NWDGUILayout.Title("jjjj");
             ScrollA = GUILayout.BeginScrollView(ScrollA);
             GUILayout.Button("Click me");
@@ -652,7 +679,7 @@ namespace NetWorkedData.NWDEditor
             GUILayout.Button("Or me");
             GUILayout.Button("Or me");
             GUILayout.EndScrollView();
-            GUILayout.EndArea();
+            SplitThree.EndAreaTwo();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

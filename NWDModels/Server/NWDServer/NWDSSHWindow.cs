@@ -221,7 +221,7 @@ namespace NetWorkedData.NWDEditor
                 tUserEcho = tUser;
                 TextResult.AppendLine("<i>#Local$ Connecting...</i>");
                 TextResult.AppendLine("<i>#Local$ ssh -l " + tUserEcho + " " + tIP + " -p " + tPort + "</i>");
-                if (NWDProjectCredentialsManager.ShowPasswordInLog)
+                if (NWDProjectCredentialsManagerContent.ShowPasswordInLog)
                 {
                     TextResult.AppendLine("<i>#Local$ " + tPassword + "</i>");
                 }
@@ -276,7 +276,7 @@ namespace NetWorkedData.NWDEditor
                                 // Send password
                                 TextResult.AppendLine("<i>#Local$ Good! I have the hand ... put password now!</i>");
                                 tShellStream.WriteLine(Server.Root_Secure_Password.Decrypt() + "\r");
-                                if (NWDProjectCredentialsManager.ShowPasswordInLog)
+                                if (NWDProjectCredentialsManagerContent.ShowPasswordInLog)
                                 {
                                     TextResult.AppendLine("<i>#Local$ " + Server.Root_Secure_Password.Decrypt() + "</i>");
                                 }

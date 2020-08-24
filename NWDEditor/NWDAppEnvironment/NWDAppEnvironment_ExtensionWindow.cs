@@ -37,7 +37,7 @@ namespace NetWorkedData
             return NWDConstants.K_APP_ENVIRONMENT_MENU_NAME;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DrawInEditor(EditorWindow sEditorWindow)
+        public void DrawInEditor()
         {
             //NWDBenchmark.Start();
             NWDGUILayout.Section("Configuration for " + Environment + " environment");

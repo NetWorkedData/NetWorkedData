@@ -37,13 +37,18 @@ namespace NetWorkedData.NWDEditor
         ForSFTPGenerateProd,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDProjectCredentialsManager : NWDEditorWindow
+    public class NWDProjectCredentialsManagerContent
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// The Shared Instance.
+        /// Scroll position in window
         /// </summary>
-        private static NWDProjectCredentialsManager kSharedInstance;
+        private static Vector2 _kScrollPosition;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance for deamon class.
+        /// </summary>
+        private static NWDProjectCredentialsManagerContent _kSharedInstanceContent;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The scroll position.
@@ -54,50 +59,115 @@ namespace NetWorkedData.NWDEditor
         static public bool ShowPasswordInLog = false;
         static public bool SaveCredentials = false;
         //-------------------------------------------------------------------------------------------------------------
-        public static bool Checked(NWDCredentialsRequired sCredentialsType)
+        /// <summary>
+        /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static NWDProjectCredentialsManagerContent SharedInstance()
         {
-            bool rReturn = IsValid(sCredentialsType);
-            if (rReturn == false)
+            NWDBenchmark.Start();
+            if (_kSharedInstanceContent == null)
             {
-                if (EditorUtility.DisplayDialog(NWDConstants.K_ALERT_IDEMOBI_TITLE,
-                   "This operation need credentials to decrypt some passwords.",
-                   "Credentials window",
-                   "Cancel"))
-                {
-                    SharedInstanceFocus();
-                }
+                _kSharedInstanceContent = new NWDProjectCredentialsManagerContent();
             }
-            return rReturn;
+            NWDBenchmark.Finish();
+            return _kSharedInstanceContent;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool IsValid(NWDCredentialsRequired sCredentialsType)
+        public static void FlushCredentials(NWDCredentialsRequired sCredentialsType)
         {
-            bool rReturn = false;
-            switch (sCredentialsType)
-            {
-                case NWDCredentialsRequired.ForSFTPGenerate:
-                    {
-                        rReturn = string.IsNullOrEmpty(Password) == false && string.IsNullOrEmpty(VectorString) == false;
-                    }
-                    break;
-                case NWDCredentialsRequired.ForSFTPGenerateDev:
-                    {
-                        rReturn = string.IsNullOrEmpty(Password) == false && string.IsNullOrEmpty(VectorString) == false;
-                    }
-                    break;
-                case NWDCredentialsRequired.ForSFTPGeneratePreprod:
-                    {
-                        rReturn = string.IsNullOrEmpty(Password) == false && string.IsNullOrEmpty(VectorString) == false;
-                    }
-                    break;
-                case NWDCredentialsRequired.ForSFTPGenerateProd:
-                    {
-                        rReturn = string.IsNullOrEmpty(Password) == false && string.IsNullOrEmpty(VectorString) == false;
-                    }
-                    break;
-            }
-            return rReturn;
+            Password = string.Empty;
+            VectorString = string.Empty;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Load()
+        {
+            //NWDBenchmark.Start();
+            // get values
+            SaveCredentials = NWDProjectPrefs.GetBool(NWDConstants.K_CREDENTIALS_SAVE, false);
+            ShowPasswordInLog = NWDProjectPrefs.GetBool(NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, false);
+            Password = NWDProjectPrefs.GetString(NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
+            VectorString = NWDProjectPrefs.GetString(NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Save()
+        {
+            //NWDBenchmark.Start();
+            // set values
+            NWDProjectPrefs.SetBool(NWDConstants.K_CREDENTIALS_SAVE, SaveCredentials);
+            if (SaveCredentials == true)
+            {
+                NWDProjectPrefs.SetBool(NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, ShowPasswordInLog);
+                NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_PASSWORD, Password);
+                NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_VECTOR, VectorString);
+            }
+            else
+            {
+                NWDProjectPrefs.SetBool(NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, false);
+                NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
+                NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
+            }
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void flush()
+        {
+            SaveCredentials = false;
+            ShowPasswordInLog = false;
+            Password = string.Empty;
+            VectorString = string.Empty;
+            Save();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
+        public void OnPreventGUI()
+        {
+            NWDBenchmark.Start();
+            NWDGUILayout.Title("Credentials for project");
+            // start scroll
+            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+
+            EditorGUI.BeginChangeCheck();
+
+            //General preferences
+            NWDGUILayout.Section("Credentials preferences");
+
+            SaveCredentials = EditorGUILayout.Toggle("Save Credentials", SaveCredentials);
+            ShowPasswordInLog = EditorGUILayout.Toggle("Show passwords in Log", ShowPasswordInLog);
+
+            NWDGUILayout.Section("Credentials");
+
+            Password = EditorGUILayout.PasswordField("General password", Password);
+            VectorString = EditorGUILayout.PasswordField("General vector", VectorString);
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                //Debug.Log("Change");
+                Save();
+            }
+
+            NWDGUILayout.Section("Actions");
+
+            if (GUILayout.Button("Flush"))
+            {
+                flush();
+            }
+            GUILayout.EndScrollView();
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDProjectCredentialsManager : NWDEditorWindow
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        private static NWDProjectCredentialsManager kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Returns the SharedInstance or instance one
@@ -157,7 +227,7 @@ namespace NetWorkedData.NWDEditor
         {
             //NWDBenchmark.Start();
             TitleInit(NWDConstants.K_CREDENTIALS_CONFIGURATION_TITLE, typeof(NWDProjectCredentialsManager));
-            Load();
+            NWDProjectCredentialsManagerContent.SharedInstance().Load();
             // get values
             //NWDBenchmark.Finish();
         }
@@ -178,50 +248,49 @@ namespace NetWorkedData.NWDEditor
             NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void FlushCredentials(NWDCredentialsRequired sCredentialsType)
+        public static bool Checked(NWDCredentialsRequired sCredentialsType)
         {
-            Password = string.Empty;
-            VectorString = string.Empty;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void Load()
-        {
-            //NWDBenchmark.Start();
-            // get values
-            SaveCredentials = NWDProjectPrefs.GetBool(NWDConstants.K_CREDENTIALS_SAVE, false);
-            ShowPasswordInLog = NWDProjectPrefs.GetBool(NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, false);
-            Password = NWDProjectPrefs.GetString(NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
-            VectorString = NWDProjectPrefs.GetString(NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
-            //NWDBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void Save()
-        {
-            //NWDBenchmark.Start();
-            // set values
-            NWDProjectPrefs.SetBool(NWDConstants.K_CREDENTIALS_SAVE, SaveCredentials);
-            if (SaveCredentials == true)
+            bool rReturn = IsValid(sCredentialsType);
+            if (rReturn == false)
             {
-                NWDProjectPrefs.SetBool(NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, ShowPasswordInLog);
-                NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_PASSWORD, Password);
-                NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_VECTOR, VectorString);
+                if (EditorUtility.DisplayDialog(NWDConstants.K_ALERT_IDEMOBI_TITLE,
+                   "This operation need credentials to decrypt some passwords.",
+                   "Credentials window",
+                   "Cancel"))
+                {
+                    SharedInstanceFocus();
+                }
             }
-            else
-            {
-                NWDProjectPrefs.SetBool(NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, false);
-                NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
-                NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
-            }
-            //NWDBenchmark.Finish();
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void flush()
+        public static bool IsValid(NWDCredentialsRequired sCredentialsType)
         {
-            SaveCredentials = false;
-            ShowPasswordInLog = false;
-            Password = string.Empty;
-            VectorString = string.Empty;
-            Save();
+            bool rReturn = false;
+            switch (sCredentialsType)
+            {
+                case NWDCredentialsRequired.ForSFTPGenerate:
+                    {
+                        rReturn = string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.Password) == false && string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.VectorString) == false;
+                    }
+                    break;
+                case NWDCredentialsRequired.ForSFTPGenerateDev:
+                    {
+                        rReturn = string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.Password) == false && string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.VectorString) == false;
+                    }
+                    break;
+                case NWDCredentialsRequired.ForSFTPGeneratePreprod:
+                    {
+                        rReturn = string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.Password) == false && string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.VectorString) == false;
+                    }
+                    break;
+                case NWDCredentialsRequired.ForSFTPGenerateProd:
+                    {
+                        rReturn = string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.Password) == false && string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.VectorString) == false;
+                    }
+                    break;
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -231,43 +300,12 @@ namespace NetWorkedData.NWDEditor
         {
             //NWDBenchmark.Start();
             NWDGUI.LoadStyles();
-            NWDGUILayout.Title("Credentials for project");
-            // start scroll
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-
-            EditorGUI.BeginChangeCheck();
-
-            //General preferences
-            NWDGUILayout.Section("Credentials preferences");
-
-            SaveCredentials = EditorGUILayout.Toggle("Save Credentials", SaveCredentials);
-            ShowPasswordInLog = EditorGUILayout.Toggle("Show passwords in Log", ShowPasswordInLog);
-
-            NWDGUILayout.Section("Credentials");
-
-            Password = EditorGUILayout.PasswordField("General password", Password);
-            VectorString = EditorGUILayout.PasswordField("General vector", VectorString);
-
-            if (EditorGUI.EndChangeCheck())
-            {
-                //Debug.Log("Change");
-                Save();
-            }
-
-            NWDGUILayout.Section("Actions");
-
-            if (GUILayout.Button("Flush"))
-            {
-                flush();
-            }
-
+            NWDProjectCredentialsManagerContent.SharedInstance().OnPreventGUI();
             if (GUILayout.Button("Flush and close"))
             {
-                flush();
+                NWDProjectCredentialsManagerContent.SharedInstance().flush();
                 Close();
             }
-            // end scroll
-            GUILayout.EndScrollView();
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -27,7 +27,7 @@ using UnityEditor;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDProjectConfigurationManager : NWDEditorWindow
+    public class NWDProjectConfigurationManagerContent
     {
         //-------------------------------------------------------------------------------------------------------------
         const string kColorGreen_Pro = "2EDD66FF";
@@ -41,9 +41,9 @@ namespace NetWorkedData.NWDEditor
         const string kColorBlue = "002089FF";
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// The Shared Instance.
+        /// Scroll position in window
         /// </summary>
-        private static NWDProjectConfigurationManager kSharedInstance;
+        private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The scroll position.
@@ -65,31 +65,23 @@ namespace NetWorkedData.NWDEditor
         NWDEditorBuildDatabaseUpdate EditorBuildDatabaseUpdate;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Returns the SharedInstance or instance one
+        /// The Shared Instance for deamon class.
         /// </summary>
-        /// <returns></returns>
-        public static NWDProjectConfigurationManager SharedInstance()
-        {
-            //NWDBenchmark.Start();
-            if (kSharedInstance == null)
-            {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWDProjectConfigurationManager)) as NWDProjectConfigurationManager;
-            }
-            //NWDBenchmark.Finish();
-            return kSharedInstance;
-        }
+        private static NWDProjectConfigurationManagerContent _kSharedInstanceContent;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Show the SharedInstance of Editor Configuration Manager Window and focus on.
+        /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
         /// </summary>
         /// <returns></returns>
-        public static NWDProjectConfigurationManager SharedInstanceFocus()
+        public static NWDProjectConfigurationManagerContent SharedInstance()
         {
-            //NWDBenchmark.Start();
-            SharedInstance().ShowUtility();
-            SharedInstance().Focus();
-            //NWDBenchmark.Finish();
-            return kSharedInstance;
+            NWDBenchmark.Start();
+            if (_kSharedInstanceContent == null)
+            {
+                _kSharedInstanceContent = new NWDProjectConfigurationManagerContent();
+            }
+            NWDBenchmark.Finish();
+            return _kSharedInstanceContent;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDEditorBuildEnvironment GetEditoBuildEnvironment()
@@ -120,43 +112,6 @@ namespace NetWorkedData.NWDEditor
         public static void SetEditorBuildDatabaseUpdate(NWDEditorBuildDatabaseUpdate sValue)
         {
             NWDProjectPrefs.SetInt(NWDConstants.K_EDITOR_BUILD_DATABASE_UPDATE, (int)sValue);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Repaint all Editor Configuration Manager Windows.
-        /// </summary>
-        public static void Refresh()
-        {
-            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDProjectConfigurationManager));
-            foreach (NWDProjectConfigurationManager tWindow in tWindows)
-            {
-                tWindow.Repaint();
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool IsSharedInstanced()
-        {
-            if (kSharedInstance != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// On enable action.
-        /// </summary>
-        public void OnEnable()
-        {
-            //NWDBenchmark.Start();
-            // set title
-            TitleInit(NWDConstants.K_PROJECT_CONFIGURATION_TITLE, typeof(NWDProjectConfigurationManager));
-            // get values
-            Load();
-            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Load()
@@ -227,12 +182,9 @@ namespace NetWorkedData.NWDEditor
         /// <summary>
         ///  On GUI drawing.
         /// </summary>
-        public override void OnPreventGUI()
+        public void OnPreventGUI()
         {
-            NWDBenchmark.Start();
-            NWDGUI.LoadStyles();
-
-            NWDGUILayout.Title("Project preferences");
+            NWDBenchmark.Start(); NWDGUILayout.Title("Project preferences");
 
             // start scroll
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
@@ -312,6 +264,92 @@ namespace NetWorkedData.NWDEditor
             }
             // end scroll
             GUILayout.EndScrollView();
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDProjectConfigurationManager : NWDEditorWindow
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        private static NWDProjectConfigurationManager kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the SharedInstance or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static NWDProjectConfigurationManager SharedInstance()
+        {
+            //NWDBenchmark.Start();
+            if (kSharedInstance == null)
+            {
+                kSharedInstance = EditorWindow.GetWindow(typeof(NWDProjectConfigurationManager)) as NWDProjectConfigurationManager;
+            }
+            //NWDBenchmark.Finish();
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show the SharedInstance of Editor Configuration Manager Window and focus on.
+        /// </summary>
+        /// <returns></returns>
+        public static NWDProjectConfigurationManager SharedInstanceFocus()
+        {
+            //NWDBenchmark.Start();
+            SharedInstance().ShowUtility();
+            SharedInstance().Focus();
+            //NWDBenchmark.Finish();
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Repaint all Editor Configuration Manager Windows.
+        /// </summary>
+        public static void Refresh()
+        {
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDProjectConfigurationManager));
+            foreach (NWDProjectConfigurationManager tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool IsSharedInstanced()
+        {
+            if (kSharedInstance != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// On enable action.
+        /// </summary>
+        public void OnEnable()
+        {
+            //NWDBenchmark.Start();
+            // set title
+            TitleInit(NWDConstants.K_PROJECT_CONFIGURATION_TITLE, typeof(NWDProjectConfigurationManager));
+            // get values
+            NWDProjectConfigurationManagerContent.SharedInstance().Load();
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
+        public override void OnPreventGUI()
+        {
+            NWDBenchmark.Start();
+            NWDGUI.LoadStyles();
+            NWDProjectConfigurationManagerContent.SharedInstance().OnPreventGUI();
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

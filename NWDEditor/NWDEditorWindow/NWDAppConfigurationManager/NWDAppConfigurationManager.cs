@@ -27,82 +27,40 @@ using System;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// The <see cref="NWDAppConfigurationManager"/> is an editor window to parameter <see cref="NetWorkedData"/> in the application final compile.
-    /// </summary>
-    public class NWDAppConfigurationManager : NWDEditorWindow
+    public class NWDAppConfigurationManagerContent
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// The shared instance.
-        /// </summary>
-        private static NWDAppConfigurationManager _kSharedInstance;
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// The scroll position.
+        /// Scroll position in window
         /// </summary>
         private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Show the <see cref="_kSharedInstance"/> of <see cref="NWDAppConfigurationManager"/> and focus on.
+        /// The Shared Instance for deamon class.
+        /// </summary>
+        private static NWDAppConfigurationManagerContent _kSharedInstanceContent;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
         /// </summary>
         /// <returns></returns>
-        public static NWDAppConfigurationManager SharedInstance()
+        public static NWDAppConfigurationManagerContent SharedInstance()
         {
             NWDBenchmark.Start();
-            if (_kSharedInstance == null)
+            if (_kSharedInstanceContent == null)
             {
-                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppConfigurationManager)) as NWDAppConfigurationManager;
+                _kSharedInstanceContent = new NWDAppConfigurationManagerContent();
             }
             NWDBenchmark.Finish();
-            return _kSharedInstance;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Repaint all <see cref="NWDAppConfigurationManager"/>.
-        /// </summary>
-        public static void Refresh()
-        {
-            NWDBenchmark.Start();
-            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDAppConfigurationManager));
-            foreach (NWDAppConfigurationManager tWindow in tWindows)
-            {
-                tWindow.Repaint();
-            }
-            NWDBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Show the <see cref="_kSharedInstance"/> of <see cref="NWDAppConfigurationManager"/> and focus on.
-        /// </summary>
-        /// <returns></returns>
-        public static NWDAppConfigurationManager SharedInstanceFocus()
-        {
-            NWDBenchmark.Start();
-            SharedInstance().ShowUtility();
-            SharedInstance().Focus();
-            NWDBenchmark.Finish();
-            return _kSharedInstance;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// On enable action.
-        /// </summary>
-        public void OnEnable()
-        {
-            NWDBenchmark.Start();
-            TitleInit(NWDConstants.K_APP_CONFIGURATION_TITLE, typeof(NWDAppConfigurationManager));
-            NWDBenchmark.Finish();
+            return _kSharedInstanceContent;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         ///  On GUI drawing.
         /// </summary>
-        public override void OnPreventGUI()
+        public void OnPreventGUI()
         {
             NWDBenchmark.Start();
-            NWDGUI.LoadStyles();
-            // Draw warning if salt for class is false
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
             {
                 EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
@@ -262,9 +220,9 @@ namespace NetWorkedData.NWDEditor
                 if (GUILayout.Button("Editor Database File and password copy to Clipboard"))
                 {
                     NWEClipboard.CopyToClipboard(NWDAppConfiguration.SharedInstance().GetEditorPass());
-                    EditorUtility.RevealInFinder(NWD.K_Assets+"/" + tDatabasePathEditor);
-                    EditorUtility.OpenWithDefaultApp(NWD.K_Assets+"/" + tDatabasePathEditor);
-                    Debug.LogWarning("DatabasePathEditor = "+NWD.K_Assets+"/" + tDatabasePathEditor);
+                    EditorUtility.RevealInFinder(NWD.K_Assets + "/" + tDatabasePathEditor);
+                    EditorUtility.OpenWithDefaultApp(NWD.K_Assets + "/" + tDatabasePathEditor);
+                    Debug.LogWarning("DatabasePathEditor = " + NWD.K_Assets + "/" + tDatabasePathEditor);
                     Debug.LogWarning("Editor pass result = " + NWDAppConfiguration.SharedInstance().GetEditorPass());
                 }
             }
@@ -272,9 +230,9 @@ namespace NetWorkedData.NWDEditor
             {
                 if (GUILayout.Button("Editor Database File "))
                 {
-                    EditorUtility.RevealInFinder(NWD.K_Assets+"/" + tDatabasePathEditor);
-                    EditorUtility.OpenWithDefaultApp(NWD.K_Assets+"/" + tDatabasePathEditor);
-                    Debug.LogWarning("DatabasePathEditor = "+ NWD.K_Assets + "/" + tDatabasePathEditor);
+                    EditorUtility.RevealInFinder(NWD.K_Assets + "/" + tDatabasePathEditor);
+                    EditorUtility.OpenWithDefaultApp(NWD.K_Assets + "/" + tDatabasePathEditor);
+                    Debug.LogWarning("DatabasePathEditor = " + NWD.K_Assets + "/" + tDatabasePathEditor);
                 }
             }
             // Database account informations
@@ -323,6 +281,82 @@ namespace NetWorkedData.NWDEditor
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// The <see cref="NWDAppConfigurationManager"/> is an editor window to parameter <see cref="NetWorkedData"/> in the application final compile.
+    /// </summary>
+    public class NWDAppConfigurationManager : NWDEditorWindow
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The shared instance.
+        /// </summary>
+        private static NWDAppConfigurationManager _kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show the <see cref="_kSharedInstance"/> of <see cref="NWDAppConfigurationManager"/> and focus on.
+        /// </summary>
+        /// <returns></returns>
+        public static NWDAppConfigurationManager SharedInstance()
+        {
+            NWDBenchmark.Start();
+            if (_kSharedInstance == null)
+            {
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppConfigurationManager)) as NWDAppConfigurationManager;
+            }
+            NWDBenchmark.Finish();
+            return _kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Repaint all <see cref="NWDAppConfigurationManager"/>.
+        /// </summary>
+        public static void Refresh()
+        {
+            NWDBenchmark.Start();
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDAppConfigurationManager));
+            foreach (NWDAppConfigurationManager tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show the <see cref="_kSharedInstance"/> of <see cref="NWDAppConfigurationManager"/> and focus on.
+        /// </summary>
+        /// <returns></returns>
+        public static NWDAppConfigurationManager SharedInstanceFocus()
+        {
+            NWDBenchmark.Start();
+            SharedInstance().ShowUtility();
+            SharedInstance().Focus();
+            NWDBenchmark.Finish();
+            return _kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// On enable action.
+        /// </summary>
+        public void OnEnable()
+        {
+            NWDBenchmark.Start();
+            TitleInit(NWDConstants.K_APP_CONFIGURATION_TITLE, typeof(NWDAppConfigurationManager));
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
+        public override void OnPreventGUI()
+        {
+            NWDBenchmark.Start();
+            NWDGUI.LoadStyles();
+            NWDAppConfigurationManagerContent.SharedInstance().OnPreventGUI();
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

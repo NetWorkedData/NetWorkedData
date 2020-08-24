@@ -26,6 +26,117 @@ using UnityEditor;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDAppEnvironmentConfigurationManagerContent
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Scroll position in window
+        /// </summary>
+        private static Vector2 _kScrollPosition;
+        /// <summary>
+        /// The tab of environment selected.
+        /// </summary>
+        private static int _kTabSelected = 0;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance for deamon class.
+        /// </summary>
+        private static NWDAppEnvironmentConfigurationManagerContent _kSharedInstanceContent;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static NWDAppEnvironmentConfigurationManagerContent SharedInstance()
+        {
+            NWDBenchmark.Start();
+            if (_kSharedInstanceContent == null)
+            {
+                _kSharedInstanceContent = new NWDAppEnvironmentConfigurationManagerContent();
+            }
+            NWDBenchmark.Finish();
+            return _kSharedInstanceContent;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
+        public void OnPreventGUI()
+        {
+            NWDBenchmark.Start();
+            NWDGUILayout.Title("Configuration environments");
+            NWDGUILayout.Section("Environments");
+            if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
+            {
+                EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
+                if (GUILayout.Button(NWDConstants.K_APP_CLASS_SALT_REGENERATE))
+                {
+                    NWDEditorWindow.GenerateCSharpFile();
+                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                }
+            }
+            // Draw warning if salt for class is false
+            if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
+            {
+                EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
+                if (GUILayout.Button(NWDConstants.K_APP_CLASS_SALT_REGENERATE))
+                {
+                    NWDEditorWindow.GenerateCSharpFile();
+                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                }
+            }
+            // List environment
+            string[] tTabList = new string[3] {
+                NWDConstants.K_APP_CONFIGURATION_DEV,
+                NWDConstants.K_APP_CONFIGURATION_PREPROD,
+                NWDConstants.K_APP_CONFIGURATION_PROD
+            };
+            // Draw interface for environment chooser
+            int tTabSelect = GUILayout.Toolbar(_kTabSelected, tTabList);
+            if (tTabSelect != _kTabSelected)
+            {
+                GUI.FocusControl(null);
+                _kScrollPosition = Vector2.zero;
+                _kTabSelected = tTabSelect;
+            }
+            NWDGUILayout.LittleSpace();
+            NWDGUILayout.Line();
+            // Draw interface for environment selected inn scrollview
+            _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            switch (tTabSelect)
+            {
+                case 0:
+                    {
+                        NWDAppConfiguration.SharedInstance().DevEnvironment.DrawInEditor();
+                    }
+                    break;
+                case 1:
+                    {
+                        NWDAppConfiguration.SharedInstance().PreprodEnvironment.DrawInEditor();
+                    }
+                    break;
+                case 2:
+                    {
+                        NWDAppConfiguration.SharedInstance().ProdEnvironment.DrawInEditor();
+                    }
+                    break;
+            }
+            GUILayout.EndScrollView();
+            NWDGUILayout.Line();
+            NWDGUILayout.LittleSpace();
+            NWDGUI.BeginRedArea();
+            if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
+            {
+                NWDEditorWindow.GenerateCSharpFile();
+                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            }
+            NWDGUI.EndRedArea();
+            NWDGUILayout.BigSpace();
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDAppEnvironmentConfigurationManager : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -33,14 +144,6 @@ namespace NetWorkedData.NWDEditor
         /// The Shared Instance.
         /// </summary>
         private static NWDAppEnvironmentConfigurationManager _kSharedInstance;
-        /// <summary>
-        /// The Shared Instance for deamon class.
-        /// </summary>
-        private static Vector2 _kScrollPosition;
-        /// <summary>
-        /// The tab of environment selected.
-        /// </summary>
-        private static int _kTabSelected = 0;
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppEnvironmentConfigurationManager SharedInstance()
         {
@@ -84,75 +187,7 @@ namespace NetWorkedData.NWDEditor
         {
             NWDBenchmark.Start();
             NWDGUI.LoadStyles();
-            NWDGUILayout.Title("Configuration environments");
-
-            NWDGUILayout.Section("Environments");
-            if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
-            {
-                EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
-                if (GUILayout.Button(NWDConstants.K_APP_CLASS_SALT_REGENERATE))
-                {
-                   NWDEditorWindow.GenerateCSharpFile();
-                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-                }
-            }
-            // Draw warning if salt for class is false
-            if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
-            {
-                EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
-                if (GUILayout.Button(NWDConstants.K_APP_CLASS_SALT_REGENERATE))
-                {
-                    NWDEditorWindow.GenerateCSharpFile();
-                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-                }
-            }
-            // List environment
-            string[] tTabList = new string[3] {
-                NWDConstants.K_APP_CONFIGURATION_DEV,
-                NWDConstants.K_APP_CONFIGURATION_PREPROD,
-                NWDConstants.K_APP_CONFIGURATION_PROD
-            };
-            // Draw interface for environment chooser
-            int tTabSelect = GUILayout.Toolbar(_kTabSelected, tTabList);
-            if (tTabSelect != _kTabSelected)
-            {
-                GUI.FocusControl(null);
-                _kScrollPosition = Vector2.zero;
-                _kTabSelected = tTabSelect;
-            }
-            NWDGUILayout.LittleSpace();
-            NWDGUILayout.Line();
-            // Draw interface for environment selected inn scrollview
-            _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-            switch (tTabSelect)
-            {
-                case 0:
-                    {
-                        NWDAppConfiguration.SharedInstance().DevEnvironment.DrawInEditor(this);
-                    }
-                    break;
-                case 1:
-                    {
-                        NWDAppConfiguration.SharedInstance().PreprodEnvironment.DrawInEditor(this);
-                    }
-                    break;
-                case 2:
-                    {
-                        NWDAppConfiguration.SharedInstance().ProdEnvironment.DrawInEditor(this);
-                    }
-                    break;
-            }
-            GUILayout.EndScrollView();
-            NWDGUILayout.Line();
-            NWDGUILayout.LittleSpace();
-            NWDGUI.BeginRedArea();
-            if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
-            {
-                NWDEditorWindow.GenerateCSharpFile();
-                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-            }
-            NWDGUI.EndRedArea();
-            NWDGUILayout.BigSpace();
+            NWDAppEnvironmentConfigurationManagerContent.SharedInstance().OnPreventGUI();
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

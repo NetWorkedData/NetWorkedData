@@ -27,80 +27,41 @@ using System.Collections.Generic;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDAppEnvironmentChooser : NWDEditorWindow
+    public class NWDAppEnvironmentChooserContent
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Scroll position in window
         /// </summary>
         private static Vector2 _kScrollPosition;
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance for deamon class.
         /// </summary>
-        private static NWDAppEnvironmentChooser _kSharedInstance;
+        private static NWDAppEnvironmentChooserContent _kSharedInstanceContent;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Returns the <see cref="_kSharedInstance"/> or instance one
+        /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
         /// </summary>
         /// <returns></returns>
-        public static NWDAppEnvironmentChooser SharedInstance()
+        public static NWDAppEnvironmentChooserContent SharedInstance()
         {
             NWDBenchmark.Start();
-            if (_kSharedInstance == null)
+            if (_kSharedInstanceContent == null)
             {
-                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentChooser)) as NWDAppEnvironmentChooser;
+                _kSharedInstanceContent = new NWDAppEnvironmentChooserContent();
             }
             NWDBenchmark.Finish();
-            return _kSharedInstance;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Show the <see cref="_kSharedInstance"/> of <see cref="NWDAppEnvironmentChooser"/> and focus on.
-        /// </summary>
-        /// <returns></returns>
-        public static void SharedInstanceFocus()
-        {
-            NWDBenchmark.Start();
-            SharedInstance().ShowUtility();
-            SharedInstance().Focus();
-            NWDBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Repaint all <see cref="NWDAppEnvironmentChooser"/>.
-        /// </summary>
-        public static void Refresh()
-        {
-            NWDBenchmark.Start();
-            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDAppEnvironmentChooser));
-            foreach (NWDAppEnvironmentChooser tWindow in tWindows)
-            {
-                tWindow.Repaint();
-            }
-            NWDBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// On enable action.
-        /// </summary>
-        public void OnEnable()
-        {
-            NWDBenchmark.Start();
-            TitleInit(NWDConstants.K_APP_CHOOSER_ENVIRONMENT_TITLE, typeof(NWDAppEnvironmentChooser));
-            NWDBenchmark.Finish();
+            return _kSharedInstanceContent;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         ///  On GUI drawing.
         /// </summary>
-        public override void OnPreventGUI()
+        public void OnPreventGUI()
         {
             NWDBenchmark.Start();
-            NWDGUI.LoadStyles();
-
-            // Title
             NWDGUILayout.Title("Environment chooser");
-
             // Section Compile bypass
             NWDGUILayout.Section("Compile bypass");
             EditorGUILayout.LabelField("Compile use", NWDLauncher.CompileAs().ToString());
@@ -175,8 +136,6 @@ namespace NetWorkedData.NWDEditor
                 NWDDataInspector.Refresh();
             }
             _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-            this.minSize = new Vector2(300, 150);
-            this.maxSize = new Vector2(300, 4096);
 
             //NWDBenchmark.Step();
 
@@ -322,6 +281,80 @@ namespace NetWorkedData.NWDEditor
 
             NWDGUILayout.BigSpace();
             GUILayout.EndScrollView();
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDAppEnvironmentChooser : NWDEditorWindow
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance for deamon class.
+        /// </summary>
+        private static NWDAppEnvironmentChooser _kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the <see cref="_kSharedInstance"/> or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static NWDAppEnvironmentChooser SharedInstance()
+        {
+            NWDBenchmark.Start();
+            if (_kSharedInstance == null)
+            {
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentChooser)) as NWDAppEnvironmentChooser;
+            }
+            NWDBenchmark.Finish();
+            return _kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show the <see cref="_kSharedInstance"/> of <see cref="NWDAppEnvironmentChooser"/> and focus on.
+        /// </summary>
+        /// <returns></returns>
+        public static void SharedInstanceFocus()
+        {
+            NWDBenchmark.Start();
+            SharedInstance().ShowUtility();
+            SharedInstance().Focus();
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Repaint all <see cref="NWDAppEnvironmentChooser"/>.
+        /// </summary>
+        public static void Refresh()
+        {
+            NWDBenchmark.Start();
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDAppEnvironmentChooser));
+            foreach (NWDAppEnvironmentChooser tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// On enable action.
+        /// </summary>
+        public void OnEnable()
+        {
+            NWDBenchmark.Start();
+            TitleInit(NWDConstants.K_APP_CHOOSER_ENVIRONMENT_TITLE, typeof(NWDAppEnvironmentChooser));
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
+        public override void OnPreventGUI()
+        {
+            NWDBenchmark.Start();
+            NWDGUI.LoadStyles();
+            this.minSize = new Vector2(300, 150);
+            this.maxSize = new Vector2(300, 4096);
+            NWDAppEnvironmentChooserContent.SharedInstance().OnPreventGUI();
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
