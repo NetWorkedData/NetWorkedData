@@ -26,7 +26,7 @@ using UnityEditor;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDAppEnvironmentConfigurationManagerContent
+    public class NWDAppEnvironmentConfigurationManagerContent : NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -61,8 +61,9 @@ namespace NetWorkedData.NWDEditor
         /// <summary>
         ///  On GUI drawing.
         /// </summary>
-        public void OnPreventGUI()
+        public override void OnPreventGUI(Rect sRect)
         {
+            base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
             NWDGUILayout.Title("Configuration environments");
             NWDGUILayout.Section("Environments");
@@ -187,7 +188,7 @@ namespace NetWorkedData.NWDEditor
         {
             NWDBenchmark.Start();
             NWDGUI.LoadStyles();
-            NWDAppEnvironmentConfigurationManagerContent.SharedInstance().OnPreventGUI();
+            NWDAppEnvironmentConfigurationManagerContent.SharedInstance().OnPreventGUI(position);
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

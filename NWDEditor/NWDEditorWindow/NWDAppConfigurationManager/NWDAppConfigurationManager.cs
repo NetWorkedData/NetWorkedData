@@ -27,7 +27,7 @@ using System;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDAppConfigurationManagerContent
+    public class NWDAppConfigurationManagerContent : NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -58,8 +58,9 @@ namespace NetWorkedData.NWDEditor
         /// <summary>
         ///  On GUI drawing.
         /// </summary>
-        public void OnPreventGUI()
+        public override void OnPreventGUI(Rect sRect)
         {
+            base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
             {
@@ -356,7 +357,7 @@ namespace NetWorkedData.NWDEditor
         {
             NWDBenchmark.Start();
             NWDGUI.LoadStyles();
-            NWDAppConfigurationManagerContent.SharedInstance().OnPreventGUI();
+            NWDAppConfigurationManagerContent.SharedInstance().OnPreventGUI(position);
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

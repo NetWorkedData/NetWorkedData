@@ -27,7 +27,7 @@ using UnityEditor;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDProjectConfigurationManagerContent
+    public class NWDProjectConfigurationManagerContent : NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
         const string kColorGreen_Pro = "2EDD66FF";
@@ -182,10 +182,11 @@ namespace NetWorkedData.NWDEditor
         /// <summary>
         ///  On GUI drawing.
         /// </summary>
-        public void OnPreventGUI()
+        public override void OnPreventGUI(Rect sRect)
         {
-            NWDBenchmark.Start(); NWDGUILayout.Title("Project preferences");
-
+            base.OnPreventGUI(sRect);
+            NWDBenchmark.Start();
+            NWDGUILayout.Title("Project preferences");
             // start scroll
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
 
@@ -349,7 +350,7 @@ namespace NetWorkedData.NWDEditor
         {
             NWDBenchmark.Start();
             NWDGUI.LoadStyles();
-            NWDProjectConfigurationManagerContent.SharedInstance().OnPreventGUI();
+            NWDProjectConfigurationManagerContent.SharedInstance().OnPreventGUI(position);
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

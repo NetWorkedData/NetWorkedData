@@ -28,7 +28,7 @@ using UnityEditor;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDAppEnvironmentSyncContent
+    public class NWDAppEnvironmentSyncContent : NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -78,7 +78,7 @@ namespace NetWorkedData.NWDEditor
         }
 
         //-------------------------------------------------------------------------------------------------------------
-        public void OnDisable(NWDEditorWindow sEditorWindow)
+        public override void OnDisable(NWDEditorWindow sEditorWindow)
         {
             if (EditorWindowList.Contains(sEditorWindow))
             {
@@ -86,11 +86,11 @@ namespace NetWorkedData.NWDEditor
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void OnEnable(NWDEditorWindow sEditorWindowsss)
+        public override void OnEnable(NWDEditorWindow sEditorWindow)
         {
-            if (EditorWindowList.Contains(sEditorWindowsss) == false)
+            if (EditorWindowList.Contains(sEditorWindow) == false)
             {
-                EditorWindowList.Add(sEditorWindowsss);
+                EditorWindowList.Add(sEditorWindow);
             }
             if (Init == false)
             {
@@ -177,8 +177,8 @@ namespace NetWorkedData.NWDEditor
                             if (tErrorCode.Contains("RQT"))
                             {
                                 Debug.LogWarning("Alert Session expired(error code " + LastInfos.errorCode);
-                            //EditorUtility.DisplayDialog("Alert", "Session expired (error code " + LastInfos.errorCode + ")", "Ok");
-                        }
+                                //EditorUtility.DisplayDialog("Alert", "Session expired (error code " + LastInfos.errorCode + ")", "Ok");
+                            }
                             else
                             {
                                 string tTitle = "ERROR";
@@ -192,10 +192,10 @@ namespace NetWorkedData.NWDEditor
                                         tDescription += " : " + LastInfos.errorDesc.Description.GetBaseString();
                                     }
 #if UNITY_EDITOR
-                                Debug.LogWarning("" + tTitle + " " + tDescription);
-                                //LastInfos.errorDesc.ShowAlert(LastInfos.errorInfos);
+                                    Debug.LogWarning("" + tTitle + " " + tDescription);
+                                    //LastInfos.errorDesc.ShowAlert(LastInfos.errorInfos);
 #endif
-                            }
+                                }
                             }
                         }
                     }
@@ -267,8 +267,9 @@ namespace NetWorkedData.NWDEditor
         /// <summary>
         ///  On GUI drawing.
         /// </summary>
-        public void OnPreventGUI(Rect sRect)
+        public override void OnPreventGUI(Rect sRect)
         {
+            base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
             NWDGUILayout.Title("WebService Sync");
             NWDGUILayout.Line();

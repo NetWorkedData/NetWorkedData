@@ -27,7 +27,7 @@ using System.Collections.Generic;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDAppEnvironmentChooserContent
+    public class NWDAppEnvironmentChooserContent : NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -58,8 +58,9 @@ namespace NetWorkedData.NWDEditor
         /// <summary>
         ///  On GUI drawing.
         /// </summary>
-        public void OnPreventGUI()
+        public override void OnPreventGUI(Rect sRect)
         {
+            base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
             NWDGUILayout.Title("Environment chooser");
             // Section Compile bypass
@@ -354,7 +355,7 @@ namespace NetWorkedData.NWDEditor
             NWDGUI.LoadStyles();
             this.minSize = new Vector2(300, 150);
             this.maxSize = new Vector2(300, 4096);
-            NWDAppEnvironmentChooserContent.SharedInstance().OnPreventGUI();
+            NWDAppEnvironmentChooserContent.SharedInstance().OnPreventGUI(position);
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

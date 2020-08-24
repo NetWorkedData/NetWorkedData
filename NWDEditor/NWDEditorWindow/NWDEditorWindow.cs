@@ -346,6 +346,27 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDEditorWindowContent
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void OnPreventGUI(Rect sRect)
+        {
+            GUILayout.Label("OOOOOKKKKKKKKKK");
+            //throw new Exception("override OnPreventGUI() in place of OnGUI");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void OnEnable(NWDEditorWindow sEditorWindow)
+        {
+            throw new Exception("override OnEnable()");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void OnDisable(NWDEditorWindow sEditorWindow)
+        {
+            throw new Exception("override OnDisable()");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDEditorWindow : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -607,7 +628,7 @@ namespace NetWorkedData.NWDEditor
             SplitThree.OnGUI(this, SplitTwo.GetAreaOne());
 
             SplitOne.BeginAreaOne();
-            NWDAppConfigurationManagerContent.SharedInstance().OnPreventGUI();
+            NWDAppConfigurationManagerContent.SharedInstance().OnPreventGUI(SplitOne.GetAreaOne());
             //NWDGUILayout.Title("jjjj");
             //NWDGUILayout.Section("jjjj");
             //NWDGUILayout.SubSection("jjjj");
@@ -631,11 +652,11 @@ namespace NetWorkedData.NWDEditor
             //GUILayout.Button("Click me");
             //GUILayout.Button("Or me");
 
-            NWDProjectCredentialsManagerContent.SharedInstance().OnPreventGUI();
-            //NWDProjectConfigurationManagerContent.SharedInstance().OnPreventGUI();
-            //NWDLocalizationConfigurationManagerContent.SharedInstance().OnPreventGUI(SplitTwo.GetAreaTwo().width);
-            //NWDAppEnvironmentConfigurationManagerContent.SharedInstance().OnPreventGUI();
-            //NWDAppEnvironmentChooserContent.SharedInstance().OnPreventGUI();
+            NWDProjectCredentialsManagerContent.SharedInstance().OnPreventGUI(SplitTwo.GetAreaTwo());
+            //NWDProjectConfigurationManagerContent.SharedInstance().OnPreventGUI(SplitTwo.GetAreaTwo());
+            //NWDLocalizationConfigurationManagerContent.SharedInstance().OnPreventGUI(SplitTwo.GetAreaTwo());
+            //NWDAppEnvironmentConfigurationManagerContent.SharedInstance().OnPreventGUI(SplitTwo.GetAreaTwo());
+            //NWDAppEnvironmentChooserContent.SharedInstance().OnPreventGUI(SplitTwo.GetAreaTwo());
             SplitTwo.EndAreaTwo();
 
             SplitThree.BeginAreaOne();

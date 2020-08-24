@@ -37,7 +37,7 @@ namespace NetWorkedData.NWDEditor
         ForSFTPGenerateProd,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDProjectCredentialsManagerContent
+    public class NWDProjectCredentialsManagerContent : NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -123,8 +123,9 @@ namespace NetWorkedData.NWDEditor
         /// <summary>
         ///  On GUI drawing.
         /// </summary>
-        public void OnPreventGUI()
+        public override void OnPreventGUI(Rect sRect)
         {
+            base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
             NWDGUILayout.Title("Credentials for project");
             // start scroll
@@ -300,7 +301,7 @@ namespace NetWorkedData.NWDEditor
         {
             //NWDBenchmark.Start();
             NWDGUI.LoadStyles();
-            NWDProjectCredentialsManagerContent.SharedInstance().OnPreventGUI();
+            NWDProjectCredentialsManagerContent.SharedInstance().OnPreventGUI(position);
             if (GUILayout.Button("Flush and close"))
             {
                 NWDProjectCredentialsManagerContent.SharedInstance().flush();

@@ -26,7 +26,7 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData.NWDEditor
 {//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDLocalizationConfigurationManagerContent
+    public class NWDLocalizationConfigurationManagerContent : NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -57,9 +57,11 @@ namespace NetWorkedData.NWDEditor
         /// <summary>
         ///  On GUI drawing.
         /// </summary>
-        public void OnPreventGUI(float sWidthUsed)
+        public override void OnPreventGUI(Rect sRect)
         {
+            base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
+            float tWidthUsed = sRect.width;
             NWDGUILayout.Title(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA);
             NWDGUILayout.Informations("Some informations");
             NWDGUILayout.Line();
@@ -72,7 +74,7 @@ namespace NetWorkedData.NWDEditor
             List<string> tResult = new List<string>();
             float tToggleWidth = 140.0f;
             int tColunm = 0;
-            int tColunmMax = Mathf.CeilToInt(sWidthUsed / tToggleWidth) - 1;
+            int tColunmMax = Mathf.CeilToInt(tWidthUsed / tToggleWidth) - 1;
             if (tColunmMax < 1)
             {
                 tColunmMax = 1;
@@ -225,7 +227,8 @@ namespace NetWorkedData.NWDEditor
         {
             NWDBenchmark.Start();
             NWDGUI.LoadStyles();
-            NWDLocalizationConfigurationManagerContent.SharedInstance().OnPreventGUI(EditorGUIUtility.currentViewWidth);
+            //NWDLocalizationConfigurationManagerContent.SharedInstance().OnPreventGUI(EditorGUIUtility.currentViewWidth);
+            NWDLocalizationConfigurationManagerContent.SharedInstance().OnPreventGUI(position);
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
