@@ -366,7 +366,7 @@ namespace NetWorkedData.NWDEditor
                 NWDDataInspector.ShareInstance().Data(sNodalCard.DataObject);
             }
             EditorGUI.EndDisabledGroup();
-            EditorGUI.BeginDisabledGroup(NWDNodeEditor.SharedInstance().Document.OriginalData == sNodalCard);
+            EditorGUI.BeginDisabledGroup(NWDNodeEditorContent.SharedInstance().Document.OriginalData == sNodalCard);
             if (GUI.Button(new Rect(sRect.x + NWDGUI.kFieldMarge + NWDGUI.kEditWidth, sRect.y, NWDGUI.kEditWidth, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_BUTTON_ROOT_NODAL, NWDGUI.kMiniButtonStyle))
             {
                 NWDNodeEditor.SetObjectInNodeWindow(sNodalCard.DataObject);

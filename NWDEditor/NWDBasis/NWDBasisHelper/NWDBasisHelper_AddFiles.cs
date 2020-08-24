@@ -44,7 +44,7 @@ namespace NetWorkedData
             {
                 tMacro = tMacroAttribute.Macro;
             }
-            NWDEditorNewClass.GenerateFileUnitTest(ClassNamePHP, tMacro);
+            NWDEditorNewClassContent.GenerateFileUnitTest(ClassNamePHP, tMacro);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFileConnection()
@@ -54,7 +54,7 @@ namespace NetWorkedData
             {
                 tMacro = tMacroAttribute.Macro;
             }
-            NWDEditorNewClass.GenerateFileConnection(ClassNamePHP, ClassType.BaseType.Name, tMacro);
+            NWDEditorNewClassContent.GenerateFileConnection(ClassNamePHP, ClassType.BaseType.Name, tMacro);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFileWorkflow()
@@ -64,7 +64,7 @@ namespace NetWorkedData
             {
                 tMacro = tMacroAttribute.Macro;
             }
-            NWDEditorNewClass.GenerateFileWorkflow(ClassNamePHP, ClassType.BaseType.Name, tMacro);
+            NWDEditorNewClassContent.GenerateFileWorkflow(ClassNamePHP, ClassType.BaseType.Name, tMacro);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFileHelper()
@@ -74,7 +74,7 @@ namespace NetWorkedData
             {
                 tMacro = tMacroAttribute.Macro;
             }
-            NWDEditorNewClass.GenerateFileHelper(ClassNamePHP, ClassType.BaseType.Name, tMacro);
+            NWDEditorNewClassContent.GenerateFileHelper(ClassNamePHP, ClassType.BaseType.Name, tMacro);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFileEditor()
@@ -84,7 +84,7 @@ namespace NetWorkedData
             {
                 tMacro = tMacroAttribute.Macro;
             }
-            NWDEditorNewClass.GenerateFileEditor(ClassNamePHP, ClassType.BaseType.Name, tMacro);
+            NWDEditorNewClassContent.GenerateFileEditor(ClassNamePHP, ClassType.BaseType.Name, tMacro);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFileIndex()
@@ -94,7 +94,7 @@ namespace NetWorkedData
             {
                 tMacro = tMacroAttribute.Macro;
             }
-            NWDEditorNewClass.GenerateFileIndex(ClassNamePHP, ClassType.BaseType.Name, tMacro);
+            NWDEditorNewClassContent.GenerateFileIndex(ClassNamePHP, ClassType.BaseType.Name, tMacro);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFilePHP()
@@ -104,12 +104,12 @@ namespace NetWorkedData
             {
                 tMacro = tMacroAttribute.Macro;
             }
-            NWDEditorNewClass.GenerateFilePHP(ClassNamePHP, ClassType.BaseType.Name, tMacro);
+            NWDEditorNewClassContent.GenerateFilePHP(ClassNamePHP, ClassType.BaseType.Name, tMacro);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFileIcon()
         {
-            NWDEditorNewClass.GenerateFileIcon(ClassNamePHP);
+            NWDEditorNewClassContent.GenerateFileIcon(ClassNamePHP);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFileExtension()
@@ -119,7 +119,7 @@ namespace NetWorkedData
             {
                 tMacro = tMacroAttribute.Macro;
             }
-            NWDEditorNewClass.GenerateFileExtension(ClassNamePHP, ClassType.BaseType.Name, tMacro);
+            NWDEditorNewClassContent.GenerateFileExtension(ClassNamePHP, ClassType.BaseType.Name, tMacro);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateFileOverride()
@@ -129,7 +129,7 @@ namespace NetWorkedData
             {
                 tMacro = tMacroAttribute.Macro;
             }
-            NWDEditorNewClass.GenerateFileOverride(ClassNamePHP, ClassType.BaseType.Name, tMacro);
+            NWDEditorNewClassContent.GenerateFileOverride(ClassNamePHP, ClassType.BaseType.Name, tMacro);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

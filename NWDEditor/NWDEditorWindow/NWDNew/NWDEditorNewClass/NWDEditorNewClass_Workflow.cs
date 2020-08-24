@@ -26,10 +26,7 @@ using System.Text;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// NWD editor new class. Can create a new classes based on NWDExample automatically from the form generated in this editor window.
-    /// </summary>
-    public partial class NWDEditorNewClass : NWDEditorWindow
+    public partial class NWDEditorNewClassContent : NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
         //public static void GenerateFileUnitTest(string sClassNamePHP, bool sInClassFolder = false)

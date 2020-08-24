@@ -32,8 +32,13 @@ using NetWorkedData.NWDEditor;
 namespace NetWorkedData.MacroDefine
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class MDEMacroDefineEditor : NWDEditorWindow
+    public class MDEMacroDefineEditorContent : NWDEditorWindowContent
     {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Scroll position in window
+        /// </summary>
+        private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
         List<BuildTargetGroup> ActiveGroup = new List<BuildTargetGroup>();
         Dictionary<BuildTargetGroup, List<string>> ActiveGroupMacroDefine = new Dictionary<BuildTargetGroup, List<string>>();
@@ -47,36 +52,23 @@ namespace NetWorkedData.MacroDefine
         bool Modified = false;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// The Shared Instance.
+        /// The Shared Instance for deamon class.
         /// </summary>
-        private static MDEMacroDefineEditor kSharedInstance;
+        private static MDEMacroDefineEditorContent _kSharedInstanceContent;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Returns the SharedInstance or instance one
+        /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
         /// </summary>
         /// <returns></returns>
-        public static MDEMacroDefineEditor SharedInstance()
+        public static MDEMacroDefineEditorContent SharedInstance()
         {
             //NWDBenchmark.Start();
-            if (kSharedInstance == null)
+            if (_kSharedInstanceContent == null)
             {
-                kSharedInstance = EditorWindow.GetWindow(typeof(MDEMacroDefineEditor)) as MDEMacroDefineEditor;
+                _kSharedInstanceContent = new MDEMacroDefineEditorContent();
             }
             //NWDBenchmark.Finish();
-            return kSharedInstance;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Show the SharedInstance of Editor Configuration Manager Window and focus on.
-        /// </summary>
-        /// <returns></returns>
-        public static MDEMacroDefineEditor SharedInstanceFocus()
-        {
-            //NWDBenchmark.Start();
-            SharedInstance().ShowUtility();
-            SharedInstance().Focus();
-            //NWDBenchmark.Finish();
-            return kSharedInstance;
+            return _kSharedInstanceContent;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string UnixCleaner(string sString)
@@ -116,12 +108,6 @@ namespace NetWorkedData.MacroDefine
         public void Start()
         {
             //waiting = false;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void OnEnable()
-        {
-            TitleInit(NWDConstants.K_APP_MACRO_DEFINE_TITLE, typeof(MDEMacroDefineEditor));
-            Load();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Load()
@@ -244,8 +230,22 @@ namespace NetWorkedData.MacroDefine
             AllMacrosOriginal.Sort();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void OnPreventGUI()
+        public override void OnEnable(NWDEditorWindow sEditorWindow)
         {
+            Load();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void OnDisable(NWDEditorWindow sEditorWindow)
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
+        public override void OnPreventGUI(Rect sRect)
+        {
+            base.OnPreventGUI(sRect);
+            //NWDBenchmark.Start();
             NWDGUILayout.Title("Macro Define for project");
             BuildTargetGroup tBuildTargetGroupActiveNow = BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget);
             bool tReload = false;
@@ -606,6 +606,58 @@ namespace NetWorkedData.MacroDefine
             {
                 Load();
             }
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class MDEMacroDefineEditor : NWDEditorWindow
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        private static MDEMacroDefineEditor kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the SharedInstance or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static MDEMacroDefineEditor SharedInstance()
+        {
+            //NWDBenchmark.Start();
+            if (kSharedInstance == null)
+            {
+                kSharedInstance = EditorWindow.GetWindow(typeof(MDEMacroDefineEditor)) as MDEMacroDefineEditor;
+            }
+            //NWDBenchmark.Finish();
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show the SharedInstance of Editor Configuration Manager Window and focus on.
+        /// </summary>
+        /// <returns></returns>
+        public static MDEMacroDefineEditor SharedInstanceFocus()
+        {
+            //NWDBenchmark.Start();
+            SharedInstance().ShowUtility();
+            SharedInstance().Focus();
+            //NWDBenchmark.Finish();
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void OnEnable()
+        {
+            TitleInit(NWDConstants.K_APP_MACRO_DEFINE_TITLE, typeof(MDEMacroDefineEditor));
+            MDEMacroDefineEditorContent.SharedInstance().Load();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void OnPreventGUI()
+        {
+            NWDGUI.LoadStyles();
+            MDEMacroDefineEditorContent.SharedInstance().OnPreventGUI(position);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -32,46 +32,13 @@ using System.Linq;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// NWD editor new class. Can create a new classes based on NWDExample automatically from the form generated in this editor window.
-    /// </summary>
-    public class NWDEditorNewExtension : NWDEditorWindow
+    public class NWDEditorNewExtensionContent : NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
-        GUIContent IconAndTitle;
-        Vector2 ScrollPosition = Vector2.zero;
-        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// The Shared Instance.
+        /// Scroll position in window
         /// </summary>
-        private static NWDEditorNewExtension kSharedInstance;
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Returns the SharedInstance or instance one
-        /// </summary>
-        /// <returns></returns>
-        public static NWDEditorNewExtension SharedInstance()
-        {
-            //NWDBenchmark.Start();
-            if (kSharedInstance == null)
-            {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorNewExtension)) as NWDEditorNewExtension;
-            }
-            //NWDBenchmark.Finish();
-            return kSharedInstance;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Show the SharedInstance of Editor Configuration Manager Window and focus on.
-        /// </summary>
-        /// <returns></returns>
-        public static void SharedInstanceFocus()
-        {
-            //NWDBenchmark.Start();
-            SharedInstance().ShowUtility();
-            SharedInstance().Focus();
-            //NWDBenchmark.Finish();
-        }
+        private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
         string ClassBase = "NWDBasis";
         /// <summary>
@@ -81,6 +48,26 @@ namespace NetWorkedData.NWDEditor
 
         List<string> tListOfType = new List<string>();
         List<string> tListOfclass = new List<string>();
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance for deamon class.
+        /// </summary>
+        private static NWDEditorNewExtensionContent _kSharedInstanceContent;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static NWDEditorNewExtensionContent SharedInstance()
+        {
+            NWDBenchmark.Start();
+            if (_kSharedInstanceContent == null)
+            {
+                _kSharedInstanceContent = new NWDEditorNewExtensionContent();
+            }
+            NWDBenchmark.Finish();
+            return _kSharedInstanceContent;
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Generate the new class. It's not Magic, it's Sciences! (and a little bit of magic :-p )
@@ -161,28 +148,25 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void OnEnable()
+        /// <summary>
+        /// Removes all predicate for the empty properties value key at the end of GUI.
+        /// </summary>
+        /// <returns><c>true</c>, if all predicate was removed, <c>false</c> otherwise.</returns>
+        /// <param name="tObject">T object.</param>
+        bool RemoveAllPredicate(KeyValuePair<string, string> tObject)
         {
             //NWDBenchmark.Start();
-            if (IconAndTitle == null)
+            bool tReturn = false;
+            if (tObject.Key == string.Empty && tObject.Value == " ")
             {
-                IconAndTitle = new GUIContent();
-                IconAndTitle.text = "Custom Extension";
-                if (IconAndTitle.image == null)
-                {
-                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDEditorNewExtension).Name +" t:texture");
-                    foreach (string tGUID in sGUIDs)
-                    {
-                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
-                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals(typeof(NWDEditorNewExtension).Name))
-                        {
-                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
-                        }
-                    }
-                }
-                titleContent = IconAndTitle;
+                tReturn = true;
             }
+            //NWDBenchmark.Finish();
+            return tReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void OnEnable(NWDEditorWindow sEditorWindow)
+        {
             tListOfType = new List<string>();
             tListOfType.Add(" ");
             tListOfType.Add("string");
@@ -231,20 +215,23 @@ namespace NetWorkedData.NWDEditor
             {
                 tListOfclass.Remove("NWDBasis");
             }
-            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void OnDisable(NWDEditorWindow sEditorWindow)
+        {
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Raises the OnGUI event. Create the interface to enter a new class.
+        ///  On GUI drawing.
         /// </summary>
-        public override void OnPreventGUI()
+        public override void OnPreventGUI(Rect sRect)
         {
-            //NWDBenchmark.Start();
-            NWDGUI.LoadStyles();
+            base.OnPreventGUI(sRect);
+            NWDBenchmark.Start();
             NWDGUILayout.Title("Custom Extension Generator");
             NWDGUILayout.Informations("Custom your class!");
             NWDGUILayout.Line();
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition);
+            _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition);
 
             //Prepare the form varaible 
             Regex tRegExpression = new Regex("[^a-zA-Z]");
@@ -321,26 +308,81 @@ namespace NetWorkedData.NWDEditor
             }
             EditorGUI.EndDisabledGroup();
             NWDGUILayout.BigSpace();
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWD editor new class. Can create a new classes based on NWDExample automatically from the form generated in this editor window.
+    /// </summary>
+    public class NWDEditorNewExtension : NWDEditorWindow
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        private static NWDEditorNewExtension _kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the SharedInstance or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static NWDEditorNewExtension SharedInstance()
+        {
+            NWDBenchmark.Start();
+            if (_kSharedInstance == null)
+            {
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorNewExtension)) as NWDEditorNewExtension;
+            }
+            NWDBenchmark.Finish();
+            return _kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Removes all predicate for the empty properties value key at the end of GUI.
+        /// Show the SharedInstance of Editor Configuration Manager Window and focus on.
         /// </summary>
-        /// <returns><c>true</c>, if all predicate was removed, <c>false</c> otherwise.</returns>
-        /// <param name="tObject">T object.</param>
-        bool RemoveAllPredicate(KeyValuePair<string, string> tObject)
+        /// <returns></returns>
+        public static void SharedInstanceFocus()
         {
-            //NWDBenchmark.Start();
-            bool tReturn = false;
-            if (tObject.Key == string.Empty && tObject.Value == " ")
-            {
-                tReturn = true;
-            }
-            //NWDBenchmark.Finish();
-            return tReturn;
+            NWDBenchmark.Start();
+            SharedInstance().ShowUtility();
+            SharedInstance().Focus();
+            NWDBenchmark.Finish();
         }
-
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Repaint all <see cref="NWDEditorNewExtension"/>.
+        /// </summary>
+        public static void Refresh()
+        {
+            NWDBenchmark.Start();
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDEditorNewExtension));
+            foreach (NWDEditorNewExtension tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void OnEnable()
+        {
+            NWDBenchmark.Start();
+            TitleInit("Custom Extension", typeof(NWDEditorNewExtension));
+            NWDEditorNewExtensionContent.SharedInstance().OnEnable(this);
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Raises the OnGUI event. Create the interface to enter a new class.
+        /// </summary>
+        public override void OnPreventGUI()
+        {
+            NWDBenchmark.Start();
+            NWDGUI.LoadStyles();
+            NWDEditorNewExtensionContent.SharedInstance().OnPreventGUI(position);
+            NWDBenchmark.Finish();
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

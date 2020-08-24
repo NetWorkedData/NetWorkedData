@@ -216,7 +216,7 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         protected static K Add(int sID, string sName, string sRepresentation, bool sOverridable, string sAddList = null)
         {
-            sName = MDEMacroDefineEditor.UnixCleaner(sName);
+            sName = MDEMacroDefineEditorContent.UnixCleaner(sName);
             K rReturn;
             if (kList.ContainsKey(sID) == false)
             {

@@ -26,14 +26,16 @@ using UnityEditor;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// NWD Node Editor. This editor can edit data as nodal card.
-    /// </summary>
-    public class NWDNodeEditor : NWDEditorWindow
+    public class NWDNodeEditorContent : NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
         public const string K_NODE_EDITOR_LAST_TYPE_KEY = "K_NODE_EDITOR_LAST_TYPE_KEY_5fdshjktr";
         public const string K_NODE_EDITOR_LAST_REFERENCE_KEY = "K_NODE_EDITOR_LAST_REFERENCE_KEY_ed5f5dtr";
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Scroll position in window
+        /// </summary>
+        private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
         bool DragDetect = false;
         //-------------------------------------------------------------------------------------------------------------
@@ -47,56 +49,23 @@ namespace NetWorkedData.NWDEditor
         public NWDNodeDocument Document = new NWDNodeDocument();
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// The node editor shared instance.
+        /// The Shared Instance for deamon class.
         /// </summary>
-        public static NWDNodeEditor kNodeEditorSharedInstance;
+        private static NWDNodeEditorContent _kSharedInstanceContent;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Shared instance.
-        /// </summary>
-        public static NWDNodeEditor SharedInstance()
-        {
-            //NWDBenchmark.Start();
-            if (kNodeEditorSharedInstance == null)
-            {
-                kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
-                kNodeEditorSharedInstance.Show();
-                RestaureObjectInEdition();
-                ReAnalyzeAll();
-                kNodeEditorSharedInstance.Focus();
-            }
-            //NWDBenchmark.Finish();
-            return kNodeEditorSharedInstance;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Show the SharedInstance of Editor Configuration Manager Window and focus on.
+        /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
         /// </summary>
         /// <returns></returns>
-        public static void SharedInstanceFocus()
+        public static NWDNodeEditorContent SharedInstance()
         {
-            //NWDBenchmark.Start();
-            SharedInstance().Show();
-            SharedInstance().Focus();
-            //NWDBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void RestaureObjectInEdition()
-        {
-            //NWDBenchmark.Start();
-            string tTypeEdited = NWDProjectPrefs.GetString(K_NODE_EDITOR_LAST_TYPE_KEY);
-            string tLastReferenceEdited = NWDProjectPrefs.GetString(K_NODE_EDITOR_LAST_REFERENCE_KEY);
-
-            if (!string.IsNullOrEmpty(tTypeEdited) && !string.IsNullOrEmpty(tLastReferenceEdited))
+            NWDBenchmark.Start();
+            if (_kSharedInstanceContent == null)
             {
-                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tTypeEdited);
-                if (tHelper != null)
-                {
-                    NWDTypeClass tData = tHelper.GetDataByReference(tLastReferenceEdited);
-                    SetObjectInNodeWindow(tData);
-                }
+                _kSharedInstanceContent = new NWDNodeEditorContent();
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
+            return _kSharedInstanceContent;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SaveObjectInEdition(NWDTypeClass sSelection)
@@ -116,97 +85,6 @@ namespace NetWorkedData.NWDEditor
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Sets the object in node window.
-        /// </summary>
-        /// <param name="sSelection">S selection.</param>
-        public static void SetObjectInNodeWindow(NWDTypeClass sSelection)
-        {
-            //NWDBenchmark.Start();
-            if (sSelection != null)
-            {
-                if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).AllDatabaseIsLoaded())
-                {
-                    kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
-                    kNodeEditorSharedInstance.Show();
-                    kNodeEditorSharedInstance.Focus();
-                    kNodeEditorSharedInstance.SetSelection(sSelection);
-                    SaveObjectInEdition(sSelection);
-                }
-            }
-            //NWDBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Redraw.
-        /// </summary>
-        public static void Refresh()
-        {
-            //NWDBenchmark.Start();
-            //if (kNodeEditorSharedInstance != null)
-            //{
-            //    kNodeEditorSharedInstance.Repaint();
-            //}
-            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDNodeEditor));
-            foreach (NWDNodeEditor tWindow in tWindows)
-            {
-                tWindow.Repaint();
-            }
-            //NWDBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Redraw.
-        /// </summary>
-        public static void ReAnalyzeIfNecessary(object sObjectModified)
-        {
-            //NWDBenchmark.Start();
-            if (kNodeEditorSharedInstance != null)
-            {
-                kNodeEditorSharedInstance.Document.EditorWindow = kNodeEditorSharedInstance;
-                kNodeEditorSharedInstance.Document.ReAnalyzeIfNecessary(sObjectModified);
-                kNodeEditorSharedInstance.Repaint();
-            }
-            //NWDBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void ReAnalyzeAll()
-        {
-            //NWDBenchmark.Start();
-            if (kNodeEditorSharedInstance != null)
-            {
-                kNodeEditorSharedInstance.Document.EditorWindow = kNodeEditorSharedInstance;
-                kNodeEditorSharedInstance.Document.ReAnalyze();
-                kNodeEditorSharedInstance.Repaint();
-            }
-            //NWDBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// On destroy.
-        /// </summary>
-        void OnDestroy()
-        {
-            //Debug.Log("Destroyed...");
-            kNodeEditorSharedInstance = null;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Updates the node window but prevent.
-        /// </summary>
-        /// <param name="sSelection">S selection.</param>
-        public static void UpdateNodeWindow(NWDTypeClass sSelection)
-        {
-            //NWDBenchmark.Start();
-            if (kNodeEditorSharedInstance != null)
-            {
-                kNodeEditorSharedInstance.Document.EditorWindow = kNodeEditorSharedInstance;
-                kNodeEditorSharedInstance.Document.ReAnalyze();
-                kNodeEditorSharedInstance.Repaint();
-            }
-            //NWDBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
         /// Set selection.
         /// </summary>
         /// <param name="sSelection">S selection.</param>
@@ -215,44 +93,23 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Start();
             if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).AllDatabaseIsLoaded())
             {
-                Document.EditorWindow = this;
                 Document.SetData(sSelection);
-                Repaint();
             }
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:NetWorkedData.NWDNodeEditor"/> class.
-        /// </summary>
-        public NWDNodeEditor()
+        public string GetLanguage()
         {
-            this.autoRepaintOnSceneChange = false;
-            this.wantsMouseEnterLeaveWindow = false;
-            this.wantsMouseMove = false;
-            //Document.SetData(null, true);
+            return Document.Language;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Raises the enable event.
+        ///  On GUI drawing.
         /// </summary>
-        public void OnEnable()
+        public override void OnPreventGUI(Rect sRect)
         {
-            //NWDBenchmark.Start();
-            TitleInit(NWDConstants.K_EDITOR_NODE_WINDOW_TITLE, typeof(NWDNodeEditor));
-            Document.EditorWindow = this;
-            Document.LoadClasses();
-            Repaint();
-            //NWDBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Raises the OnGUI event. Create the interface to enter a new class.
-        /// </summary>
-        public override void OnPreventGUI()
-        {
-            //NWDBenchmark.Start();
-            NWDGUI.LoadStyles();
+            base.OnPreventGUI(sRect);
+            NWDBenchmark.Start();
             float tX = Document.DocumentMarge + 15;
             if (Document.FixeMargePreference == false)
             {
@@ -260,17 +117,16 @@ namespace NetWorkedData.NWDEditor
             }
             else
             {
-                Rect tScrollViewRectB = new Rect(0, 0, tX, position.height);
+                Rect tScrollViewRectB = new Rect(0, 0, tX, sRect.height);
                 ScrollPositionMarge = GUI.BeginScrollView(tScrollViewRectB, ScrollPositionMarge, Document.DimensionB());
-                Document.EditorWindow = this;
                 Document.DrawPreferences();
                 GUI.EndScrollView();
             }
-            Rect tScrollViewRect = new Rect(tX, 0, position.width - tX, position.height);
+            Rect tScrollViewRect = new Rect(tX, 0, sRect.width - tX, sRect.height);
             //EditorGUI.DrawRect(tScrollViewRect, new Color (0.5F,0.5F,0.5F,1.0F));
             ScrollPosition = GUI.BeginScrollView(tScrollViewRect, ScrollPosition, Document.Dimension());
-            Rect tVisibleRect = new Rect(ScrollPosition.x, ScrollPosition.y, position.width + ScrollPosition.x, position.height + ScrollPosition.y);
-            Document.EditorWindow = this;
+            Rect tVisibleRect = new Rect(ScrollPosition.x, ScrollPosition.y, sRect.width + ScrollPosition.x, sRect.height + ScrollPosition.y);
+            
             Document.Draw(tScrollViewRect, tVisibleRect);
             GUI.EndScrollView();
             // Check if the mouse is above our scrollview.
@@ -312,12 +168,204 @@ namespace NetWorkedData.NWDEditor
                     DragDetect = false;
                 }
             }
+            NWDBenchmark.Finish();
+        }
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWD Node Editor. This editor can edit data as nodal card.
+    /// </summary>
+    public class NWDNodeEditor : NWDEditorWindow
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The node editor shared instance.
+        /// </summary>
+        public static NWDNodeEditor _kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Shared instance.
+        /// </summary>
+        public static NWDNodeEditor SharedInstance()
+        {
+            //NWDBenchmark.Start();
+            if (_kSharedInstance == null)
+            {
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
+                _kSharedInstance.Show();
+               RestaureObjectInEdition();
+                ReAnalyzeAll();
+                _kSharedInstance.Focus();
+            }
+            //NWDBenchmark.Finish();
+            return _kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show the SharedInstance of Editor Configuration Manager Window and focus on.
+        /// </summary>
+        /// <returns></returns>
+        public static void SharedInstanceFocus()
+        {
+            //NWDBenchmark.Start();
+            SharedInstance().Show();
+            SharedInstance().Focus();
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string GetLanguage()
+        /// <summary>
+        /// Redraw.
+        /// </summary>
+        public static void Refresh()
         {
-            return Document.Language;
+            //NWDBenchmark.Start();
+            //if (kNodeEditorSharedInstance != null)
+            //{
+            //    kNodeEditorSharedInstance.Repaint();
+            //}
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDNodeEditor));
+            foreach (NWDNodeEditor tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// On destroy.
+        /// </summary>
+        void OnDestroy()
+        {
+            //Debug.Log("Destroyed...");
+            _kSharedInstance = null;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:NetWorkedData.NWDNodeEditor"/> class.
+        /// </summary>
+        public NWDNodeEditor()
+        {
+            this.autoRepaintOnSceneChange = false;
+            this.wantsMouseEnterLeaveWindow = false;
+            this.wantsMouseMove = false;
+            //Document.SetData(null, true);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Raises the enable event.
+        /// </summary>
+        public void OnEnable()
+        {
+            //NWDBenchmark.Start();
+            TitleInit(NWDConstants.K_EDITOR_NODE_WINDOW_TITLE, typeof(NWDNodeEditor));
+            NWDNodeEditorContent.SharedInstance().Document.EditorWindow = this;
+            NWDNodeEditorContent.SharedInstance().Document.LoadClasses();
+            Repaint();
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Set selection.
+        /// </summary>
+        /// <param name="sSelection">S selection.</param>
+        public void SetSelection(NWDTypeClass sSelection)
+        {
+            //NWDBenchmark.Start();
+            NWDNodeEditorContent.SharedInstance().SetSelection(sSelection);
+            Repaint();
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Raises the OnGUI event. Create the interface to enter a new class.
+        /// </summary>
+        public override void OnPreventGUI()
+        {
+            //NWDBenchmark.Start();
+            NWDGUI.LoadStyles();
+            NWDNodeEditorContent.SharedInstance().Document.EditorWindow = this;
+            NWDNodeEditorContent.SharedInstance().OnPreventGUI(position);
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Updates the node window but prevent.
+        /// </summary>
+        /// <param name="sSelection">S selection.</param>
+        public static void UpdateNodeWindow(NWDTypeClass sSelection)
+        {
+            //NWDBenchmark.Start();
+            if (_kSharedInstance != null)
+            {
+                NWDNodeEditorContent.SharedInstance().Document.EditorWindow = _kSharedInstance;
+                NWDNodeEditorContent.SharedInstance().Document.ReAnalyze();
+                _kSharedInstance.Repaint();
+            }
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void RestaureObjectInEdition()
+        {
+            //NWDBenchmark.Start();
+            string tTypeEdited = NWDProjectPrefs.GetString(NWDNodeEditorContent.K_NODE_EDITOR_LAST_TYPE_KEY);
+            string tLastReferenceEdited = NWDProjectPrefs.GetString(NWDNodeEditorContent.K_NODE_EDITOR_LAST_REFERENCE_KEY);
+
+            if (!string.IsNullOrEmpty(tTypeEdited) && !string.IsNullOrEmpty(tLastReferenceEdited))
+            {
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tTypeEdited);
+                if (tHelper != null)
+                {
+                    NWDTypeClass tData = tHelper.GetDataByReference(tLastReferenceEdited);
+                    SetObjectInNodeWindow(tData);
+                }
+            }
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Sets the object in node window.
+        /// </summary>
+        /// <param name="sSelection">S selection.</param>
+        public static void SetObjectInNodeWindow(NWDTypeClass sSelection)
+        {
+            //NWDBenchmark.Start();
+            if (sSelection != null)
+            {
+                if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).AllDatabaseIsLoaded())
+                {
+                    SharedInstanceFocus();
+                    SharedInstance().SetSelection(sSelection);
+                    NWDNodeEditorContent.SaveObjectInEdition(sSelection);
+                }
+            }
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Redraw.
+        /// </summary>
+        public static void ReAnalyzeIfNecessary(object sObjectModified)
+        {
+            //NWDBenchmark.Start();
+            if (_kSharedInstance != null)
+            {
+                NWDNodeEditorContent.SharedInstance().Document.EditorWindow = _kSharedInstance;
+                NWDNodeEditorContent.SharedInstance().Document.ReAnalyzeIfNecessary(sObjectModified);
+                _kSharedInstance.Repaint();
+            }
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void ReAnalyzeAll()
+        {
+            //NWDBenchmark.Start();
+            if (_kSharedInstance != null)
+            {
+                NWDNodeEditorContent.SharedInstance().Document.EditorWindow = _kSharedInstance;
+                NWDNodeEditorContent.SharedInstance().Document.ReAnalyze();
+                _kSharedInstance.Repaint();
+            }
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

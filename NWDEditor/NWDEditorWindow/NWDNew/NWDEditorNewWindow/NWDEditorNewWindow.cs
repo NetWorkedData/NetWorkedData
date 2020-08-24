@@ -30,8 +30,13 @@ using UnityEditor;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDEditorNewWindow : NWDEditorWindow
+    public class NWDEditorNewWindowContent : NWDEditorWindowContent
     {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Scroll position in window
+        /// </summary>
+        private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
         Vector2 ScrollPosition = Vector2.zero;
         //-------------------------------------------------------------------------------------------------------------
@@ -43,35 +48,23 @@ namespace NetWorkedData.NWDEditor
         List<string> ClassesList = new List<string>();
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// The Shared Instance.
+        /// The Shared Instance for deamon class.
         /// </summary>
-        private static NWDEditorNewWindow kSharedInstance;
+        private static NWDEditorNewWindowContent _kSharedInstanceContent;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Returns the SharedInstance or instance one
+        /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
         /// </summary>
         /// <returns></returns>
-        public static NWDEditorNewWindow SharedInstance()
+        public static NWDEditorNewWindowContent SharedInstance()
         {
-            //NWDBenchmark.Start();
-            if (kSharedInstance == null)
+            NWDBenchmark.Start();
+            if (_kSharedInstanceContent == null)
             {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorNewWindow)) as NWDEditorNewWindow;
+                _kSharedInstanceContent = new NWDEditorNewWindowContent();
             }
-            //NWDBenchmark.Finish();
-            return kSharedInstance;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Show the SharedInstance of Editor Configuration Manager Window and focus on.
-        /// </summary>
-        /// <returns></returns>
-        public static void SharedInstanceFocus()
-        {
-            //NWDBenchmark.Start();
-            SharedInstance().ShowUtility();
-            SharedInstance().Focus();
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
+            return _kSharedInstanceContent;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -170,21 +163,29 @@ namespace NetWorkedData.NWDEditor
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Raises the enable event.
+        /// Removes all predicate for the empty properties value key at the end of GUI.
         /// </summary>
-        public void OnEnable()
+        /// <returns><c>true</c>, if all predicate was removed, <c>false</c> otherwise.</returns>
+        /// <param name="tObject">T object.</param>
+        bool RemoveAllPredicate(KeyValuePair<string, string> tObject)
         {
             //NWDBenchmark.Start();
-            TitleInit("Custom Window Manager", typeof(NWDEditorNewWindow));
+            bool tReturn = false;
+            if (tObject.Key == "" && tObject.Value == " ")
+            {
+                tReturn = true;
+            }
             //NWDBenchmark.Finish();
+            return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Raises the OnGUI event. Create the interface to enter a new class.
+        ///  On GUI drawing.
         /// </summary>
-        public override void OnPreventGUI()
+        public override void OnPreventGUI(Rect sRect)
         {
-            //NWDBenchmark.Start();
+            base.OnPreventGUI(sRect);
+            NWDBenchmark.Start();
             NWDGUILayout.Title("Custom Window Manager ");
             NWDGUILayout.Informations("Custom your window!");
             NWDGUILayout.Line();
@@ -314,26 +315,80 @@ namespace NetWorkedData.NWDEditor
             EditorGUI.EndDisabledGroup();
             NWDGUILayout.BigSpace();
             // calculate the good dimension for window
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDEditorNewWindow : NWDEditorWindow
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        private static NWDEditorNewWindow _kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the SharedInstance or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static NWDEditorNewWindow SharedInstance()
+        {
+            NWDBenchmark.Start();
+            if (_kSharedInstance == null)
+            {
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorNewWindow)) as NWDEditorNewWindow;
+            }
+            NWDBenchmark.Finish();
+            return _kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Removes all predicate for the empty properties value key at the end of GUI.
+        /// Show the SharedInstance of Editor Configuration Manager Window and focus on.
         /// </summary>
-        /// <returns><c>true</c>, if all predicate was removed, <c>false</c> otherwise.</returns>
-        /// <param name="tObject">T object.</param>
-        bool RemoveAllPredicate(KeyValuePair<string, string> tObject)
+        /// <returns></returns>
+        public static void SharedInstanceFocus()
         {
-            //NWDBenchmark.Start();
-            bool tReturn = false;
-            if (tObject.Key == "" && tObject.Value == " ")
-            {
-                tReturn = true;
-            }
-            //NWDBenchmark.Finish();
-            return tReturn;
+            NWDBenchmark.Start();
+            SharedInstance().ShowUtility();
+            SharedInstance().Focus();
+            NWDBenchmark.Finish();
         }
-
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Repaint all <see cref="NWDEditorNewWindow"/>.
+        /// </summary>
+        public static void Refresh()
+        {
+            NWDBenchmark.Start();
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDEditorNewWindow));
+            foreach (NWDEditorNewWindow tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Raises the enable event.
+        /// </summary>
+        public void OnEnable()
+        {
+            NWDBenchmark.Start();
+            TitleInit("Custom Window Manager", typeof(NWDEditorNewWindow));
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Raises the OnGUI event. Create the interface to enter a new class.
+        /// </summary>
+        public override void OnPreventGUI()
+        {
+            NWDBenchmark.Start();
+            NWDGUI.LoadStyles();
+            NWDEditorNewWindowContent.SharedInstance().OnPreventGUI(position);
+            NWDBenchmark.Finish();
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

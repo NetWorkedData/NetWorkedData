@@ -32,16 +32,13 @@ using System.Linq;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// NWD editor new class. Can create a new classes based on NWDExample automatically from the form generated in this editor window.
-    /// </summary>
-    public partial class NWDEditorNewClass : NWDEditorWindow
+    public partial class NWDEditorNewClassContent : NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// The Shared Instance.
+        /// Scroll position in window
         /// </summary>
-        private static NWDEditorNewClass kSharedInstance;
+        private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
         const int K_TRIGRAM_MIN = 2;
         const int K_TRIGRAM_MAX = 6;
@@ -49,25 +46,6 @@ namespace NetWorkedData.NWDEditor
         const int K_MENU_MAX = 24;
         //-------------------------------------------------------------------------------------------------------------
         Vector2 ScrollPosition = Vector2.zero;
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDEditorNewClass SharedInstance()
-        {
-            //NWDBenchmark.Start();
-            if (kSharedInstance == null)
-            {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorNewClass)) as NWDEditorNewClass;
-            }
-            //NWDBenchmark.Finish();
-            return kSharedInstance;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SharedInstanceFocus()
-        {
-            //NWDBenchmark.Start();
-            SharedInstance().ShowUtility();
-            SharedInstance().Focus();
-            //NWDBenchmark.Finish();
-        }
         //-------------------------------------------------------------------------------------------------------------
 
         //bool ClassUnityEditorOnly = false;
@@ -102,6 +80,26 @@ namespace NetWorkedData.NWDEditor
         List<string> tListOfType = new List<string>();
         List<string> tListOfclass = new List<string>();
         NWDTemplateHelper TemplateHelper = new NWDTemplateHelper();
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance for deamon class.
+        /// </summary>
+        private static NWDEditorNewClassContent _kSharedInstanceContent;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static NWDEditorNewClassContent SharedInstance()
+        {
+            NWDBenchmark.Start();
+            if (_kSharedInstanceContent == null)
+            {
+                _kSharedInstanceContent = new NWDEditorNewClassContent();
+            }
+            NWDBenchmark.Finish();
+            return _kSharedInstanceContent;
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Generate the new class. It's not Magic, it's Sciences! (and a little bit of magic :-p )
@@ -209,10 +207,25 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void OnEnable()
+        /// <summary>
+        /// Removes all predicate for the empty properties value key at the end of GUI.
+        /// </summary>
+        /// <returns><c>true</c>, if all predicate was removed, <c>false</c> otherwise.</returns>
+        /// <param name="tObject">T object.</param>
+        bool RemoveAllPredicate(KeyValuePair<string, string> tObject)
         {
             //NWDBenchmark.Start();
-            TitleInit("Custom Class", typeof(NWDEditorNewClass));
+            bool tReturn = false;
+            if (tObject.Key == string.Empty && tObject.Value == " ")
+            {
+                tReturn = true;
+            }
+            //NWDBenchmark.Finish();
+            return tReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void OnEnable(NWDEditorWindow sEditorWindow)
+        {
             tListOfType = new List<string>();
             tListOfType.Add(" ");
             tListOfType.Add("string");
@@ -288,16 +301,20 @@ namespace NetWorkedData.NWDEditor
             //tListOfclass.Insert(0, typeof(NWDBasisAccountRestricted).Name); // not accessible to create Data in framework
             tListOfclass.Insert(0, typeof(NWDBasisBundled).Name);
             tListOfclass.Insert(0, typeof(NWDBasis).Name);
-            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void OnDisable(NWDEditorWindow sEditorWindow)
+        {
+
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Raises the OnGUI event. Create the interface to enter a new class.
+        ///  On GUI drawing.
         /// </summary>
-        public override void OnPreventGUI()
+        public override void OnPreventGUI(Rect sRect)
         {
-            //NWDBenchmark.Start();
-            NWDGUI.LoadStyles();
+            base.OnPreventGUI(sRect);
+            NWDBenchmark.Start();
             NWDGUILayout.Title("Custom class Generator");
             NWDGUILayout.Informations("Custom your class!");
             NWDGUILayout.Line();
@@ -320,7 +337,7 @@ namespace NetWorkedData.NWDEditor
             {
                 ClassBase = tListOfclass[tBaseIndex];
             }
-            TemplateHelper.SetClassType(Type.GetType("NetWorkedData."+ClassBase));
+            TemplateHelper.SetClassType(Type.GetType("NetWorkedData." + ClassBase));
             EditorGUI.BeginDisabledGroup(true);
             EditorGUILayout.EnumPopup("Device Database", TemplateHelper.GetDeviceDatabase());
             EditorGUILayout.EnumPopup("Synchronizable", TemplateHelper.GetSynchronizable());
@@ -361,12 +378,12 @@ namespace NetWorkedData.NWDEditor
             ClassNameTrigramme = ClassNameTrigramme.ToUpper();
             if (ClassNameTrigramme.Length < K_TRIGRAM_MIN)
             {
-                EditorGUILayout.LabelField(" ", "trigramme must be longer than "+ K_TRIGRAM_MIN + " characters");
+                EditorGUILayout.LabelField(" ", "trigramme must be longer than " + K_TRIGRAM_MIN + " characters");
                 tCanCreate = false;
             }
             else if (ClassNameTrigramme.Length > K_TRIGRAM_MAX)
             {
-                EditorGUILayout.LabelField(" ", "trigramme must be shorter than "+ K_TRIGRAM_MAX+ " characters");
+                EditorGUILayout.LabelField(" ", "trigramme must be shorter than " + K_TRIGRAM_MAX + " characters");
                 tCanCreate = false;
             }
             else
@@ -392,12 +409,12 @@ namespace NetWorkedData.NWDEditor
             ClassNameMenuName = ClassNameMenuName.Replace("\\", string.Empty);
             if (ClassNameMenuName.Length < K_MENU_MIN)
             {
-                EditorGUILayout.LabelField(" ", "menu name must be longer than "+K_MENU_MIN+" characters");
+                EditorGUILayout.LabelField(" ", "menu name must be longer than " + K_MENU_MIN + " characters");
                 tCanCreate = false;
             }
             else if (ClassNameMenuName.Length > K_MENU_MAX)
             {
-                EditorGUILayout.LabelField(" ", "menu name must be shorter than "+ K_MENU_MAX + " characters");
+                EditorGUILayout.LabelField(" ", "menu name must be shorter than " + K_MENU_MAX + " characters");
                 tCanCreate = false;
             }
             else
@@ -464,26 +481,59 @@ namespace NetWorkedData.NWDEditor
             }
             EditorGUI.EndDisabledGroup();
             NWDGUILayout.BigSpace();
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWD editor new class. Can create a new classes based on NWDExample automatically from the form generated in this editor window.
+    /// </summary>
+    public partial class NWDEditorNewClass : NWDEditorWindow
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        private static NWDEditorNewClass _kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDEditorNewClass SharedInstance()
+        {
+            //NWDBenchmark.Start();
+            if (_kSharedInstance == null)
+            {
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorNewClass)) as NWDEditorNewClass;
+            }
+            //NWDBenchmark.Finish();
+            return _kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SharedInstanceFocus()
+        {
+            //NWDBenchmark.Start();
+            SharedInstance().ShowUtility();
+            SharedInstance().Focus();
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void OnEnable()
+        {
+            //NWDBenchmark.Start();
+            TitleInit("Custom Class", typeof(NWDEditorNewClass));
+            NWDEditorNewClassContent.SharedInstance().OnEnable(this);
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Removes all predicate for the empty properties value key at the end of GUI.
+        /// Raises the OnGUI event. Create the interface to enter a new class.
         /// </summary>
-        /// <returns><c>true</c>, if all predicate was removed, <c>false</c> otherwise.</returns>
-        /// <param name="tObject">T object.</param>
-        bool RemoveAllPredicate(KeyValuePair<string, string> tObject)
+        public override void OnPreventGUI()
         {
             //NWDBenchmark.Start();
-            bool tReturn = false;
-            if (tObject.Key == string.Empty && tObject.Value == " ")
-            {
-                tReturn = true;
-            }
+            NWDGUI.LoadStyles();
+            NWDEditorNewClassContent.SharedInstance().OnPreventGUI(position);
             //NWDBenchmark.Finish();
-            return tReturn;
         }
-
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
