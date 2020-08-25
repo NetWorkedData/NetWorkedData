@@ -28,10 +28,14 @@ using System.Collections.Generic;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDClusterSizer : NWDEditorWindow
+    public class NWDClusterSizerContent : NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
-        Vector2 ScrollPosition;
+        /// <summary>
+        /// Scroll position in window
+        /// </summary>
+        private static Vector2 _kScrollPosition;
+        //-------------------------------------------------------------------------------------------------------------
         public List<NWDBasisHelper> TypeEditorList = new List<NWDBasisHelper>();
         public List<NWDBasisHelper> TypeAccountList = new List<NWDBasisHelper>();
         public Dictionary<NWDBasisHelper, double> TypeEditorAndSize = new Dictionary<NWDBasisHelper, double>();
@@ -42,94 +46,23 @@ namespace NetWorkedData.NWDEditor
         public Dictionary<NWDBasisHelper, int> TypeAndMax = new Dictionary<NWDBasisHelper, int>();
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// The Shared Instance.
+        /// The Shared Instance for deamon class.
         /// </summary>
-        public static NWDClusterSizer kSharedInstance;
+        private static NWDClusterSizerContent _kSharedInstanceContent;
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDClusterSizer SharedInstance()
+        /// <summary>
+        /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static NWDClusterSizerContent SharedInstance()
         {
-            //NWDBenchmark.Start();
-            if (kSharedInstance == null)
+            NWDBenchmark.Start();
+            if (_kSharedInstanceContent == null)
             {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWDClusterSizer)) as NWDClusterSizer;
+                _kSharedInstanceContent = new NWDClusterSizerContent();
             }
-            //NWDBenchmark.Finish();
-            return kSharedInstance;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDClusterSizer SharedInstanceFocus()
-        {
-            //NWDBenchmark.Start();
-            SharedInstance().ShowUtility();
-            SharedInstance().Focus();
-            //NWDBenchmark.Finish();
-            return kSharedInstance;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void Refresh()
-        {
-            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDClusterSizer));
-            foreach (NWDClusterSizer tWindow in tWindows)
-            {
-                tWindow.Repaint();
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool IsSharedInstanced()
-        {
-            if (kSharedInstance != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void OnEnable()
-        {
-            TitleInit(NWDConstants.K_APP_CLUSTER_SIZER_TITLE, typeof(NWDClusterSizer));
-            TypeAccountedAndSize.Clear();
-            TypeAndQuantity.Clear();
-            TypeEditorAndSize.Clear();
-            TypeEditorList.Clear();
-            TypeAccountList.Clear();
-            TypeAndMin.Clear();
-            TypeAndMax.Clear();
-            //NWDBenchmark.Start();
-            foreach (Type tType in NWDDataManager.SharedInstance().ClassNotAccountDependentList)
-            {
-                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                if (tHelper != null)
-                {
-                    double tSize = tHelper.SizerCalculate();
-                    TypeEditorAndSize.Add(tHelper, tSize);
-                    TypeEditorList.Add(tHelper);
-                    TypeAndMin.Add(tHelper, tHelper.ClusterMin);
-                    TypeAndMax.Add(tHelper, tHelper.ClusterMax);
-                    TypeAndQuantity.Add(tHelper, NWDProjectPrefs.GetInt("cluster_test_" + tHelper.ClassNamePHP, TypeAndMin[tHelper]));
-                }
-            }
-            foreach (Type tType in NWDDataManager.SharedInstance().ClassAccountDependentList)
-            {
-                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                if (tHelper != null)
-                {
-                    double tSize = tHelper.SizerCalculate();
-                    TypeAccountedAndSize.Add(tHelper, tSize);
-                    TypeAccountList.Add(tHelper);
-                    TypeAndMin.Add(tHelper, tHelper.ClusterMin);
-                    TypeAndMax.Add(tHelper, tHelper.ClusterMax);
-                    TypeAndQuantity.Add(tHelper, NWDProjectPrefs.GetInt("cluster_test_" + tHelper.ClassNamePHP, TypeAndMin[tHelper]));
-                }
-            }
-
-            TypeEditorList.Sort((tA, tB) => string.Compare(tA.ClassNamePHP, tB.ClassNamePHP, StringComparison.Ordinal));
-            TypeAccountList.Sort((tA, tB) => string.Compare(tA.ClassNamePHP, tB.ClassNamePHP, StringComparison.Ordinal));
-
-            ByPassMinMaxValue();
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
+            return _kSharedInstanceContent;
         }
         //-------------------------------------------------------------------------------------------------------------
         private void SetMinMax(Type sType, int sMin, int sMax)
@@ -145,24 +78,81 @@ namespace NetWorkedData.NWDEditor
         private void ByPassMinMaxValue()
         {
             SetMinMax(typeof(NWDRequestToken), NWDAppConfiguration.SharedInstance().SelectedEnvironment().TokenHistoric, NWDAppConfiguration.SharedInstance().SelectedEnvironment().TokenHistoric * 2);
-            //SetMinMax(typeof(NWDAccountPreference), NWDDataManager.SharedInstance().ClassDataLoaded, NWDDataManager.SharedInstance().ClassDataLoaded+2048);
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void DrawType(Type sType)
+        //private void DrawType(Type sType)
+        //{
+        //    GUILayout.BeginVertical(/*EditorStyles.helpBox*/);
+        //    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
+        //    NWDGUILayout.SubSection(tHelper.ClassNamePHP);
+        //    tHelper.DrawTypeInformations();
+        //    GUILayout.EndVertical();
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public override void OnEnable(NWDEditorWindow sEditorWindow)
         {
-            GUILayout.BeginVertical(/*EditorStyles.helpBox*/);
-            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
-            NWDGUILayout.SubSection(tHelper.ClassNamePHP);
-            tHelper.DrawTypeInformations();
-            GUILayout.EndVertical();
+            TypeAccountedAndSize.Clear();
+            TypeAndQuantity.Clear();
+            TypeEditorAndSize.Clear();
+            TypeEditorList.Clear();
+            TypeAccountList.Clear();
+            TypeAndMin.Clear();
+            TypeAndMax.Clear();
+
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassNotAccountDependentList)
+            {
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                if (tHelper != null)
+                {
+                    if (tHelper.TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+                    {
+                        double tSize = tHelper.SizerCalculate();
+                        TypeEditorAndSize.Add(tHelper, tSize);
+                        TypeEditorList.Add(tHelper);
+                        TypeAndMin.Add(tHelper, tHelper.ClusterMin);
+                        TypeAndMax.Add(tHelper, tHelper.ClusterMax);
+                        TypeAndQuantity.Add(tHelper, NWDProjectPrefs.GetInt("cluster_test_" + tHelper.ClassNamePHP, TypeAndMin[tHelper]));
+                    }
+                }
+            }
+            foreach (Type tType in NWDDataManager.SharedInstance().ClassAccountDependentList)
+            {
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                if (tHelper != null)
+                {
+                    if (tHelper.TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+                    {
+                        double tSize = tHelper.SizerCalculate();
+                        TypeAccountedAndSize.Add(tHelper, tSize);
+                        TypeAccountList.Add(tHelper);
+                        TypeAndMin.Add(tHelper, tHelper.ClusterMin);
+                        TypeAndMax.Add(tHelper, tHelper.ClusterMax);
+                        TypeAndQuantity.Add(tHelper, NWDProjectPrefs.GetInt("cluster_test_" + tHelper.ClassNamePHP, TypeAndMin[tHelper]));
+                    }
+                }
+            }
+
+            TypeEditorList.Sort((tA, tB) => string.Compare(tA.ClassNamePHP, tB.ClassNamePHP, StringComparison.Ordinal));
+            TypeAccountList.Sort((tA, tB) => string.Compare(tA.ClassNamePHP, tB.ClassNamePHP, StringComparison.Ordinal));
+
+            ByPassMinMaxValue();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void OnPreventGUI()
+        public override void OnDisable(NWDEditorWindow sEditorWindow)
         {
-            //NWDBenchmark.Start();
-            NWDGUI.LoadStyles();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
+        public override void OnPreventGUI(Rect sRect)
+        {
+            base.OnPreventGUI(sRect);
+            NWDBenchmark.Start();
+
             NWDGUILayout.Title(NWDConstants.K_APP_CLUSTER_SIZER_TITLE);
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+
+            _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             float tLabelWidth = EditorGUIUtility.labelWidth;
             EditorGUIUtility.labelWidth = 100;
 
@@ -263,10 +253,75 @@ namespace NetWorkedData.NWDEditor
 
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
-            //NWDBenchmark.Finish();
+
             EditorGUIUtility.labelWidth = tLabelWidth;
 
-
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDClusterSizer : NWDEditorWindow
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        public static NWDClusterSizer _kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDClusterSizer SharedInstance()
+        {
+            //NWDBenchmark.Start();
+            if (_kSharedInstance == null)
+            {
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDClusterSizer)) as NWDClusterSizer;
+            }
+            //NWDBenchmark.Finish();
+            return _kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDClusterSizer SharedInstanceFocus()
+        {
+            //NWDBenchmark.Start();
+            SharedInstance().ShowUtility();
+            SharedInstance().Focus();
+            //NWDBenchmark.Finish();
+            return _kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void Refresh()
+        {
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDClusterSizer));
+            foreach (NWDClusterSizer tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool IsSharedInstanced()
+        {
+            if (_kSharedInstance != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void OnEnable()
+        {
+            TitleInit(NWDConstants.K_APP_CLUSTER_SIZER_TITLE, typeof(NWDClusterSizer));
+            NWDClusterSizerContent.SharedInstance().OnEnable(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void OnPreventGUI()
+        {
+            //NWDBenchmark.Start();
+            NWDGUI.LoadStyles();
+            NWDClusterSizerContent.SharedInstance().OnPreventGUI(position);
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

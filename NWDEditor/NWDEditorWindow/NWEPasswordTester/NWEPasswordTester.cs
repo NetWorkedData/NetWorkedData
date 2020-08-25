@@ -213,7 +213,6 @@ namespace NetWorkedData.NWDEditor
         /// Show the <see cref="_kSharedInstance"/> of <see cref="NWEPassAnalyseWindow"/> and focus on.
         /// </summary>
         /// <returns></returns>
-        //[MenuItem("Tools/Pass Analyze Window")]
         public static void SharedInstanceFocus()
         {
             NWDBenchmark.Start();

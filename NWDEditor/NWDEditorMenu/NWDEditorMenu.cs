@@ -269,6 +269,12 @@ namespace NetWorkedData.NWDEditor
             NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(NWDDataManager.SharedInstance().ClassTypeList, true, false);
         }
         //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + "Cluster sizer", false, 100)]
+        public static void ClusterClusterSizer()
+        {
+            NWDClusterSizer.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         #region Models
         //-------------------------------------------------------------------------------------------------------------
@@ -321,12 +327,6 @@ namespace NetWorkedData.NWDEditor
         public static void NewFooterWindow()
         {
             NWDEditorFooter.NewFooter();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(K_NETWORKEDDATA + K_TOOLS + "Cluster Sizer", false, 9031)]
-        public static void ClusterClusterSizer()
-        {
-            NWDClusterSizer.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
         #region Special Recompile

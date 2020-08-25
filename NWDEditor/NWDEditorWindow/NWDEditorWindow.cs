@@ -349,12 +349,6 @@ namespace NetWorkedData.NWDEditor
     public class NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void OnPreventGUI(Rect sRect)
-        {
-            GUILayout.Label("OOOOOKKKKKKKKKK GOOD IMPLEMENTATION");
-            //throw new Exception("override OnPreventGUI() in place of OnGUI");
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public virtual void OnEnable(NWDEditorWindow sEditorWindow)
         {
             throw new Exception("override OnEnable()");
@@ -363,6 +357,12 @@ namespace NetWorkedData.NWDEditor
         public virtual void OnDisable(NWDEditorWindow sEditorWindow)
         {
             throw new Exception("override OnDisable()");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void OnPreventGUI(Rect sRect)
+        {
+            GUILayout.Label("OOOOOKKKKKKKKKK GOOD IMPLEMENTATION");
+            //throw new Exception("override OnPreventGUI() in place of OnGUI");
         }
         //-------------------------------------------------------------------------------------------------------------
     }
