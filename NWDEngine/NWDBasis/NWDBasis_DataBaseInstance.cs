@@ -150,7 +150,7 @@ namespace NetWorkedData
                             }
                             else
                             {
-                                Debug.LogWarning(tTypeOfThis.GetType().Name + " is not a Type for " + tPropertyInfo.Name + " in " + ClassType().Name + "!");
+                              NWDDebug.Warning(tTypeOfThis.GetType().Name + " is not a Type for " + tPropertyInfo.Name + " in " + ClassType().Name + "!");
                             }
                         }
                     }
