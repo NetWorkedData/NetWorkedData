@@ -218,7 +218,7 @@ namespace NetWorkedData.NWDEditor
                 ReEvaluateLayout();
             }
             tY += NWDGUI.kIntFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-            tTitleRect = NWDGUI.Title(new Rect(tX, tY, DocumentMarge, NWDGUI.kTitleStyle.fixedHeight),
+            tTitleRect = NWDGUI.Section(new Rect(tX, tY, DocumentMarge, NWDGUI.kTitleStyle.fixedHeight),
                       "Analyze object");
             tY += tTitleRect.height + NWDGUI.kFieldMarge;
             bool tTopCard = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), DrawInformationsArea, "View informations");
@@ -257,7 +257,7 @@ namespace NetWorkedData.NWDEditor
             }
             tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
             // Localization Zone
-            tTitleRect = NWDGUI.Title(new Rect(tX, tY, DocumentMarge, NWDGUI.kTitleStyle.fixedHeight),
+            tTitleRect = NWDGUI.Section(new Rect(tX, tY, DocumentMarge, NWDGUI.kTitleStyle.fixedHeight),
                       "Localization test");
             tY += tTitleRect.height + NWDGUI.kFieldMarge;
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
@@ -280,7 +280,7 @@ namespace NetWorkedData.NWDEditor
             float tWidthB = NWDGUI.kEditIconSide;
             float tWidthA = DocumentMarge - NWDGUI.kEditIconSide - NWDGUI.kFieldMarge;
             float tXB = tWidthA + NWDGUI.kFieldMarge;
-            tTitleRect = NWDGUI.Title(new Rect(tX, tY, DocumentMarge, NWDGUI.kTitleStyle.fixedHeight),
+            tTitleRect = NWDGUI.Section(new Rect(tX, tY, DocumentMarge, NWDGUI.kTitleStyle.fixedHeight),
                       "Classses");
             tY += tTitleRect.height + NWDGUI.kFieldMarge;
             if (GUI.Button(new Rect(tX + NWDGUI.kFieldMarge, tY, tWHalf, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_SHOW_ALL, NWDGUI.kMiniButtonStyle))

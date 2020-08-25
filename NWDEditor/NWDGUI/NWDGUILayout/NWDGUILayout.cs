@@ -97,6 +97,11 @@ namespace NetWorkedData.NWDEditor
             EditorGUI.indentLevel = 1;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void Label(string sTitle)
+        {
+                GUILayout.Label(sTitle);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void Informations(string sTitle, bool sIndent = true)
         {
             //LittleSpace();
