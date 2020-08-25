@@ -18,23 +18,17 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
-
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Text;
-
-#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
-#endif
-
 //=====================================================================================================================
-namespace NetWorkedData
+namespace NetWorkedData.NWDEditor
 {
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#if UNITY_EDITOR
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWEPassAnalyseComputer
     {
@@ -72,57 +66,71 @@ namespace NetWorkedData
         static public NWEPassAnalyseComputer MassiveClusterGHertz = new NWEPassAnalyseComputer("MassiveClusterGHertz", 7000000000000);
         //-------------------------------------------------------------------------------------------------------------
     }
+
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWEPassAnalyseWindow : EditorWindow
+    public class NWEPassAnalyseContent : NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
-        static NWEPassAnalyseWindow kSharedInstance;
+        /// <summary>
+        /// Scroll position in window
+        /// </summary>
+        private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
-        public static void SharedInstanceFocus()
-        {
-            //NWDBenchmark.Start();
-            SharedInstance().Show();
-            SharedInstance().Focus();
-            //NWDBenchmark.Finish();
-        }
+        /// <summary>
+        /// The Shared Instance for deamon class.
+        /// </summary>
+        private static NWEPassAnalyseContent _kSharedInstanceContent;
         //-------------------------------------------------------------------------------------------------------------
         string Password = string.Empty;
         NWEPassAnalyseComputer AttackType = NWEPassAnalyseComputer.OneGHertz;
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem("Tools/Pass Analyze Window")]
-        public static NWEPassAnalyseWindow SharedInstance()
+        /// <summary>
+        /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static NWEPassAnalyseContent SharedInstance()
         {
-            if (kSharedInstance == null)
+            NWDBenchmark.Start();
+            if (_kSharedInstanceContent == null)
             {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWEPassAnalyseWindow)) as NWEPassAnalyseWindow;
-                kSharedInstance.Show();
-                kSharedInstance.Focus();
+                _kSharedInstanceContent = new NWEPassAnalyseContent();
             }
-            return kSharedInstance;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private void OnEnable()
-        {
-            titleContent = new GUIContent("Password analyzer");
-            Password = NWDToolbox.RandomString(16);
+            NWDBenchmark.Finish();
+            return _kSharedInstanceContent;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AnalyzePassword(string sPassword)
         {
             Password = sPassword;
-            Repaint();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void OnGUI()
+        public override void OnEnable(NWDEditorWindow sEditorWindow)
         {
-
-            GUILayout.Label("Password to analyze", EditorStyles.boldLabel);
-            EditorGUILayout.HelpBox("Enter a password to analyze combinations and crack times", MessageType.Info);
+            Password = NWDToolbox.RandomString(16);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void OnDisable(NWDEditorWindow sEditorWindow)
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
+        public override void OnPreventGUI(Rect sRect)
+        {
+            base.OnPreventGUI(sRect);
+            NWDBenchmark.Start();
+            NWDGUILayout.Title("Password to analyze");
+            //EditorGUILayout.HelpBox("Enter a password to analyze combinations and crack times", MessageType.Info);
+            NWDGUILayout.Section("Password to analyze");
             EditorGUI.indentLevel++;
             Password = EditorGUILayout.TextField("Password", Password);
             EditorGUI.indentLevel--;
 
-            GUILayout.Label("Analyze", EditorStyles.boldLabel);
+            NWDGUILayout.Section("Analyze");
+            _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+
+            //NWDGUILayout.SubSection("Basis");
             EditorGUI.indentLevel++;
             EditorGUILayout.LabelField("Lenght", Password.Length.ToString());
             NWEPassCharset tPassCharset = NWEPassCharset.FoundCharset(Password);
@@ -135,7 +143,8 @@ namespace NetWorkedData
             EditorGUILayout.LabelField("Combinaisons", tCombinaison.ToString());
             EditorGUI.indentLevel--;
 
-            GUILayout.Label("Time to crack", EditorStyles.boldLabel);
+            NWDGUILayout.SubSection("Time to crack");
+            //GUILayout.Label("Time to crack", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
             EditorGUILayout.LabelField("Cycle per seconds", NWEPassCharset.CycleTest(Password, tPassCharset).ToString());
 
@@ -147,7 +156,8 @@ namespace NetWorkedData
             EditorGUILayout.LabelField("Force attack", NWEPassCharset.ForceAttack(Password, tPassCharset, tCycle));
             EditorGUI.indentLevel--;
 
-            GUILayout.Label("Analyze SHA one of password", EditorStyles.boldLabel);
+            NWDGUILayout.SubSection("Analyze SHA one of password");
+            //GUILayout.Label("Analyze SHA one of password", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
             string tSha = NWESecurityTools.GenerateSha(Password);
             EditorGUILayout.LabelField("SHA", tSha);
@@ -157,7 +167,8 @@ namespace NetWorkedData
             EditorGUILayout.LabelField("Force attack SHA", NWEPassCharset.ForceAttack(tSha, tShaCharset, tCycle));
             EditorGUI.indentLevel--;
 
-            GUILayout.Label("Analyze SHA 512 of password", EditorStyles.boldLabel);
+            NWDGUILayout.SubSection("Analyze SHA 512 of password");
+            //GUILayout.Label("Analyze SHA 512 of password", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
             string tSha512 = NWESecurityTools.GenerateSha(Password, NWESecurityShaTypeEnum.Sha512);
             EditorGUILayout.LabelField("SHA512 ", tSha512);
@@ -168,16 +179,93 @@ namespace NetWorkedData
             EditorGUI.indentLevel--;
             EditorGUILayout.Space();
 
-            /*
-            Rect tLastRect = GUILayoutUtility.GetLastRect();
-            minSize = new Vector2(400, tLastRect.y + tLastRect.height);
-            maxSize = new Vector2(1024, tLastRect.y + tLastRect.height);
-            */
+
+            GUILayout.EndScrollView();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#endif
+    public class NWEPassAnalyseWindow : NWDEditorWindow
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        private static NWEPassAnalyseWindow _kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the <see cref="_kSharedInstance"/> or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static NWEPassAnalyseWindow SharedInstance()
+        {
+            NWDBenchmark.Start();
+            if (_kSharedInstance == null)
+            {
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWEPassAnalyseWindow)) as NWEPassAnalyseWindow;
+            }
+            NWDBenchmark.Finish();
+            return _kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show the <see cref="_kSharedInstance"/> of <see cref="NWEPassAnalyseWindow"/> and focus on.
+        /// </summary>
+        /// <returns></returns>
+        [MenuItem("Tools/Pass Analyze Window")]
+        public static void SharedInstanceFocus()
+        {
+            NWDBenchmark.Start();
+            SharedInstance().ShowUtility();
+            SharedInstance().Focus();
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Repaint all <see cref="NWEPassAnalyseWindow"/>.
+        /// </summary>
+        public static void Refresh()
+        {
+            NWDBenchmark.Start();
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWEPassAnalyseWindow));
+            foreach (NWEPassAnalyseWindow tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// On enable action.
+        /// </summary>
+        public void OnEnable()
+        {
+            NWDBenchmark.Start();
+            TitleInit("Password analyzer", typeof(NWEPassAnalyseWindow));
+            NWEPassAnalyseContent.SharedInstance().OnEnable(this);
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+
+        public void AnalyzePassword(string sPassword)
+        {
+            NWEPassAnalyseContent.SharedInstance().AnalyzePassword(sPassword);
+            Repaint();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
+        public override void OnPreventGUI()
+        {
+            NWDBenchmark.Start();
+            NWDGUI.LoadStyles();
+            NWEPassAnalyseContent.SharedInstance().OnPreventGUI(position);
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWEPassCharset
     {
@@ -665,3 +753,4 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif
