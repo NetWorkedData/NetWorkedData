@@ -382,7 +382,7 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public static void OnBeforeAssemblyReload()
         {
-            Debug.Log("Before Assembly Reload");
+            //Debug.Log("Before Assembly Reload");
             NWDBenchmark.Start();
             if (NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_SHOW_COMPILE, true) == true)
             {
@@ -403,7 +403,7 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public static void OnAfterAssemblyReload()
         {
-            Debug.Log("After Assembly Reload");
+            //Debug.Log("After Assembly Reload");
             NWDBenchmark.Start();
             if (NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_SHOW_COMPILE, true) == true)
             {

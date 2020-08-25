@@ -45,15 +45,10 @@ namespace NetWorkedData.NWDEditor
         /// </summary>
         private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// The scroll position.
-        /// </summary>
-        static Vector2 ScrollPosition;
-        //-------------------------------------------------------------------------------------------------------------
         bool BenchmarkShowStart;
         float BenchmarkLimit;
         bool Clipboard;
-        string UserName;
+        public string UserName;
         int PanelWidth;
         bool ShowCompile;
         Color Green;
@@ -79,6 +74,7 @@ namespace NetWorkedData.NWDEditor
             if (_kSharedInstanceContent == null)
             {
                 _kSharedInstanceContent = new NWDProjectConfigurationManagerContent();
+                _kSharedInstanceContent.Load();
             }
             NWDBenchmark.Finish();
             return _kSharedInstanceContent;
@@ -188,21 +184,21 @@ namespace NetWorkedData.NWDEditor
             NWDBenchmark.Start();
             NWDGUILayout.Title("Project preferences");
             // start scroll
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
 
             EditorGUI.BeginChangeCheck();
 
             //User preferences
-            NWDGUILayout.Section("User preferences");
-            UserName = EditorGUILayout.TextField("User builder name", UserName);
-            PanelWidth = EditorGUILayout.IntSlider("Panel data width", PanelWidth, 300, 400);
+            NWDGUILayout.Section("User's preferences");
+            UserName = EditorGUILayout.TextField("Username", UserName);
 
             //General preferences
-            NWDGUILayout.Section("General preferences");
+            NWDGUILayout.SubSection("General preferences");
             ShowCompile = EditorGUILayout.Toggle("Show re-compile ", ShowCompile);
+            PanelWidth = EditorGUILayout.IntSlider("Panel data width", PanelWidth, 300, 400);
 
             // build preference section
-            NWDGUILayout.Section("Project build preferences");
+            NWDGUILayout.SubSection("Build preferences");
             //define environment build
             EditorBuildEnvironment = (NWDEditorBuildEnvironment)EditorGUILayout.EnumPopup("Build Environment", EditorBuildEnvironment);
             // define rename option
@@ -211,7 +207,7 @@ namespace NetWorkedData.NWDEditor
             EditorBuildDatabaseUpdate = (NWDEditorBuildDatabaseUpdate)EditorGUILayout.EnumPopup("Copy database in build", EditorBuildDatabaseUpdate);
 
             // build Debug section
-            NWDGUILayout.Section("Debug and Benchmark in Editor");
+            NWDGUILayout.SubSection("Debug and Benchmark in Editor");
             NWDGUILayout.Informations("Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)");
             Clipboard = EditorGUILayout.ToggleLeft("Copy NWDDebug.Log in clipoard", Clipboard);
             BenchmarkShowStart = EditorGUILayout.ToggleLeft("Benchmark show start", BenchmarkShowStart);
@@ -263,8 +259,31 @@ namespace NetWorkedData.NWDEditor
                     "");
                 Save();
             }
+
+            NWDGUILayout.Section("Shared project's preferences");
+            NWDGUILayout.SubSection("Webhook URL");
+            NWDAppConfiguration.SharedInstance().SlackWebhookURL = EditorGUILayout.TextField("Webhook URL", NWDAppConfiguration.SharedInstance().SlackWebhookURL);
+            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().SlackWebhookURL));
+            if (GUILayout.Button("Test Webhook"))
+            {
+                NWDOperationWebhook.NewMessage("Test Webhook integration success!");
+            }
+
+
             // end scroll
             GUILayout.EndScrollView();
+
+            // finish with reccord red button
+            NWDGUILayout.Line();
+            NWDGUILayout.LittleSpace();
+            NWDGUI.BeginRedArea();
+            if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
+            {
+                NWDEditorWindow.GenerateCSharpFile();
+            }
+            NWDGUI.EndRedArea();
+            NWDGUILayout.BigSpace();
+
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

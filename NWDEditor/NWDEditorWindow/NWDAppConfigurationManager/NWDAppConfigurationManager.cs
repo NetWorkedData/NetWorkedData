@@ -124,8 +124,12 @@ namespace NetWorkedData.NWDEditor
             NWDGUILayout.Section("Slack with Editor");
             NWDGUILayout.SubSection("Webhook URL");
             NWDAppConfiguration.SharedInstance().SlackWebhookURL = EditorGUILayout.TextField("Webhook URL", NWDAppConfiguration.SharedInstance().SlackWebhookURL);
-
-
+            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().SlackWebhookURL));
+            if (GUILayout.Button("Test Webhook"))
+            {
+                NWDOperationWebhook.NewMessage("Test Webhook integration success!");
+            }
+            EditorGUI.EndDisabledGroup();
             NWDGUILayout.Section("Account");
             NWDGUILayout.SubSection("Account Anonymous");
             NWDAppConfiguration.SharedInstance().AnonymousDeviceConnected = EditorGUILayout.ToggleLeft("Anonymous account connected from system device!", NWDAppConfiguration.SharedInstance().AnonymousDeviceConnected);

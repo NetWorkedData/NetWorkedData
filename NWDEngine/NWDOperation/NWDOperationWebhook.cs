@@ -28,27 +28,61 @@ using UnityEngine.Networking;
 #if UNITY_EDITOR
 using UnityEditor;
 using NetWorkedData.NWDEditor;
-#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //https://api.slack.com/tools/block-kit-builder?mode=message&blocks=%5B%7B%22type%22%3A%22section%22%2C%22text%22%3A%7B%22type%22%3A%22mrkdwn%22%2C%22text%22%3A%22This%20is%20a%20mrkdwn%20section%20block%20%3Aghost%3A%20*this%20is%20bold*%2C%20and%20~this%20is%20crossed%20out~%2C%20and%20%3Chttps%3A%2F%2Fgoogle.com%7Cthis%20is%20a%20link%3E%22%7D%7D%2C%7B%22type%22%3A%22divider%22%7D%2C%7B%22type%22%3A%22context%22%2C%22elements%22%3A%5B%7B%22type%22%3A%22image%22%2C%22image_url%22%3A%22https%3A%2F%2Fapi.slack.com%2Fimg%2Fblocks%2Fbkb_template_images%2FnotificationsWarningIcon.png%22%2C%22alt_text%22%3A%22notifications%20warning%20icon%22%7D%2C%7B%22type%22%3A%22mrkdwn%22%2C%22text%22%3A%22*Conflicts%20with%20Team%20Huddle%3A%204%3A15-4%3A30pm*%22%7D%5D%7D%2C%7B%22type%22%3A%22section%22%2C%22text%22%3A%7B%22type%22%3A%22mrkdwn%22%2C%22text%22%3A%22*%3CfakeLink.toUserProfiles.com%7CIris%20%2F%20Zelda%201-1%3E*%5CnTuesday%2C%20January%2021%204%3A00-4%3A30pm%5CnBuilding%202%20-%20Havarti%20Cheese%20(3)%5Cn2%20guests%22%7D%2C%22accessory%22%3A%7B%22type%22%3A%22image%22%2C%22image_url%22%3A%22https%3A%2F%2Fapi.slack.com%2Fimg%2Fblocks%2Fbkb_template_images%2Fnotifications.png%22%2C%22alt_text%22%3A%22calendar%20thumbnail%22%7D%7D%2C%7B%22type%22%3A%22section%22%2C%22text%22%3A%7B%22type%22%3A%22plain_text%22%2C%22emoji%22%3Atrue%2C%22text%22%3A%22Looks%20like%20you%20have%20a%20scheduling%20conflict%20with%20this%20event%3A%22%7D%7D%2C%7B%22type%22%3A%22divider%22%7D%2C%7B%22type%22%3A%22section%22%2C%22text%22%3A%7B%22type%22%3A%22mrkdwn%22%2C%22text%22%3A%22*Propose%20a%20new%20time%3A*%22%7D%7D%2C%7B%22type%22%3A%22section%22%2C%22text%22%3A%7B%22type%22%3A%22mrkdwn%22%2C%22text%22%3A%22*Today%20-%204%3A30-5pm*%5CnEveryone%20is%20available%3A%20%40iris%2C%20%40zelda%22%7D%2C%22accessory%22%3A%7B%22type%22%3A%22button%22%2C%22text%22%3A%7B%22type%22%3A%22plain_text%22%2C%22emoji%22%3Atrue%2C%22text%22%3A%22Choose%22%7D%2C%22value%22%3A%22click_me_123%22%7D%7D%2C%7B%22type%22%3A%22section%22%2C%22text%22%3A%7B%22type%22%3A%22mrkdwn%22%2C%22text%22%3A%22*Tomorrow%20-%204-4%3A30pm*%5CnEveryone%20is%20available%3A%20%40iris%2C%20%40zelda%22%7D%2C%22accessory%22%3A%7B%22type%22%3A%22button%22%2C%22text%22%3A%7B%22type%22%3A%22plain_text%22%2C%22emoji%22%3Atrue%2C%22text%22%3A%22Choose%22%7D%2C%22value%22%3A%22click_me_123%22%7D%7D%2C%7B%22type%22%3A%22section%22%2C%22text%22%3A%7B%22type%22%3A%22mrkdwn%22%2C%22text%22%3A%22*Tomorrow%20-%206-6%3A30pm*%5CnSome%20people%20aren%27t%20available%3A%20%40iris%2C%20~%40zelda~%22%7D%2C%22accessory%22%3A%7B%22type%22%3A%22button%22%2C%22text%22%3A%7B%22type%22%3A%22plain_text%22%2C%22emoji%22%3Atrue%2C%22text%22%3A%22Choose%22%7D%2C%22value%22%3A%22click_me_123%22%7D%7D%2C%7B%22type%22%3A%22section%22%2C%22text%22%3A%7B%22type%22%3A%22mrkdwn%22%2C%22text%22%3A%22*%3Cfakelink.ToMoreTimes.com%7CShow%20more%20times%3E*%22%7D%7D%2C%7B%22type%22%3A%22section%22%2C%22text%22%3A%7B%22type%22%3A%22mrkdwn%22%2C%22text%22%3A%22This%20is%20a%20mrkdwn%20section%20block%20%3Aghost%3A%20*this%20is%20bold*%2C%20and%20~this%20is%20crossed%20out~%2C%20and%20%3Chttps%3A%2F%2Fgoogle.com%7Cthis%20is%20a%20link%3E%22%7D%7D%2C%7B%22type%22%3A%22actions%22%2C%22elements%22%3A%5B%7B%22type%22%3A%22conversations_select%22%2C%22placeholder%22%3A%7B%22type%22%3A%22plain_text%22%2C%22text%22%3A%22Select%20a%20conversation%22%2C%22emoji%22%3Atrue%7D%7D%2C%7B%22type%22%3A%22channels_select%22%2C%22placeholder%22%3A%7B%22type%22%3A%22plain_text%22%2C%22text%22%3A%22Select%20a%20channel%22%2C%22emoji%22%3Atrue%7D%7D%2C%7B%22type%22%3A%22users_select%22%2C%22placeholder%22%3A%7B%22type%22%3A%22plain_text%22%2C%22text%22%3A%22Select%20a%20user%22%2C%22emoji%22%3Atrue%7D%7D%2C%7B%22type%22%3A%22static_select%22%2C%22placeholder%22%3A%7B%22type%22%3A%22plain_text%22%2C%22text%22%3A%22Select%20an%20item%22%2C%22emoji%22%3Atrue%7D%2C%22options%22%3A%5B%7B%22text%22%3A%7B%22type%22%3A%22plain_text%22%2C%22text%22%3A%22Excellent%20item%201%22%2C%22emoji%22%3Atrue%7D%2C%22value%22%3A%22value-0%22%7D%2C%7B%22text%22%3A%7B%22type%
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [ExecuteInEditMode]
     public partial class NWDOperationWebhook : NWEOperation
     {
         //-------------------------------------------------------------------------------------------------------------
-        //[MenuItem(NWDConstants.K_MENU_BASE + "Tools/Slack_test", false, 20)]
-        //public static void MENU_SlackTest()
-        //{
-        //    NewWebservie(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        public static void NewWebservie(NWDAppEnvironment sEnvironment)
+        public static void NewMessage( string sMessage)
         {
-            NWDOperationWebhook.SlackText("[:robot_face: *NetWorkedData* *" + sEnvironment.AppName +
-                "*] New WebServices is available for environment "+ sEnvironment.Environment +
-                ". It's <"+ sEnvironment.GetServerHTTPS() + "/" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "/" + sEnvironment.Environment + "/" + "|WS" + NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")+">");
+            NewMessage(NWDAppConfiguration.SharedInstance().SelectedEnvironment(), sMessage);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void NewMessage(NWDAppEnvironment sEnvironment, string sMessage)
+        {
+            string tWarning = "";
+            if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+            {
+                tWarning = ":warning: ";
+            }
+
+            NWDOperationWebhook.SlackText("[:robot_face: *NetWorkedData* :package: *" + sEnvironment.AppName + "* :grinning: " + NWDProjectConfigurationManagerContent.SharedInstance().UserName + "] " +
+                "\n" +
+                tWarning +
+               // "<color=" + NWDToolbox.ColorToString(sEnvironment.CartridgeColor) + "> " +
+                "*" + sEnvironment.Environment + "*" +
+               // "</color>" +
+                " : " +
+                //"\n" +
+                "" + sMessage);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void NewWebService(NWDAppEnvironment sEnvironment, List<Type> sTypeList)
+        {
+            string tClasses = "";
+            if (sTypeList.Count == 1)
+            {
+                tClasses = tClasses + " Classe updated is :";
+            }
+            if (sTypeList.Count > 1)
+            {
+                tClasses = tClasses + " Classes updated are :";
+            }
+            foreach (Type tType in sTypeList)
+            {
+                NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
+                tClasses = tClasses + "\n - " + tDatas.ClassNamePHP;
+            }
+            if (sTypeList.Count > 0)
+            {
+                tClasses = tClasses + "\n";
+            }
+            string tMessage = "New WebServices are available for environment *" + sEnvironment.Environment +
+                "*. WebServices are available at <" + sEnvironment.GetServerHTTPS() + "/" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "/" + sEnvironment.Environment + "/" + "|WS" + NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000") + "> !" + tClasses;
+            NewMessage(sEnvironment, tMessage);
         }
         //-------------------------------------------------------------------------------------------------------------
         static public NWDOperationWebhook SlackBlock(string sText)
@@ -223,3 +257,4 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

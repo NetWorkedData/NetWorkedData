@@ -106,6 +106,7 @@ namespace NetWorkedData
                     sConn.SendFolderAndFiles(tFolders, tFilesAndDatas, false);
                 }
             }
+            NWDOperationWebhook.NewWebService(this, sTypeList);
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
