@@ -35,7 +35,13 @@ namespace NetWorkedData
         public static string DateTimeYYYYMMdd(DateTime sDatetime)
         {
             return sDatetime.ToString("yyyy-MM-dd", NWDConstants.FormatCountry);
-        }//-------------------------------------------------------------------------------------------------------------
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string DateTimeYYYYMMddHHmmss(DateTime sDatetime)
+        {
+            return sDatetime.ToString("yyyy-MM-dd HH:mm:ss", NWDConstants.FormatCountry);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static string DateTimeYYYY(DateTime sDatetime)
         {
             return sDatetime.ToString("yyyy", NWDConstants.FormatCountry);
@@ -174,10 +180,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string AnimationCurveZero()
         {
-            return AnimationCurveToString(AnimationCurve.Linear(0.0F, 0.0F, 1.0F,1.0F));
+            return AnimationCurveToString(AnimationCurve.Linear(0.0F, 0.0F, 1.0F, 1.0F));
         }
         //-------------------------------------------------------------------------------------------------------------
-            public static string AnimationCurveToString(AnimationCurve sAnimationCurve)
+        public static string AnimationCurveToString(AnimationCurve sAnimationCurve)
         {
             List<string> tList = new List<string>();
             foreach (Keyframe tF in sAnimationCurve.keys)
@@ -221,8 +227,8 @@ namespace NetWorkedData
         {
             return FloatRangeToString(0.0F, 1.0F);
         }
-            //-------------------------------------------------------------------------------------------------------------
-            public static string FloatRangeToString(float sStart, float sEnd)
+        //-------------------------------------------------------------------------------------------------------------
+        public static string FloatRangeToString(float sStart, float sEnd)
         {
             if (sStart <= sEnd)
             {
@@ -466,15 +472,15 @@ namespace NetWorkedData
         {
             return FloatToString(sTransform.position.x) + NWDConstants.kFieldSeparatorF +
                     FloatToString(sTransform.position.y) + NWDConstants.kFieldSeparatorF +
-                    FloatToString(sTransform.position.z)+ NWDConstants.kFieldSeparatorF +
-                    
-                    FloatToString(sTransform.rotation.w)+ NWDConstants.kFieldSeparatorF +
-                    FloatToString(sTransform.rotation.x)+ NWDConstants.kFieldSeparatorF +
-                    FloatToString(sTransform.rotation.y)+ NWDConstants.kFieldSeparatorF +
-                    FloatToString(sTransform.rotation.z)+ NWDConstants.kFieldSeparatorF +
+                    FloatToString(sTransform.position.z) + NWDConstants.kFieldSeparatorF +
 
-                    FloatToString(sTransform.localScale.x)+ NWDConstants.kFieldSeparatorF +
-                    FloatToString(sTransform.localScale.y)+ NWDConstants.kFieldSeparatorF +
+                    FloatToString(sTransform.rotation.w) + NWDConstants.kFieldSeparatorF +
+                    FloatToString(sTransform.rotation.x) + NWDConstants.kFieldSeparatorF +
+                    FloatToString(sTransform.rotation.y) + NWDConstants.kFieldSeparatorF +
+                    FloatToString(sTransform.rotation.z) + NWDConstants.kFieldSeparatorF +
+
+                    FloatToString(sTransform.localScale.x) + NWDConstants.kFieldSeparatorF +
+                    FloatToString(sTransform.localScale.y) + NWDConstants.kFieldSeparatorF +
                     FloatToString(sTransform.localScale.z);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -483,25 +489,25 @@ namespace NetWorkedData
             string[] tFloats = sString.Split(new string[] { NWDConstants.kFieldSeparatorF }, StringSplitOptions.RemoveEmptyEntries);
             if (tFloats.Count() == 10)
             {
-            float tX = 0.0F;
-            float tY = 0.0F;
-            float tZ = 0.0F;
+                float tX = 0.0F;
+                float tY = 0.0F;
+                float tZ = 0.0F;
                 float.TryParse(tFloats[0], NumberStyles.Float, NWDConstants.FormatCountry, out tX);
                 float.TryParse(tFloats[1], NumberStyles.Float, NWDConstants.FormatCountry, out tY);
                 float.TryParse(tFloats[2], NumberStyles.Float, NWDConstants.FormatCountry, out tZ);
                 sTransform.position = new Vector3(tX, tY, tZ);
-            float trX = 0.0F;
-            float trY = 0.0F;
-            float trZ = 0.0F;
-            float trW = 0.0F;
+                float trX = 0.0F;
+                float trY = 0.0F;
+                float trZ = 0.0F;
+                float trW = 0.0F;
                 float.TryParse(tFloats[3], NumberStyles.Float, NWDConstants.FormatCountry, out trW);
                 float.TryParse(tFloats[4], NumberStyles.Float, NWDConstants.FormatCountry, out trX);
                 float.TryParse(tFloats[5], NumberStyles.Float, NWDConstants.FormatCountry, out trY);
                 float.TryParse(tFloats[6], NumberStyles.Float, NWDConstants.FormatCountry, out trZ);
                 sTransform.rotation = new Quaternion(trX, trY, trZ, trW);
-            float tsX = 0.0F;
-            float tsY = 0.0F;
-            float tsZ = 0.0F;
+                float tsX = 0.0F;
+                float tsY = 0.0F;
+                float tsZ = 0.0F;
                 float.TryParse(tFloats[7], NumberStyles.Float, NWDConstants.FormatCountry, out tsX);
                 float.TryParse(tFloats[8], NumberStyles.Float, NWDConstants.FormatCountry, out tsY);
                 float.TryParse(tFloats[9], NumberStyles.Float, NWDConstants.FormatCountry, out tsZ);
