@@ -49,7 +49,7 @@ namespace NetWorkedData
                 tWarning = ":warning: ";
             }
 
-            NWDOperationWebhook.SlackText("[:robot_face: *NetWorkedData* :package: *" + sEnvironment.AppName + "* :grinning: " + NWDProjectConfigurationManagerContent.SharedInstance().UserName + "] " +
+            NWDOperationWebhook.SlackText("[:robot_face: *NetWorkedData* :package: *" + sEnvironment.AppName + "* :grinning: " + NWDProjectConfigurationManagerContent.SharedInstance().UserName + " ("+ SystemInfo.deviceUniqueIdentifier + ")] " +
                 "\n" +
                 tWarning +
                // "<color=" + NWDToolbox.ColorToString(sEnvironment.CartridgeColor) + "> " +

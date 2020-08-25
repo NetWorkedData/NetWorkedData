@@ -48,7 +48,7 @@ namespace NetWorkedData.NWDEditor
         bool BenchmarkShowStart;
         float BenchmarkLimit;
         bool Clipboard;
-        public string UserName;
+        public string UserName = string.Empty;
         int PanelWidth;
         bool ShowCompile;
         Color Green;
@@ -117,7 +117,7 @@ namespace NetWorkedData.NWDEditor
             BenchmarkShowStart = NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_BENCHMARK_SHOW_START);
             BenchmarkLimit = NWDProjectPrefs.GetFloat(NWDConstants.K_EDITOR_BENCHMARK_LIMIT);
             Clipboard = NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG);
-            UserName = NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_USER_BUILDER, "(user)");
+            UserName = NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_USER_BUILDER, "(user?)");
             PanelWidth = NWDProjectPrefs.GetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, 320);
             ShowCompile = NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_SHOW_COMPILE);
             EditorBuildEnvironment = GetEditoBuildEnvironment();
@@ -191,6 +191,7 @@ namespace NetWorkedData.NWDEditor
             //User preferences
             NWDGUILayout.Section("User's preferences");
             UserName = EditorGUILayout.TextField("Username", UserName);
+            EditorGUILayout.LabelField("System infos", SystemInfo.deviceUniqueIdentifier);
 
             //General preferences
             NWDGUILayout.SubSection("General preferences");
