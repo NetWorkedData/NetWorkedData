@@ -34,16 +34,16 @@ using UnityEditor;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public delegate void NWDSSHCommandBlock(string sCommand, string sResult);
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDSSHWindow : NWDEditorWindow
+    public class NWDSSHContent : NWDEditorWindowContent
     {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Scroll position in window
+        /// </summary>
+        private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
         public NWDSSHCommandBlock CommandResultDelegate;
         //-------------------------------------------------------------------------------------------------------------
-        private static NWDSSHWindow kSharedInstance;
-        //-------------------------------------------------------------------------------------------------------------
-        static Vector2 ScrollPosition;
         GUIStyle TextareaStyle;
         //-------------------------------------------------------------------------------------------------------------
         NWDServer Server;
@@ -63,113 +63,23 @@ namespace NetWorkedData.NWDEditor
         string Infos = String.Empty;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Returns the SharedInstance or instance one
+        /// The Shared Instance for deamon class.
+        /// </summary>
+        private static NWDSSHContent _kSharedInstanceContent;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
         /// </summary>
         /// <returns></returns>
-        public static NWDSSHWindow SharedInstance()
+        public static NWDSSHContent SharedInstance()
         {
-            //NWDBenchmark.Start();
-            if (kSharedInstance == null)
+            NWDBenchmark.Start();
+            if (_kSharedInstanceContent == null)
             {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWDSSHWindow)) as NWDSSHWindow;
+                _kSharedInstanceContent = new NWDSSHContent();
             }
-            //NWDBenchmark.Finish();
-            return kSharedInstance;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Repaint all app configuration manager windows.
-        /// </summary>
-        public static void Refresh()
-        {
-            //NWDBenchmark.Start();
-            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDSSHWindow));
-            foreach (NWDSSHWindow tWindow in tWindows)
-            {
-                tWindow.Repaint();
-            }
-            //NWDBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool IsSharedInstanced()
-        {
-            if (kSharedInstance != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Show the SharedInstance of app configuration manager window and focus on.
-        /// </summary>
-        /// <returns></returns>
-        public static NWDSSHWindow SharedInstanceFocus()
-        {
-            //NWDBenchmark.Start();
-            SharedInstance().Show();
-            SharedInstance().Focus();
-            //NWDBenchmark.Finish();
-            return kSharedInstance;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-
-        /// <summary>
-        /// On enable action.
-        /// </summary>
-        public void OnEnable()
-        {
-            //NWDBenchmark.Start();
-            TitleInit("Console SSH", typeof(NWDSSHWindow));
-            //NWDBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        ///  On GUI drawing.
-        /// </summary>
-        public override void OnPreventGUI()
-        {
-            //NWDBenchmark.Start();
-            NWDGUI.LoadStyles();
-
-            NWDGUILayout.Title("Console SSH");
-            TextareaStyle = new GUIStyle(EditorStyles.textArea);
-            TextareaStyle.richText = true;
-
-            double tDeltaAbsolute = (DeltaAbsolute) / 1000.0F;
-            NWDGUILayout.Section(ScriptTitle + "(executed in " + tDeltaAbsolute.ToString("F3") + "s )");
-            if (Server != null)
-            {
-                NWDGUILayout.Informations("Distribution is " + Server.Distribution.ToString());
-            }
-
-            //NWDGUILayout.Informations("To see the ssh command result!");
-            NWDGUILayout.Line();
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-            if (Server != null)
-            {
-                EditorGUILayout.TextArea(TextResult.ToString(), TextareaStyle);
-            }
-            GUILayout.EndScrollView();
-            NWDGUILayout.Line();
-            NWDGUILayout.LittleSpace();
-            EditorGUI.BeginDisabledGroup(TextResult.Length<=0);
-            if (GUILayout.Button("Clear"))
-            {
-                // ok generate!
-                TextResult.Clear();
-            }
-            EditorGUI.EndDisabledGroup();
-            NWDGUILayout.BigSpace();
-            //NWDBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void ExecuteSSH(NWDServer sServer, string tScriptTitle, List<string> sCommandList, NWDSSHCommandBlock sCommandResultDelegate, int sAltPORT = -1, string sAltUser = null, string sAltPassword = null)
-        {
-            NWDSSHWindow.SharedInstanceFocus().Execute(sServer, tScriptTitle, sCommandList, sCommandResultDelegate, sAltPORT, sAltUser, sAltPassword);
+            NWDBenchmark.Finish();
+            return _kSharedInstanceContent;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Execute(NWDServer sServer, string tScriptTitle, List<string> sCommandList, NWDSSHCommandBlock sCommandResultDelegate, int sAltPORT = -1, string sAltUser = null, string sAltPassword = null)
@@ -181,6 +91,8 @@ namespace NetWorkedData.NWDEditor
             AltUser = sAltUser;
             AltPassword = sAltPassword;
             ScriptTitle = tScriptTitle;
+            DeltaAbsolute = 0;
+            NWDSSHWindow.Refresh();
             NWDEditorCoroutineToolbox.StartCoroutine(ExecuteAsync());
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -194,10 +106,10 @@ namespace NetWorkedData.NWDEditor
             Watch.Reset();
             Watch.Start();
             EditorUtility.DisplayProgressBar(ScriptTitle, "Connexion...", 0.0F);
-            Refresh();
+            NWDSSHWindow.Refresh();
             yield return tWaitTime;
             TextResult = new StringBuilder();
-            Refresh();
+            NWDSSHWindow.Refresh();
             yield return tWaitTime;
 
             bool tNeedSu = false;
@@ -334,7 +246,7 @@ namespace NetWorkedData.NWDEditor
                         foreach (string tCommandLine in CommandList)
                         {
                             EditorUtility.DisplayProgressBar(ScriptTitle, tCommandLine + " (" + CommandActual.ToString() + "/" + CommandCount.ToString() + ")", (float)CommandActual / (float)CommandCount);
-                            Refresh();
+                            NWDSSHWindow.Refresh();
                             yield return tWaitTime;
                             if (string.IsNullOrEmpty(tCommandLine) == false)
                             {
@@ -346,7 +258,7 @@ namespace NetWorkedData.NWDEditor
                             }
                             CommandActual++;
                         }
-                        Refresh();
+                        NWDSSHWindow.Refresh();
                         yield return tWaitTime;
                         TextResult.AppendLine("<i>--------------------</i>");
 
@@ -357,7 +269,7 @@ namespace NetWorkedData.NWDEditor
                         RunCommand("cat /dev/null > ~/.bash_history", tShellStream, TextResult);
 
                         EditorUtility.DisplayProgressBar(ScriptTitle, "Cleanning...", 1.0F);
-                        Refresh();
+                        NWDSSHWindow.Refresh();
                         if (tNeedSu == true)
                         {
 
@@ -393,7 +305,7 @@ namespace NetWorkedData.NWDEditor
                             //RunCommand("cat /dev/null > ~/.bash_history", tShellStream, rTextResult);
                         }
                         EditorUtility.DisplayProgressBar(ScriptTitle, "Disconnexion...", 1.0F);
-                        Refresh();
+                        NWDSSHWindow.Refresh();
                         yield return tWaitTime;
                         TextResult.AppendLine("<i>#Local$ " + tUserEcho + " Disconnecting!</i>");
                         tClientSSH.Disconnect();
@@ -405,7 +317,7 @@ namespace NetWorkedData.NWDEditor
                         CommandCount = 0;
                         CommandActual = 0;
                         EditorUtility.ClearProgressBar();
-                        Refresh();
+                        NWDSSHWindow.Refresh();
                         yield return tWaitTime;
                         if (EditorUtility.DisplayDialog("Error", "authentification failed", "OK") == true)
                         {
@@ -418,7 +330,7 @@ namespace NetWorkedData.NWDEditor
                     CommandCount = 0;
                     CommandActual = 0;
                     EditorUtility.ClearProgressBar();
-                    Refresh();
+                    NWDSSHWindow.Refresh();
                     yield return tWaitTime;
                     if (EditorUtility.DisplayDialog("Error", "host not respond", "OK") == true)
                     {
@@ -428,10 +340,11 @@ namespace NetWorkedData.NWDEditor
             }
             //Server.TextCommandResult = rTextResult.ToString();
             EditorUtility.ClearProgressBar();
-            Refresh();
+            NWDSSHWindow.Refresh();
             yield return tWaitTime;
             DeltaAbsolute = Watch.ElapsedMilliseconds;
             Watch.Stop();
+            NWDSSHWindow.Refresh();
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -484,6 +397,140 @@ namespace NetWorkedData.NWDEditor
             rTextResult.AppendLine(rLineReturn);
             //Debug.Log(">" + tUser + ":~$ " + sCommand + '\n' + rLineReturn);
             return rLineReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
+        public override void OnPreventGUI(Rect sRect)
+        {
+            base.OnPreventGUI(sRect);
+            NWDBenchmark.Start();
+            NWDGUILayout.Title("Console SSH");
+            TextareaStyle = new GUIStyle(EditorStyles.textArea);
+            TextareaStyle.richText = true;
+
+            double tDeltaAbsolute = (DeltaAbsolute) / 1000.0F;
+            NWDGUILayout.Section(ScriptTitle + "(executed in " + tDeltaAbsolute.ToString("F3") + "s )");
+            if (Server != null)
+            {
+                NWDGUILayout.Informations("Distribution is " + Server.Distribution.ToString());
+            }
+
+            //NWDGUILayout.Informations("To see the ssh command result!");
+            NWDGUILayout.Line();
+            _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            if (Server != null)
+            {
+                EditorGUILayout.TextArea(TextResult.ToString(), TextareaStyle);
+            }
+            GUILayout.EndScrollView();
+            NWDGUILayout.Line();
+            NWDGUILayout.LittleSpace();
+            EditorGUI.BeginDisabledGroup(TextResult.Length <= 0);
+            if (GUILayout.Button("Clear"))
+            {
+                // ok generate!
+                TextResult.Clear();
+            }
+            EditorGUI.EndDisabledGroup();
+            NWDGUILayout.BigSpace();
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public delegate void NWDSSHCommandBlock(string sCommand, string sResult);
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDSSHWindow : NWDEditorWindow
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        private static NWDSSHWindow _kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the SharedInstance or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static NWDSSHWindow SharedInstance()
+        {
+            //NWDBenchmark.Start();
+            if (_kSharedInstance == null)
+            {
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDSSHWindow)) as NWDSSHWindow;
+            }
+            //NWDBenchmark.Finish();
+            return _kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Repaint all app configuration manager windows.
+        /// </summary>
+        public static void Refresh()
+        {
+            //NWDBenchmark.Start();
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDSSHWindow));
+            foreach (NWDSSHWindow tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool IsSharedInstanced()
+        {
+            if (_kSharedInstance != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show the SharedInstance of app configuration manager window and focus on.
+        /// </summary>
+        /// <returns></returns>
+        public static NWDSSHWindow SharedInstanceFocus()
+        {
+            //NWDBenchmark.Start();
+            SharedInstance().Show();
+            SharedInstance().Focus();
+            //NWDBenchmark.Finish();
+            return _kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// On enable action.
+        /// </summary>
+        public void OnEnable()
+        {
+            //NWDBenchmark.Start();
+            TitleInit("Console SSH", typeof(NWDSSHWindow));
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
+        public override void OnPreventGUI()
+        {
+            //NWDBenchmark.Start();
+            NWDGUI.LoadStyles();
+            NWDSSHContent.SharedInstance().OnPreventGUI(position);
+            //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void ExecuteSSH(NWDServer sServer, string tScriptTitle, List<string> sCommandList, NWDSSHCommandBlock sCommandResultDelegate, int sAltPORT = -1, string sAltUser = null, string sAltPassword = null)
+        {
+            SharedInstanceFocus().Execute(sServer, tScriptTitle, sCommandList, sCommandResultDelegate, sAltPORT, sAltUser, sAltPassword);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Execute(NWDServer sServer, string tScriptTitle, List<string> sCommandList, NWDSSHCommandBlock sCommandResultDelegate, int sAltPORT = -1, string sAltUser = null, string sAltPassword = null)
+        {
+            NWDSSHContent.SharedInstance().Execute(sServer, tScriptTitle, sCommandList, sCommandResultDelegate, sAltPORT, sAltUser, sAltPassword);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string ExecuteProcessTerminal(string argument)

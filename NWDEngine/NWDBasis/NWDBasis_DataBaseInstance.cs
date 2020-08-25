@@ -122,15 +122,37 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void PropertiesPrevent()
         {
+            //if (BasisHelper().NWDDataPropertiesArray != null)
+            //{
+            //    foreach (var tPropertyInfo in BasisHelper().NWDDataPropertiesArray)
+            //    {
+            //        Type tTypeOfThis = tPropertyInfo.PropertyType;
+            //        if (tPropertyInfo.GetValue(this) == null)
+            //        {
+            //            NWEDataType tObject = (NWEDataType)Activator.CreateInstance(tTypeOfThis);
+            //            tPropertyInfo.SetValue(this, tObject, null);
+            //        }
+            //    }
+            //}
             if (BasisHelper().NWDDataPropertiesArray != null)
             {
                 foreach (var tPropertyInfo in BasisHelper().NWDDataPropertiesArray)
                 {
                     Type tTypeOfThis = tPropertyInfo.PropertyType;
-                    if (tPropertyInfo.GetValue(this) == null)
+                    if (tTypeOfThis != null)
                     {
-                        NWEDataType tObject = (NWEDataType)Activator.CreateInstance(tTypeOfThis);
-                        tPropertyInfo.SetValue(this, tObject, null);
+                        if (tPropertyInfo.GetValue(this) == null)
+                        {
+                            if (tTypeOfThis.GetType() == typeof(Type))
+                            {
+                                NWEDataType tObject = (NWEDataType)Activator.CreateInstance(tTypeOfThis);
+                                tPropertyInfo.SetValue(this, tObject, null);
+                            }
+                            else
+                            {
+                                Debug.LogWarning(tTypeOfThis.GetType().Name + " is not a Type for " + tPropertyInfo.Name + " in " + ClassType().Name + "!");
+                            }
+                        }
                     }
                 }
             }
