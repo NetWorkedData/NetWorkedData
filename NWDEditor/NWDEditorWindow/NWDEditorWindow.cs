@@ -503,6 +503,12 @@ namespace NetWorkedData.NWDEditor
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void ChangeTitleIcon(Texture sIcon)
+        {
+            IconAndTitle.image = sIcon;
+            titleContent.image = sIcon;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void GenerateCSharpFile()
         {
             NWDBenchmark.Start();

@@ -34,6 +34,7 @@ namespace NetWorkedData.NWDEditor
         /// The Shared Instance for deamon class.
         /// </summary>
         private static NWDEditorFooterContent _kSharedInstanceContent;
+        public GUIContent InfosContent = new GUIContent();
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
@@ -50,6 +51,27 @@ namespace NetWorkedData.NWDEditor
             return _kSharedInstanceContent;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void OnEnable(NWDEditorWindow sEditorWindow)
+        {
+            Texture2D[] tIcons = PlayerSettings.GetIconsForTargetGroup(BuildTargetGroup.Unknown);
+            Texture2D tIcon = null;
+            if (tIcons.Length > 0)
+            {
+                tIcon = tIcons[0];
+            }
+            InfosContent = new GUIContent(
+                " Project : <b>" + NWDAppConfiguration.SharedInstance().DevEnvironment.AppName +
+                "</b>  Environment : <b> " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().Environment +
+                "</b>  WebService version : <b>" + NWDAppConfiguration.SharedInstance().WebBuild.ToString() +
+                "</b>  Version : <b>" + PlayerSettings.bundleVersion +
+                "</b>  SQLite : <b>" + NWDDataManager.SharedInstance().GetVersion() +
+                "</b>", tIcon);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void OnDisable(NWDEditorWindow sEditorWindow)
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         ///  On GUI drawing.
         /// </summary>
@@ -58,21 +80,7 @@ namespace NetWorkedData.NWDEditor
             //base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
             EditorGUILayout.BeginHorizontal();
-            Texture2D[] tIcons = PlayerSettings.GetIconsForTargetGroup(BuildTargetGroup.Unknown);
-            Texture2D tIcon = null;
-            if (tIcons.Length>0)
-            {
-                tIcon = tIcons[0];
-            }
-            GUILayout.Label(
-                new GUIContent(
-                "   Project : <b>" + NWDAppConfiguration.SharedInstance().DevEnvironment.AppName +
-                "</b>  Environment : <b> " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().Environment +
-                "</b>  Webservice version : <b>" + NWDAppConfiguration.SharedInstance().WebBuild.ToString() +
-                "</b>  Version Bundle : <b>" + PlayerSettings.bundleVersion +
-                "</b>  SQLite : <b>" + NWDDataManager.SharedInstance().GetVersion() +
-                "</b>", tIcon),
-                NWDGUI.kFooterLabelStyle);
+            GUILayout.Label(InfosContent, NWDGUI.kFooterLabelStyle);
             EditorGUILayout.EndHorizontal();
             NWDBenchmark.Finish();
         }
@@ -94,6 +102,11 @@ namespace NetWorkedData.NWDEditor
             minSize = new Vector2(20, 32);
             maxSize = new Vector2(float.MaxValue, 16);
             TitleInit(NWDAppConfiguration.SharedInstance().SelectedEnvironment().AppName, typeof(NWDEditorFooter));
+            NWDEditorFooterContent.SharedInstance().OnEnable(this);
+            //if (NWDEditorFooterContent.SharedInstance().InfosContent.image != null)
+            //{
+            //    ChangeTitleIcon(NWDEditorFooterContent.SharedInstance().InfosContent.image);
+            //}
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void OnPreventGUI()
