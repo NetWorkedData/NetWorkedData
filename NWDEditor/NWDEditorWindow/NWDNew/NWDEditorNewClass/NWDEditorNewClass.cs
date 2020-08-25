@@ -44,8 +44,7 @@ namespace NetWorkedData.NWDEditor
         const int K_TRIGRAM_MAX = 6;
         const int K_MENU_MIN = 3;
         const int K_MENU_MAX = 24;
-        //-------------------------------------------------------------------------------------------------------------
-        Vector2 ScrollPosition = Vector2.zero;
+        const int K_CLASSNAME_MIN = 3;
         //-------------------------------------------------------------------------------------------------------------
 
         //bool ClassUnityEditorOnly = false;
@@ -316,9 +315,10 @@ namespace NetWorkedData.NWDEditor
             base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
             NWDGUILayout.Title("Custom class Generator");
-            NWDGUILayout.Informations("Custom your class!");
-            NWDGUILayout.Line();
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition);
+            //NWDGUILayout.Informations("Custom your class!");
+            //NWDGUILayout.Line();
+            _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition);
+            //NWDGUILayout.HelpBox("Helper to create a new NWDBasis herited class. NWDBasis is the class of data in NetWorkedData framework.");
 
             //Prepare the form varaible 
             Regex tRegExpression = new Regex("[^a-zA-Z]");
@@ -326,9 +326,8 @@ namespace NetWorkedData.NWDEditor
             Regex tRegExpressionEmptyType = new Regex("[ ]+");
             // validate the form ?
             bool tCanCreate = true;
-            NWDGUILayout.HelpBox("Helper to create a new NWDBasis herited class. NWDBasis is the class of data in NetWorkedData framework.");
             // futur class infos
-            NWDGUILayout.SubSection("Class informations");
+            NWDGUILayout.Section("Class informations");
             //ClassUnityEditorOnly = EditorGUILayout.Toggle("Only for unity Editor", ClassUnityEditorOnly);
             //ClassSynchronize = EditorGUILayout.Toggle("Synchronize on servers", ClassSynchronize);
             int tBaseIndex = tListOfclass.IndexOf(ClassBase);
@@ -350,9 +349,9 @@ namespace NetWorkedData.NWDEditor
 
             ClassName = EditorGUILayout.TextField("Name ", ClassName);
             ClassName = tRegExpression.Replace(ClassName, string.Empty);
-            if (ClassName.Length < 3)
+            if (ClassName.Length < K_CLASSNAME_MIN)
             {
-                EditorGUILayout.LabelField(" ", "name must be longer than 3 characters");
+                EditorGUILayout.LabelField(" ", "name must be longer than " + K_CLASSNAME_MIN + " characters");
                 tCanCreate = false;
             }
             else
@@ -400,10 +399,10 @@ namespace NetWorkedData.NWDEditor
                 }
             }
             MacroLimit = EditorGUILayout.TextField("Macro limit", MacroLimit);
-            NWDGUILayout.SubSection("Class description");
+            NWDGUILayout.Section("Class description");
             ClassNameDescription = EditorGUILayout.TextField("Description", ClassNameDescription, GUILayout.Height(80.0F));
             ClassNameDescription = ClassNameDescription.Replace("\\", string.Empty);
-            NWDGUILayout.SubSection("Menu in interface");
+            NWDGUILayout.Section("Menu in interface");
             // futur class menu name
             ClassNameMenuName = EditorGUILayout.TextField("Menu name", ClassNameMenuName);
             ClassNameMenuName = ClassNameMenuName.Replace("\\", string.Empty);
@@ -421,7 +420,7 @@ namespace NetWorkedData.NWDEditor
             {
                 EditorGUILayout.LabelField(" ", "menu name is Ok!");
             }
-            NWDGUILayout.SubSection("Properties");
+            NWDGUILayout.Section("Properties");
             // create properties type
             // prepare result properties
             List<KeyValuePair<string, string>> tNextClassNameProperties = new List<KeyValuePair<string, string>>();

@@ -351,7 +351,7 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public virtual void OnPreventGUI(Rect sRect)
         {
-            //GUILayout.Label("OOOOOKKKKKKKKKK");
+            GUILayout.Label("OOOOOKKKKKKKKKK GOOD IMPLEMENTATION");
             //throw new Exception("override OnPreventGUI() in place of OnGUI");
         }
         //-------------------------------------------------------------------------------------------------------------

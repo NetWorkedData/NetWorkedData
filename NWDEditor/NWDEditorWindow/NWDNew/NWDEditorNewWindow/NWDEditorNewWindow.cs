@@ -38,8 +38,6 @@ namespace NetWorkedData.NWDEditor
         /// </summary>
         private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
-        Vector2 ScrollPosition = Vector2.zero;
-        //-------------------------------------------------------------------------------------------------------------
         string WindowName = string.Empty;
         string WindowMacro = string.Empty;
         string WindowMenuName = string.Empty;
@@ -187,20 +185,20 @@ namespace NetWorkedData.NWDEditor
             base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
             NWDGUILayout.Title("Custom Window Manager ");
-            NWDGUILayout.Informations("Custom your window!");
-            NWDGUILayout.Line();
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition);
-            //Prepare the form varaible 
+            //NWDGUILayout.Informations("Custom your window!");
+            //NWDGUILayout.Line();
+            _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition);
+            //NWDGUILayout.HelpBox("Helper to create a new window to manage datas.");
+            //Prepare the form variable 
             Regex tRegExpression = new Regex("[^a-zA-Z]");
-            //		Regex tRegExpressionProperties = new Regex ("[^a-zA-Z0-9]");
+            //Regex tRegExpressionProperties = new Regex ("[^a-zA-Z0-9]");
             Regex tRegExpressionEmptyType = new Regex("[ ]+");
             // validate the form ?
             bool tCanCreate = true;
             // start Layout
-            NWDGUILayout.HelpBox("Helper to create a new NWDBasis herited class. NWDBasis is the class of data in NetWorkedData framework.");
             // futur class infos
-            NWDGUILayout.SubSection("Class informations");
-            WindowName = EditorGUILayout.TextField("Name ", WindowName);
+            NWDGUILayout.Section("Class informations");
+            WindowName = EditorGUILayout.TextField("Class Name ", WindowName);
             WindowName = tRegExpression.Replace(WindowName, string.Empty);
             if (WindowName.Length < 3)
             {
@@ -224,12 +222,12 @@ namespace NetWorkedData.NWDEditor
                     EditorGUILayout.LabelField(" ", "class name is Ok!");
                 }
             }
-            NWDGUILayout.SubSection("Window description");
+            NWDGUILayout.Section("Window description");
             // futur class description
             WindowDescription = EditorGUILayout.TextField("Description", WindowDescription);
             WindowMacro = EditorGUILayout.TextField("Macro limit", WindowMacro);
             WindowDescription = WindowDescription.Replace("\\", string.Empty);
-            NWDGUILayout.SubSection("Menu in interface");
+            NWDGUILayout.Section("Menu in interface");
             // futur class menu name
             WindowMenuName = EditorGUILayout.TextField("Menu name", WindowMenuName);
             WindowMenuName = WindowMenuName.Replace("\\", string.Empty);
@@ -263,7 +261,7 @@ namespace NetWorkedData.NWDEditor
                 EditorGUILayout.LabelField(" ", "menu Position  is Ok!");
             }
 
-            NWDGUILayout.SubSection("Classes management");
+            NWDGUILayout.Section("Classes management");
             // create properties type
             List<string> tListOfType = new List<string>();
             tListOfType.Add(" ");

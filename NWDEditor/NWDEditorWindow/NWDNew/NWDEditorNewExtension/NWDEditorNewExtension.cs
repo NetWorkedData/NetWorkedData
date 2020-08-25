@@ -229,26 +229,30 @@ namespace NetWorkedData.NWDEditor
             base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
             NWDGUILayout.Title("Custom Extension Generator");
-            NWDGUILayout.Informations("Custom your class!");
-            NWDGUILayout.Line();
+            //NWDGUILayout.Informations("Custom your class!");
+            //NWDGUILayout.Line();
             _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition);
+            //NWDGUILayout.HelpBox("Helper to create extension file for specific NWDBasis herited class.");
 
             //Prepare the form varaible 
             Regex tRegExpression = new Regex("[^a-zA-Z]");
             Regex tRegExpressionProperties = new Regex("[^a-zA-Z0-9]");
             Regex tRegExpressionEmptyType = new Regex("[ ]+");
             // validate the form ?
-            bool tCanCreate = true;
-            NWDGUILayout.HelpBox("Helper to create a new NWDBasis herited class. NWDBasis is the class of data in NetWorkedData framework.");
+            bool tCanCreate = false;
             // futur class infos
-            NWDGUILayout.SubSection("Class informations");
+            NWDGUILayout.Section("Class informations");
             int tBaseIndex = tListOfclass.IndexOf(ClassBase);
             tBaseIndex = EditorGUILayout.Popup("Base", tBaseIndex, tListOfclass.ToArray());
             if (tBaseIndex >= 0 && tBaseIndex < tListOfclass.Count)
             {
                 ClassBase = tListOfclass[tBaseIndex];
             }
-            NWDGUILayout.SubSection("Properties");
+            if (tBaseIndex >= 0)
+            {
+                tCanCreate = true;
+            }
+            NWDGUILayout.Section("Properties");
             // create properties type
             // prepare result properties
             List<KeyValuePair<string, string>> tNextClassNameProperties = new List<KeyValuePair<string, string>>();
@@ -301,7 +305,7 @@ namespace NetWorkedData.NWDEditor
             NWDGUILayout.Line();
             NWDGUILayout.LittleSpace();
             EditorGUI.BeginDisabledGroup(!tCanCreate);
-            if (GUILayout.Button("Generate class"))
+            if (GUILayout.Button("Generate class extension"))
             {
                 // ok generate!
                 GenerateNewClass();

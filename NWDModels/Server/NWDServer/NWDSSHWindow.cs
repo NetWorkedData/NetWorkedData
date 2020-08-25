@@ -135,18 +135,18 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Start();
             NWDGUI.LoadStyles();
 
+            NWDGUILayout.Title("Console SSH");
             TextareaStyle = new GUIStyle(EditorStyles.textArea);
             TextareaStyle.richText = true;
 
-            NWDGUILayout.Title("Console SSH");
-            NWDGUILayout.Informations("To see the ssh command result!");
+            double tDeltaAbsolute = (DeltaAbsolute) / 1000.0F;
+            NWDGUILayout.Section(ScriptTitle + "(executed in " + tDeltaAbsolute.ToString("F3") + "s )");
             if (Server != null)
             {
                 NWDGUILayout.Informations("Distribution is " + Server.Distribution.ToString());
             }
-            double tDeltaAbsolute = (DeltaAbsolute) / 1000.0F;
 
-            NWDGUILayout.Section(ScriptTitle + "(executed in " + tDeltaAbsolute.ToString("F3") + "s )");
+            //NWDGUILayout.Informations("To see the ssh command result!");
             NWDGUILayout.Line();
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             if (Server != null)
@@ -154,6 +154,16 @@ namespace NetWorkedData.NWDEditor
                 EditorGUILayout.TextArea(TextResult.ToString(), TextareaStyle);
             }
             GUILayout.EndScrollView();
+            NWDGUILayout.Line();
+            NWDGUILayout.LittleSpace();
+            EditorGUI.BeginDisabledGroup(TextResult.Length<=0);
+            if (GUILayout.Button("Clear"))
+            {
+                // ok generate!
+                TextResult.Clear();
+            }
+            EditorGUI.EndDisabledGroup();
+            NWDGUILayout.BigSpace();
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -302,11 +302,14 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDProjectCredentialsManagerContent.SharedInstance().OnPreventGUI(position);
+            NWDGUILayout.Line();
+            NWDGUILayout.LittleSpace();
             if (GUILayout.Button("Flush and close"))
             {
                 NWDProjectCredentialsManagerContent.SharedInstance().flush();
                 Close();
             }
+            NWDGUILayout.BigSpace();
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
