@@ -27,6 +27,58 @@ using UnityEditor;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDEditorFooterContent : NWDEditorWindowContent
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance for deamon class.
+        /// </summary>
+        private static NWDEditorFooterContent _kSharedInstanceContent;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
+        /// </summary>
+        /// <returns></returns>
+        public static NWDEditorFooterContent SharedInstance()
+        {
+            NWDBenchmark.Start();
+            if (_kSharedInstanceContent == null)
+            {
+                _kSharedInstanceContent = new NWDEditorFooterContent();
+            }
+            NWDBenchmark.Finish();
+            return _kSharedInstanceContent;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
+        public override void OnPreventGUI(Rect sRect)
+        {
+            //base.OnPreventGUI(sRect);
+            NWDBenchmark.Start();
+            EditorGUILayout.BeginHorizontal();
+            Texture2D[] tIcons = PlayerSettings.GetIconsForTargetGroup(BuildTargetGroup.Unknown);
+            Texture2D tIcon = null;
+            if (tIcons.Length>0)
+            {
+                tIcon = tIcons[0];
+            }
+            GUILayout.Label(
+                new GUIContent(
+                "   Project : <b>" + NWDAppConfiguration.SharedInstance().DevEnvironment.AppName +
+                "</b>  Environment : <b> " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().Environment +
+                "</b>  Webservice version : <b>" + NWDAppConfiguration.SharedInstance().WebBuild.ToString() +
+                "</b>  Version Bundle : <b>" + PlayerSettings.bundleVersion +
+                "</b>  SQLite : <b>" + NWDDataManager.SharedInstance().GetVersion() +
+                "</b>", tIcon),
+                NWDGUI.kFooterLabelStyle);
+            EditorGUILayout.EndHorizontal();
+            NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDEditorFooter : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -47,16 +99,7 @@ namespace NetWorkedData.NWDEditor
         public override void OnPreventGUI()
         {
             NWDGUI.LoadStyles();
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.Label(
-                "   Project : <b>" + NWDAppConfiguration.SharedInstance().DevEnvironment.AppName +
-                "</b>  Environment : <b> " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().Environment +
-                "</b>  Webservice version : <b>" + NWDAppConfiguration.SharedInstance().WebBuild.ToString() +
-                "</b>  Version Bundle : <b>" + PlayerSettings.bundleVersion +
-                "</b>  SQLite : <b>" + NWDDataManager.SharedInstance().GetVersion() +
-                "</b>",
-                NWDGUI.kFooterLabelStyle);
-            EditorGUILayout.EndHorizontal();
+            NWDEditorFooterContent.SharedInstance().OnPreventGUI(position);
         }
         //-------------------------------------------------------------------------------------------------------------
     }
