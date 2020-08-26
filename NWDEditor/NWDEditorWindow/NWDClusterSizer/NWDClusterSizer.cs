@@ -274,7 +274,7 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Start();
             if (_kSharedInstance == null)
             {
-                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDClusterSizer)) as NWDClusterSizer;
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDClusterSizer), ShowAsUtility()) as NWDClusterSizer;
             }
             //NWDBenchmark.Finish();
             return _kSharedInstance;
@@ -283,7 +283,8 @@ namespace NetWorkedData.NWDEditor
         public static NWDClusterSizer SharedInstanceFocus()
         {
             //NWDBenchmark.Start();
-            SharedInstance().ShowUtility();
+            //SharedInstance().ShowUtility();
+            SharedInstance().ShowMe();
             SharedInstance().Focus();
             //NWDBenchmark.Finish();
             return _kSharedInstance;

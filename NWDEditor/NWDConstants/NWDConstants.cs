@@ -60,6 +60,7 @@ namespace NetWorkedData
         public const string K_EDITOR_BUILD_ENVIRONMENT = "EditorBuildEnvironment";
         public const string K_EDITOR_BUILD_RENAME = "EditorBuildRename";
         public const string K_EDITOR_BUILD_DATABASE_UPDATE = "EditorBuildDatabaseUpdate";
+        public const string K_EDITOR_WINDOW_STYLE = "EditorWindoStyle";
         //-------------------------------------------------------------------------------------------------------------
         public const string K_APP_CHOOSER_ENVIRONMENT = "Select Environment used in Player Mode (Game panel)";
         public const string K_APP_CHOOSER_ENVIRONMENT_TITLE = "Chooser";

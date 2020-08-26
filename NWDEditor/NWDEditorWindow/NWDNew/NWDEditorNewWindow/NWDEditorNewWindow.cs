@@ -335,7 +335,7 @@ namespace NetWorkedData.NWDEditor
             NWDBenchmark.Start();
             if (_kSharedInstance == null)
             {
-                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorNewWindow)) as NWDEditorNewWindow;
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorNewWindow), ShowAsUtility()) as NWDEditorNewWindow;
             }
             NWDBenchmark.Finish();
             return _kSharedInstance;
@@ -348,7 +348,8 @@ namespace NetWorkedData.NWDEditor
         public static void SharedInstanceFocus()
         {
             NWDBenchmark.Start();
-            SharedInstance().ShowUtility();
+            //SharedInstance().ShowUtility();
+            SharedInstance().ShowMe();
             SharedInstance().Focus();
             NWDBenchmark.Finish();
         }

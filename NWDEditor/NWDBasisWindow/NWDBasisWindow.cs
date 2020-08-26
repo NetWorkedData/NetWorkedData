@@ -40,7 +40,6 @@ namespace NetWorkedData.NWDEditor
         {
             if (SharedInstance == null)
             {
-
                 Type[] tAllTypes = Assembly.GetExecutingAssembly().GetTypes();
                 Type[] tAllNWDTypes = (from System.Type type in tAllTypes
                                        where (

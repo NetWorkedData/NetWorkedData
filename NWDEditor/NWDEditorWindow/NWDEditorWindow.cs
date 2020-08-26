@@ -29,6 +29,12 @@ using System.IO;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDWindowStyle
+    {
+        Utility,
+        Window,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDSplitDirection
     {
         Horizontal,
@@ -441,6 +447,31 @@ namespace NetWorkedData.NWDEditor
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static bool ShowAsUtility()
+        {
+            return NWDProjectConfigurationManagerContent.GetWindowStyle() == NWDWindowStyle.Window;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ShowMe()
+        {
+            Debug.Log("ShowMe");
+            switch (NWDProjectConfigurationManagerContent.GetWindowStyle())
+            {
+                case NWDWindowStyle.Utility:
+                    {
+                        Debug.Log(" as ShowUtility");
+                        ShowUtility();
+                    }
+                    break;
+                case NWDWindowStyle.Window:
+                    {
+                        Debug.Log(" as Window");
+                        Show();
+                    }
+                    break;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void TitleEnable()
         {
             NWDBenchmark.Start();
@@ -594,7 +625,7 @@ namespace NetWorkedData.NWDEditor
         {
             if (TestWindow == null)
             {
-                TestWindow = EditorWindow.GetWindow(typeof(NWDExmpleSplitView)) as NWDExmpleSplitView;
+                TestWindow = EditorWindow.GetWindow(typeof(NWDExmpleSplitView), ShowAsUtility()) as NWDExmpleSplitView;
                 TestWindow.TitleInit("SplitTest");
             }
             TestWindow.Show();

@@ -137,7 +137,7 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Start();
             if (kSharedInstance == null)
             {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWDModelManager)) as NWDModelManager;
+                kSharedInstance = EditorWindow.GetWindow(typeof(NWDModelManager), ShowAsUtility()) as NWDModelManager;
             }
             //NWDBenchmark.Finish();
             return kSharedInstance;
@@ -146,7 +146,8 @@ namespace NetWorkedData.NWDEditor
         public static NWDModelManager SharedInstanceFocus()
         {
             //NWDBenchmark.Start();
-            SharedInstance().ShowUtility();
+            //SharedInstance().ShowUtility();
+            SharedInstance().ShowMe();
             SharedInstance().Focus();
             //NWDBenchmark.Finish();
             return kSharedInstance;

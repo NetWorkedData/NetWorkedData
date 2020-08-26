@@ -1080,7 +1080,7 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Start();
             if (kSharedInstance == null)
             {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentSync)) as NWDAppEnvironmentSync;
+                kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentSync), ShowAsUtility()) as NWDAppEnvironmentSync;
             }
             //NWDBenchmark.Finish();
             return kSharedInstance;
@@ -1089,7 +1089,8 @@ namespace NetWorkedData.NWDEditor
         public static NWDAppEnvironmentSync SharedInstanceFocus()
         {
             //NWDBenchmark.Start();
-            SharedInstance().ShowUtility();
+            //SharedInstance().ShowUtility();
+            SharedInstance().ShowMe();
             SharedInstance().Focus();
             //NWDBenchmark.Finish();
             return kSharedInstance;

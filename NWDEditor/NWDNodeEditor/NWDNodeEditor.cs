@@ -208,7 +208,8 @@ namespace NetWorkedData.NWDEditor
         public static void SharedInstanceFocus()
         {
             //NWDBenchmark.Start();
-            SharedInstance().Show();
+            //SharedInstance().ShowUtility();
+            SharedInstance().ShowMe();
             SharedInstance().Focus();
             //NWDBenchmark.Finish();
         }

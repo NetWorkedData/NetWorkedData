@@ -311,7 +311,8 @@ namespace NetWorkedData.NWDEditor
             NWDBenchmark.Start();
             if (_kSharedInstance == null)
             {
-                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppConfigurationManager)) as NWDAppConfigurationManager;
+                //_kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppConfigurationManager)) as NWDAppConfigurationManager;
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppConfigurationManager), ShowAsUtility()) as NWDAppConfigurationManager;
             }
             NWDBenchmark.Finish();
             return _kSharedInstance;
@@ -338,7 +339,8 @@ namespace NetWorkedData.NWDEditor
         public static NWDAppConfigurationManager SharedInstanceFocus()
         {
             NWDBenchmark.Start();
-            SharedInstance().ShowUtility();
+            //SharedInstance().ShowUtility();
+            SharedInstance().ShowMe();
             SharedInstance().Focus();
             NWDBenchmark.Finish();
             return _kSharedInstance;

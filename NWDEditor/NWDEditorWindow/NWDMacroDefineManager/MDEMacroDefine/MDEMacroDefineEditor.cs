@@ -629,7 +629,7 @@ namespace NetWorkedData.MacroDefine
             //NWDBenchmark.Start();
             if (kSharedInstance == null)
             {
-                kSharedInstance = EditorWindow.GetWindow(typeof(MDEMacroDefineEditor)) as MDEMacroDefineEditor;
+                kSharedInstance = EditorWindow.GetWindow(typeof(MDEMacroDefineEditor), ShowAsUtility()) as MDEMacroDefineEditor;
             }
             //NWDBenchmark.Finish();
             return kSharedInstance;
@@ -642,7 +642,8 @@ namespace NetWorkedData.MacroDefine
         public static MDEMacroDefineEditor SharedInstanceFocus()
         {
             //NWDBenchmark.Start();
-            SharedInstance().ShowUtility();
+            //SharedInstance().ShowUtility();
+            SharedInstance().ShowMe();
             SharedInstance().Focus();
             //NWDBenchmark.Finish();
             return kSharedInstance;

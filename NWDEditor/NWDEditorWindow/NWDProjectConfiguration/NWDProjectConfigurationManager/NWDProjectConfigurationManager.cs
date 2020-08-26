@@ -55,6 +55,7 @@ namespace NetWorkedData.NWDEditor
         Color Red;
         Color Orange;
         Color Blue;
+        NWDWindowStyle EditorWindowStyle;
         NWDEditorBuildEnvironment EditorBuildEnvironment;
         NWDEditorBuildRename EditorBuildRename;
         NWDEditorBuildDatabaseUpdate EditorBuildDatabaseUpdate;
@@ -88,6 +89,16 @@ namespace NetWorkedData.NWDEditor
         public static void SetEditorBuildEnvironment(NWDEditorBuildEnvironment sValue)
         {
             NWDProjectPrefs.SetInt(NWDConstants.K_EDITOR_BUILD_ENVIRONMENT, (int)sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDWindowStyle GetWindowStyle()
+        {
+            return (NWDWindowStyle)NWDProjectPrefs.GetInt(NWDConstants.K_EDITOR_WINDOW_STYLE);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SetWindowStyle(NWDWindowStyle sValue)
+        {
+            NWDProjectPrefs.SetInt(NWDConstants.K_EDITOR_WINDOW_STYLE, (int)sValue);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDEditorBuildRename GetEditoBuildRename()
@@ -124,6 +135,8 @@ namespace NetWorkedData.NWDEditor
             EditorBuildRename = GetEditoBuildRename();
             EditorBuildDatabaseUpdate = GetEditorBuildDatabaseUpdate();
 
+            EditorWindowStyle = GetWindowStyle();
+
             if (EditorGUIUtility.isProSkin)
             {
                 Green = NWDToolbox.ColorFromString(NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_GREEN_PRO, kColorGreen_Pro));
@@ -155,6 +168,8 @@ namespace NetWorkedData.NWDEditor
             SetEditorBuildEnvironment(EditorBuildEnvironment);
             SetEditorBuildRename(EditorBuildRename);
             SetEditorBuildDatabaseUpdate(EditorBuildDatabaseUpdate);
+
+            SetWindowStyle(EditorWindowStyle);
 
             if (EditorGUIUtility.isProSkin)
             {
@@ -195,6 +210,7 @@ namespace NetWorkedData.NWDEditor
 
             //General preferences
             NWDGUILayout.SubSection("General preferences");
+            EditorWindowStyle = (NWDWindowStyle)EditorGUILayout.EnumPopup("Window Style", EditorWindowStyle);
             ShowCompile = EditorGUILayout.Toggle("Show re-compile ", ShowCompile);
             PanelWidth = EditorGUILayout.IntSlider("Panel data width", PanelWidth, 300, 400);
 
@@ -307,7 +323,7 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Start();
             if (kSharedInstance == null)
             {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWDProjectConfigurationManager)) as NWDProjectConfigurationManager;
+                kSharedInstance = EditorWindow.GetWindow(typeof(NWDProjectConfigurationManager), ShowAsUtility()) as NWDProjectConfigurationManager;
             }
             //NWDBenchmark.Finish();
             return kSharedInstance;
@@ -320,7 +336,8 @@ namespace NetWorkedData.NWDEditor
         public static NWDProjectConfigurationManager SharedInstanceFocus()
         {
             //NWDBenchmark.Start();
-            SharedInstance().ShowUtility();
+            //SharedInstance().ShowUtility();
+            SharedInstance().ShowMe();
             SharedInstance().Focus();
             //NWDBenchmark.Finish();
             return kSharedInstance;

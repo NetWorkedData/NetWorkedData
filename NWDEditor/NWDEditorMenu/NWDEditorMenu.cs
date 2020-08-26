@@ -397,8 +397,7 @@ namespace NetWorkedData.NWDEditor
         [MenuItem(NWDConstants.K_MENU_EDITOR_PREFERENCES, false, 20)]
         public static void EditorPreferenceShow()
         {
-            NWDProjectConfigurationManager.SharedInstance().ShowUtility();
-            NWDProjectConfigurationManager.SharedInstance().Focus();
+            NWDProjectConfigurationManager.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -407,7 +406,7 @@ namespace NetWorkedData.NWDEditor
         [MenuItem(NWDConstants.K_MENU_EDITOR_NODAL, false, 20)]
         public static void EditorNodeShow()
         {
-            NWDNodeEditor.SharedInstance();
+            NWDNodeEditor.SharedInstanceFocus();
         }
 
         //-------------------------------------------------------------------------------------------------------------
@@ -418,12 +417,7 @@ namespace NetWorkedData.NWDEditor
         [MenuItem(NWDConstants.K_MENU_EDITOR_NEWCLASS, false, 40)]
         public static void EditorNewClassShow()
         {
-            if (kNWDEditorNewClass == null)
-            {
-                kNWDEditorNewClass = EditorWindow.GetWindow(typeof(NWDEditorNewClass)) as NWDEditorNewClass;
-            }
-            kNWDEditorNewClass.ShowUtility();
-            kNWDEditorNewClass.Focus();
+            NWDEditorNewClass.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -433,23 +427,7 @@ namespace NetWorkedData.NWDEditor
         [MenuItem(NWDConstants.K_MENU_EDITOR_NEWEXTENSION, false, 80)]
         public static void EditorNewExtensionShow()
         {
-            if (kNWDEditorNewExtension == null)
-            {
-                kNWDEditorNewExtension = EditorWindow.GetWindow(typeof(NWDEditorNewExtension)) as NWDEditorNewExtension;
-            }
-            kNWDEditorNewExtension.ShowUtility();
-            kNWDEditorNewExtension.Focus();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// TheNWD editor NewClass window.
-        /// </summary>
-        [MenuItem(NWDConstants.K_MENU_EDITOR_FOOTER, false, 10)]
-        public static void EditorNewFooter()
-        {
-            NWDEditorFooter tFooter = EditorWindow.CreateWindow<NWDEditorFooter>();
-            tFooter.ShowUtility();
-            tFooter.Focus();
+            NWDEditorNewExtension.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -459,22 +437,26 @@ namespace NetWorkedData.NWDEditor
         [MenuItem(NWDConstants.K_MENU_EDITOR_NEWWINDOW, false, 41)]
         public static void EditorNewWindowShow()
         {
-            if (kNWDEditorNewWindow == null)
-            {
-                kNWDEditorNewWindow = EditorWindow.GetWindow(typeof(NWDEditorNewWindow)) as NWDEditorNewWindow;
-            }
-            kNWDEditorNewWindow.ShowUtility();
-            kNWDEditorNewWindow.Focus();
+            NWDEditorNewWindow.SharedInstanceFocus();
         }
-
-
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// TheNWD editor NewClass window.
+        /// </summary>
+        [MenuItem(NWDConstants.K_MENU_EDITOR_FOOTER, false, 10)]
+        public static void EditorNewFooter()
+        {
+            NWDEditorFooter.NewFooter();
+            //NWDEditorFooter tFooter = EditorWindow.CreateWindow<NWDEditorFooter>();
+            //tFooter.ShowUtility();
+            //tFooter.Focus();
+        }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_APP_EDIT, false, 60)]
         public static void AppConfigurationManagerWindowShow()
         {
             NWDAppConfigurationManager.SharedInstanceFocus();
         }
-
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_MODEL_MANAGER, false, 63)]
         public static void ModelManagerWindowShow()
@@ -553,8 +535,7 @@ namespace NetWorkedData.NWDEditor
         [MenuItem(NWDConstants.K_MENU_CREDENTIALS, false, 1000)]
         public static void EditorCredentialsManager()
         {
-            NWDProjectCredentialsManager.SharedInstance().Show();
-            NWDProjectCredentialsManager.SharedInstance().Focus();
+            NWDProjectCredentialsManager.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
         //		[MenuItem (NWDConstants.K_MENU_CREATE_CSHARP_FILES, false, 9022)]
