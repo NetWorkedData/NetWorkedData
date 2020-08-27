@@ -105,6 +105,46 @@ namespace NetWorkedData
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void DrawHeaderColor(NWDNodeCard sNodalCard)
+        {
+            Rect tR = new Rect(HeaderRect.x, HeaderRect.y, HeaderRect.width, HeaderRect.height);
+            if (sNodalCard != null)
+            {
+                tR = new Rect(sNodalCard.HeaderRect.x, sNodalCard.HeaderRect.y, sNodalCard.HeaderRect.width, sNodalCard.HeaderRect.height);
+            }
+            EditorGUI.DrawRect(NWDGUI.UnMargeInspector(tR, true, true, true, true), NWDGUI.kSubSectionColor);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DrawInformationsColor(NWDNodeCard sNodalCard)
+        {
+            Rect tR = new Rect(InformationsRect.x, InformationsRect.y, InformationsRect.width, InformationsRect.height);
+            bool tDraw = true;
+            if (sNodalCard != null)
+            {
+                tDraw = sNodalCard.ParentDocument.DrawInformationsArea;
+                tR = new Rect(sNodalCard.InformationsRect.x, sNodalCard.InformationsRect.y, sNodalCard.InformationsRect.width, sNodalCard.InformationsRect.height);
+            }
+            if (tDraw)
+            {
+                EditorGUI.DrawRect(NWDGUI.UnMargeInspector(tR, true, true, false, true), NWDGUI.kSubSectionColor);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DrawActionColor(NWDNodeCard sNodalCard)
+        {
+            Rect tR = new Rect(ActionRect.x, ActionRect.y, ActionRect.width, ActionRect.height);
+            bool tDraw = true;
+            if (sNodalCard != null)
+            {
+                tDraw = sNodalCard.ParentDocument.DrawActionArea;
+                tR = new Rect(sNodalCard.ActionRect.x, sNodalCard.ActionRect.y, sNodalCard.ActionRect.width, sNodalCard.ActionRect.height);
+            }
+            if (tDraw)
+            {
+                EditorGUI.DrawRect(NWDGUI.UnMargeInspector(tR, true, true, false, true), NWDGUI.kSubSectionColor);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         {
             //NodalCard = sNodalCard;
@@ -138,12 +178,17 @@ namespace NetWorkedData
                     EditorGUI.DrawRect(tRTotal, NWDGUI.kRowColorTrash);
                     CanBeEdit = false;
                 }
-
                 else if (IsEnable() == false)
                 {
                     //Debug.Log("IsEnable == false");
                     EditorGUI.DrawRect(tRTotal, NWDGUI.kRowColorDisactive);
                     CanBeEdit = true;
+                }
+                else
+                {
+                    DrawHeaderColor(sNodalCard);
+                    DrawInformationsColor(sNodalCard);
+                    DrawActionColor(sNodalCard);
                 }
             }
             else
@@ -918,10 +963,12 @@ namespace NetWorkedData
         {
             if (sNodalCard != null)
             {
-                EditorGUI.HelpBox(sNodalCard.NodalRect, string.Empty, MessageType.None);
+                NWDGUI.Line(NWDGUI.UnMargeLeftRight(new Rect(sNodalCard.NodalRect.x, sNodalCard.NodalRect.y, sNodalCard.NodalRect.width, 1)));
+
+                EditorGUI.HelpBox(NWDGUI.MargeTopBottom(sNodalCard.NodalRect), string.Empty, MessageType.None);
                 AddOnNodeDraw(NWDGUI.MargeAll(sNodalCard.NodalRect));
 
-                NWDGUI.Line(NWDGUI.UnMargeLeftRight(new Rect(sNodalCard.NodalRect.x, sNodalCard.NodalRect.y + sNodalCard.NodalRect.height + NWDGUI.kFieldMarge, sNodalCard.NodalRect.width, 1))
+                NWDGUI.Line(NWDGUI.UnMargeLeftRight(new Rect(sNodalCard.NodalRect.x, sNodalCard.NodalRect.y + sNodalCard.NodalRect.height, sNodalCard.NodalRect.width, 1))
                     );//, Color.red);
             }
         }
@@ -1031,7 +1078,7 @@ namespace NetWorkedData
                 }
                 NWDGUI.Line(NWDGUI.UnMargeLeftRight(tActionRectO));//, Color.yellow);
                 Rect tActionRect = new Rect(tActionRectO.x, tActionRectO.y + NWDGUI.kFieldMarge, tActionRectO.width, tActionRectO.height - NWDGUI.kFieldMarge);
-                Rect[,] tMatrixRect = NWDGUI.DiviseArea(tActionRect, 3, 8, true);
+                Rect[,] tMatrixRect = NWDGUI.DiviseArea(NWDGUI.MargeTopBottom(tActionRect), 3, 8, true);
                 GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, tLine], tMatrixRect[2, tLine]), NWDConstants.K_APP_BASIS_ACTION_ZONE, NWDGUI.kBoldLabelStyle);
                 tLine++;
                 if (GUI.Button(tMatrixRect[0, tLine], NWDConstants.K_BUTTON_EDITOR_NODAL, NWDGUI.kMiniButtonStyle))

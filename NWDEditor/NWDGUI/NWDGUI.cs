@@ -118,7 +118,7 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public static GUIStyle kSubSectionStyle;
         static Texture2D kSubSectionTexture;
-        static Color kSubSectionColor;
+        public static Color kSubSectionColor;
         //-------------------------------------------------------------------------------------------------------------
         public static float KTableSearchLabelWidth = 80.0F;
         public static float KTableSearchWidth = 120.0F;
@@ -786,6 +786,54 @@ namespace NetWorkedData.NWDEditor
         public static Rect UnMargeAll(Rect sRect)
         {
             return new Rect(sRect.x - kFieldMarge, sRect.y - kFieldMarge, sRect.width + kFieldMarge * 2, sRect.height + kFieldMarge * 2);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Rect MargeInspector(Rect sRect, bool sLeft, bool sRight, bool sTop, bool sBottom)
+        {
+            Rect tReturn = new Rect(sRect.x, sRect.y, sRect.width, sRect.height);
+            if (sLeft)
+            {
+                tReturn.x += kFieldMarge;
+                tReturn.width -= kFieldMarge;
+            }
+            if (sRight)
+            {
+                tReturn.width -= kFieldMarge;
+            }
+            if (sTop)
+            {
+                tReturn.y += kFieldMarge;
+                tReturn.height -= kFieldMarge;
+            }
+            if (sBottom)
+            {
+                tReturn.height -= kFieldMarge;
+            }
+            return tReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Rect UnMargeInspector(Rect sRect,bool sLeft, bool sRight, bool sTop, bool sBottom)
+        {
+            Rect tReturn = new Rect(sRect.x, sRect.y, sRect.width, sRect.height);
+            if (sLeft)
+            {
+                tReturn.x -= kFieldMarge;
+                tReturn.width += kFieldMarge;
+            }
+            if (sRight)
+            {
+                tReturn.width += kFieldMarge;
+            }
+            if (sTop)
+            {
+                tReturn.y -= kFieldMarge;
+                tReturn.height += kFieldMarge;
+            }
+            if (sBottom)
+            {
+                tReturn.height += kFieldMarge;
+            }
+            return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Rect UnMargeLeftRight(Rect sRect)

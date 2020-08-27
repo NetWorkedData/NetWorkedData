@@ -154,7 +154,7 @@ namespace NetWorkedData
             float tH = 0;
             if (sNodalCard != null)
             {
-                tH = AddOnNodeDrawHeight(sInRect.width - 4 * NWDGUI.kFieldMarge) + NWDGUI.kFieldMarge * 3;
+                tH = AddOnNodeDrawHeight(sInRect.width - 4 * NWDGUI.kFieldMarge) + NWDGUI.kFieldMarge * 4;
 
                 //tH += NWDGUI.kBoldLabelStyle.CalcHeight(new GUIContent(InternalKey), sInRect.width);
                 //tH += NWDGUI.kBoldLabelStyle.CalcHeight(new GUIContent(InternalDescription), sInRect.width);
@@ -252,7 +252,7 @@ namespace NetWorkedData
             }
             if (sWithScrollview == true)
             {
-                ActionRect = new Rect(sInRect.x, sInRect.y + sInRect.height - tH, sInRect.width, tH);
+                ActionRect = new Rect(sInRect.x, sInRect.y + sInRect.height - tH + NWDGUI.kFieldMarge, sInRect.width, tH);
             }
             else
             {
@@ -262,7 +262,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    ActionRect = new Rect(AddOnRect.x, AddOnRect.y, AddOnRect.width, tH);
+                    ActionRect = new Rect(AddOnRect.x, AddOnRect.y + NWDGUI.kFieldMarge, AddOnRect.width, tH);
                 }
             }
             if (sNodalCard != null)
