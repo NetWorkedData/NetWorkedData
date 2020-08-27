@@ -1072,8 +1072,8 @@ namespace NetWorkedData
                 EditorGUI.EndDisabledGroup();
                 EditorGUI.EndDisabledGroup();
                 tLine++;
-                GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, tLine], tMatrixRect[2, tLine]), NWDConstants.K_APP_BASIS_WARNING_ZONE, NWDGUI.kBoldLabelStyle);
-                tLine++;
+                //GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, tLine], tMatrixRect[2, tLine]), NWDConstants.K_APP_BASIS_WARNING_ZONE, NWDGUI.kBoldLabelStyle);
+                //tLine++;
                 NWDGUI.BeginRedArea();
 
                 if (UnTrashable() == true)
@@ -1136,6 +1136,9 @@ namespace NetWorkedData
                 // TODO Change!!! .... we need restaure from environment!!!
 
                 NWDGUI.EndRedArea();
+
+                GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, tLine], tMatrixRect[2, tLine]), NWDConstants.K_APP_BASIS_SYNCHRONIZE_ZONE, NWDGUI.kBoldLabelStyle);
+                tLine++;
 
                 GUI.Label(tMatrixRect[0, tLine], NWDConstants.K_DEVELOPMENT_NAME, NWDGUI.KTableSearchTitle);
                 GUI.Label(tMatrixRect[1, tLine], NWDConstants.K_PREPRODUCTION_NAME, NWDGUI.KTableSearchTitle);

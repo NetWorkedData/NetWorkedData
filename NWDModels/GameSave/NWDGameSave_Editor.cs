@@ -53,9 +53,6 @@ namespace NetWorkedData
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
             tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(NWEConstants.K_A), tWidth);
 
-            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), tWidth);
-
             GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
             tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), tWidth);
 
@@ -63,10 +60,10 @@ namespace NetWorkedData
 
             tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sRect)).height;
 
-            EditorGUI.LabelField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Tools box", tLabelStyle);
+            EditorGUI.LabelField(new Rect(tX, tY, tWidth, tLabelStyle.fixedHeight), "Tools box", tLabelStyle);
             tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
             // Draw the interface addon for editor
-            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_FILTER))
+            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_FILTER, tMiniButtonStyle))
             {
                 foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeLoadedList)
                 {
@@ -75,7 +72,7 @@ namespace NetWorkedData
                 }
             }
             tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_FILTER))
+            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_FILTER, tMiniButtonStyle))
             {
                 foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeLoadedList)
                 {
@@ -85,7 +82,7 @@ namespace NetWorkedData
             }
             tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Set current"))
+            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Set current", tMiniButtonStyle))
             {
                 SetCurrent();
             }
@@ -96,16 +93,14 @@ namespace NetWorkedData
         {
             // Height calculate for the interface addon for editor
             float tYadd = 0.0f;
+
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
             tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
-
-            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
 
             GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
             tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
 
-            tYadd += tLabelStyle.fixedHeight = tMiniButtonStyle.fixedHeight * 3 + NWDGUI.kFieldMarge * 5;
+            tYadd += tLabelStyle.fixedHeight + tMiniButtonStyle.fixedHeight * 3 + NWDGUI.kFieldMarge * 5;
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------

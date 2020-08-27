@@ -316,7 +316,7 @@ namespace NetWorkedData
         public const string K_APP_BASIS_REFERENCE_CLEAN = "Clean";
 
         public const string K_APP_BASIS_TRASH_ZONE = "TRASH ZONE";
-        public const string K_APP_BASIS_ACTION_ZONE = "ACTION ZONE";
+        public const string K_APP_BASIS_ACTION_ZONE = "Actions"; //"ACTION ZONE";
         public const string K_APP_BASIS_PUT_IN_TRASH = "Trash";
         public const string K_APP_BASIS_REINITIALISE = "Reinitialisation";
         public const string K_APP_BASIS_PUT_IN_TRASH_WARNING = "Warning";
@@ -325,6 +325,7 @@ namespace NetWorkedData
         public const string K_APP_BASIS_PUT_IN_TRASH_CANCEL = "Cancel";
 
         public const string K_APP_BASIS_WARNING_ZONE = "WARNING ZONE";
+        public const string K_APP_BASIS_SYNCHRONIZE_ZONE = "Synchronize";
         public const string K_APP_BASIS_DELETE = "Delete";
         public const string K_APP_BASIS_PULL_FROM_SERVER = "Pull";
         public const string K_APP_BASIS_PUSH_TO_SERVER = "Push";
@@ -472,7 +473,7 @@ namespace NetWorkedData
         public const string K_APP_WS_DELETE_OLD_MODEL_TOOLS = "DELETE OLDS MODELS";
         public const string K_APP_TABLE_ADD_ZONE = "New object";
 
-        public const string K_APP_TABLE_ADD_ROW = "Add new object";
+        public const string K_APP_TABLE_ADD_ROW = "New Data";
 
         public const string K_APP_TABLE_SHOW_ENABLE_DATAS = "Enable datas";
         public const string K_APP_TABLE_SHOW_DISABLE_DATAS = "Disable datas";
