@@ -303,20 +303,20 @@ namespace NetWorkedData
         public void DrawHeaderInEditor(Rect sRect, Rect sScrollRect, float sZoom)
         {
             //NWDBenchmark.Start();
-            GUI.BeginScrollView(
-                    sRect,
-                    Vector2.zero,
-                    sRect,
-                    false,
-                    false
-                    );
+            //GUI.BeginScrollView(
+            //        sRect,
+            //        Vector2.zero,
+            //        sRect,
+            //        false,
+            //        false
+            //        );
             EditorGUI.DrawRect(sRect, NWDGUI.kTableHeaderColor);
             sRect.x += NWDGUI.kFieldMarge;
             sRect.width = sRect.width - NWDGUI.kScrollbar;
 
-            if (sRect.width < NWDGUI.KTableMinWidth)
+            if (sRect.width < NWDGUI.KTableMinWidth - NWDGUI.kScrollbar)
             {
-                sRect.width = NWDGUI.KTableMinWidth;
+                sRect.width = NWDGUI.KTableMinWidth - NWDGUI.kScrollbar;
             }
             Rect tRect = new Rect(sRect.x, sRect.y + NWDGUI.kFieldMarge, NWDGUI.kTableSelectWidth, sRect.height - NWDGUI.kFieldMarge * 2);
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_SELECT, NWDGUI.KTableHeaderSelect))
@@ -595,7 +595,7 @@ namespace NetWorkedData
                 SortEditorTableDatas();
                 ChangeScroolPositionToSelection(sScrollRect);
             }
-            GUI.EndScrollView();
+            //GUI.EndScrollView();
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -2379,7 +2379,7 @@ namespace NetWorkedData
             tRect.y += NWDGUI.KTAB_BAR_HEIGHT + NWDGUI.kFieldMarge;
 
             float tWidthTiers = Mathf.Floor(sRect.width / 4.0F);
-            Rect tRectToogle = new Rect(NWDGUI.kFieldMarge, tRect.y, tWidthTiers, NWDGUI.kToggleStyle.fixedHeight);
+            //Rect tRectToogle = new Rect(NWDGUI.kFieldMarge, tRect.y, tWidthTiers, NWDGUI.kToggleStyle.fixedHeight);
 
             //bool tSearchActions = GUI.Toggle(tRectToogle, SearchActions, "Search");
             //if (tSearchActions != SearchActions)
@@ -2705,7 +2705,7 @@ namespace NetWorkedData
                 Rect tScrollContentRect = new Rect(0, 0, tWindowRect.width - NWDGUI.kScrollbar, tIndexRowInPage * tRowHeight);
 
 
-                Rect tScrollHeader = new Rect(tScrollRect.x, tScrollRect.y - NWDGUI.kTableHeaderHeight, tWindowRect.width, NWDGUI.kTableHeaderHeight);
+                Rect tScrollHeader = new Rect(tScrollRect.x, tScrollRect.y - NWDGUI.kTableHeaderHeight, tWindowRectOriginal.width, NWDGUI.kTableHeaderHeight);
                 Rect tScrollHeaderBottom = new Rect(tScrollRect.x, tScrollRect.y + tScrollRect.height, tWindowRectOriginal.width, NWDGUI.kTableHeaderHeight);
                 Rect tScrollRectDelimited = new Rect(tScrollRect.x, tScrollRect.y, sRect.width, tScrollRect.height);
                 DrawHeaderInEditor(tScrollHeader, tScrollRect, RowZoom);
