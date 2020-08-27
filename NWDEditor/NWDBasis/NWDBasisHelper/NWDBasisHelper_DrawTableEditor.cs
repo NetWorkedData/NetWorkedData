@@ -37,10 +37,10 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         //TODO : RENAME!
-        public void DrawInEditor(EditorWindow sEditorWindow, bool sAutoSelect = false)
+        public void DrawInEditor(EditorWindow sEditorWindow, Rect sRect, bool sAutoSelect = false)
         {
             //NWDBenchmark.Start();
-            DrawTableEditor(sEditorWindow);
+            DrawTableEditor(sEditorWindow, sRect);
             if (sAutoSelect == true)
             {
                 SelectedFirstObjectInTable(sEditorWindow);
@@ -294,8 +294,8 @@ namespace NetWorkedData
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-       
-        public float InfosWidth;
+
+        //public float InfosWidth;
 
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
@@ -386,7 +386,7 @@ namespace NetWorkedData
                 - NWDGUI.kTablePrefabWidth * sZoom
                 - NWDGUI.KTableSearchWidth
                 - NWDGUI.KTableReferenceWidth
-                - NWDGUI.KTableRowWebModelWidth*2
+                - NWDGUI.KTableRowWebModelWidth * 2
                 - NWDGUI.kTableIconWidth * 5;
             //if (kAccountDependent == false)
             if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
@@ -397,7 +397,7 @@ namespace NetWorkedData
             {
                 tRect.width = NWDGUI.KTableSearchWidth;
             }
-            InfosWidth = tRect.width;
+            //InfosWidth = tRect.width;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_DESCRIPTION, NWDGUI.KTableHeaderInformations))
             {
                 if (SortType == NWDBasisEditorDatasSortType.ByInternalKeyAscendant)
@@ -634,11 +634,14 @@ namespace NetWorkedData
                 }
             }
             int t_ItemPerPageSelection = EditorGUI.Popup(tRect, m_ItemPerPageSelection, m_ItemPerPageOptions, NWDGUI.KTableSearchEnum);
+
             if (t_ItemPerPageSelection != m_ItemPerPageSelection)
             {
-                m_PageSelected = 0;
+                //Debug.Log("change item per page");
+                m_ItemPerPageSelection = t_ItemPerPageSelection;
+                m_ItemPerPage = int.Parse(m_ItemPerPageOptions[m_ItemPerPageSelection]);
+                NWDProjectPrefs.SetInt(ActionsPrefkey(() => m_ItemPerPageSelection), m_ItemPerPageSelection);
             }
-            m_ItemPerPageSelection = t_ItemPerPageSelection;
             tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
             float tRowZoom = EditorGUI.Slider(tRect, RowZoom, 1.0F, 2.0F);
             if (System.Math.Abs(tRowZoom - RowZoom) > 0.01F)
@@ -754,7 +757,7 @@ namespace NetWorkedData
             //NWDBenchmark.Start();
             EditorGUIUtility.labelWidth = NWDGUI.KTableSearchLabelWidth;
             Rect rRect = new Rect(sRect.x, sRect.y, sRect.width, 0);
-            if (SearchActions == true)
+            //if (SearchActions == true)
             {
                 Rect tRect = new Rect(sRect.x + NWDGUI.kFieldMarge, sRect.y, sRect.width, 0);
                 tRect.width = NWDGUI.KTableSearchFieldWidth;
@@ -1008,34 +1011,34 @@ namespace NetWorkedData
                 // Draw title
 
 
-                //GUI.Label(tRect, ClassNamePHP, NWDGUI.KTableSearchTitle);
+                ////GUI.Label(tRect, ClassNamePHP, NWDGUI.KTableSearchTitle);
 
-                if (GUI.Button(tRect, ClassNamePHP, NWDGUI.KTableSearchTitle))
-                {
-                    //TODO edit script
-                    //Debug.Log("ClassNamePHP to edit " + ClassNamePHP);
-                    NWEScriptOpener.OpenScript(ClassType);
+                //if (GUI.Button(tRect, ClassNamePHP, NWDGUI.KTableSearchTitle))
+                //{
+                //    //TODO edit script
+                //    //Debug.Log("ClassNamePHP to edit " + ClassNamePHP);
+                //    NWEScriptOpener.OpenScript(ClassType);
 
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // Draw texture of this class
-                tRect.height = NWDGUI.KTableSearchToggle.fixedHeight * 3 + NWDGUI.kFieldMarge * 2;
-                GUI.Label(tRect, ClassDescription, NWDGUI.KTableSearchDescription);
-                tRect.height = NWDGUI.KTableSearchToggle.fixedHeight;
-                // draw last column
-                tRect.x = sRect.width - NWDGUI.KTableSearchToggle.fixedHeight * 3 - NWDGUI.kFieldMarge * 3;
-                tRect.y = sRect.y;
-                tRect.width = NWDGUI.KTableSearchToggle.fixedHeight * 3 + NWDGUI.kFieldMarge * 2;
-                // Draw title
-                GUI.Label(tRect, ClassTrigramme, NWDGUI.KTableSearchTitle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // Draw texture of this class
-                tRect.height = NWDGUI.KTableSearchToggle.fixedHeight * 3 + NWDGUI.kFieldMarge * 2;
-                Texture2D tTextureOfClass = TextureOfClass();
-                if (tTextureOfClass != null)
-                {
-                    GUI.Label(tRect, tTextureOfClass, NWDGUI.KTableSearchClassIcon);
-                }
+                //}
+                //tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                //// Draw texture of this class
+                //tRect.height = NWDGUI.KTableSearchToggle.fixedHeight * 3 + NWDGUI.kFieldMarge * 2;
+                //GUI.Label(tRect, ClassDescription, NWDGUI.KTableSearchDescription);
+                //tRect.height = NWDGUI.KTableSearchToggle.fixedHeight;
+                //// draw last column
+                //tRect.x = sRect.width - NWDGUI.KTableSearchToggle.fixedHeight * 3 - NWDGUI.kFieldMarge * 3;
+                //tRect.y = sRect.y;
+                //tRect.width = NWDGUI.KTableSearchToggle.fixedHeight * 3 + NWDGUI.kFieldMarge * 2;
+                //// Draw title
+                //GUI.Label(tRect, ClassTrigramme, NWDGUI.KTableSearchTitle);
+                //tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                //// Draw texture of this class
+                //tRect.height = NWDGUI.KTableSearchToggle.fixedHeight * 3 + NWDGUI.kFieldMarge * 2;
+                //Texture2D tTextureOfClass = TextureOfClass();
+                //if (tTextureOfClass != null)
+                //{
+                //    GUI.Label(tRect, tTextureOfClass, NWDGUI.KTableSearchClassIcon);
+                //}
                 tRect.height = NWDGUI.KTableSearchToggle.fixedHeight;
                 rRect.height = NWDGUI.KTableSearchToggle.fixedHeight * 5 + NWDGUI.kFieldMarge * 5;
             }
@@ -1045,1320 +1048,1321 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
-        public Rect DrawTableEditorBottom(Rect sRect)
-        {
-            //NWDBenchmark.Start();
-            Rect rRect = new Rect(sRect.x, sRect.y, sRect.width, 0);
-
-            Rect tRectActionLeft = Rect.zero;
-            Rect tRectActionRight = Rect.zero;
-            Rect tRectTableLeft = Rect.zero;
-            Rect tRectTableRight = Rect.zero;
-
-            float tHeightAction = 0;
-            float tHeightTable = 0;
-
-            if (RowActions == true)
-            {
-                tHeightAction = NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + (NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge) * 6;
-            }
-            if (TableActions == true)
-            {
-                tHeightTable = NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + (NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge) * 7;
-            }
-            rRect.height = tHeightAction + tHeightTable;
-            rRect.y = sRect.height - rRect.height;
-
-            if (RowActions == true)
-            {
-                Rect tFoldoutRectAction = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y, 0, 0);
-                tFoldoutRectAction.height = NWDGUI.kBoldLabelStyle.fixedHeight;
-                tFoldoutRectAction.width = sRect.width;
-                GUI.Label(tFoldoutRectAction, "Rows Actions", NWDGUI.kBoldLabelStyle);
-                tRectActionLeft = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y + NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge, 0, 0);
-                tRectActionLeft.height = NWDGUI.KTableSearchTextfield.fixedHeight;
-                tRectActionLeft.width = NWDGUI.KTableSearchWidth;
-
-                tRectActionRight = new Rect(sRect.x + sRect.width - (NWDGUI.kFieldMarge + NWDGUI.KTableSearchWidth) * 3, rRect.y + NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge, 0, 0);
-                tRectActionRight.height = NWDGUI.KTableSearchTextfield.fixedHeight;
-                tRectActionRight.width = NWDGUI.KTableSearchWidth;
-            }
-
-            if (TableActions == true)
-            {
-                Rect tFoldoutRectTable = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y + tHeightAction, 0, 0);
-                tFoldoutRectTable.height = NWDGUI.kBoldLabelStyle.fixedHeight;
-                tFoldoutRectTable.width = sRect.width;
-                GUI.Label(tFoldoutRectTable, "Table Actions", NWDGUI.kBoldLabelStyle);
-                tRectTableLeft = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y + NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + tHeightAction, 0, 0);
-                tRectTableLeft.height = NWDGUI.KTableSearchTextfield.fixedHeight;
-                tRectTableLeft.width = NWDGUI.KTableSearchWidth;
-
-                tRectTableRight = new Rect(sRect.x + sRect.width - (NWDGUI.kFieldMarge + NWDGUI.KTableSearchWidth) * 3, rRect.y + NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + tHeightAction, 0, 0);
-                tRectTableRight.height = NWDGUI.KTableSearchTextfield.fixedHeight;
-                tRectTableRight.width = NWDGUI.KTableSearchWidth;
-            }
-
-            bool tDeleteSelection = false; //prevent GUIlayout error
-            //bool tLocalizeLocalTable = false; //prevent GUIlayout error
-            bool tTrashSelection = false;  //prevent GUIlayout error
-            bool tUntrashSelection = false;  //prevent GUIlayout error
-            bool tReintegrateSelection = false;  //prevent GUIlayout error
-            bool tResetTable = false;  //prevent GUIlayout error
-            bool tCreateAllPHPForOnlyThisClassDEV = false; //prevent GUIlayout error
-            bool tCreateAllPHPForOnlyThisClassPREPROD = false; //prevent GUIlayout error
-            bool tCreateAllPHPForOnlyThisClassPROD = false; //prevent GUIlayout error
-            //bool tCreateAllPHPForOnlyThisClass = false; //prevent GUIlayout error
-            //bool tReintegrateOnlyThisClass = false; //prevent GUIlayout error
-            //bool tDeleteOldModelOnlyThisClass = false; //prevent GUIlayout error
-            bool tSyncProd = false; //prevent GUIlayout error
-            bool tSyncForceProd = false; //prevent GUIlayout error
-            bool tPullProd = false; //prevent GUIlayout error
-            bool tPullProdForce = false; //prevent GUIlayout error
-            bool tSyncCleanProd = false; //prevent GUIlayout error
-            bool tSyncSpecialProd = false; //prevent GUIlayout error
-            bool tCleanLocalTable = false; //prevent GUIlayout error
-            //bool tCleanLocalTableWithAccount = false; //prevent GUIlayout error
-            bool tDisableProd = false;
-
-            if (NWDDataManager.SharedInstance().ClassUnSynchronizeList.Contains(ClassType))
-            {
-                tDisableProd = true;
-            }
-            //if (kAccountDependent == true)
-            if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
-            {
-                tDisableProd = true;
-            }
-            int tSelectionCount = 0;
-            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
-            {
-                if (tKeyValue.Value == true)
-                {
-                    tSelectionCount++;
-                }
-            }
-            // ===========================================
-            Rect tRect = new Rect(0, 0, NWDGUI.KTableSearchWidth, NWDGUI.KTableSearchTextfield.fixedHeight);
-            if (RowActions == true)
-            {
-
-                tRect.x = tRectActionLeft.x;
-                tRect.y = tRectActionLeft.y;
-                int tActualItems = EditorTableDatas.Count;
-                if (tSelectionCount == 0)
-                {
-                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_NO_SELECTED_OBJECT, NWDGUI.KTableSearchTitle);
-                }
-                else if (tSelectionCount == 1)
-                {
-                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_ONE_SELECTED_OBJECT, NWDGUI.KTableSearchTitle);
-                }
-                else
-                {
-                    GUI.Label(tRect, tSelectionCount + NWDConstants.K_APP_TABLE_XX_SELECTED_OBJECT, NWDGUI.KTableSearchTitle);
-                }
-                // draw select all
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                EditorGUI.BeginDisabledGroup(tSelectionCount == tActualItems);
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SELECT_ALL, NWDGUI.KTableSearchButton))
-                {
-                    SelectAllObjectInTableList();
-                }
-                EditorGUI.EndDisabledGroup();
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // draw deselect all
-                EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_DESELECT_ALL, NWDGUI.KTableSearchButton))
-                {
-                    DeselectAllObjectInTableList();
-                }
-                EditorGUI.EndDisabledGroup();
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // draw inverse
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_INVERSE, NWDGUI.KTableSearchButton))
-                {
-                    InverseSelectionOfAllObjectInTableList();
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // draw select all enable
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SELECT_ENABLED, NWDGUI.KTableSearchButton))
-                {
-                    SelectAllObjectEnableInTableList();
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // draw select all disable
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SELECT_DISABLED, NWDGUI.KTableSearchButton))
-                {
-                    SelectAllObjectDisableInTableList();
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // Change Colmun
-                tRect.x += tRect.width + NWDGUI.kFieldMarge;
-                tRect.y = tRectActionLeft.y;
-
-                // draw row Actions 
-                EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
-                GUI.Label(tRect, NWDConstants.K_APP_TABLE_ACTIONS, NWDGUI.KTableSearchTitle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_REACTIVE, NWDGUI.KTableSearchButton))
-                {
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
-                    {
-                        if (tKeyValue.Value == true)
-                        {
-                            NWDTypeClass tObject = tKeyValue.Key;
-                            tObject.EnableData();
-                            tObject.RowAnalyze();
-                        }
-                    }
-                    NWDDataInspector.ActiveRepaint();
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_DISACTIVE, NWDGUI.KTableSearchButton))
-                {
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
-                    {
-                        if (tKeyValue.Value == true)
-                        {
-                            NWDTypeClass tObject = tKeyValue.Key;
-                            tObject.DisableData();
-                            tObject.RowAnalyze();
-                        }
-                    }
-                    NWDDataInspector.ActiveRepaint();
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_DUPPLICATE, NWDGUI.KTableSearchButton))
-                {
-                    NWDTypeClass tNextObjectSelected = null;
-                    int tNewData = 0;
-                    List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
-                    {
-                        if (tKeyValue.Value == true)
-                        {
-                            NWDTypeClass tObject = tKeyValue.Key;
-                            tListToUse.Add(tObject);
-                        }
-                    }
-                    foreach (NWDTypeClass tObject in tListToUse)
-                    {
-                        tNewData++;
-                        NWDTypeClass tNextObject = tObject.Base_DuplicateData();
-                        if (m_SearchTag != NWDBasisTag.NoTag)
-                        {
-                            tNextObject.Tag = m_SearchTag;
-                            tNextObject.UpdateData();
-                            tObject.RowAnalyze();
-                        }
-                        tNextObjectSelected = tNextObject;
-                        tNextObjectSelected.RowAnalyze();
-                    }
-                    if (tNewData != 1)
-                    {
-                        tNextObjectSelected = null;
-                    }
-                    SetObjectInEdition(tNextObjectSelected);
-                    m_PageSelected = m_MaxPage * 3;
-                    NWDDataInspector.ActiveRepaint();
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_UPDATE, NWDGUI.KTableSearchButton))
-                {
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
-                    {
-                        if (tKeyValue.Value == true)
-                        {
-                            NWDTypeClass tObject = tKeyValue.Key;
-                            tObject.UpdateData();
-                            tObject.RowAnalyze();
-                        }
-                    }
-                    NWDDataInspector.ActiveRepaint();
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                EditorGUI.EndDisabledGroup();
-                //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_EXPORT_TRANSLATION, NWDGUI.KTableSearchButton))
-                //{
-                //    tLocalizeLocalTable = true;
-                //}
-                // Change Colmun
-                tRect.x += tRect.width + NWDGUI.kFieldMarge;
-                tRect.y = tRectActionLeft.y;
-
-
-
-
-                // draw row Datas
-                GUI.Label(tRect, "Datas", NWDGUI.KTableSearchTitle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-
-                EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
-                if (GUI.Button(tRect, "Export data", NWDGUI.KTableSearchButton))
-                {
-                    ExportCSV(true);
-                    GUIUtility.ExitGUI();
-                }
-                EditorGUI.EndDisabledGroup();
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Import data", NWDGUI.KTableSearchButton))
-                {
-                    ImportCSV();
-                    GUIUtility.ExitGUI();
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                tRect.x += tRect.width + NWDGUI.kFieldMarge;
-                tRect.y = tRectActionLeft.y;
-
-
-
-                // draw row translate
-                GUI.Label(tRect, "Translates", NWDGUI.KTableSearchTitle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // export import
-                EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
-                if (GUI.Button(tRect, "Reorder localization", NWDGUI.KTableSearchButton))
-                {
-                    List<NWDTypeClass> tListToReorder = new List<NWDTypeClass>();
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
-                    {
-                        if (tKeyValue.Value == true)
-                        {
-                            tListToReorder.Add(tKeyValue.Key);
-                        }
-                    }
-                    ReOrderLocalizations(tListToReorder);
-                    NWDDataInspector.Refresh();
-                    GUIUtility.ExitGUI();
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-
-                if (GUI.Button(tRect, "Export localization", NWDGUI.KTableSearchButton))
-                {
-                    ExportLocalization(true);
-                    GUIUtility.ExitGUI();
-                }
-                EditorGUI.EndDisabledGroup();
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Import localization", NWDGUI.KTableSearchButton))
-                {
-                    NWDAppConfiguration.SharedInstance().DataLocalizationManager.ImportFromCSV();
-                    GUIUtility.ExitGUI();
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                tRect.x += tRect.width + NWDGUI.kFieldMarge;
-                tRect.y = tRectActionLeft.y;
-
-
-                // draw row warning
-                EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
-                NWDGUI.BeginRedArea();
-                // DELETE SELECTION
-                GUI.Label(tRect, NWDConstants.K_APP_TABLE_DELETE_WARNING, NWDGUI.KTableSearchTitle);
-
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_DELETE_BUTTON, NWDGUI.KTableSearchButton))
-                {
-                    tDeleteSelection = true;
-                }
-
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // TRASH SELECTION
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_TRASH_ZONE, NWDGUI.KTableSearchButton))
-                {
-                    tTrashSelection = true;
-                }
-
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // UNTRASH SELECTION
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_UNTRASH_ZONE, NWDGUI.KTableSearchButton))
-                {
-                    tUntrashSelection = true;
-                }
-
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // REINTEGRATE SELECTION
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_REINTEGRATE_ZONE, NWDGUI.KTableSearchButton))
-                {
-                    tReintegrateSelection = true;
-                }
-
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-
-
-                // TODO Change!!! .... we need restaure from environment!!!
-                //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SELECT_RESTAURE_FROM_SERVER, NWDGUI.KTableSearchButton))
-                //{
-                //    List<string> tReferencesList = new List<string>();
-                //    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
-                //    {
-                //        if (tKeyValue.Value == true)
-                //        {
-                //            tReferencesList.Add(tKeyValue.Key.Reference);
-                //        }
-                //    }
-                //    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
-                //    tTypeAndReferences.Add(ClassType, tReferencesList);
-                //    NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate
-                //    {
-                //        NWDDataInspector.ActiveRepaint();
-                //    });
-                //}
-                //tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                //if (false)
-                //{
-                //    if (GUI.Button(tRect, "UnLoad", NWDGUI.KTableSearchButton))
-                //    {
-                //        List<NWDTypeClass> tListToUnload = new List<NWDTypeClass>();
-                //        foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
-                //        {
-                //            if (tKeyValue.Value == true)
-                //            {
-                //                tListToUnload.Add(tKeyValue.Key);
-                //            }
-                //        }
-                //        foreach (NWDTypeClass tObject in tListToUnload)
-                //        {
-                //            New_UnloadDataByReference(tObject.Reference);
-                //        }
-                //    }
-                //    tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                //}
-
-                EditorGUI.EndDisabledGroup();
-                NWDGUI.EndRedArea();
-
-                tRect = new Rect(tRectActionRight.x, tRectActionRight.y, NWDGUI.KTableSearchWidth, tRectActionRight.height);
-
-                EditorGUI.BeginDisabledGroup(WebModelChanged);
-
-                GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
-                GUI.Label(tRect, tDevContent, NWDGUI.KTableSearchTitle);
-
-                //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
-                if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
-                {
-                    if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
-                    {
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Sync table", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Force Sync table", NWDGUI.KTableSearchButton))
-                        {
-
-                            SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Pull table", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            PullFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Force Pull table", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
-                        }
-                        EditorGUI.EndDisabledGroup();
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-
-
-
-                        EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
-                        NWDGUI.BeginRedArea();
-                        if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
-                        {
-                            List<string> tReferencesList = new List<string>();
-                            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
-                            {
-                                if (tKeyValue.Value == true)
-                                {
-                                    tReferencesList.Add(tKeyValue.Key.Reference);
-                                }
-                            }
-                            Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
-                            tTypeAndReferences.Add(ClassType, tReferencesList);
-                            PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().DevEnvironment, tTypeAndReferences);
-                        }
-                        EditorGUI.EndDisabledGroup();
-                        NWDGUI.EndRedArea();
-                    }
-                    else
-                    {
-                        tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
-                        GUI.Label(tRect, "no config", NWDGUI.kNoConfigStyle);
-                    }
-                }
-                else
-                {
-                    tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
-                    GUI.Label(tRect, "sync forbidden", NWDGUI.kNoConfigStyle);
-                }
-                // Change Colmun
-                tRect.x += tRect.width + NWDGUI.kFieldMarge;
-                tRect.y = tRectActionRight.y;
-
-                GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
-                GUI.Label(tRect, tPreprodContent, NWDGUI.KTableSearchTitle);
-
-                //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
-                if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
-                {
-                    if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
-                    {
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        EditorGUI.BeginDisabledGroup(WebModelChanged);
-                        if (GUI.Button(tRect, "Sync table", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Force Sync table", NWDGUI.KTableSearchButton))
-                        {
-
-                            SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Pull table", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            PullFromWebService(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Force Pull table", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-                        }
-                        EditorGUI.EndDisabledGroup();
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-
-                        EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
-                        NWDGUI.BeginRedArea();
-                        if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
-                        {
-                            List<string> tReferencesList = new List<string>();
-                            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
-                            {
-                                if (tKeyValue.Value == true)
-                                {
-                                    tReferencesList.Add(tKeyValue.Key.Reference);
-                                }
-                            }
-                            Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
-                            tTypeAndReferences.Add(ClassType, tReferencesList);
-                            PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().PreprodEnvironment, tTypeAndReferences);
-                        }
-                        EditorGUI.EndDisabledGroup();
-                        NWDGUI.EndRedArea();
-                    }
-                    else
-                    {
-                        tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
-                        GUI.Label(tRect, "no config", NWDGUI.kNoConfigStyle);
-                    }
-                }
-                else
-                {
-                    tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
-                    GUI.Label(tRect, "sync forbidden", NWDGUI.kNoConfigStyle);
-                }
-                // Change Colmun
-                tRect.x += tRect.width + NWDGUI.kFieldMarge;
-                tRect.y = tRectActionRight.y;
-
-                GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
-                GUI.Label(tRect, tProdContent, NWDGUI.KTableSearchTitle);
-                //if (BasisType == NWDBasisType.EditorClass)
-                if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                {
-                    if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
-                    {
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        EditorGUI.BeginDisabledGroup(tDisableProd || WebModelChanged);
-                        if (GUI.Button(tRect, "Sync table", NWDGUI.KTableSearchButton))
-                        {
-                            tSyncProd = true;
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Force Sync table", NWDGUI.KTableSearchButton))
-                        {
-                            tSyncForceProd = true;
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Pull table", NWDGUI.KTableSearchButton))
-                        {
-                            tPullProd = true;
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Force Pull table", NWDGUI.KTableSearchButton))
-                        {
-                            tPullProdForce = true;
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        EditorGUI.EndDisabledGroup();
-                        EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
-                        NWDGUI.BeginRedArea();
-                        if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
-                        {
-                            List<string> tReferencesList = new List<string>();
-                            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
-                            {
-                                if (tKeyValue.Value == true)
-                                {
-                                    tReferencesList.Add(tKeyValue.Key.Reference);
-                                }
-                            }
-                            Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
-                            tTypeAndReferences.Add(ClassType, tReferencesList);
-                            PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().ProdEnvironment, tTypeAndReferences);
-                        }
-                        EditorGUI.EndDisabledGroup();
-                        NWDGUI.EndRedArea();
-                    }
-                    else
-                    {
-                        tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
-                        GUI.Label(tRect, "no config", NWDGUI.kNoConfigStyle);
-                    }
-                }
-                else
-                {
-                    tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
-                    GUI.Label(tRect, "sync forbidden", NWDGUI.kNoConfigStyle);
-                }
-            }
-            if (TableActions == true)
-            {
-                // Start Colmun
-                tRect.x = tRectTableLeft.x;
-                tRect.y = tRectTableLeft.y;
-                GUI.Label(tRect, NWDConstants.K_APP_TABLE_TOOLS, NWDGUI.KTableSearchTitle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-
-
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SEARCH_RELOAD, NWDGUI.KTableSearchButton))
-                {
-                    string tReference = GetReferenceOfDataInEdition();
-                    GUI.FocusControl(null);
-                    SetObjectInEdition(null);
-                    m_SearchInternalName = string.Empty;
-                    m_SearchInternalDescription = string.Empty;
-                    LoadFromDatabase(string.Empty, true);
-                    RestaureDataInEditionByReference(tReference);
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SHOW_TOOLS, NWDGUI.KTableSearchButton))
-                {
-                    NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
-                    tBasisInspector.mTypeInEdition = ClassType;
-                    Selection.activeObject = tBasisInspector;
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // reset icon of clas
-                if (GUI.Button(tRect, "Select script", NWDGUI.KTableSearchButton))
-                {
-                    SelectScript();
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // reset icon of class
-                NWDGUI.BeginRedArea();
-                //if (GUI.Button(tRect, "Reset Icon", NWDGUI.KTableSearchButton))
-                //{
-                //    ResetIconByDefaultIcon();
-                //}
-                //NWDGUI.EndRedArea();
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-
-
-
-                // Change Colmun
-                tRect.x += tRect.width + NWDGUI.kFieldMarge;
-                tRect.y = tRectTableLeft.y;
-                NWDGUI.BeginRedArea();
-                GUI.Label(tRect, NWDConstants.K_APP_TABLE_RESET_WARNING, NWDGUI.KTableSearchTitle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // draw reset table
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_RESET_ZONE, NWDGUI.KTableSearchButton))
-                {
-                    tResetTable = true;
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // draw reset table
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_REINDEX_ZONE, NWDGUI.KTableSearchButton))
-                {
-                    IndexInMemoryAllObjects();
-                    IndexInBaseAllObjects();
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // draw Clean table
-                if (GUI.Button(tRect, "Clean local table", NWDGUI.KTableSearchButton))
-                {
-                    tCleanLocalTable = true;
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // draw Purge table
-                //EditorGUI.BeginDisabledGroup(!ClassGameSaveDependent);
-                //if (GUI.Button(tRect, "Purge accounts", NWDGUI.KTableSearchButton))
-                //{
-                //    tCleanLocalTableWithAccount = true;
-                //}
-                //EditorGUI.EndDisabledGroup();
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-
-                // reintegrate all objects
-                //NWDGUI.BeginRedArea();
-                //if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_CLASS_INTEGRITY_REEVALUE, NWDGUI.KTableSearchButton))
-                //{
-                //    GUI.FocusControl(null);
-                //    RecalculateAllIntegrities();
-                //}
-                //NWDGUI.EndRedArea();
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-
-                // Change Colmun
-                tRect.x += tRect.width + NWDGUI.kFieldMarge;
-                tRect.y = tRectTableLeft.y;
-                float tWidthToRestaure = tRect.width;
-                tRect.width = tRect.width * 2;
-                GUI.Label(tRect, TemplateHelper.GetBaseClassToString(), NWDGUI.kBoldLabelStyle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                GUI.Label(tRect, TemplateHelper.GetClassToString(), NWDGUI.kBoldLabelStyle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-
-                GUI.Label(tRect, TemplateHelper.GetDeviceDatabase().ToString(), NWDGUI.kItalicLabelStyle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                GUI.Label(tRect, TemplateHelper.GetSynchronizable().ToString(), NWDGUI.kItalicLabelStyle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                GUI.Label(tRect, TemplateHelper.GetBundlisable().ToString(), NWDGUI.kItalicLabelStyle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                GUI.Label(tRect, TemplateHelper.GetAccountDependent().ToString(), NWDGUI.kItalicLabelStyle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                GUI.Label(tRect, TemplateHelper.GetGamesaveDependent().ToString(), NWDGUI.kItalicLabelStyle);
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                tRect.width = tWidthToRestaure;
-
-                // draw Replace WS in dev by sftp
-                //GUI.Label(tRect, NWDConstants.K_APP_WS_RESET_WARNING + " " + NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000"), NWDGUI.KTableSearchTitle);
-
-                //tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                //if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_DEV_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
-                //{
-                //    tCreateAllPHPForOnlyThisClassDEV = true;
-                //}
-                //tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                //// draw Replace WS in all by sftp
-                //if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
-                //{
-                //    tCreateAllPHPForOnlyThisClass = true;
-                //}
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // draw reintegrate the model
-                //if (GUI.Button(tRect, NWDConstants.K_APP_WS_MODEL_TOOLS, NWDGUI.KTableSearchButton))
-                //{
-                //    tReintegrateOnlyThisClass = true;
-                //}
-                //tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                //// draw delete old model
-                //if (GUI.Button(tRect, NWDConstants.K_APP_WS_DELETE_OLD_MODEL_TOOLS, NWDGUI.KTableSearchButton))
-                //{
-                //    tDeleteOldModelOnlyThisClass = true;
-                //}
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                NWDGUI.EndRedArea();
-                // Change Colmun
-                tRect.x = tRectTableRight.x;
-                tRect.y = tRectTableRight.y;
-
-                GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
-                GUI.Label(tRect, tDevContent, NWDGUI.KTableSearchTitle);
-
-                //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
-                if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
-                {
-                    if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
-                    {
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        NWDGUI.BeginRedArea();
-                        EditorGUI.BeginDisabledGroup(WebModelChanged);
-                        if (GUI.Button(tRect, "Clean table", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().DevEnvironment);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Special", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Special);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Upgrade", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Upgrade);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Optimize", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Optimize);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Indexes);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        EditorGUI.EndDisabledGroup();
-                        if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateDev))
-                        {
-                            if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_DEV_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
-                            {
-                                tCreateAllPHPForOnlyThisClassDEV = true;
-                            }
-                            tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        }
-                        else
-                        {
-                            if (GUI.Button(tRect, "Need credentials", NWDGUI.KTableSearchButton))
-                            {
-                                NWDProjectCredentialsManager.SharedInstanceFocus();
-                            }
-                            tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        }
-                        NWDGUI.EndRedArea();
-                    }
-                    else
-                    {
-                        tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
-                        GUI.Label(tRect, "no config", NWDGUI.kNoConfigStyle);
-                    }
-                }
-                else
-                {
-                    tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
-                    GUI.Label(tRect, "sync forbidden", NWDGUI.kNoConfigStyle);
-                }
-                // Change Colmun
-                tRect.x += tRect.width + NWDGUI.kFieldMarge;
-                tRect.y = tRectTableRight.y;
-                GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
-                GUI.Label(tRect, tPreprodContent, NWDGUI.KTableSearchTitle);
-                //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
-                if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
-                {
-                    if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
-                    {
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        NWDGUI.BeginRedArea();
-                        EditorGUI.BeginDisabledGroup(WebModelChanged);
-                        if (GUI.Button(tRect, "Clean table", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Special", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Special);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Upgrade", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Upgrade);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Optimize", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Optimize);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Indexes);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        EditorGUI.EndDisabledGroup();
-
-                        if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGeneratePreprod))
-                        {
-                            if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_PREPROD_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
-                            {
-                                tCreateAllPHPForOnlyThisClassPREPROD = true;
-                            }
-                            tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        }
-                        else
-                        {
-                            if (GUI.Button(tRect, "Need credentials", NWDGUI.KTableSearchButton))
-                            {
-                                NWDProjectCredentialsManager.SharedInstanceFocus();
-                            }
-                            tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        }
-
-                        NWDGUI.EndRedArea();
-                    }
-                    else
-                    {
-                        tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
-                        GUI.Label(tRect, "no config", NWDGUI.kNoConfigStyle);
-                    }
-                }
-                else
-                {
-                    tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
-                    GUI.Label(tRect, "sync forbidden", NWDGUI.kNoConfigStyle);
-                }
-                // Change Colmun
-                tRect.x += tRect.width + NWDGUI.kFieldMarge;
-                tRect.y = tRectTableRight.y;
-                GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
-                GUI.Label(tRect, tProdContent, NWDGUI.KTableSearchTitle);
-                //if (BasisType == NWDBasisType.EditorClass)
-                if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-
-                {
-                    if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
-                    {
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        NWDGUI.BeginRedArea();
-                        EditorGUI.BeginDisabledGroup(WebModelChanged);
-                        if (GUI.Button(tRect, "Clean table", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            tSyncCleanProd = true;
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Special", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Special);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Upgrade", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Upgrade);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Optimize", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Optimize);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
-                        {
-                            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                            {
-                                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                            }
-                            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Indexes);
-                        }
-                        tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        EditorGUI.EndDisabledGroup();
-                        if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateProd))
-                        {
-                            if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_PROD_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
-                            {
-                                tCreateAllPHPForOnlyThisClassPROD = true;
-                            }
-                            tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        }
-                        else
-                        {
-                            if (GUI.Button(tRect, "Need credentials", NWDGUI.KTableSearchButton))
-                            {
-                                NWDProjectCredentialsManager.SharedInstanceFocus();
-                            }
-                            tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                        }
-                        NWDGUI.EndRedArea();
-
-                    }
-                    else
-                    {
-                        tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
-                        GUI.Label(tRect, "no config", NWDGUI.kNoConfigStyle);
-                    }
-                }
-                else
-                {
-                    tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
-                    GUI.Label(tRect, "sync forbidden", NWDGUI.kNoConfigStyle);
-                }
-            }
-            // Page end!
-            if (tDeleteSelection == true)
-            {
-                string tDialog = string.Empty;
-                if (tSelectionCount == 0)
-                {
-                    tDialog = NWDConstants.K_APP_TABLE_DELETE_NO_OBJECT;
-                }
-                else if (tSelectionCount == 1)
-                {
-                    tDialog = NWDConstants.K_APP_TABLE_DELETE_ONE_OBJECT;
-                }
-                else
-                {
-                    tDialog = NWDConstants.K_APP_TABLE_DELETE_X_OBJECTS_A + tSelectionCount + NWDConstants.K_APP_TABLE_DELETE_X_OBJECTS_B;
-                }
-                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_DELETE_ALERT,
-                        tDialog,
-                        NWDConstants.K_APP_TABLE_DELETE_YES,
-                        NWDConstants.K_APP_TABLE_DELETE_NO))
-                {
-                    List<NWDTypeClass> tListToDelete = new List<NWDTypeClass>();
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
-                    {
-                        if (tKeyValue.Value == true)
-                        {
-                            NWDTypeClass tObject = tKeyValue.Key;
-                            tListToDelete.Add(tObject);
-                        }
-                    }
-                    foreach (NWDTypeClass tObject in tListToDelete)
-                    {
-                        NWDTypeClass tObjectToDelete = tObject;
-                        tObjectToDelete.DeleteData();
-                    }
-                    SetObjectInEdition(null);
-                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
-                    NWDDataInspector.ActiveRepaint();
-                }
-            }
-            if (tTrashSelection == true)
-            {
-                string tDialog = string.Empty;
-                if (tSelectionCount == 0)
-                {
-                    tDialog = NWDConstants.K_APP_TABLE_TRASH_NO_OBJECT;
-                }
-                else if (tSelectionCount == 1)
-                {
-                    tDialog = NWDConstants.K_APP_TABLE_TRASH_ONE_OBJECT;
-                }
-                else
-                {
-                    tDialog = NWDConstants.K_APP_TABLE_TRASH_X_OBJECT_A + tSelectionCount + NWDConstants.K_APP_TABLE_TRASH_X_OBJECT_B;
-                }
-                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_TRASH_ALERT,
-                        tDialog,
-                        NWDConstants.K_APP_TABLE_TRASH_YES,
-                        NWDConstants.K_APP_TABLE_TRASH_NO))
-                {
-
-                    List<NWDTypeClass> tListToTrash = new List<NWDTypeClass>();
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
-                    {
-                        if (tKeyValue.Value == true)
-                        {
-                            NWDTypeClass tObject = tKeyValue.Key;
-                            tListToTrash.Add(tObject);
-                        }
-                    }
-                    foreach (NWDTypeClass tObject in tListToTrash)
-                    {
-                        NWDTypeClass tObjectToTrash = tObject;
-                        tObjectToTrash.TrashData();
-                        tObjectToTrash.RowAnalyze();
-                    }
-                    SetObjectInEdition(null);
-                    //                  sEditorWindow.Repaint ();
-                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
-                    NWDDataInspector.ActiveRepaint();
-                }
-            }
-            if (tUntrashSelection == true)
-            {
-                string tDialog = string.Empty;
-                if (tSelectionCount == 0)
-                {
-                    tDialog = NWDConstants.K_APP_TABLE_UNTRASH_NO_OBJECT;
-                }
-                else if (tSelectionCount == 1)
-                {
-                    tDialog = NWDConstants.K_APP_TABLE_UNTRASH_ONE_OBJECT;
-                }
-                else
-                {
-                    tDialog = NWDConstants.K_APP_TABLE_UNTRASH_X_OBJECT_A + tSelectionCount + NWDConstants.K_APP_TABLE_UNTRASH_X_OBJECT_B;
-                }
-                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_UNTRASH_ALERT,
-                        tDialog,
-                        NWDConstants.K_APP_TABLE_UNTRASH_YES,
-                        NWDConstants.K_APP_TABLE_UNTRASH_NO))
-                {
-
-                    List<NWDTypeClass> tListToUntrash = new List<NWDTypeClass>();
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
-                    {
-                        if (tKeyValue.Value == true)
-                        {
-                            NWDTypeClass tObject = tKeyValue.Key;
-                            tListToUntrash.Add(tObject);
-                        }
-                    }
-                    foreach (NWDTypeClass tObject in tListToUntrash)
-                    {
-                        NWDTypeClass tObjectToUntrash = tObject;
-                        tObjectToUntrash.UnTrashData();
-                        tObjectToUntrash.RowAnalyze();
-                    }
-                    SetObjectInEdition(null);
-                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
-                    NWDDataInspector.ActiveRepaint();
-                }
-            }
-            if (tReintegrateSelection == true)
-            {
-                string tDialog = string.Empty;
-                if (tSelectionCount == 0)
-                {
-                    tDialog = NWDConstants.K_APP_TABLE_REINTEGRATE_NO_OBJECT;
-                }
-                else if (tSelectionCount == 1)
-                {
-                    tDialog = NWDConstants.K_APP_TABLE_REINTEGRATE_ONE_OBJECT;
-                }
-                else
-                {
-                    tDialog = NWDConstants.K_APP_TABLE_REINTEGRATE_X_OBJECT_A + tSelectionCount + NWDConstants.K_APP_TABLE_REINTEGRATE_X_OBJECT_B;
-                }
-                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_REINTEGRATE_ALERT,
-                        tDialog,
-                        NWDConstants.K_APP_TABLE_REINTEGRATE_YES,
-                        NWDConstants.K_APP_TABLE_REINTEGRATE_NO))
-                {
-                    List<NWDTypeClass> tListToReintegrate = new List<NWDTypeClass>();
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
-                    {
-                        if (tKeyValue.Value == true)
-                        {
-                            NWDTypeClass tObject = tKeyValue.Key;
-                            tListToReintegrate.Add(tObject);
-                        }
-                    }
-                    foreach (NWDTypeClass tObject in tListToReintegrate)
-                    {
-                        NWDTypeClass tObjectToReintegrate = tObject;
-                        //tObjectToReintegrate.UpdateIntegrity();
-                        tObjectToReintegrate.UpdateData();
-                        tObjectToReintegrate.RowAnalyze();
-                    }
-                    SetObjectInEdition(null);
-                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
-                    NWDDataInspector.ActiveRepaint();
-                }
-            }
-            if (tResetTable == true)
-            {
-                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_RESET_ALERT,
-                                                NWDConstants.K_APP_TABLE_RESET_TABLE,
-                                                NWDConstants.K_APP_TABLE_RESET_YES,
-                                                NWDConstants.K_APP_TABLE_RESET_NO))
-                {
-                    ResetTable();
-                }
-            }
-            if (tPullProd == true)
-            {
-                if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
-                }
-                PullFromWebService(NWDAppConfiguration.SharedInstance().ProdEnvironment);
-            }
-            if (tPullProdForce == true)
-            {
-                if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
-                }
-                PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().ProdEnvironment);
-            }
-
-            if (tSyncProd == true)
-            {
-                if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
-                }
-                SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().ProdEnvironment);
-            }
-
-            if (tSyncForceProd == true)
-            {
-
-                if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
-                }
-                SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().ProdEnvironment);
-            }
-            if (tSyncCleanProd == true)
-            {
-
-                if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
-                }
-                SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().ProdEnvironment);
-            }
-            if (tSyncSpecialProd == true)
-            {
-
-                if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
-                {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
-                }
-                SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Special);
-            }
-            if (tCleanLocalTable == true)
-            {
-                if (EditorUtility.DisplayDialog(NWDConstants.K_CLEAN_ALERT_TITLE,
-                            NWDConstants.K_CLEAN_ALERT_MESSAGE,
-                            NWDConstants.K_CLEAN_ALERT_OK,
-                            NWDConstants.K_CLEAN_ALERT_CANCEL))
-                {
-                    CleanTable();
-                }
-            }
-            //if (tCleanLocalTableWithAccount == true)
-            //{
-            //    if (EditorUtility.DisplayDialog(NWDConstants.K_PURGE_ALERT_TITLE,
-            //                NWDConstants.K_PURGE_ALERT_MESSAGE,
-            //                NWDConstants.K_PURGE_ALERT_OK,
-            //                NWDConstants.K_PURGE_ALERT_CANCEL))
-            //    {
-            //        PurgeTable();
-            //    }
-            //}
-            //if (tLocalizeLocalTable == true)
-            //{
-            //    ExportLocalization();
-            //}
-            //if (tCreateAllPHPForOnlyThisClass == true)
-            //{
-            //    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
-            //    NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
-            //    NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
-            //    NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
-            //    NWDEditorWindow.GenerateCSharpFile();
-            //}
-            //if (tReintegrateOnlyThisClass == true)
-            //{
-            //    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
-            //    NWDEditorWindow.GenerateCSharpFile();
-            //    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-            //}
-            //if (tDeleteOldModelOnlyThisClass == true)
-            //{
-            //    DeleteOldsModels();
-            //    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
-            //    NWDEditorWindow.GenerateCSharpFile();
-            //    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-            //}
-            if (tCreateAllPHPForOnlyThisClassDEV == true)
-            {
-                ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
-                NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
-                NWDEditorWindow.GenerateCSharpFile();
-            }
-            if (tCreateAllPHPForOnlyThisClassPREPROD == true)
-            {
-                ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
-                NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
-                NWDEditorWindow.GenerateCSharpFile();
-            }
-            if (tCreateAllPHPForOnlyThisClassPROD == true)
-            {
-                ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
-                NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
-                NWDEditorWindow.GenerateCSharpFile();
-            }
-            //NWDBenchmark.Finish();
-            return rRect;
-        }
+        //public Rect DrawTableEditorBottom(Rect sRect)
+        //{
+        //    //NWDBenchmark.Start();
+        //    Rect rRect = new Rect(sRect.x, sRect.y, sRect.width, 0);
+
+        //    Rect tRectActionLeft = Rect.zero;
+        //    Rect tRectActionRight = Rect.zero;
+        //    Rect tRectTableLeft = Rect.zero;
+        //    Rect tRectTableRight = Rect.zero;
+
+        //    float tHeightAction = 0;
+        //    float tHeightTable = 0;
+
+        //    if (RowActions == true)
+        //    {
+        //        tHeightAction = NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + (NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge) * 6;
+        //    }
+        //    if (TableActions == true)
+        //    {
+        //        tHeightTable = NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + (NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge) * 7;
+        //    }
+        //    rRect.height = tHeightAction + tHeightTable;
+        //    rRect.y = sRect.height - rRect.height;
+
+        //    if (RowActions == true)
+        //    {
+        //        Rect tFoldoutRectAction = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y, 0, 0);
+        //        tFoldoutRectAction.height = NWDGUI.kBoldLabelStyle.fixedHeight;
+        //        tFoldoutRectAction.width = sRect.width;
+        //        GUI.Label(tFoldoutRectAction, "Rows Actions", NWDGUI.kBoldLabelStyle);
+        //        tRectActionLeft = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y + NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge, 0, 0);
+        //        tRectActionLeft.height = NWDGUI.KTableSearchTextfield.fixedHeight;
+        //        tRectActionLeft.width = NWDGUI.KTableSearchWidth;
+
+        //        tRectActionRight = new Rect(sRect.x + sRect.width - (NWDGUI.kFieldMarge + NWDGUI.KTableSearchWidth) * 3, rRect.y + NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge, 0, 0);
+        //        tRectActionRight.height = NWDGUI.KTableSearchTextfield.fixedHeight;
+        //        tRectActionRight.width = NWDGUI.KTableSearchWidth;
+        //    }
+
+        //    if (TableActions == true)
+        //    {
+        //        Rect tFoldoutRectTable = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y + tHeightAction, 0, 0);
+        //        tFoldoutRectTable.height = NWDGUI.kBoldLabelStyle.fixedHeight;
+        //        tFoldoutRectTable.width = sRect.width;
+        //        GUI.Label(tFoldoutRectTable, "Table Actions", NWDGUI.kBoldLabelStyle);
+        //        tRectTableLeft = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y + NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + tHeightAction, 0, 0);
+        //        tRectTableLeft.height = NWDGUI.KTableSearchTextfield.fixedHeight;
+        //        tRectTableLeft.width = NWDGUI.KTableSearchWidth;
+
+        //        tRectTableRight = new Rect(sRect.x + sRect.width - (NWDGUI.kFieldMarge + NWDGUI.KTableSearchWidth) * 3, rRect.y + NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + tHeightAction, 0, 0);
+        //        tRectTableRight.height = NWDGUI.KTableSearchTextfield.fixedHeight;
+        //        tRectTableRight.width = NWDGUI.KTableSearchWidth;
+        //    }
+
+        //    //bool tDeleteSelection = false; //prevent GUIlayout error
+        //    //bool tLocalizeLocalTable = false; //prevent GUIlayout error
+        //    //bool tTrashSelection = false;  //prevent GUIlayout error
+        //    //bool tUntrashSelection = false;  //prevent GUIlayout error
+        //    //bool tReintegrateSelection = false;  //prevent GUIlayout error
+        //    //bool tResetTable = false;  //prevent GUIlayout error
+        //    //bool tCreateAllPHPForOnlyThisClassDEV = false; //prevent GUIlayout error
+        //    //bool tCreateAllPHPForOnlyThisClassPREPROD = false; //prevent GUIlayout error
+        //    //bool tCreateAllPHPForOnlyThisClassPROD = false; //prevent GUIlayout error
+        //    //bool tCreateAllPHPForOnlyThisClass = false; //prevent GUIlayout error
+        //    //bool tReintegrateOnlyThisClass = false; //prevent GUIlayout error
+        //    //bool tDeleteOldModelOnlyThisClass = false; //prevent GUIlayout error
+        //    //bool tSyncProd = false; //prevent GUIlayout error
+        //    //bool tSyncForceProd = false; //prevent GUIlayout error
+        //    //bool tPullProd = false; //prevent GUIlayout error
+        //    //bool tPullProdForce = false; //prevent GUIlayout error
+        //    //bool tSyncCleanProd = false; //prevent GUIlayout error
+        //    //bool tSyncSpecialProd = false; //prevent GUIlayout error
+        //    //bool tCleanLocalTable = false; //prevent GUIlayout error
+        //    bool tCleanLocalTableWithAccount = false; //prevent GUIlayout error
+        //    bool tDisableProd = false;
+
+        //    if (NWDDataManager.SharedInstance().ClassUnSynchronizeList.Contains(ClassType))
+        //    {
+        //        tDisableProd = true;
+        //    }
+        //    //if (kAccountDependent == true)
+        //    if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+        //    {
+        //        tDisableProd = true;
+        //    }
+        //    int tSelectionCount = 0;
+        //    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+        //    {
+        //        if (tKeyValue.Value == true)
+        //        {
+        //            tSelectionCount++;
+        //        }
+        //    }
+        //    // ===========================================
+        //    Rect tRect = new Rect(0, 0, NWDGUI.KTableSearchWidth, NWDGUI.KTableSearchTextfield.fixedHeight);
+        //    if (RowActions == true)
+        //    {
+
+        //        tRect.x = tRectActionLeft.x;
+        //        tRect.y = tRectActionLeft.y;
+        //        int tActualItems = EditorTableDatas.Count;
+        //        if (tSelectionCount == 0)
+        //        {
+        //            GUI.Label(tRect, NWDConstants.K_APP_TABLE_NO_SELECTED_OBJECT, NWDGUI.KTableSearchTitle);
+        //        }
+        //        else if (tSelectionCount == 1)
+        //        {
+        //            GUI.Label(tRect, NWDConstants.K_APP_TABLE_ONE_SELECTED_OBJECT, NWDGUI.KTableSearchTitle);
+        //        }
+        //        else
+        //        {
+        //            GUI.Label(tRect, tSelectionCount + NWDConstants.K_APP_TABLE_XX_SELECTED_OBJECT, NWDGUI.KTableSearchTitle);
+        //        }
+        //        // draw select all
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        EditorGUI.BeginDisabledGroup(tSelectionCount == tActualItems);
+        //        if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SELECT_ALL, NWDGUI.KTableSearchButton))
+        //        {
+        //            SelectAllObjectInTableList();
+        //        }
+        //        EditorGUI.EndDisabledGroup();
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        // draw deselect all
+        //        EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
+        //        if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_DESELECT_ALL, NWDGUI.KTableSearchButton))
+        //        {
+        //            DeselectAllObjectInTableList();
+        //        }
+        //        EditorGUI.EndDisabledGroup();
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        // draw inverse
+        //        if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_INVERSE, NWDGUI.KTableSearchButton))
+        //        {
+        //            InverseSelectionOfAllObjectInTableList();
+        //        }
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        // draw select all enable
+        //        if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SELECT_ENABLED, NWDGUI.KTableSearchButton))
+        //        {
+        //            SelectAllObjectEnableInTableList();
+        //        }
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        // draw select all disable
+        //        if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SELECT_DISABLED, NWDGUI.KTableSearchButton))
+        //        {
+        //            SelectAllObjectDisableInTableList();
+        //        }
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        // Change Colmun
+        //        tRect.x += tRect.width + NWDGUI.kFieldMarge;
+        //        tRect.y = tRectActionLeft.y;
+
+        //        // draw row Actions 
+        //        EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
+        //        GUI.Label(tRect, NWDConstants.K_APP_TABLE_ACTIONS, NWDGUI.KTableSearchTitle);
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_REACTIVE, NWDGUI.KTableSearchButton))
+        //        {
+        //            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+        //            {
+        //                if (tKeyValue.Value == true)
+        //                {
+        //                    NWDTypeClass tObject = tKeyValue.Key;
+        //                    tObject.EnableData();
+        //                    tObject.RowAnalyze();
+        //                }
+        //            }
+        //            NWDDataInspector.ActiveRepaint();
+        //        }
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_DISACTIVE, NWDGUI.KTableSearchButton))
+        //        {
+        //            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+        //            {
+        //                if (tKeyValue.Value == true)
+        //                {
+        //                    NWDTypeClass tObject = tKeyValue.Key;
+        //                    tObject.DisableData();
+        //                    tObject.RowAnalyze();
+        //                }
+        //            }
+        //            NWDDataInspector.ActiveRepaint();
+        //        }
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_DUPPLICATE, NWDGUI.KTableSearchButton))
+        //        {
+        //            NWDTypeClass tNextObjectSelected = null;
+        //            int tNewData = 0;
+        //            List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
+        //            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+        //            {
+        //                if (tKeyValue.Value == true)
+        //                {
+        //                    NWDTypeClass tObject = tKeyValue.Key;
+        //                    tListToUse.Add(tObject);
+        //                }
+        //            }
+        //            foreach (NWDTypeClass tObject in tListToUse)
+        //            {
+        //                tNewData++;
+        //                NWDTypeClass tNextObject = tObject.Base_DuplicateData();
+        //                if (m_SearchTag != NWDBasisTag.NoTag)
+        //                {
+        //                    tNextObject.Tag = m_SearchTag;
+        //                    tNextObject.UpdateData();
+        //                    tObject.RowAnalyze();
+        //                }
+        //                tNextObjectSelected = tNextObject;
+        //                tNextObjectSelected.RowAnalyze();
+        //            }
+        //            if (tNewData != 1)
+        //            {
+        //                tNextObjectSelected = null;
+        //            }
+        //            SetObjectInEdition(tNextObjectSelected);
+        //            m_PageSelected = m_MaxPage * 3;
+        //            NWDDataInspector.ActiveRepaint();
+        //        }
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_UPDATE, NWDGUI.KTableSearchButton))
+        //        {
+        //            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+        //            {
+        //                if (tKeyValue.Value == true)
+        //                {
+        //                    NWDTypeClass tObject = tKeyValue.Key;
+        //                    tObject.UpdateData();
+        //                    tObject.RowAnalyze();
+        //                }
+        //            }
+        //            NWDDataInspector.ActiveRepaint();
+        //        }
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        EditorGUI.EndDisabledGroup();
+        //        //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_EXPORT_TRANSLATION, NWDGUI.KTableSearchButton))
+        //        //{
+        //        //    tLocalizeLocalTable = true;
+        //        //}
+        //        // Change Colmun
+        //        tRect.x += tRect.width + NWDGUI.kFieldMarge;
+        //        tRect.y = tRectActionLeft.y;
+
+
+
+
+        //        // draw row Datas
+        //        GUI.Label(tRect, "Datas", NWDGUI.KTableSearchTitle);
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+        //        EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
+        //        if (GUI.Button(tRect, "Export data", NWDGUI.KTableSearchButton))
+        //        {
+        //            ExportCSV(true);
+        //            GUIUtility.ExitGUI();
+        //        }
+        //        EditorGUI.EndDisabledGroup();
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        if (GUI.Button(tRect, "Import data", NWDGUI.KTableSearchButton))
+        //        {
+        //            ImportCSV();
+        //            GUIUtility.ExitGUI();
+        //        }
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        tRect.x += tRect.width + NWDGUI.kFieldMarge;
+        //        tRect.y = tRectActionLeft.y;
+
+
+
+        //        // draw row translate
+        //        GUI.Label(tRect, "Translates", NWDGUI.KTableSearchTitle);
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        // export import
+        //        EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
+        //        if (GUI.Button(tRect, "Reorder localization", NWDGUI.KTableSearchButton))
+        //        {
+        //            List<NWDTypeClass> tListToReorder = new List<NWDTypeClass>();
+        //            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+        //            {
+        //                if (tKeyValue.Value == true)
+        //                {
+        //                    tListToReorder.Add(tKeyValue.Key);
+        //                }
+        //            }
+        //            ReOrderLocalizations(tListToReorder);
+        //            NWDDataInspector.Refresh();
+        //            GUIUtility.ExitGUI();
+        //        }
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+        //        if (GUI.Button(tRect, "Export localization", NWDGUI.KTableSearchButton))
+        //        {
+        //            ExportLocalization(true);
+        //            GUIUtility.ExitGUI();
+        //        }
+        //        EditorGUI.EndDisabledGroup();
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        if (GUI.Button(tRect, "Import localization", NWDGUI.KTableSearchButton))
+        //        {
+        //            NWDAppConfiguration.SharedInstance().DataLocalizationManager.ImportFromCSV();
+        //            GUIUtility.ExitGUI();
+        //        }
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        tRect.x += tRect.width + NWDGUI.kFieldMarge;
+        //        tRect.y = tRectActionLeft.y;
+
+
+        //        // draw row warning
+        //        EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
+        //        NWDGUI.BeginRedArea();
+        //        // DELETE SELECTION
+        //        GUI.Label(tRect, NWDConstants.K_APP_TABLE_DELETE_WARNING, NWDGUI.KTableSearchTitle);
+
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_DELETE_BUTTON, NWDGUI.KTableSearchButton))
+        //        {
+        //            //tDeleteSelection = true;
+        //        }
+
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        // TRASH SELECTION
+        //        if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_TRASH_ZONE, NWDGUI.KTableSearchButton))
+        //        {
+        //            //tTrashSelection = true;
+        //        }
+
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        // UNTRASH SELECTION
+        //        if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_UNTRASH_ZONE, NWDGUI.KTableSearchButton))
+        //        {
+        //            //tUntrashSelection = true;
+        //        }
+
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        // REINTEGRATE SELECTION
+        //        if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_REINTEGRATE_ZONE, NWDGUI.KTableSearchButton))
+        //        {
+        //            //tReintegrateSelection = true;
+        //        }
+
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+
+        //        // TODO Change!!! .... we need restaure from environment!!!
+        //        //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SELECT_RESTAURE_FROM_SERVER, NWDGUI.KTableSearchButton))
+        //        //{
+        //        //    List<string> tReferencesList = new List<string>();
+        //        //    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+        //        //    {
+        //        //        if (tKeyValue.Value == true)
+        //        //        {
+        //        //            tReferencesList.Add(tKeyValue.Key.Reference);
+        //        //        }
+        //        //    }
+        //        //    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+        //        //    tTypeAndReferences.Add(ClassType, tReferencesList);
+        //        //    NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate
+        //        //    {
+        //        //        NWDDataInspector.ActiveRepaint();
+        //        //    });
+        //        //}
+        //        //tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //if (false)
+        //        //{
+        //        //    if (GUI.Button(tRect, "UnLoad", NWDGUI.KTableSearchButton))
+        //        //    {
+        //        //        List<NWDTypeClass> tListToUnload = new List<NWDTypeClass>();
+        //        //        foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+        //        //        {
+        //        //            if (tKeyValue.Value == true)
+        //        //            {
+        //        //                tListToUnload.Add(tKeyValue.Key);
+        //        //            }
+        //        //        }
+        //        //        foreach (NWDTypeClass tObject in tListToUnload)
+        //        //        {
+        //        //            New_UnloadDataByReference(tObject.Reference);
+        //        //        }
+        //        //    }
+        //        //    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //}
+
+        //        EditorGUI.EndDisabledGroup();
+        //        NWDGUI.EndRedArea();
+
+
+        //        //tRect = new Rect(tRectActionRight.x, tRectActionRight.y, NWDGUI.KTableSearchWidth, tRectActionRight.height);
+
+        //        //EditorGUI.BeginDisabledGroup(WebModelChanged);
+
+        //        //GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+        //        //GUI.Label(tRect, tDevContent, NWDGUI.KTableSearchTitle);
+
+        //        ////if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
+        //        //if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+        //        //{
+        //        //    if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
+        //        //    {
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Sync table", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Force Sync table", NWDGUI.KTableSearchButton))
+        //        //        {
+
+        //        //            SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Pull table", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            PullFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Force Pull table", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
+        //        //        }
+        //        //        EditorGUI.EndDisabledGroup();
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+
+
+        //        //        EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
+        //        //        NWDGUI.BeginRedArea();
+        //        //        if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            List<string> tReferencesList = new List<string>();
+        //        //            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+        //        //            {
+        //        //                if (tKeyValue.Value == true)
+        //        //                {
+        //        //                    tReferencesList.Add(tKeyValue.Key.Reference);
+        //        //                }
+        //        //            }
+        //        //            Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+        //        //            tTypeAndReferences.Add(ClassType, tReferencesList);
+        //        //            PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().DevEnvironment, tTypeAndReferences);
+        //        //        }
+        //        //        EditorGUI.EndDisabledGroup();
+        //        //        NWDGUI.EndRedArea();
+        //        //    }
+        //        //    else
+        //        //    {
+        //        //        tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
+        //        //        GUI.Label(tRect, "no config", NWDGUI.kNoConfigStyle);
+        //        //    }
+        //        //}
+        //        //else
+        //        //{
+        //        //    tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
+        //        //    GUI.Label(tRect, "sync forbidden", NWDGUI.kNoConfigStyle);
+        //        //}
+        //        //// Change Colmun
+        //        //tRect.x += tRect.width + NWDGUI.kFieldMarge;
+        //        //tRect.y = tRectActionRight.y;
+
+        //        //GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+        //        //GUI.Label(tRect, tPreprodContent, NWDGUI.KTableSearchTitle);
+
+        //        ////if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
+        //        //if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+        //        //{
+        //        //    if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
+        //        //    {
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        EditorGUI.BeginDisabledGroup(WebModelChanged);
+        //        //        if (GUI.Button(tRect, "Sync table", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Force Sync table", NWDGUI.KTableSearchButton))
+        //        //        {
+
+        //        //            SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Pull table", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            PullFromWebService(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Force Pull table", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+        //        //        }
+        //        //        EditorGUI.EndDisabledGroup();
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+        //        //        EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
+        //        //        NWDGUI.BeginRedArea();
+        //        //        if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            List<string> tReferencesList = new List<string>();
+        //        //            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+        //        //            {
+        //        //                if (tKeyValue.Value == true)
+        //        //                {
+        //        //                    tReferencesList.Add(tKeyValue.Key.Reference);
+        //        //                }
+        //        //            }
+        //        //            Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+        //        //            tTypeAndReferences.Add(ClassType, tReferencesList);
+        //        //            PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().PreprodEnvironment, tTypeAndReferences);
+        //        //        }
+        //        //        EditorGUI.EndDisabledGroup();
+        //        //        NWDGUI.EndRedArea();
+        //        //    }
+        //        //    else
+        //        //    {
+        //        //        tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
+        //        //        GUI.Label(tRect, "no config", NWDGUI.kNoConfigStyle);
+        //        //    }
+        //        //}
+        //        //else
+        //        //{
+        //        //    tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
+        //        //    GUI.Label(tRect, "sync forbidden", NWDGUI.kNoConfigStyle);
+        //        //}
+        //        //// Change Colmun
+        //        //tRect.x += tRect.width + NWDGUI.kFieldMarge;
+        //        //tRect.y = tRectActionRight.y;
+
+        //        //GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+        //        //GUI.Label(tRect, tProdContent, NWDGUI.KTableSearchTitle);
+        //        ////if (BasisType == NWDBasisType.EditorClass)
+        //        //if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //{
+        //        //    if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
+        //        //    {
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        EditorGUI.BeginDisabledGroup(tDisableProd || WebModelChanged);
+        //        //        if (GUI.Button(tRect, "Sync table", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            //tSyncProd = true;
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Force Sync table", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            //tSyncForceProd = true;
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Pull table", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            //tPullProd = true;
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Force Pull table", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            //tPullProdForce = true;
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        EditorGUI.EndDisabledGroup();
+        //        //        EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
+        //        //        NWDGUI.BeginRedArea();
+        //        //        if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            List<string> tReferencesList = new List<string>();
+        //        //            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+        //        //            {
+        //        //                if (tKeyValue.Value == true)
+        //        //                {
+        //        //                    tReferencesList.Add(tKeyValue.Key.Reference);
+        //        //                }
+        //        //            }
+        //        //            Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+        //        //            tTypeAndReferences.Add(ClassType, tReferencesList);
+        //        //            PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().ProdEnvironment, tTypeAndReferences);
+        //        //        }
+        //        //        EditorGUI.EndDisabledGroup();
+        //        //        NWDGUI.EndRedArea();
+        //        //    }
+        //        //    else
+        //        //    {
+        //        //        tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
+        //        //        GUI.Label(tRect, "no config", NWDGUI.kNoConfigStyle);
+        //        //    }
+        //        //}
+        //        //else
+        //        //{
+        //        //    tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
+        //        //    GUI.Label(tRect, "sync forbidden", NWDGUI.kNoConfigStyle);
+        //        //}
+        //    }
+        //    if (TableActions == true)
+        //    {
+        //        // Start Colmun
+        //        tRect.x = tRectTableLeft.x;
+        //        tRect.y = tRectTableLeft.y;
+        //        GUI.Label(tRect, NWDConstants.K_APP_TABLE_TOOLS, NWDGUI.KTableSearchTitle);
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+
+        //        if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SEARCH_RELOAD, NWDGUI.KTableSearchButton))
+        //        {
+        //            string tReference = GetReferenceOfDataInEdition();
+        //            GUI.FocusControl(null);
+        //            SetObjectInEdition(null);
+        //            m_SearchInternalName = string.Empty;
+        //            m_SearchInternalDescription = string.Empty;
+        //            LoadFromDatabase(string.Empty, true);
+        //            RestaureDataInEditionByReference(tReference);
+        //        }
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+        //        if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SHOW_TOOLS, NWDGUI.KTableSearchButton))
+        //        {
+        //            NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
+        //            tBasisInspector.mTypeInEdition = ClassType;
+        //            Selection.activeObject = tBasisInspector;
+        //        }
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        // reset icon of clas
+        //        if (GUI.Button(tRect, "Select script", NWDGUI.KTableSearchButton))
+        //        {
+        //            SelectScript();
+        //        }
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        // reset icon of class
+        //        NWDGUI.BeginRedArea();
+        //        //if (GUI.Button(tRect, "Reset Icon", NWDGUI.KTableSearchButton))
+        //        //{
+        //        //    ResetIconByDefaultIcon();
+        //        //}
+        //        //NWDGUI.EndRedArea();
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+
+
+        //        // Change Colmun
+        //        tRect.x += tRect.width + NWDGUI.kFieldMarge;
+        //        tRect.y = tRectTableLeft.y;
+        //        NWDGUI.BeginRedArea();
+        //        GUI.Label(tRect, NWDConstants.K_APP_TABLE_RESET_WARNING, NWDGUI.KTableSearchTitle);
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        // draw reset table
+        //        if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_RESET_ZONE, NWDGUI.KTableSearchButton))
+        //        {
+        //            //tResetTable = true;
+        //        }
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        // draw reset table
+        //        if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_REINDEX_ZONE, NWDGUI.KTableSearchButton))
+        //        {
+        //            IndexInMemoryAllObjects();
+        //            IndexInBaseAllObjects();
+        //        }
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        // draw Clean table
+        //        if (GUI.Button(tRect, "Clean local table", NWDGUI.KTableSearchButton))
+        //        {
+        //            //tCleanLocalTable = true;
+        //        }
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        // draw Purge table
+        //        //EditorGUI.BeginDisabledGroup(!ClassGameSaveDependent);
+        //        //if (GUI.Button(tRect, "Purge accounts", NWDGUI.KTableSearchButton))
+        //        //{
+        //        //    tCleanLocalTableWithAccount = true;
+        //        //}
+        //        //EditorGUI.EndDisabledGroup();
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+        //        // reintegrate all objects
+        //        //NWDGUI.BeginRedArea();
+        //        //if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_CLASS_INTEGRITY_REEVALUE, NWDGUI.KTableSearchButton))
+        //        //{
+        //        //    GUI.FocusControl(null);
+        //        //    RecalculateAllIntegrities();
+        //        //}
+        //        //NWDGUI.EndRedArea();
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+        //        // Change Colmun
+        //        tRect.x += tRect.width + NWDGUI.kFieldMarge;
+        //        tRect.y = tRectTableLeft.y;
+        //        float tWidthToRestaure = tRect.width;
+        //        tRect.width = tRect.width * 2;
+        //        //GUI.Label(tRect, TemplateHelper.GetBaseClassToString(), NWDGUI.kBoldLabelStyle);
+        //        //tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //GUI.Label(tRect, TemplateHelper.GetClassToString(), NWDGUI.kBoldLabelStyle);
+        //        //tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+        //        //GUI.Label(tRect, TemplateHelper.GetDeviceDatabase().ToString(), NWDGUI.kItalicLabelStyle);
+        //        //tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //GUI.Label(tRect, TemplateHelper.GetSynchronizable().ToString(), NWDGUI.kItalicLabelStyle);
+        //        //tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //GUI.Label(tRect, TemplateHelper.GetBundlisable().ToString(), NWDGUI.kItalicLabelStyle);
+        //        //tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //GUI.Label(tRect, TemplateHelper.GetAccountDependent().ToString(), NWDGUI.kItalicLabelStyle);
+        //        //tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //GUI.Label(tRect, TemplateHelper.GetGamesaveDependent().ToString(), NWDGUI.kItalicLabelStyle);
+        //        //tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        tRect.width = tWidthToRestaure;
+
+        //        // draw Replace WS in dev by sftp
+        //        //GUI.Label(tRect, NWDConstants.K_APP_WS_RESET_WARNING + " " + NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000"), NWDGUI.KTableSearchTitle);
+
+        //        //tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_DEV_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+        //        //{
+        //        //    tCreateAllPHPForOnlyThisClassDEV = true;
+        //        //}
+        //        //tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //// draw Replace WS in all by sftp
+        //        //if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+        //        //{
+        //        //    tCreateAllPHPForOnlyThisClass = true;
+        //        //}
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        // draw reintegrate the model
+        //        //if (GUI.Button(tRect, NWDConstants.K_APP_WS_MODEL_TOOLS, NWDGUI.KTableSearchButton))
+        //        //{
+        //        //    tReintegrateOnlyThisClass = true;
+        //        //}
+        //        //tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //// draw delete old model
+        //        //if (GUI.Button(tRect, NWDConstants.K_APP_WS_DELETE_OLD_MODEL_TOOLS, NWDGUI.KTableSearchButton))
+        //        //{
+        //        //    tDeleteOldModelOnlyThisClass = true;
+        //        //}
+        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        NWDGUI.EndRedArea();
+        //        // Change Colmun
+        //        tRect.x = tRectTableRight.x;
+        //        tRect.y = tRectTableRight.y;
+
+        //        //GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+        //        //GUI.Label(tRect, tDevContent, NWDGUI.KTableSearchTitle);
+
+        //        ////if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
+        //        //if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+        //        //{
+        //        //    if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
+        //        //    {
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        NWDGUI.BeginRedArea();
+        //        //        EditorGUI.BeginDisabledGroup(WebModelChanged);
+        //        //        if (GUI.Button(tRect, "Clean table", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().DevEnvironment);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Special", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Special);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Upgrade", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Upgrade);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Optimize", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Optimize);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Indexes);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        EditorGUI.EndDisabledGroup();
+        //        //        if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateDev))
+        //        //        {
+        //        //            if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_DEV_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+        //        //            {
+        //        //                //tCreateAllPHPForOnlyThisClassDEV = true;
+        //        //            }
+        //        //            tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        }
+        //        //        else
+        //        //        {
+        //        //            if (GUI.Button(tRect, "Need credentials", NWDGUI.KTableSearchButton))
+        //        //            {
+        //        //                NWDProjectCredentialsManager.SharedInstanceFocus();
+        //        //            }
+        //        //            tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        }
+        //        //        NWDGUI.EndRedArea();
+        //        //    }
+        //        //    else
+        //        //    {
+        //        //        tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
+        //        //        GUI.Label(tRect, "no config", NWDGUI.kNoConfigStyle);
+        //        //    }
+        //        //}
+        //        //else
+        //        //{
+        //        //    tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
+        //        //    GUI.Label(tRect, "sync forbidden", NWDGUI.kNoConfigStyle);
+        //        //}
+        //        //// Change Colmun
+        //        //tRect.x += tRect.width + NWDGUI.kFieldMarge;
+        //        //tRect.y = tRectTableRight.y;
+        //        //GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+        //        //GUI.Label(tRect, tPreprodContent, NWDGUI.KTableSearchTitle);
+        //        ////if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
+        //        //if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+        //        //{
+        //        //    if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
+        //        //    {
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        NWDGUI.BeginRedArea();
+        //        //        EditorGUI.BeginDisabledGroup(WebModelChanged);
+        //        //        if (GUI.Button(tRect, "Clean table", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Special", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Special);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Upgrade", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Upgrade);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Optimize", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Optimize);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Indexes);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        EditorGUI.EndDisabledGroup();
+
+        //        //        if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGeneratePreprod))
+        //        //        {
+        //        //            if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_PREPROD_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+        //        //            {
+        //        //                //tCreateAllPHPForOnlyThisClassPREPROD = true;
+        //        //            }
+        //        //            tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        }
+        //        //        else
+        //        //        {
+        //        //            if (GUI.Button(tRect, "Need credentials", NWDGUI.KTableSearchButton))
+        //        //            {
+        //        //                NWDProjectCredentialsManager.SharedInstanceFocus();
+        //        //            }
+        //        //            tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        }
+
+        //        //        NWDGUI.EndRedArea();
+        //        //    }
+        //        //    else
+        //        //    {
+        //        //        tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
+        //        //        GUI.Label(tRect, "no config", NWDGUI.kNoConfigStyle);
+        //        //    }
+        //        //}
+        //        //else
+        //        //{
+        //        //    tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
+        //        //    GUI.Label(tRect, "sync forbidden", NWDGUI.kNoConfigStyle);
+        //        //}
+        //        //// Change Colmun
+        //        //tRect.x += tRect.width + NWDGUI.kFieldMarge;
+        //        //tRect.y = tRectTableRight.y;
+        //        //GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+        //        //GUI.Label(tRect, tProdContent, NWDGUI.KTableSearchTitle);
+        //        ////if (BasisType == NWDBasisType.EditorClass)
+        //        //if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+
+        //        //{
+        //        //    if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
+        //        //    {
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        NWDGUI.BeginRedArea();
+        //        //        EditorGUI.BeginDisabledGroup(WebModelChanged);
+        //        //        if (GUI.Button(tRect, "Clean table", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            //tSyncCleanProd = true;
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Special", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Special);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Upgrade", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Upgrade);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Optimize", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Optimize);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
+        //        //        {
+        //        //            if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //        //            {
+        //        //                EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+        //        //            }
+        //        //            SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Indexes);
+        //        //        }
+        //        //        tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        EditorGUI.EndDisabledGroup();
+        //        //        if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateProd))
+        //        //        {
+        //        //            if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_PROD_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+        //        //            {
+        //        //                //tCreateAllPHPForOnlyThisClassPROD = true;
+        //        //            }
+        //        //            tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        }
+        //        //        else
+        //        //        {
+        //        //            if (GUI.Button(tRect, "Need credentials", NWDGUI.KTableSearchButton))
+        //        //            {
+        //        //                NWDProjectCredentialsManager.SharedInstanceFocus();
+        //        //            }
+        //        //            tRect.y += tRect.height + NWDGUI.kFieldMarge;
+        //        //        }
+        //        //        NWDGUI.EndRedArea();
+
+        //        //    }
+        //        //    else
+        //        //    {
+        //        //        tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
+        //        //        GUI.Label(tRect, "no config", NWDGUI.kNoConfigStyle);
+        //        //    }
+        //        //}
+        //        //else
+        //        //{
+        //        //    tRect.y += (NWDGUI.kNoConfigStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
+        //        //    GUI.Label(tRect, "sync forbidden", NWDGUI.kNoConfigStyle);
+        //        //}
+        //    }
+        //    // Page end!
+        //    //if (tDeleteSelection == true)
+        //    //{
+        //    //    string tDialog = string.Empty;
+        //    //    if (tSelectionCount == 0)
+        //    //    {
+        //    //        tDialog = NWDConstants.K_APP_TABLE_DELETE_NO_OBJECT;
+        //    //    }
+        //    //    else if (tSelectionCount == 1)
+        //    //    {
+        //    //        tDialog = NWDConstants.K_APP_TABLE_DELETE_ONE_OBJECT;
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        tDialog = NWDConstants.K_APP_TABLE_DELETE_X_OBJECTS_A + tSelectionCount + NWDConstants.K_APP_TABLE_DELETE_X_OBJECTS_B;
+        //    //    }
+        //    //    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_DELETE_ALERT,
+        //    //            tDialog,
+        //    //            NWDConstants.K_APP_TABLE_DELETE_YES,
+        //    //            NWDConstants.K_APP_TABLE_DELETE_NO))
+        //    //    {
+        //    //        List<NWDTypeClass> tListToDelete = new List<NWDTypeClass>();
+        //    //        foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+        //    //        {
+        //    //            if (tKeyValue.Value == true)
+        //    //            {
+        //    //                NWDTypeClass tObject = tKeyValue.Key;
+        //    //                tListToDelete.Add(tObject);
+        //    //            }
+        //    //        }
+        //    //        foreach (NWDTypeClass tObject in tListToDelete)
+        //    //        {
+        //    //            NWDTypeClass tObjectToDelete = tObject;
+        //    //            tObjectToDelete.DeleteData();
+        //    //        }
+        //    //        SetObjectInEdition(null);
+        //    //        NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
+        //    //        NWDDataInspector.ActiveRepaint();
+        //    //    }
+        //    //}
+        //    //if (tTrashSelection == true)
+        //    //{
+        //    //    string tDialog = string.Empty;
+        //    //    if (tSelectionCount == 0)
+        //    //    {
+        //    //        tDialog = NWDConstants.K_APP_TABLE_TRASH_NO_OBJECT;
+        //    //    }
+        //    //    else if (tSelectionCount == 1)
+        //    //    {
+        //    //        tDialog = NWDConstants.K_APP_TABLE_TRASH_ONE_OBJECT;
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        tDialog = NWDConstants.K_APP_TABLE_TRASH_X_OBJECT_A + tSelectionCount + NWDConstants.K_APP_TABLE_TRASH_X_OBJECT_B;
+        //    //    }
+        //    //    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_TRASH_ALERT,
+        //    //            tDialog,
+        //    //            NWDConstants.K_APP_TABLE_TRASH_YES,
+        //    //            NWDConstants.K_APP_TABLE_TRASH_NO))
+        //    //    {
+
+        //    //        List<NWDTypeClass> tListToTrash = new List<NWDTypeClass>();
+        //    //        foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+        //    //        {
+        //    //            if (tKeyValue.Value == true)
+        //    //            {
+        //    //                NWDTypeClass tObject = tKeyValue.Key;
+        //    //                tListToTrash.Add(tObject);
+        //    //            }
+        //    //        }
+        //    //        foreach (NWDTypeClass tObject in tListToTrash)
+        //    //        {
+        //    //            NWDTypeClass tObjectToTrash = tObject;
+        //    //            tObjectToTrash.TrashData();
+        //    //            tObjectToTrash.RowAnalyze();
+        //    //        }
+        //    //        SetObjectInEdition(null);
+        //    //        //                  sEditorWindow.Repaint ();
+        //    //        NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
+        //    //        NWDDataInspector.ActiveRepaint();
+        //    //    }
+        //    //}
+        //    //if (tUntrashSelection == true)
+        //    //{
+        //    //    string tDialog = string.Empty;
+        //    //    if (tSelectionCount == 0)
+        //    //    {
+        //    //        tDialog = NWDConstants.K_APP_TABLE_UNTRASH_NO_OBJECT;
+        //    //    }
+        //    //    else if (tSelectionCount == 1)
+        //    //    {
+        //    //        tDialog = NWDConstants.K_APP_TABLE_UNTRASH_ONE_OBJECT;
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        tDialog = NWDConstants.K_APP_TABLE_UNTRASH_X_OBJECT_A + tSelectionCount + NWDConstants.K_APP_TABLE_UNTRASH_X_OBJECT_B;
+        //    //    }
+        //    //    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_UNTRASH_ALERT,
+        //    //            tDialog,
+        //    //            NWDConstants.K_APP_TABLE_UNTRASH_YES,
+        //    //            NWDConstants.K_APP_TABLE_UNTRASH_NO))
+        //    //    {
+
+        //    //        List<NWDTypeClass> tListToUntrash = new List<NWDTypeClass>();
+        //    //        foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+        //    //        {
+        //    //            if (tKeyValue.Value == true)
+        //    //            {
+        //    //                NWDTypeClass tObject = tKeyValue.Key;
+        //    //                tListToUntrash.Add(tObject);
+        //    //            }
+        //    //        }
+        //    //        foreach (NWDTypeClass tObject in tListToUntrash)
+        //    //        {
+        //    //            NWDTypeClass tObjectToUntrash = tObject;
+        //    //            tObjectToUntrash.UnTrashData();
+        //    //            tObjectToUntrash.RowAnalyze();
+        //    //        }
+        //    //        SetObjectInEdition(null);
+        //    //        NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
+        //    //        NWDDataInspector.ActiveRepaint();
+        //    //    }
+        //    //}
+        //    //if (tReintegrateSelection == true)
+        //    //{
+        //    //    //string tDialog = string.Empty;
+        //    //    //if (tSelectionCount == 0)
+        //    //    //{
+        //    //    //    tDialog = NWDConstants.K_APP_TABLE_REINTEGRATE_NO_OBJECT;
+        //    //    //}
+        //    //    //else if (tSelectionCount == 1)
+        //    //    //{
+        //    //    //    tDialog = NWDConstants.K_APP_TABLE_REINTEGRATE_ONE_OBJECT;
+        //    //    //}
+        //    //    //else
+        //    //    //{
+        //    //    //    tDialog = NWDConstants.K_APP_TABLE_REINTEGRATE_X_OBJECT_A + tSelectionCount + NWDConstants.K_APP_TABLE_REINTEGRATE_X_OBJECT_B;
+        //    //    //}
+        //    //    //if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_REINTEGRATE_ALERT,
+        //    //    //        tDialog,
+        //    //    //        NWDConstants.K_APP_TABLE_REINTEGRATE_YES,
+        //    //    //        NWDConstants.K_APP_TABLE_REINTEGRATE_NO))
+        //    //    //{
+        //    //    //    List<NWDTypeClass> tListToReintegrate = new List<NWDTypeClass>();
+        //    //    //    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+        //    //    //    {
+        //    //    //        if (tKeyValue.Value == true)
+        //    //    //        {
+        //    //    //            NWDTypeClass tObject = tKeyValue.Key;
+        //    //    //            tListToReintegrate.Add(tObject);
+        //    //    //        }
+        //    //    //    }
+        //    //    //    foreach (NWDTypeClass tObject in tListToReintegrate)
+        //    //    //    {
+        //    //    //        NWDTypeClass tObjectToReintegrate = tObject;
+        //    //    //        //tObjectToReintegrate.UpdateIntegrity();
+        //    //    //        tObjectToReintegrate.UpdateData();
+        //    //    //        tObjectToReintegrate.RowAnalyze();
+        //    //    //    }
+        //    //    //    SetObjectInEdition(null);
+        //    //    //    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
+        //    //    //    NWDDataInspector.ActiveRepaint();
+        //    //    //}
+        //    //}
+        //    //if (tResetTable == true)
+        //    //{
+        //    //    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_RESET_ALERT,
+        //    //                                    NWDConstants.K_APP_TABLE_RESET_TABLE,
+        //    //                                    NWDConstants.K_APP_TABLE_RESET_YES,
+        //    //                                    NWDConstants.K_APP_TABLE_RESET_NO))
+        //    //    {
+        //    //        ResetTable();
+        //    //    }
+        //    //}
+        //    //if (tPullProd == true)
+        //    //{
+        //    //    if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //    //    {
+        //    //        EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+        //    //    }
+        //    //    PullFromWebService(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+        //    //}
+        //    //if (tPullProdForce == true)
+        //    //{
+        //    //    if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //    //    {
+        //    //        EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+        //    //    }
+        //    //    PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+        //    //}
+
+        //    //if (tSyncProd == true)
+        //    //{
+        //    //    if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //    //    {
+        //    //        EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+        //    //    }
+        //    //    SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+        //    //}
+
+        //    //if (tSyncForceProd == true)
+        //    //{
+
+        //    //    if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //    //    {
+        //    //        EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+        //    //    }
+        //    //    SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+        //    //}
+        //    //if (tSyncCleanProd == true)
+        //    //{
+
+        //    //    if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //    //    {
+        //    //        EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+        //    //    }
+        //    //    SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+        //    //}
+        //    //if (tSyncSpecialProd == true)
+        //    //{
+
+        //    //    if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+        //    //    {
+        //    //        EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+        //    //    }
+        //    //    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Special);
+        //    //}
+        //    //if (tCleanLocalTable == true)
+        //    //{
+        //    //    if (EditorUtility.DisplayDialog(NWDConstants.K_CLEAN_ALERT_TITLE,
+        //    //                NWDConstants.K_CLEAN_ALERT_MESSAGE,
+        //    //                NWDConstants.K_CLEAN_ALERT_OK,
+        //    //                NWDConstants.K_CLEAN_ALERT_CANCEL))
+        //    //    {
+        //    //        CleanTable();
+        //    //    }
+        //    //}
+        //    //if (tCleanLocalTableWithAccount == true)
+        //    //{
+        //    //    if (EditorUtility.DisplayDialog(NWDConstants.K_PURGE_ALERT_TITLE,
+        //    //                NWDConstants.K_PURGE_ALERT_MESSAGE,
+        //    //                NWDConstants.K_PURGE_ALERT_OK,
+        //    //                NWDConstants.K_PURGE_ALERT_CANCEL))
+        //    //    {
+        //    //        PurgeTable();
+        //    //    }
+        //    //}
+        //    //if (tLocalizeLocalTable == true)
+        //    //{
+        //    //    ExportLocalization();
+        //    //}
+        //    //if (tCreateAllPHPForOnlyThisClass == true)
+        //    //{
+        //    //    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+        //    //    NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+        //    //    NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+        //    //    NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+        //    //    NWDEditorWindow.GenerateCSharpFile();
+        //    //}
+        //    //if (tReintegrateOnlyThisClass == true)
+        //    //{
+        //    //    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+        //    //    NWDEditorWindow.GenerateCSharpFile();
+        //    //    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+        //    //}
+        //    //if (tDeleteOldModelOnlyThisClass == true)
+        //    //{
+        //    //    DeleteOldsModels();
+        //    //    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+        //    //    NWDEditorWindow.GenerateCSharpFile();
+        //    //    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+        //    //}
+        //    //if (tCreateAllPHPForOnlyThisClassDEV == true)
+        //    //{
+        //    //    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+        //    //    NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+        //    //    NWDEditorWindow.GenerateCSharpFile();
+        //    //}
+        //    //if (tCreateAllPHPForOnlyThisClassPREPROD == true)
+        //    //{
+        //    //    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+        //    //    NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+        //    //    NWDEditorWindow.GenerateCSharpFile();
+        //    //}
+        //    //if (tCreateAllPHPForOnlyThisClassPROD == true)
+        //    //{
+        //    //    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+        //    //    NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+        //    //    NWDEditorWindow.GenerateCSharpFile();
+        //    //}
+        //    //NWDBenchmark.Finish();
+        //    return rRect;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         //TODO : RENAME!
-        public void DrawTableEditor(EditorWindow sEditorWindow)
+        public void DrawTableEditor(EditorWindow sEditorWindow, Rect sRect)
         {
             //NWDBenchmark.Start();
             float tOldLabelWidth = EditorGUIUtility.labelWidth;
@@ -2366,9 +2370,9 @@ namespace NetWorkedData
 
             EditorGUI.BeginDisabledGroup(!rLoaded);
 
-            Rect tWindowRectOriginal = new Rect(sEditorWindow.position.x, sEditorWindow.position.y, sEditorWindow.position.width, sEditorWindow.position.height);
+            Rect tWindowRectOriginal = new Rect(sRect.x, sRect.y, sRect.width, sRect.height);
 
-            Rect tWindowRect = new Rect(sEditorWindow.position.x, sEditorWindow.position.y, sEditorWindow.position.width, sEditorWindow.position.height);
+            Rect tWindowRect = new Rect(sRect.x, sRect.y, sRect.width, sRect.height);
 
             if (tWindowRect.width < NWDGUI.KTableMinWidth)
             {
@@ -2378,49 +2382,49 @@ namespace NetWorkedData
             // offset the tab bar 
             tRect.y += NWDGUI.KTAB_BAR_HEIGHT + NWDGUI.kFieldMarge;
 
-            float tWidthTiers = Mathf.Floor(sEditorWindow.position.width / 4.0F);
+            float tWidthTiers = Mathf.Floor(sRect.width / 4.0F);
             Rect tRectToogle = new Rect(NWDGUI.kFieldMarge, tRect.y, tWidthTiers, NWDGUI.kToggleStyle.fixedHeight);
 
-            bool tSearchActions = GUI.Toggle(tRectToogle, SearchActions, "Search");
-            if (tSearchActions != SearchActions)
-            {
-                SearchActions = tSearchActions;
-                SaveEditorPrefererences();
-            }
-            tRectToogle.x += tWidthTiers;
-            bool tRowActions = GUI.Toggle(tRectToogle, RowActions, "Actions");
-            if (tRowActions != RowActions)
-            {
-                RowActions = tRowActions;
-                SaveEditorPrefererences();
-            }
-            tRectToogle.x += tWidthTiers;
-            bool tTableActions = GUI.Toggle(tRectToogle, TableActions, "Table");
-            if (tTableActions != TableActions)
-            {
-                TableActions = tTableActions;
-                SaveEditorPrefererences();
-            }
-            tRectToogle.x += tWidthTiers;
-            bool tInspectorActions = GUI.Toggle(tRectToogle, InspectorActions, "Data Panel");
-            if (tInspectorActions != InspectorActions)
-            {
-                InspectorActions = tInspectorActions;
-                SaveEditorPrefererences();
-            }
-            tRect.y += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //bool tSearchActions = GUI.Toggle(tRectToogle, SearchActions, "Search");
+            //if (tSearchActions != SearchActions)
+            //{
+            //    SearchActions = tSearchActions;
+            //    SaveEditorPrefererences();
+            //}
+            //tRectToogle.x += tWidthTiers;
+            //bool tRowActions = GUI.Toggle(tRectToogle, RowActions, "Actions");
+            //if (tRowActions != RowActions)
+            //{
+            //    RowActions = tRowActions;
+            //    SaveEditorPrefererences();
+            //}
+            //tRectToogle.x += tWidthTiers;
+            //bool tTableActions = GUI.Toggle(tRectToogle, TableActions, "Table");
+            //if (tTableActions != TableActions)
+            //{
+            //    TableActions = tTableActions;
+            //    SaveEditorPrefererences();
+            //}
+            //tRectToogle.x += tWidthTiers;
+            //bool tInspectorActions = GUI.Toggle(tRectToogle, InspectorActions, "Data Panel");
+            //if (tInspectorActions != InspectorActions)
+            //{
+            //    InspectorActions = tInspectorActions;
+            //    SaveEditorPrefererences();
+            //}
+            //tRect.y += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            Rect tWindowRectLine = new Rect(tRect.position.x, tRect.position.y, tWindowRectOriginal.width, tRect.height);
+            //Rect tWindowRectLine = new Rect(tRect.position.x, tRect.position.y, tWindowRectOriginal.width, tRect.height);
 
-            tRect.y += NWDGUI.Line(tWindowRectLine).height;
+            //tRect.y += NWDGUI.Line(tWindowRectLine).height;
 
             float tW = NWDProjectPrefs.GetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, 320);
-            Rect tWindowRectInpsector = new Rect(tRect.width - tW, tRect.position.y, tW, sEditorWindow.position.height - tRect.position.y);
-            if (InspectorActions == true)
-            {
-                tWindowRect.width -= tW;
-                tRect.width -= tW;
-            }
+            Rect tWindowRectInpsector = new Rect(tRect.width - tW, tRect.position.y, tW, sRect.height - tRect.position.y);
+            //if (InspectorActions == true)
+            //{
+            //    tWindowRect.width -= tW;
+            //    tRect.width -= tW;
+            //}
 
             // if necessary recalcul row informations
             RowAnalyze();
@@ -2488,7 +2492,7 @@ namespace NetWorkedData
                 //tRect.y += NWDGUI.KTableSearchButton.fixedHeight + NWDGUI.kFieldMarge;
 
             }
-            if (SearchActions == true)
+            //if (SearchActions == true)
             {
                 if (tMargeNeed == false)
                 {
@@ -2502,7 +2506,7 @@ namespace NetWorkedData
 
             //tRect.y += NWDGUI.Line(tRect).height;
 
-            Rect tRectForBottom = DrawTableEditorBottom(new Rect(0, 0, tWindowRect.width, tWindowRect.height));
+            //Rect tRectForBottom = DrawTableEditorBottom(new Rect(0, 0, tWindowRect.width, tWindowRect.height));
             float tPageSizeHeight = 0;
             bool tPageToolbar = false;
             if (Datas.Count > m_ItemPerPage)
@@ -2519,7 +2523,10 @@ namespace NetWorkedData
 
 
 
-            float tScrollRectHeight = tWindowRect.height - tRect.y - tPageSizeHeight * 2 - tRectForBottom.height - NWDGUI.kTableHeaderHeight * 2;
+            //float tScrollRectHeight = tWindowRect.height - tRect.y - tPageSizeHeight * 2 - tRectForBottom.height - NWDGUI.kTableHeaderHeight * 2;
+
+            float tScrollRectHeight = tWindowRect.height - tRect.y - tPageSizeHeight * 2 - NWDGUI.kTableHeaderHeight + NWDGUI.kFieldMarge * 2;
+
 
             Rect tScrollRect = new Rect(0, tRect.y + NWDGUI.kTableHeaderHeight + tPageSizeHeight, tWindowRect.width, tScrollRectHeight);
             if (tPageToolbar == true)
@@ -2682,7 +2689,8 @@ namespace NetWorkedData
             }
             else
             {
-                DrawPagesTab(tRect);
+                Rect tPagesTabRect = new Rect(tRect.x, tRect.y, sRect.width, tPageSizeHeight);
+                DrawPagesTab(tPagesTabRect);
                 tRect.y += tPageSizeHeight;
 
                 float tRowHeight = NWDGUI.kTableRowHeight * RowZoom;
@@ -2703,7 +2711,7 @@ namespace NetWorkedData
 
                 Rect tScrollHeader = new Rect(tScrollRect.x, tScrollRect.y - NWDGUI.kTableHeaderHeight, tWindowRect.width, NWDGUI.kTableHeaderHeight);
                 Rect tScrollHeaderBottom = new Rect(tScrollRect.x, tScrollRect.y + tScrollRect.height, tWindowRect.width, NWDGUI.kTableHeaderHeight);
-
+                Rect tScrollRectDelimited = new Rect(tScrollRect.x, tScrollRect.y, sRect.width, tScrollRect.height);
                 DrawHeaderInEditor(tScrollHeader, tScrollRect, RowZoom);
                 DrawHeaderBottomInEditor(tScrollHeaderBottom, tScrollRect);
                 // Get only visible rows
@@ -2715,7 +2723,7 @@ namespace NetWorkedData
                     tIndexStop++;
                 }
                 m_ScrollPositionList = GUI.BeginScrollView(
-                    tScrollRect,
+                    /*tScrollRect*/ tScrollRectDelimited,
                     m_ScrollPositionList,
                     tScrollContentRect,
                     false,
@@ -2866,8 +2874,7 @@ namespace NetWorkedData
                     m_PageSelected = tPagesExpected;
                 }
 
-                Rect tRectRow = new Rect(sEditorWindow.position.x, sEditorWindow.position.y,
-                     tRect.width, sEditorWindow.position.height);
+                Rect tRectRow = new Rect(sRect.x, sRect.y, tRect.width, sRect.height);
 
                 if (tRectRow.width < NWDGUI.KTableMinWidth)
                 {
@@ -2890,40 +2897,1335 @@ namespace NetWorkedData
                 //    tRect.y += 
                 //}
                 tRect.y += NWDGUI.kFieldMarge;
-                DrawPagesTab(tRect);
+                Rect tPagesTabRectBottom = new Rect(tRect.x, tRect.y, sRect.width, tPageSizeHeight);
+                DrawPagesTab(tPagesTabRectBottom);
                 //tRect.y += NWDGUI.Line(tRect).height;
                 // ===========================================
 
                 EditorGUI.EndDisabledGroup();
             }
-            if (InspectorActions == true)
-            {
-                EditorGUIUtility.labelWidth = tOldLabelWidth;
-                //EditorGUI.DrawRect(tWindowRectInpsector, NWDGUI.kTableHeaderColor);
+            //if (InspectorActions == true)
+            //{
+            //    EditorGUIUtility.labelWidth = tOldLabelWidth;
+            //    //EditorGUI.DrawRect(tWindowRectInpsector, NWDGUI.kTableHeaderColor);
 
-                // TODO move in better place
-                //{
-                string tLastReferenceSelected = NWDProjectPrefs.GetString(LastSelectedObjectKey(), string.Empty);
-                if (string.IsNullOrEmpty(tLastReferenceSelected) == false)
-                {
-                    mObjectInEdition = GetDataByReference(tLastReferenceSelected);
-                }
-                //}
+            //    // TODO move in better place
+            //    //{
+            //    string tLastReferenceSelected = NWDProjectPrefs.GetString(LastSelectedObjectKey(), string.Empty);
+            //    if (string.IsNullOrEmpty(tLastReferenceSelected) == false)
+            //    {
+            //        mObjectInEdition = GetDataByReference(tLastReferenceSelected);
+            //    }
+            //    //}
 
-                if (mObjectInEdition != null)
-                {
-                    mObjectInEdition.DrawEditor(tWindowRectInpsector, true, null);
-                }
-                else
-                {
-                    GUI.Label(tWindowRectInpsector, NWDConstants.K_EDITOR_NO_DATA_SELECTED, NWDGUI.kInspectorNoData);
+            //    if (mObjectInEdition != null)
+            //    {
+            //        mObjectInEdition.DrawEditor(tWindowRectInpsector, true, null);
+            //    }
+            //    else
+            //    {
+            //        GUI.Label(tWindowRectInpsector, NWDConstants.K_EDITOR_NO_DATA_SELECTED, NWDGUI.kInspectorNoData);
 
-                }
-                NWDGUI.LineVertical(tWindowRectInpsector);
-            }
+            //    }
+            //    NWDGUI.LineVertical(tWindowRectInpsector);
+            //}
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public NWDBasisHelperPanel PanelActivate = NWDBasisHelperPanel.Data;
+        //-------------------------------------------------------------------------------------------------------------
+        public void ActivePanel(NWDBasisHelperPanel svalue)
+        {
+            if (svalue != PanelActivate)
+            {
+                PanelActivate = svalue;
+                NWDProjectPrefs.SetInt(ActionsPrefkey(() => PanelActivate), (int)PanelActivate);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DrawPanelData(Rect sRect)
+        {
+            string tLastReferenceSelected = NWDProjectPrefs.GetString(LastSelectedObjectKey(), string.Empty);
+            if (string.IsNullOrEmpty(tLastReferenceSelected) == false)
+            {
+                mObjectInEdition = GetDataByReference(tLastReferenceSelected);
+            }
+            //}
+
+            if (mObjectInEdition != null)
+            {
+                mObjectInEdition.DrawEditor(sRect, true, null);
+            }
+            else
+            {
+                GUI.Label(sRect, NWDConstants.K_EDITOR_NO_DATA_SELECTED, NWDGUI.kInspectorNoData);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        Vector2 ScrollInfos;
+        //-------------------------------------------------------------------------------------------------------------
+        public void DrawPanelInfos(Rect sRect)
+        {
+            GUILayout.BeginArea(sRect);
+            ScrollInfos = GUILayout.BeginScrollView(ScrollInfos);
+
+            if (GUILayout.Button(new GUIContent(ClassNamePHP, TextureOfClass()), NWDGUI.KTableSearchClassIcon, GUILayout.Height(NWDGUI.kLabelStyle.fixedHeight * 4)))
+            {
+                NWEScriptOpener.OpenScript(ClassType);
+            }
+
+            // draw section
+            NWDGUILayout.Section("Informations");
+            EditorGUILayout.LabelField("Trigramme", ClassTrigramme);
+            EditorGUILayout.HelpBox(ClassDescription, MessageType.Info);
+
+            // draw subsection
+            NWDGUILayout.SubSection("Properties");
+            EditorGUILayout.LabelField("Class", TemplateHelper.GetClassToString());
+            EditorGUILayout.LabelField("Device", TemplateHelper.GetDeviceDatabase().ToString());
+            EditorGUILayout.LabelField("Synchronize", TemplateHelper.GetSynchronizable().ToString());
+            EditorGUILayout.LabelField("Bundle", TemplateHelper.GetBundlisable().ToString());
+            EditorGUILayout.LabelField("Account", TemplateHelper.GetAccountDependent().ToString());
+            EditorGUILayout.LabelField("GameSave", TemplateHelper.GetGamesaveDependent().ToString());
+
+            // draw subsection
+            NWDGUILayout.SubSection("Security");
+            EditorGUILayout.LabelField("Salt start", SaltStart);
+            EditorGUILayout.LabelField("Salt end", SaltEnd);
+
+            // draw section
+            NWDGUILayout.Section("WebServices");
+
+            EditorGUILayout.HelpBox("Webservice last version generated for this Class  is " + LastWebBuild.ToString() + " ( App use Webservice " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + ")", MessageType.Info);
+            NWDGUILayout.Separator();
+            EditorGUILayout.LabelField("Model", LastWebBuild.ToString());
+            EditorGUILayout.LabelField("App", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
+            NWDGUILayout.Separator();
+            foreach (KeyValuePair<int, string> tModels in WebModelSQLOrder)
+            {
+                EditorGUILayout.LabelField("WebService " + tModels.Key.ToString());
+            }
+
+            // draw section
+            NWDGUILayout.SubSection("Table options");
+            if (string.IsNullOrEmpty(TablePrefixOld) == false)
+            {
+                GUILayout.Label(new GUIContent("Prefixe Table in WS : " + TablePrefixOld));
+            }
+            GUILayout.BeginHorizontal();
+            TablePrefix = EditorGUILayout.TextField(NWDConstants.K_APP_BASIS_CLASS_PREFIXE, TablePrefix);
+            if (GUILayout.Button(NWDConstants.K_APP_BASIS_CLASS_RECCORD, EditorStyles.miniButton))
+            {
+                GUI.FocusControl(null);
+                ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                NWDEditorWindow.GenerateCSharpFile();
+                GUIUtility.ExitGUI();
+            }
+            GUILayout.EndHorizontal();
+            if (TablePrefix != TablePrefixOld)
+            {
+                EditorGUILayout.HelpBox("YOU CHANGE TABLE OPTION! YOU MUST REGENERATE CSHARP CONFIGURATION AND REGENERATE WEBSERVICES!", MessageType.Warning);
+
+                //if (NWDGUILayout.WarningBoxButton(NWDConstants.K_APP_BASIS_WARNING_PREFIXE + " TablePrefix ='" + TablePrefix + "' but TablePrefixOld ='" + TablePrefixOld + "'", NWDConstants.K_APP_WS_PHP_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000"))))
+                //{
+                //    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                //    //NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                //    //NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                //    //NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                //    NWDEditorWindow.GenerateCSharpFile();
+                //    GUIUtility.ExitGUI();
+                //}
+            }
+
+            // draw section
+            NWDGUILayout.Section("Regenerate files");
+
+            if (GUILayout.Button("Reset Icon", EditorStyles.miniButton))
+            {
+                ResetIconByDefaultIcon();
+            }
+
+            if (GUILayout.Button("Generate File UnitTest", EditorStyles.miniButton))
+            {
+                GenerateFileUnitTest();
+            }
+
+            if (GUILayout.Button("Generate File Connection", EditorStyles.miniButton))
+            {
+                GenerateFileConnection();
+            }
+
+            if (GUILayout.Button("Generate File Workflow", EditorStyles.miniButton))
+            {
+                GenerateFileWorkflow();
+            }
+
+            if (GUILayout.Button("Generate File Override", EditorStyles.miniButton))
+            {
+                GenerateFileOverride();
+            }
+
+            if (GUILayout.Button("Generate File Extension", EditorStyles.miniButton))
+            {
+                GenerateFileExtension();
+            }
+
+            if (GUILayout.Button("Generate File Helper", EditorStyles.miniButton))
+            {
+                GenerateFileHelper();
+            }
+
+            if (GUILayout.Button("Generate File Editor", EditorStyles.miniButton))
+            {
+                GenerateFileEditor();
+            }
+
+            if (GUILayout.Button("Generate File Index", EditorStyles.miniButton))
+            {
+                GenerateFileIndex();
+            }
+
+            if (GUILayout.Button("Generate File PHP", EditorStyles.miniButton))
+            {
+                GenerateFilePHP();
+            }
+            if (GUILayout.Button("Generate File Icon", EditorStyles.miniButton))
+            {
+                GenerateFileIcon();
+            }
+
+            GUILayout.EndScrollView();
+            GUILayout.EndArea();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        Vector2 ScrollAction;
+        //-------------------------------------------------------------------------------------------------------------
+        public void DrawPanelAction(Rect sRect)
+        {
+            int tSelectionCount = 0;
+            int tActualItems = EditorTableDatas.Count;
+            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+            {
+                if (tKeyValue.Value == true)
+                {
+                    tSelectionCount++;
+                }
+            }
+
+            GUILayout.BeginArea(sRect);
+            ScrollAction = GUILayout.BeginScrollView(ScrollAction);
+
+            if (GUILayout.Button(new GUIContent(ClassNamePHP, TextureOfClass()), NWDGUI.KTableSearchClassIcon, GUILayout.Height(NWDGUI.kLabelStyle.fixedHeight * 4)))
+            {
+                NWEScriptOpener.OpenScript(ClassType);
+            }
+
+            // draw section
+            NWDGUILayout.Section("Rows Actions");
+
+            // draw subsection
+            NWDGUILayout.SubSection("Selection");
+
+            if (tSelectionCount == 0)
+            {
+                GUILayout.Label(NWDConstants.K_APP_TABLE_NO_SELECTED_OBJECT, NWDGUI.KTableSearchTitle);
+            }
+            else if (tSelectionCount == 1)
+            {
+                GUILayout.Label(NWDConstants.K_APP_TABLE_ONE_SELECTED_OBJECT, NWDGUI.KTableSearchTitle);
+            }
+            else
+            {
+                GUILayout.Label(tSelectionCount + NWDConstants.K_APP_TABLE_XX_SELECTED_OBJECT, NWDGUI.KTableSearchTitle);
+            }
+            // draw select all
+            EditorGUI.BeginDisabledGroup(tSelectionCount == tActualItems);
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_SELECT_ALL, NWDGUI.KTableSearchButton))
+            {
+                SelectAllObjectInTableList();
+            }
+            EditorGUI.EndDisabledGroup();
+            // draw deselect all
+            EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_DESELECT_ALL, NWDGUI.KTableSearchButton))
+            {
+                DeselectAllObjectInTableList();
+            }
+            EditorGUI.EndDisabledGroup();
+            // draw inverse
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_INVERSE, NWDGUI.KTableSearchButton))
+            {
+                InverseSelectionOfAllObjectInTableList();
+            }
+            // draw select all enable
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_SELECT_ENABLED, NWDGUI.KTableSearchButton))
+            {
+                SelectAllObjectEnableInTableList();
+            }
+            // draw select all disable
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_SELECT_DISABLED, NWDGUI.KTableSearchButton))
+            {
+                SelectAllObjectDisableInTableList();
+            }
+
+            // draw subsection
+            NWDGUILayout.SubSection("Action on selection");
+            // draw row Actions 
+            EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
+            //GUILayout.Label( NWDConstants.K_APP_TABLE_ACTIONS, NWDGUI.KTableSearchTitle);
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_REACTIVE, NWDGUI.KTableSearchButton))
+            {
+                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                {
+                    if (tKeyValue.Value == true)
+                    {
+                        NWDTypeClass tObject = tKeyValue.Key;
+                        tObject.EnableData();
+                        tObject.RowAnalyze();
+                    }
+                }
+                NWDDataInspector.ActiveRepaint();
+            }
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_DISACTIVE, NWDGUI.KTableSearchButton))
+            {
+                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                {
+                    if (tKeyValue.Value == true)
+                    {
+                        NWDTypeClass tObject = tKeyValue.Key;
+                        tObject.DisableData();
+                        tObject.RowAnalyze();
+                    }
+                }
+                NWDDataInspector.ActiveRepaint();
+            }
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_DUPPLICATE, NWDGUI.KTableSearchButton))
+            {
+                NWDTypeClass tNextObjectSelected = null;
+                int tNewData = 0;
+                List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
+                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                {
+                    if (tKeyValue.Value == true)
+                    {
+                        NWDTypeClass tObject = tKeyValue.Key;
+                        tListToUse.Add(tObject);
+                    }
+                }
+                foreach (NWDTypeClass tObject in tListToUse)
+                {
+                    tNewData++;
+                    NWDTypeClass tNextObject = tObject.Base_DuplicateData();
+                    if (m_SearchTag != NWDBasisTag.NoTag)
+                    {
+                        tNextObject.Tag = m_SearchTag;
+                        tNextObject.UpdateData();
+                        tObject.RowAnalyze();
+                    }
+                    tNextObjectSelected = tNextObject;
+                    tNextObjectSelected.RowAnalyze();
+                }
+                if (tNewData != 1)
+                {
+                    tNextObjectSelected = null;
+                }
+                SetObjectInEdition(tNextObjectSelected);
+                m_PageSelected = m_MaxPage * 3;
+                NWDDataInspector.ActiveRepaint();
+            }
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_UPDATE, NWDGUI.KTableSearchButton))
+            {
+                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                {
+                    if (tKeyValue.Value == true)
+                    {
+                        NWDTypeClass tObject = tKeyValue.Key;
+                        tObject.UpdateData();
+                        tObject.RowAnalyze();
+                    }
+                }
+                NWDDataInspector.ActiveRepaint();
+            }
+
+            NWDGUI.BeginRedArea();
+            // DELETE SELECTION
+            //GUILayout.Label(NWDConstants.K_APP_TABLE_DELETE_WARNING, NWDGUI.KTableSearchTitle);
+
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_DELETE_BUTTON, NWDGUI.KTableSearchButton))
+            {
+                string tDialog = string.Empty;
+                if (tSelectionCount == 0)
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_DELETE_NO_OBJECT;
+                }
+                else if (tSelectionCount == 1)
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_DELETE_ONE_OBJECT;
+                }
+                else
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_DELETE_X_OBJECTS_A + tSelectionCount + NWDConstants.K_APP_TABLE_DELETE_X_OBJECTS_B;
+                }
+                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_DELETE_ALERT,
+                        tDialog,
+                        NWDConstants.K_APP_TABLE_DELETE_YES,
+                        NWDConstants.K_APP_TABLE_DELETE_NO))
+                {
+                    List<NWDTypeClass> tListToDelete = new List<NWDTypeClass>();
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                    {
+                        if (tKeyValue.Value == true)
+                        {
+                            NWDTypeClass tObject = tKeyValue.Key;
+                            tListToDelete.Add(tObject);
+                        }
+                    }
+                    foreach (NWDTypeClass tObject in tListToDelete)
+                    {
+                        NWDTypeClass tObjectToDelete = tObject;
+                        tObjectToDelete.DeleteData();
+                    }
+                    SetObjectInEdition(null);
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
+                    NWDDataInspector.ActiveRepaint();
+                }
+                GUIUtility.ExitGUI();
+            }
+
+            // TRASH SELECTION
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_TRASH_ZONE, NWDGUI.KTableSearchButton))
+            {
+                //tTrashSelection = true;
+                string tDialog = string.Empty;
+                if (tSelectionCount == 0)
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_TRASH_NO_OBJECT;
+                }
+                else if (tSelectionCount == 1)
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_TRASH_ONE_OBJECT;
+                }
+                else
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_TRASH_X_OBJECT_A + tSelectionCount + NWDConstants.K_APP_TABLE_TRASH_X_OBJECT_B;
+                }
+                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_TRASH_ALERT,
+                        tDialog,
+                        NWDConstants.K_APP_TABLE_TRASH_YES,
+                        NWDConstants.K_APP_TABLE_TRASH_NO))
+                {
+
+                    List<NWDTypeClass> tListToTrash = new List<NWDTypeClass>();
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                    {
+                        if (tKeyValue.Value == true)
+                        {
+                            NWDTypeClass tObject = tKeyValue.Key;
+                            tListToTrash.Add(tObject);
+                        }
+                    }
+                    foreach (NWDTypeClass tObject in tListToTrash)
+                    {
+                        NWDTypeClass tObjectToTrash = tObject;
+                        tObjectToTrash.TrashData();
+                        tObjectToTrash.RowAnalyze();
+                    }
+                    SetObjectInEdition(null);
+                    //                  sEditorWindow.Repaint ();
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
+                    NWDDataInspector.ActiveRepaint();
+                }
+                GUIUtility.ExitGUI();
+            }
+
+            // UNTRASH SELECTION
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_UNTRASH_ZONE, NWDGUI.KTableSearchButton))
+            {
+                //tUntrashSelection = true;
+                string tDialog = string.Empty;
+                if (tSelectionCount == 0)
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_UNTRASH_NO_OBJECT;
+                }
+                else if (tSelectionCount == 1)
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_UNTRASH_ONE_OBJECT;
+                }
+                else
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_UNTRASH_X_OBJECT_A + tSelectionCount + NWDConstants.K_APP_TABLE_UNTRASH_X_OBJECT_B;
+                }
+                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_UNTRASH_ALERT,
+                        tDialog,
+                        NWDConstants.K_APP_TABLE_UNTRASH_YES,
+                        NWDConstants.K_APP_TABLE_UNTRASH_NO))
+                {
+
+                    List<NWDTypeClass> tListToUntrash = new List<NWDTypeClass>();
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                    {
+                        if (tKeyValue.Value == true)
+                        {
+                            NWDTypeClass tObject = tKeyValue.Key;
+                            tListToUntrash.Add(tObject);
+                        }
+                    }
+                    foreach (NWDTypeClass tObject in tListToUntrash)
+                    {
+                        NWDTypeClass tObjectToUntrash = tObject;
+                        tObjectToUntrash.UnTrashData();
+                        tObjectToUntrash.RowAnalyze();
+                    }
+                    SetObjectInEdition(null);
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
+                    NWDDataInspector.ActiveRepaint();
+                }
+                GUIUtility.ExitGUI();
+            }
+
+            // REINTEGRATE SELECTION
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_REINTEGRATE_ZONE, NWDGUI.KTableSearchButton))
+            {
+                //tReintegrateSelection = true;
+                string tDialog = string.Empty;
+                if (tSelectionCount == 0)
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_REINTEGRATE_NO_OBJECT;
+                }
+                else if (tSelectionCount == 1)
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_REINTEGRATE_ONE_OBJECT;
+                }
+                else
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_REINTEGRATE_X_OBJECT_A + tSelectionCount + NWDConstants.K_APP_TABLE_REINTEGRATE_X_OBJECT_B;
+                }
+                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_REINTEGRATE_ALERT,
+                        tDialog,
+                        NWDConstants.K_APP_TABLE_REINTEGRATE_YES,
+                        NWDConstants.K_APP_TABLE_REINTEGRATE_NO))
+                {
+                    List<NWDTypeClass> tListToReintegrate = new List<NWDTypeClass>();
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                    {
+                        if (tKeyValue.Value == true)
+                        {
+                            NWDTypeClass tObject = tKeyValue.Key;
+                            tListToReintegrate.Add(tObject);
+                        }
+                    }
+                    foreach (NWDTypeClass tObject in tListToReintegrate)
+                    {
+                        NWDTypeClass tObjectToReintegrate = tObject;
+                        //tObjectToReintegrate.UpdateIntegrity();
+                        tObjectToReintegrate.UpdateData();
+                        tObjectToReintegrate.RowAnalyze();
+                    }
+                    SetObjectInEdition(null);
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
+                    NWDDataInspector.ActiveRepaint();
+                }
+                GUIUtility.ExitGUI();
+            }
+
+            EditorGUI.EndDisabledGroup();
+            NWDGUI.EndRedArea();
+
+            // draw section
+            NWDGUILayout.Section("Import/export ");
+
+            // draw row Datas
+            //GUILayout.Label( "Datas", NWDGUI.KTableSearchTitle);
+
+            EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
+            if (GUILayout.Button("Export selection", NWDGUI.KTableSearchButton))
+            {
+                ExportCSV(true);
+                GUIUtility.ExitGUI();
+            }
+            EditorGUI.EndDisabledGroup();
+            if (GUILayout.Button("Export all", NWDGUI.KTableSearchButton))
+            {
+                ExportCSV(false);
+                GUIUtility.ExitGUI();
+            }
+            if (GUILayout.Button("Import file", NWDGUI.KTableSearchButton))
+            {
+                ImportCSV();
+                GUIUtility.ExitGUI();
+            }
+
+
+            // draw section
+            NWDGUILayout.Section("Translates");
+            // draw row translate
+            //GUILayout.Label("Translates", NWDGUI.KTableSearchTitle);
+            // export import
+            // draw subsection
+            NWDGUILayout.SubSection("Reorder localization");
+            EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
+            if (GUILayout.Button("Reorder selection", NWDGUI.KTableSearchButton))
+            {
+                List<NWDTypeClass> tListToReorder = new List<NWDTypeClass>();
+                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                {
+                    if (tKeyValue.Value == true)
+                    {
+                        tListToReorder.Add(tKeyValue.Key);
+                    }
+                }
+                ReOrderLocalizations(tListToReorder);
+                NWDDataInspector.Refresh();
+                GUIUtility.ExitGUI();
+            }
+            EditorGUI.EndDisabledGroup();
+            if (GUILayout.Button("Reorder all ", NWDGUI.KTableSearchButton))
+            {
+                ReOrderLocalizations(Datas);
+                NWDDataInspector.Refresh();
+                GUIUtility.ExitGUI();
+            }
+
+            // draw subsection
+            NWDGUILayout.SubSection("Export localization");
+            EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
+
+            if (GUILayout.Button("Export selection", NWDGUI.KTableSearchButton))
+            {
+                ExportLocalization(true);
+                GUIUtility.ExitGUI();
+            }
+            EditorGUI.EndDisabledGroup();
+
+            if (GUILayout.Button("Export all", NWDGUI.KTableSearchButton))
+            {
+                ExportLocalization(false);
+                GUIUtility.ExitGUI();
+            }
+
+            // draw subsection
+            NWDGUILayout.SubSection("Import localization");
+            if (GUILayout.Button("Import file", NWDGUI.KTableSearchButton))
+            {
+                NWDAppConfiguration.SharedInstance().DataLocalizationManager.ImportFromCSV();
+                GUIUtility.ExitGUI();
+            }
+
+            // draw section
+            NWDGUILayout.Section("Table Actions");
+
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_SEARCH_RELOAD, NWDGUI.KTableSearchButton))
+            {
+                string tReference = GetReferenceOfDataInEdition();
+                GUI.FocusControl(null);
+                SetObjectInEdition(null);
+                m_SearchInternalName = string.Empty;
+                m_SearchInternalDescription = string.Empty;
+                LoadFromDatabase(string.Empty, true);
+                RestaureDataInEditionByReference(tReference);
+            }
+
+            NWDGUI.BeginRedArea();
+            //GUILayout.Label(NWDConstants.K_APP_TABLE_RESET_WARNING, NWDGUI.KTableSearchTitle);
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_RESET_ZONE, NWDGUI.KTableSearchButton))
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_RESET_ALERT,
+                                                NWDConstants.K_APP_TABLE_RESET_TABLE,
+                                                NWDConstants.K_APP_TABLE_RESET_YES,
+                                                NWDConstants.K_APP_TABLE_RESET_NO))
+                {
+                    ResetTable();
+                }
+                GUIUtility.ExitGUI();
+            }
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_REINDEX_ZONE, NWDGUI.KTableSearchButton))
+            {
+                IndexInMemoryAllObjects();
+                IndexInBaseAllObjects();
+                GUIUtility.ExitGUI();
+            }
+            if (GUILayout.Button("Clean local table", NWDGUI.KTableSearchButton))
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_CLEAN_ALERT_TITLE,
+                            NWDConstants.K_CLEAN_ALERT_MESSAGE,
+                            NWDConstants.K_CLEAN_ALERT_OK,
+                            NWDConstants.K_CLEAN_ALERT_CANCEL))
+                {
+                    CleanTable();
+                }
+                GUIUtility.ExitGUI();
+            }
+
+
+            GUILayout.EndScrollView();
+            GUILayout.EndArea();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        Vector2 ScrollSync;
+        //-------------------------------------------------------------------------------------------------------------
+        public void DrawPanelSync(Rect sRect)
+        {
+
+
+            int tSelectionCount = 0;
+            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+            {
+                if (tKeyValue.Value == true)
+                {
+                    tSelectionCount++;
+                }
+            }
+            bool tDisableProd = false;
+
+            if (NWDDataManager.SharedInstance().ClassUnSynchronizeList.Contains(ClassType))
+            {
+                tDisableProd = true;
+            }
+            //if (kAccountDependent == true)
+            if (TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
+            {
+                tDisableProd = true;
+            }
+
+
+            GUILayout.BeginArea(sRect);
+            ScrollSync = GUILayout.BeginScrollView(ScrollSync);
+
+            if (GUILayout.Button(new GUIContent(ClassNamePHP, TextureOfClass()), NWDGUI.KTableSearchClassIcon, GUILayout.Height(NWDGUI.kLabelStyle.fixedHeight * 4)))
+            {
+                NWEScriptOpener.OpenScript(ClassType);
+            }
+
+            // draw section
+            NWDGUILayout.Section("Synchronize");
+
+            EditorGUI.BeginDisabledGroup(WebModelChanged);
+
+            GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical();
+
+            GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+            GUILayout.Label(tDevContent, NWDGUI.KTableSearchTitle);
+
+            //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
+            if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+            {
+                if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
+                {
+                    if (GUILayout.Button("Sync table", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                    }
+                    if (GUILayout.Button("Force Sync table", NWDGUI.KTableSearchButton))
+                    {
+
+                        SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                    }
+                    if (GUILayout.Button("Pull table", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        PullFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                    }
+                    if (GUILayout.Button("Force Pull table", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                    }
+                    EditorGUI.EndDisabledGroup();
+
+
+
+                    //NWDGUI.BeginRedArea();
+                    //EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
+                    //if (GUILayout.Button(NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
+                    //{
+                    //    List<string> tReferencesList = new List<string>();
+                    //    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                    //    {
+                    //        if (tKeyValue.Value == true)
+                    //        {
+                    //            tReferencesList.Add(tKeyValue.Key.Reference);
+                    //        }
+                    //    }
+                    //    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                    //    tTypeAndReferences.Add(ClassType, tReferencesList);
+                    //    PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().DevEnvironment, tTypeAndReferences);
+                    //}
+                    //EditorGUI.EndDisabledGroup();
+                    //NWDGUI.EndRedArea();
+                }
+                else
+                {
+                    GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
+                }
+            }
+            else
+            {
+                GUILayout.Label("sync forbidden", NWDGUI.kNoConfigStyle);
+            }
+
+            GUILayout.EndVertical();
+            // Change Colmun;
+            GUILayout.BeginVertical();
+
+            GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+            GUILayout.Label(tPreprodContent, NWDGUI.KTableSearchTitle);
+
+            //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
+            if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+            {
+                if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
+                {
+                    EditorGUI.BeginDisabledGroup(WebModelChanged);
+                    if (GUILayout.Button("Sync table", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                    }
+                    if (GUILayout.Button("Force Sync table", NWDGUI.KTableSearchButton))
+                    {
+
+                        SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                    }
+                    if (GUILayout.Button("Pull table", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        PullFromWebService(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                    }
+                    if (GUILayout.Button("Force Pull table", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                    }
+                    EditorGUI.EndDisabledGroup();
+
+                    //NWDGUI.BeginRedArea();
+                    //EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
+                    //if (GUILayout.Button( NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
+                    //{
+                    //    List<string> tReferencesList = new List<string>();
+                    //    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                    //    {
+                    //        if (tKeyValue.Value == true)
+                    //        {
+                    //            tReferencesList.Add(tKeyValue.Key.Reference);
+                    //        }
+                    //    }
+                    //    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                    //    tTypeAndReferences.Add(ClassType, tReferencesList);
+                    //    PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().PreprodEnvironment, tTypeAndReferences);
+                    //}
+                    //EditorGUI.EndDisabledGroup();
+                    //NWDGUI.EndRedArea();
+                }
+                else
+                {
+                    GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
+                }
+            }
+            else
+            {
+                GUILayout.Label("sync forbidden", NWDGUI.kNoConfigStyle);
+            }
+            GUILayout.EndVertical();
+            // Change Colmun
+            GUILayout.BeginVertical();
+
+            GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+            GUILayout.Label(tProdContent, NWDGUI.KTableSearchTitle);
+            //if (BasisType == NWDBasisType.EditorClass)
+            if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+            {
+                if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
+                {
+                    EditorGUI.BeginDisabledGroup(tDisableProd || WebModelChanged);
+                    if (GUILayout.Button("Sync table", NWDGUI.KTableSearchButton))
+                    {
+                        //tSyncProd = true;
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                        }
+                        SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                        GUIUtility.ExitGUI();
+                    }
+                    if (GUILayout.Button("Force Sync table", NWDGUI.KTableSearchButton))
+                    {
+                        //tSyncForceProd = true;
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                        }
+                        SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                        GUIUtility.ExitGUI();
+                    }
+                    if (GUILayout.Button("Pull table", NWDGUI.KTableSearchButton))
+                    {
+                        //tPullProd = true;
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                        }
+                        PullFromWebService(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                        GUIUtility.ExitGUI();
+                    }
+                    if (GUILayout.Button("Force Pull table", NWDGUI.KTableSearchButton))
+                    {
+                        //tPullProdForce = true;
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                        }
+                        PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                        GUIUtility.ExitGUI();
+                    }
+                    EditorGUI.EndDisabledGroup();
+
+                    //NWDGUI.BeginRedArea();
+                    //EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
+                    //if (GUILayout.Button( NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
+                    //{
+                    //    List<string> tReferencesList = new List<string>();
+                    //    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                    //    {
+                    //        if (tKeyValue.Value == true)
+                    //        {
+                    //            tReferencesList.Add(tKeyValue.Key.Reference);
+                    //        }
+                    //    }
+                    //    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
+                    //    tTypeAndReferences.Add(ClassType, tReferencesList);
+                    //    PullFromWebServiceReferences(NWDAppConfiguration.SharedInstance().ProdEnvironment, tTypeAndReferences);
+                    //}
+                    //EditorGUI.EndDisabledGroup();
+                    //NWDGUI.EndRedArea();
+                }
+                else
+                {
+                    GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
+                }
+            }
+            else
+            {
+                GUILayout.Label("sync forbidden", NWDGUI.kNoConfigStyle);
+            }
+
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+            EditorGUI.EndDisabledGroup();
+
+
+            // draw section
+            NWDGUILayout.Section("Operations");
+
+            GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical();
+
+
+            GUILayout.Label(tDevContent, NWDGUI.KTableSearchTitle);
+
+            //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
+            if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+            {
+                if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
+                {
+                    NWDGUI.BeginRedArea();
+                    EditorGUI.BeginDisabledGroup(WebModelChanged);
+                    if (GUILayout.Button("Clean table", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                    }
+                    if (GUILayout.Button("Special", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Special);
+                    }
+                    if (GUILayout.Button("Upgrade", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Upgrade);
+                    }
+                    if (GUILayout.Button("Optimize", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Optimize);
+                    }
+                    if (GUILayout.Button("Indexes", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Indexes);
+                    }
+                    EditorGUI.EndDisabledGroup();
+                    //if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateDev))
+                    //{
+                    //    if (GUILayout.Button( NWDConstants.K_APP_WS_PHP_DEV_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                    //    {
+                    //        ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                    //        NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                    //        NWDEditorWindow.GenerateCSharpFile();
+                    //        GUIUtility.ExitGUI();
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    if (GUILayout.Button( "Need credentials", NWDGUI.KTableSearchButton))
+                    //    {
+                    //        NWDProjectCredentialsManager.SharedInstanceFocus();
+                    //    }
+                    //}
+                    NWDGUI.EndRedArea();
+                }
+                else
+                {
+                    GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
+                }
+            }
+            else
+            {
+                GUILayout.Label("sync forbidden", NWDGUI.kNoConfigStyle);
+            }
+            GUILayout.EndVertical();
+            // Change Colmun
+            GUILayout.BeginVertical();
+            GUILayout.Label(tPreprodContent, NWDGUI.KTableSearchTitle);
+            //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
+            if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+            {
+                if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
+                {
+                    NWDGUI.BeginRedArea();
+                    EditorGUI.BeginDisabledGroup(WebModelChanged);
+                    if (GUILayout.Button("Clean table", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                    }
+                    if (GUILayout.Button("Special", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Special);
+                    }
+                    if (GUILayout.Button("Upgrade", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Upgrade);
+                    }
+                    if (GUILayout.Button("Optimize", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Optimize);
+                    }
+                    if (GUILayout.Button("Indexes", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Indexes);
+                    }
+                    EditorGUI.EndDisabledGroup();
+                    //if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGeneratePreprod))
+                    //{
+                    //    if (GUILayout.Button( NWDConstants.K_APP_WS_PHP_PREPROD_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                    //    {
+                    //        //tCreateAllPHPForOnlyThisClassPREPROD = true;
+                    //        ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                    //        NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                    //        NWDEditorWindow.GenerateCSharpFile();
+                    //        GUIUtility.ExitGUI();
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    if (GUILayout.Button( "Need credentials", NWDGUI.KTableSearchButton))
+                    //    {
+                    //        NWDProjectCredentialsManager.SharedInstanceFocus();
+                    //    }
+                    //}
+                    NWDGUI.EndRedArea();
+                }
+                else
+                {
+                    GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
+                }
+            }
+            else
+            {
+                GUILayout.Label("sync forbidden", NWDGUI.kNoConfigStyle);
+            }
+            GUILayout.EndVertical();
+            // Change Colmun
+            GUILayout.BeginVertical();
+            GUILayout.Label(tProdContent, NWDGUI.KTableSearchTitle);
+            //if (BasisType == NWDBasisType.EditorClass)
+            if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+
+            {
+                if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
+                {
+                    NWDGUI.BeginRedArea();
+                    EditorGUI.BeginDisabledGroup(WebModelChanged);
+                    if (GUILayout.Button("Clean table", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                    }
+                    if (GUILayout.Button("Special", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Special);
+                    }
+                    if (GUILayout.Button("Upgrade", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Upgrade);
+                    }
+                    if (GUILayout.Button("Optimize", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Optimize);
+                    }
+                    if (GUILayout.Button("Indexes", NWDGUI.KTableSearchButton))
+                    {
+                        if (Application.isPlaying == true && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+                        {
+                            EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                        }
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Indexes);
+                    }
+                    EditorGUI.EndDisabledGroup();
+                    //if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateProd))
+                    //{
+                    //    if (GUILayout.Button( NWDConstants.K_APP_WS_PHP_PROD_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                    //    {
+                    //        //tCreateAllPHPForOnlyThisClassPROD = true;
+                    //        ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                    //        NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                    //        NWDEditorWindow.GenerateCSharpFile();
+                    //        GUIUtility.ExitGUI();
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    if (GUILayout.Button( "Need credentials", NWDGUI.KTableSearchButton))
+                    //    {
+                    //        NWDProjectCredentialsManager.SharedInstanceFocus();
+                    //    }
+                    //}
+                    NWDGUI.EndRedArea();
+
+                }
+                else
+                {
+                    GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
+                }
+            }
+            else
+            {
+                GUILayout.Label("sync forbidden", NWDGUI.kNoConfigStyle);
+            }
+
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+
+            // draw section
+            NWDGUILayout.Section("WebServices");
+
+            GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical();
+
+
+            GUILayout.Label(tDevContent, NWDGUI.KTableSearchTitle);
+
+            //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
+            if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+            {
+                if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
+                {
+                    NWDGUI.BeginRedArea();
+                    if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateDev))
+                    {
+                        if (GUILayout.Button(NWDConstants.K_APP_WS_PHP_DEV_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                        {
+                            ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                            NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                            NWDEditorWindow.GenerateCSharpFile();
+                            GUIUtility.ExitGUI();
+                        }
+                    }
+                    else
+                    {
+                        if (GUILayout.Button("Need credentials", NWDGUI.KTableSearchButton))
+                        {
+                            NWDProjectCredentialsManager.SharedInstanceFocus();
+                        }
+                    }
+                    NWDGUI.EndRedArea();
+                }
+                else
+                {
+                    GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
+                }
+            }
+            else
+            {
+                GUILayout.Label("sync forbidden", NWDGUI.kNoConfigStyle);
+            }
+            GUILayout.EndVertical();
+            // Change Colmun
+            GUILayout.BeginVertical();
+            GUILayout.Label(tPreprodContent, NWDGUI.KTableSearchTitle);
+            //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
+            if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+            {
+                if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
+                {
+                    NWDGUI.BeginRedArea();
+                    if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGeneratePreprod))
+                    {
+                        if (GUILayout.Button(NWDConstants.K_APP_WS_PHP_PREPROD_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                        {
+                            //tCreateAllPHPForOnlyThisClassPREPROD = true;
+                            ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                            NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                            NWDEditorWindow.GenerateCSharpFile();
+                            GUIUtility.ExitGUI();
+                        }
+                    }
+                    else
+                    {
+                        if (GUILayout.Button("Need credentials", NWDGUI.KTableSearchButton))
+                        {
+                            NWDProjectCredentialsManager.SharedInstanceFocus();
+                        }
+                    }
+                    NWDGUI.EndRedArea();
+                }
+                else
+                {
+                    GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
+                }
+            }
+            else
+            {
+                GUILayout.Label("sync forbidden", NWDGUI.kNoConfigStyle);
+            }
+            GUILayout.EndVertical();
+            // Change Colmun
+            GUILayout.BeginVertical();
+            GUILayout.Label(tProdContent, NWDGUI.KTableSearchTitle);
+            //if (BasisType == NWDBasisType.EditorClass)
+            if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+
+            {
+                if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
+                {
+                    NWDGUI.BeginRedArea();
+                    if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateProd))
+                    {
+                        if (GUILayout.Button(NWDConstants.K_APP_WS_PHP_PROD_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                        {
+                            //tCreateAllPHPForOnlyThisClassPROD = true;
+                            ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                            NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                            NWDEditorWindow.GenerateCSharpFile();
+                            GUIUtility.ExitGUI();
+                        }
+                    }
+                    else
+                    {
+                        if (GUILayout.Button("Need credentials", NWDGUI.KTableSearchButton))
+                        {
+                            NWDProjectCredentialsManager.SharedInstanceFocus();
+                        }
+                    }
+                    NWDGUI.EndRedArea();
+
+                }
+                else
+                {
+                    GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
+                }
+            }
+            else
+            {
+                GUILayout.Label("sync forbidden", NWDGUI.kNoConfigStyle);
+            }
+
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+
+            GUILayout.EndScrollView();
+            GUILayout.EndArea();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDBasisHelperPanel
+    {
+        Infos,
+        Actions,
+        Sync,
+        Data,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

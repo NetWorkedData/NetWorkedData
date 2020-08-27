@@ -549,7 +549,9 @@ namespace NetWorkedData.NWDEditor
                 KTableSearchIcon = new GUIStyle(EditorStyles.label);
                 KTableSearchTitle = new GUIStyle(EditorStyles.helpBox);
                 KTableSearchDescription = new GUIStyle(EditorStyles.helpBox);
-                KTableSearchClassIcon = new GUIStyle(EditorStyles.helpBox);
+                KTableSearchClassIcon = new GUIStyle(EditorStyles.label);
+                KTableSearchClassIcon.imagePosition = ImagePosition.ImageAbove;
+                KTableSearchClassIcon.alignment = TextAnchor.MiddleCenter;
                 KTableSearchTextfield = new GUIStyle(EditorStyles.textField);
                 KTableSearchToggle = new GUIStyle(EditorStyles.toggle);
                 KTableSearchEnum = new GUIStyle(EditorStyles.popup);
@@ -903,51 +905,53 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public static Rect Title(Rect sRect, string sTitle)
         {
+            sRect.height = kTitleStyle.fixedHeight;
             GUI.Label(sRect, sTitle, NWDGUI.kTitleStyle);
             Line(new Rect(sRect.x, sRect.y, sRect.width, 1));
             Line(new Rect(sRect.x, sRect.y + kTitleStyle.fixedHeight - 1, sRect.width, 1));
-            sRect.height = kTitleStyle.fixedHeight;
             return sRect;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Rect Title(Rect sRect, GUIContent sTitle)
         {
+            sRect.height = kTitleStyle.fixedHeight;
             GUI.Label(sRect, sTitle, NWDGUI.kTitleStyle);
             Line(new Rect(sRect.x, sRect.y, sRect.width, 1));
             Line(new Rect(sRect.x, sRect.y + kTitleStyle.fixedHeight - 1, sRect.width, 1));
-            sRect.height = kTitleStyle.fixedHeight;
             return sRect;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Rect Section(Rect sRect, string sTitle)
         {
-            GUI.Label(new Rect(sRect.x, sRect.y + NWDGUI.kFieldMarge, sRect.width, sRect.height - NWDGUI.kFieldMarge), sTitle, NWDGUI.kSectionStyle);
-            Line(new Rect(sRect.x, sRect.y, sRect.width, 1));
             sRect.height = kSectionStyle.fixedHeight;
+            GUI.Label(new Rect(sRect.x, sRect.y + NWDGUI.kFieldMarge, sRect.width, sRect.height - NWDGUI.kFieldMarge), sTitle, NWDGUI.kSectionStyle);
+            Line(new Rect(sRect.x, sRect.y + NWDGUI.kFieldMarge, sRect.width, 1));
             return sRect;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Rect Section(Rect sRect, GUIContent sTitle)
         {
-            GUI.Label(new Rect(sRect.x, sRect.y + NWDGUI.kFieldMarge, sRect.width, sRect.height - NWDGUI.kFieldMarge), sTitle, NWDGUI.kSectionStyle);
-            Line(new Rect(sRect.x, sRect.y, sRect.width, 1));
             sRect.height = kSectionStyle.fixedHeight;
+            GUI.Label(new Rect(sRect.x, sRect.y + NWDGUI.kFieldMarge, sRect.width, sRect.height - NWDGUI.kFieldMarge), sTitle, NWDGUI.kSectionStyle);
+            Line(new Rect(sRect.x, sRect.y + NWDGUI.kFieldMarge, sRect.width, 1));
             return sRect;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Rect SubSection(Rect sRect, string sTitle)
         {
-            GUI.Label(new Rect(sRect.x, sRect.y + NWDGUI.kFieldMarge, sRect.width, sRect.height - NWDGUI.kFieldMarge), sTitle, NWDGUI.kSubSectionStyle);
-            Line(new Rect(sRect.x, sRect.y, sRect.width, 1));
             sRect.height = kSubSectionStyle.fixedHeight;
+            GUI.Label(new Rect(sRect.x, sRect.y + NWDGUI.kFieldMarge, sRect.width, sRect.height - NWDGUI.kFieldMarge), sTitle, NWDGUI.kSubSectionStyle);
+            Line(new Rect(sRect.x, sRect.y + NWDGUI.kFieldMarge, sRect.width, 1));
+            sRect.height = kSubSectionStyle.fixedHeight + NWDGUI.kFieldMarge;
             return sRect;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Rect SubSection(Rect sRect, GUIContent sTitle)
         {
-            GUI.Label(new Rect(sRect.x, sRect.y + NWDGUI.kFieldMarge, sRect.width, sRect.height - NWDGUI.kFieldMarge), sTitle, NWDGUI.kSubSectionStyle);
-            Line(new Rect(sRect.x, sRect.y, sRect.width, 1));
             sRect.height = kSubSectionStyle.fixedHeight;
+            GUI.Label(new Rect(sRect.x, sRect.y + NWDGUI.kFieldMarge, sRect.width, sRect.height - NWDGUI.kFieldMarge), sTitle, NWDGUI.kSubSectionStyle);
+            Line(new Rect(sRect.x, sRect.y+ NWDGUI.kFieldMarge, sRect.width, 1));
+            sRect.height = kSubSectionStyle.fixedHeight + NWDGUI.kFieldMarge;
             return sRect;
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -35,6 +35,7 @@ namespace NetWorkedData.NWDEditor
         new Type[] {
             typeof(NWDLocalization),
             typeof(NWDMessage),
+            typeof(NWDError),
         }
     )]
     public partial class NWDLocalizationWindow : NWDBasisWindow<NWDLocalizationWindow>

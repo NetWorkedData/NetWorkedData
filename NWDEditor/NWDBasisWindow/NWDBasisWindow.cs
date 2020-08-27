@@ -65,9 +65,9 @@ namespace NetWorkedData.NWDEditor
             SharedInstance.Focus();
         }
         //-------------------------------------------------------------------------------------------------------------
-            /// <summary>
-            /// The title of window
-            /// </summary>
+        /// <summary>
+        /// The title of window
+        /// </summary>
         public string mTitleKey = "X Edition";
         /// <summary>
         /// The description of window.
@@ -81,12 +81,15 @@ namespace NetWorkedData.NWDEditor
         /// the array to reccord the name menu of each Type
         /// </summary>
         private GUIContent[] mTabContentList;
+        private GUIContent[] mPanelContentList;
         int TabsTotalWidthExpected = 0;
         int TabWidthMax = 0;
         /// <summary>
         /// The tab selected.
         /// </summary>
         private int mTabSelected = 0;
+        NWDSplitArea SplitArea = new NWDSplitArea(NWDSplitDirection.Vertical, "DataTablePanel");
+        NWDBasisHelperPanel mPanelSelected = NWDBasisHelperPanel.Data;
         //-------------------------------------------------------------------------------------------------------------
         static NWDBasisWindow()
         {
@@ -165,6 +168,13 @@ namespace NetWorkedData.NWDEditor
             }
             TabsTotalWidthExpected = TabWidthMax * tCounter * 8;
             mTabContentList = tTabContentList.ToArray();
+
+            List<GUIContent> tPanelContentList = new List<GUIContent>();
+            foreach (string tEnumName in Enum.GetNames(typeof(NWDBasisHelperPanel)))
+            {
+                tPanelContentList.Add(new GUIContent(tEnumName));
+            }
+            mPanelContentList = tPanelContentList.ToArray();
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -174,6 +184,9 @@ namespace NetWorkedData.NWDEditor
         void OnEnable()
         {
             //NWDBenchmark.Start();
+            SplitArea.Min = 300;
+            SplitArea.Split = 0.75F;
+            SplitArea.ResizeSplit(this, position);
             NWDDataManager.SharedInstance().DataQueueExecute();
             if (typeof(K).GetCustomAttributes(typeof(NWDTypeWindowParamAttribute), true).Length > 0)
             {
@@ -230,7 +243,6 @@ namespace NetWorkedData.NWDEditor
         void OnDisable()
         {
             NWDDataManager.SharedInstance().DataQueueExecute();
-            //ApplyUpdate();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -239,33 +251,25 @@ namespace NetWorkedData.NWDEditor
         void OnFocus()
         {
             NWDDataManager.SharedInstance().DataQueueExecute();
-            //			ApplyUpdate();
-            //			ApplyListUpdate ();
         }
         //-------------------------------------------------------------------------------------------------------------
         void OnLostFocus()
         {
             NWDDataManager.SharedInstance().DataQueueExecute();
-            //			ApplyUpdate();
-            //			ApplyTableUpdate ();
-            //			ApplyListUpdate ();
         }
         //-------------------------------------------------------------------------------------------------------------
         void OnDestroy()
         {
-            // TODO : check why error on recreate desktop space
             NWDDataManager.SharedInstance().RemoveWindowFromManager(this);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetClassInEdition(Type sClassType)
         {
             //NWDBenchmark.Start();
-            //			ApplyUpdate();
             NWDDataManager.SharedInstance().DataQueueExecute();
             GUI.FocusControl(null);
             NWDBasisClassInspector tBasisClassInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
             tBasisClassInspector.mTypeInEdition = sClassType;
-            //			tBasisClassInspector.mWindowInEdition = this;
             Selection.activeObject = tBasisClassInspector;
             //NWDBenchmark.Finish();
         }
@@ -278,19 +282,26 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Start();
             NWDGUI.LoadStyles();
 
-            float tWidthUsed = position.width;
-            // determine height
-            float tHeight = NWDGUI.KTAB_BAR_HEIGHT;
-
-
-            EditorGUI.DrawRect(new Rect(0, 0, tWidthUsed, tHeight), NWDGUI.KTAB_BAR_BACK_COLOR);
-            EditorGUI.DrawRect(new Rect(0, tHeight, tWidthUsed, 1.0F), NWDGUI.KTAB_BAR_LINE_COLOR);
-            EditorGUI.DrawRect(new Rect(0, tHeight + 1, tWidthUsed, 1.0F), NWDGUI.KTAB_BAR_HIGHLIGHT_COLOR);
-
-            //if (mDescriptionKey != "")
-            //{
-            //    EditorGUILayout.HelpBox(mDescriptionKey, MessageType.None);
-            //}
+            // draw bar top
+            EditorGUI.DrawRect(new Rect(0, 0, position.width, NWDGUI.KTAB_BAR_HEIGHT), NWDGUI.KTAB_BAR_BACK_COLOR);
+            EditorGUI.DrawRect(new Rect(0, NWDGUI.KTAB_BAR_HEIGHT, position.width, 1.0F), NWDGUI.KTAB_BAR_LINE_COLOR);
+            EditorGUI.DrawRect(new Rect(0, NWDGUI.KTAB_BAR_HEIGHT + 1, position.width, 1.0F), NWDGUI.KTAB_BAR_HIGHLIGHT_COLOR);
+            // split windows
+            SplitArea.OnGUI(this);
+            // define rect to use 
+            Rect tAreaTableOrign = SplitArea.GetAreaOne();
+            Rect tAreaPanelOrigin = SplitArea.GetAreaTwo();
+            // define rect without bar top
+            Rect tAreaTable = SplitArea.GetAreaOne();
+            Rect tAreaPanel = SplitArea.GetAreaTwo();
+            tAreaPanel.y += NWDGUI.KTAB_BAR_HEIGHT;
+            tAreaPanel.height -= NWDGUI.KTAB_BAR_HEIGHT;
+            tAreaTable.y += NWDGUI.KTAB_BAR_HEIGHT;
+            tAreaTable.height -= NWDGUI.KTAB_BAR_HEIGHT;
+            Rect tRectPanel = new Rect(tAreaPanelOrigin.x + NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tAreaPanelOrigin.width - NWDGUI.kFieldMarge * 1 - NWDGUI.kTitleStyle.fixedHeight, NWDGUI.KTAB_BAR_HEIGHT - NWDGUI.kFieldMarge * 2);
+            // select the panel mode
+            mPanelSelected = (NWDBasisHelperPanel)GUI.Toolbar(tRectPanel, (int)mPanelSelected, mPanelContentList, NWDGUI.KTableClassToolbar);
+            // select the basishelper to use
             if (mTabContentList != null)
             {
                 if (mTabSelected > mTabContentList.Count())
@@ -302,14 +313,14 @@ namespace NetWorkedData.NWDEditor
                 // check if tab ids necessary
                 if (mTabContentList.Length > 0)
                 {
-                    if (tWidthUsed > TabsTotalWidthExpected)
+                    if (tAreaTableOrign.width > TabsTotalWidthExpected)
                     {
-                        Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tWidthUsed - NWDGUI.kFieldMarge * 1  - NWDGUI.kTitleStyle.fixedHeight, tHeight - NWDGUI.kFieldMarge * 2);
+                        Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tAreaTableOrign.width - NWDGUI.kFieldMarge * 2, NWDGUI.KTAB_BAR_HEIGHT - NWDGUI.kFieldMarge * 2);
                         tTabSelected = GUI.Toolbar(tRectTab, mTabSelected, mTabContentList, NWDGUI.KTableClassToolbar);
                     }
                     else
                     {
-                        Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tWidthUsed - NWDGUI.kFieldMarge * 1 - NWDGUI.kTitleStyle.fixedHeight, tHeight - NWDGUI.kFieldMarge * 2);
+                        Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tAreaTableOrign.width - NWDGUI.kFieldMarge * 2, NWDGUI.KTAB_BAR_HEIGHT - NWDGUI.kFieldMarge * 2);
                         tTabSelected = EditorGUI.Popup(tRectTab, mTabSelected, mTabContentList, NWDGUI.KTableClassPopup);
                     }
                 }
@@ -317,7 +328,6 @@ namespace NetWorkedData.NWDEditor
                 bool tAutoselect = false;
                 if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Tab && Event.current.shift)
                 {
-                    //				if (Event.current.keyCode==KeyCode.Tab && Event.current.shift) {
                     tTabSelected++;
                     if (tTabSelected >= mTabContentList.Length)
                     {
@@ -336,18 +346,40 @@ namespace NetWorkedData.NWDEditor
                     Type tType = mTabTypeList[tTabSelected];
                     if (mTabSelected != tTabSelected)
                     {
-                        // POUR ACTIVER LA CLASSE DAN L'INSPECTOR 
-
-                        //SetClassInEdition (tType);
                         NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                         tHelper.LoadEditorPrefererences();
+                        mPanelSelected = NWDBasisHelper.FindTypeInfos(tType).PanelActivate;
                     }
                     mTabSelected = tTabSelected;
-                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_DrawInEditor, null, new object[] { this, tAutoselect });
-
-                    NWDBasisHelper.FindTypeInfos(tType).DrawInEditor(this, tAutoselect);
-
-
+                    // DRAW TABLE!
+                    SplitArea.BeginAreaOne();
+                    NWDBasisHelper.FindTypeInfos(tType).DrawInEditor(this, tAreaTable, tAutoselect);
+                    SplitArea.EndAreaOne();
+                    // DRAW PANEL!
+                    NWDBasisHelper.FindTypeInfos(tType).ActivePanel(mPanelSelected);
+                    switch (mPanelSelected)
+                    {
+                        case NWDBasisHelperPanel.Infos:
+                            {
+                                NWDBasisHelper.FindTypeInfos(tType).DrawPanelInfos(tAreaPanel);
+                            }
+                            break;
+                        case NWDBasisHelperPanel.Actions:
+                            {
+                                NWDBasisHelper.FindTypeInfos(tType).DrawPanelAction(tAreaPanel);
+                            }
+                            break;
+                        case NWDBasisHelperPanel.Sync:
+                            {
+                                NWDBasisHelper.FindTypeInfos(tType).DrawPanelSync(tAreaPanel);
+                            }
+                            break;
+                        case NWDBasisHelperPanel.Data:
+                            {
+                                NWDBasisHelper.FindTypeInfos(tType).DrawPanelData(tAreaPanel);
+                            }
+                            break;
+                    }
                 }
             }
             //NWDBenchmark.Finish();

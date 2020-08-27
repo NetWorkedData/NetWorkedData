@@ -86,7 +86,7 @@ namespace NetWorkedData
         public NWDBasis GetObjectInEdition()
         {
             NWDBasis tSelected = null;
-            if (InspectorActions == true)
+            if (PanelActivate == NWDBasisHelperPanel.Data)
             {
                 tSelected = mObjectInEdition as NWDBasis;
             }
@@ -105,52 +105,52 @@ namespace NetWorkedData
             if (sObject != null)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sObject.GetType());
-                if (tHelper!=null)
+                if (tHelper != null)
                 {
-                    tInspectorDataPanel = tHelper.InspectorActions;
+                    tInspectorDataPanel = tHelper.PanelActivate == NWDBasisHelperPanel.Data;
                 }
             }
 
             if (tInspectorDataPanel == true)
+            {
+                mObjectInEdition = sObject;
+                if (mObjectInEdition != null)
                 {
-                    mObjectInEdition = sObject;
-                    if (mObjectInEdition != null)
-                    {
                     NWDProjectPrefs.SetString(LastSelectedObjectKey(), mObjectInEdition.Reference);
-                        foreach (NWDTypeWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(sObject.GetType()))
-                        {
-                            tWindow.Focus();
-                            tWindow.SelectTab(sObject.GetType());
-                            tWindow.Repaint();
-                        };
-                    }
-                    else
+                    foreach (NWDTypeWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(sObject.GetType()))
                     {
-                    NWDProjectPrefs.SetString(LastSelectedObjectKey(), string.Empty);
-                    }
+                        tWindow.Focus();
+                        tWindow.SelectTab(sObject.GetType());
+                        tWindow.Repaint();
+                    };
                 }
                 else
                 {
-                    GUI.FocusControl(null);
-                    NWDDataInspector.InspectNetWorkedData(sObject, sResetStack, sFocus);
-                    if (sObject != null)
-                    {
-                        NWDBasisEditor.ObjectEditorLastType = sObject.GetType();
-                        NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
-                    }
-                    else if (NWDBasisEditor.ObjectEditorLastType != null)
-                    {
-                        NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
-                        NWDBasisEditor.ObjectEditorLastType = null;
-                    }
-                    SaveObjectInEdition();
+                    NWDProjectPrefs.SetString(LastSelectedObjectKey(), string.Empty);
                 }
+            }
+            else
+            {
+                GUI.FocusControl(null);
+                NWDDataInspector.InspectNetWorkedData(sObject, sResetStack, sFocus);
+                if (sObject != null)
+                {
+                    NWDBasisEditor.ObjectEditorLastType = sObject.GetType();
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
+                }
+                else if (NWDBasisEditor.ObjectEditorLastType != null)
+                {
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
+                    NWDBasisEditor.ObjectEditorLastType = null;
+                }
+                SaveObjectInEdition();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool IsObjectInEdition(NWDTypeClass sObject)
         {
             bool rReturn = false;
-            if (InspectorActions == true)
+            if (PanelActivate == NWDBasisHelperPanel.Data)
             {
                 if (mObjectInEdition == sObject)
                 {
@@ -164,7 +164,6 @@ namespace NetWorkedData
                     rReturn = true;
                 }
             }
-
             return rReturn;
         }
 #endif

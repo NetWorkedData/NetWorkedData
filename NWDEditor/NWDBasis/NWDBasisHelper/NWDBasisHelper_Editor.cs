@@ -93,10 +93,12 @@ namespace NetWorkedData
             m_ItemPerPageSelection = NWDProjectPrefs.GetInt(ActionsPrefkey(() => m_ItemPerPageSelection), 1);
 
 
-            RowActions = NWDProjectPrefs.GetBool(ActionsPrefkey(() => RowActions), true);
-            TableActions = NWDProjectPrefs.GetBool(ActionsPrefkey(() => TableActions), true);
-            SearchActions = NWDProjectPrefs.GetBool(ActionsPrefkey(() => SearchActions), true);
-            InspectorActions = NWDProjectPrefs.GetBool(ActionsPrefkey(() => InspectorActions), true);
+            //RowActions = NWDProjectPrefs.GetBool(ActionsPrefkey(() => RowActions), true);
+            //TableActions = NWDProjectPrefs.GetBool(ActionsPrefkey(() => TableActions), true);
+            //SearchActions = NWDProjectPrefs.GetBool(ActionsPrefkey(() => SearchActions), true);
+            //InspectorActions = NWDProjectPrefs.GetBool(ActionsPrefkey(() => InspectorActions), true);
+
+            PanelActivate = (NWDBasisHelperPanel)NWDProjectPrefs.GetInt(ActionsPrefkey(() => PanelActivate), (int)NWDBasisHelperPanel.Data);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SaveEditorPrefererences()
@@ -109,10 +111,11 @@ namespace NetWorkedData
             NWDProjectPrefs.SetBool(ActionsPrefkey(() => m_ShowIntegrityError), m_ShowIntegrityError);
             NWDProjectPrefs.SetInt(ActionsPrefkey(() => m_ItemPerPageSelection), m_ItemPerPageSelection);
 
-            NWDProjectPrefs.SetBool(ActionsPrefkey(() => RowActions), RowActions);
-            NWDProjectPrefs.SetBool(ActionsPrefkey(() => SearchActions), SearchActions);
-            NWDProjectPrefs.SetBool(ActionsPrefkey(() => TableActions), TableActions);
-            NWDProjectPrefs.SetBool(ActionsPrefkey(() => InspectorActions), InspectorActions);
+            //NWDProjectPrefs.SetBool(ActionsPrefkey(() => RowActions), RowActions);
+            //NWDProjectPrefs.SetBool(ActionsPrefkey(() => SearchActions), SearchActions);
+            //NWDProjectPrefs.SetBool(ActionsPrefkey(() => TableActions), TableActions);
+            //NWDProjectPrefs.SetBool(ActionsPrefkey(() => InspectorActions), InspectorActions);
+            NWDProjectPrefs.SetInt(ActionsPrefkey(() => PanelActivate), (int)PanelActivate);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string ActionsPrefkey<T>(Expression<Func<T>> sProperty)
@@ -172,10 +175,14 @@ namespace NetWorkedData
         //    EditorPrefs.SetBool(ActionsPrefkey() + kTableEditorKey, sValue);
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public bool SearchActions = true;
-        public bool RowActions = true;
-        public bool TableActions = true;
-        public bool InspectorActions = true;
+        //[Obsolete("change for split panel")]
+        //public bool SearchActions = true;
+        //[Obsolete("change for split panel")]
+        //public bool RowActions = true;
+        //[Obsolete("change for split panel")]
+        //public bool TableActions = true;
+        //[Obsolete("change for split panel")]
+        //public bool InspectorActions = true;
         //-------------------------------------------------------------------------------------------------------------
 
         public NWDBasisEditorDatasSortType SortType = NWDBasisEditorDatasSortType.ByInternalKeyDescendant;
@@ -195,10 +202,10 @@ namespace NetWorkedData
 
         public int m_ItemPerPageSelection = 0;
 
-        public string[] m_ItemPerPageOptions = new string[] {
+    public string[] m_ItemPerPageOptions = new string[] {
             "15", "20", "30", "40", "50", "100", "200", "300", "400", "500"
         };
-        public int m_PageSelected = 0;
+    public int m_PageSelected = 0;
         public int m_MaxPage = 0;
 
         public bool m_ShowEnable = true;

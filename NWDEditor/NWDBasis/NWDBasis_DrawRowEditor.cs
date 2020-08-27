@@ -437,7 +437,7 @@ namespace NetWorkedData
                 tRect.width = NWDGUI.KTableSearchWidth;
             }
 
-            tRect.width = BasisHelper().InfosWidth;
+            //tRect.width = BasisHelper().InfosWidth;
             GUI.Label(tRect, StringRow, NWDGUI.KTableRowInformations);
             tRect.x += tRect.width;
             // draw age
