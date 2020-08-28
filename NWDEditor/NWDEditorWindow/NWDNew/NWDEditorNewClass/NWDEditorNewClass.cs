@@ -501,7 +501,7 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Start();
             if (_kSharedInstance == null)
             {
-                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorNewClass), ShowAsUtility()) as NWDEditorNewClass;
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorNewClass), ShowAsWindow()) as NWDEditorNewClass;
             }
             //NWDBenchmark.Finish();
             return _kSharedInstance;

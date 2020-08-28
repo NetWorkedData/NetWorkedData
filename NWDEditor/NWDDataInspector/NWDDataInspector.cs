@@ -7,8 +7,8 @@
 // Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
 #if NWD_VERBOSE
 #if UNITY_EDITOR
-#define NWD_LOG
-#define NWD_BENCHMARK
+//#define NWD_LOG
+//#define NWD_BENCHMARK
 #elif DEBUG
 //#define NWD_LOG
 //#define NWD_BENCHMARK
@@ -42,7 +42,7 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public static NWDDataInspector ShareInstance()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             if (kShareInstance == null)
             {
                 EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDDataInspector));
@@ -51,40 +51,48 @@ namespace NetWorkedData.NWDEditor
                 kShareInstance.minSize = new Vector2(250, 540);
                 kShareInstance.maxSize = new Vector2(600, 2048);
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
             return kShareInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void ActiveInspector()
         {
+            NWDBenchmark.Start();
             ShareInstance().Show();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void ActiveRepaint()
         {
+            NWDBenchmark.Start();
             if (kShareInstance != null)
             {
                 kShareInstance.Repaint();
             }
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void InspectNetWorkedDataPreview()
         {
+            NWDBenchmark.Start();
             ShareInstance().DataPreview();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void Refresh()
         {
+            NWDBenchmark.Start();
             var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDDataInspector));
             foreach (NWDDataInspector tWindow in tWindows)
             {
                 tWindow.Repaint();
             }
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DataPreview()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             ActualIndex--;
             if (ActualIndex < 0)
             {
@@ -98,17 +106,19 @@ namespace NetWorkedData.NWDEditor
                 RemoveActualFocus = true;
                 Focus();
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void InspectNetWorkedDataNext()
         {
+            NWDBenchmark.Start();
             ShareInstance().DataNext();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DataNext()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             ActualIndex++;
             if (ActualIndex >= mObjectsList.Count)
             {
@@ -122,7 +132,7 @@ namespace NetWorkedData.NWDEditor
                 RemoveActualFocus = true;
                 Focus();
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool InspectNetWorkedPreview()
@@ -147,7 +157,7 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public static void InspectNetWorkedData(NWDTypeClass sTarget, bool sResetStack = true, bool sFocus = true)
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             if (sTarget != null)
             {
                 if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).AllDatabaseIsLoaded())
@@ -163,21 +173,16 @@ namespace NetWorkedData.NWDEditor
             {
                 ShareInstance().Data(null, true, sFocus);
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Data(NWDTypeClass sTarget, bool sResetStack = true, bool sFocus = true)
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             if (sTarget != null)
             {
                 if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).AllDatabaseIsLoaded())
                 {
-                    //MethodBase tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(sTarget.GetType(), NWDConstants.M_CheckError);
-                    //if (tMethodInfo != null)
-                    //{
-                    //    tMethodInfo.Invoke(sTarget, null);
-                    //}
                     NWDTypeClass tTarget = sTarget as NWDTypeClass;
                     tTarget.ErrorCheck();
 
@@ -216,7 +221,7 @@ namespace NetWorkedData.NWDEditor
                 }
                 NWDNodeEditor.Refresh();
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDTypeClass ObjectInEdition()
@@ -224,32 +229,16 @@ namespace NetWorkedData.NWDEditor
             return ShareInstance().mObjectInEdition;
         }
         //-------------------------------------------------------------------------------------------------------------
-        // Use this for initialization
-        void Start()
-        {
-            //Debug.Log ("Start");
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
-            //Debug.Log ("OnEnable");
+            NWDBenchmark.Start();
             TitleInit(NWDConstants.K_APP_SYNC_INSPECTOR_TITLE, typeof(NWDDataInspector));
-
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        //		public void Update ()
-        //		{
-        //			Debug.Log ("Update");
-        //		}
-        //-------------------------------------------------------------------------------------------------------------
-        void OnDestroy()
-        {
-
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void OnPreventGUI()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             minSize = new Vector2(NWDGUI.kNodeCardWidth, NWDGUI.kNodeCardHeight);
             maxSize = new Vector2(NWDGUI.kNodeCardWidth * 2, NWDGUI.kNodeCardHeight * 2);
             if (RemoveActualFocus == true)
@@ -265,7 +254,7 @@ namespace NetWorkedData.NWDEditor
             {
                 mObjectInEdition.DrawEditor(new Rect(0, 0, position.width, position.height), true, null);
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -323,7 +323,7 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Start();
             if (kSharedInstance == null)
             {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWDProjectConfigurationManager), ShowAsUtility()) as NWDProjectConfigurationManager;
+                kSharedInstance = EditorWindow.GetWindow(typeof(NWDProjectConfigurationManager), ShowAsWindow()) as NWDProjectConfigurationManager;
             }
             //NWDBenchmark.Finish();
             return kSharedInstance;

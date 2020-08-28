@@ -179,7 +179,7 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Start();
             if (kSharedInstance == null)
             {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWDProjectCredentialsManager), ShowAsUtility()) as NWDProjectCredentialsManager;
+                kSharedInstance = EditorWindow.GetWindow(typeof(NWDProjectCredentialsManager), ShowAsWindow()) as NWDProjectCredentialsManager;
             }
             //NWDBenchmark.Finish();
             return kSharedInstance;

@@ -274,7 +274,7 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Start();
             if (_kSharedInstance == null)
             {
-                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDClusterSizer), ShowAsUtility()) as NWDClusterSizer;
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDClusterSizer), ShowAsWindow()) as NWDClusterSizer;
             }
             //NWDBenchmark.Finish();
             return _kSharedInstance;

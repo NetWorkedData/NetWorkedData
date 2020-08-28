@@ -203,7 +203,7 @@ namespace NetWorkedData.NWDEditor
             NWDBenchmark.Start();
             if (_kSharedInstance == null)
             {
-                _kSharedInstance = EditorWindow.GetWindow(typeof(NWEPassAnalyseWindow), ShowAsUtility()) as NWEPassAnalyseWindow;
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWEPassAnalyseWindow), ShowAsWindow()) as NWEPassAnalyseWindow;
             }
             NWDBenchmark.Finish();
             return _kSharedInstance;

@@ -65,6 +65,25 @@ namespace NetWorkedData.NWDEditor
             SharedInstance.Focus();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void AddItemsToMenu(GenericMenu menu)
+        {
+            menu.AddItem(new GUIContent("Detach in window"), false, DetachAsWindowThis);
+            menu.AddItem(new GUIContent("Visualize script"), false, ScriptOpener, this.GetType());
+            foreach (Type tType in mTabTypeList)
+            {
+                NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(tType);
+                menu.AddItem(new GUIContent("Visualize script of class "+ tTypeInfos.ClassNamePHP+ ""), false, ScriptOpener, tTypeInfos.ClassType);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DetachAsWindowThis()
+        {
+            SharedInstance = new K();
+            SharedInstance.ShowUtility();
+            SharedInstance.Focus();
+            Close();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The title of window
         /// </summary>

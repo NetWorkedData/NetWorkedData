@@ -31,7 +31,7 @@ namespace NetWorkedData.NWDEditor
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDWindowStyle
     {
-        Utility,
+        Tab,
         Window,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -373,7 +373,7 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDEditorWindow : EditorWindow
+    public class NWDEditorWindow : EditorWindow, IHasCustomMenu
     {
         //-------------------------------------------------------------------------------------------------------------
         private static List<NWDEditorWindow> AllWindowsList = new List<NWDEditorWindow>();
@@ -385,6 +385,26 @@ namespace NetWorkedData.NWDEditor
         private Type EditorType;
         private bool TitleIsInit = false;
         private bool Recompile = false;
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void AddItemsToMenu(GenericMenu menu)
+        {
+            menu.AddItem(new GUIContent("Detach in window"), false, DetachAsWindow);
+            menu.AddItem(new GUIContent("Visualize script"), false, ScriptOpener, this.GetType());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DetachAsWindow()
+        {
+            Type tType = this.GetType();
+            NWDEditorWindow tNew = (NWDEditorWindow)ScriptableObject.CreateInstance(tType);
+            tNew.ShowUtility();
+            tNew.Focus();
+            Close();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ScriptOpener(object sObject)
+        {
+            NWEScriptOpener.OpenScript((Type)sObject);
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static void OnBeforeAssemblyReload()
         {
@@ -447,7 +467,7 @@ namespace NetWorkedData.NWDEditor
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool ShowAsUtility()
+        public static bool ShowAsWindow()
         {
             return NWDProjectConfigurationManagerContent.GetWindowStyle() == NWDWindowStyle.Window;
         }
@@ -457,16 +477,16 @@ namespace NetWorkedData.NWDEditor
             Debug.Log("ShowMe");
             switch (NWDProjectConfigurationManagerContent.GetWindowStyle())
             {
-                case NWDWindowStyle.Utility:
+                case NWDWindowStyle.Tab:
                     {
-                        Debug.Log(" as ShowUtility");
-                        ShowUtility();
+                        Debug.Log(" as tab");
+                        Show();
                     }
                     break;
                 case NWDWindowStyle.Window:
                     {
                         Debug.Log(" as Window");
-                        Show();
+                        ShowUtility();
                     }
                     break;
             }
@@ -625,7 +645,7 @@ namespace NetWorkedData.NWDEditor
         {
             if (TestWindow == null)
             {
-                TestWindow = EditorWindow.GetWindow(typeof(NWDExmpleSplitView), ShowAsUtility()) as NWDExmpleSplitView;
+                TestWindow = EditorWindow.GetWindow(typeof(NWDExmpleSplitView), ShowAsWindow()) as NWDExmpleSplitView;
                 TestWindow.TitleInit("SplitTest");
             }
             TestWindow.Show();

@@ -151,7 +151,7 @@ namespace NetWorkedData.NWDEditor
             NWDBenchmark.Start();
             if (_kSharedInstance == null)
             {
-                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentConfigurationManager), ShowAsUtility()) as NWDAppEnvironmentConfigurationManager;
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentConfigurationManager), ShowAsWindow()) as NWDAppEnvironmentConfigurationManager;
             }
             NWDBenchmark.Finish();
             return _kSharedInstance;

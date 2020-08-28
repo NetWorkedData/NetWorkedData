@@ -1080,7 +1080,7 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Start();
             if (kSharedInstance == null)
             {
-                kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentSync), ShowAsUtility()) as NWDAppEnvironmentSync;
+                kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentSync), ShowAsWindow()) as NWDAppEnvironmentSync;
             }
             //NWDBenchmark.Finish();
             return kSharedInstance;
