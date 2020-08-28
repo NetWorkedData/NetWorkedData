@@ -43,43 +43,45 @@ namespace NetWorkedData.NWDEditor
     public class NWDAccountWindow : NWDBasisWindow<NWDAccountWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Account/All", false, 300)]
+        const string K_ACCOUNT_MANAGEMENT = "Account" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT;
+        //-------------------------------------------------------------------------------------------------------------
+        //[MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_ACCOUNT_MANAGEMENT, false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX+1)]
         public static void MenuMethod()
         {
             ShowWindow();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Account/Information", false, 301)]
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_ACCOUNT_MANAGEMENT + "/Information", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 2)]
         public static void MenuMethodInformation()
         {
             ShowWindow(typeof(NWDAccountInfos));
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Account/Sign", false, 302)]
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_ACCOUNT_MANAGEMENT + "/Preferences", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 3)]
+        public static void MenuMethodPreference()
+        {
+            ShowWindow(typeof(NWDAccountPreference));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_ACCOUNT_MANAGEMENT + "/Sign", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 4)]
         public static void MenuMethodSign()
         {
             ShowWindow(typeof(NWDAccountSign));
         }
         //-------------------------------------------------------------------------------------------------------------
 #if NWD_ACCOUNT_IDENTITY
-        [MenuItem(NWDConstants.K_MENU_BASE + "Account/Nickname", false, 303)]
-        public static void MenuMethodNickname()
-        {
-            ShowWindow(typeof(NWDAccountNickname));
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Account/Avatar", false, 304)]
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_ACCOUNT_MANAGEMENT + "/Avatar", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 20)]
         public static void MenuMethodAvatar()
         {
             ShowWindow(typeof(NWDAccountAvatar));
         }
-#endif
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Account/Preference", false, 305)]
-        public static void MenuMethodPreference()
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_ACCOUNT_MANAGEMENT + "/Nickname", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 21)]
+        public static void MenuMethodNickname()
         {
-            ShowWindow(typeof(NWDAccountPreference));
+            ShowWindow(typeof(NWDAccountNickname));
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

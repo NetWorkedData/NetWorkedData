@@ -7,8 +7,8 @@
 // Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
 #if NWD_VERBOSE
 #if UNITY_EDITOR
-#define NWD_LOG
-#define NWD_BENCHMARK
+//#define NWD_LOG
+//#define NWD_BENCHMARK
 #elif DEBUG
 //#define NWD_LOG
 //#define NWD_BENCHMARK
@@ -18,11 +18,9 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
-
 #if UNITY_EDITOR
 using System.Collections.Generic;
 using System.Text;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -31,13 +29,13 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Use <paramref name="sSelectedEnvironment"/> to define the good environment
+        /// Use <paramref name="sSelectedEnvironment"/> to define environment
         /// </summary>
         /// <param name="sSelectedEnvironment">sSelectedEnvironment </param>
         /// <returns></returns>
         public string CreateAppConfigurationCsharp(NWDAppEnvironment sSelectedEnvironment)
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             StringBuilder rReturn = new StringBuilder(string.Empty);
             string tPropertyName = "null";
 
@@ -68,7 +66,6 @@ namespace NetWorkedData
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.EditorWebTimeOut) + " = " + EditorWebTimeOut.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SaltFrequency) + " = " + SaltFrequency.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AddressPing) + " = \"" + AddressPing.Replace("\"", "\\\"") + "\";");
-            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AlwaysUseSSL) + " = " + AlwaysUseSSL.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AlwaysSecureData) + " = " + AlwaysSecureData.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.BuildDate) + " = \"" + BuildDate.Replace("\"", "\\\"") + "\";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AppName) + " = \"" + AppName.Replace("\"", "\\\"") + "\";");
@@ -82,9 +79,7 @@ namespace NetWorkedData
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.WritingModeEditor) + " = " + typeof(NWDWritingMode).Name + "." + WritingModeEditor.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.CartridgeColor) + " = new Color(" + NWDToolbox.FloatToString(CartridgeColor.r) + "F," +  NWDToolbox.FloatToString(CartridgeColor.g) + "F," + NWDToolbox.FloatToString(CartridgeColor.b) + "F," + NWDToolbox.FloatToString(CartridgeColor.a) + "F);");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.LogMode) + " = " + typeof(NWDEnvironmentLogMode).Name + "." + LogMode.ToString() + ";");
-            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.LogInFileMode) + " = " + LogInFileMode.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.LoadBalancingLimit) + " = " + LoadBalancingLimit.ToString() + ";");
-            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RuntimeDefineDictionary) + " = new Dictionary<long, string>();");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RuntimeDefineDictionary) + ".Clear();");
             foreach (KeyValuePair<long, string> tKeyValue in RuntimeDefineDictionary)
             {
@@ -100,28 +95,15 @@ namespace NetWorkedData
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.IPBanTimer) + " = " + IPBanTimer.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.IPBanActive) + " = " + IPBanActive.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ServerLanguage) + " = " + ServerLanguage.GetType().Name + "." + ServerLanguage.ToString() + ";");
-            //if (AdminInPlayer == false)
-            //{
-            //    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminKey) + " = \"" + AdminKey.Replace("\"", "\\\"") + "\";");
-            //    //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminKeyHash) + " = \"" + AdminKeyHashGenerate().Replace("\"", "\\\"") + "\";");
-            //    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminInPlayer) + " = " + AdminInPlayer.ToString().ToLower() + ";");
-            //}
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RescueDelay) + " = " + RescueDelay.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RescueLoginLength) + " = " + RescueLoginLength.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RescuePasswordLength) + " = " + RescuePasswordLength.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.TokenHistoric) + " = " + TokenHistoric.ToString() + ";");
             rReturn.AppendLine("#endif");
-            //if (AdminInPlayer == true)
-            //{
-            //    // write bypass in player mode
-            //    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminKey) + " = \"" + AdminKey.Replace("\"", "\\\"") + "\";");
-            //    //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminKeyHash) + " = \"" + AdminKeyHashGenerate().Replace("\"", "\\\"") + "\";");
-            //    rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminInPlayer) + " = " + AdminInPlayer.ToString().ToLower() + ";");
-            //}
             rReturn.AppendLine("#if UNITY_EDITOR");
             rReturn.AppendLine(tPropertyName + ".FormatVerification ();");
             rReturn.AppendLine("#endif");
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------

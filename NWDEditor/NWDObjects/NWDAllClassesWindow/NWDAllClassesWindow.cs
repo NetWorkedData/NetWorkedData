@@ -31,7 +31,7 @@ namespace NetWorkedData.NWDEditor
 	[NWDTypeWindowParamAttribute("NWD All",
 		"All NWD Basis herited classes edition window.",
 		null
-                                )]
+    )]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public class NWDAllClassesWindow : NWDBasisWindow <NWDAllClassesWindow>
 	{

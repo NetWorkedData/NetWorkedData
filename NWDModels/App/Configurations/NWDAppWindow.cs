@@ -40,31 +40,39 @@ namespace NetWorkedData.NWDEditor
     public class NWDAppWindow : NWDBasisWindow<NWDAppWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "App/Version", false, 200)]
+        const string K_APP_MENU = "App" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT;
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_APP_MENU, false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX +1)]
         public static void MenuMethod()
         {
             ShowWindow();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "App/Preference Key", false, 201)]
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_APP_MENU + "/Version", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 1)]
+        public static void MenuMethodVersion()
+        {
+            ShowWindow(typeof(Version));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_APP_MENU + "/Preference Key", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 1)]
         public static void MenuMethodPreferenceKey()
         {
             ShowWindow(typeof(NWDPreferenceKey));
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "App/Parameter", false, 202)]
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_APP_MENU + "/Parameter", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 1)]
         public static void MenuMethodParameter()
         {
             ShowWindow(typeof(NWDParameter));
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "App/Error", false, 203)]
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_APP_MENU + "/Error", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 1)]
         public static void MenuMethodError()
         {
             ShowWindow(typeof(NWDError));
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "App/Asset Bundle", false, 220)]
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_APP_MENU + "/Asset Bundle", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 1)]
         public static void MenuMethodAssetBundle()
         {
             ShowWindow(typeof(NWDAssetBundle));

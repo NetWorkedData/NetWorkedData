@@ -41,16 +41,30 @@ namespace NetWorkedData.NWDEditor
     public partial class NWDLocalizationWindow : NWDBasisWindow<NWDLocalizationWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Game/Localization", false, 200)]
-        public static void MenuMethod()
+        const string K_LOCALIZATION_MENU = "Localization" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT;
+        //-------------------------------------------------------------------------------------------------------------
+        //[MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_LOCALIZATION_MENU, false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 3)]
+        //public static void MenuMethod()
+        //{
+        //    ShowWindow();
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_LOCALIZATION_MENU + "/Localization", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 3)]
+        public static void MenuMethodLocalization()
         {
-            ShowWindow();
+            ShowWindow(typeof(NWDLocalization));
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Game/Message", false, 201)]
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_LOCALIZATION_MENU + "/Message", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 3)]
         public static void MenuMethodMessage()
         {
             ShowWindow(typeof(NWDMessage));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_LOCALIZATION_MENU + "/Error", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 3)]
+        public static void MenuMethodError()
+        {
+            ShowWindow(typeof(NWDError));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

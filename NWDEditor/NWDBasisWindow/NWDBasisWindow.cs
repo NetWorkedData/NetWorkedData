@@ -67,8 +67,10 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public override void AddItemsToMenu(GenericMenu menu)
         {
-            menu.AddItem(new GUIContent("Detach in window"), false, DetachAsWindowThis);
+            menu.AddItem(new GUIContent("Detach in window"), false, DetachAsWindow);
+            menu.AddSeparator("");
             menu.AddItem(new GUIContent("Visualize script"), false, ScriptOpener, this.GetType());
+            menu.AddSeparator("");
             foreach (Type tType in mTabTypeList)
             {
                 NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(tType);
@@ -76,7 +78,7 @@ namespace NetWorkedData.NWDEditor
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DetachAsWindowThis()
+        public override void DetachAsWindow()
         {
             SharedInstance = new K();
             SharedInstance.ShowUtility();

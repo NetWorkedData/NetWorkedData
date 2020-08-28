@@ -24,6 +24,24 @@ using UnityEditor;
 using NetWorkedData.NWDEditor;
 #endif
 //=====================================================================================================================
+#if UNITY_EDITOR
+namespace NetWorkedData.NWDEditor
+{
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDUserWindow : NWDBasisWindow<NWDUserWindow>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_USER_MANAGEMENT + "/Nickname", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 20)]
+        public static void MenuMethodNickname()
+        {
+            ShowWindow(typeof(NWDUserNickname));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+}
+#endif
+//=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -33,19 +51,6 @@ namespace NetWorkedData
         [NWDInspectorGroupOrder("Player Informations", 3)]
         public NWDReferenceType<NWDUserNickname> Nickname { get; set; }
     }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#if UNITY_EDITOR
-    public partial class NWDUserWindow : NWDBasisWindow<NWDUserWindow>
-    {
-        //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "User/Nickname", false, 301)]
-        public static void MenuMethodNickname()
-        {
-            ShowWindow(typeof(NWDUserNickname));
-        }
-        //-------------------------------------------------------------------------------------------------------------
-    }
-#endif
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// This class create a data for user's nickname (limit by <see cref="NWDAccount"/> and <see cref="NWDGameSave"/>).

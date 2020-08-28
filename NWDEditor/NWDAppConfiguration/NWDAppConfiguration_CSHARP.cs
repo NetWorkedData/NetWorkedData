@@ -32,10 +32,13 @@ using NetWorkedData.NWDEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// In anticipation of future development we allow to choose the development language to use on the server.
+    /// </summary>
     public enum NWDServerLanguage
     {
         PHP = 10,
-        Java = 20, // for futur evolution
+        /* Java = 20,*/
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAppConfiguration : NWDApp
@@ -69,10 +72,6 @@ namespace NetWorkedData
         private void GenerateCSharpFile_Editor(NWDAppEnvironment sEnvironment)
         {
             NWDBenchmark.Start();
-            //if (string.IsNullOrEmpty(RandomAppID))
-            //{
-            //    RandomAppID = NWDToolbox.RandomStringUnix(48);
-            //}
             string tFindPrivateConfigurationFolder = NWDToolbox.FindPrivateConfigurationFolder();
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = NWDToolbox.DateTimeYYYYMMdd(tTime);
@@ -114,9 +113,6 @@ namespace NetWorkedData
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.CompileOn) + " = \"Window/Linux\";");
 #endif
             rReturn.AppendLine("//Fort editor preferences");
-            //rReturn.AppendLine("#if UNITY_EDITOR");
-            //rReturn.AppendLine(NWDToolbox.PropertyName(() => this.RandomAppID) + " = \"" + this.RandomAppID + "\";");
-            //rReturn.AppendLine("#endif");
             rReturn.AppendLine("//Environments select\n");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.DevEnvironment) + "." + NWDToolbox.PropertyName(() => this.DevEnvironment.Selected) + " = " + this.DevEnvironment.Selected.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PreprodEnvironment) + "." + NWDToolbox.PropertyName(() => this.PreprodEnvironment.Selected) + " = " + this.PreprodEnvironment.Selected.ToString().ToLower() + ";");
@@ -204,20 +200,12 @@ namespace NetWorkedData
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.AccountHashSalt) + " = \"" + NWDToolbox.SaltCleaner(AccountHashSalt) + "\";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.AccountHashSaltA) + " = \"" + NWDToolbox.SaltCleaner(AccountHashSaltA) + "\";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.AccountHashSaltB) + " = \"" + NWDToolbox.SaltCleaner(AccountHashSaltB) + "\";");
-            //rReturn.AppendLine(NWDToolbox.PropertyName(() => this.RowDataIntegrity) + " = " + RowDataIntegrity.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PreloadDatas) + " = " + PreloadDatas.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.BundleDatas) + " = " + BundleDatas.ToString().ToLower() + ";");
-            //rReturn.AppendLine(NWDToolbox.PropertyName(() => this.NeverNullDataType) + " = " + NeverNullDataType.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.AutoDeleteTrashDatas) + " = " + AutoDeleteTrashDatas.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.LauncherBenchmark) + " = " + LauncherBenchmark.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.LauncherFaster) + " = " + LauncherFaster.ToString() + ";");
-            //rReturn.AppendLine(NWDToolbox.PropertyName(() => this.EditorTableCommun) + " = " + EditorTableCommun.ToString().ToLower() + ";");
-            //rReturn.AppendLine(NWDToolbox.PropertyName(() => this.ShowCompile) + " = " + ShowCompile.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.ProjetcLanguage) + " = \"" + ProjetcLanguage + "\";");
-            //rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TintColor) + " = new Color(" + NWDToolbox.FloatToString(TintColor.r) + "F," +
-            //                                                    NWDToolbox.FloatToString(TintColor.g) + "F," +
-            //                                                    NWDToolbox.FloatToString(TintColor.b) + "F," +
-            //                                                    NWDToolbox.FloatToString(TintColor.a) + "F);");
             foreach (KeyValuePair<string, string> tEntry in BundleName.OrderBy(x => x.Key))
             {
                 rReturn.AppendLine(NWDToolbox.PropertyName(() => this.BundleName) + "[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";");
@@ -297,7 +285,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Generate automatically the C# file of configurations 
+        /// Generate automatically the C# file to restaure configurations
         /// </summary>
         /// <param name="sEnvironment"></param>
         private void GenerateCSharpFile_Restaure(NWDAppEnvironment sEnvironment)
@@ -348,7 +336,6 @@ namespace NetWorkedData
                 rReturnType.AppendLine("{");
                 {
                     rReturnType.AppendLine("tMethod.Invoke(this, null);");
-                    //rReturnType.AppendLine("Debug.Log(tMethod.Name);");
                 }
                 rReturnType.AppendLine("}");
             }
@@ -356,24 +343,6 @@ namespace NetWorkedData
 
             List<Type> tAllTypes = new List<Type>(NWDLauncher.AllNetWorkedDataTypes);
             tAllTypes.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
-            /*
-            foreach (Type tType in tAllTypes)
-            {
-                NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
-                if (tDatas != null)
-                {
-                    foreach (NWDClassMacroAttribute tMacro in tDatas.ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
-                    {
-                        rReturnType.AppendLine("#if " + tMacro.Macro);
-                    }
-                    rReturnType.Append(tDatas.CreationCSHARPCallLoader());
-                    foreach (NWDClassMacroAttribute tMacro in tDatas.ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
-                    {
-                        rReturnType.AppendLine("#endif //" + tMacro.Macro);
-                    }
-                }
-            }
-            */
             rReturnType.AppendLine("if (NWDLauncher.ActiveBenchmark == true) {NWDBenchmark.Finish();};");
             rReturnType.AppendLine("return true;");
             rReturnType.AppendLine("}");
@@ -385,20 +354,16 @@ namespace NetWorkedData
             string tPathType = tOwnerConfigurationFolderPath + "/NWDConfigurations_Classes.cs";
             string rReturnTypeFormatted = NWDToolbox.CSharpFormat(rReturnType.ToString());
             File.WriteAllText(tPathType, rReturnTypeFormatted);
-
             foreach (Type tType in tAllTypes)
             {
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
                 if (tDatas != null)
                 {
-
                     StringBuilder rReturnClass = new StringBuilder(string.Empty);
-
                     foreach (NWDClassMacroAttribute tMacro in tDatas.ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
                     {
                         rReturnClass.AppendLine("#if " + tMacro.Macro);
                     }
-
                     rReturnClass.AppendLine("//=====================================================================================================================");
                     rReturnClass.AppendLine(NWD.K_CommentCopyright + tYearString);
                     rReturnClass.AppendLine(NWD.K_CommentCreator);
@@ -442,14 +407,6 @@ namespace NetWorkedData
                     File.WriteAllText(tPathTypeClass, rReturnClassFormatted);
                 }
             }
-            //rReturnType.AppendLine("}");
-            //rReturnType.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            //rReturnType.AppendLine("}");
-            //rReturnType.AppendLine("//=====================================================================================================================");
-            //string tPathType = tOwnerConfigurationFolderPath + "/NWDConfigurations_Classes.cs";
-            //string rReturnTypeFormatted = NWDToolbox.CSharpFormat(rReturnType.ToString());
-            //File.WriteAllText(tPathType, rReturnTypeFormatted);
-
             try
             {
                 AssetDatabase.ImportAsset(tPathType, ImportAssetOptions.ForceUpdate);

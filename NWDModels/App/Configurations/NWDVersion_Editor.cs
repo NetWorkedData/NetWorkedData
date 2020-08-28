@@ -183,7 +183,8 @@ namespace NetWorkedData
             // Draw button choose env
             if (GUI.Button(sInRect, "Environment chooser", NWDGUI.kMiniButtonStyle))
             {
-                NWDEditorMenu.EnvironementChooserShow();
+                //NWDEditorMenu.EnvironementChooserShow();
+                NWDEditorMenu.EnvironmentChooserWindow();
             }
             sInRect.y += sInRect.height + NWDGUI.kFieldMarge;
         }

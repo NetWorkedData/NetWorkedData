@@ -7,8 +7,8 @@
 // Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
 #if NWD_VERBOSE
 #if UNITY_EDITOR
-#define NWD_LOG
-#define NWD_BENCHMARK
+//#define NWD_LOG
+//#define NWD_BENCHMARK
 #elif DEBUG
 //#define NWD_LOG
 //#define NWD_BENCHMARK
@@ -39,7 +39,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DrawInEditor()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             NWDGUILayout.Section("Configuration for " + Environment + " environment");
             NWDGUILayout.SubSection("Cluster data used for  " + Environment);
             NWDCluster tCluster = NWDCluster.SelectClusterforEnvironment(this);
@@ -87,12 +87,8 @@ namespace NetWorkedData
             AddressPing = EditorGUILayout.TextField("Address Ping (8.8.8.8)", AddressPing);
 
             NWDGUILayout.SubSection("Server Params for " + Environment);
-            //AlwaysUseSSL = EditorGUILayout.Toggle("Always use HTTPS", AlwaysUseSSL);
             AlwaysSecureData = EditorGUILayout.Toggle("Always Secure Data", AlwaysSecureData);
-            //LogInFileMode = EditorGUILayout.Toggle("Log in File Mode", LogInFileMode);
-            EditorGUI.BeginDisabledGroup(true);
             ServerLanguage = (NWDServerLanguage)EditorGUILayout.EnumPopup("Server Language", ServerLanguage);
-            EditorGUI.EndDisabledGroup();
             WebTimeOut = EditorGUILayout.IntField("TimeOut request", WebTimeOut);
             EditorWebTimeOut = EditorGUILayout.IntField("Editor TimeOut request", EditorWebTimeOut);
             LoadBalancingLimit = EditorGUILayout.IntField("BalanceLoad", LoadBalancingLimit);
@@ -101,11 +97,6 @@ namespace NetWorkedData
             RescueLoginLength = EditorGUILayout.IntField("Rescue Login length", RescueLoginLength);
             RescuePasswordLength = EditorGUILayout.IntField("Rescue Password length", RescuePasswordLength);
 
-
-            //NWDGUILayout.SubSection("Mail Params for " + Environment);
-            //NWDGUILayout.SubSection("Admin Key for " + Environment);
-            //AdminKey = EditorGUILayout.TextField("AdminKey", AdminKey);
-            //AdminInPlayer = EditorGUILayout.Toggle("Admin In Player", AdminInPlayer);
             NWDGUILayout.SubSection("Token Historic limit for " + Environment);
             TokenHistoric = EditorGUILayout.IntSlider("Token number", TokenHistoric, 1, 10);
             SpeedOfGameTime = EditorGUILayout.FloatField("Speed Of Game Time", SpeedOfGameTime);
@@ -183,7 +174,7 @@ namespace NetWorkedData
             RuntimeDefineDictionary = tRuntimeExtensionDictionaryNext;
             FormatVerification();
             NWDGUILayout.LittleSpace();
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

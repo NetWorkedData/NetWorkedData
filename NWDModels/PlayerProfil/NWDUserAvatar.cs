@@ -27,6 +27,24 @@ using UnityEditor;
 using NetWorkedData.NWDEditor;
 #endif
 //=====================================================================================================================
+#if UNITY_EDITOR
+namespace NetWorkedData.NWDEditor
+{
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDUserWindow : NWDBasisWindow<NWDUserWindow>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_USER_MANAGEMENT + "/Avatar", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 20)]
+        public static void MenuMethodAvatar()
+        {
+            ShowWindow(typeof(NWDUserAvatar));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+}
+#endif
+//=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -36,19 +54,6 @@ namespace NetWorkedData
         [NWDInspectorGroupOrder("Player Informations", 4)]
         public NWDReferenceType<NWDUserAvatar> Avatar { get; set; }
     }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#if UNITY_EDITOR
-    public partial class NWDUserWindow : NWDBasisWindow<NWDUserWindow>
-    {
-        //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "User/Avatar", false, 302)]
-        public static void MenuMethodAvatar()
-        {
-            ShowWindow(typeof(NWDUserAvatar));
-        }
-        //-------------------------------------------------------------------------------------------------------------
-    }
-#endif
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassMacro("NWD_USER_IDENTITY")]
     [NWDClassTrigrammeAttribute("UAV")]

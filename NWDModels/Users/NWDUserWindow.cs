@@ -31,12 +31,17 @@ namespace NetWorkedData.NWDEditor
         "Users",
         new Type[] {
             typeof(NWDUserInfos),
-            //typeof(NWDUserNickname),
-            //typeof(NWDUserAvatar),
+#if NWD_USER_IDENTITY
+            typeof(NWDUserNickname),
+            typeof(NWDUserAvatar),
+#endif
             typeof(NWDUserPreference),
             typeof(NWDUserOwnership),
+#if NWD_INTERMESSAGE
+            typeof(NWDUserInterMessage),
+#endif
 #if NWD_MODULE_MARKETPLACES
-            //typeof(NWDUserTransaction),
+            typeof(NWDUserTransaction),
 #endif
             //typeof(NWDGameSave),
 		}
@@ -44,37 +49,39 @@ namespace NetWorkedData.NWDEditor
     public partial class NWDUserWindow : NWDBasisWindow<NWDUserWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "User/Information", false, 300)]
+        const string K_USER_MANAGEMENT = "User" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT;
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_USER_MANAGEMENT +"/Information", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 3)]
         public static void MenuMethod()
         {
             ShowWindow();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "User/Preference", false, 303)]
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_USER_MANAGEMENT + "/Preferences", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 4)]
         public static void MenuMethodPreference()
         {
             ShowWindow(typeof(NWDUserPreference));
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "User/Ownership", false, 304)]
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_USER_MANAGEMENT + "/Game Save", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 7)]
+        public static void MenuMethodGameSave()
+        {
+            ShowWindow(typeof(NWDGameSave));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_USER_MANAGEMENT + "/Ownership", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 40)]
         public static void MenuMethodOwnership()
         {
             ShowWindow(typeof(NWDUserOwnership));
         }
         //-------------------------------------------------------------------------------------------------------------
 #if NWD_MODULE_MARKETPLACES
-        [MenuItem(NWDConstants.K_MENU_BASE + "User/Transaction", false, 305)]
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA +  K_USER_MANAGEMENT +"/Transaction", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 100)]
         public static void MenuMethodTransaction()
         {
             //ShowWindow(typeof(NWDUserTransaction));
         }
 #endif
-        //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "User/Game Save", false, 307)]
-        public static void MenuMethodGameSave()
-        {
-            ShowWindow(typeof(NWDGameSave));
-        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

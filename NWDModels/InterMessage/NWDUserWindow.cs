@@ -30,7 +30,7 @@ namespace NetWorkedData
     public partial class NWDUserWindow : NWDBasisWindow<NWDUserWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "User/Inter Message", false, 306)]
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + "User/Inter Message", false, 306)]
         public static void MenuMethodInterMessage()
         {
             ShowWindow(typeof(NWDUserInterMessage));

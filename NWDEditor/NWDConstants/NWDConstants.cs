@@ -23,10 +23,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
-//using BasicToolBox;
 using System.Globalization;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using NetWorkedData.NWDEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -131,7 +131,7 @@ namespace NetWorkedData
         public const string K_MENU_ENVIRONMENT = K_MENU_BASE + "Environments/Player";
         public const string K_MENU_ENVIRONMENT_SYNC = K_MENU_BASE + "Environments/Synchronize";
 
-        public const string K_MENU_ALL_CLASSES = K_MENU_BASE + "Tools/All Data's Classes (herited from NWDBasis)";
+        public const string K_MENU_ALL_CLASSES = NWDEditorMenu.K_NETWORKEDDATA + "Tools/All Data's Classes (herited from NWDBasis)";
 
         public const string K_MENU_CREATE_PHP = "Tools/Server auto generate";
         public const string K_MENU_CREATE_ERRORS_AND_MESSAGES = K_MENU_BASE + K_MENU_CREATE_PHP + "/Generate errors and messages";
@@ -199,7 +199,8 @@ namespace NetWorkedData
 
         public const string K_MENU_LOCAL_UNBLOCK_RECOMPILE = K_MENU_BASE + "/SPECIAL/UNBLOCK RECOMPILE";
 
-        public const string K_MENU_BASIS_WINDOWS_MANAGEMENT = " management";
+        //public const string K_MENU_BASIS_WINDOWS_MANAGEMENT = " management";
+        public const string K_MENU_BASIS_WINDOWS_MANAGEMENT = " ...";
 
 
         public const string K_MENU_DEBUG_FOLDER = K_MENU_BASE + "/Show debug Folder File";

@@ -389,7 +389,9 @@ namespace NetWorkedData.NWDEditor
         public virtual void AddItemsToMenu(GenericMenu menu)
         {
             menu.AddItem(new GUIContent("Detach in window"), false, DetachAsWindow);
+            menu.AddSeparator("");
             menu.AddItem(new GUIContent("Visualize script"), false, ScriptOpener, this.GetType());
+            menu.AddSeparator("");
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void DetachAsWindow()
@@ -640,7 +642,7 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         static NWDExmpleSplitView TestWindow = null;
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem("TEST/test split", false, 21)]
+        //[MenuItem("TEST/test split", false, 21)]
         static public void AndroidShowActivityIndicatorOnLoading()
         {
             if (TestWindow == null)

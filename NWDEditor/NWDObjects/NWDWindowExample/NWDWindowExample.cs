@@ -36,7 +36,7 @@ namespace NetWorkedData.NWDEditor
 	public class NWDWindowExample : NWDBasisWindow <NWDWindowExample>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		//[MenuItem (NWDConstants.K_MENU_BASE + "NWDWindowExample_Name" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 12345)]
+		//[MenuItem (NWDConstants.K_MENU_ALL_CLASSES + "NWDWindowExample_Name" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, NWDEditorMenu.K_CUSTOMS_MANAGEMENT_INDEX + 1)]
 		public static void MenuMethod ()
 		{
             ShowWindow();
