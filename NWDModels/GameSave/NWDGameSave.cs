@@ -27,12 +27,6 @@ using NetWorkedData.NWDEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDGameDomain : int
-    {
-        Account = 0,
-        GameSave = 1,
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassTrigrammeAttribute("GSV")]
     [NWDClassDescriptionAttribute("Game Save")]
     [NWDClassMenuNameAttribute("Game Save")]
