@@ -46,8 +46,9 @@ namespace NetWorkedData
             }
             GUILayout.BeginVertical();
             GUILayout.Label(ClassMenuName, EditorStyles.boldLabel);
+            EditorGUILayout.HelpBox(ClassDescription, MessageType.None);
             GUILayout.Label("Webservice last version generated for this Class  is " + LastWebBuild.ToString() + " ( App use Webservice " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + ")");
-            GUILayout.Label(ClassDescription);
+
             NWDGUILayout.Separator();
             foreach (KeyValuePair<int, string> tModels in WebModelSQLOrder)
             {
@@ -58,16 +59,13 @@ namespace NetWorkedData
             {
                 if (NWDGUILayout.AlertBoxButton(NWDConstants.K_ALERT_SALT_SHORT_ERROR, NWDConstants.K_APP_CLASS_SALT_REGENERATE))
                 {
-                    DeleteOldsModels();
                     NWDEditorWindow.GenerateCSharpFile();
-                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                     GUIUtility.ExitGUI();
                 }
             }
             if (string.IsNullOrEmpty(TablePrefix) == false)
             {
                 GUILayout.Label(new GUIContent("Prefixe Table in WS : " + TablePrefix));
-                //tHelper.TablePrefix = EditorGUILayout.TextField(new GUIContent("Prefixe Table in WS"), tHelper.TablePrefix);
             }
             if (TablePrefix != TablePrefixOld)
             {

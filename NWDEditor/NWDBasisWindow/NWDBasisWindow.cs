@@ -353,7 +353,7 @@ namespace NetWorkedData.NWDEditor
                     mTabSelected = tTabSelected;
                     // DRAW TABLE!
                     SplitArea.BeginAreaOne();
-                    NWDBasisHelper.FindTypeInfos(tType).DrawInEditor(this, tAreaTable, tAutoselect);
+                    NWDBasisHelper.FindTypeInfos(tType).DrawInEditor(this, tAreaTable, tAreaTableOrign, tAutoselect);
                     SplitArea.EndAreaOne();
                     // DRAW PANEL!
                     NWDBasisHelper.FindTypeInfos(tType).ActivePanel(mPanelSelected);

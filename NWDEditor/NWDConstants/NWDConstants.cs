@@ -389,9 +389,9 @@ namespace NetWorkedData
         public const string K_APP_TABLE_SEARCH_RELOAD = "Reload all datas";
 
         //-------------------------------------------------------------------------------------------------------------
-        public const string K_APP_TABLE_NO_SELECTED_OBJECT = "No selected object";
-        public const string K_APP_TABLE_ONE_SELECTED_OBJECT = "1 selected object";
-        public const string K_APP_TABLE_XX_SELECTED_OBJECT = " selected objects";
+        public const string K_APP_TABLE_NO_SELECTED_OBJECT = "No selected data";
+        public const string K_APP_TABLE_ONE_SELECTED_OBJECT = "1 selected data";
+        public const string K_APP_TABLE_XX_SELECTED_OBJECT = " selected datas";
         public const string K_APP_TABLE_SELECT_ALL = "Select all";
         public const string K_APP_TABLE_DESELECT_ALL = "Deselect all";
         public const string K_APP_TABLE_INVERSE = "Inverse";
@@ -406,10 +406,10 @@ namespace NetWorkedData
         public const string K_APP_TABLE_EXPORT_TRANSLATION = "Export localization";
         public const string K_APP_TABLE_DELETE_WARNING = "Warning";
         public const string K_APP_TABLE_DELETE_BUTTON = "Delete";
-        public const string K_APP_TABLE_DELETE_NO_OBJECT = "No object to delete !?";
-        public const string K_APP_TABLE_DELETE_ONE_OBJECT = "Do you want to delete this object? Delete object affect only the local database and not the servers and players. Loacl delete can be restaure exept forcing the sync. Prefer trash object to trash it everywhere";
+        public const string K_APP_TABLE_DELETE_NO_OBJECT = "No data to delete !?";
+        public const string K_APP_TABLE_DELETE_ONE_OBJECT = "Do you want to delete this data? Delete data affect only the local database and not the servers and players. Local delete can be restaure exept forcing the sync. Prefer trash data to trash it everywhere";
         public const string K_APP_TABLE_DELETE_X_OBJECTS_A = "Do you want to delete these ";
-        public const string K_APP_TABLE_DELETE_X_OBJECTS_B = " objects?";
+        public const string K_APP_TABLE_DELETE_X_OBJECTS_B = " datas?";
         public const string K_APP_TABLE_DELETE_ALERT = "Warning";
         public const string K_APP_TABLE_DELETE_YES = "Yes";
         public const string K_APP_TABLE_DELETE_NO = "No";
@@ -418,28 +418,28 @@ namespace NetWorkedData
         public const string K_APP_TABLE_UNTRASH_ZONE = "Untrash";
         public const string K_APP_TABLE_REINTEGRATE_ZONE = "Reintegrate";
 
-        public const string K_APP_TABLE_TRASH_NO_OBJECT = "No object to put in trash !?";
-        public const string K_APP_TABLE_TRASH_ONE_OBJECT = "Do you want to put in trash this object?";
+        public const string K_APP_TABLE_TRASH_NO_OBJECT = "No data to put in trash !?";
+        public const string K_APP_TABLE_TRASH_ONE_OBJECT = "Do you want to put in trash this data?";
         public const string K_APP_TABLE_TRASH_X_OBJECT_A = "Do you want to put in trash these ";
-        public const string K_APP_TABLE_TRASH_X_OBJECT_B = " objects?";
+        public const string K_APP_TABLE_TRASH_X_OBJECT_B = " datas?";
         public const string K_APP_TABLE_TRASH_ALERT = "Warning";
         public const string K_APP_TABLE_TRASH_YES = "Yes";
         public const string K_APP_TABLE_TRASH_NO = "No";
 
 
-        public const string K_APP_TABLE_UNTRASH_NO_OBJECT = "No object to get out of trash !?";
-        public const string K_APP_TABLE_UNTRASH_ONE_OBJECT = "Do you want to get out of trash this object?";
+        public const string K_APP_TABLE_UNTRASH_NO_OBJECT = "No data to get out of trash !?";
+        public const string K_APP_TABLE_UNTRASH_ONE_OBJECT = "Do you want to get out of trash this data?";
         public const string K_APP_TABLE_UNTRASH_X_OBJECT_A = "Do you want to get out of trash these ";
-        public const string K_APP_TABLE_UNTRASH_X_OBJECT_B = " objects?";
+        public const string K_APP_TABLE_UNTRASH_X_OBJECT_B = " datas?";
         public const string K_APP_TABLE_UNTRASH_ALERT = "Warning";
         public const string K_APP_TABLE_UNTRASH_YES = "Yes";
         public const string K_APP_TABLE_UNTRASH_NO = "No";
 
 
-        public const string K_APP_TABLE_REINTEGRATE_NO_OBJECT = "No object to reintegrate !?";
-        public const string K_APP_TABLE_REINTEGRATE_ONE_OBJECT = "Do you want to reintegrate this object?";
+        public const string K_APP_TABLE_REINTEGRATE_NO_OBJECT = "No data to reintegrate !?";
+        public const string K_APP_TABLE_REINTEGRATE_ONE_OBJECT = "Do you want to reintegrate this data?";
         public const string K_APP_TABLE_REINTEGRATE_X_OBJECT_A = "Do you want to reintegrate these ";
-        public const string K_APP_TABLE_REINTEGRATE_X_OBJECT_B = " objects?";
+        public const string K_APP_TABLE_REINTEGRATE_X_OBJECT_B = " datas?";
         public const string K_APP_TABLE_REINTEGRATE_ALERT = "Warning";
         public const string K_APP_TABLE_REINTEGRATE_YES = "Yes";
         public const string K_APP_TABLE_REINTEGRATE_NO = "No";
@@ -454,12 +454,12 @@ namespace NetWorkedData
         public const string K_APP_TABLE_RESET_NO = "No, cancel!";
 
         public const string K_APP_TABLE_PAGINATION = "Pagination";
-        public const string K_APP_TABLE_NO_OBJECT = "No object in database";
-        public const string K_APP_TABLE_ONE_OBJECT = "Only 1 object in database";
-        public const string K_APP_TABLE_X_OBJECTS = " objects in database";
-        public const string K_APP_TABLE_NO_OBJECT_FILTERED = "No object match";
-        public const string K_APP_TABLE_ONE_OBJECT_FILTERED = "1 object in result";
-        public const string K_APP_TABLE_X_OBJECTS_FILTERED = " objects in result";
+        public const string K_APP_TABLE_NO_OBJECT = "No data in database";
+        public const string K_APP_TABLE_ONE_OBJECT = "Only 1 data in database";
+        public const string K_APP_TABLE_X_OBJECTS = " datas in database";
+        public const string K_APP_TABLE_NO_OBJECT_FILTERED = "No data match";
+        public const string K_APP_TABLE_ONE_OBJECT_FILTERED = "1 data in result";
+        public const string K_APP_TABLE_X_OBJECTS_FILTERED = " datas in result";
         public const string K_APP_TABLE_TOOLS_ZONE = "Table Tools";
         //public const string K_APP_TABLE_DATAS_ARE_NOT_LOADING_ZONE = "DATAS ARE NOT LOADING";
         public const string K_APP_TABLE_SHOW_TOOLS = "Show tools";
