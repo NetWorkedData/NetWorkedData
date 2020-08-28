@@ -54,8 +54,8 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UAV")]
     [NWDClassDescriptionAttribute("Avatar composer for user")]
     [NWDClassMenuNameAttribute("User Avatar")]
-    [NWDClassClusterAttribute(1, 32)]
 #if UNITY_EDITOR
+    [NWDClassClusterAttribute(1, 32)]
     [NWDWindowOwner(typeof(NWDUserWindow))]
 #endif
     public partial class NWDUserAvatar : NWDBasisGameSaveDependent

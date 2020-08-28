@@ -56,8 +56,8 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("This class create a data for user's nickname (user is player for an Account + GameSave)." +
         " It generate a UniqueNickname when synchronise on the cluster with the challenge selected.")]
     [NWDClassMenuNameAttribute("User Nickname")]
-    [NWDClassClusterAttribute(1, 32)]
 #if UNITY_EDITOR
+    [NWDClassClusterAttribute(1, 32)]
     [NWDWindowOwner(typeof(NWDUserWindow))]
 #endif
     public partial class NWDUserNickname : NWDBasisGameSaveDependent
