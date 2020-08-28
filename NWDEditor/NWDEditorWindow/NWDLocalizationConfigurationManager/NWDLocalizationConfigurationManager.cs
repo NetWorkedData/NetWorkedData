@@ -78,16 +78,17 @@ namespace NetWorkedData.NWDEditor
             NWDGUILayout.Title(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA);
             //NWDGUILayout.Informations("Some informations");
             //NWDGUILayout.Line();
-            _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            //_kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition,false,true,GUIStyle.none,GUI.skin.verticalScrollbar);
 
             NWDGUILayout.Section(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA);
             Dictionary<string, string> tLanguageDico = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguageDico;
             //NWDGUILayout.Label("Select the languages of multi-localizable field in editor.");
             GUILayout.BeginHorizontal();
             List<string> tResult = new List<string>();
-            float tToggleWidth = 140.0f;
+            float tToggleWidth = 160.0f;
             int tColunm = 0;
-            int tColunmMax = Mathf.CeilToInt(tWidthUsed / tToggleWidth) - 1;
+            int tColunmMax = Mathf.CeilToInt((tWidthUsed-NWDGUI.kScrollbar) / tToggleWidth) - 1;
             if (tColunmMax < 1)
             {
                 tColunmMax = 1;
@@ -191,7 +192,7 @@ namespace NetWorkedData.NWDEditor
             NWDBenchmark.Start();
             if (_kSharedInstance == null)
             {
-                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDLocalizationConfigurationManager), ShowAsUtility()) as NWDLocalizationConfigurationManager;
+                _kSharedInstance = EditorWindow.GetWindow(typeof(NWDLocalizationConfigurationManager), ShowAsWindow()) as NWDLocalizationConfigurationManager;
             }
             NWDBenchmark.Finish();
             return _kSharedInstance;
