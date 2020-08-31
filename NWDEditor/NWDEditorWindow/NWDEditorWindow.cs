@@ -412,6 +412,7 @@ namespace NetWorkedData.NWDEditor
         {
             //Debug.Log("Before Assembly Reload");
             NWDBenchmark.Start();
+            //NWDLauncher.TimeFinish = 0;
             if (NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_SHOW_COMPILE, true) == true)
             {
                 if (AllWindowsList != null)
@@ -433,6 +434,7 @@ namespace NetWorkedData.NWDEditor
         {
             //Debug.Log("After Assembly Reload");
             NWDBenchmark.Start();
+            //NWDLauncher.TimeFinish = 0;
             if (NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_SHOW_COMPILE, true) == true)
             {
                 if (AllWindowsList != null)
@@ -476,18 +478,18 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public void ShowMe()
         {
-            Debug.Log("ShowMe");
+            //Debug.Log("ShowMe");
             switch (NWDProjectConfigurationManagerContent.GetWindowStyle())
             {
                 case NWDWindowStyle.Tab:
                     {
-                        Debug.Log(" as tab");
+                        //Debug.Log(" as tab");
                         Show();
                     }
                     break;
                 case NWDWindowStyle.Window:
                     {
-                        Debug.Log(" as Window");
+                        //Debug.Log(" as Window");
                         ShowUtility();
                     }
                     break;

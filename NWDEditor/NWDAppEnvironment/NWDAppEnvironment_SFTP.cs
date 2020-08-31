@@ -33,11 +33,6 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAppEnvironment
     {
-        //public string SFTPHost = string.Empty;
-        //public int SFTPPort = 22;
-        //public string SFTPFolder = string.Empty;
-        //public string SFTPUser = string.Empty;
-        //public string SFTPPassword = string.Empty;
         //-------------------------------------------------------------------------------------------------------------
         public void SetMaintenance(bool sMaintenance)
         {

@@ -41,7 +41,6 @@ namespace NetWorkedData.NWDEditor
         public void OnEnable()
         {
             //NWDBenchmark.Start();
-            // Init Title and icon 
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
@@ -115,9 +114,6 @@ namespace NetWorkedData.NWDEditor
     {
         //-------------------------------------------------------------------------------------------------------------
         public List<NWDTypeClass> Datas = null;
-        List<int> TagIntList = new List<int>();
-        List<string> TagStringList = new List<string>();
-        //-------------------------------------------------------------------------------------------------------------
         public string InternalResearch = "";
         public string DescriptionResearch = "";
         public NWDBasisTag Tag;
@@ -125,13 +121,16 @@ namespace NetWorkedData.NWDEditor
         public bool DisableDatas = true;
         public bool TrashedDatas = true;
         public bool CorruptedDatas = true;
+        public string kPreferencePrefix;
+        //-------------------------------------------------------------------------------------------------------------
+        List<int> TagIntList = new List<int>();
+        List<string> TagStringList = new List<string>();
         List<NWDTypeClass> ResultList = new List<NWDTypeClass>();
-        string ActualSelection; // by reference string
+        string ActualSelection;
         GUIStyle RowSytle = null;
         NWDBasisHelper Helper;
         bool PrefReccord = false;
         bool NeedInitDesing = true;
-        public string kPreferencePrefix;
         //-------------------------------------------------------------------------------------------------------------
         private string PreferenceKey<T>(Expression<Func<T>> sProperty)
         {
@@ -140,6 +139,7 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         private void LoadPreference()
         {
+            //NWDBenchmark.Start();
             if (Helper != null)
             {
                 if (NWDProjectPrefs.GetBool(PreferenceKey(() => PrefReccord)) == true)
@@ -162,10 +162,12 @@ namespace NetWorkedData.NWDEditor
                     CorruptedDatas = true;
                 }
             }
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void SavePreference()
         {
+            //NWDBenchmark.Start();
             if (Helper != null)
             {
                 NWDProjectPrefs.SetBool(PreferenceKey(() => PrefReccord), true);
@@ -178,6 +180,7 @@ namespace NetWorkedData.NWDEditor
                 NWDProjectPrefs.SetInt(PreferenceKey(() => Tag), (int)Tag);
                 NWDProjectPrefs.SetFloat(PreferenceKey(() => kZoom), kZoom);
             }
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
 
@@ -188,8 +191,6 @@ namespace NetWorkedData.NWDEditor
             NWDGUI.LoadStyles();
             string tReference = sReference;
             int tID = GUIUtility.GetControlID(sContent, FocusType.Keyboard, sRect);
-            //Debug.Log("Field with selection : " + sReference + " control id : " + tID.ToString());
-
             Event tEvent = Event.current;
             EventType tEventType = tEvent.type;
             if (tEventType != EventType.Repaint)
@@ -226,7 +227,6 @@ namespace NetWorkedData.NWDEditor
             {
                 NWDGUI.BeginRedArea();
                 GUI.Label(tField, sDataLabel, NWDGUI.kDataSelectorFieldStyle);
-                //EditorGUI.BeginDisabledGroup(true);
                 if (GUI.Button(tEditRect, NWDGUI.kCleanContentIcon, NWDGUI.kEditButtonStyle))
                 {
                     if (ControllerResult.ContainsKey(tID))
@@ -235,7 +235,6 @@ namespace NetWorkedData.NWDEditor
                     }
                     ControllerResult.Add(tID, string.Empty);
                 }
-                //EditorGUI.EndDisabledGroup();
                 NWDGUI.EndRedArea();
             }
             else
@@ -319,8 +318,10 @@ namespace NetWorkedData.NWDEditor
                                 NWDDatasSelectorBlock sSelectedBlock = null,
                                 string sSelection = "")
         {
+            //NWDBenchmark.Start();
             NWDDatasSelector rReturn = new NWDDatasSelector();
             rReturn.Show(sHelper, sID, sInitialInternalResearch, sInitialDescriptionResearch, sTag, sSelectedBlock, sSelection);
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         static public void ShowNow(NWDBasisHelper sHelper, string sInitialInternalResearch = "",
@@ -329,8 +330,10 @@ namespace NetWorkedData.NWDEditor
                                 NWDDatasSelectorBlock sSelectedBlock = null,
                                 string sSelection = "")
         {
+            //NWDBenchmark.Start();
             NWDDatasSelector rReturn = new NWDDatasSelector();
             rReturn.Show(sHelper, -2, sInitialInternalResearch, sInitialDescriptionResearch, sTag, sSelectedBlock, sSelection);
+            //NWDBenchmark.Finish();
         }
 
         //-------------------------------------------------------------------------------------------------------------
@@ -340,9 +343,11 @@ namespace NetWorkedData.NWDEditor
                                 NWDDatasSelectorBlock sSelectedBlock = null,
                                 string sSelection = "")
         {
+            //NWDBenchmark.Start();
             NWDDatasSelector rReturn = new NWDDatasSelector();
             rReturn.Datas = sDatas;
             rReturn.Show(sHelper, -2, sInitialInternalResearch, sInitialDescriptionResearch, sTag, sSelectedBlock, sSelection);
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Show(NWDBasisHelper sHelper, string sInitialInternalResearch = "",
@@ -351,7 +356,9 @@ namespace NetWorkedData.NWDEditor
                             NWDDatasSelectorBlock sSelectedBlock = null,
                             string sSelection = "")
         {
+            //NWDBenchmark.Start();
             Show(sHelper, -2, sInitialInternalResearch, sInitialDescriptionResearch, sTag, sSelectedBlock, sSelection);
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Show(NWDBasisHelper sHelper, int sID, string sInitialInternalResearch = "",
@@ -422,7 +429,6 @@ namespace NetWorkedData.NWDEditor
         {
             //NWDBenchmark.Start();
             LoadPreference();
-
             // Tag management
             foreach (KeyValuePair<int, string> tTag in NWDAppConfiguration.SharedInstance().TagList)
             {
@@ -456,34 +462,6 @@ namespace NetWorkedData.NWDEditor
             foreach (NWDTypeClass tItem in Datas)
             {
                 bool tInclude = true;
-                //if (tItem.IsEnable() == EnableDatas)
-                //{
-                //    tInclude = true;
-                //}
-                //if (DisableDatas == true)
-                //{
-                //    if (tItem.IsEnable() == false)
-                //    {
-                //        if (TrashedDatas == false)
-                //        {
-                //            if (tItem.IsTrashed() == false)
-                //            {
-                //                tInclude = true;
-                //            }
-                //        }
-                //        else
-                //        {
-                //            tInclude = true;
-                //        }
-                //    }
-                //}
-                //if (CorruptedDatas == false)
-                //{
-                //    tInclude = tItem.TestIntegrityResult;
-                //}
-
-
-
                 if (tItem.TestIntegrityResult == false && CorruptedDatas == false)
                 {
                     tInclude = false;
@@ -500,9 +478,6 @@ namespace NetWorkedData.NWDEditor
                 {
                     tInclude = false;
                 }
-
-
-
                 if (tItem.InternalKey.ToLower().Contains(tIntLower) == false)
                 {
                     tInclude = false;
@@ -535,12 +510,9 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         private void DesignChange()
         {
-            //NWDGUI.kSelectorTileDarkStyle.fixedHeight = kZoomHeightInt;
-            //NWDGUI.kSelectorTileDarkStyle.fixedWidth = kZoomHeightInt;
+            //NWDBenchmark.Start();
             if (kZoom <= kZoomRowLimit)
             {
-                //float tWidthRow = (SelectorWindow.position.width - NWDGUI.kScrollbar);
-                //NWDGUI.kDatasSelectorRowStyle.fixedWidth = tWidthRow;
                 NWDGUI.kDataSelectorRowStyle.fixedHeight = kZoom * NWDGUI.kDataSelectorFieldStyle.fixedHeight;
                 RowSytle = NWDGUI.kDataSelectorRowStyle;
             }
@@ -551,11 +523,12 @@ namespace NetWorkedData.NWDEditor
                 NWDGUI.kDataSelectorTileStyle.fixedWidth = kZoomHeightInt;
                 RowSytle = NWDGUI.kDataSelectorTileStyle;
             }
-
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void OnGUI()
         {
+            //NWDBenchmark.Start();
             NWDGUI.LoadStyles();
             if (NeedInitDesing == true)
             {
@@ -563,15 +536,11 @@ namespace NetWorkedData.NWDEditor
                 NeedInitDesing = false;
             }
 
-
             GUILayout.BeginHorizontal();
             GUILayout.BeginVertical(GUILayout.Width(NWDGUI.kIconWidth));
             GUILayout.Label(Helper.TextureOfClass(), GUILayout.Width(NWDGUI.kIconWidth), GUILayout.Height(NWDGUI.kIconWidth));
             GUILayout.EndVertical();
             GUILayout.BeginVertical();
-            //NWDBenchmark.Start();
-            //Vector2 tSelectionVector = SelectorWindow.ScrollPosition;
-            //Debug.Log("OnGUI with selection : " + ActualSelection);
             string tNewInternalResearch = EditorGUILayout.TextField("Internal filter", InternalResearch);
             if (tNewInternalResearch != InternalResearch)
             {
@@ -637,8 +606,6 @@ namespace NetWorkedData.NWDEditor
             {
                 tByTile = true;
             }
-            //SelectorWindow.ScrollPosition = GUILayout.BeginScrollView(SelectorWindow.ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(false), GUILayout.ExpandHeight(true));
-            //SelectorWindow.ScrollPosition = GUILayout.BeginScrollView(SelectorWindow.ScrollPosition,false,true, GUILayout.ExpandWidth(false), GUILayout.ExpandHeight(true));
             SelectorWindow.ScrollPosition = GUILayout.BeginScrollView(SelectorWindow.ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             {
                 float tWidth = (SelectorWindow.position.width - NWDGUI.kScrollbar - NWDGUI.kFieldMarge);
@@ -677,10 +644,8 @@ namespace NetWorkedData.NWDEditor
                         GUIContent Content = tItem.Content;
                         if (Content == null)
                         {
-                            //Content = new GUIContent(tItem.InternalKey, tItem.PreviewTexture2D(), tItem.InternalDescription);
                             Content = new GUIContent(tItem.InternalKey, tItem.PreviewTexture2D(), tItem.Reference + " : " + tItem.InternalDescription);
                         }
-                        //GUIContent Content = tItem.Content;
                         if (ActualSelection == tItem.Reference)
                         {
                             NWDGUI.BeginColorArea(NWDGUI.kRowColorSelectedDark);
@@ -719,6 +684,7 @@ namespace NetWorkedData.NWDEditor
                 }
             }
             GUILayout.EndScrollView();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

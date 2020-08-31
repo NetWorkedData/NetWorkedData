@@ -197,25 +197,25 @@ namespace NetWorkedData.NWDEditor
         {
             base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
-            NWDGUILayout.Title("Project preferences");
+            NWDGUILayout.Title("Project configurations");
             // start scroll
             _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
 
             EditorGUI.BeginChangeCheck();
 
             //User preferences
-            NWDGUILayout.Section("User's preferences");
+            NWDGUILayout.Section("User's configurations");
             UserName = EditorGUILayout.TextField("Username", UserName);
             EditorGUILayout.LabelField("System infos", SystemInfo.deviceUniqueIdentifier);
 
             //General preferences
-            NWDGUILayout.SubSection("General preferences");
+            NWDGUILayout.SubSection("General");
             EditorWindowStyle = (NWDWindowStyle)EditorGUILayout.EnumPopup("Window Style", EditorWindowStyle);
             ShowCompile = EditorGUILayout.Toggle("Show re-compile ", ShowCompile);
             PanelWidth = EditorGUILayout.IntSlider("Panel data width", PanelWidth, 300, 400);
 
             // build preference section
-            NWDGUILayout.SubSection("Build preferences");
+            NWDGUILayout.SubSection("Build");
             //define environment build
             EditorBuildEnvironment = (NWDEditorBuildEnvironment)EditorGUILayout.EnumPopup("Build Environment", EditorBuildEnvironment);
             // define rename option
@@ -224,7 +224,7 @@ namespace NetWorkedData.NWDEditor
             EditorBuildDatabaseUpdate = (NWDEditorBuildDatabaseUpdate)EditorGUILayout.EnumPopup("Copy database in build", EditorBuildDatabaseUpdate);
 
             // build Debug section
-            NWDGUILayout.SubSection("Debug and Benchmark in Editor");
+            NWDGUILayout.SubSection("Debug and Benchmark");
             NWDGUILayout.Informations("Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)");
             Clipboard = EditorGUILayout.ToggleLeft("Copy NWDDebug.Log in clipoard", Clipboard);
             BenchmarkShowStart = EditorGUILayout.ToggleLeft("Benchmark show start", BenchmarkShowStart);
@@ -277,7 +277,7 @@ namespace NetWorkedData.NWDEditor
                 Save();
             }
 
-            NWDGUILayout.Section("Shared project's preferences");
+            NWDGUILayout.Section("Shared project's configurations");
             NWDGUILayout.SubSection("Webhook URL");
             NWDAppConfiguration.SharedInstance().SlackWebhookURL = EditorGUILayout.TextField("Webhook URL", NWDAppConfiguration.SharedInstance().SlackWebhookURL);
             EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().SlackWebhookURL));

@@ -7,8 +7,8 @@
 // Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
 #if NWD_VERBOSE
 #if UNITY_EDITOR
-#define NWD_LOG
-#define NWD_BENCHMARK
+//#define NWD_LOG
+//#define NWD_BENCHMARK
 #elif DEBUG
 //#define NWD_LOG
 //#define NWD_BENCHMARK
@@ -42,22 +42,29 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         static public void ShowDialog(string sTitle, string sMessage, MessageType sDialogType, NWDDataManagerDialogDelegate sDelegate)
         {
+            //NWDBenchmark.Start();
             ShowDialog(sTitle, sMessage, sDialogType, false, sDelegate);
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         static public void ShowDialogConfirm(string sTitle, string sMessage, MessageType sDialogType, NWDDataManagerDialogDelegate sDelegate)
         {
+            //NWDBenchmark.Start();
             ShowDialog(sTitle, sMessage, sDialogType, true, sDelegate);
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         static private void ShowDialog(string sTitle, string sMessage, MessageType sDialogType, bool sVerif, NWDDataManagerDialogDelegate sDelegate)
         {
+            //NWDBenchmark.Start();
             NWDDataManagerDialog tWindow = ScriptableObject.CreateInstance(typeof(NWDDataManagerDialog)) as NWDDataManagerDialog;
             tWindow.Show(sTitle, sMessage, sDialogType, sVerif, sDelegate);
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void Show(string sTitle, string sMessage, MessageType sDialogType, bool sVerif, NWDDataManagerDialogDelegate sDelegate)
         {
+            //NWDBenchmark.Start();
             Title = sTitle;
             Message = sMessage;
             DialogType = sDialogType;
@@ -65,27 +72,33 @@ namespace NetWorkedData.NWDEditor
             Verif = sVerif;
             ShowUtility();
             Focus();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void OnLostFocus()
         {
-            // force focus on this window!
+            //NWDBenchmark.Start();
             if (Closable == false)
             {
                 Focus();
             }
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
+            //NWDBenchmark.Start();
             titleContent = new GUIContent(Title);
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnDestroy()
         {
+            //NWDBenchmark.Start();
             if (Closable == false)
             {
             };
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public string GetValue()

@@ -52,18 +52,12 @@ namespace NetWorkedData
         public string PHP_FUNCTION_INTEGRITY_GENERATE() { return ClassNamePHP + "IntegrityGenerate"; }
         public string PHP_FUNCTION_INTEGRITY_REEVALUATE() { return ClassNamePHP + "IntegrityReevalue"; }
         public string PHP_FUNCTION_MODIFY_AND_INTEGRATE() { return ClassNamePHP + "ModifyAndIntegrityReevalue"; }
-        /// <summary>
-        ///  ($sWhere, $sArray_assoc)
-        ///  
-        /// </summary>
-        /// <returns></returns>
         public string PHP_FUNCTION_MODIFY_WHERE_INTEGRATE() { return ClassNamePHP + "ModifyWhereIntegrityReevalue"; }
         public string PHP_FUNCTION_INTEGRITY_SERVER_VALIDATE() { return ClassNamePHP + "IntegrityServerValidate"; }
         public string PHP_FUNCTION_INTEGRITY_SERVER_VALIDATE_BY_ROW() { return ClassNamePHP + "IntegrityServerValidateByRow"; }
         public string PHP_FUNCTION_INTEGRITY_VALIDATE() { return ClassNamePHP + "IntegrityValidate"; }
         public string PHP_FUNCTION_INTEGRITY_VALIDATE_BY_ROW() { return ClassNamePHP + "IntegrityValidateByRow"; }
         public string PHP_FUNCTION_UPDATE_DATA() { return ClassNamePHP + "UpdateData"; }
-        //public string PHP_FUNCTION_ANTICHEAT_DATA() { return ClassNamePHP + "AntiCheatData"; }
         public string PHP_FUNCTION_FLUSH_TRASH_DATAS() { return ClassNamePHP + "FlushTrashedDatas"; }
         public string PHP_FUNCTION_GET_DATA_BY_REFERENCE() { return ClassNamePHP + "GetDataByReference"; }
         public string PHP_FUNCTION_GET_DATAS_BY_REFERENCES() { return ClassNamePHP + "GetDatasByReferences"; }
@@ -73,19 +67,16 @@ namespace NetWorkedData
         public string PHP_FUNCTION_DELETE_DATAS_BY_ACCOUNT() { return ClassNamePHP + "DeleteDatasByAccount"; }
         public string PHP_FUNCTION_SPECIAL() { return ClassNamePHP + "Special"; }
         public string PHP_FUNCTION_SYNCHRONIZE() { return ClassNamePHP + "Synchronize"; }
-
         public string PHP_FUNCTION_CREATE_TABLE() { return ClassNamePHP + "CreateTable"; }
         public string PHP_FUNCTION_CREATE_INDEX() { return ClassNamePHP + "CreateIndex"; }
         public string PHP_FUNCTION_CHANGE_TABLE_ENGINE() { return ClassNamePHP + "AlterTableEngine"; }
         public string PHP_FUNCTION_DEFRAGMENT_TABLE() { return ClassNamePHP + "DefragmentTable"; }
         public string PHP_FUNCTION_DROP_TABLE() { return ClassNamePHP + "DropTable"; }
         public string PHP_FUNCTION_FLUSH_TABLE() { return ClassNamePHP + "FlushTable"; }
-
         public string PHP_CONSTANT_SALT_A() { return "$" + ClassNamePHP + "SaltA"; }
         public string PHP_CONSTANT_SALT_B() { return "$" + ClassNamePHP + "SaltB"; }
         public string PHP_CONSTANT_WEBSERVICE() { return "$" + ClassNamePHP + "WebService"; }
         public string PHP_CONSTANT_SIGN() { return "$" + ClassNamePHP + "Sign"; }
-
         //-------------------------------------------------------------------------------------------------------------
         //public string PHP_CONSTANT_TABLENAME() { return "'." + NWD.K_ENV + ".'_" + ClassTableName; }
         public string PHP_ENV_SYNC(NWDAppEnvironment sEnvironment)
@@ -177,8 +168,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private string PropertyInfoToSQLType(PropertyInfo sPropertyInfo)
         {
-            //Debug.Log("PropertyInfoToSQLType for " + sPropertyInfo.Name + "");
-            //string rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
             string rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT \\'\\' ";
             Type tTypeOfThis = sPropertyInfo.PropertyType;
 
@@ -207,13 +196,10 @@ namespace NetWorkedData
                 if (sPropertyInfo.GetCustomAttribute<NWDVarChar>() != null)
                 {
                     NWDVarChar tNWDVarChar = sPropertyInfo.GetCustomAttribute<NWDVarChar>();
-                    //Debug.Log("Find NWDVarChar : " + tNWDVarChar.CharNumber + "");
-                    //rReturn = "VARCHAR(" + tNWDVarChar.CharNumber.ToString() + ") CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
                     rReturn = "VARCHAR(" + tNWDVarChar.CharNumber.ToString() + ") CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT \\'\\' ";
                 }
                 else
                 {
-                    //rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
                     rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT \\'\\' ";
                 }
             }
@@ -224,13 +210,10 @@ namespace NetWorkedData
                     if (sPropertyInfo.GetCustomAttribute<NWDVarChar>() != null)
                     {
                         NWDVarChar tNWDVarChar = sPropertyInfo.GetCustomAttribute<NWDVarChar>();
-                        //Debug.Log("Find NWDVarChar : " + tNWDVarChar.CharNumber + "");
-                        //rReturn = "VARCHAR(" + tNWDVarChar.CharNumber.ToString() + ") CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
                         rReturn = "VARCHAR(" + tNWDVarChar.CharNumber.ToString() + ") CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT \\'\\' ";
                     }
                     else
                     {
-                        //rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
                         rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT \\'\\' ";
                     }
                 }

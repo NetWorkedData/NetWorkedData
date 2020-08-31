@@ -42,8 +42,8 @@ namespace NetWorkedData.NWDEditor
 #if NWD_USER_NETWORKING
             typeof(NWDUserNetWorking),
 #endif
-            typeof(NWDBasisPreferences),
-            typeof(NWDRequestToken),
+            //typeof(NWDBasisPreferences),
+            //typeof(NWDRequestToken),
             typeof(NWDIPBan),
         }
     )]

@@ -184,7 +184,7 @@ namespace NetWorkedData
             if (GUI.Button(sInRect, "Environment chooser", NWDGUI.kMiniButtonStyle))
             {
                 //NWDEditorMenu.EnvironementChooserShow();
-                NWDEditorMenu.EnvironmentChooserWindow();
+                NWDEditorMenu.ChooserWindow();
             }
             sInRect.y += sInRect.height + NWDGUI.kFieldMarge;
         }

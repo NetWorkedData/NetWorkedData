@@ -91,7 +91,7 @@ namespace NetWorkedData
             }
             if (EngineVersion != null)
             {
-                EngineVersion.text = "NeWeeDy " + NWDAppConfiguration.Version + "-" + NWDAppConfiguration.SharedInstance().SelectedEnvironment().Environment;
+                EngineVersion.text = "NeWeeDy " + NWDEngineVersion.Version + "-" + NWDAppConfiguration.SharedInstance().SelectedEnvironment().Environment;
             }
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -18,7 +18,6 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
-
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
@@ -117,7 +116,6 @@ namespace NetWorkedData
             StringBuilder rReturn = new StringBuilder(string.Empty);
             string tWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             DateTime tTime = DateTime.UtcNow;
-            //string tDateTimeString = NWDToolbox.DateTimeYYYYMMdd(tTime);
             string tDateTimeString = NWDToolbox.DateTimeYYYYMMddHHmmss(tTime);
             string tYearString = NWDToolbox.DateTimeYYYY(tTime);
             rReturn.AppendLine(NWD.K_CommentSeparator);
@@ -272,7 +270,6 @@ namespace NetWorkedData
             tConstantsFile.AppendLine("$NWD_SHA_VEC = '" + DataSHAVector.Replace("'", "'") + "';");
             tConstantsFile.AppendLine("$NWD_SLT_STR = '" + SaltStart.Replace("'", "\'") + "';");
             tConstantsFile.AppendLine("$NWD_SLT_END = '" + SaltEnd.Replace("'", "\'") + "';");
-            //tConstantsFile.AppendLine("" + NWD.K_NWD_SLT_SRV + " = '" + SaltServer.Replace("'", "\'") + "';");
             tConstantsFile.AppendLine("" + NWD.K_NWD_SLT_SRV + " = '" + tNWDCluster.SaltServer.Decrypt().Replace("'", "\'") + "';");
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("// CONSTANT FOR TEMPORAL SALT");
@@ -323,10 +320,6 @@ namespace NetWorkedData
             tConstantsFile.AppendLine("// CONSTANT TO CONNECT TO SQL DATABASE");
             tConstantsFile.AppendLine("global $K_ConnectAllDatabases;");
             tConstantsFile.AppendLine("$K_ConnectAllDatabases = false;");
-            //tConstantsFile.AppendLine("$SQL_HOT = '" + ServerHost.Replace("'", "\'") + "';");
-            //tConstantsFile.AppendLine("$SQL_USR = '" + ServerUser.Replace("'", "\'") + "';");
-            //tConstantsFile.AppendLine("$SQL_PSW = '" + ServerPassword.Replace("'", "\'") + "';");
-            //tConstantsFile.AppendLine("$SQL_BSE = '" + ServerBase.Replace("'", "\'") + "';");
             foreach (NWDServerDatabaseAuthentication tServerDatabase in NWDServerDatas.GetAllConfigurationServerDatabase(this))
             {
                 tConstantsFile.AppendLine("// Constant for ServerDatabase " + tServerDatabase.Title);
@@ -357,13 +350,6 @@ namespace NetWorkedData
             tConstantsFile.AppendLine("$NWD_RES_MAIL = '" + NWDCluster.SelectClusterforEnvironment(this).RescueEmail + "';");
             tConstantsFile.AppendLine("$NWD_APP_PRO = '" + AppProtocol.Replace("'", "\'") + "';");
             tConstantsFile.AppendLine("$NWD_APP_NAM = '" + AppName.Replace("'", "\'") + "';");
-            //tConstantsFile.AppendLine(NWD.K_CommentSeparator);
-            //tConstantsFile.AppendLine("// SOCIALS APP KEY AND SECRET KEY");
-            //tConstantsFile.AppendLine("// -- facebook");
-            //tConstantsFile.AppendLine("$NWD_FCB_AID = '" + FacebookAppID.Replace("'", "\'") + "'; // for " + Environment);
-            //tConstantsFile.AppendLine("$NWD_FCB_SRT = '" + FacebookAppSecret.Replace("'", "\'") + "'; // for " + Environment);
-            //tConstantsFile.AppendLine("// -- google");
-            //tConstantsFile.AppendLine("$NWD_GGO_AID = '" + GoogleAppKey.Replace("'", "\'") + "';");
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("" + NWD.K_ENV + " = '" + Environment + "';");
             tConstantsFile.AppendLine("" + NWD.K_ENV + "SYNC = '" + Environment + "Sync';");
@@ -377,7 +363,6 @@ namespace NetWorkedData
             tConstantsFile.AppendLine("global " + NWD.K_SQL_CON_EDITOR + ";");
             tConstantsFile.AppendLine("$SQL_CURRENT_DATABASE = NULL;");
             tConstantsFile.AppendLine("$SQL_CURRENT_ACCESSRANGE = -1;");
-            //tConstantsFile.AppendLine("$SQL_FAKE_ACCESSRANGE = -1;");
             tConstantsFile.AppendLine("global $UserRange;");
             tConstantsFile.AppendLine("$UserRange = -1;");
             tConstantsFile.AppendLine("global $admin;");
@@ -472,8 +457,6 @@ namespace NetWorkedData
             tWebServices.AppendLine("{");
             tWebServices.AppendLine("if(NWDRequestTokenIsValid($uuid,$token) == true)");
             tWebServices.AppendLine("{");
-            //tWebServices.AppendLine("if(TestBanAccount($uuid) == false)");
-            //tWebServices.AppendLine("{");
             // I need include ALL tables management files to manage ALL tables
             foreach (Type tType in NWDDataManager.SharedInstance().ClassSynchronizeList)
             {
@@ -486,25 +469,9 @@ namespace NetWorkedData
                     tWebServices.AppendLine("}");
                 }
             }
-            // I need to prevent Non synchronized class from editor
-            //if (this == NWDAppConfiguration.SharedInstance().DevEnvironment || this == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
-            //{
-            //    tWebServices.AppendLine("if ($admin == true)\n{");
-            //    foreach (Type tType in NWDDataManager.SharedInstance().ClassUnSynchronizeList)
-            //    {
-            //        tWebServices.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
-            //        tWebServices.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-            //        tWebServices.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
-            //        tWebServices.AppendLine("}");
-            //    }
-            //    tWebServices.AppendLine("}");
-            //}
-            //tWebServices.AppendLine("}");
             tWebServices.AppendLine("}");
             tWebServices.AppendLine("}");
             tWebServices.AppendLine(NWD.K_CommentSeparator);
-            //tWebServices.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_WS_FILE_ADDON + "');");
-            //tWebServices.AppendLine(NWD.K_CommentSeparator);
             tWebServices.AppendLine("// finish the generic process");
             tWebServices.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_FINISH_PHP + "');");
             tWebServices.AppendLine(NWD.K_CommentSeparator);
@@ -513,169 +480,6 @@ namespace NetWorkedData
             sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_WS_FILE, tFileFormatted);
             //NWDBenchmark.Finish();
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //private void CreatePHPWebservicesInsideFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
-        //{
-        //    //NWDBenchmark.Start();
-        //    StringBuilder tWebServicesAnnexe = new StringBuilder(string.Empty);
-        //    tWebServicesAnnexe.AppendLine("<?php");
-        //    tWebServicesAnnexe.AppendLine(Headlines());
-        //    tWebServicesAnnexe.AppendLine("// WEBSERVICES INSIDE");
-        //    tWebServicesAnnexe.AppendLine(NWD.K_CommentSeparator);
-        //    tWebServicesAnnexe.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
-        //    tWebServicesAnnexe.AppendLine("{");
-        //    // I need include ALL tables management files to manage ALL tables
-        //    foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
-        //    {
-        //        //string tClassName = NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP;
-        //        tWebServicesAnnexe.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
-        //        tWebServicesAnnexe.AppendLine("include_once ( " + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-        //        tWebServicesAnnexe.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
-        //        tWebServicesAnnexe.AppendLine("}");
-        //    }
-        //    // I need to prevent Non synchronized class from editor
-        //    if (this == NWDAppConfiguration.SharedInstance().DevEnvironment || this == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
-        //    {
-        //        tWebServicesAnnexe.AppendLine("if ($admin == true)\n{");
-        //        foreach (Type tType in NWDDataManager.SharedInstance().mTypeUnSynchronizedList)
-        //        {
-        //            //string tClassName = NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP;
-        //            tWebServicesAnnexe.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
-        //            tWebServicesAnnexe.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-        //            tWebServicesAnnexe.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
-        //            tWebServicesAnnexe.AppendLine("}");
-        //        }
-        //        tWebServicesAnnexe.AppendLine("}");
-        //    }
-        //    tWebServicesAnnexe.AppendLine("}");
-        //    tWebServicesAnnexe.AppendLine(NWD.K_CommentSeparator);
-        //    tWebServicesAnnexe.AppendLine("?>");
-        //    string tFileFormatted = NWDToolbox.CSharpFormat(tWebServicesAnnexe.ToString());
-        //    sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_WS_INSIDE_FILE, tFileFormatted);
-        //    //NWDBenchmark.Finish();
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //private void CreatePHPWebservicesAddonFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
-        //{
-        //    //NWDBenchmark.Start();
-        //    StringBuilder tWebServicesAddon = new StringBuilder(string.Empty);
-        //    tWebServicesAddon.AppendLine("<?php");
-        //    tWebServicesAddon.AppendLine(Headlines());
-        //    tWebServicesAddon.AppendLine("// WEBSERVICES ADDON");
-        //    tWebServicesAddon.AppendLine(NWD.K_CommentSeparator);
-        //    tWebServicesAddon.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
-        //    tWebServicesAddon.AppendLine("{");
-        //    // I need include ALL tables management files to manage ALL tables
-        //    foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
-        //    {
-        //        bool tCanBeAddoned = false;
-        //        foreach (Type tSecondType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
-        //        {
-        //            foreach (var tProp in tSecondType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-        //            {
-        //                if (tProp.GetCustomAttributes(typeof(NWDNeedReferenceAttribute), true).Length > 0)
-        //                {
-        //                    foreach (NWDNeedReferenceAttribute tReference in tProp.GetCustomAttributes(typeof(NWDNeedReferenceAttribute), true))
-        //                    {
-        //                        if (tReference.ClassName == tType.Name)
-        //                        {
-        //                            tCanBeAddoned = true;
-        //                            break;
-        //                        }
-        //                    }
-        //                }
-        //                if (tProp.GetCustomAttributes(typeof(NWDNeedUserAvatarAttribute), true).Length > 0)
-        //                {
-        //                    if (typeof(NWDUserAvatar).Name == tType.Name)
-        //                    {
-        //                        tCanBeAddoned = true;
-        //                    }
-        //                }
-        //                if (tProp.GetCustomAttributes(typeof(NWDNeedAccountNicknameAttribute), true).Length > 0)
-        //                {
-        //                    if (typeof(NWDAccountNickname).Name == tType.Name)
-        //                    {
-        //                        tCanBeAddoned = true;
-        //                    }
-        //                }
-        //                if (tCanBeAddoned == true)
-        //                {
-        //                    break;
-        //                }
-        //            }
-        //            if (tCanBeAddoned == true)
-        //            {
-        //                break;
-        //            }
-        //        }
-        //        if (tCanBeAddoned == true)
-        //        {
-        //            //string tClassName = NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP;
-        //            tWebServicesAddon.AppendLine("if (isset($REF_NEEDED['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
-        //            tWebServicesAddon.AppendLine("include_once ( " + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-        //            tWebServicesAddon.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_GET_DATAS_BY_REFERENCES() + "(array_keys($REF_NEEDED['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']));");
-        //            tWebServicesAddon.AppendLine("}");
-
-        //            if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tType))
-        //            {
-        //                tWebServicesAddon.AppendLine("if (isset($ACC_NEEDED['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\t\t{");
-        //                tWebServicesAddon.AppendLine("include_once ( " + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-        //                tWebServicesAddon.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_GET_DATAS_BY_ACCOUNT() + "(0, array_keys($ACC_NEEDED['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']));");
-        //                tWebServicesAddon.AppendLine("}");
-        //            }
-        //        }
-        //    }
-        //    tWebServicesAddon.AppendLine("}");
-        //    tWebServicesAddon.AppendLine(NWD.K_CommentSeparator);
-        //    tWebServicesAddon.AppendLine("?>");
-        //    string tFileFormatted = NWDToolbox.CSharpFormat(tWebServicesAddon.ToString());
-        //    sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_WS_FILE_ADDON, tFileFormatted);
-        //    //NWDBenchmark.Finish();
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //private void CreatePHPAccountServicesFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
-        //{
-        //    //NWDBenchmark.Start();
-        //    StringBuilder tAccountServices = new StringBuilder(string.Empty);
-        //    tAccountServices.AppendLine("<?php");
-        //    tAccountServices.AppendLine(Headlines());
-        //    if (LogMode == true)
-        //    {
-        //        tAccountServices.AppendLine("error_reporting (E_ALL);");
-        //        tAccountServices.AppendLine("ini_set ('display_errors', 1);");
-        //    }
-        //    tAccountServices.AppendLine("// ACCOUNT SERVICES");
-        //    tAccountServices.AppendLine(NWD.K_CommentSeparator);
-        //    tAccountServices.AppendLine("// Determine the file tree path");
-        //    tAccountServices.AppendLine("" + NWD.K_PATH_BASE + " = dirname(__DIR__);");
-        //    tAccountServices.AppendLine(NWD.K_CommentSeparator);
-        //    tAccountServices.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
-        //    tAccountServices.AppendLine("{");
-        //    tAccountServices.AppendLine("global $REP;");
-        //    tAccountServices.AppendLine("if (isset($REP['signin']))");
-        //    tAccountServices.AppendLine("{");
-        //    tAccountServices.AppendLine("if ($REP['signin'] == true)");
-        //    tAccountServices.AppendLine("{");
-        //    // I need include ALL tables management files to manage ALL tables
-        //    foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
-        //    {
-        //        //foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList) {
-        //        //string tClassName = NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP;
-        //        tAccountServices.AppendLine("$dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "'] = true;");
-        //        tAccountServices.AppendLine("include_once ( " + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-        //        tAccountServices.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, false);");
-        //        tAccountServices.AppendLine("");
-        //    }
-        //    tAccountServices.AppendLine(string.Empty);
-        //    tAccountServices.AppendLine("}");
-        //    tAccountServices.AppendLine("}");
-        //    tAccountServices.AppendLine("}");
-        //    tAccountServices.AppendLine(NWD.K_CommentSeparator);
-        //    tAccountServices.AppendLine("?>");
-        //    string tFileFormatted = NWDToolbox.CSharpFormat(tAccountServices.ToString());
-        //    sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_WS_ACCOUNT_ADDON, tFileFormatted);
-        //    //NWDBenchmark.Finish();
-        //}
         //-------------------------------------------------------------------------------------------------------------
         private void CreatePHPRescueFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
@@ -705,8 +509,6 @@ namespace NetWorkedData
             tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_FUNCTIONS_PHP + "');");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// connect MYSQL");
-            //tFile.AppendLine(NWDError.PHP_log(sEnvironment, "Error in MySQL connexion on '.$tValue['host'].' for '.$tValue['user'].' with password ••••••••••••"));
-
             tFile.AppendLine("" + NWD.K_SQL_CON + " = new mysqli($SQL_HOT,$SQL_USR,$SQL_PSW, $SQL_BSE);");
             tFile.AppendLine("if (" + NWD.K_SQL_CON + "->connect_errno)");
             tFile.AppendLine("{");
@@ -765,10 +567,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if (paramValue('action', '" + NWD.K_WEB_ACTION_KEY + "', " + NWD.K_WEB_EREG_ACTION + ", '" + NWDError.GetErrorDomainCode(NWDError.NWDError_ACC01).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_ACC02).Code + "')) // test if action is valid");
             tFile.AppendLine("{");
-
             tFile.AppendLine("//---- SECURE SYNC ----");
-
-
             tFile.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
             tFile.AppendLine("{");
             tFile.AppendLine("if(NWDRequestTokenIsValid($uuid,$token) == true)");
@@ -785,12 +584,10 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
-
             tFile.AppendLine("//---- RESCUE ----");
             tFile.AppendLine("// I ask rescue for my account");
             tFile.AppendLine("if ($action == '" + NWD.K_WEB_ACTION_RESCUE_KEY + "')");
             tFile.AppendLine("{");
-
             tFile.AppendLine("if (paramValue('rescueemail', '" + NWD.K_WEB_RESCUE_EMAIL_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS02).Code + "'))");
             tFile.AppendLine("{");
             tFile.AppendLine("if (paramValue('rescuelang', '" + NWD.K_WEB_RESCUE_LANGUAGE_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS02).Code + "'))");
@@ -799,8 +596,6 @@ namespace NetWorkedData
             tFile.AppendLine("RescueSign($rescueemail, $rescuelang);");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
-
-
             tFile.AppendLine("}");
             tFile.AppendLine("//---- SIGN UP ----");
             tFile.AppendLine("// I sign up with the value");
@@ -842,15 +637,11 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if (paramValue('sdki', '" + NWD.K_WEB_SIGN_Key + "', " + NWD.K_WEB_EREG_SDKI + ", '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS02).Code + "'))");
             tFile.AppendLine("{");
-            //tFile.AppendLine("$tOldUuid = $uuid;");
             tFile.AppendLine("$tNewUuid = FindAccount($HeaderUUID, $sdki, false);");
-            //tFile.AppendLine("if ($tOldUuid != $tNewUuid)");
             tFile.AppendLine("if ($HeaderUUID != $tNewUuid)");
             tFile.AppendLine("{");
             tFile.AppendLine("// respondUUID($tNewUuid);");
-            //tFile.AppendLine("NWDRequestTokenDeleteAllToken($tOldUuid); // delete old tokens");
             tFile.AppendLine("NWDRequestTokenDeleteAllToken($HeaderUUID); // delete old tokens");
-            //tFile.AppendLine("respond_SignIn();");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -868,15 +659,10 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if (paramValue('sdki', '" + NWD.K_WEB_SIGN_Key + "', " + NWD.K_WEB_EREG_SDKI + ", '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS01).Code + "', '" + NWDError.GetErrorDomainCode(NWDError.NWDError_SHS02).Code + "'))");
             tFile.AppendLine("{");
-            //tFile.AppendLine("$tOldUuid = $uuid;");
-            //tFile.AppendLine("$tNewUuid = FindAccount($tOldUuid, $sdki, true);");
             tFile.AppendLine("$tNewUuid = FindAccount('" + NWDAccount.ServerFakeAccount + "', $sdki, true);");
-            //tFile.AppendLine("if ($tOldUuid != $tNewUuid)");
             tFile.AppendLine("if ($HeaderUUID != $tNewUuid)");
             tFile.AppendLine("{");
-            //tFile.AppendLine("NWDRequestTokenDeleteAllToken($tOldUuid);  // delete old tokens");
             tFile.AppendLine("NWDRequestTokenDeleteAllToken($HeaderUUID);  // delete old tokens");
-            //tFile.AppendLine("respond_SignOut();");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -888,51 +674,11 @@ namespace NetWorkedData
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SHS01));
             tFile.AppendLine("}");
             tFile.AppendLine("}");
-
-
-            //tFile.AppendLine("if (!"+NWDError.FUNCTIONPHP_errorDetected+"())");
-            //tFile.AppendLine("{");
-            //// I need include ALL tables management files to manage ALL tables
-            //foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
-            //{
-            //    tFile.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
-            //    tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-            //    tFile.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
-            //    tFile.AppendLine("}");
-            //}
-            //tFile.AppendLine("}");
-
-            //// I need to prevent Non synchronized class from editor
-            //if (this == NWDAppConfiguration.SharedInstance().DevEnvironment || this == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
-            //{
-
-            //    tFile.AppendLine("if ($admin == true)\n{");
-            //    foreach (Type tType in NWDDataManager.SharedInstance().mTypeUnSynchronizedList)
-            //    {
-            //        tFile.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
-            //        tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-            //        tFile.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
-            //        tFile.AppendLine("}");
-            //    }
-            //    tFile.AppendLine("}");
-            //}
-
             tFile.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
             tFile.AppendLine("{");
-
             tFile.AppendLine("if(TestBanAccount($uuid) == false)");
             tFile.AppendLine("{");
-
             tFile.AppendLine("// get all datas for this account with reset sync... as force pull all!");
-
-            //foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
-            //{
-            //tFile.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))");
-            //tFile.AppendLine("{");
-            //tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-            //tFile.AppendLine(NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
-            //tFile.AppendLine("}");
-            //}
 
             foreach (Type tType in NWDDataManager.SharedInstance().ClassAccountDependentList)
             {
@@ -942,12 +688,8 @@ namespace NetWorkedData
                     tFile.AppendLine(NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_GET_DATAS() + " (0, $uuid);");
                 }
             }
-
-
             tFile.AppendLine("}");
-
             tFile.AppendLine("}");
-
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -974,19 +716,6 @@ namespace NetWorkedData
             }
             tFile.AppendLine("// BLANK");
             tFile.AppendLine(NWD.K_CommentSeparator);
-            //tFile.AppendLine("// Determine the file tree path");
-            //tFile.AppendLine("" + NWD.K_PATH_BASE + " = dirname(__DIR__);");
-            //tFile.AppendLine(NWD.K_CommentSeparator);
-            //tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_CONSTANTS_FILE + "');");
-            //tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_START_PHP + "');");
-            //tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_WS_INSIDE_FILE + "');");
-            //tFile.AppendLine("respondAdd('blank', 'true');");
-            //tFile.AppendLine("$json = json_encode($REP);");
-            //tFile.AppendLine("echo($json);");
-            //tFile.AppendLine("mysqli_close (" + NWD.K_SQL_CON + ");");
-
-            //tFile.AppendLine("respondAdd('" + NWD.K_JSON_PERFORM_REQUEST_KEY + "',microtime(true)-$_SERVER['REQUEST_TIME_FLOAT']);");
-            //tFile.AppendLine("echo(\"{\\\"blank\\\":\\\"true\\\", \\\"" + NWD.K_JSON_PERFORM_REQUEST_KEY + "\\\",\\\"microtime(true)-$_SERVER['REQUEST_TIME_FLOAT']\\\"}\");");
             tFile.AppendLine("$REP['blank'] = 'true';");
             tFile.AppendLine("$REP['" + NWD.K_JSON_PERFORM_REQUEST_KEY + "'] = microtime(true)-$_SERVER['REQUEST_TIME_FLOAT'];");
             tFile.AppendLine("$json = json_encode($REP);");
@@ -997,32 +726,6 @@ namespace NetWorkedData
             sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_BLANK_PHP, tFileFormatted);
             //NWDBenchmark.Finish();
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //private void CreatePHPRescueFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
-        //{
-        //    //NWDBenchmark.Start();
-        //    StringBuilder tFile = new StringBuilder(string.Empty);
-        //    tFile.AppendLine("<?php");
-        //    tFile.AppendLine(Headlines());
-        //    if (LogMode == true)
-        //    {
-        //        tFile.AppendLine("error_reporting (E_ALL);");
-        //        tFile.AppendLine("ini_set ('display_errors', 1);");
-        //    }
-        //    tFile.AppendLine("// RESCUE");
-        //    tFile.AppendLine("$NWD_TMA = microtime(true);");
-        //    tFile.AppendLine(NWD.K_CommentSeparator);
-        //    tFile.AppendLine("// Determine the file tree path");
-        //    tFile.AppendLine("" + NWD.K_PATH_BASE + " = dirname(__DIR__);");
-        //    tFile.AppendLine(NWD.K_CommentSeparator);
-        //    tFile.AppendLine("" + NWD.K_ENV + " = '" + Environment + "';");
-        //    tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_RESCUE_PHP + "');");
-        //    tFile.AppendLine(NWD.K_CommentSeparator);
-        //    tFile.AppendLine("?>");
-        //    string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
-        //    sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_RESCUE_PHP, tFileFormatted);
-        //    //NWDBenchmark.Finish();
-        //}
         //-------------------------------------------------------------------------------------------------------------
         private void CreatePHPIndexFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {

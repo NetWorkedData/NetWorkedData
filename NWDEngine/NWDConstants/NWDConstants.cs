@@ -46,7 +46,7 @@ namespace NetWorkedData
         public static string K_ReturnLine = "\n";
         public static string K_CommentSeparator = "//--------------------";
         public static string K_CommentAutogenerate = "// NWD Autogenerate File at ";
-        public static string K_CommentCopyright = "// Copyright NetWorkedDatas ideMobi ";
+        public static string K_CommentCopyright = "// Copyright NetWorkedData ideMobi ";
         public static string K_CommentCreator = "// NWD Autogenerate script created by Jean-François CONTART ";
         //-------------------------------------------------------------------------------------------------------------
         public const string K_LOADER = "Loader";

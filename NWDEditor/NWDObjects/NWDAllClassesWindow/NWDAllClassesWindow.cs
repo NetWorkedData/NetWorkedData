@@ -36,7 +36,7 @@ namespace NetWorkedData.NWDEditor
 	public class NWDAllClassesWindow : NWDBasisWindow <NWDAllClassesWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_ALL_CLASSES, false, 100)]
+		//[MenuItem (NWDConstants.K_MENU_ALL_CLASSES, false, 100)]
 		public static void MenuMethod ()
 		{
             ShowWindow();

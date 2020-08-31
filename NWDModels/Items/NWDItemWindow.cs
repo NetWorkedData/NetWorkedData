@@ -32,6 +32,7 @@ namespace NetWorkedData.NWDEditor
         new Type[] {
             typeof(NWDItem),
             typeof(NWDItemGroup),
+            typeof(NWDUserOwnership),
 #if NWD_ITEMPACK
             typeof(NWDPack),
             typeof(NWDItemPack),

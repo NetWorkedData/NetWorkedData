@@ -31,7 +31,6 @@ using NetWorkedData.NWDEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
     public class NWDAppConfigurationRestaure : Attribute
@@ -46,30 +45,23 @@ namespace NetWorkedData
     public partial class NWDAppConfiguration : NWDApp
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static string Version = "0.79.20200810-cluster";
-        //-------------------------------------------------------------------------------------------------------------
         #region properties
         //-------------------------------------------------------------------------------------------------------------
         public NWDDataLocalizationManager DataLocalizationManager = new NWDDataLocalizationManager();
-        // [NWDAlias(NWD.K_DevEnvironment)]
         public NWDAppEnvironment DevEnvironment
         {
             set; get;
         }
-        // [NWDAlias(NWD.K_PreprodEnvironment)]
         public NWDAppEnvironment PreprodEnvironment
         {
             set; get;
         }
-        // [NWDAlias(NWD.K_ProdEnvironment)]
         public NWDAppEnvironment ProdEnvironment
         {
             set; get;
         }
         public string CompileOn = "Mac Windows Linux";
         public string BuilderUser = "User";
-        //public Dictionary<string, string> IntegritySaltDictionary = new Dictionary<string, string>();
-        //public Dictionary<string, string> GenerateSaltDictionary = new Dictionary<string, string>();
         public string WebFolder = "NWDFolder";
         public string TablePrefixe = string.Empty;
         public string DatabasePrefix = "NWD000000000";
@@ -81,7 +73,6 @@ namespace NetWorkedData
         public string AccountHashSaltB;// = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
         public int WebBuild = 0;
         public int WebBuildMax = 0;
-        //public bool RowDataIntegrity = true;
         public Dictionary<int, bool> WSList = new Dictionary<int, bool>();
         public Dictionary<int, string> TagList = new Dictionary<int, string>();
         public int TagNumberUser = 10;
@@ -100,8 +91,6 @@ namespace NetWorkedData
         public bool AutoDeleteTrashDatas = true;
         public bool LauncherBenchmark = true;
         public int LauncherFaster = 10;
-        //public bool PreloadDatasInEditor = true;
-        //public bool AnonymousPlayerIsLocal = true;
         public bool AnonymousDeviceConnected = true;
 
         public string SlackWebhookURL = "";
@@ -117,19 +106,10 @@ namespace NetWorkedData
         public int PinCodeLenghtMax = 8; //TODO:  rename PinCodeMaxLength
         public int ProtectionTentativeMax = 6; //TODO:  rename maximum attempt
 
-        [Obsolete]
-        public bool EditorTableCommun = true; // 
-
-        //public bool ShowCompile = true; //TODO param in config editor extension...
-        //public Color TintColor;
-
         public int LauncherClassEditorStep = 0;
         public int LauncherClassAccountStep = 0;
         //-------------------------------------------------------------------------------------------------------------
-        //public bool NeverNullDataType = true;
-        //-------------------------------------------------------------------------------------------------------------
         #endregion
-
         #region shareInstance
         //-------------------------------------------------------------------------------------------------------------
         private static NWDAppConfiguration kSharedInstance;
@@ -144,7 +124,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
-
         #region constructor
         //-------------------------------------------------------------------------------------------------------------
         public const string kEnvironmentSelectedKey = "kEnvironmentSelectedKey";
@@ -154,33 +133,13 @@ namespace NetWorkedData
             Install();
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public void ResetTintColor()
-        //{
-        //    TintColor = NWDToolbox.Color255(25, 20, 34, 255);
-        //}
-        //-------------------------------------------------------------------------------------------------------------
         public void Install()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             DevEnvironment = new NWDAppEnvironment(NWDConstants.K_DEVELOPMENT_NAME, false);
             PreprodEnvironment = new NWDAppEnvironment(NWDConstants.K_PREPRODUCTION_NAME, false);
             ProdEnvironment = new NWDAppEnvironment(NWDConstants.K_PRODUCTION_NAME, false);
-            //ResetTintColor();
-            // REMOVED : Change to remove invoke!
             Type tType = this.GetType();
-            //var tMethodInfo = tType.GetMethod("RestaureConfigurations", BindingFlags.Instance | BindingFlags.Public);
-            //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tType, NWDConstants.M_RestaureConfigurations);
-            //if (tMethodInfo != null)
-            //{
-            //    tMethodInfo.Invoke(this, null);
-            //}
-            //else
-            //{
-            //    this.ProdEnvironment.Selected = false;
-            //    this.PreprodEnvironment.Selected = false;
-            //    this.DevEnvironment.Selected = true;
-            //}
-
             if (RestaureConfigurations() == false)
             {
                 EditorPass = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
@@ -189,13 +148,10 @@ namespace NetWorkedData
                 AccountHashSalt = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
                 AccountHashSaltA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
                 AccountHashSaltB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
-
                 this.ProdEnvironment.Selected = false;
                 this.PreprodEnvironment.Selected = false;
                 this.DevEnvironment.Selected = true;
             }
-
-            // But in unity we bypass the restaure configuration to use the environment selected in the editor's preferences 
 #if UNITY_EDITOR
             // reset all environement to false
             this.ProdEnvironment.Selected = false;
@@ -322,63 +278,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
-
         #region instance method
-        //-------------------------------------------------------------------------------------------------------------
-        //public void SetSalt(string sKeyFirst, string sKeySecond, string sValue)
-        //{
-        //    string sKey = sKeyFirst + sKeySecond;
-        //    if (IntegritySaltDictionary.ContainsKey(sKey))
-        //    {
-        //        IntegritySaltDictionary[sKey] = sValue;
-        //    }
-        //    else
-        //    {
-        //        IntegritySaltDictionary.Add(sKey, sValue);
-        //    }
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public string GetSalt(string sKeyFirst, string sKeySecond, string sKeyValid)
-        //{
-        //    string sKey = sKeyFirst + sKeySecond;
-        //    string rReturn = string.Empty;
-        //    if (IntegritySaltDictionary.ContainsKey(sKey))
-        //    {
-        //        rReturn = IntegritySaltDictionary[sKey];
-        //    }
-        //    if (string.IsNullOrEmpty(rReturn))
-        //    {
-        //        Debug.Log("Generate Salt for " + sKey);
-        //        rReturn = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
-        //        IntegritySaltDictionary.Add(sKey, rReturn);
-        //        SetSaltValid(sKeyFirst, sKeyValid, string.Empty);
-        //    }
-        //    return rReturn;
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public void SetSaltValid(string sKeyFirst, string sKeyValid, string sValue)
-        //{
-        //    string sKey = sKeyFirst + sKeyValid;
-        //    if (GenerateSaltDictionary.ContainsKey(sKey))
-        //    {
-        //        GenerateSaltDictionary[sKey] = sValue;
-        //    }
-        //    else
-        //    {
-        //        GenerateSaltDictionary.Add(sKey, sValue);
-        //    }
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public string GetSaltValid(string sKeyFirst, string sKeyValid)
-        //{
-        //    string sKey = sKeyFirst + sKeyValid;
-        //    string rReturn = string.Empty;
-        //    if (GenerateSaltDictionary.ContainsKey(sKey))
-        //    {
-        //        rReturn = GenerateSaltDictionary[sKey];
-        //    }
-        //    return rReturn;
-        //}
         //-------------------------------------------------------------------------------------------------------------
         public string GetAccountPass(string sPinCode)
         {
@@ -486,7 +386,6 @@ namespace NetWorkedData
                     ProdServerDomainState = true;
                 }
             }
-
             foreach (NWDServerServices tServerDomain in tServerServicesHelper.Datas)
             {
                 if (tServerDomain.Dev == true)
@@ -502,7 +401,6 @@ namespace NetWorkedData
                     ProdServerServiceState = true;
                 }
             }
-
             foreach (NWDServerDatas tServerData in tServerDatasHelper.Datas)
             {
                 if (tServerData.Dev == true)
@@ -550,7 +448,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         // Determine the default mode
-        // sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
         public static NWDWritingMode WritingMode(NWDWritingMode sWritingMode)
         {
             NWDWritingMode rWritingMode = sWritingMode;
@@ -589,36 +486,6 @@ namespace NetWorkedData
         {
             return DevEnvironment.Selected;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //public bool AdminInPLayer()
-        //{
-        //    bool rReturn = false;
-        //    NWDAppEnvironment tEnvironment = SelectedEnvironment();
-        //    if (tEnvironment.AdminInPlayer == true)
-        //    {
-        //        if (string.IsNullOrEmpty(tEnvironment.AdminKey) == false)
-        //        {
-        //            if (string.IsNullOrEmpty(tEnvironment.AdminKeyHash) == false)
-        //            {
-        //                if (tEnvironment.AdminKeyHash == tEnvironment.AdminKeyHashGenerate())
-        //                {
-        //                    //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
-        //                    //if (tAccountInfos.Tag == NWDBasisTag.TagAdminCreated)
-        //                    //{
-        //                        foreach (NWDAccounTest tAccount in NWDAccount.SelectDatasForTests())
-        //                        {
-        //                            if (tAccount.Reference == tEnvironment.PlayerAccountReference)
-        //                            {
-        //                                rReturn = true;
-        //                            }
-        //                        }
-        //                    //}
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return rReturn;
-        //}
         //-------------------------------------------------------------------------------------------------------------
         public NWDAppEnvironment[] AllEnvironements()
         {

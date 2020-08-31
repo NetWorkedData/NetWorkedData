@@ -73,9 +73,22 @@ namespace NetWorkedData.NWDEditor
 
             // Begin scroll view
             NWDGUILayout.Title("App configurations");
-            NWDGUILayout.Informations("The settings below modify the compiled binary. Be careful when making changes.!");
+            NWDGUILayout.Informations("The settings below modify the compiled binary. Be careful when making changes!");
             NWDGUILayout.Line();
             _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+
+            // Launcher
+            NWDGUILayout.Section("Launcher");
+            NWDGUILayout.SubSection("Launcher configuration");
+            NWDGUILayout.Informations("Show result of launcher benchmark in log?");
+            NWDAppConfiguration.SharedInstance().LauncherBenchmark = EditorGUILayout.Toggle("Show benchmark", NWDAppConfiguration.SharedInstance().LauncherBenchmark);
+            NWDGUILayout.Informations("Coroutine render scene after a specific number of classes wereloaded. More the value is high, more the refresh is down but not fine. More the  value is low, more the refresh is high but the app take more time to finsh the launching because every render take time.");
+            //NWDAppConfiguration.SharedInstance().LauncherFaster = EditorGUILayout.IntField("Launcher faster", NWDAppConfiguration.SharedInstance().LauncherFaster);
+            NWDAppConfiguration.SharedInstance().LauncherFaster = EditorGUILayout.IntSlider("Launcher faster", NWDAppConfiguration.SharedInstance().LauncherFaster, 1, NWDLauncher.AllNetWorkedDataTypes.Count);
+            if (NWDAppConfiguration.SharedInstance().LauncherFaster < 1)
+            {
+                NWDAppConfiguration.SharedInstance().LauncherFaster = 1;
+            }
 
             // Data tag
             float tMinWidht = 270.0F;
@@ -130,6 +143,7 @@ namespace NetWorkedData.NWDEditor
                 NWDOperationWebhook.NewMessage("Test Webhook integration success!");
             }
             EditorGUI.EndDisabledGroup();
+
             NWDGUILayout.Section("Account");
             NWDGUILayout.SubSection("Account Anonymous");
             NWDAppConfiguration.SharedInstance().AnonymousDeviceConnected = EditorGUILayout.ToggleLeft("Anonymous account connected from system device!", NWDAppConfiguration.SharedInstance().AnonymousDeviceConnected);
@@ -198,19 +212,9 @@ namespace NetWorkedData.NWDEditor
             // Database informations
             NWDGUILayout.Section("Databases");
             NWDGUILayout.SubSection("Databases parameters");
-            //NWDAppConfiguration.SharedInstance().NeverNullDataType = EditorGUILayout.Toggle("Never Null Data Type", NWDAppConfiguration.SharedInstance().NeverNullDataType);
             NWDAppConfiguration.SharedInstance().AutoDeleteTrashDatas = EditorGUILayout.Toggle("Auto Delete Trash Datas", NWDAppConfiguration.SharedInstance().AutoDeleteTrashDatas);
             NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
             NWDAppConfiguration.SharedInstance().BundleDatas = EditorGUILayout.Toggle("Bundle Datas", NWDAppConfiguration.SharedInstance().BundleDatas);
-            NWDAppConfiguration.SharedInstance().LauncherBenchmark = EditorGUILayout.Toggle("Launcher Benchmark", NWDAppConfiguration.SharedInstance().LauncherBenchmark);
-            NWDAppConfiguration.SharedInstance().LauncherFaster = EditorGUILayout.IntField("Launcher Faster", NWDAppConfiguration.SharedInstance().LauncherFaster);
-            if (NWDAppConfiguration.SharedInstance().LauncherFaster < 1)
-            {
-                NWDAppConfiguration.SharedInstance().LauncherFaster = 1;
-            }
-            //EditorGUI.EndDisabledGroup();
-            //NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
-            // Database editor informations
             string tDatabasePathEditor = NWD.K_StreamingAssets + "/" + NWDDataManager.SharedInstance().DatabaseEditorName();
             NWDGUILayout.SubSection("Databases editor config for all environments");
             EditorGUILayout.LabelField("Editor path ", tDatabasePathEditor);

@@ -48,13 +48,11 @@ namespace NetWorkedData
             GUILayout.Label(ClassMenuName, EditorStyles.boldLabel);
             EditorGUILayout.HelpBox(ClassDescription, MessageType.None);
             GUILayout.Label("Webservice last version generated for this Class  is " + LastWebBuild.ToString() + " ( App use Webservice " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + ")");
-
             NWDGUILayout.Separator();
             foreach (KeyValuePair<int, string> tModels in WebModelSQLOrder)
             {
                 GUILayout.Label("Model has definition for Webservice " + tModels.Key.ToString());
             }
-
             if (SaltValid == false)
             {
                 if (NWDGUILayout.AlertBoxButton(NWDConstants.K_ALERT_SALT_SHORT_ERROR, NWDConstants.K_APP_CLASS_SALT_REGENERATE))
@@ -76,7 +74,6 @@ namespace NetWorkedData
                     NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
                     NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
                     NWDEditorWindow.GenerateCSharpFile();
-                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                     GUIUtility.ExitGUI();
                 }
             }
@@ -90,7 +87,6 @@ namespace NetWorkedData
                     NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
                     NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
                     NWDEditorWindow.GenerateCSharpFile();
-                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                     GUIUtility.ExitGUI();
                 }
             }
@@ -100,20 +96,17 @@ namespace NetWorkedData
                 {
                     DeleteOldsModels();
                     NWDEditorWindow.GenerateCSharpFile();
-                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                     GUIUtility.ExitGUI();
                 }
             }
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawTypeInInspector()
         {
             //NWDBenchmark.Start();
             DrawTypeInformations();
-
             if (SaltValid == false)
             {
                 EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
@@ -140,8 +133,6 @@ namespace NetWorkedData
             if (mSettingsShowing == true)
             {
                 EditorGUILayout.HelpBox(NWDConstants.K_APP_BASIS_CLASS_WARNING_HELPBOX, MessageType.Warning);
-
-                //NWDGUI.BeginRedArea();
                 if (GUILayout.Button(NWDConstants.K_APP_BASIS_CLASS_RESET_TABLE, EditorStyles.miniButton))
                 {
                     ResetTable();
@@ -166,8 +157,6 @@ namespace NetWorkedData
                     NWDEditorWindow.GenerateCSharpFile();
                 }
                 GUILayout.EndHorizontal();
-
-
                 GUILayout.BeginHorizontal();
                 TablePrefix = EditorGUILayout.TextField(NWDConstants.K_APP_BASIS_CLASS_PREFIXE, TablePrefix);
                 if (GUILayout.Button(NWDConstants.K_APP_BASIS_CLASS_RECCORD, EditorStyles.miniButton))
@@ -176,34 +165,15 @@ namespace NetWorkedData
                     NWDEditorWindow.GenerateCSharpFile();
                 }
                 GUILayout.EndHorizontal();
-
-
-
                 if (GUILayout.Button(NWDConstants.K_APP_BASIS_CLASS_INTEGRITY_REEVALUE, EditorStyles.miniButton))
                 {
                     GUI.FocusControl(null);
                     RecalculateAllIntegrities();
                 }
-
                 if (GUILayout.Button("Reset Icon", EditorStyles.miniButton))
                 {
                     ResetIconByDefaultIcon();
                 }
-
-                //EditorGUI.BeginDisabledGroup(!ClassGameSaveDependent);
-                //if (GUILayout.Button("Purge accounts", EditorStyles.miniButton))
-                //{
-                //    if (EditorUtility.DisplayDialog(NWDConstants.K_PURGE_ALERT_TITLE,
-                //            NWDConstants.K_PURGE_ALERT_MESSAGE,
-                //            NWDConstants.K_PURGE_ALERT_OK,
-                //            NWDConstants.K_PURGE_ALERT_CANCEL))
-                //    {
-                //PurgeTable();
-                //    }
-                //}
-                //EditorGUI.EndDisabledGroup();
-
-
                 if (GUILayout.Button(NWDConstants.K_APP_WS_MODEL_TOOLS, NWDGUI.KTableSearchButton))
                 {
                     ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
@@ -216,7 +186,6 @@ namespace NetWorkedData
                     ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
                     NWDEditorWindow.GenerateCSharpFile();
                 }
-
                 if (GUILayout.Button(NWDConstants.K_APP_WS_PHP_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
                 {
                     ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
@@ -225,50 +194,38 @@ namespace NetWorkedData
                     NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
                     NWDEditorWindow.GenerateCSharpFile();
                 }
-                //NWDGUI.EndRedArea();
-
-
-
                 if (GUILayout.Button("Generate File UnitTest", NWDGUI.KTableSearchButton))
                 {
                     GenerateFileUnitTest();
                 }
-
                 if (GUILayout.Button("Generate File Connection", NWDGUI.KTableSearchButton))
                 {
                     GenerateFileConnection();
                 }
-
                 if (GUILayout.Button("Generate File Workflow", NWDGUI.KTableSearchButton))
                 {
                     GenerateFileWorkflow();
                 }
-
                 if (GUILayout.Button("Generate File Override", NWDGUI.KTableSearchButton))
                 {
                     GenerateFileOverride();
                 }
-
                 if (GUILayout.Button("Generate File Extension", NWDGUI.KTableSearchButton))
                 {
                     GenerateFileExtension();
                 }
-
                 if (GUILayout.Button("Generate File Helper", NWDGUI.KTableSearchButton))
                 {
                     GenerateFileHelper();
                 }
-
                 if (GUILayout.Button("Generate File Editor", NWDGUI.KTableSearchButton))
                 {
                     GenerateFileEditor();
                 }
-
                 if (GUILayout.Button("Generate File Index", NWDGUI.KTableSearchButton))
                 {
                     GenerateFileIndex();
                 }
-
                 if (GUILayout.Button("Generate File PHP", NWDGUI.KTableSearchButton))
                 {
                     GenerateFilePHP();

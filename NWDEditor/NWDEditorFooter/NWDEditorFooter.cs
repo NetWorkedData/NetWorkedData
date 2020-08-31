@@ -103,10 +103,6 @@ namespace NetWorkedData.NWDEditor
             maxSize = new Vector2(float.MaxValue, 16);
             TitleInit(NWDAppConfiguration.SharedInstance().SelectedEnvironment().AppName, typeof(NWDEditorFooter));
             NWDEditorFooterContent.SharedInstance().OnEnable(this);
-            //if (NWDEditorFooterContent.SharedInstance().InfosContent.image != null)
-            //{
-            //    ChangeTitleIcon(NWDEditorFooterContent.SharedInstance().InfosContent.image);
-            //}
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void OnPreventGUI()

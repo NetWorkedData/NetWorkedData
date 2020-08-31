@@ -159,43 +159,63 @@ namespace NetWorkedData
         {
             Dictionary<string, string> tRepport = new Dictionary<string, string>();
             List<string> tRepportLayout = new List<string>();
+            // Engine part
+            tRepport.Add("ENGINE","NWD "+NWDEngineVersion.Version); tRepportLayout.Add("---");
             tRepport.Add("DATE", DateTime.Now.ToString("yyyy-MM-dd")); tRepportLayout.Add("---");
             tRepport.Add("TIME", DateTime.Now.ToString("HH:mm:ss")); tRepportLayout.Add("---");
+            // build by, on, ...
             tRepport.Add("BUILDER", NWDAppConfiguration.SharedInstance().BuilderUser); tRepportLayout.Add("---");
-
             tRepport.Add("COMPILE ON", NWDAppConfiguration.SharedInstance().CompileOn); tRepportLayout.Add("---");
             tRepport.Add("COMPILE FOR", Application.platform.ToString()); tRepportLayout.Add("---");
             tRepport.Add("OS VERSION", SystemInfo.operatingSystem); tRepportLayout.Add("---");
-            //tRepport.Add("ARCH", System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE", EnvironmentVariableTarget.Machine)); tRepportLayout.Add("---");
-            //tRepport.Add("OS VERSION", SystemInfo.operatingSystemFamily.ToString()); tRepportLayout.Add("---");
-            tRepport.Add("COMPILE WITH", Application.unityVersion); tRepportLayout.Add("---");
-            //tRepport.Add("DEVICE", SystemInfo.deviceName); tRepportLayout.Add("---");
             tRepport.Add("DEVICE", SystemInfo.deviceModel); tRepportLayout.Add("---");
+            tRepport.Add("DUID", SystemInfo.deviceUniqueIdentifier); tRepportLayout.Add("---");
+            // Unity3D version
+            tRepport.Add("UNITY3D", Application.unityVersion); tRepportLayout.Add("---");
+            //tRepport.Add("LAUNCH UNITY3D", TimeStart.ToString("F3") + "s"); tRepportLayout.Add("---");
+            // Engine configuration
             if (GetPreload() == false)
             {
-                tRepport.Add("PRELOAD DATAS", GetPreload().ToString() + " (" + NWDAppConfiguration.SharedInstance().LauncherFaster.ToString() + ")"); tRepportLayout.Add("---");
+                tRepport.Add("PRELOAD DATAS", "No preload data (" + NWDAppConfiguration.SharedInstance().LauncherFaster.ToString() + ")"); tRepportLayout.Add("---");
             }
             else
             {
-                tRepport.Add("PRELOAD DATAS", GetPreload().ToString()); tRepportLayout.Add("---");
+                tRepport.Add("PRELOAD DATAS", "Preload datas"); tRepportLayout.Add("---");
             }
-            tRepport.Add("BENCHMARK STEP", ActiveBenchmark.ToString()); tRepportLayout.Add("---");
-
-            tRepport.Add("INFOS", "(infos)"); tRepportLayout.Add("---");
-            tRepport.Add("LAUNCH UNITY", TimeStart.ToString("F3") + "s"); tRepportLayout.Add("---");
-            tRepport.Add("SQL Secure", NWDDataManager.SharedInstance().IsSecure().ToString()); tRepportLayout.Add("---");
-            //tRepport.Add("SQL Version", SQLite3.LibVersionNumber().ToString()); tRepportLayout.Add("---");
+            if (ActiveBenchmark == true)
+            {
+                tRepport.Add("BENCHMARK STEP", "Launcher benchmarked"); tRepportLayout.Add("---");
+            }
+            else
+            {
+                tRepport.Add("BENCHMARK STEP", "Launcher no benchmark"); tRepportLayout.Add("---");
+            }
             tRepport.Add("SQL Version", NWDDataManager.SharedInstance().GetVersion()); tRepportLayout.Add("---");
+            if (NWDDataManager.SharedInstance().IsSecure() == true)
+            {
+                tRepport.Add("SQL Secure", "SQL secure by SQLCipher"); tRepportLayout.Add("---");
+            }
+            else
+            {
+                tRepport.Add("SQL Secure", "SQL no secure"); tRepportLayout.Add("---");
+            }
+            if (CopyDatabase == true)
+            {
+                tRepport.Add("COPY DATABASE", "Database copied"); tRepportLayout.Add("---");
+            }
+            else
+            {
+                tRepport.Add("COPY DATABASE", "Database already copied"); tRepportLayout.Add("---");
+            }
             tRepport.Add("LAUNCH NWD", TimeNWDFinish.ToString("F3") + "s"); tRepportLayout.Add("---");
-            tRepport.Add("COPY DATABASE", CopyDatabase.ToString()); tRepportLayout.Add("---");
             tRepport.Add("LAUNCH FINAL", TimeFinish.ToString("F3") + "s"); tRepportLayout.Add("---");
-
+            // rows generate in memory and operations
             tRepport.Add("ROWS INFORMATIONS", RowInformations); tRepportLayout.Add("---");
-
-            tRepport.Add("SIGNIN", "(infos)"); tRepportLayout.Add("---");
-
+            // free to remplace by informations
+            tRepport.Add("INFOS", "(infos)"); tRepportLayout.Add("---");
+            // free to remplace by conclusion of this benchmark
             tRepport.Add("CONCLUSION", ""); tRepportLayout.Add("---");
-
+            // if you active benchmark you can have result in Markdown table
             if (ActiveBenchmark)
             {
                 NWDDebug.Log("benchmark : REPPORT | " + string.Join(" | ", tRepport.Keys) + " |");

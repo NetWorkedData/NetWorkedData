@@ -30,6 +30,7 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDTypeClass
     {
+        //-------------------------------------------------------------------------------------------------------------
         protected Texture2D ImageDisk = NWDGUI.kImageDiskUnknow;
         protected Texture2D ImageSync = NWDGUI.kImageSyncGeneralWaiting;
         public int AnalyzeSync = 0;
@@ -59,10 +60,12 @@ namespace NetWorkedData
         public GUIContent Content;
         public Color DataSelectorBoxColor = Color.clear;
 #endif
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis : NWDTypeClass
     {
+        //-------------------------------------------------------------------------------------------------------------
         const int KSyncRequired = -1;
         const int KSyncWaiting = -2;
         const int KSyncSuccessed = 0;

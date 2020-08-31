@@ -43,7 +43,6 @@ namespace NetWorkedData
         public bool Separator = true;
         public string ClassName;
         public bool Visible = true;
-        //public List<NWDBasisHelperGroup> Groups = new List<NWDBasisHelperGroup>();
         public List<NWDBasisHelperElement> Elements = new List<NWDBasisHelperElement>();
         //-------------------------------------------------------------------------------------------------------------
         private string Key()
@@ -60,7 +59,6 @@ namespace NetWorkedData
         {
             //NWDBenchmark.Start();
             string tKey = Key();
-            //EditorPrefs.HasKey(tKey);
             NWDProjectPrefs.SetBool(tKey, sOpen);
             //NWDBenchmark.Finish();
         }
@@ -107,9 +105,6 @@ namespace NetWorkedData
             float tWidth = sWidth;
             float tX = sX;
             float tY = sY;
-
-            // EditorGUI.indentLevel = Indent;
-
             float tIndent = Indent * NWDGUI.kFieldIndent;
             if (Property != null)
             {
@@ -172,9 +167,7 @@ namespace NetWorkedData
                         if (tValueNext != tValue)
                         {
                             Property.SetValue(sObject, tValueNext, null);
-                            //rNeedBeUpdate = true;
                         }
-                        //EditorGUI.indentLevel = tIndentLevel;
                     }
                     else
                     {
@@ -200,7 +193,6 @@ namespace NetWorkedData
                             if (string.IsNullOrEmpty(tValue) == false)
                             {
                                 //TODO remove protection of string ?
-                                //tValue = NWDToolbox.TextUnprotect(tValue);
                             }
                             tFieldRect.height = tH;
                             string tValueNext = tValue;
@@ -220,9 +212,7 @@ namespace NetWorkedData
                             if (tValueNext != tValue)
                             {
                                 //TODO remove protection of string ?
-                                //tValueNext = NWDToolbox.TextProtect(tValueNext);
                                 Property.SetValue(sObject, tValueNext, null);
-                                //rNeedBeUpdate = true;
                             }
                         }
                         else if (tTypeOfThis.IsEnum)
@@ -243,9 +233,7 @@ namespace NetWorkedData
                             if (tValueNext != tValue)
                             {
                                 Property.SetValue(sObject, tValueNext, null);
-                                //rNeedBeUpdate = true;
                             }
-                            //tY += NWDBasisHelper.tPopupdStyle.fixedHeight + NWDGUI.kFieldMarge;
                         }
                         else if (tTypeOfThis == typeof(bool))
                         {
@@ -258,9 +246,7 @@ namespace NetWorkedData
                             if (tValueNext != tValue)
                             {
                                 Property.SetValue(sObject, tValueNext, null);
-                                //rNeedBeUpdate = true;
                             }
-                            //tY += NWDBasisHelper.tToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
                         }
                         else if (tTypeOfThis == typeof(int))
                         {
@@ -281,9 +267,7 @@ namespace NetWorkedData
                             if (tValueNext != tValue)
                             {
                                 Property.SetValue(sObject, tValueNext, null);
-                                //rNeedBeUpdate = true;
                             }
-                            //tY += NWDBasisHelper.tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                         }
                         else if (tTypeOfThis == typeof(long))
                         {
@@ -296,9 +280,7 @@ namespace NetWorkedData
                             if (tValueNext != tValue)
                             {
                                 Property.SetValue(sObject, tValueNext, null);
-                                //rNeedBeUpdate = true;
                             }
-                            //tY += NWDBasisHelper.tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                         }
                         else if (tTypeOfThis == typeof(float))
                         {
@@ -319,9 +301,7 @@ namespace NetWorkedData
                             if (tValueNext != tValue)
                             {
                                 Property.SetValue(sObject, tValueNext, null);
-                                //rNeedBeUpdate = true;
                             }
-                            //tY += NWDBasisHelper.tFloatFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                         }
                         else if (tTypeOfThis == typeof(double))
                         {
@@ -334,9 +314,7 @@ namespace NetWorkedData
                             if (tValueNext != tValue)
                             {
                                 Property.SetValue(sObject, tValueNext, null);
-                                //rNeedBeUpdate = true;
                             }
-                            //tY += NWDBasisHelper.tFloatFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                         }
                         else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
                         {
@@ -350,12 +328,10 @@ namespace NetWorkedData
                             }
                             NWEDataType tNWEDataType = tValue as NWEDataType;
                             NWEDataType tNWEDataTypeNext = tNWEDataType.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), "  ", tNotEditable, Tooltips) as NWEDataType;
-
                             if (tNWEDataTypeNext.Value != tNWEDataType.Value)
                             {
                                 //Debug.Log("change in "+tTypeOfThis.Name);
                                 Property.SetValue(sObject, tNWEDataTypeNext, null);
-                                //rNeedBeUpdate = true;
                                 NWDNodeEditor.ReAnalyzeIfNecessary(sObject);
                             }
                             float tHeight = tNWEDataType.ControlFieldHeight();
@@ -364,7 +340,6 @@ namespace NetWorkedData
                         else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
                         {
                             EditorGUI.LabelField(tEntitlementRect, Content(), NWDGUI.kPropertyEntitlementStyle);
-
                             var tValue = Property.GetValue(sObject, null);
                             if (tValue == null)
                             {
@@ -378,7 +353,6 @@ namespace NetWorkedData
                             {
                                 //Debug.Log("change in "+tTypeOfThis.Name);
                                 Property.SetValue(sObject, tNWEDataTypeNext, null);
-                                //rNeedBeUpdate = true;
                                 NWDNodeEditor.ReAnalyzeIfNecessary(sObject);
                             }
                             float tHeight = tNWEDataType.ControlFieldHeight();
@@ -401,7 +375,6 @@ namespace NetWorkedData
                             {
                                 //Debug.Log("change in "+tTypeOfThis.Name);
                                 Property.SetValue(sObject, tNWEDataTypeNext, null);
-                                //rNeedBeUpdate = true;
                                 NWDNodeEditor.ReAnalyzeIfNecessary(sObject);
                             }
                             float tHeight = tNWEDataType.ControlFieldHeight();
@@ -532,9 +505,6 @@ namespace NetWorkedData
                 LoadStyle = true;
                 NWDGUI.LoadStyles();
                 string[] PropertiesInWebModel = PropertiesOrderArray(LastWebBuild).ToArray();
-                //Debug.Log(string.Join(", ", PropertiesInWebModel));
-                //List<string> tListB = new List<string>(WebModelSQLOrder[LastWebBuild].Split(new char[] { ',' }));
-
                 Dictionary<NWDBasisHelperElement, string> PropertiesForGroupName = new Dictionary<NWDBasisHelperElement, string>();
                 List<string> tPropertyListInWebModel = new List<string>();
                 if (WebServiceWebModel.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
@@ -562,7 +532,6 @@ namespace NetWorkedData
                         NWDBasisHelperElement tProperty = new NWDBasisHelperElement();
                         if (tProp.PropertyType.IsGenericType)
                         {
-                            //Debug.Log(tProp.PropertyType.Name);
                             tProperty.Tooltips = "Property : " + tProp.Name + "\nType : " + tProp.PropertyType.Name.Replace("`1", "<" + tProp.PropertyType.GenericTypeArguments[0].Name + ">") + "\n\n";
                         }
                         else
@@ -633,16 +602,8 @@ namespace NetWorkedData
                             tProperty.Name = "<color=orange>!!!</color>" + tProperty.Name + "<color=orange>!!!</color>";
                         }
                         tProperty.Order = tGroup.Elements.Count();
-                        //tProperty.Name = "(" + tProperty.Order + ")" + tEntitled;
 
                         tProperty.Name = tEntitled;
-                        //foreach (NWDInspectorRename tReference in tProp.GetCustomAttributes(typeof(NWDInspectorRename), true))
-                        //{
-                        //    if (tReference.Entity == tProp.Name)
-                        //    {
-                        //        tProperty.Name = "dddd"+tReference.NewName;
-                        //    }
-                        //}
 
                         foreach (NWDSpace tReference in tProp.GetCustomAttributes(typeof(NWDSpace), true))
                         {
@@ -672,10 +633,8 @@ namespace NetWorkedData
                         {
                             foreach (NWDInspectorInformations tReference in tMethod.GetCustomAttributes(typeof(NWDInspectorInformations), true))
                             {
-                                //Debug.Log("tReference.Entity " + tReference.Entity + " " + tMethod.Name + "() check with "+tProp.Name+"");
                                 if (tReference.Entity == tProp.Name)
                                 {
-                                    //Debug.Log("tReference.Entity " + tReference.Entity + " OKAY");
                                     tProperty.Name = "" + tProperty.Name + tReference.NewName + " <color=red>*</color>";
                                     tProperty.Tooltips += "\n----\n - use " + tMethod.Name + "() \n" + tReference.ToolsTips;
                                 }
@@ -726,8 +685,6 @@ namespace NetWorkedData
                             tCertified = true;
                         }
 
-                        //tProperty.Tooltips += "\n Value = " + + "\n";
-
                         if (tCertified == false)
                         {
                             tProperty.Name = "<i> <color=orange>•</color>" + tProperty.Name + "</i>";
@@ -735,7 +692,6 @@ namespace NetWorkedData
                         }
 
                         if (PropertiesInWebModel.Contains(tProp.Name) == false)
-                        //if (tListB.Contains(tProp.Name) == false)
                         {
                             if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
                             {
@@ -754,14 +710,12 @@ namespace NetWorkedData
                 {
                     if (GroupsByName.ContainsKey(tKeyValue.Value) == true)
                     {
-                        //Debug.Log("try to add " + tKeyValue.Key.Name + " in group : " + tKeyValue.Value);
                         tKeyValue.Key.Indent = GroupsByName[tKeyValue.Value].Indent;
                         GroupsByName[tKeyValue.Value].Elements.Add(tKeyValue.Key);
                         GroupsByName[tKeyValue.Value].Elements.Sort((x, y) => x.Order.CompareTo(y.Order));
                     }
                     else
                     {
-                        //Debug.Log("try to add " + tKeyValue.Key.Name + " in new group : " + tKeyValue.Value);
                         tKeyValue.Key.Indent = 1;
                         NWDBasisHelperElement tElement = new NWDBasisHelperElement();
                         tElement.Order = InspectorHelper.Elements.Count();
@@ -798,14 +752,10 @@ namespace NetWorkedData
                         NWDTypeClass tObject = DatasByReference[sReference] as NWDTypeClass;
                         if (string.IsNullOrEmpty(tObject.InternalKey))
                         {
-                            //rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
-                            //rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.InternalDescription);
                             rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", sReference + " : " + tObject.InternalDescription);
                         }
                         else
                         {
-                            //rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
-                            //rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", tObject.InternalDescription);
                             rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", sReference + " : " + tObject.InternalDescription);
                         }
                     }
@@ -830,7 +780,6 @@ namespace NetWorkedData
             {
                 rReturn = new GUIContent(NWDConstants.kFieldNone);
             }
-            //NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

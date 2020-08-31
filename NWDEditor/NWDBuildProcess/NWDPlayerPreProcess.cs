@@ -37,7 +37,7 @@ namespace NetWorkedData.NWDEditor
         {
             EditorApplication.playModeStateChanged -= PlayModeStateChangedCallback; // remove old callback from compile for this class
             EditorApplication.playModeStateChanged += PlayModeStateChangedCallback;
-#if UNITY_2018
+#if UNITY_2018_1_OR_NEWER
             EditorApplication.quitting -= Quit;
             EditorApplication.quitting += Quit;
 #endif

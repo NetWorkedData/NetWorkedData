@@ -98,7 +98,6 @@ namespace NetWorkedData.NWDEditor
         public static AssetMoveResult OnWillMoveAsset(string sOldPath, string sNewPath)
         {
             //NWDBenchmark.Start();
-            //Debug.Log("sOldPath = " + sOldPath + " to sNewPath " + sNewPath);
             AssetMoveResult rReturn = AssetMoveResult.DidNotMove;
             if (ContaintsResource(sOldPath) == true)
             {
@@ -111,7 +110,6 @@ namespace NetWorkedData.NWDEditor
         public static AssetDeleteResult OnWillDeleteAsset(string sOldPath, RemoveAssetOptions sUnused)
         {
             //NWDBenchmark.Start();
-            //Debug.Log("sOldPath = " + sOldPath + " deleted");
             AssetDeleteResult rReturn = AssetDeleteResult.DidNotDelete;
             if (ContaintsResource(sOldPath) == true)
             {

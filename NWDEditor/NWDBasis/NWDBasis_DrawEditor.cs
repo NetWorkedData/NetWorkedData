@@ -34,13 +34,6 @@ namespace NetWorkedData
     public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
-        protected UnityEngine.Object PreviewObject = null;
-        protected Texture2D PreviewTexture;
-        protected bool PreviewTextureIsLoaded = false;
-        //-------------------------------------------------------------------------------------------------------------
-        bool CanBeEdit = true;
-        string ErrorLog;
-        bool WithScrollview = true;
         public Rect TotalRect;
         public Rect HeaderRect;
         public Rect InformationsRect;
@@ -50,6 +43,14 @@ namespace NetWorkedData
         public Rect ActionRect;
         public Rect ContentRect;
         public Rect ScrollRect;
+        //-------------------------------------------------------------------------------------------------------------
+        protected UnityEngine.Object PreviewObject = null;
+        protected Texture2D PreviewTexture;
+        protected bool PreviewTextureIsLoaded = false;
+        //-------------------------------------------------------------------------------------------------------------
+        bool CanBeEdit = true;
+        string ErrorLog;
+        bool WithScrollview = true;
         //-------------------------------------------------------------------------------------------------------------
         public Texture2D ReloadPreview()
         {
@@ -79,7 +80,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override Texture2D PreviewTexture2D()
         {
+            //NWDBenchmark.Start();
             ReloadPreview();
+            //NWDBenchmark.Finish();
             return PreviewTexture;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -107,16 +110,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DrawHeaderColor(NWDNodeCard sNodalCard)
         {
+            //NWDBenchmark.Start();
             Rect tR = new Rect(HeaderRect.x, HeaderRect.y, HeaderRect.width, HeaderRect.height);
             if (sNodalCard != null)
             {
                 tR = new Rect(sNodalCard.HeaderRect.x, sNodalCard.HeaderRect.y, sNodalCard.HeaderRect.width, sNodalCard.HeaderRect.height);
             }
             EditorGUI.DrawRect(NWDGUI.UnMargeInspector(tR, true, true, true, true), NWDGUI.kSubSectionColor);
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawInformationsColor(NWDNodeCard sNodalCard)
         {
+            //NWDBenchmark.Start();
             Rect tR = new Rect(InformationsRect.x, InformationsRect.y, InformationsRect.width, InformationsRect.height);
             bool tDraw = true;
             if (sNodalCard != null)
@@ -128,10 +134,12 @@ namespace NetWorkedData
             {
                 EditorGUI.DrawRect(NWDGUI.UnMargeInspector(tR, true, true, false, true), NWDGUI.kSubSectionColor);
             }
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawActionColor(NWDNodeCard sNodalCard)
         {
+            //NWDBenchmark.Start();
             Rect tR = new Rect(ActionRect.x, ActionRect.y, ActionRect.width, ActionRect.height);
             bool tDraw = true;
             if (sNodalCard != null)
@@ -143,11 +151,12 @@ namespace NetWorkedData
             {
                 EditorGUI.DrawRect(NWDGUI.UnMargeInspector(tR, true, true, false, true), NWDGUI.kSubSectionColor);
             }
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         {
-            //NodalCard = sNodalCard;
+            //NWDBenchmark.Start();
             WithScrollview = sWithScrollview;
             if (sNodalCard != null)
             {
@@ -280,10 +289,12 @@ namespace NetWorkedData
                 {
                 }
             }
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawHeader(NWDNodeCard sNodalCard)
         {
+            //NWDBenchmark.Finish();
             Rect tR = new Rect(HeaderRect.x, HeaderRect.y, HeaderRect.width, HeaderRect.height);
             if (sNodalCard != null)
             {
@@ -295,7 +306,7 @@ namespace NetWorkedData
             {
                 tR.y += NWDGUI.kFieldMarge;
                 tR.y += sNodalCard.ParentDocument.DrawAnalyzer(tR, sNodalCard, GetType().Name);
-                NWDGUI.Line(NWDGUI.UnMargeLeftRight(tR)); //, Color.blue);
+                NWDGUI.Line(NWDGUI.UnMargeLeftRight(tR));
             }
             // DARW MODEL ALERT DEBUG 
             if (BasisHelper().TablePrefix != BasisHelper().TablePrefixOld)
@@ -357,17 +368,6 @@ namespace NetWorkedData
             tRcenter.height = NWDGUI.kInspectorReferenceCenter.fixedHeight;
             GUI.Label(tRcenter, NWDConstants.K_APP_BASIS_DM + NWDToolbox.TimeStampToDateTime(DM).ToString("yyyy/MM/dd HH:mm:ss"), NWDGUI.kInspectorReferenceCenter);
             tRcenter.y += NWDGUI.kInspectorReferenceCenter.fixedHeight;
-
-            //if (GUI.Button(tRcenter, "Select in table", NWDGUI.kMiniButtonStyle))
-            //{
-            //    foreach (NWDTypeWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(ClassType()))
-            //    {
-            //        tWindow.Focus();
-            //        tWindow.SelectTab(ClassType());
-            //    }
-            //    BasisHelper().SetObjectInEdition(this, false, true);
-            //    BasisHelper().ChangeScroolPositionToSelection();
-            //}
             // draw preview
             DrawPreviewTexture2D(tRright);
             //draw class icon
@@ -376,11 +376,12 @@ namespace NetWorkedData
             {
                 GUI.DrawTexture(tRleft, tTextureOfClass);
             }
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawInformations(NWDNodeCard sNodalCard)
         {
-            // DRAW TOP : properties area
+            //NWDBenchmark.Finish();
             bool tDrawTop = true;
             if (sNodalCard != null)
             {
@@ -526,7 +527,6 @@ namespace NetWorkedData
                 tR.height = NWDGUI.kMiniLabelStyle.fixedHeight;
                 BasisHelper().kSyncAndMoreInformations = EditorGUI.Foldout(tR, BasisHelper().kSyncAndMoreInformations, NWDConstants.K_APP_BASIS_INFORMATIONS, NWDGUI.kFoldoutStyle);
                 tR.y += NWDGUI.kFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
-                //tR.y += NWDGUI.kFieldMarge;
                 if (BasisHelper().kSyncAndMoreInformations)
                 {
                     EditorGUI.EndDisabledGroup();
@@ -562,19 +562,16 @@ namespace NetWorkedData
                     tR.y += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                     EditorGUI.TextField(tR, "dyn integrity req", IntegrityValue(), NWDGUI.kMiniLabelStyle);
                     tR.y += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-
                     EditorGUI.BeginDisabledGroup(CanBeEdit == false);
                 }
                 tR.height = NWDGUI.kObjectFieldStyle.fixedHeight;
                 UnityEngine.Object pObj = EditorGUI.ObjectField(tR, NWDConstants.K_APP_BASIS_PREVIEW_GAMEOBJECT, PreviewObject, typeof(UnityEngine.Object), false);
                 tR.y += NWDGUI.kObjectFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-
                 string tPreFabGameObject = string.Empty;
                 if (pObj != null)
                 {
                     tPreFabGameObject = AssetDatabase.GetAssetPath(pObj);
                 }
-
                 if (Preview != tPreFabGameObject)
                 {
                     Preview = tPreFabGameObject;
@@ -583,14 +580,11 @@ namespace NetWorkedData
                     RowAnalyze();
                     BasisHelper().RepaintTableEditor();
                 }
-
                 bool tInternalKeyEditable = true;
-
                 if (GetType().GetCustomAttributes(typeof(NWDInternalKeyNotEditableAttribute), true).Length > 0)
                 {
                     tInternalKeyEditable = false;
                 }
-
                 if (tInternalKeyEditable == true)
                 {
                     tR.height = NWDGUI.kTextFieldStyle.fixedHeight;
@@ -611,10 +605,7 @@ namespace NetWorkedData
                     tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                     EditorGUI.EndDisabledGroup();
                 }
-
-
                 bool tInternalDescriptionEditable = true;
-
                 if (GetType().GetCustomAttributes(typeof(NWDInternalDescriptionNotEditableAttribute), true).Length > 0)
                 {
                     tInternalDescriptionEditable = false;
@@ -647,9 +638,7 @@ namespace NetWorkedData
                     List<int> tWebServicesInt = new List<int>();
                     List<string> tWebServicesString = new List<string>();
                     tWebServicesInt.Add(0);
-
                     foreach (KeyValuePair<int, bool> tKeyValue in tApp.WSList)
-                    //for (int tW = 0; tW <= tWebBuilt; tW++)
                     {
                         int tWebModel = 0;
                         if (tKeyValue.Value == true)
@@ -691,7 +680,6 @@ namespace NetWorkedData
                     }
                     if (WebModel != tWebServiceVersionNew)
                     {
-                        // Debug.Log(" set from " + WebModel + " To " + tWebServiceVersionNew);
                         WebModel = tWebServiceVersionNew;
                         UpdateDataEditor();
                     }
@@ -721,8 +709,6 @@ namespace NetWorkedData
                     Tag = tInternalTag;
                     UpdateDataEditor();
                 }
-
-                //if (BasisHelper().kAccountDependent == false)
                 if (BasisHelper().TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
                 {
                     if (CheckList == null)
@@ -753,214 +739,20 @@ namespace NetWorkedData
                 else
                 {
                     EditorGUI.LabelField(tR, NWDConstants.K_APP_TABLE_SEARCH_BUNDLE, "no bundled");
-                    //NWEDataTypeEnum tBundle = Bundle.ControlField(tR, NWDConstants.K_APP_TABLE_SEARCH_BUNDLE, !CanBeEdit);
                 }
                 tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-                //NWDBasisBundle tBundle = (NWDBasisBundle)Bundle.ControlField(tR, NWDConstants.K_APP_TABLE_SEARCH_BUNDLE, !CanBeEdit);
-
-                //tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-                //if (tBundle.Value != Bundle.Value)
-                //{
-                //    Bundle = tBundle;
-                //    UpdateDataEditor();
-                //}
-
-
-
                 #region Begin environment toggle
-                /*
-
-
-                bool tDisableDev = false;
-                bool tDisablePreprod = false;
-                bool tDisableProd = false;
-                if (NWDDataManager.SharedInstance().ClassUnSynchronizeList.Contains(ClassType()))
-                {
-                    tDisableDev = true;
-                    tDisablePreprod = true;
-                    tDisableProd = true;
-                }
-                //if (AccountDependent() == true)
-                if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
-                {
-                    tDisableDev = true;
-                    tDisablePreprod = true;
-                    tDisableProd = true;
-                }
-                Rect[] tSyncRect = NWDGUI.DiviseArea(tR, 3, false);
-                // Toogle Dev Prepprod Prod and operation associated
-                float tWidthTiers = tR.width / 3.0f;
-                bool tDevLockAnalyze = false;
-                if (DevSync >= 0)
-                {
-                    tDevLockAnalyze = true;
-                }
-                //if (tDisableDev == true)
-                //{
-                //    tDevLockAnalyze = false;
-                //}
-                EditorGUI.BeginDisabledGroup(tDisableDev);
-                bool tDevLock = tDevLockAnalyze;
-                if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
-                {
-                    tDevLock = EditorGUI.ToggleLeft(tSyncRect[0], "Dev", tDevLockAnalyze);
-                }
-                else
-                {
-                    GUI.Label(tSyncRect[0], "no Dev");
-                }
-                EditorGUI.EndDisabledGroup();
-
-
-                bool tPreprodLockAnalyze = false;
-                if (PreprodSync >= 0)
-                {
-                    tPreprodLockAnalyze = true;
-                }
-                //if (tDisablePreprod == true)
-                //{
-                //    tPreprodLockAnalyze = false;
-                //}
-                EditorGUI.BeginDisabledGroup(tDisablePreprod);
-                bool tPreprodLock = tPreprodLockAnalyze;
-                if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
-                {
-                    tPreprodLock = EditorGUI.ToggleLeft(tSyncRect[1], "Preprod", tPreprodLockAnalyze);
-                }
-                else
-                {
-                    GUI.Label(tSyncRect[1], "no Preprod");
-                }
-                EditorGUI.EndDisabledGroup();
-
-
-                bool tProdLockAnalyze = false;
-                if (ProdSync >= 0)
-                {
-                    tProdLockAnalyze = true;
-                }
-                if (tDisableProd == true)
-                {
-                    tProdLockAnalyze = false;
-                }
-                EditorGUI.BeginDisabledGroup(tDisableProd);
-                bool tProdLock = tProdLockAnalyze;
-                if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
-                {
-                    tProdLock = EditorGUI.ToggleLeft(tSyncRect[2], "Prod", tProdLockAnalyze);
-                }
-                else
-                {
-                    GUI.Label(tSyncRect[2], "no Prod");
-                }
-                EditorGUI.EndDisabledGroup();
-                if (tDevLockAnalyze != tDevLock)
-                {
-                    if (tDevLock == false)
-                    {
-                        if (DevSync == 0)
-                        {
-                            DevSync = -1;
-                        }
-                        else if (DevSync == 1)
-                        {
-                            DevSync = -2;
-                        }
-                        else
-                        {
-                            DevSync = -Math.Abs(DevSync);
-                        }
-                    }
-                    else
-                    {
-                        if (DevSync == -1)
-                        {
-                            DevSync = 0;
-                        }
-                        else
-                        {
-                            DevSync = 1;
-                        }
-                    }
-                    UpdateData();
-                    BasisHelper().RepaintTableEditor();
-                }
-                if (tPreprodLockAnalyze != tPreprodLock)
-                {
-                    if (tPreprodLock == false)
-                    {
-                        if (PreprodSync == 0)
-                        {
-                            PreprodSync = -1;
-                        }
-                        else if (PreprodSync == 1)
-                        {
-                            PreprodSync = -2;
-                        }
-                        else
-                        {
-                            PreprodSync = -Math.Abs(PreprodSync);
-                        }
-                    }
-                    else
-                    {
-                        if (PreprodSync == -1)
-                        {
-                            PreprodSync = 0;
-                        }
-                        else
-                        {
-                            PreprodSync = 1;
-                        }
-                    }
-                    UpdateData();
-                    BasisHelper().RepaintTableEditor();
-                }
-                if (tProdLockAnalyze != tProdLock)
-                {
-                    if (tProdLock == false)
-                    {
-                        if (ProdSync == 0)
-                        {
-                            ProdSync = -1;
-                        }
-                        else if (ProdSync == 1)
-                        {
-                            ProdSync = -2;
-                        }
-                        else
-                        {
-                            ProdSync = -Math.Abs(ProdSync);
-                        }
-                    }
-                    else
-                    {
-                        if (ProdSync == -1)
-                        {
-                            ProdSync = 0;
-                        }
-                        else
-                        {
-                            ProdSync = 1;
-                        }
-                    }
-                    UpdateData();
-                    BasisHelper().RepaintTableEditor();
-                }
-
-
-                */
                 #endregion
-
                 tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
 
                 EditorGUI.EndDisabledGroup();
             }
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawNodal(NWDNodeCard sNodalCard)
         {
+            //NWDBenchmark.Finish();
             if (sNodalCard != null)
             {
                 NWDGUI.Line(NWDGUI.UnMargeLeftRight(new Rect(sNodalCard.NodalRect.x, sNodalCard.NodalRect.y, sNodalCard.NodalRect.width, 1)));
@@ -971,10 +763,12 @@ namespace NetWorkedData
                 NWDGUI.Line(NWDGUI.UnMargeLeftRight(new Rect(sNodalCard.NodalRect.x, sNodalCard.NodalRect.y + sNodalCard.NodalRect.height, sNodalCard.NodalRect.width, 1))
                     );//, Color.red);
             }
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawScrollView(NWDNodeCard sNodalCard)
         {
+            //NWDBenchmark.Finish();
             bool rNeedBeUpdate = false;
             EditorGUI.BeginChangeCheck();
             // Start scrollview
@@ -1030,10 +824,12 @@ namespace NetWorkedData
                     }
                 }
             }
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawProperties(NWDNodeCard sNodalCard)
         {
+            //NWDBenchmark.Start();
             Rect tR = new Rect(PropertiesRect.x, PropertiesRect.y, PropertiesRect.width, PropertiesRect.height);
             if (sNodalCard != null)
             {
@@ -1049,20 +845,24 @@ namespace NetWorkedData
             {
                 tY = tElement.NewDrawObjectInspector(this, sNodalCard, tR.x, tY, tR.width);
             }
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawAddOn(NWDNodeCard sNodalCard)
         {
+            //NWDBenchmark.Start();
             Rect tR = AddOnRect;
             if (sNodalCard != null)
             {
                 tR = sNodalCard.AddOnRect;
             }
             AddonEditor(tR);
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawAction(NWDNodeCard sNodalCard)
         {
+            //NWDBenchmark.Start();
             bool tDrawBottom = true;
             if (sNodalCard != null)
             {
@@ -1532,105 +1332,12 @@ namespace NetWorkedData
                     BasisHelper().RepaintTableEditor();
                 }
 
-
-
-                /*
-
-
-                if (GUI.Button(tMatrixRect[0, tLine], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER + " Dev", NWDGUI.kMiniButtonStyle))
-                {
-                    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
-                    tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
-                    NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate
-                    {
-                        BasisHelper().RepaintTableEditor();
-                    });
-                }
-                if (GUI.Button(tMatrixRect[1, tLine], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER + " Preprod", NWDGUI.kMiniButtonStyle))
-                {
-                    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
-                    tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
-                    NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate
-                    {
-                        BasisHelper().RepaintTableEditor();
-                    });
-                }
-                if (GUI.Button(tMatrixRect[2, tLine], NWDConstants.K_APP_BASIS_PULL_FROM_SERVER + " Prod", NWDGUI.kMiniButtonStyle))
-                {
-                    Dictionary<Type, List<string>> tTypeAndReferences = new Dictionary<Type, List<string>>();
-                    tTypeAndReferences.Add(ClassType(), new List<string>() { Reference });
-                    NWDDataManager.SharedInstance().AddWebRequestPullReferencesWithBlock(tTypeAndReferences, delegate
-                    {
-                        BasisHelper().RepaintTableEditor();
-                    });
-                }
-
-                */
-
-                //if (GUI.Button(tMatrixRect[2, tLine], NWDConstants.K_APP_BASIS_NEW_SHORT_REFERENCE, NWDGUI.kMiniButtonStyle))
-                //{
-                //    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_NEW_REFERENCE_WARNING,
-                //            NWDConstants.K_APP_BASIS_NEW_REFERENCE_MESSAGE,
-                //            NWDConstants.K_APP_BASIS_NEW_REFERENCE_OK,
-                //            NWDConstants.K_APP_BASIS_NEW_REFERENCE_CANCEL))
-                //    {
-                //        RegenerateNewShortReference();
-                //    }
-                //}
-                //if (GUI.Button(tMatrixRect[3, tLine], NWDConstants.K_APP_BASIS_NEW_REFERENCE, NWDGUI.kMiniButtonStyle))
-                //{
-                //    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_NEW_REFERENCE_WARNING,
-                //            NWDConstants.K_APP_BASIS_NEW_REFERENCE_MESSAGE,
-                //            NWDConstants.K_APP_BASIS_NEW_REFERENCE_OK,
-                //            NWDConstants.K_APP_BASIS_NEW_REFERENCE_CANCEL))
-                //    {
-                //        RegenerateNewReference();
-                //    }
-                //}
-                NWDGUI.EndRedArea();
-                //if (GUI.Button(tMatrixRect[2, tLine], NWDConstants.K_APP_BASIS_DUPPLICATE, NWDGUI.kMiniButtonStyle))
-                //{
-                //    UpdateDataIfModified(true, NWDWritingMode.ByEditorDefault);
-                //    NWDTypeClass tNexObject = NWDBasisHelper.DuplicateData(this, true, NWDWritingMode.ByEditorDefault);
-                //    if (BasisHelper().m_SearchTag != NWDBasisTag.NoTag)
-                //    {
-                //        tNexObject.Tag = BasisHelper().m_SearchTag;
-                //        tNexObject.UpdateData();
-                //    }
-                //    BasisHelper().SetObjectInEdition(tNexObject);
-                //    BasisHelper().m_PageSelected = BasisHelper().m_MaxPage * 3;
-                //    NWDDataManager.SharedInstance().DataQueueExecute();
-                //}
-                //EditorGUI.BeginDisabledGroup(IsTrashed());
-                //if (AC == false)
-                //{
-                //    if (GUI.Button(tMatrixRect[3, tLine], NWDConstants.K_APP_BASIS_REACTIVE, NWDGUI.kMiniButtonStyle))
-                //    {
-
-                //        if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_REACTIVE_WARNING,
-                //                    NWDConstants.K_APP_BASIS_REACTIVE_WARNING_MESSAGE,
-                //                    NWDConstants.K_APP_BASIS_REACTIVE_OK,
-                //                    NWDConstants.K_APP_BASIS_REACTIVE_CANCEL
-                //                ))
-                //        {
-                //            EnableData();
-                //        }
-                //    }
-                //}
-                //else
-                //{
-                //    if (GUI.Button(tMatrixRect[3, tLine], NWDConstants.K_APP_BASIS_DISACTIVE, NWDGUI.kMiniButtonStyle))
-                //    {
-                //        DisableData();
-                //    }
-                //}
-                //EditorGUI.EndDisabledGroup();
             }
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void AddonEditor(Rect sRect)
         {
-            //EditorGUI.DrawRect(sRect, Color.blue);
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool AddonEdited(bool sNeedBeUpdate)
@@ -1640,14 +1347,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void AddOnNodeDraw(Rect sRect)
         {
+            //NWDBenchmark.Start();
             Rect tRect = new Rect(sRect);
-
             tRect.height = NWDGUI.kBoldLabelStyle.fixedHeight;
-
-            //GUI.Label(tRect, InternalKey, NWDGUI.kBoldLabelStyle);
-            //tRect.y+= NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-            //GUI.Label(tRect, InternalDescription);
-            //tRect.y += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void ErrorCheck()

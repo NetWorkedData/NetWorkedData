@@ -88,8 +88,6 @@ namespace NetWorkedData
             }
             //NWDBenchmark.Finish();
         }
-
-
         //-------------------------------------------------------------------------------------------------------------
         public float NewDrawObjectInspectorHeight(object sObject, NWDNodeCard sNodalCard, float sWidth)
         {
@@ -122,7 +120,6 @@ namespace NetWorkedData
                         float tInformationsHeight = NWDGUI.kHelpBoxStyle.CalcHeight(Information, sWidth - tIndent);
                         tY += tInformationsHeight;
                     }
-                    //EditorGUI.BeginDisabledGroup(tNotEditable);
                     // check this propertyheight
                     if (Property.GetCustomAttributes(typeof(NWDEnumString), true).Length > 0)
                     {
@@ -259,12 +256,10 @@ namespace NetWorkedData
                         }
 
                     }
-                    //EditorGUI.EndDisabledGroup();
                 }
             }
             if (Group != null)
             {
-                //float tIndentGroup = (Group.Indent - 1) * NWDGUI.kFieldIndent;
                 if (Group.Visible == true)
                 {
                     if (Group.Separator == true)

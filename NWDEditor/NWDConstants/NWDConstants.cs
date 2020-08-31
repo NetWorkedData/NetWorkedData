@@ -227,7 +227,7 @@ namespace NetWorkedData
         public const string K_APP_CONFIGURATION_PREPROD = "PreProduction";
         public const string K_APP_CONFIGURATION_PROD = "Production";
         public const string K_APP_CONFIGURATION_SAVE_BUTTON = "Save configurations";
-        public const string K_APP_CONFIGURATION_LANGUAGE_AREA = "Project's localization";
+        public const string K_APP_CONFIGURATION_LANGUAGE_AREA = "Localization configurations";
         public const string K_APP_CONFIGURATION_ENVIRONMENT_AREA = "Environment's configurations";
         public const string K_APP_CONFIGURATION_BUNDLENAMEE_AREA = "Bundle name's localization";
         public const string K_APP_CONFIGURATION_DEV_LOCALALIZATION_AREA = "Project localization";

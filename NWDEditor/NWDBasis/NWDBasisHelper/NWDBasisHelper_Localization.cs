@@ -38,27 +38,26 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReOrderLocalizations(List<NWDTypeClass> sDatas)
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (NWDTypeClass tObject in sDatas)
             {
                 tObject.ReOrderLocalizationsValues(tLanguageArray);
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ReOrderAllLocalizations()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             ReOrderLocalizations(Datas);
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ExportLocalization(bool sOnlySelection = false)
         {
-            //NWDBenchmark.Start();
-            //Debug.Log ("ExportThisLocalization");
+            NWDBenchmark.Start();
             NWDDataManager.SharedInstance().DataQueueExecute();
             // ask for final file path
             string tPath = EditorUtility.SaveFilePanel(
@@ -77,12 +76,12 @@ namespace NetWorkedData
                 // write file
                 File.WriteAllText(tPath, tFile);
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public string ExportLocalizationInCSV(bool sOnlySelection = false)
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             string tRows = string.Empty;
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
@@ -103,33 +102,27 @@ namespace NetWorkedData
                     }
                 }
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
             return tRows;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ImportAllLocalizations(string[] sLanguageArray, string[] sCSVFileArray)
         {
-            //NWDBenchmark.Start();
-            //Debug.Log ("ImportAllLocalizations");
+            NWDBenchmark.Start();
             int tI = 0;
             int tCount = sCSVFileArray.Length;
             string tKeys = sCSVFileArray[0];
-            //Debug.Log ("ImportAllLocalizations tKeys = " + tKeys);
             string[] tKeysArray = tKeys.Split(new string[] { ";" }, StringSplitOptions.None);
-
-            //Debug.Log ("ImportAllLocalizations tCount = " + tCount);
             for (tI = 1; tI < tCount; tI++)
             {
                 ImportLocalization(sLanguageArray, tKeysArray, sCSVFileArray[tI]);
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ImportLocalization(string[] sLanguageArray, string[] sKeysArray, string sCSVrow)
         {
-            //NWDBenchmark.Start();
-            //Debug.Log ("sCSVrow = " + sCSVrow);
-            //string tHeaders = "\"Type\";\"Reference\";\"InternalKey\";\"InternalDescription\";\"PropertyName\";\"" + 
+            NWDBenchmark.Start();
             string[] tValuesArray = sCSVrow.Split(new string[] { ";" }, StringSplitOptions.None);
             Dictionary<string, string> tDico = new Dictionary<string, string>();
             int i = 0;
@@ -137,7 +130,6 @@ namespace NetWorkedData
             {
                 string tKey = sKeysArray[i].Trim('"');
                 string tValue = tValuesArray[i].Trim('"');
-                //Debug.Log ("dico : " + tKey + " =  " + tValue);
                 tDico.Add(tKey, tValue);
             }
             //if (tDico.ContainsKey ("Reference") && tDico.ContainsKey ("PropertyName") && tDico.ContainsKey ("Type")) 

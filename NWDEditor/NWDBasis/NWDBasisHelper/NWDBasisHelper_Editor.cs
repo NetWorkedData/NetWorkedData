@@ -40,8 +40,6 @@ namespace NetWorkedData
         None,
         BySelectAscendant,
         BySelectDescendant,
-        //ByIDAscendant,
-        //ByIDDescendant,
         ByPrefabAscendant,
         ByPrefabDescendant,
         ByInternalKeyAscendant,
@@ -92,12 +90,6 @@ namespace NetWorkedData
             m_ShowIntegrityError = NWDProjectPrefs.GetBool(ActionsPrefkey(() => m_ShowIntegrityError), true);
             m_ItemPerPageSelection = NWDProjectPrefs.GetInt(ActionsPrefkey(() => m_ItemPerPageSelection), 1);
 
-
-            //RowActions = NWDProjectPrefs.GetBool(ActionsPrefkey(() => RowActions), true);
-            //TableActions = NWDProjectPrefs.GetBool(ActionsPrefkey(() => TableActions), true);
-            //SearchActions = NWDProjectPrefs.GetBool(ActionsPrefkey(() => SearchActions), true);
-            //InspectorActions = NWDProjectPrefs.GetBool(ActionsPrefkey(() => InspectorActions), true);
-
             PanelActivate = (NWDBasisHelperPanel)NWDProjectPrefs.GetInt(ActionsPrefkey(() => PanelActivate), (int)NWDBasisHelperPanel.Data);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -111,10 +103,6 @@ namespace NetWorkedData
             NWDProjectPrefs.SetBool(ActionsPrefkey(() => m_ShowIntegrityError), m_ShowIntegrityError);
             NWDProjectPrefs.SetInt(ActionsPrefkey(() => m_ItemPerPageSelection), m_ItemPerPageSelection);
 
-            //NWDProjectPrefs.SetBool(ActionsPrefkey(() => RowActions), RowActions);
-            //NWDProjectPrefs.SetBool(ActionsPrefkey(() => SearchActions), SearchActions);
-            //NWDProjectPrefs.SetBool(ActionsPrefkey(() => TableActions), TableActions);
-            //NWDProjectPrefs.SetBool(ActionsPrefkey(() => InspectorActions), InspectorActions);
             NWDProjectPrefs.SetInt(ActionsPrefkey(() => PanelActivate), (int)PanelActivate);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -122,67 +110,10 @@ namespace NetWorkedData
         {
             //NWDBenchmark.Start();
             string tKey = "NWDBasisHelper_"; // prevent herited class
-            //if (NWDAppConfiguration.SharedInstance().EditorTableCommun == true)
-            //{
-            //    tKey = tKey + NWDToolbox.PropertyName(sProperty);
-            //}
-            //else
-            {
-                tKey = tKey + ClassNamePHP + NWDToolbox.PropertyName(sProperty); ;
-            }
-            //Debug.Log("ActionsPrefkey() : " + tKey);
+            tKey = tKey + ClassNamePHP + NWDToolbox.PropertyName(sProperty);
             //NWDBenchmark.Finish();
             return tKey;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //const string kSearchEditorKey = "kSearchEditorKey";
-        //const string kTableEditorKey = "kTableEditorKey";
-        //const string kRowActionKey = "kRowActionKey";
-        //const string kFilterNumberKey = "kFilterNumberKey";
-        //const string kZoomKey = "kZoomKey";
-        //const string kFilterEnabledKey = "kFilterEnabledKey";
-        //const string kFilterDisabledKey = "kFilterDisabledKey";
-        //const string kFilterTrasedKey = "kFilterTrasedKey";
-        //const string kFilterCorruptedZoomKey = "kFilterCorruptedZoomKey";
-        //-------------------------------------------------------------------------------------------------------------
-        //public bool SearchActions()
-        //{
-        //    return EditorPrefs.GetBool(ActionsPrefkey() + kSearchEditorKey);
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public bool RowActions()
-        //{
-        //    return EditorPrefs.GetBool(ActionsPrefkey() + kRowActionKey);
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public bool TableActions()
-        //{
-        //    return EditorPrefs.GetBool(ActionsPrefkey() + kTableEditorKey);
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public void SetSearchActions(bool sValue)
-        //{
-        //    EditorPrefs.SetBool(ActionsPrefkey() + kSearchEditorKey, sValue);
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public void SetRowActions(bool sValue)
-        //{
-        //    EditorPrefs.SetBool(ActionsPrefkey() + kRowActionKey, sValue);
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public void SetTableActions(bool sValue)
-        //{
-        //    EditorPrefs.SetBool(ActionsPrefkey() + kTableEditorKey, sValue);
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //[Obsolete("change for split panel")]
-        //public bool SearchActions = true;
-        //[Obsolete("change for split panel")]
-        //public bool RowActions = true;
-        //[Obsolete("change for split panel")]
-        //public bool TableActions = true;
-        //[Obsolete("change for split panel")]
-        //public bool InspectorActions = true;
         //-------------------------------------------------------------------------------------------------------------
 
         public NWDBasisEditorDatasSortType SortType = NWDBasisEditorDatasSortType.ByInternalKeyDescendant;
@@ -202,10 +133,10 @@ namespace NetWorkedData
 
         public int m_ItemPerPageSelection = 0;
 
-    public string[] m_ItemPerPageOptions = new string[] {
-            "15", "20", "30", "40", "50", "100", "200", "300", "400", "500"
+        public string[] m_ItemPerPageOptions = new string[] {
+            "15", "20", "30", "40", "50", "100", "200", "300", "400", "500", "1000", "2000", "5000", "10000",
         };
-    public int m_PageSelected = 0;
+        public int m_PageSelected = 0;
         public int m_MaxPage = 0;
 
         public bool m_ShowEnable = true;
@@ -385,17 +316,6 @@ namespace NetWorkedData
                     {
                     }
                     break;
-                //case NWDBasisEditorDatasSortType.ByIDAscendant:
-                //    {
-                //        //Already did! at first line!
-                //        //EditorTableDatas.Sort((x, y) => x.AnalyzeID.CompareTo(y.AnalyzeID));
-                //    }
-                //    break;
-                //case NWDBasisEditorDatasSortType.ByIDDescendant:
-                //    {
-                //        EditorTableDatas.Sort((x, y) => y.AnalyzeID.CompareTo(x.AnalyzeID));
-                //    }
-                //    break;
                 case NWDBasisEditorDatasSortType.ByPrefabAscendant:
                     {
                         EditorTableDatas.Sort((x, y) => x.AnalyzePrefab.CompareTo(y.AnalyzePrefab));

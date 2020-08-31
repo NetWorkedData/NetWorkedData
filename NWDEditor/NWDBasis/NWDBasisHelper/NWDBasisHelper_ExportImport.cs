@@ -114,7 +114,6 @@ namespace NetWorkedData
                             // ok
                             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
                             List<object> tDatas = tFileDico[KDatasKey] as List<object>;
-                            //UpdateDataFromWeb(NWDAppEnvironment sEnvironment, string[] sDataArray, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal);
                             if (tDatas != null)
                             {
                                 Debug.Log("try import tDatas count :" + tDatas.Count);

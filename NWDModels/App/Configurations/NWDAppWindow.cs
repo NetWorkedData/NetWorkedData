@@ -42,11 +42,11 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         const string K_APP_MENU = "App" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT;
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_APP_MENU, false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX +1)]
-        public static void MenuMethod()
-        {
-            ShowWindow();
-        }
+        //[MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_APP_MENU, false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX +1)]
+        //public static void MenuMethod()
+        //{
+        //    ShowWindow();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_APP_MENU + "/Version", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 1)]
         public static void MenuMethodVersion()

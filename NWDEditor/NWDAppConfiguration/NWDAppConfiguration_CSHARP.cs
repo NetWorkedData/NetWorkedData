@@ -137,7 +137,6 @@ namespace NetWorkedData
                 Debug.LogException(e);
                 throw;
             }
-
             NWDBenchmark.Finish();
 
         }
