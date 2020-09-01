@@ -358,6 +358,7 @@ namespace NetWorkedData
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
                 if (tDatas != null)
                 {
+                    tDatas.DetermineLast();
                     StringBuilder rReturnClass = new StringBuilder(string.Empty);
                     foreach (NWDClassMacroAttribute tMacro in tDatas.ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
                     {

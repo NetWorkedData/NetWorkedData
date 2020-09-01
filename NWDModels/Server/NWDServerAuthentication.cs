@@ -53,7 +53,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool ConnectSFTP()
         {
-            Debug.Log("NWDServerAuthentication ConnectSFTP()");
+            //Debug.Log("NWDServerAuthentication ConnectSFTP()");
             bool rReturn = false;
             //NWDBenchmark.Start();
             if (SftpConnexion == null)
@@ -69,13 +69,13 @@ namespace NetWorkedData
                 }
                 if (SftpConnexion.IsConnected)
                 {
-                    Debug.Log("NWDServerAuthentication ConnectSFTP() connected");
+                    //Debug.Log("NWDServerAuthentication ConnectSFTP() connected");
                     rReturn = true;
                     SftpConnexion.BufferSize = 4 * 1024; // bypass Payload error large files
                 }
                 else
                 {
-                    Debug.Log("NWDServerAuthentication ConnectSFTP() not connected");
+                    //Debug.Log("NWDServerAuthentication ConnectSFTP() not connected");
                 }
             }
             //NWDBenchmark.Finish();

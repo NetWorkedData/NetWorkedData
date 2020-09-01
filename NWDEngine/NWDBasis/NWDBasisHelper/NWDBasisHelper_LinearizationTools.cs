@@ -609,6 +609,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DetermineLast()
         {
+            NWDBenchmark.Start();
             // generate new last build for this model
             LastWebBuild = 0;
             foreach (KeyValuePair<int, List<string>> tWS_WebModel in WebModelPropertiesOrder)
@@ -618,6 +619,7 @@ namespace NetWorkedData
                     LastWebBuild = tWS_WebModel.Key;
                 }
             }
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ReplaceOrders(int sWebBuild)

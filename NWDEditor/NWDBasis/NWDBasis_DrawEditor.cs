@@ -680,8 +680,10 @@ namespace NetWorkedData
                     }
                     if (WebModel != tWebServiceVersionNew)
                     {
+                        //BasisHelper().DetermineLast();
                         WebModel = tWebServiceVersionNew;
-                        UpdateDataEditor();
+                        AddonWebversionUpgradeMe(tWebServiceVersionNew, WebModel);
+                        UpdateDataIfModified();
                     }
                 }
                 else

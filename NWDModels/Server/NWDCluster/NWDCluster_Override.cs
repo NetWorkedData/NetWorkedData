@@ -29,7 +29,6 @@ namespace NetWorkedData
     public partial class NWDCluster : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
-
         public void CheckUnicityCluster()
         {
             foreach (NWDCluster tCluster in NWDBasisHelper.GetReachableDatas<NWDCluster>())
@@ -100,6 +99,9 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonUpdateMe()
         {
+            NWDDebug.Trace();
+            NWDBenchmark.Trace();
+
             base.AddonUpdateMe();
             //#if UNITY_EDITOR
             // do something when object will be updated

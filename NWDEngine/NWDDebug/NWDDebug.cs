@@ -20,6 +20,7 @@ using System.Diagnostics;
 #if UNITY_EDITOR
 using UnityEditor;
 using NetWorkedData.NWDEditor;
+using System.Reflection;
 #endif
 //=====================================================================================================================
 namespace NetWorkedData
@@ -47,6 +48,20 @@ namespace NetWorkedData
             {
                 return false;
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Log just a trace.
+        /// </summary>
+        public static void Trace()
+        {
+            StackTrace st = new StackTrace();
+            StackFrame sf = st.GetFrame(1);
+            MethodBase tM = sf.GetMethod();
+            string tDot = ".";
+            if (tM.IsStatic == true) { tDot = ">"; }
+            string tMethod = tM.DeclaringType.Name + tDot + tM.Name;
+            UnityEngine.Debug.Log("TRACE " + tMethod);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -92,46 +107,46 @@ namespace NetWorkedData
         /// <param name="sThis"></param>
         private static void WriteConsole(string sString, bool sWarning = false, UnityEngine.Object sThis = null)
         {
-                if (sWarning == true)
+            if (sWarning == true)
+            {
+                if (sThis != null)
                 {
-                    if (sThis != null)
-                    {
-                        UnityEngine.Debug.LogWarning(NWDAppEnvironment.SelectedEnvironment().Environment + ": " + sString, sThis);
-                    }
-                    else
-                    {
-                        UnityEngine.Debug.LogWarning(NWDAppEnvironment.SelectedEnvironment().Environment + ": " + sString);
-                    }
+                    UnityEngine.Debug.LogWarning(NWDAppEnvironment.SelectedEnvironment().Environment + ": " + sString, sThis);
                 }
                 else
                 {
-                    if (sThis != null)
-                    {
-                        UnityEngine.Debug.Log(NWDAppEnvironment.SelectedEnvironment().Environment + ": " + sString, sThis);
-                    }
-                    else
-                    {
-                        UnityEngine.Debug.Log(NWDAppEnvironment.SelectedEnvironment().Environment + ": " + sString);
-                    }
+                    UnityEngine.Debug.LogWarning(NWDAppEnvironment.SelectedEnvironment().Environment + ": " + sString);
                 }
-                if (NWDAppEnvironment.SelectedEnvironment().LogMode == NWDEnvironmentLogMode.LogInFile)
+            }
+            else
+            {
+                if (sThis != null)
                 {
-                    string tFileDebug = "\r\n";
-                    if (sWarning == true)
-                    {
-                        tFileDebug += "WARNING\r\n";
-                    }
-                    tFileDebug += NWDAppEnvironment.SelectedEnvironment().Environment + ": " + sString;
-                    tFileDebug = tFileDebug.Replace(",\"", ",\r\n\"").Replace("{", "\r\n{\r\n").Replace("}", "\r\n}\r\n").Replace("\r\n}\r\n,\r\n", "\r\n},\r\n");
-                    tFileDebug = NWDToolbox.CSharpFormat(tFileDebug);
-                    string tPath = Application.persistentDataPath + "/WEBLOG-" + DateTime.Now.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss") + ".txt";
-                    File.AppendAllText(tPath, tFileDebug);
+                    UnityEngine.Debug.Log(NWDAppEnvironment.SelectedEnvironment().Environment + ": " + sString, sThis);
                 }
+                else
+                {
+                    UnityEngine.Debug.Log(NWDAppEnvironment.SelectedEnvironment().Environment + ": " + sString);
+                }
+            }
+            if (NWDAppEnvironment.SelectedEnvironment().LogMode == NWDEnvironmentLogMode.LogInFile)
+            {
+                string tFileDebug = "\r\n";
+                if (sWarning == true)
+                {
+                    tFileDebug += "WARNING\r\n";
+                }
+                tFileDebug += NWDAppEnvironment.SelectedEnvironment().Environment + ": " + sString;
+                tFileDebug = tFileDebug.Replace(",\"", ",\r\n\"").Replace("{", "\r\n{\r\n").Replace("}", "\r\n}\r\n").Replace("\r\n}\r\n,\r\n", "\r\n},\r\n");
+                tFileDebug = NWDToolbox.CSharpFormat(tFileDebug);
+                string tPath = Application.persistentDataPath + "/WEBLOG-" + DateTime.Now.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss") + ".txt";
+                File.AppendAllText(tPath, tFileDebug);
+            }
 #if UNITY_EDITOR
-                if (NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG) == true)
-                {
-                    NWEClipboard.CopyToClipboard(sString);
-                }
+            if (NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG) == true)
+            {
+                NWEClipboard.CopyToClipboard(sString);
+            }
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------

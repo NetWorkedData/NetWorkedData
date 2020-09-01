@@ -695,10 +695,10 @@ namespace NetWorkedData
                         {
                             if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
                             {
-                                tProperty.Name = "!!! " + tProperty.Name + "";
+                                tProperty.Name = "<color=orange>!!! " + tProperty.Name + "</color>";
                                 if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
                                 {
-                                    tProperty.NotEditable = true;
+                                    //tProperty.NotEditable = true;
                                 }
                             }
                         }

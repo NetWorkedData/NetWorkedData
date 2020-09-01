@@ -118,6 +118,14 @@ namespace NetWorkedData
             return tMethod;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Log just a trace.
+        /// </summary>
+        public static void Trace()
+        {
+            UnityEngine.Debug.Log("TRACE " + GetKey());
+        }
+        //-------------------------------------------------------------------------------------------------------------
         [Conditional(MACRO)]
         public static void Start()
         {
