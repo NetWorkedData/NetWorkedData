@@ -136,8 +136,8 @@ namespace NetWorkedData.NWDEditor
             //General preferences
             NWDGUILayout.Section("Credentials preferences");
 
-            SaveCredentials = EditorGUILayout.Toggle("Save Credentials", SaveCredentials);
-            ShowPasswordInLog = EditorGUILayout.Toggle("Show passwords in Log", ShowPasswordInLog);
+            SaveCredentials = EditorGUILayout.Toggle("Save credentials", SaveCredentials);
+            ShowPasswordInLog = EditorGUILayout.Toggle("Show passwords in log", ShowPasswordInLog);
 
             NWDGUILayout.Section("Credentials");
 
@@ -146,7 +146,6 @@ namespace NetWorkedData.NWDEditor
 
             if (EditorGUI.EndChangeCheck())
             {
-                //Debug.Log("Change");
                 Save();
             }
 
@@ -192,7 +191,6 @@ namespace NetWorkedData.NWDEditor
         public static void SharedInstanceFocus()
         {
             //NWDBenchmark.Start();
-            //SharedInstance().ShowUtility();
             SharedInstance().ShowMe();
             SharedInstance().Focus();
             //NWDBenchmark.Finish();
@@ -228,9 +226,12 @@ namespace NetWorkedData.NWDEditor
         public void OnEnable()
         {
             //NWDBenchmark.Start();
+            // set ideal size
+            NormalizeWidth = 300;
+            NormalizeHeight = 300;
+            // set title
             TitleInit(NWDConstants.K_CREDENTIALS_CONFIGURATION_TITLE, typeof(NWDProjectCredentialsManager));
             NWDProjectCredentialsManagerContent.SharedInstance().Load();
-            // get values
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -305,11 +306,13 @@ namespace NetWorkedData.NWDEditor
             NWDProjectCredentialsManagerContent.SharedInstance().OnPreventGUI(position);
             NWDGUILayout.Line();
             NWDGUILayout.LittleSpace();
+            NWDGUI.BeginRedArea();
             if (GUILayout.Button("Flush and close"))
             {
                 NWDProjectCredentialsManagerContent.SharedInstance().flush();
                 Close();
             }
+            NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
             //NWDBenchmark.Finish();
         }

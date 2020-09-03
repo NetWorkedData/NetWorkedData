@@ -41,7 +41,7 @@ namespace NetWorkedData
         {
             NWDBenchmark.Start();
             NWDGUILayout.Section("Configuration for " + Environment + " environment");
-            NWDGUILayout.SubSection("Cluster data used for  " + Environment);
+            NWDGUILayout.SubSection("Cluster data used for " + Environment);
             NWDCluster tCluster = NWDCluster.SelectClusterforEnvironment(this);
             string tClusterSelection = "No selected cluster";
             if (tCluster != null)
@@ -61,62 +61,65 @@ namespace NetWorkedData
             }
             NWDGUILayout.SubSection("App identity " + Environment);
             AppName = EditorGUILayout.TextField("AppName", AppName);
-            PreProdTimeFormat = EditorGUILayout.TextField("Preprod Time Format", PreProdTimeFormat);
-            AppProtocol = EditorGUILayout.TextField("URL Scheme to use (xxx://)", AppProtocol);
+            PreProdTimeFormat = EditorGUILayout.TextField("Preprod time format", PreProdTimeFormat);
+            //AppProtocol = EditorGUILayout.TextField("URL scheme (xxx://)", AppProtocol);
+            EditorGUILayout.LabelField("Version", NWDVersion.GetMaxVersionStringForEnvironemt(this), EditorStyles.boldLabel);
 
             NWDGUILayout.SubSection("IP Ban " + Environment);
-            IPBanActive = EditorGUILayout.Toggle("IP Ban Active", IPBanActive);
+            IPBanActive = EditorGUILayout.Toggle("IPBan active", IPBanActive);
             EditorGUI.BeginDisabledGroup(!IPBanActive);
-            IPBanMaxTentative = EditorGUILayout.IntField("Max Tentative", IPBanMaxTentative);
+            IPBanMaxTentative = EditorGUILayout.IntField("Max tentative", IPBanMaxTentative);
             IPBanTimer = EditorGUILayout.IntField("Timer", IPBanTimer);
             EditorGUI.EndDisabledGroup();
 
-            NWDGUILayout.SubSection("Security of Datas" + Environment);
-            DataSHAPassword = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("SHA Password", DataSHAPassword));
-            DataSHAVector = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("SHA Vector", DataSHAVector));
+            NWDGUILayout.SubSection("Security of datas" + Environment);
+            DataSHAPassword = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("SHA password", DataSHAPassword));
+            DataSHAVector = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("SHA vector", DataSHAVector));
 
-            NWDGUILayout.SubSection("Hash of Datas" + Environment);
+            NWDGUILayout.SubSection("Hash of datas" + Environment);
             SaltStart = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("Salt start", SaltStart));
             SaltEnd = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("Salt end", SaltEnd));
-            SaltFrequency = EditorGUILayout.IntField("Salt Frequency", SaltFrequency);
+            SaltFrequency = EditorGUILayout.IntField("Salt frequency", SaltFrequency);
 
             NWDGUILayout.SubSection("Log mode " + Environment);
-            LogMode = (NWDEnvironmentLogMode)EditorGUILayout.EnumPopup("Log Mode", LogMode);
+            LogMode = (NWDEnvironmentLogMode)EditorGUILayout.EnumPopup("Log mode", LogMode);
 
-            NWDGUILayout.SubSection("Network Ping tester " + Environment);
-            AddressPing = EditorGUILayout.TextField("Address Ping (8.8.8.8)", AddressPing);
+            NWDGUILayout.SubSection("Network ping tester " + Environment);
+            AddressPing = EditorGUILayout.TextField("Address ping (8.8.8.8)", AddressPing);
 
-            NWDGUILayout.SubSection("Server Params for " + Environment);
-            AlwaysSecureData = EditorGUILayout.Toggle("Always Secure Data", AlwaysSecureData);
-            ServerLanguage = (NWDServerLanguage)EditorGUILayout.EnumPopup("Server Language", ServerLanguage);
-            WebTimeOut = EditorGUILayout.IntField("TimeOut request", WebTimeOut);
-            EditorWebTimeOut = EditorGUILayout.IntField("Editor TimeOut request", EditorWebTimeOut);
-            LoadBalancingLimit = EditorGUILayout.IntField("BalanceLoad", LoadBalancingLimit);
+            NWDGUILayout.SubSection("Server params for " + Environment);
+            AlwaysSecureData = EditorGUILayout.Toggle("Always secure data", AlwaysSecureData);
+            ServerLanguage = (NWDServerLanguage)EditorGUILayout.EnumPopup("Server language", ServerLanguage);
+            WebTimeOut = EditorGUILayout.IntField("Timeout request", WebTimeOut);
+            EditorWebTimeOut = EditorGUILayout.IntField("Editor timeout request", EditorWebTimeOut);
+            LoadBalancingLimit = EditorGUILayout.IntField("Balance load", LoadBalancingLimit);
             NWDGUILayout.SubSection("Email to send forgotten code " + Environment);
             RescueDelay = EditorGUILayout.IntField("Rescue delay", RescueDelay);
-            RescueLoginLength = EditorGUILayout.IntField("Rescue Login length", RescueLoginLength);
-            RescuePasswordLength = EditorGUILayout.IntField("Rescue Password length", RescuePasswordLength);
+            RescueLoginLength = EditorGUILayout.IntField("Rescue login length", RescueLoginLength);
+            RescuePasswordLength = EditorGUILayout.IntField("Rescue password length", RescuePasswordLength);
 
-            NWDGUILayout.SubSection("Token Historic limit for " + Environment);
+            NWDGUILayout.SubSection("Token historic limit for " + Environment);
             TokenHistoric = EditorGUILayout.IntSlider("Token number", TokenHistoric, 1, 10);
-            SpeedOfGameTime = EditorGUILayout.FloatField("Speed Of Game Time", SpeedOfGameTime);
-            EditorGUILayout.LabelField("version", NWDVersion.GetMaxVersionStringForEnvironemt(this), EditorStyles.boldLabel);
-            NWDGUILayout.SubSection("SQL Thread Activation " + Environment);
+
+            NWDGUILayout.SubSection("Time multiplicator for " + Environment);
+            SpeedOfGameTime = EditorGUILayout.FloatField("Speed of game time", SpeedOfGameTime);
+
+            NWDGUILayout.SubSection("SQL thread Activation " + Environment);
             ThreadPoolForce = EditorGUILayout.Toggle("SQL Thread", ThreadPoolForce);
-            WritingModeLocal = (NWDWritingMode)EditorGUILayout.EnumPopup("Writing Local", (NWDWritingModeConfig)WritingModeLocal);
-            WritingModeWebService = (NWDWritingMode)EditorGUILayout.EnumPopup("Writing WebService", (NWDWritingModeConfig)WritingModeWebService);
-            WritingModeEditor = (NWDWritingMode)EditorGUILayout.EnumPopup("Writing Editor", (NWDWritingModeConfig)WritingModeEditor);
-            NWDGUILayout.SubSection("Last Build infos " + Environment);
+            WritingModeLocal = (NWDWritingMode)EditorGUILayout.EnumPopup("Writing local", (NWDWritingModeConfig)WritingModeLocal);
+            WritingModeWebService = (NWDWritingMode)EditorGUILayout.EnumPopup("Writing webservice", (NWDWritingModeConfig)WritingModeWebService);
+            WritingModeEditor = (NWDWritingMode)EditorGUILayout.EnumPopup("Writing editor", (NWDWritingModeConfig)WritingModeEditor);
+            NWDGUILayout.SubSection("Last build infos " + Environment);
             EditorGUILayout.LabelField("Build date", this.BuildDate, EditorStyles.boldLabel);
-            EditorGUILayout.LabelField("Build Timestamp", this.BuildTimestamp.ToString(), EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Build timestamp", this.BuildTimestamp.ToString(), EditorStyles.boldLabel);
             DateTime tDate = NWEDateHelper.ConvertFromTimestamp(this.BuildTimestamp);
-            EditorGUILayout.LabelField("Build Timestamp string ", tDate.ToString("yyyy/MM/dd HH:mm:ss"), EditorStyles.boldLabel);
-            CartridgeColor = EditorGUILayout.ColorField("Cartridge Color", CartridgeColor);
-            if (GUILayout.Button("Reset Build Timestamp"))
+            EditorGUILayout.LabelField("Build timestamp string ", tDate.ToString("yyyy/MM/dd HH:mm:ss"), EditorStyles.boldLabel);
+            CartridgeColor = EditorGUILayout.ColorField("Cartridge color", CartridgeColor);
+            if (GUILayout.Button("Reset build timestamp"))
             {
                 BuildTimestamp = 0;
             }
-            NWDGUILayout.SubSection("Editor Define " + Environment);
+            NWDGUILayout.SubSection("Editor define " + Environment);
             Dictionary<long, string> tEditorExtensionDictionary = new Dictionary<long, string>(EditorDefineDictionary);
             Dictionary<long, string> tEditorExtensionDictionaryNext = new Dictionary<long, string>();
             if (tEditorExtensionDictionary.ContainsKey(0) == false)
@@ -144,7 +147,7 @@ namespace NetWorkedData
                 tEditorExtensionDictionaryNext.Remove(0);
             }
             EditorDefineDictionary = tEditorExtensionDictionaryNext;
-            NWDGUILayout.SubSection("Runtime Define " + Environment);
+            NWDGUILayout.SubSection("Runtime define " + Environment);
             Dictionary<long, string> tRuntimeExtensionDictionary = new Dictionary<long, string>(RuntimeDefineDictionary);
             Dictionary<long, string> tRuntimeExtensionDictionaryNext = new Dictionary<long, string>();
             if (tRuntimeExtensionDictionary.ContainsKey(0) == false)

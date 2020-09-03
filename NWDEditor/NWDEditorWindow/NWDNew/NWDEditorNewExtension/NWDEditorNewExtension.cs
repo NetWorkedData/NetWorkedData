@@ -228,7 +228,7 @@ namespace NetWorkedData.NWDEditor
         {
             base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
-            NWDGUILayout.Title("Custom Extension Generator");
+            NWDGUILayout.Title("Custom class extension generator");
             //NWDGUILayout.Informations("Custom your class!");
             //NWDGUILayout.Line();
             _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition);
@@ -282,7 +282,7 @@ namespace NetWorkedData.NWDEditor
             // add New property
             GUILayout.BeginHorizontal();
             int tNextIndex = 0;
-            tNextIndex = EditorGUILayout.Popup("New Property", tNextIndex, tListOfType.ToArray());
+            tNextIndex = EditorGUILayout.Popup("New property", tNextIndex, tListOfType.ToArray());
             string tNextPropertyType = tListOfType[tNextIndex];
             tNextPropertyType = tRegExpressionEmptyType.Replace(tNextPropertyType, " ");
             string tNextPropertyName = string.Empty;
@@ -373,7 +373,11 @@ namespace NetWorkedData.NWDEditor
         public void OnEnable()
         {
             NWDBenchmark.Start();
-            TitleInit("Custom Extension", typeof(NWDEditorNewExtension));
+            // set normal size
+            NormalizeWidth = 450;
+            NormalizeHeight = 700;
+            // set title
+            TitleInit("Custom class extension", typeof(NWDEditorNewExtension));
             NWDEditorNewExtensionContent.SharedInstance().OnEnable(this);
             NWDBenchmark.Finish();
         }

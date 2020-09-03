@@ -258,6 +258,10 @@ namespace NetWorkedData.NWDEditor
         public void OnEnable()
         {
             //NWDBenchmark.Start();
+            // set ideal size
+            NormalizeWidth = 2000;
+            NormalizeHeight = 900;
+            // set title
             TitleInit(NWDConstants.K_EDITOR_NODE_WINDOW_TITLE, typeof(NWDNodeEditor));
             NWDNodeEditorContent.SharedInstance().Document.EditorWindow = this;
             NWDNodeEditorContent.SharedInstance().Document.LoadClasses();

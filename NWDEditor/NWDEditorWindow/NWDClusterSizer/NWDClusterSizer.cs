@@ -271,22 +271,21 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public static NWDClusterSizer SharedInstance()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             if (_kSharedInstance == null)
             {
                 _kSharedInstance = EditorWindow.GetWindow(typeof(NWDClusterSizer), ShowAsWindow()) as NWDClusterSizer;
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
             return _kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDClusterSizer SharedInstanceFocus()
         {
-            //NWDBenchmark.Start();
-            //SharedInstance().ShowUtility();
+            NWDBenchmark.Start();
             SharedInstance().ShowMe();
             SharedInstance().Focus();
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
             return _kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -313,16 +312,22 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
+            NWDBenchmark.Start();
+            // set ideal size
+            NormalizeWidth = 500;
+            NormalizeHeight = 900;
+            // set title
             TitleInit(NWDConstants.K_APP_CLUSTER_SIZER_TITLE, typeof(NWDClusterSizer));
             NWDClusterSizerContent.SharedInstance().OnEnable(this);
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void OnPreventGUI()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDClusterSizerContent.SharedInstance().OnPreventGUI(position);
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

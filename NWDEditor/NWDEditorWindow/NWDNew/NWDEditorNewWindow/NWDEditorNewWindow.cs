@@ -33,6 +33,8 @@ namespace NetWorkedData.NWDEditor
     public class NWDEditorNewWindowContent : NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
+        const int K_CLASSNAME_MIN = 3;
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Scroll position in window
         /// </summary>
@@ -184,7 +186,7 @@ namespace NetWorkedData.NWDEditor
         {
             base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
-            NWDGUILayout.Title("Custom Window Manager ");
+            NWDGUILayout.Title("Custom classes window generator");
             //NWDGUILayout.Informations("Custom your window!");
             //NWDGUILayout.Line();
             _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition);
@@ -198,21 +200,15 @@ namespace NetWorkedData.NWDEditor
             // start Layout
             // futur class infos
             NWDGUILayout.Section("Class informations");
-            WindowName = EditorGUILayout.TextField("Class Name ", WindowName);
+            WindowName = EditorGUILayout.TextField("Class name ", WindowName);
             WindowName = tRegExpression.Replace(WindowName, string.Empty);
-            if (WindowName.Length < 3)
+            if (WindowName.Length < K_CLASSNAME_MIN)
             {
-                EditorGUILayout.LabelField(" ", "name must be longer than 3 characters");
+                EditorGUILayout.LabelField(" ", "name must be longer than " + K_CLASSNAME_MIN + " characters");
                 tCanCreate = false;
             }
             else
             {
-                //				TODO: find if Type exists
-                //			foreach (Type tType in NWDDataManager.SharedInstance().mTypeList) {
-                //				if (tType.Name == ClassName) {
-                //					tCanCreate = false;
-                //				}
-                //			}
                 if (tCanCreate == false)
                 {
                     EditorGUILayout.LabelField(" ", "this class already exists");
@@ -248,17 +244,17 @@ namespace NetWorkedData.NWDEditor
             WindowMenuPosition = EditorGUILayout.IntField("Menu position", WindowMenuPosition);
             if (WindowMenuPosition < 0)
             {
-                EditorGUILayout.LabelField(" ", "menu Position  must be greater than 0");
+                EditorGUILayout.LabelField(" ", "menu position must be greater than 0");
                 tCanCreate = false;
             }
             else if (WindowMenuPosition > 1000)
             {
-                EditorGUILayout.LabelField(" ", "menu Position  must be shorter than 1000");
+                EditorGUILayout.LabelField(" ", "menu position must be shorter than 1000");
                 tCanCreate = false;
             }
             else
             {
-                EditorGUILayout.LabelField(" ", "menu Position  is Ok!");
+                EditorGUILayout.LabelField(" ", "menu position is Ok!");
             }
 
             NWDGUILayout.Section("Classes management");
@@ -289,7 +285,7 @@ namespace NetWorkedData.NWDEditor
                 tListOfType.Remove(tSelectedType);
             }
             // add New property
-            int tNextIndex = EditorGUILayout.Popup("Class " + tCounter, 0, tListOfType.ToArray());
+            int tNextIndex = EditorGUILayout.Popup("Add class ", 0, tListOfType.ToArray());
             string tNextSelectedType = tListOfType[tNextIndex];
             tNextSelectedType = tRegExpressionEmptyType.Replace(tNextSelectedType, " ");
             tNextClassList.Add(tNextSelectedType);
@@ -374,7 +370,11 @@ namespace NetWorkedData.NWDEditor
         public void OnEnable()
         {
             NWDBenchmark.Start();
-            TitleInit("Custom Window Manager", typeof(NWDEditorNewWindow));
+            // set normal size
+            NormalizeWidth = 450;
+            NormalizeHeight = 700;
+            // set title
+            TitleInit("Custom classes window", typeof(NWDEditorNewWindow));
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

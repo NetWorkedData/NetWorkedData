@@ -76,14 +76,9 @@ namespace NetWorkedData.NWDEditor
             NWDBenchmark.Start();
             float tWidthUsed = sRect.width;
             NWDGUILayout.Title(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA);
-            //NWDGUILayout.Informations("Some informations");
-            //NWDGUILayout.Line();
-            //_kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-            _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition,false,true,GUIStyle.none,GUI.skin.verticalScrollbar);
-
-            NWDGUILayout.Section(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA);
+            _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition,false, false, GUIStyle.none,GUI.skin.verticalScrollbar);
+            NWDGUILayout.Section("Languages activation");
             Dictionary<string, string> tLanguageDico = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguageDico;
-            //NWDGUILayout.Label("Select the languages of multi-localizable field in editor.");
             GUILayout.BeginHorizontal();
             List<string> tResult = new List<string>();
             float tToggleWidth = 160.0f;
@@ -166,7 +161,6 @@ namespace NetWorkedData.NWDEditor
             if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
             {
                 NWDEditorWindow.GenerateCSharpFile();
-                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
@@ -230,6 +224,10 @@ namespace NetWorkedData.NWDEditor
         public void OnEnable()
         {
             NWDBenchmark.Start();
+            // set ideal size
+            NormalizeWidth = 380;
+            NormalizeHeight = 900;
+            // set title
             TitleInit(NWDConstants.K_LOCALIZATION_CONFIGURATION_TITLE, typeof(NWDLocalizationConfigurationManager));
             NWDBenchmark.Finish();
         }
@@ -241,7 +239,6 @@ namespace NetWorkedData.NWDEditor
         {
             NWDBenchmark.Start();
             NWDGUI.LoadStyles();
-            //NWDLocalizationConfigurationManagerContent.SharedInstance().OnPreventGUI(EditorGUIUtility.currentViewWidth);
             NWDLocalizationConfigurationManagerContent.SharedInstance().OnPreventGUI(position);
             NWDBenchmark.Finish();
         }

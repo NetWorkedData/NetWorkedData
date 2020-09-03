@@ -120,8 +120,7 @@ namespace NetWorkedData.NWDEditor
         {
             base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
-            NWDGUILayout.Title("Password to analyze");
-            //EditorGUILayout.HelpBox("Enter a password to analyze combinations and crack times", MessageType.Info);
+            NWDGUILayout.Title("Password analyzer");
             NWDGUILayout.Section("Password to analyze");
             EditorGUI.indentLevel++;
             Password = EditorGUILayout.TextField("Password", Password);
@@ -129,27 +128,24 @@ namespace NetWorkedData.NWDEditor
 
             NWDGUILayout.Section("Analyze");
             _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-
-            //NWDGUILayout.SubSection("Basis");
             EditorGUI.indentLevel++;
             EditorGUILayout.LabelField("Lenght", Password.Length.ToString());
             NWEPassCharset tPassCharset = NWEPassCharset.FoundCharset(Password);
             EditorGUILayout.LabelField("Charset", tPassCharset.Name);
-            EditorGUILayout.LabelField("Charset Ereg", tPassCharset.Ereg(Password));
-            EditorGUILayout.LabelField("Charset Lenght", tPassCharset.Lenght.ToString());
-            EditorGUILayout.LabelField("Charset Entropie", tPassCharset.EntropieBase.ToString());
+            EditorGUILayout.LabelField("Charset ereg", tPassCharset.Ereg(Password));
+            EditorGUILayout.LabelField("Charset lenght", tPassCharset.Lenght.ToString());
+            EditorGUILayout.LabelField("Charset entropie", tPassCharset.EntropieBase.ToString());
             EditorGUILayout.LabelField("Entropie", NWEPassCharset.Entropie(Password, tPassCharset).ToString());
             double tCombinaison = NWEPassCharset.Combinaison(Password, tPassCharset);
             EditorGUILayout.LabelField("Combinaisons", tCombinaison.ToString());
             EditorGUI.indentLevel--;
 
             NWDGUILayout.SubSection("Time to crack");
-            //GUILayout.Label("Time to crack", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
             EditorGUILayout.LabelField("Cycle per seconds", NWEPassCharset.CycleTest(Password, tPassCharset).ToString());
 
             int tAttackType = NWEPassAnalyseComputer.kList.IndexOf(AttackType);
-            tAttackType = EditorGUILayout.Popup("Attack Type", tAttackType, NWEPassAnalyseComputer.kListName.ToArray());
+            tAttackType = EditorGUILayout.Popup("Attack type", tAttackType, NWEPassAnalyseComputer.kListName.ToArray());
             AttackType = NWEPassAnalyseComputer.kList[tAttackType];
             float tCycle = 1000000000.0F * AttackType.GigaCyclePerSeconds;
             EditorGUILayout.LabelField("Cycle per seconds", tCycle.ToString());
@@ -157,28 +153,25 @@ namespace NetWorkedData.NWDEditor
             EditorGUI.indentLevel--;
 
             NWDGUILayout.SubSection("Analyze SHA one of password");
-            //GUILayout.Label("Analyze SHA one of password", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
             string tSha = NWESecurityTools.GenerateSha(Password);
             EditorGUILayout.LabelField("SHA", tSha);
-            EditorGUILayout.LabelField("SHA Lenght", tSha.Length.ToString());
+            EditorGUILayout.LabelField("SHA lenght", tSha.Length.ToString());
             NWEPassCharset tShaCharset = NWEPassCharset.FoundCharset(tSha);
-            EditorGUILayout.LabelField("SHA Charset", tShaCharset.Name);
+            EditorGUILayout.LabelField("SHA charset", tShaCharset.Name);
             EditorGUILayout.LabelField("Force attack SHA", NWEPassCharset.ForceAttack(tSha, tShaCharset, tCycle));
             EditorGUI.indentLevel--;
 
             NWDGUILayout.SubSection("Analyze SHA 512 of password");
-            //GUILayout.Label("Analyze SHA 512 of password", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
             string tSha512 = NWESecurityTools.GenerateSha(Password, NWESecurityShaTypeEnum.Sha512);
             EditorGUILayout.LabelField("SHA512 ", tSha512);
-            EditorGUILayout.LabelField("SHA512 Lenght", tSha512.Length.ToString());
+            EditorGUILayout.LabelField("SHA512 lenght", tSha512.Length.ToString());
             NWEPassCharset tShaCharset512 = NWEPassCharset.FoundCharset(tSha512);
-            EditorGUILayout.LabelField("SHA512 Charset", tShaCharset512.Name);
+            EditorGUILayout.LabelField("SHA512 charset", tShaCharset512.Name);
             EditorGUILayout.LabelField("Force attack SHA512", NWEPassCharset.ForceAttack(tSha512, tShaCharset512, tCycle));
             EditorGUI.indentLevel--;
             EditorGUILayout.Space();
-
 
             GUILayout.EndScrollView();
             NWDBenchmark.Finish();
@@ -241,6 +234,10 @@ namespace NetWorkedData.NWDEditor
         public void OnEnable()
         {
             NWDBenchmark.Start();
+            // set ideal size
+            NormalizeWidth = 350;
+            NormalizeHeight = 700;
+            // set title
             TitleInit("Password analyzer", typeof(NWEPassAnalyseWindow));
             NWEPassAnalyseContent.SharedInstance().OnEnable(this);
             NWDBenchmark.Finish();
@@ -451,17 +448,10 @@ namespace NetWorkedData.NWDEditor
                     if (tCharset.Charset.Length > 0)
                     {
                         string tEreg = tCharset.Ereg(sPassword);
-#if UNITY_EDITOR
-                        //  Debug.Log(" test  " + sPassword + " with " + tEreg + " ... ");
-#endif
                         Regex tRegex = new Regex(tEreg);
                         Match tMatch = tRegex.Match(sPassword);
                         if (tMatch.Success)
                         {
-#if UNITY_EDITOR
-                            // Debug.Log(" test  " + sPassword + " with " + tEreg + " SUCESS  ");
-#endif
-
                             if (rReturn == NWEPassCharset.None)
                             {
                                 rReturn = tCharset;
@@ -508,7 +498,6 @@ namespace NetWorkedData.NWDEditor
                 }
                 if (tC.ToUpper() == tC)
                 {
-                    // Upper case 
                     CaseUpper = true;
                     if (tCharset.Contains(tC.ToLower()) == true)
                     {
@@ -517,7 +506,6 @@ namespace NetWorkedData.NWDEditor
                 }
                 if (tC.ToLower() == tC)
                 {
-                    // Lower case 
                     CaseLower = true;
                     if (tCharset.Contains(tC.ToUpper()) == true)
                     {
@@ -529,9 +517,6 @@ namespace NetWorkedData.NWDEditor
             Lenght = Charset.Length;
             EntropieBase = Math.Log(Lenght, 2);
             kList.Add(this);
-#if UNITY_EDITOR
-            //  Debug.Log(" add NWEPassCharset named " + Name + " (" + Charset + ")");
-#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         static public NWEPassCharset None = new NWEPassCharset("None", "");

@@ -314,7 +314,7 @@ namespace NetWorkedData.NWDEditor
         {
             base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
-            NWDGUILayout.Title("Custom class Generator");
+            NWDGUILayout.Title("Custom class generator");
             //NWDGUILayout.Informations("Custom your class!");
             //NWDGUILayout.Line();
             _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition);
@@ -338,14 +338,14 @@ namespace NetWorkedData.NWDEditor
             }
             TemplateHelper.SetClassType(Type.GetType("NetWorkedData." + ClassBase));
             EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.EnumPopup("Device Database", TemplateHelper.GetDeviceDatabase());
+            EditorGUILayout.EnumPopup("Device database", TemplateHelper.GetDeviceDatabase());
             EditorGUILayout.EnumPopup("Synchronizable", TemplateHelper.GetSynchronizable());
             EditorGUILayout.EnumPopup("Bundlisable", TemplateHelper.GetBundlisable());
-            EditorGUILayout.EnumPopup("Account Dependent", TemplateHelper.GetAccountDependent());
-            EditorGUILayout.EnumPopup("Gamesave Dependent", TemplateHelper.GetGamesaveDependent());
+            EditorGUILayout.EnumPopup("Account dependent", TemplateHelper.GetAccountDependent());
+            EditorGUILayout.EnumPopup("Gamesave dependent", TemplateHelper.GetGamesaveDependent());
             EditorGUI.EndDisabledGroup();
 
-            ClassUnityConnection = EditorGUILayout.Toggle("Connection in GameObject", ClassUnityConnection);
+            ClassUnityConnection = EditorGUILayout.Toggle("Connect in GameObject", ClassUnityConnection);
 
             ClassName = EditorGUILayout.TextField("Name ", ClassName);
             ClassName = tRegExpression.Replace(ClassName, string.Empty);
@@ -450,7 +450,7 @@ namespace NetWorkedData.NWDEditor
             // add New property
             GUILayout.BeginHorizontal();
             int tNextIndex = 0;
-            tNextIndex = EditorGUILayout.Popup("New Property", tNextIndex, tListOfType.ToArray());
+            tNextIndex = EditorGUILayout.Popup("New property", tNextIndex, tListOfType.ToArray());
             string tNextPropertyType = tListOfType[tNextIndex];
             tNextPropertyType = tRegExpressionEmptyType.Replace(tNextPropertyType, " ");
             string tNextPropertyName = string.Empty;
@@ -519,7 +519,11 @@ namespace NetWorkedData.NWDEditor
         public void OnEnable()
         {
             //NWDBenchmark.Start();
-            TitleInit("Custom Class", typeof(NWDEditorNewClass));
+            // set normal size
+            NormalizeWidth = 450;
+            NormalizeHeight = 700;
+            // set title
+            TitleInit("Custom class", typeof(NWDEditorNewClass));
             NWDEditorNewClassContent.SharedInstance().OnEnable(this);
             //NWDBenchmark.Finish();
         }

@@ -30,9 +30,6 @@ namespace NetWorkedData.NWDEditor
     public class NWDEditorFooterContent : NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// The Shared Instance for deamon class.
-        /// </summary>
         private static NWDEditorFooterContent _kSharedInstanceContent;
         public GUIContent InfosContent = new GUIContent();
         //-------------------------------------------------------------------------------------------------------------
@@ -99,8 +96,14 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         private void OnEnable()
         {
-            minSize = new Vector2(20, 32);
-            maxSize = new Vector2(float.MaxValue, 16);
+            NormalizeWidth = 300;
+            NormalizeHeight = 20;
+            MinWidth = 100;
+            MinHeight = NormalizeHeight;
+            MaxWidth = 2048;
+            MaxHeight = NormalizeHeight;
+            minSize = new Vector2(MinWidth, MinHeight);
+            maxSize = new Vector2(MaxWidth, MaxHeight);
             TitleInit(NWDAppConfiguration.SharedInstance().SelectedEnvironment().AppName, typeof(NWDEditorFooter));
             NWDEditorFooterContent.SharedInstance().OnEnable(this);
         }
@@ -108,6 +111,7 @@ namespace NetWorkedData.NWDEditor
         public override void OnPreventGUI()
         {
             NWDGUI.LoadStyles();
+            EditorGUI.DrawRect(new Rect (0,0,position.width, position.height), NWDGUI.kRowColorSelected);
             NWDEditorFooterContent.SharedInstance().OnPreventGUI(position);
         }
         //-------------------------------------------------------------------------------------------------------------

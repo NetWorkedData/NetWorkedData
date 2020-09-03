@@ -179,6 +179,10 @@ namespace NetWorkedData.NWDEditor
         public void OnEnable()
         {
             //NWDBenchmark.Start();
+            // set ideal size
+            NormalizeWidth = 600;
+            NormalizeHeight = 700;
+            // set title
             TitleInit(NWDConstants.K_APP_MODEL_MANAGER_TITLE, typeof(NWDModelManager));
             NWDModelManagerContent.SharedInstance().OnEnable(this);
             //NWDBenchmark.Finish();

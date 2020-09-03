@@ -68,6 +68,8 @@ namespace NetWorkedData.NWDEditor
         public override void AddItemsToMenu(GenericMenu menu)
         {
             menu.AddItem(new GUIContent("Detach in window"), false, DetachAsWindow);
+            menu.AddItem(new GUIContent("Normalize size window " + NormalizeWidth.ToString("0") + "x" + NormalizeHeight.ToString("0")), false, NormalizeSize);
+            menu.AddItem(new GUIContent("Free size window " + position.width.ToString("0") + "x" + position.height.ToString("0") + ""), false, FreeSize);
             menu.AddSeparator("");
             menu.AddItem(new GUIContent("Visualize script"), false, ScriptOpener, this.GetType());
             menu.AddSeparator("");
@@ -81,8 +83,12 @@ namespace NetWorkedData.NWDEditor
         public override void DetachAsWindow()
         {
             SharedInstance = new K();
+#if NWD_DEVELOPER
+            SharedInstance.NormalizeSize();
+#endif
             SharedInstance.ShowUtility();
             SharedInstance.Focus();
+            SharedInstance.RemoveFieldFocus = true;
             Close();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -205,6 +211,10 @@ namespace NetWorkedData.NWDEditor
         void OnEnable()
         {
             //NWDBenchmark.Start();
+            // set default size
+            NormalizeWidth = 1400;
+            NormalizeHeight = 1000;
+
             SplitArea.Min = 300;
             SplitArea.Split = 0.75F;
             SplitArea.ResizeSplit(this, position);

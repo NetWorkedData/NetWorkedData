@@ -62,11 +62,11 @@ namespace NetWorkedData
         public const string K_EDITOR_BUILD_DATABASE_UPDATE = "EditorBuildDatabaseUpdate";
         public const string K_EDITOR_WINDOW_STYLE = "EditorWindoStyle";
         //-------------------------------------------------------------------------------------------------------------
-        public const string K_APP_CHOOSER_ENVIRONMENT = "Select Environment used in Player Mode (Game panel)";
+        //public const string K_APP_CHOOSER_ENVIRONMENT = "Select environment used in PlayerMode (Game panel)";
         public const string K_APP_CHOOSER_ENVIRONMENT_TITLE = "Chooser";
-        public const string K_APP_MACRO_DEFINE_TITLE = "Macro Define";
-        public const string K_APP_MODEL_MANAGER_TITLE = "Model Manager";
-        public const string K_APP_CLUSTER_SIZER_TITLE = "Cluster Sizer";
+        public const string K_APP_MACRO_DEFINE_TITLE = "Macro define";
+        public const string K_APP_MODEL_MANAGER_TITLE = "Model manager";
+        public const string K_APP_CLUSTER_SIZER_TITLE = "Cluster sizer";
         public const string K_APP_SYNC_ENVIRONMENT = "Synchronize your datas in the good environment";
 
         public const string K_APP_SYNC_ENVIRONMENT_TITLE = "Sync";
@@ -227,7 +227,7 @@ namespace NetWorkedData
         public const string K_APP_CONFIGURATION_PREPROD = "PreProduction";
         public const string K_APP_CONFIGURATION_PROD = "Production";
         public const string K_APP_CONFIGURATION_SAVE_BUTTON = "Save configurations";
-        public const string K_APP_CONFIGURATION_LANGUAGE_AREA = "Localization configurations";
+        public const string K_APP_CONFIGURATION_LANGUAGE_AREA = "Languages configurations";
         public const string K_APP_CONFIGURATION_ENVIRONMENT_AREA = "Environment's configurations";
         public const string K_APP_CONFIGURATION_BUNDLENAMEE_AREA = "Bundle name's localization";
         public const string K_APP_CONFIGURATION_DEV_LOCALALIZATION_AREA = "Project localization";

@@ -73,7 +73,6 @@ namespace NetWorkedData.NWDEditor
                 if (GUILayout.Button(NWDConstants.K_APP_CLASS_SALT_REGENERATE))
                 {
                     NWDEditorWindow.GenerateCSharpFile();
-                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                 }
             }
             // Draw warning if salt for class is false
@@ -83,7 +82,6 @@ namespace NetWorkedData.NWDEditor
                 if (GUILayout.Button(NWDConstants.K_APP_CLASS_SALT_REGENERATE))
                 {
                     NWDEditorWindow.GenerateCSharpFile();
-                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                 }
             }
             // List environment
@@ -129,7 +127,6 @@ namespace NetWorkedData.NWDEditor
             if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
             {
                 NWDEditorWindow.GenerateCSharpFile();
-                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
@@ -160,7 +157,6 @@ namespace NetWorkedData.NWDEditor
         public static NWDAppEnvironmentConfigurationManager SharedInstanceFocus()
         {
             NWDBenchmark.Start();
-            //SharedInstance().ShowUtility();
             SharedInstance().ShowMe();
             SharedInstance().Focus();
             NWDBenchmark.Finish();
@@ -181,6 +177,10 @@ namespace NetWorkedData.NWDEditor
         public void OnEnable()
         {
             NWDBenchmark.Start();
+            // set ideal size
+            NormalizeWidth = 500;
+            NormalizeHeight = 900;
+            // set title
             TitleInit(NWDConstants.K_ENVIRONMENTS_CONFIGURATION_TITLE, typeof(NWDAppEnvironmentConfigurationManager));
             NWDBenchmark.Finish();
         }

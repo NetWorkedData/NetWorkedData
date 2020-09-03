@@ -385,7 +385,7 @@ namespace NetWorkedData.NWDEditor
         private Type EditorType;
         private bool TitleIsInit = false;
         private bool Recompile = false;
-        private bool RemoveFieldFocus = false;
+        public bool RemoveFieldFocus = false;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Use to create standard window size to screenshoot
@@ -447,6 +447,9 @@ namespace NetWorkedData.NWDEditor
             RemoveFieldFocus = true;
             Type tType = this.GetType();
             NWDEditorWindow tNew = (NWDEditorWindow)ScriptableObject.CreateInstance(tType);
+#if NWD_DEVELOPER
+            tNew.NormalizeSize();
+#endif
             tNew.ShowUtility();
             tNew.Focus();
             tNew.RemoveFieldFocus = true;

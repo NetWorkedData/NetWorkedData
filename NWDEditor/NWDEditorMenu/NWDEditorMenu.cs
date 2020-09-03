@@ -49,14 +49,14 @@ namespace NetWorkedData.NWDEditor
         public const string K_LOCALIZATION = "Localization/";
         public const string K_ENVIRONMENT = "Environment/";
         public const string K_CLUSTER = "Cluster/";
-        public const string K_MODELS = "Create Models/";
+        public const string K_MODELS = "Create models/";
         public const string K_TOOLS = "Tools/";
         public const string K_ALL_ENVIRONMENT = "All environments/";
         public const string K_DEV_ENVIRONMENT = "Dev environment/";
         public const string K_PREPROD_ENVIRONMENT = "Preprod environment/";
         public const string K_PROD_ENVIRONMENT = "Prod environment/";
         //-------------------------------------------------------------------------------------------------------------
-        const string K_WS_REGENERATE = "Regenerate WebServices";
+        const string K_WS_REGENERATE = "Regenerate webservices";
         const string K_WS_NEED_CREDENTIALS = "Need credentials";
         const string K_WS_EDITOR_CREDENTIALS = "Need editor credentials";
         //-------------------------------------------------------------------------------------------------------------
@@ -371,7 +371,7 @@ namespace NetWorkedData.NWDEditor
         #endregion
         #region Tools
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(K_NETWORKEDDATA + K_TOOLS + "Password analyze window", false, 200)]
+        [MenuItem(K_NETWORKEDDATA + K_TOOLS + "Password analyzer window", false, 200)]
         public static void PasswordAnalyze()
         {
             NWEPassAnalyseWindow.SharedInstanceFocus();
