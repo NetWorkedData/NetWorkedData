@@ -72,6 +72,10 @@ namespace NetWorkedData.NWDEditor
             menu.AddItem(new GUIContent("Free size window " + position.width.ToString("0") + "x" + position.height.ToString("0") + ""), false, FreeSize);
             menu.AddSeparator("");
             menu.AddItem(new GUIContent("Visualize script"), false, ScriptOpener, this.GetType());
+            if (string.IsNullOrEmpty(TutorialLink) == false)
+            {
+                menu.AddItem(new GUIContent("Tutorial online"), false, TutorialOnline);
+            }
             menu.AddSeparator("");
             foreach (Type tType in mTabTypeList)
             {

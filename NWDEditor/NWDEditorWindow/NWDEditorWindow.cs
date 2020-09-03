@@ -386,6 +386,7 @@ namespace NetWorkedData.NWDEditor
         private bool TitleIsInit = false;
         private bool Recompile = false;
         public bool RemoveFieldFocus = false;
+        public string TutorialLink = string.Empty;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Use to create standard window size to screenshoot
@@ -419,6 +420,10 @@ namespace NetWorkedData.NWDEditor
             menu.AddItem(new GUIContent("Free size window " + position.width.ToString("0") + "x" + position.height.ToString("0") + ""), false, FreeSize);
             menu.AddSeparator("");
             menu.AddItem(new GUIContent("Visualize script"), false, ScriptOpener, this.GetType());
+            if (string.IsNullOrEmpty(TutorialLink) == false)
+            {
+                menu.AddItem(new GUIContent("Tutorial online"), false, TutorialOnline);
+            }
             menu.AddSeparator("");
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -459,6 +464,14 @@ namespace NetWorkedData.NWDEditor
         public void ScriptOpener(object sObject)
         {
             NWEScriptOpener.OpenScript((Type)sObject);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void TutorialOnline()
+        {
+            if (string.IsNullOrEmpty(TutorialLink) == false)
+            {
+                Application.OpenURL(TutorialLink);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void OnBeforeAssemblyReload()
