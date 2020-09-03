@@ -74,9 +74,7 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public void OnPreprocessBuild(BuildReport report)
         {
-            //NWDBenchmark.Start();
-            Debug.Log("NWDBuildPreProcess OnPreprocessBuild");
-
+           NWDBenchmark.Start();
             // prevent error not exist (delete by dev)
             NWDErrorHelper tErrorHelper = NWDBasisHelper.BasisHelper<NWDError>() as NWDErrorHelper;
             tErrorHelper.GenerateBasisError();
@@ -261,7 +259,7 @@ namespace NetWorkedData.NWDEditor
             }
 
             NWDEditorWindow.GenerateCSharpFile();
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -51,8 +51,7 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public void OnPostprocessBuild(BuildReport report)
         {
-            //NWDBenchmark.Start();
-            //Debug.Log ("NWDBuildPostProcess OnPostprocessBuild for target " + target + " at path " + path);
+            NWDBenchmark.Start();
             BuildTarget tBuildTarget = EditorUserBuildSettings.activeBuildTarget;
             switch (tBuildTarget)
             {
@@ -240,14 +239,6 @@ namespace NetWorkedData.NWDEditor
                     {
                     }
                     break;
-                //case BuildTarget.Tizen:
-                    //{
-                    //}
-                    //break;
-                //case BuildTarget.PSP2:
-                    //{
-                    //}
-                    //break;
                 case BuildTarget.PS4:
                     {
                     }
@@ -256,14 +247,6 @@ namespace NetWorkedData.NWDEditor
                     {
                     }
                     break;
-                //case BuildTarget.N3DS:
-                    //{
-                    //}
-                    //break;
-                //case BuildTarget.WiiU:
-                    //{
-                    //}
-                    //break;
                 case BuildTarget.tvOS:
                     {
                     }
@@ -273,7 +256,7 @@ namespace NetWorkedData.NWDEditor
                     }
                     break;
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

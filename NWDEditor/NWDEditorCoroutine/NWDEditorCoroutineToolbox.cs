@@ -35,10 +35,12 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public static void StopCoroutine(NWDEditorCoroutine sCoroutine)
         {
+            NWDBenchmark.Start();
             if (sCoroutine != null)
             {
                 sCoroutine.Stop();
             }
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

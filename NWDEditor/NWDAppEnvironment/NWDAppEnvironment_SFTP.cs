@@ -36,52 +36,64 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetMaintenance(bool sMaintenance)
         {
+            NWDBenchmark.Start();
             foreach (NWDServerAuthentication tConn in NWDServerServices.GetAllConfigurationServerSFTP(this))
             {
                 tConn.SetMaintenance(this, sMaintenance);
             }
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetObsolete(bool sObsolete)
         {
+            NWDBenchmark.Start();
             foreach (NWDServerAuthentication tConn in NWDServerServices.GetAllConfigurationServerSFTP(this))
             {
                 tConn.SetObsolete(this, sObsolete);
             }
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetActivate()
         {
+            NWDBenchmark.Start();
             foreach (NWDServerAuthentication tConn in NWDServerServices.GetAllConfigurationServerSFTP(this))
             {
                 tConn.SetActivate(this);
             }
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SendFiles(string sAlternate, string sFolder, string[] sWSFiles)
         {
+            NWDBenchmark.Start();
             foreach (NWDServerAuthentication tConn in NWDServerServices.GetAllConfigurationServerSFTP(this))
             {
                 tConn.SendFiles(this, sAlternate, sFolder, sWSFiles);
             }
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SendFile(string sAlternate, string sFolder, string sWSFile, bool sAutoDeconnect = true)
         {
+            NWDBenchmark.Start();
             foreach (NWDServerAuthentication tConn in NWDServerServices.GetAllConfigurationServerSFTP(this))
             {
                 tConn.SendFiles(this, sAlternate, sFolder, new string[] { sWSFile });
             }
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SendFolderAndFiles(List<string> sFolders, Dictionary<string, string> sFilesAndDatas, bool sFolderRecurssive = false)
         {
+            NWDBenchmark.Start();
             foreach (NWDServerAuthentication tConn in NWDServerServices.GetAllConfigurationServerSFTP(this))
             {
                 Debug.Log("tConn : " + tConn.Host + " to foler root : " + tConn.Folder);
                 tConn.SendFolderAndFiles(sFolders, sFilesAndDatas, sFolderRecurssive);
             }
             NWDAppEnvironmentSyncContent.SharedInstance().OperationSynchroAllClasses(this, false, true, NWDOperationSpecial.Upgrade);
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

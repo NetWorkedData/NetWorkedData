@@ -31,6 +31,7 @@ namespace NetWorkedData.NWDEditor
     {
         //-------------------------------------------------------------------------------------------------------------
         private static NWDEditorFooterContent _kSharedInstanceContent;
+        //-------------------------------------------------------------------------------------------------------------
         public GUIContent InfosContent = new GUIContent();
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -50,6 +51,7 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public override void OnEnable(NWDEditorWindow sEditorWindow)
         {
+            NWDBenchmark.Start();
             Texture2D[] tIcons = PlayerSettings.GetIconsForTargetGroup(BuildTargetGroup.Unknown);
             Texture2D tIcon = null;
             if (tIcons.Length > 0)
@@ -63,6 +65,7 @@ namespace NetWorkedData.NWDEditor
                 "</b>  Version : <b>" + PlayerSettings.bundleVersion +
                 "</b>  SQLite : <b>" + NWDDataManager.SharedInstance().GetVersion() +
                 "</b>", tIcon);
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void OnDisable(NWDEditorWindow sEditorWindow)
@@ -74,7 +77,6 @@ namespace NetWorkedData.NWDEditor
         /// </summary>
         public override void OnPreventGUI(Rect sRect)
         {
-            //base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
             EditorGUILayout.BeginHorizontal();
             GUILayout.Label(InfosContent, NWDGUI.kFooterLabelStyle);
@@ -89,13 +91,16 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public static void NewFooter()
         {
+            NWDBenchmark.Start();
             NWDEditorFooter tFooter = EditorWindow.CreateWindow<NWDEditorFooter>();
             tFooter.ShowUtility();
             tFooter.Focus();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void OnEnable()
         {
+            NWDBenchmark.Start();
             NormalizeWidth = 300;
             NormalizeHeight = 20;
             MinWidth = 100;
@@ -106,13 +111,16 @@ namespace NetWorkedData.NWDEditor
             maxSize = new Vector2(MaxWidth, MaxHeight);
             TitleInit(NWDAppConfiguration.SharedInstance().SelectedEnvironment().AppName, typeof(NWDEditorFooter));
             NWDEditorFooterContent.SharedInstance().OnEnable(this);
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void OnPreventGUI()
         {
+            NWDBenchmark.Start();
             NWDGUI.LoadStyles();
             EditorGUI.DrawRect(new Rect (0,0,position.width, position.height), NWDGUI.kRowColorSelected);
             NWDEditorFooterContent.SharedInstance().OnPreventGUI(position);
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

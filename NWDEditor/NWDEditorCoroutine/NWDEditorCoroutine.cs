@@ -50,6 +50,7 @@ namespace NetWorkedData.NWDEditor
             //-------------------------------------------------------------------------------------------------------------
             public void Set(object sData)
             {
+                NWDBenchmark.Start();
                 if (sData != ProcessorData.DataObject)
                 {
                     Type tType = sData.GetType();
@@ -60,10 +61,12 @@ namespace NetWorkedData.NWDEditor
                     }
                     ProcessorData = new NWDEditorCoroutineData { DataObject = sData, DataType = tDataType };
                 }
+                NWDBenchmark.Finish();
             }
             //-------------------------------------------------------------------------------------------------------------
             public bool MoveNext(IEnumerator sEnumerator)
             {
+                NWDBenchmark.Start();
                 bool tAdvancement = false;
                 switch (ProcessorData.DataType)
                 {
@@ -83,6 +86,7 @@ namespace NetWorkedData.NWDEditor
                     ProcessorData = default(NWDEditorCoroutineData);
                     return sEnumerator.MoveNext();
                 }
+                NWDBenchmark.Finish();
                 return true;
             }
             //-------------------------------------------------------------------------------------------------------------
@@ -97,6 +101,7 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         internal NWDEditorCoroutine(IEnumerator sRoutine, object sOwner)
         {
+            NWDBenchmark.Start();
             YieldConstruction = new NWDYieldConstruction();
             if (sOwner != null)
             {
@@ -108,10 +113,12 @@ namespace NetWorkedData.NWDEditor
             }
             Routine = sRoutine;
             EditorApplication.update += Next;
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         internal void Next()
         {
+            NWDBenchmark.Start();
             if (Owner != null && !Owner.IsAlive)
             {
                 EditorApplication.update -= Next;
@@ -125,10 +132,12 @@ namespace NetWorkedData.NWDEditor
                     EditorApplication.update -= Next;
                 }
             }
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private bool ProcessMove(IEnumerator sEnumerator)
         {
+            NWDBenchmark.Start();
             IEnumerator root = sEnumerator;
             while (sEnumerator.Current as IEnumerator != null)
             {
@@ -152,14 +161,17 @@ namespace NetWorkedData.NWDEditor
             {
                 result = root.MoveNext();
             }
+            NWDBenchmark.Finish();
             return result;
         }
         //-------------------------------------------------------------------------------------------------------------
         internal void Stop()
         {
+            NWDBenchmark.Start();
             EditorApplication.update -= Next;
             Owner = null;
             Routine = null;
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -33,7 +33,8 @@ namespace NetWorkedData.NWDEditor
     public class NWDAssetWatcher : UnityEditor.AssetModificationProcessor
     {
         //-------------------------------------------------------------------------------------------------------------
-        static List<string> kExtensionsWatchedList = new List<string>() {
+        static List<string> kExtensionsWatchedList = new List<string>()
+        {
             ".prefab",
             ".tga",
             ".mat",
@@ -47,10 +48,13 @@ namespace NetWorkedData.NWDEditor
             ".jpeg",
         };
         //-------------------------------------------------------------------------------------------------------------
-        static NWDAssetWatcher() {}
+        static NWDAssetWatcher()
+        {
+        }
         //-------------------------------------------------------------------------------------------------------------
         static bool ContaintsResource(string sOldPath)
         {
+            NWDBenchmark.Start();
             bool tMove = false;
             if (AssetDatabase.IsValidFolder(sOldPath))
             {
@@ -92,30 +96,31 @@ namespace NetWorkedData.NWDEditor
                     tMove = true;
                 }
             }
+            NWDBenchmark.Finish();
             return tMove;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static AssetMoveResult OnWillMoveAsset(string sOldPath, string sNewPath)
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             AssetMoveResult rReturn = AssetMoveResult.DidNotMove;
             if (ContaintsResource(sOldPath) == true)
             {
                 NWDDataManager.SharedInstance().ChangeAssetPath(sOldPath, sNewPath);
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static AssetDeleteResult OnWillDeleteAsset(string sOldPath, RemoveAssetOptions sUnused)
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             AssetDeleteResult rReturn = AssetDeleteResult.DidNotDelete;
             if (ContaintsResource(sOldPath) == true)
             {
                 NWDDataManager.SharedInstance().ChangeAssetPath(sOldPath, string.Empty);
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

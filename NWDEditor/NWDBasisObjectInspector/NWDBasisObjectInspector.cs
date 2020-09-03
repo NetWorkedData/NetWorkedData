@@ -31,25 +31,29 @@ namespace NetWorkedData.NWDEditor
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public class NWDBasisObjectInspector : ScriptableObject
 	{
-		public NWDTypeClass mObjectInEdition;
-	}
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[CustomEditor (typeof(NWDBasisObjectInspector))]
+        //-------------------------------------------------------------------------------------------------------------
+        //TODO rename
+        public NWDTypeClass mObjectInEdition;
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [CustomEditor (typeof(NWDBasisObjectInspector))]
 	public class NWDBasisEditor : Editor
     {
         //-------------------------------------------------------------------------------------------------------------
+        //TODO rename
         static public Editor mGameObjectEditor;
-        public static Type ObjectEditorLastType;
+        static public Type ObjectEditorLastType;
         //-------------------------------------------------------------------------------------------------------------
 		public override void OnInspectorGUI ()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             NWDBasisObjectInspector tTarget = (NWDBasisObjectInspector)target;
 			if (tTarget.mObjectInEdition != null)
 			{
                 tTarget.mObjectInEdition.DrawEditor(Rect.zero, false, null);
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

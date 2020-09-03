@@ -42,13 +42,13 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public override void OnInspectorGUI()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             NWDBasisClassInspector tTarget = (NWDBasisClassInspector)target;
             if (tTarget.mTypeInEdition != null)
             {
                 NWDBasisHelper.FindTypeInfos(tTarget.mTypeInEdition).DrawTypeInInspector();
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

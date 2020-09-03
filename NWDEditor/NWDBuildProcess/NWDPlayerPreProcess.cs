@@ -35,45 +35,41 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         static NWDPlayerPreProcess()
         {
+            NWDBenchmark.Start();
             EditorApplication.playModeStateChanged -= PlayModeStateChangedCallback; // remove old callback from compile for this class
             EditorApplication.playModeStateChanged += PlayModeStateChangedCallback;
 #if UNITY_2018_1_OR_NEWER
             EditorApplication.quitting -= Quit;
             EditorApplication.quitting += Quit;
 #endif
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void Quit()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             //Force all datas to be write in database
             NWDDataManager.SharedInstance().DataQueueExecute();
-            //Debug.Log("Play Mode State must recompile NWDParameter.cs file!");
             NWDEditorWindow.GenerateCSharpFile();
-            //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-            // NWDVersion.UpdateVersionBundle();
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void PlayModeStateChangedCallback(PlayModeStateChange sState)
         {
-            //NWDBenchmark.Start();
-            //Debug.Log("Play Mode State Changed!");
+            NWDBenchmark.Start();
             if (sState == PlayModeStateChange.ExitingEditMode)
             {
                 // prevent error not exist (delete by dev)
                 NWDErrorHelper tErrorHelper = NWDBasisHelper.BasisHelper<NWDError>() as NWDErrorHelper;
                 tErrorHelper.GenerateBasisError();
-                //Force all datas to be write in database
+                // force all datas to be write in database
                 NWDDataManager.SharedInstance().DataQueueExecute();
                 // must check the accounts for test
-                //Debug.Log("Play Mode State must recompile NWDParameter.cs file!");
                 NWDEditorWindow.GenerateCSharpFile();
-                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
             // update bundle before playing to test with the good version 
             NWDVersion.UpdateVersionBundle();
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

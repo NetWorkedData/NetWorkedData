@@ -42,29 +42,29 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         static public void ShowDialog(string sTitle, string sMessage, MessageType sDialogType, NWDDataManagerDialogDelegate sDelegate)
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             ShowDialog(sTitle, sMessage, sDialogType, false, sDelegate);
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         static public void ShowDialogConfirm(string sTitle, string sMessage, MessageType sDialogType, NWDDataManagerDialogDelegate sDelegate)
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             ShowDialog(sTitle, sMessage, sDialogType, true, sDelegate);
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         static private void ShowDialog(string sTitle, string sMessage, MessageType sDialogType, bool sVerif, NWDDataManagerDialogDelegate sDelegate)
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             NWDDataManagerDialog tWindow = ScriptableObject.CreateInstance(typeof(NWDDataManagerDialog)) as NWDDataManagerDialog;
             tWindow.Show(sTitle, sMessage, sDialogType, sVerif, sDelegate);
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void Show(string sTitle, string sMessage, MessageType sDialogType, bool sVerif, NWDDataManagerDialogDelegate sDelegate)
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             Title = sTitle;
             Message = sMessage;
             DialogType = sDialogType;
@@ -72,33 +72,33 @@ namespace NetWorkedData.NWDEditor
             Verif = sVerif;
             ShowUtility();
             Focus();
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void OnLostFocus()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             if (Closable == false)
             {
                 Focus();
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             titleContent = new GUIContent(Title);
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnDestroy()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             if (Closable == false)
             {
             };
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public string GetValue()
@@ -108,7 +108,7 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         private void OnGUI()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             EditorGUILayout.HelpBox(Message, DialogType);
             bool tValid = true;
             Value = EditorGUILayout.TextField("Code", Value);
@@ -131,7 +131,7 @@ namespace NetWorkedData.NWDEditor
             Rect tLastRect = GUILayoutUtility.GetLastRect();
             maxSize = new Vector2(NWDGUI.KTableSearchWidth * 2, tLastRect.y + tLastRect.height + NWDGUI.kFieldMarge);
             minSize = new Vector2(NWDGUI.KTableSearchWidth * 2, tLastRect.y + tLastRect.height + NWDGUI.kFieldMarge);
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //------------------------------------------------------------------------------------------------------------- 
     }
