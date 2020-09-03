@@ -41,7 +41,6 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         #region const
         //-------------------------------------------------------------------------------------------------------------
-        //public const string K_NETWORKEDDATA = "NeWeeDy/";
         public const string K_NETWORKEDDATA = "NetWorkedData/";
         public const string K_EDITOR = "Project/";
         public const string K_DOCUMENTATION = "Documentation/";
