@@ -79,7 +79,7 @@ namespace NetWorkedData
 
         public const string K_ENVIRONMENTS_CONFIGURATION_TITLE = "Environments";
 
-        public const string K_APP_SYNC_INSPECTOR_TITLE = "Net Worked Data"; 
+        public const string K_APP_SYNC_INSPECTOR_TITLE = "Data inspector"; 
         public const string K_ALERT_SALT_SHORT_ERROR = "ALERT SALT ARE NOT MEMORIZE : RECCORD CONFIGURATIONS AND RECOMPILE!";
         public const string K_APP_CLASS_SALT_REGENERATE = "Generate salts";
         //-------------------------------------------------------------------------------------------------------------

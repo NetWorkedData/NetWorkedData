@@ -251,8 +251,8 @@ namespace NetWorkedData.NWDEditor
         // Nodal Document
         // TODO : all rename!! with right name!
 
-        public static float kNodeCardWidth = 330.0F;
-        public static float kNodeCardHeight = 430.0F;
+        public static float kNodeCardWidth = 350.0F;
+        public static float kNodeCardHeight = 500.0F;
         //public static float kNodeCardMarging = 50.0F;
 
         public static float kNodeCanvasFraction = 20;
