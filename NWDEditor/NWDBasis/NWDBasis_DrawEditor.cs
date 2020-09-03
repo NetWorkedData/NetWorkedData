@@ -850,6 +850,8 @@ namespace NetWorkedData
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        protected float LayoutEditorHeight = 0;
+        //-------------------------------------------------------------------------------------------------------------
         public void DrawAddOn(NWDNodeCard sNodalCard)
         {
             //NWDBenchmark.Start();
@@ -858,7 +860,16 @@ namespace NetWorkedData
             {
                 tR = sNodalCard.AddOnRect;
             }
+
+            GUILayout.BeginArea(tR);
+            EditorGUILayout.BeginVertical();
             AddonEditor(tR);
+            EditorGUILayout.EndVertical();
+            if (Event.current.type == EventType.Repaint)
+            {
+                LayoutEditorHeight = GUILayoutUtility.GetLastRect().height;
+            }
+            GUILayout.EndArea();
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1340,6 +1351,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void AddonEditor(Rect sRect)
         {
+            EditorMatrix = NWDGUI.DiviseArea(sRect, EditorMatrixColunm, EditorMatrixLine);
+            EditorMatrixIndex = 0;
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool AddonEdited(bool sNeedBeUpdate)
@@ -1350,8 +1363,8 @@ namespace NetWorkedData
         public virtual void AddOnNodeDraw(Rect sRect)
         {
             //NWDBenchmark.Start();
-            Rect tRect = new Rect(sRect);
-            tRect.height = NWDGUI.kBoldLabelStyle.fixedHeight;
+            EditorNodalMatrix = NWDGUI.DiviseArea(sRect, EditorNodalMatrixColunm, EditorNodalMatrixLine);
+            EditorNodalMatrixIndex = 0;
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

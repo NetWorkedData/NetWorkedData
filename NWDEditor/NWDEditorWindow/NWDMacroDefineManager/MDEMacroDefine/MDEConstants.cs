@@ -32,7 +32,7 @@ namespace NetWorkedData.MacroDefine
         public const string NONE = "NONE";
         //-------------------------------------------------------------------------------------------------------------
         public const string Management = "Management";
-        public const string Remove = "Remove";
+        public const string Remove = "remove";
         public const string MacroDefineEditor = "Macro Define Editor";
         public const string Menu = "Window/" + MacroDefineEditor;
         public const string EnumArea = "Macro add by enum";
@@ -40,7 +40,7 @@ namespace NetWorkedData.MacroDefine
         public const string ErrorInLoading = "... error in loading ...";
         public const string Reload = "Reload";
         public const string Result = "Result in build settings";
-        public const string NewMacroArea = "Define new macro here";
+        //public const string NewMacroArea = "Define new macro here";
         public const string NewMacro = "Macro";
         public const string NewMacroButton = "Add Macro";
         public const string SaveArea = "Save configuration and compile if necessairy";

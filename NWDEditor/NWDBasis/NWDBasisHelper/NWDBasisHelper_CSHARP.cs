@@ -85,31 +85,31 @@ namespace NetWorkedData
                     rReturn.AppendLine("{");
 
 #if NWD_NEVER_NULL_DATATYPE
-                        rReturn.AppendLine("" + ClassNamePHP + " rReturn = new " + ClassNamePHP + "(sInsertInNetWorkedData) {");
-                        foreach (PropertyInfo tProp in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+                    rReturn.AppendLine("" + ClassNamePHP + " rReturn = new " + ClassNamePHP + "(sInsertInNetWorkedData) {");
+                    foreach (PropertyInfo tProp in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+                    {
+                        if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataType)) ||
+                        tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeInt)) ||
+                        tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeEnum)) ||
+                        tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeMask)) ||
+                        tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeFloat)))
                         {
-                            if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataType)) ||
-                            tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeInt)) ||
-                            tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeEnum)) ||
-                            tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeMask)) ||
-                            tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeFloat)))
+                            if (tProp.PropertyType.IsGenericType)
                             {
-                                if (tProp.PropertyType.IsGenericType)
+                                List<string> tArguments = new List<string>();
+                                foreach (Type tTypeArg in tProp.PropertyType.GenericTypeArguments)
                                 {
-                                    List<string> tArguments = new List<string>();
-                                    foreach (Type tTypeArg in tProp.PropertyType.GenericTypeArguments)
-                                    {
-                                        tArguments.Add(tTypeArg.Name);
-                                    }
-                                    rReturn.AppendLine("" + tProp.Name + " = new " + tProp.PropertyType.Name.Replace("`" + tArguments.Count + "", "<" + string.Join(", ", tArguments) + ">") + "(),");
+                                    tArguments.Add(tTypeArg.Name);
                                 }
-                                else
-                                {
-                                    rReturn.AppendLine("" + tProp.Name + " = new " + tProp.PropertyType.Name + "(),");
-                                }
+                                rReturn.AppendLine("" + tProp.Name + " = new " + tProp.PropertyType.Name.Replace("`" + tArguments.Count + "", "<" + string.Join(", ", tArguments) + ">") + "(),");
+                            }
+                            else
+                            {
+                                rReturn.AppendLine("" + tProp.Name + " = new " + tProp.PropertyType.Name + "(),");
                             }
                         }
-                        rReturn.AppendLine("};");
+                    }
+                    rReturn.AppendLine("};");
 #else
                         rReturn.AppendLine("" + ClassNamePHP + " rReturn = new " + ClassNamePHP + "(sInsertInNetWorkedData);");
                         rReturn.AppendLine("rReturn.PropertiesMinimal();");
@@ -244,39 +244,46 @@ namespace NetWorkedData
             rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.LastWebBuild) + " = " + LastWebBuild + ";");
             rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.WebModelPropertiesOrder) + ".Clear();");
             ModelAnalyze();
-            foreach (KeyValuePair<int, List<string>> tKeyValue in WebModelPropertiesOrder.OrderBy(x => x.Key))
+            if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
             {
-                if (tApp.WSList.ContainsKey(tKeyValue.Key) == true)
+                foreach (KeyValuePair<int, List<string>> tKeyValue in WebModelPropertiesOrder.OrderBy(x => x.Key))
                 {
-                    if (tApp.WSList[tKeyValue.Key] == true)
+                    if (tApp.WSList.ContainsKey(tKeyValue.Key) == true)
                     {
-                        if (tKeyValue.Key < LastWebBuild)
+                        if (tApp.WSList[tKeyValue.Key] == true)
                         {
-                            rReturn.AppendLine("#if UNITY_EDITOR");
-                        }
-                        rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.WebModelPropertiesOrder) + ".Add(" + tKeyValue.Key + ", new List<string>(){\"" + string.Join("\", \"", tKeyValue.Value.ToArray()) + "\"});");
-                        if (tKeyValue.Key < LastWebBuild)
-                        {
-                            rReturn.AppendLine("#endif");
+                            if (tKeyValue.Key < LastWebBuild)
+                            {
+                                rReturn.AppendLine("#if UNITY_EDITOR");
+                            }
+                            rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.WebModelPropertiesOrder) + ".Add(" + tKeyValue.Key + ", new List<string>(){\"" + string.Join("\", \"", tKeyValue.Value.ToArray()) + "\"});");
+                            if (tKeyValue.Key < LastWebBuild)
+                            {
+                                rReturn.AppendLine("#endif");
+                            }
                         }
                     }
                 }
             }
             rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.WebServiceWebModel) + ".Clear();");
-            foreach (KeyValuePair<int, int> tKeyValue in WebServiceWebModel.OrderBy(x => x.Key))
+
+            if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
             {
-                if (tApp.WSList.ContainsKey(tKeyValue.Key) == true)
+                foreach (KeyValuePair<int, int> tKeyValue in WebServiceWebModel.OrderBy(x => x.Key))
                 {
-                    if (tApp.WSList[tKeyValue.Key] == true)
+                    if (tApp.WSList.ContainsKey(tKeyValue.Key) == true)
                     {
-                        if (tKeyValue.Key < LastWebBuild)
+                        if (tApp.WSList[tKeyValue.Key] == true)
                         {
-                            rReturn.AppendLine("#if UNITY_EDITOR");
-                        }
-                        rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.WebServiceWebModel) + ".Add(" + tKeyValue.Key + ", " + tKeyValue.Value + ");");
-                        if (tKeyValue.Key < LastWebBuild)
-                        {
-                            rReturn.AppendLine("#endif");
+                            if (tKeyValue.Key < LastWebBuild)
+                            {
+                                rReturn.AppendLine("#if UNITY_EDITOR");
+                            }
+                            rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.WebServiceWebModel) + ".Add(" + tKeyValue.Key + ", " + tKeyValue.Value + ");");
+                            if (tKeyValue.Key < LastWebBuild)
+                            {
+                                rReturn.AppendLine("#endif");
+                            }
                         }
                     }
                 }
@@ -284,15 +291,26 @@ namespace NetWorkedData
             if (NWDAppConfiguration.SharedInstance().OverrideCacheMethodEverywhere == false)
             {
                 rReturn.AppendLine("#if UNITY_EDITOR");
-                rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.TablePrefixOld) + " = \"" + TablePrefix + "\";");
-                rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.WebModelSQLOrder) + ".Clear();");
-                foreach (KeyValuePair<int, string> tKeyValue in WebModelSQLOrder.OrderBy(x => x.Key))
+                if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
                 {
-                    if (tApp.WSList.ContainsKey(tKeyValue.Key) == true)
+                    rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.TablePrefixOld) + " = \"" + TablePrefix + "\";");
+                }
+                else
+                {
+                    rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.TablePrefixOld) + " = \"\";");
+                }
+                rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.WebModelSQLOrder) + ".Clear();");
+
+                if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+                {
+                    foreach (KeyValuePair<int, string> tKeyValue in WebModelSQLOrder.OrderBy(x => x.Key))
                     {
-                        if (tApp.WSList[tKeyValue.Key] == true)
+                        if (tApp.WSList.ContainsKey(tKeyValue.Key) == true)
                         {
-                            rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.WebModelSQLOrder) + ".Add(" + tKeyValue.Key + ", \"" + tKeyValue.Value.Replace("\"", "\\\"") + "\");");
+                            if (tApp.WSList[tKeyValue.Key] == true)
+                            {
+                                rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.WebModelSQLOrder) + ".Add(" + tKeyValue.Key + ", \"" + tKeyValue.Value.Replace("\"", "\\\"") + "\");");
+                            }
                         }
                     }
                 }

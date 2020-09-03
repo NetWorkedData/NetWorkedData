@@ -27,17 +27,43 @@ using UnityEditor;
 namespace NetWorkedData.NWDEditor
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// Class use to configure the project
+    /// </summary>
     public class NWDProjectConfigurationManagerContent : NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// benchmark color pro skin for fast result
+        /// </summary>
         const string kColorGreen_Pro = "2EDD66FF";
+        /// <summary>
+        /// benchmark color pro skin for normal result
+        /// </summary>
         const string kColorOrange_Pro = "FF9842FF";
+        /// <summary>
+        /// benchmark color pro skin for slow result
+        /// </summary>
         const string kColorRed_Pro = "FF7070FF";
+        /// <summary>
+        /// benchmark color pro skin for quick analyze
+        /// </summary>
         const string kColorBlue_Pro = "7092FFFF";
-
+        /// <summary>
+        /// benchmark color standard skin for fast result
+        /// </summary>
         const string kColorGreen = "007626FF";
+        /// <summary>
+        /// benchmark color standard skin for normal result
+        /// </summary>
         const string kColorOrange = "B45200FF";
+        /// <summary>
+        /// benchmark color standard skin for slow result
+        /// </summary>
         const string kColorRed = "890000FF";
+        /// <summary>
+        /// benchmark color standard skin for quick analyze
+        /// </summary>
         const string kColorBlue = "002089FF";
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -45,19 +71,57 @@ namespace NetWorkedData.NWDEditor
         /// </summary>
         private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show start benchmark footprint in console
+        /// </summary>
         bool BenchmarkShowStart;
+        /// <summary>
+        /// Limit the min result's time to print console
+        /// </summary>
         float BenchmarkLimit;
+        /// <summary>
+        /// Copy the log in clipboard when use <see cref="NWDDebug.Log(string, Object)"/> 
+        /// </summary>
         bool Clipboard;
+        /// <summary>
+        /// The username for this desktop
+        /// </summary>
         public string UserName = string.Empty;
-        int PanelWidth;
+        /// <summary>
+        /// Draw when recompile 
+        /// </summary>
         bool ShowCompile;
+        /// <summary>
+        /// Color for fast result
+        /// </summary>
         Color Green;
+        /// <summary>
+        /// Color for normal result
+        /// </summary>
         Color Red;
+        /// <summary>
+        /// Color for slow result
+        /// </summary>
         Color Orange;
+        /// <summary>
+        /// Color for quick analyze
+        /// </summary>
         Color Blue;
+        /// <summary>
+        /// Window style for new <see cref="NWDEditorWindow"/>
+        /// </summary>
         NWDWindowStyle EditorWindowStyle;
+        /// <summary>
+        /// Bypass build evironment dialog with predefine choice or not
+        /// </summary>
         NWDEditorBuildEnvironment EditorBuildEnvironment;
+        /// <summary>
+        /// Bypass build rename dialog with predefine choice or not
+        /// </summary>
         NWDEditorBuildRename EditorBuildRename;
+        /// <summary>
+        /// Bypass build database dialog with predefine choice or not
+        /// </summary>
         NWDEditorBuildDatabaseUpdate EditorBuildDatabaseUpdate;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -123,13 +187,12 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public void Load()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             // get values
             BenchmarkShowStart = NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_BENCHMARK_SHOW_START);
             BenchmarkLimit = NWDProjectPrefs.GetFloat(NWDConstants.K_EDITOR_BENCHMARK_LIMIT);
             Clipboard = NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG);
             UserName = NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_USER_BUILDER, "(user?)");
-            PanelWidth = NWDProjectPrefs.GetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, 320);
             ShowCompile = NWDProjectPrefs.GetBool(NWDConstants.K_EDITOR_SHOW_COMPILE);
             EditorBuildEnvironment = GetEditoBuildEnvironment();
             EditorBuildRename = GetEditoBuildRename();
@@ -151,18 +214,17 @@ namespace NetWorkedData.NWDEditor
                 Red = NWDToolbox.ColorFromString(NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_RED, kColorRed));
                 Blue = NWDToolbox.ColorFromString(NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_BENCHMARK_BLUE, kColorBlue));
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Save()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             // set values
             NWDProjectPrefs.SetBool(NWDConstants.K_EDITOR_BENCHMARK_SHOW_START, BenchmarkShowStart);
             NWDProjectPrefs.SetFloat(NWDConstants.K_EDITOR_BENCHMARK_LIMIT, BenchmarkLimit);
             NWDProjectPrefs.SetBool(NWDConstants.K_EDITOR_CLIPBOARD_LAST_LOG, Clipboard);
             NWDProjectPrefs.SetString(NWDConstants.K_EDITOR_USER_BUILDER, UserName);
-            NWDProjectPrefs.SetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, PanelWidth);
             NWDProjectPrefs.SetBool(NWDConstants.K_EDITOR_SHOW_COMPILE, ShowCompile);
 
             SetEditorBuildEnvironment(EditorBuildEnvironment);
@@ -187,7 +249,7 @@ namespace NetWorkedData.NWDEditor
             }
 
             NWDBenchmark.PrefReload();
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -195,52 +257,48 @@ namespace NetWorkedData.NWDEditor
         /// </summary>
         public override void OnPreventGUI(Rect sRect)
         {
-            base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
-            NWDGUILayout.Title("Project configurations");
+            // start
+            base.OnPreventGUI(sRect);
+            NWDGUILayout.Title("Project's configurations");
             // start scroll
             _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-
             EditorGUI.BeginChangeCheck();
-
             //User preferences
             NWDGUILayout.Section("User's configurations");
             UserName = EditorGUILayout.TextField("Username", UserName);
-            EditorGUILayout.LabelField("System infos", SystemInfo.deviceUniqueIdentifier);
-
+            EditorGUILayout.LabelField("System footprint", SystemInfo.deviceUniqueIdentifier);
             //General preferences
-            NWDGUILayout.SubSection("General");
-            EditorWindowStyle = (NWDWindowStyle)EditorGUILayout.EnumPopup("Window Style", EditorWindowStyle);
-            ShowCompile = EditorGUILayout.Toggle("Show re-compile ", ShowCompile);
-            PanelWidth = EditorGUILayout.IntSlider("Panel data width", PanelWidth, 300, 400);
-
+            NWDGUILayout.SubSection("General configurations");
+            EditorWindowStyle = (NWDWindowStyle)EditorGUILayout.EnumPopup("Window style", EditorWindowStyle);
+            ShowCompile = EditorGUILayout.Toggle("Show re-compile", ShowCompile);
             // build preference section
-            NWDGUILayout.SubSection("Build");
+            NWDGUILayout.SubSection("Build configurations");
             //define environment build
-            EditorBuildEnvironment = (NWDEditorBuildEnvironment)EditorGUILayout.EnumPopup("Build Environment", EditorBuildEnvironment);
+            EditorBuildEnvironment = (NWDEditorBuildEnvironment)EditorGUILayout.EnumPopup("Build environment", EditorBuildEnvironment);
             // define rename option
-            EditorBuildRename = (NWDEditorBuildRename)EditorGUILayout.EnumPopup("Build Rename", EditorBuildRename);
+            EditorBuildRename = (NWDEditorBuildRename)EditorGUILayout.EnumPopup("Build rename", EditorBuildRename);
             // define update database
             EditorBuildDatabaseUpdate = (NWDEditorBuildDatabaseUpdate)EditorGUILayout.EnumPopup("Copy database in build", EditorBuildDatabaseUpdate);
-
-            // build Debug section
-            NWDGUILayout.SubSection("Debug and Benchmark");
+            // Debug and benchmark
+            NWDGUILayout.SubSection("Debug and benchmark");
             NWDGUILayout.Informations("Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)");
-            Clipboard = EditorGUILayout.ToggleLeft("Copy NWDDebug.Log in clipoard", Clipboard);
+            NWDGUILayout.SubSection("Console");
+            Clipboard = EditorGUILayout.ToggleLeft("Copy NWDDebug.Log in clipboard", Clipboard);
+            NWDGUILayout.SubSection("Benchmark");
             BenchmarkShowStart = EditorGUILayout.ToggleLeft("Benchmark show start", BenchmarkShowStart);
-            BenchmarkLimit = EditorGUILayout.Slider("Benchmark min show", BenchmarkLimit, 0F, 1.5F);
-
+            BenchmarkLimit = EditorGUILayout.Slider("Benchmark limit", BenchmarkLimit, 0F, 1.5F);
             if (EditorGUI.EndChangeCheck() == true)
             {
                 Save();
             }
-
+            // Change color
             EditorGUI.BeginChangeCheck();
             Green = EditorGUILayout.ColorField("Green highlight", Green);
             Orange = EditorGUILayout.ColorField("Orange highlight", Orange);
             Red = EditorGUILayout.ColorField("Red highlight", Red);
             Blue = EditorGUILayout.ColorField("Blue highlight", Blue);
-            if (GUILayout.Button("reset color"))
+            if (GUILayout.Button("Reset color"))
             {
                 if (EditorGUIUtility.isProSkin)
                 {
@@ -276,20 +334,17 @@ namespace NetWorkedData.NWDEditor
                     "");
                 Save();
             }
-
-            NWDGUILayout.Section("Shared project's configurations");
-            NWDGUILayout.SubSection("Webhook URL");
+            // Shared configurations
+            NWDGUILayout.Section("Shared configurations");
+            NWDGUILayout.SubSection("Webhook URL for Slack");
             NWDAppConfiguration.SharedInstance().SlackWebhookURL = EditorGUILayout.TextField("Webhook URL", NWDAppConfiguration.SharedInstance().SlackWebhookURL);
             EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().SlackWebhookURL));
             if (GUILayout.Button("Test Webhook"))
             {
                 NWDOperationWebhook.NewMessage("Test Webhook integration success!");
             }
-
-
             // end scroll
             GUILayout.EndScrollView();
-
             // finish with reccord red button
             NWDGUILayout.Line();
             NWDGUILayout.LittleSpace();
@@ -300,7 +355,7 @@ namespace NetWorkedData.NWDEditor
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
-
+            // end
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -320,12 +375,12 @@ namespace NetWorkedData.NWDEditor
         /// <returns></returns>
         public static NWDProjectConfigurationManager SharedInstance()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDProjectConfigurationManager), ShowAsWindow()) as NWDProjectConfigurationManager;
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -335,11 +390,10 @@ namespace NetWorkedData.NWDEditor
         /// <returns></returns>
         public static NWDProjectConfigurationManager SharedInstanceFocus()
         {
-            //NWDBenchmark.Start();
-            //SharedInstance().ShowUtility();
+            NWDBenchmark.Start();
             SharedInstance().ShowMe();
             SharedInstance().Focus();
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -348,23 +402,13 @@ namespace NetWorkedData.NWDEditor
         /// </summary>
         public static void Refresh()
         {
+            NWDBenchmark.Start();
             var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDProjectConfigurationManager));
             foreach (NWDProjectConfigurationManager tWindow in tWindows)
             {
                 tWindow.Repaint();
             }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool IsSharedInstanced()
-        {
-            if (kSharedInstance != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -372,12 +416,15 @@ namespace NetWorkedData.NWDEditor
         /// </summary>
         public void OnEnable()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
+            // set ideal size
+            NormalizeWidth = 380;
+            NormalizeHeight = 750;
             // set title
             TitleInit(NWDConstants.K_PROJECT_CONFIGURATION_TITLE, typeof(NWDProjectConfigurationManager));
             // get values
             NWDProjectConfigurationManagerContent.SharedInstance().Load();
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

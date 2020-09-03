@@ -26,7 +26,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDServerOther : NWDBasisUnsynchronize
+    public partial class NWDServerOther : NWDServer
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

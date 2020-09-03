@@ -248,7 +248,7 @@ namespace NetWorkedData.MacroDefine
             //NWDBenchmark.Start();
             NWDGUILayout.Title("Macro Define for project");
             BuildTargetGroup tBuildTargetGroupActiveNow = BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget);
-            bool tReload = false;
+            //bool tReload = false;
             ScroolPoint = GUILayout.BeginScrollView(ScroolPoint);
             GUILayout.Space(10.0F);
             GUILayout.BeginHorizontal();
@@ -519,7 +519,9 @@ namespace NetWorkedData.MacroDefine
                     GUILayout.Label(MDEConstants.ErrorInLoading, NWDGUI.KTableHeaderStatut);
                     if (GUILayout.Button(MDEConstants.Reload))
                     {
-                        tReload = true;
+                        Load();
+                        GUIUtility.ExitGUI();
+                        //tReload = true;
                     }
                     GUILayout.FlexibleSpace();
                 }
@@ -535,20 +537,23 @@ namespace NetWorkedData.MacroDefine
             GUILayout.EndScrollView();
             if (GUILayout.Button(MDEConstants.Reload))
             {
-                tReload = true;
+                Load();
+                GUIUtility.ExitGUI();
+                //tReload = true;
                 //Load();
             }
-            NWDGUILayout.Section("Macro Define informations");
-            NWDGUILayout.Informations("If you want create new macro, use generic from " + typeof(MDEDataTypeEnumGeneric<>).Name + " or " + typeof(MDEDataTypeBoolGeneric<>).Name + "!");
-            NWDGUILayout.Section("Macro add");
-            GUILayout.Label(MDEConstants.NewMacroArea, EditorStyles.boldLabel);
+            //NWDGUILayout.Section("Macro Define informations");
+            //NWDGUILayout.Informations("If you want create new macro, use generic from " + typeof(MDEDataTypeEnumGeneric<>).Name + " or " + typeof(MDEDataTypeBoolGeneric<>).Name + "!");
+            NWDGUILayout.Section("Add custom macro");
+            //GUILayout.Label(MDEConstants.NewMacroArea, EditorStyles.boldLabel);
+            GUILayout.BeginHorizontal();
             NewMacro = EditorGUILayout.TextField(MDEConstants.NewMacro, NewMacro);
             NewMacro = NewMacro.ToUpper();
             NewMacro = NewMacro.Replace(";", "");
             NewMacro = NewMacro.Replace(" ", "_");
             NewMacro = NewMacro.Replace("-", "_");
             EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(NewMacro));
-            if (GUILayout.Button(MDEConstants.NewMacroButton))
+            if (GUILayout.Button(MDEConstants.NewMacroButton, GUILayout.Width(NWDGUI.KTableSearchWidth)))
             {
                 if (AllMacrosOriginal.Contains(NewMacro) == false)
                 {
@@ -560,8 +565,12 @@ namespace NetWorkedData.MacroDefine
                 NewMacro = string.Empty;
             }
             EditorGUI.EndDisabledGroup();
-            NWDGUILayout.Section("Macro Define save");
-            GUILayout.Label(MDEConstants.SaveArea, EditorStyles.boldLabel);
+            NWDGUILayout.LittleSpace();
+            GUILayout.EndHorizontal();
+            NWDGUILayout.Line();
+            NWDGUILayout.LittleSpace();
+            //NWDGUILayout.Section("Macro Define save");
+            //GUILayout.Label(MDEConstants.SaveArea, EditorStyles.boldLabel);
             foreach (BuildTargetGroup tBuildTargetGroup in ActiveGroup)
             {
                 if (ActiveGroupMacroDefine.ContainsKey(tBuildTargetGroup))
@@ -602,10 +611,11 @@ namespace NetWorkedData.MacroDefine
             }
             EditorGUI.EndDisabledGroup();
             NWDGUI.EndRedArea();
-            if (tReload)
-            {
-                Load();
-            }
+            NWDGUILayout.BigSpace();
+            //if (tReload)
+            //{
+            //    Load();
+            //}
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -653,6 +663,8 @@ namespace NetWorkedData.MacroDefine
         {
             TitleInit(NWDConstants.K_APP_MACRO_DEFINE_TITLE, typeof(MDEMacroDefineEditor));
             MDEMacroDefineEditorContent.SharedInstance().Load();
+            NormalizeWidth = 1100;
+            NormalizeHeight = 1060;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void OnPreventGUI()

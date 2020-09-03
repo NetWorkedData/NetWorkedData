@@ -65,8 +65,8 @@ namespace NetWorkedData.NWDEditor
             NWDGUILayout.Title("Environment chooser");
             // Section Compile bypass
             NWDGUILayout.Section("Compile bypass");
-            EditorGUILayout.LabelField("Compile use", NWDLauncher.CompileAs().ToString());
-            NWDCompileTypeBypass tByPass = (NWDCompileTypeBypass)EditorGUILayout.EnumPopup("ByPass mode", NWDLauncher.kByPass);
+            EditorGUILayout.LabelField("Compile used", NWDLauncher.CompileAs().ToString());
+            NWDCompileTypeBypass tByPass = (NWDCompileTypeBypass)EditorGUILayout.EnumPopup("Bypass mode", NWDLauncher.kByPass);
             if (tByPass != NWDLauncher.kByPass)
             {
                 NWDLauncher.kByPass = tByPass;
@@ -184,7 +184,7 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Step();
 
             // Section WebServices informations
-            NWDGUILayout.Section("WebServices informations");
+            NWDGUILayout.Section("Webservices informations");
 
             // Show version selected
             EditorGUILayout.LabelField("Webservice version", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
@@ -193,17 +193,17 @@ namespace NetWorkedData.NWDEditor
             // Section Devices informations
             NWDGUILayout.Section("Devices informations");
             EditorGUILayout.LabelField("Device ID", SystemInfo.deviceUniqueIdentifier, EditorStyles.label);
-            EditorGUILayout.LabelField("Secret Key used", NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevice(), EditorStyles.label);
-            EditorGUILayout.LabelField("Secret Key editor", NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDeviceEditor(), EditorStyles.label);
-            EditorGUILayout.LabelField("Secret Key player", NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevicePlayer(), EditorStyles.label);
+            EditorGUILayout.LabelField("Secret key used", NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevice(), EditorStyles.label);
+            EditorGUILayout.LabelField("Secret key editor", NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDeviceEditor(), EditorStyles.label);
+            EditorGUILayout.LabelField("Secret key player", NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevicePlayer(), EditorStyles.label);
             EditorGUILayout.LabelField("Account used", NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetAccountReference());
             if (NWDAccountInfos.CurrentData() != null)
             {
-                EditorGUILayout.LabelField("Account Infos used", NWDAccountInfos.CurrentData().Reference);
+                EditorGUILayout.LabelField("Account infos used", NWDAccountInfos.CurrentData().Reference);
             }
             else
             {
-                EditorGUILayout.LabelField("Account Infos used", "ERROR NO ACCOUNT INFOS");
+                EditorGUILayout.LabelField("Account infos used", "ERROR NO ACCOUNT INFOS");
             }
             if (NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetAccountReference().Contains(NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE) == false)
             {
@@ -255,7 +255,7 @@ namespace NetWorkedData.NWDEditor
                 EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_REFERENCE, "ERROR NO ACCOUNT INFOS");
             }
 
-            NWDGUILayout.SubSection("Gamse save informations");
+            NWDGUILayout.SubSection("Gamsesave informations");
             string tGameSaveReference = "?";
             if (NWDGameSave.SelectCurrentDataForAccount(tAccountReference) != null)
             {
@@ -343,6 +343,9 @@ namespace NetWorkedData.NWDEditor
         public void OnEnable()
         {
             NWDBenchmark.Start();
+            // set ideal size
+            NormalizeWidth = 380;
+            NormalizeHeight = 780;
             TitleInit(NWDConstants.K_APP_CHOOSER_ENVIRONMENT_TITLE, typeof(NWDAppEnvironmentChooser));
             NWDBenchmark.Finish();
         }
@@ -354,8 +357,6 @@ namespace NetWorkedData.NWDEditor
         {
             NWDBenchmark.Start();
             NWDGUI.LoadStyles();
-            this.minSize = new Vector2(300, 150);
-            this.maxSize = new Vector2(300, 4096);
             NWDAppEnvironmentChooserContent.SharedInstance().OnPreventGUI(position);
             NWDBenchmark.Finish();
         }

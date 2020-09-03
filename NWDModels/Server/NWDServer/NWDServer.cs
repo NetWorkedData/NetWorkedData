@@ -312,6 +312,7 @@ namespace NetWorkedData
     public partial class NWDServer : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
+        [NWDInspectorGroupReset]
         [NWDInspectorGroupStart("DNS use to find IP")]
         [NWDTooltips("Optional DNS of this server (not the public DNS, just usable DNS)")]
         public string DomainNameServer { get; set; }

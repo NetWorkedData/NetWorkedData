@@ -280,7 +280,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ScroolViewSize(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         {
-            ScrollRect = new Rect(sInRect.x, NodalRect.y + NodalRect.height + NWDGUI.kFieldMarge, sInRect.width + NWDGUI.kFieldMarge, sInRect.height +(sInRect.y- NodalRect.y) - ActionRect.height - NWDGUI.kFieldMarge);         
+            ScrollRect = new Rect(sInRect.x, NodalRect.y + NodalRect.height + NWDGUI.kFieldMarge, sInRect.width + NWDGUI.kFieldMarge, sInRect.height +(sInRect.y- NodalRect.y) - ActionRect.height);         
             if (ScrollRect.height < ContentRect.height)
             {
                 if (ScrollRect.width < ContentRect.width)
@@ -294,15 +294,24 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        protected Rect[,] EditorMatrix;
+        protected int EditorMatrixIndex = 0;
+        protected int EditorMatrixLine = 2;
+        protected int EditorMatrixColunm = 1;
+        //-------------------------------------------------------------------------------------------------------------
         public virtual float AddonEditorHeight(float sWidth)
         {
-            return 0.0f;
+            return NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, EditorMatrixLine);
         }
+        //-------------------------------------------------------------------------------------------------------------
+        protected Rect[,] EditorNodalMatrix;
+        protected int EditorNodalMatrixIndex = 0;
+        protected int EditorNodalMatrixLine = 2;
+        protected int EditorNodalMatrixColunm = 1;
         //-------------------------------------------------------------------------------------------------------------
         public virtual float AddOnNodeDrawHeight(float sCardWidth)
         {
-            return 0.0f;
-            //return NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kLabelStyle.fixedHeight + (NWDGUI.kFieldMarge)*2;
+            return NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, EditorNodalMatrixLine);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

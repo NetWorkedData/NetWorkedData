@@ -40,14 +40,17 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("SSO")]
     [NWDClassDescriptionAttribute("Server Other descriptions Class")]
     [NWDClassMenuNameAttribute("Server Other")]
-    public partial class NWDServerOther : NWDBasisUnsynchronize
+    public partial class NWDServerOther : NWDServer
     {
         //-------------------------------------------------------------------------------------------------------------
         const string ServerTypeProperty = "ServerType";
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStart("Server SSH")]
-        public NWDReferenceType<NWDServer> Server { get; set; }
-        [NWDInspectorGroupEnd]
+        [NWDInspectorGroupReset]
+
+        //[NWDInspectorGroupStart("Server SSH")]
+        //public NWDReferenceType<NWDServer> Server { get; set; }
+        //[NWDInspectorGroupEnd]
+
         [NWDInspectorGroupStart("Server used for")]
         public NWDServerOtherType ServerType { get; set; }
 
@@ -87,6 +90,16 @@ namespace NetWorkedData
 
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.WebServer, false)]
         public string WebDomainNameServer { get; set; }
+        [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.WebServer, false)]
+        public string WebDomainNameEmail { get; set; }
+        [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.WebServer, false)]
+        public bool WebDomainNameUserInstalled { get; set; }
+        [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.WebServer, false)]
+        public string WebDomainNameFolder { get; set; }
+        [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.WebServer, false)]
+        public string WebDomainNameUser { get; set; }
+        [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.WebServer, false)]
+        public NWDSecurePassword WebDomainNameSecure_Password { get; set; }
 
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.Streaming, false)]
         public string StreamDomainNameServer { get; set; }

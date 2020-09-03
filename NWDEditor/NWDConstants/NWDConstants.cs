@@ -209,15 +209,15 @@ namespace NetWorkedData
         public const string K_MENU_FLUSH_ACCOUNT_ALL_DATAS = K_MENU_BASE + "/FLUSH ALL ACCOUNT DATAS AND RESET CLUSTER";
 
         public const string K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE = "Version bundle";
-        public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_REFERENCE = "Account Ref";
-        public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_INTERNALKEY = "Account Internal Key";
-        public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_SELECT = "Account Select";
-        public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_FILTER = "Account Filter";
-        public const string K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_REFERENCE = "AccountInfos Ref";
-        public const string K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_SELECT = "AccountInfos Select";
-        public const string K_ENVIRONMENT_CHOOSER_GAMESAVE_REFERENCE = "GameSave Ref";
-        public const string K_ENVIRONMENT_CHOOSER_GAMESAVE_FILTER = "GameSave Filter";
-        public const string K_ENVIRONMENT_CHOOSER_GAMESAVE_SELECT = "GameSave Select";
+        public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_REFERENCE = "Account ref";
+        public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_INTERNALKEY = "Account internal key";
+        public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_SELECT = "Account select";
+        public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_FILTER = "Account filter";
+        public const string K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_REFERENCE = "AccountInfos ref";
+        public const string K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_SELECT = "AccountInfos select";
+        public const string K_ENVIRONMENT_CHOOSER_GAMESAVE_REFERENCE = "GameSave ref";
+        public const string K_ENVIRONMENT_CHOOSER_GAMESAVE_FILTER = "GameSave filter";
+        public const string K_ENVIRONMENT_CHOOSER_GAMESAVE_SELECT = "GameSave select";
 
         //-------------------------------------------------------------------------------------------------------------
         // App Configurations Strings

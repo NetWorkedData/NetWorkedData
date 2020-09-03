@@ -385,21 +385,71 @@ namespace NetWorkedData.NWDEditor
         private Type EditorType;
         private bool TitleIsInit = false;
         private bool Recompile = false;
+        private bool RemoveFieldFocus = false;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Use to create standard window size to screenshoot
+        /// </summary>
+        protected float NormalizeWidth = 300;
+        /// <summary>
+        /// Use to create standard window size to screenshoot
+        /// </summary>
+        protected float NormalizeHeight = 300;
+        /// <summary>
+        /// Use to min width
+        /// </summary>
+        protected float MinWidth = 100;
+        /// <summary>
+        /// Use to min height
+        /// </summary>
+        protected float MinHeight = 100;
+        /// <summary>
+        /// Use to min width
+        /// </summary>
+        protected float MaxWidth = 2048;
+        /// <summary>
+        /// Use to min height
+        /// </summary>
+        protected float MaxHeight = 2048;
         //-------------------------------------------------------------------------------------------------------------
         public virtual void AddItemsToMenu(GenericMenu menu)
         {
             menu.AddItem(new GUIContent("Detach in window"), false, DetachAsWindow);
+            menu.AddItem(new GUIContent("Normalize size window " + NormalizeWidth.ToString("0") + "x" + NormalizeHeight.ToString("0")), false, NormalizeSize);
+            menu.AddItem(new GUIContent("Free size window " + position.width.ToString("0") + "x" + position.height.ToString("0") + ""), false, FreeSize);
             menu.AddSeparator("");
             menu.AddItem(new GUIContent("Visualize script"), false, ScriptOpener, this.GetType());
             menu.AddSeparator("");
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Resize the window with constraints
+        /// </summary>
+        public void NormalizeSize()
+        {
+            minSize = new Vector2(NormalizeWidth, NormalizeHeight);
+            maxSize = minSize;
+            RemoveFieldFocus = true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Free size the window
+        /// </summary>
+        public void FreeSize()
+        {
+            minSize = new Vector2(MinWidth, MinHeight);
+            maxSize = new Vector2(MaxWidth, MaxHeight);
+            RemoveFieldFocus = true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public virtual void DetachAsWindow()
         {
+            RemoveFieldFocus = true;
             Type tType = this.GetType();
             NWDEditorWindow tNew = (NWDEditorWindow)ScriptableObject.CreateInstance(tType);
             tNew.ShowUtility();
             tNew.Focus();
+            tNew.RemoveFieldFocus = true;
             Close();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -629,6 +679,11 @@ namespace NetWorkedData.NWDEditor
                 float tLogoSize = NWDGUI.kTitleStyle.fixedHeight;
                 GUI.Label(new Rect(position.width - tLogoSize, 0, tLogoSize, tLogoSize), NWDGUI.kNetWorkedDataLogoContent);
             }
+            if (RemoveFieldFocus == true)
+            {
+                GUI.FocusControl(null);
+                RemoveFieldFocus = false;
+            }
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -680,6 +735,10 @@ namespace NetWorkedData.NWDEditor
             SplitOne.Min = SplitThree.Min * 2;
             //SplitThree.SetColorAreaOne(Color.blue);
             //SplitThree.SetColorAreaTwo(Color.red);
+
+            NormalizeWidth = 300;
+            NormalizeHeight = 300;
+            FreeSize();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void OnPreventGUI()
