@@ -576,6 +576,7 @@ namespace NetWorkedData
                             }
                             tElement.Group = tSubGroup;
                             tSubGroup.FromGroup = tGroup;
+                            tSubGroup.ClassName = ClassNamePHP;
                             tSubGroup.Indent = tGroup.Indent + 1;
                             tSubGroup.Name = tInsideReference.mGroupName;
                             tSubGroup.Tooltips = tInsideReference.mToolsTips;
