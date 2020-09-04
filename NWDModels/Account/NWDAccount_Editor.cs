@@ -32,51 +32,6 @@ namespace NetWorkedData
     public partial class NWDAccount : NWDBasisAccountRestricted
     {
         //-------------------------------------------------------------------------------------------------------------
-        //public static string GetAccountsForConfig(NWDAccountEnvironment sEnvironment)
-        //{
-        //    string rReturn = string.Empty;
-        //    List<string> tList = new List<string>();
-        //    switch (sEnvironment)
-        //    {
-        //        case NWDAccountEnvironment.Dev:
-        //            {
-        //                foreach (NWDAccount tObject in NWDBasisHelper.BasisHelper<NWDAccount>().Datas)
-        //                {
-        //                    if (tObject.UseInEnvironment == NWDAccountEnvironment.Dev)
-        //                    {
-        //                        tList.Add(tObject.InternalKey + NWDConstants.kFieldSeparatorB + tObject.Email + NWDConstants.kFieldSeparatorC + tObject.Password + NWDConstants.kFieldSeparatorC + tObject.Reference);
-        //                    }
-        //                }
-        //            }
-        //            break;
-        //        case NWDAccountEnvironment.Preprod:
-        //            {
-        //                foreach (NWDAccount tObject in NWDBasisHelper.BasisHelper<NWDAccount>().Datas)
-        //                {
-        //                    if (tObject.UseInEnvironment == NWDAccountEnvironment.Preprod)
-        //                    {
-        //                        tList.Add(tObject.InternalKey + NWDConstants.kFieldSeparatorB + tObject.Email + NWDConstants.kFieldSeparatorC + tObject.Password + NWDConstants.kFieldSeparatorC + tObject.Reference);
-        //                    }
-        //                }
-        //            }
-        //            break;
-        //    }
-        //    rReturn = string.Join(NWDConstants.kFieldSeparatorA, tList.ToArray());
-        //    return rReturn;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        // TOO DANGEROUS FONCTION ...
-        //public static NWDAccount Current()
-        //{
-        //    NWDAccount rAccount = null;
-        //    string tAccountReference = CurrentReference();
-        //    if (BasisHelper().DatasByReference.ContainsKey(tAccountReference))
-        //    {
-        //        rAccount = BasisHelper().DatasByReference[tAccountReference] as NWDAccount;
-        //    }
-        //    return rAccount;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
         public override bool AddonEdited(bool sNeedBeUpdate)
         {
             if (sNeedBeUpdate == true)
@@ -86,7 +41,7 @@ namespace NetWorkedData
             return sNeedBeUpdate;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private string kInternalLogin; //TODO : change prefiuxe by p
+        private string kInternalLogin; //TODO : change prefixe by p
         private string kInternalPassword; //TODO : change prefiuxe by p
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonEditor(Rect sRect)
@@ -106,18 +61,9 @@ namespace NetWorkedData
                 }
             }
             tI++;
-            //bool tAddEditor = true;
-            //bool tAddPlayer = true;
             foreach (NWDAccountSign tSign in tSigns)
             {
-                //if (tSign.SignType == NWDAccountSignType.DeviceID && tSign.SignAction== NWDAccountSignAction.Associated)
-                //{
-                //    tAddPlayer = false;
-                //}
-                //if (tSign.SignType == NWDAccountSignType.EditorID && tSign.SignAction== NWDAccountSignAction.Associated)
-                //{
-                //tAddEditor = true;
-                //}
+               
                 bool tActive = true;
                 List<string> tEnvironment = new List<string>();
 
@@ -379,39 +325,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditorHeight(float sWidth)
         {
-
             NWDAccountSign[] tSigns = NWDAccountSign.GetCorporateDatasAssociated(Reference);
             int tRow = tSigns.Length;
             float tYadd = NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, tRow + 20);
             return tYadd;
-
-            ////Debug.Log ("AddonEditorHeight");
-            //GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            //tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
-
-            //GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            //tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
-
-            //GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            //tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
-
-            //float tY = NWDGUI.kFieldMarge;
-
-            //tY += NWDGUI.kFieldMarge * 2;
-            //tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-            //tY += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-            //tY += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-            //tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            //tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            //tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            //tY += NWDGUI.kFieldMarge * 2;
-            //tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-            //tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            ///*foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
-            //{
-            //    tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            //}*/
-            //return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

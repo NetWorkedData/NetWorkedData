@@ -861,6 +861,8 @@ namespace NetWorkedData
                 tR = sNodalCard.AddOnRect;
             }
 
+            EditorGUI.DrawRect(NWDGUI.UnMargeAll(tR), Color.red);
+
             GUILayout.BeginArea(tR);
             EditorGUILayout.BeginVertical();
             AddonEditor(tR);

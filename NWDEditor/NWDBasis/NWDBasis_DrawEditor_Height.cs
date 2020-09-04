@@ -231,6 +231,10 @@ namespace NetWorkedData
             {
                 AddOnRect = new Rect(PropertiesRect.x, PropertiesRect.y , sInRect.width, tH);
             }
+
+            //AddOnRect.x -= NWDGUI.kFieldMarge;
+            //AddOnRect.width += NWDGUI.kFieldMarge*2;
+
             if (sNodalCard != null)
             {
                 sNodalCard.AddOnRect = AddOnRect;
