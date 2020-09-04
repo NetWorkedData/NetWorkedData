@@ -99,43 +99,55 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private string LastSelectedObjectKey() { return ClassNamePHP + "_last_selected_ref"; }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetObjectInEdition(NWDTypeClass sObject, bool sResetStack = true, bool sFocus = true)
+        public void SetObjectInEdition(NWDTypeClass sData, bool sResetStack = true, bool sFocus = true)
         {
+            NWDBenchmark.Start();
+            NWDBenchmark.Trace();
             bool tInspectorDataPanel = false;
-            if (sObject != null)
+            if (sData != null)
             {
-                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sObject.GetType());
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sData.GetType());
                 if (tHelper != null)
                 {
                     tInspectorDataPanel = tHelper.PanelActivate == NWDBasisHelperPanel.Data;
                 }
             }
 
+            bool tManaged = false;
             if (tInspectorDataPanel == true)
             {
-                mObjectInEdition = sObject;
+                NWDBenchmark.Trace();
+                mObjectInEdition = sData;
                 if (mObjectInEdition != null)
                 {
                     NWDProjectPrefs.SetString(LastSelectedObjectKey(), mObjectInEdition.Reference);
-                    foreach (NWDTypeWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(sObject.GetType()))
+                    NWDTypeWindow tWindowFound = null;
+                    foreach (NWDTypeWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(sData.GetType()))
                     {
+                        tWindowFound = tWindow;
                         tWindow.Focus();
-                        tWindow.SelectTab(sObject.GetType());
+                        tWindow.SelectTab(sData.GetType());
                         tWindow.Repaint();
+                        tManaged = true;
                     };
+                    if (tWindowFound == null)
+                    {
+                        Debug.LogWarning("No Window found to manage this class : " + sData.GetType().Name);
+                    }
                 }
                 else
                 {
                     NWDProjectPrefs.SetString(LastSelectedObjectKey(), string.Empty);
                 }
             }
-            else
+            if (tManaged == false)
             {
+                NWDBenchmark.Trace();
                 GUI.FocusControl(null);
-                NWDDataInspector.InspectNetWorkedData(sObject, sResetStack, sFocus);
-                if (sObject != null)
+                NWDDataInspector.InspectNetWorkedData(sData, sResetStack, sFocus);
+                if (sData != null)
                 {
-                    NWDBasisEditor.ObjectEditorLastType = sObject.GetType();
+                    NWDBasisEditor.ObjectEditorLastType = sData.GetType();
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
                 }
                 else if (NWDBasisEditor.ObjectEditorLastType != null)
@@ -145,6 +157,7 @@ namespace NetWorkedData
                 }
                 SaveObjectInEdition();
             }
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool IsObjectInEdition(NWDTypeClass sObject)
