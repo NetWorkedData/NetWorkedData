@@ -776,7 +776,7 @@ namespace NetWorkedData
             // Start scrollview
             if (WithScrollview == true)
             {
-                NWDGUI.Line(NWDGUI.UnMargeLeftRight(new Rect(ScrollRect.x, ScrollRect.y - 1, ScrollRect.width, 1)));//, Color.green);
+                NWDGUI.Line(new Rect(ScrollRect.x, ScrollRect.y - 1, ScrollRect.width, 1));//, Color.green);
                 BasisHelper().ObjectEditorScrollPosition = GUI.BeginScrollView(ScrollRect, BasisHelper().ObjectEditorScrollPosition, ContentRect);
             }
             EditorGUI.BeginDisabledGroup(CanBeEdit == false);
@@ -842,6 +842,9 @@ namespace NetWorkedData
             {
                 tY += NWDGUI.kFieldMarge;
             }
+
+            //EditorGUI.DrawRect(tR, Color.green);
+
             NWDBasisHelperGroup tInspectorHelper = BasisHelper().InspectorHelper;
             foreach (NWDBasisHelperElement tElement in tInspectorHelper.Elements)
             {
@@ -860,10 +863,12 @@ namespace NetWorkedData
             {
                 tR = sNodalCard.AddOnRect;
             }
+            Rect tRb = NWDGUI.UnMargeAll(tR);
+            //Debug.Log(" rect : " + tR.ToString() + " become " + tRb.ToString());
+            //EditorGUI.DrawRect(tRb, Color.red);
+            //EditorGUI.DrawRect(tR, Color.blue);
 
-            EditorGUI.DrawRect(NWDGUI.UnMargeAll(tR), Color.red);
-
-            GUILayout.BeginArea(tR);
+            GUILayout.BeginArea(tRb);
             EditorGUILayout.BeginVertical();
             AddonEditor(tR);
             EditorGUILayout.EndVertical();

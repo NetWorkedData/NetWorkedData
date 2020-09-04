@@ -233,8 +233,8 @@ namespace NetWorkedData.NWDEditor
         {
             NWDBenchmark.Start();
             // set min size
-            NormalizeWidth = 350;
-            NormalizeHeight = 700;
+            NormalizeWidth = 300;
+            NormalizeHeight = 500;
             // set title
             TitleInit(NWDConstants.K_APP_SYNC_INSPECTOR_TITLE, typeof(NWDDataInspector));
             NWDBenchmark.Finish();

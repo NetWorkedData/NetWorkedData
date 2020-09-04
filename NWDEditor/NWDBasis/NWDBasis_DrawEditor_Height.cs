@@ -199,7 +199,7 @@ namespace NetWorkedData
             }
             if (sWithScrollview == true)
             {
-                PropertiesRect = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, sInRect.width, tH);
+                PropertiesRect = new Rect(0, NWDGUI.kFieldMarge, sInRect.width, tH);
             }
             else
             {
@@ -279,12 +279,13 @@ namespace NetWorkedData
         {
             PropertiesSize(sInRect, sWithScrollview, sNodalCard);
             AddOnSize(sInRect, sWithScrollview, sNodalCard);
-            ContentRect = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, PropertiesRect.width, PropertiesRect.height + AddOnRect.height + NWDGUI.kFieldMarge*2);
+            //ContentRect = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, PropertiesRect.width, PropertiesRect.height + AddOnRect.height + NWDGUI.kFieldMarge*2);
+            ContentRect = new Rect(-NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, PropertiesRect.width, PropertiesRect.height + AddOnRect.height + NWDGUI.kFieldMarge * 2);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ScroolViewSize(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         {
-            ScrollRect = new Rect(sInRect.x, NodalRect.y + NodalRect.height + NWDGUI.kFieldMarge, sInRect.width + NWDGUI.kFieldMarge, sInRect.height +(sInRect.y- NodalRect.y) - ActionRect.height);         
+            ScrollRect = new Rect(sInRect.x- NWDGUI.kFieldMarge, NodalRect.y + NodalRect.height + NWDGUI.kFieldMarge, sInRect.width + 2*NWDGUI.kFieldMarge, sInRect.height +(sInRect.y- NodalRect.y) - ActionRect.height);         
             if (ScrollRect.height < ContentRect.height)
             {
                 if (ScrollRect.width < ContentRect.width)

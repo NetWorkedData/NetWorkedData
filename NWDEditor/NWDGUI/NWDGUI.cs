@@ -34,7 +34,7 @@ namespace NetWorkedData.NWDEditor
         public static float kFieldMarge = 5.0f;
         //public static float kTopAdjustMarge = 2.0f;
         public static float kFieldIndent = 15.0f;
-        public static float kScrollbar = 18f;
+        public static float kScrollbar = 13f;
         public static GUIStyle kScrollviewFullWidth;
         public static float KTAB_BAR_HEIGHT = 40.0F;
         //-------------------------------------------------------------------------------------------------------------
@@ -251,7 +251,7 @@ namespace NetWorkedData.NWDEditor
         // Nodal Document
         // TODO : all rename!! with right name!
 
-        public static float kNodeCardWidth = 350.0F;
+        public static float kNodeCardWidth = 300.0F;
         public static float kNodeCardHeight = 500.0F;
         //public static float kNodeCardMarging = 50.0F;
 
