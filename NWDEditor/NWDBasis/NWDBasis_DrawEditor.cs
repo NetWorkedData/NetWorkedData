@@ -1013,7 +1013,7 @@ namespace NetWorkedData
 
                 tLine++;
 
-                NWDGUI.BeginRedArea();
+                //NWDGUI.BeginRedArea();
 
 
                 bool tDisableDev = false;
@@ -1353,6 +1353,9 @@ namespace NetWorkedData
                 }
 
             }
+
+            // fix bug ... but we must investigate to find original error
+            EditorGUI.indentLevel = 0;
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
