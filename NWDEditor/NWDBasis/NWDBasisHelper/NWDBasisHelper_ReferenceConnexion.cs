@@ -164,7 +164,7 @@ namespace NetWorkedData
                                                            tY,
                                                            sPosition.width - NWDGUI.kConnectionIndent - tBorder,
                                                            sPosition.height - tPopupdStyle.fixedHeight - tBorder);
-                           tObject.DrawEditor(tRectToDawInspector,false, null);
+                           tObject.DrawEditor(tRectToDawInspector,false, null, CurrentWindow);
                         }
                     }
                 }

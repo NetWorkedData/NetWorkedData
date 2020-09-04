@@ -290,6 +290,11 @@ namespace NetWorkedData.NWDEditor
     public class NWDAppEnvironmentChooser : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        public override string TutorialLink(string sLink = "")
+        {
+            return NWDConstants.K_NWDURL + "app-environment-chooser/";
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance for deamon class.
         /// </summary>

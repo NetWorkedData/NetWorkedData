@@ -491,6 +491,11 @@ namespace NetWorkedData.NWDEditor
     public partial class NWDEditorNewClass : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        public override string TutorialLink(string sLink = "")
+        {
+            return NWDConstants.K_NWDURL + "editor-new-class/";
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance.
         /// </summary>

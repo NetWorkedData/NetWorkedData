@@ -127,6 +127,11 @@ namespace NetWorkedData.NWDEditor
     public class NWDModelManager : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        public override string TutorialLink(string sLink = "")
+        {
+            return NWDConstants.K_NWDURL + "model-manager/";
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance.
         /// </summary>

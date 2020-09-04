@@ -625,6 +625,11 @@ namespace NetWorkedData.MacroDefine
     public class MDEMacroDefineEditor : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        public override string TutorialLink(string sLink = "")
+        {
+            return NWDConstants.K_NWDURL + "macro-define/";
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance.
         /// </summary>

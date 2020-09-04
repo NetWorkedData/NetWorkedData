@@ -138,6 +138,11 @@ namespace NetWorkedData.NWDEditor
     public class NWDAppEnvironmentConfigurationManager : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        public override string TutorialLink(string sLink = "")
+        {
+            return NWDConstants.K_NWDURL + "environment-configuration-manager/";
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance.
         /// </summary>

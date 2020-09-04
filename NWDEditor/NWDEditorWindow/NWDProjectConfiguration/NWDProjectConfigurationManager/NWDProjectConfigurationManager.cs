@@ -364,6 +364,11 @@ namespace NetWorkedData.NWDEditor
     public class NWDProjectConfigurationManager : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        public override string TutorialLink(string sLink = "")
+        {
+            return NWDConstants.K_NWDURL + "project-configuration-manager/";
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance.
         /// </summary>

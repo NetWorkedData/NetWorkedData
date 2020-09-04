@@ -303,6 +303,11 @@ namespace NetWorkedData.NWDEditor
     public class NWDAppConfigurationManager : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        public override string TutorialLink(string sLink = "")
+        {
+            return NWDConstants.K_NWDURL + "app-configuration-manager/";
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The shared instance.
         /// </summary>

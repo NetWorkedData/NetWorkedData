@@ -178,6 +178,11 @@ namespace NetWorkedData.NWDEditor
     public class NWDNodeEditor : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        public override string TutorialLink(string sLink = "")
+        {
+            return NWDConstants.K_NWDURL + "nodal-view/";
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The node editor shared instance.
         /// </summary>
@@ -276,8 +281,11 @@ namespace NetWorkedData.NWDEditor
         public void SetSelection(NWDTypeClass sSelection)
         {
             //NWDBenchmark.Start();
+            //NWDBenchmark.Trace();
+            //Repaint();
             NWDNodeEditorContent.SharedInstance().SetSelection(sSelection);
-            Repaint();
+            //Repaint();
+            //Refresh();
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -341,6 +349,9 @@ namespace NetWorkedData.NWDEditor
                     SharedInstanceFocus();
                     SharedInstance().SetSelection(sSelection);
                     NWDNodeEditorContent.SaveObjectInEdition(sSelection);
+                    SharedInstance().Repaint();
+                    NWDNodeEditorContent.SharedInstance().Document.ReEvaluateLayout();
+                    SharedInstance().Repaint();
                 }
             }
             //NWDBenchmark.Finish();

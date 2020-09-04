@@ -1074,6 +1074,11 @@ namespace NetWorkedData.NWDEditor
     public class NWDAppEnvironmentSync : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        public override string TutorialLink(string sLink = "")
+        {
+            return NWDConstants.K_NWDURL + "app-environment-sync/";
+        }
+        //-------------------------------------------------------------------------------------------------------------
         private static NWDAppEnvironmentSync kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppEnvironmentSync SharedInstance()

@@ -34,6 +34,8 @@ namespace NetWorkedData
     public partial class NWDConstants
     {
         //-------------------------------------------------------------------------------------------------------------
+        public const string K_NWDURL = "https://www.net-worked-data.com/";
+        //-------------------------------------------------------------------------------------------------------------
         public const string K_EDITOR_BENCHMARK_GREEN = "K_EDITOR_BENCHMARK_GREEN";
         public const string K_EDITOR_BENCHMARK_RED = "K_EDITOR_BENCHMARK_RED";
         public const string K_EDITOR_BENCHMARK_ORANGE = "K_EDITOR_BENCHMARK_ORANGE";

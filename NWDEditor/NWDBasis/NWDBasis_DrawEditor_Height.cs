@@ -43,6 +43,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void TotalSize(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         {
+            //NWDBenchmark.Trace();
             HeaderSize(sInRect, sWithScrollview, sNodalCard);
             InformationsSize(sInRect, sWithScrollview, sNodalCard);
             NodalSize(sInRect, sWithScrollview, sNodalCard);
@@ -306,7 +307,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual float AddonEditorHeight(float sWidth)
         {
-            return NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, EditorMatrixLine);
+            return LayoutEditorHeight;
+            //return NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, EditorMatrixLine);
         }
         //-------------------------------------------------------------------------------------------------------------
         protected Rect[,] EditorNodalMatrix;
@@ -316,7 +318,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual float AddOnNodeDrawHeight(float sCardWidth)
         {
-            return NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, EditorNodalMatrixLine);
+            return LayoutNodalHeight;
+            //return NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, EditorNodalMatrixLine);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

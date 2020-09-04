@@ -89,6 +89,11 @@ namespace NetWorkedData.NWDEditor
     public class NWDEditorFooter : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        public override string TutorialLink(string sLink = "")
+        {
+            return NWDConstants.K_NWDURL + "footer/";
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void NewFooter()
         {
             NWDBenchmark.Start();

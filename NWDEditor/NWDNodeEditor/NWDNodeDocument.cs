@@ -402,6 +402,7 @@ namespace NetWorkedData.NWDEditor
         public void ReEvaluateLayout()
         {
             //NWDBenchmark.Start();
+            //NWDBenchmark.Trace();
             DocumentWidth = DocumentMarge;
             foreach (KeyValuePair<int, List<NWDNodeCard>> tColumnList in MatrixCards)
             {

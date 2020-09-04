@@ -102,7 +102,7 @@ namespace NetWorkedData
         public void SetObjectInEdition(NWDTypeClass sData, bool sResetStack = true, bool sFocus = true)
         {
             NWDBenchmark.Start();
-            NWDBenchmark.Trace();
+            //NWDBenchmark.Trace();
             bool tInspectorDataPanel = false;
             if (sData != null)
             {
@@ -116,7 +116,7 @@ namespace NetWorkedData
             bool tManaged = false;
             if (tInspectorDataPanel == true)
             {
-                NWDBenchmark.Trace();
+                //NWDBenchmark.Trace();
                 mObjectInEdition = sData;
                 if (mObjectInEdition != null)
                 {
@@ -142,7 +142,7 @@ namespace NetWorkedData
             }
             if (tManaged == false)
             {
-                NWDBenchmark.Trace();
+                //NWDBenchmark.Trace();
                 GUI.FocusControl(null);
                 NWDDataInspector.InspectNetWorkedData(sData, sResetStack, sFocus);
                 if (sData != null)

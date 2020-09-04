@@ -31,7 +31,7 @@ using NetWorkedData.MacroDefine;
 //=====================================================================================================================
 namespace NetWorkedData.NWDEditor
 {
-   
+
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// NWD editor menu.
@@ -105,12 +105,12 @@ namespace NetWorkedData.NWDEditor
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(K_NETWORKEDDATA + "Customs management", true, K_CUSTOMS_MANAGEMENT_INDEX-1)]
+        [MenuItem(K_NETWORKEDDATA + "Customs management", true, K_CUSTOMS_MANAGEMENT_INDEX - 1)]
         public static bool CustomsModelsFalse()
         {
             return false;
         }//-------------------------------------------------------------------------------------------------------------
-        [MenuItem(K_NETWORKEDDATA + "Customs management", false, K_CUSTOMS_MANAGEMENT_INDEX-1)]
+        [MenuItem(K_NETWORKEDDATA + "Customs management", false, K_CUSTOMS_MANAGEMENT_INDEX - 1)]
         public static void CustomsModels()
         {
         }
@@ -150,19 +150,19 @@ namespace NetWorkedData.NWDEditor
         [MenuItem(K_NETWORKEDDATA + K_DOCUMENTATION + "Website", false, 23)]
         public static void Website()
         {
-            Application.OpenURL("https://www.net-worked-data.com");
+            Application.OpenURL(NWDConstants.K_NWDURL + "index.php");
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_DOCUMENTATION + "Tutorial", false, 24)]
         public static void Tutorial()
         {
-            Application.OpenURL("https://www.net-worked-data.com");
+            Application.OpenURL(NWDConstants.K_NWDURL + "tutorial/");
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_DOCUMENTATION + "Documentation online", false, 44)]
         public static void Doxygne()
         {
-            Application.OpenURL("https://net-worked-data.com/Documentation/NetWorkedData/html/index.html");
+            Application.OpenURL(NWDConstants.K_NWDURL + "Documentation/NetWorkedData/html/index.html");
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -383,7 +383,7 @@ namespace NetWorkedData.NWDEditor
         }
         //-------------------------------------------------------------------------------------------------------------
         #region Special Recompile
-        #if NWD_DEVELOPER
+#if NWD_DEVELOPER
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_TOOLS + "Stop recompile", true)]
         public static bool TestStopRecompile()
@@ -417,7 +417,7 @@ namespace NetWorkedData.NWDEditor
         {
             StopRecompile();
         }
-        #endif
+#endif
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #endregion

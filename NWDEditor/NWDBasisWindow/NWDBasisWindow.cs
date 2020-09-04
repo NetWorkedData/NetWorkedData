@@ -34,6 +34,11 @@ namespace NetWorkedData.NWDEditor
     public class NWDBasisWindow<K> : NWDTypeWindow where K : NWDBasisWindow<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
+        public override string TutorialLink(string sLink = "")
+        {
+            return NWDConstants.K_NWDURL + "table-manager/";
+        }
+        //-------------------------------------------------------------------------------------------------------------
         protected static K SharedInstance;
         //-------------------------------------------------------------------------------------------------------------
         public static void ShowWindow()

@@ -23,6 +23,7 @@ using UnityEngine;
 //=====================================================================================================================
 #if UNITY_EDITOR
 using NetWorkedData.NWDEditor;
+using UnityEditor;
 #endif
 //=====================================================================================================================
 namespace NetWorkedData
@@ -664,7 +665,7 @@ namespace NetWorkedData
         //    return 0;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard) { }
+        public virtual void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, EditorWindow sWindow) { }
         //-------------------------------------------------------------------------------------------------------------
         public virtual float DrawEditorTotalHeight(NWDNodeCard sNodalCard, float sWidth)
         {

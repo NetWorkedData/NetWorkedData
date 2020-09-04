@@ -154,8 +154,9 @@ namespace NetWorkedData
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
+        public override void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, EditorWindow sWindow)
         {
+            BasisHelper().CurrentWindow = sWindow;
             //NWDBenchmark.Start();
             WithScrollview = sWithScrollview;
             if (sNodalCard != null)
@@ -752,6 +753,8 @@ namespace NetWorkedData
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public float LayoutNodalHeight = 0;
+        //-------------------------------------------------------------------------------------------------------------
         public void DrawNodal(NWDNodeCard sNodalCard)
         {
             //NWDBenchmark.Finish();
@@ -760,7 +763,33 @@ namespace NetWorkedData
                 NWDGUI.Line(NWDGUI.UnMargeLeftRight(new Rect(sNodalCard.NodalRect.x, sNodalCard.NodalRect.y, sNodalCard.NodalRect.width, 1)));
 
                 EditorGUI.HelpBox(NWDGUI.MargeTopBottom(sNodalCard.NodalRect), string.Empty, MessageType.None);
-                AddOnNodeDraw(NWDGUI.MargeAll(sNodalCard.NodalRect));
+
+                // prepare are for layout
+                EditorGUI.indentLevel = 0;
+                Rect tRb = NWDGUI.MargeTopBottom(sNodalCard.NodalRect);
+                GUILayout.BeginArea(tRb);
+                Rect tAreaLayouted = EditorGUILayout.BeginVertical();
+                // draw nodal informations with layout
+                AddOnNodeDraw(tRb);
+                EditorGUILayout.EndVertical();
+                GUILayout.EndArea();
+                if (Event.current.type == EventType.Repaint)
+                //if (Event.current.type == EventType.Layout)
+                {
+                    //Debug.Log("tAreaLayouted " + tAreaLayouted.ToString());
+                    if (tAreaLayouted.height != LayoutNodalHeight)
+                    {
+                        LayoutNodalHeight = tAreaLayouted.height;
+                        if (sNodalCard != null)
+                        {
+                            NWDNodeEditorContent.SharedInstance().Document.ReEvaluateLayout();
+                            NWDNodeEditor.SharedInstance().Repaint();
+                            GUIUtility.ExitGUI();
+                        }
+                    }
+                }
+                EditorGUI.indentLevel = 0;
+                // arae for layout is determinated
 
                 NWDGUI.Line(NWDGUI.UnMargeLeftRight(new Rect(sNodalCard.NodalRect.x, sNodalCard.NodalRect.y + sNodalCard.NodalRect.height, sNodalCard.NodalRect.width, 1))
                     );//, Color.red);
@@ -853,7 +882,7 @@ namespace NetWorkedData
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        protected float LayoutEditorHeight = 0;
+        protected float LayoutEditorHeight = 1024;
         //-------------------------------------------------------------------------------------------------------------
         public void DrawAddOn(NWDNodeCard sNodalCard)
         {
@@ -868,15 +897,38 @@ namespace NetWorkedData
             //EditorGUI.DrawRect(tRb, Color.red);
             //EditorGUI.DrawRect(tR, Color.blue);
 
+
+
+            // prepare are for layout
+            EditorGUI.indentLevel = 0;
             GUILayout.BeginArea(tRb);
-            EditorGUILayout.BeginVertical();
+            Rect tAreaLayouted = EditorGUILayout.BeginVertical();
+            // draw nodal informations with layout
             AddonEditor(tR);
             EditorGUILayout.EndVertical();
-            if (Event.current.type == EventType.Repaint)
-            {
-                LayoutEditorHeight = GUILayoutUtility.GetLastRect().height;
-            }
             GUILayout.EndArea();
+            if (Event.current.type == EventType.Repaint)
+            //if (Event.current.type == EventType.Layout)
+            {
+                //Debug.Log("tAreaLayouted " + tAreaLayouted.ToString());
+                if (tAreaLayouted.height != LayoutEditorHeight)
+                {
+                    LayoutEditorHeight = tAreaLayouted.height;
+                    if (BasisHelper().CurrentWindow != null)
+                    {
+                        BasisHelper().CurrentWindow.Repaint();
+                    }
+                    if (sNodalCard != null)
+                    {
+                        NWDNodeEditorContent.SharedInstance().Document.ReEvaluateLayout();
+                        NWDNodeEditor.SharedInstance().Repaint();
+                        GUIUtility.ExitGUI();
+                    }
+                }
+            }
+            EditorGUI.indentLevel = 0;
+            // arae for layout is determinated
+
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1361,8 +1413,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void AddonEditor(Rect sRect)
         {
+            //NWDBenchmark.Start();
             EditorMatrix = NWDGUI.DiviseArea(sRect, EditorMatrixColunm, EditorMatrixLine);
             EditorMatrixIndex = 0;
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool AddonEdited(bool sNeedBeUpdate)

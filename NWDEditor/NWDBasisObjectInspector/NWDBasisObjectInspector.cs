@@ -51,7 +51,7 @@ namespace NetWorkedData.NWDEditor
             NWDBasisObjectInspector tTarget = (NWDBasisObjectInspector)target;
 			if (tTarget.mObjectInEdition != null)
 			{
-                tTarget.mObjectInEdition.DrawEditor(Rect.zero, false, null);
+                tTarget.mObjectInEdition.DrawEditor(Rect.zero, false, null, null);
             }
             NWDBenchmark.Finish();
         }

@@ -297,70 +297,91 @@ namespace NetWorkedData
         static int kOwnershipSetValue;
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditorHeight(float sWidth)
+        public override void AddOnNodeDraw(Rect sRect)
         {
-            // Height calculate for the interface addon for editor
-            return NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 6);
+            NWDUserOwnership tOwnership = NWDUserOwnership.FindReachableByItem(this, false);
+            EditorGUI.indentLevel = 1;
+            if (tOwnership != null)
+            {
+                EditorGUILayout.LabelField("You have " + tOwnership.Quantity + " '" + this.InternalKey + "' in your ownership!");
+            }
+            else
+            {
+                EditorGUILayout.LabelField("You have not '" + this.InternalKey + "' in your ownership!");
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonEditor(Rect sRect)
         {
-            Rect[,] tMatrixRect = NWDGUI.DiviseArea(sRect, 3, 6);
-
-            NWDUserOwnership tOwnership = NWDUserOwnership.FindReachableByItem(this);
-
+            base.AddonEditor(sRect);
+            NWDGUILayout.Title("More actions");
+            NWDGUILayout.SubSection("Ownership");
+            NWDUserOwnership tOwnership = NWDUserOwnership.FindReachableByItem(this, false);
             if (tOwnership != null)
             {
-                GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, 0], tMatrixRect[1, 0]), "You have " + tOwnership.Quantity + " " + this.InternalKey + " in your ownership!");
-                if (GUI.Button(tMatrixRect[0, 1], "Select Ownership", NWDGUI.kMiniButtonStyle))
+                EditorGUILayout.LabelField("You have " + tOwnership.Quantity + " " + this.InternalKey + " in your ownership!");
+                NWDGUILayout.SubSection("Management");
+                if (GUILayout.Button("Select Ownership", NWDGUI.kMiniButtonStyle))
                 {
                     NWDDataInspector.InspectNetWorkedData(tOwnership);
                 }
-                if (GUI.Button(tMatrixRect[2, 1], "reset to zero", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("Reset to zero", NWDGUI.kMiniButtonStyle))
                 {
                     NWDUserOwnership.SetItemToOwnership(this, 0);
                 }
 
-                kOwnershipSetValue = EditorGUI.IntField(NWDGUI.AssemblyArea(tMatrixRect[0, 2], tMatrixRect[1, 2]), "value to set", kOwnershipSetValue);
-                if (GUI.Button(tMatrixRect[2, 2], "set", NWDGUI.kMiniButtonStyle))
+                NWDGUILayout.SubSection("Change value");
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.BeginVertical();
+                kOwnershipSetValue = EditorGUILayout.IntField("value to set", kOwnershipSetValue);
+                kOwnershipAddValue = EditorGUILayout.IntField("value to add", kOwnershipAddValue);
+                EditorGUILayout.EndVertical();
+                EditorGUILayout.BeginVertical();
+                if (GUILayout.Button("set", NWDGUI.kMiniButtonStyle))
                 {
                     NWDUserOwnership.SetItemToOwnership(this, kOwnershipSetValue);
                 }
-                kOwnershipAddValue = EditorGUI.IntField(NWDGUI.AssemblyArea(tMatrixRect[0, 3], tMatrixRect[1, 3]), "value to add", kOwnershipAddValue);
-                if (GUI.Button(tMatrixRect[2, 3], "add", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("add", NWDGUI.kMiniButtonStyle))
                 {
                     NWDUserOwnership.AddItemToOwnership(this, kOwnershipAddValue);
                 }
+                EditorGUILayout.EndVertical();
+                EditorGUILayout.EndHorizontal();
 
-                if (GUI.Button(tMatrixRect[0, 4], "add 1", NWDGUI.kMiniButtonStyle))
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.BeginVertical();
+                if (GUILayout.Button("add 1", NWDGUI.kMiniButtonStyle))
                 {
                     NWDUserOwnership.AddItemToOwnership(this, 1);
                 }
-                if (GUI.Button(tMatrixRect[1, 4], "add 10", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("add 10", NWDGUI.kMiniButtonStyle))
                 {
                     NWDUserOwnership.AddItemToOwnership(this, 10);
                 }
-                if (GUI.Button(tMatrixRect[2, 4], "add 100", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("add 100", NWDGUI.kMiniButtonStyle))
                 {
                     NWDUserOwnership.AddItemToOwnership(this, 100);
                 }
-                if (GUI.Button(tMatrixRect[0, 5], "remove 1", NWDGUI.kMiniButtonStyle))
+                EditorGUILayout.EndVertical();
+                EditorGUILayout.BeginVertical();
+                if (GUILayout.Button("remove 1", NWDGUI.kMiniButtonStyle))
                 {
                     NWDUserOwnership.AddItemToOwnership(this, -1);
                 }
-                if (GUI.Button(tMatrixRect[1, 5], "remove 10", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("remove 10", NWDGUI.kMiniButtonStyle))
                 {
                     NWDUserOwnership.AddItemToOwnership(this, -10);
                 }
-                if (GUI.Button(tMatrixRect[2, 5], "remove 100", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("remove 100", NWDGUI.kMiniButtonStyle))
                 {
                     NWDUserOwnership.AddItemToOwnership(this, -100);
                 }
+                EditorGUILayout.EndVertical();
+                EditorGUILayout.EndHorizontal();
             }
             else
             {
-                GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, 0], tMatrixRect[2, 0]), "You haven't ownership on " + this.InternalKey + "!");
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrixRect[0, 1], tMatrixRect[2, 1]), "Create Ownership", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("Create Ownership"))
                 {
                     NWDUserOwnership.FindReachableByItem(this, true);
                 }

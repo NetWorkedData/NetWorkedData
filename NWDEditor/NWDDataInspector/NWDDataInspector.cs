@@ -256,7 +256,7 @@ namespace NetWorkedData.NWDEditor
             }
             else
             {
-                mObjectInEdition.DrawEditor(new Rect(0, 0, position.width, position.height), true, null);
+                mObjectInEdition.DrawEditor(new Rect(0, 0, position.width, position.height), true, null, this);
             }
             NWDBenchmark.Finish();
         }

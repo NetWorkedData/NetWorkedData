@@ -36,6 +36,8 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
+        public EditorWindow CurrentWindow;
+        //-------------------------------------------------------------------------------------------------------------
         //TODO : RENAME!
         public void DrawInEditor(EditorWindow sEditorWindow, Rect sRect, Rect sRectReal, bool sAutoSelect = false)
         {
@@ -1338,7 +1340,7 @@ namespace NetWorkedData
 
             if (mObjectInEdition != null)
             {
-                mObjectInEdition.DrawEditor(sRect, true, null);
+                mObjectInEdition.DrawEditor(sRect, true, null, CurrentWindow);
             }
             else
             {

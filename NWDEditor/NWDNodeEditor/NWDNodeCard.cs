@@ -159,7 +159,7 @@ namespace NetWorkedData.NWDEditor
             if (sVisibleRect.Overlaps(CardRect))
             {
                 GUI.Box(NWDGUI.UnMargeAll(CardRect), " ", EditorStyles.helpBox);
-                DataObject.DrawEditor(CardRect, false, this);
+                DataObject.DrawEditor(CardRect, false, this, this.ParentDocument.EditorWindow);
             }
             //NWDBenchmark.Finish();
         }
