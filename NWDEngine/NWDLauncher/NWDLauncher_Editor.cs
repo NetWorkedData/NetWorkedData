@@ -74,7 +74,21 @@ namespace NetWorkedData
             if (NWDAppConfiguration.SharedInstance().Installed == NWDAppInstallation.FirstInstallation)
             {
                 NWDAppConfiguration.SharedInstance().Installed = NWDAppInstallation.FormInstallation;
-                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                // generate file editor configuration in specific folder
+                GenerateCSharpFile_Editor(sEnvironment);
+                // generate file launcher configuration in specific folder
+                GenerateCSharpFile_Launcher(sEnvironment);
+                // generate file classes restaure configurations in specific folder
+                GenerateCSharpFile_Restaure(sEnvironment);
+                try
+                {
+                    AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+                }
+                catch (IOException e)
+                {
+                    Debug.LogException(e);
+                    throw;
+                }
             }
             else
             {
