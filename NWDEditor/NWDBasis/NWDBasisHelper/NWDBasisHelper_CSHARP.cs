@@ -228,6 +228,7 @@ namespace NetWorkedData
         {
             //NWDBenchmark.Start();
             NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
+            PrefLoad();
             CreationCSHARP_PreCompileOption(tApp.OverrideCacheMethod);
             // Write data ...
             StringBuilder rReturn = new StringBuilder(string.Empty);
