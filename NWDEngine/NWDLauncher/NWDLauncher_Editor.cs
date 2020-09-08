@@ -75,11 +75,11 @@ namespace NetWorkedData
             {
                 NWDAppConfiguration.SharedInstance().Installed = NWDAppInstallation.FormInstallation;
                 // generate file editor configuration in specific folder
-                GenerateCSharpFile_Editor(sEnvironment);
+                NWDAppConfiguration.SharedInstance().GenerateCSharpFile_Editor(sEnvironment);
                 // generate file launcher configuration in specific folder
-                GenerateCSharpFile_Launcher(sEnvironment);
+                NWDAppConfiguration.SharedInstance().GenerateCSharpFile_Launcher(sEnvironment);
                 // generate file classes restaure configurations in specific folder
-                GenerateCSharpFile_Restaure(sEnvironment);
+                NWDAppConfiguration.SharedInstance().GenerateCSharpFile_Restaure(sEnvironment);
                 try
                 {
                     AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
