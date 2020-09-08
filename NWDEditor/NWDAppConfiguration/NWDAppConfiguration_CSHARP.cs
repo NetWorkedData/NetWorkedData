@@ -147,7 +147,7 @@ namespace NetWorkedData
             rReturn.AppendLine("public bool RestaureEditorConfigurations()");
             rReturn.AppendLine("{");
 #if UNITY_EDITOR
-            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.Installed) + " = " + this.Installed.ToString().ToLower() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.Installed) + " = " + typeof(NWDAppInstallation).Name + "." + this.Installed.ToString() + ";");
 #endif
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.BuilderUser) + " = \"" + NWDProjectPrefs.GetString(NWDConstants.K_EDITOR_USER_BUILDER, "(user)") + "\";");
 #if UNITY_EDITOR_OSX
