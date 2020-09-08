@@ -90,11 +90,11 @@ namespace NetWorkedData.NWDEditor
             NWDBenchmark.Start();
             NWDGUILayout.Title("Installation");
             _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-            if (NWDAppConfiguration.SharedInstance().Installed == true)
+            if (NWDAppConfiguration.SharedInstance().Installed == NWDAppInstallation.Installed)
             {
                 if (GUILayout.Button("Remove instalation and close"))
                 {
-                    NWDAppConfiguration.SharedInstance().Installed = false;
+                    NWDAppConfiguration.SharedInstance().Installed = NWDAppInstallation.FormInstallation;
                     Window.Close();
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().DevEnvironment);
                 }
@@ -216,7 +216,7 @@ namespace NetWorkedData.NWDEditor
 
                     NWDDataManager.SharedInstance().DataQueueExecute();
 
-                    NWDAppConfiguration.SharedInstance().Installed = true;
+                    NWDAppConfiguration.SharedInstance().Installed = NWDAppInstallation.Installed;
                     Window.Close();
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().DevEnvironment);
                 }

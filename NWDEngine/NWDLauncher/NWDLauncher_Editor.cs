@@ -48,7 +48,6 @@ namespace NetWorkedData
             }
             NWDDataManager.SharedInstance().ClassInDeviceDatabaseList.Clear();
             NWDDataManager.SharedInstance().ClassInEditorDatabaseList.Clear();
-
 #if UNITY_EDITOR
             EditorUtility.ClearProgressBar();
 #endif
@@ -71,52 +70,63 @@ namespace NetWorkedData
             NotifyEngineReady();
             AddIndexMethod();
 
-
-            // connect editor
-            ConnectEditorStandard();
-            // create table editor
-            CreateTableEditorStandard();
-            // load editor data
-            LoadDataEditorStandard(NWDBundle.ALL);
-            // index all data editor
-            IndexEditorStandard();
-
-            NWDLauncherBenchmark.WatchEditorLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
-
-            NotifyDataEditorReady();
-
-            // need account pincode
-            ConnectAccountStandard();
-            // create table account
-            CreateTableAccountStandard();
-            // load account data account
-            LoadDataAccountStandard(NWDBundle.ALL);
-            // index all data
-            IndexAccountStandard();
-
-            NWDLauncherBenchmark.WatchAccountLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
-
-            NotifyDataAccountReady();
-
-            // Special NWDAppConfiguration loaded()
-            NWDAppConfiguration.SharedInstance().Loaded();
-            // Ready!
-            Ready();
-
-            NWDLauncherBenchmark.WatchFinalLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
-
-            NotifyNetWorkedDataReady();
-
-            if (ActiveBenchmark)
+#if UNITY_EDITOR
+            if (NWDAppConfiguration.SharedInstance().Installed == NWDAppInstallation.FirstInstallation)
             {
-                //TimeFinish = NWDBenchmark.SinceStartup();
-                TimeFinish = Time.realtimeSinceStartup;
-                NWDBenchmark.Finish();
-                TimeNWDFinish = NWDLauncherBenchmark.Watch.ElapsedMilliseconds / 1000.0F;
-                //LauncherBenchmarkToMarkdown();
+                NWDAppConfiguration.SharedInstance().Installed = NWDAppInstallation.FormInstallation;
+                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
-            NWDLauncherBenchmark.Watch.Stop();
-            NWDBenchmark.AllResults();
+            else
+            {
+#endif
+                // connect editor
+                ConnectEditorStandard();
+                // create table editor
+                CreateTableEditorStandard();
+                // load editor data
+                LoadDataEditorStandard(NWDBundle.ALL);
+                // index all data editor
+                IndexEditorStandard();
+
+                NWDLauncherBenchmark.WatchEditorLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
+
+                NotifyDataEditorReady();
+
+                // need account pincode
+                ConnectAccountStandard();
+                // create table account
+                CreateTableAccountStandard();
+                // load account data account
+                LoadDataAccountStandard(NWDBundle.ALL);
+                // index all data
+                IndexAccountStandard();
+
+                NWDLauncherBenchmark.WatchAccountLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
+
+                NotifyDataAccountReady();
+
+                // Special NWDAppConfiguration loaded()
+                NWDAppConfiguration.SharedInstance().Loaded();
+                // Ready!
+                Ready();
+
+                NWDLauncherBenchmark.WatchFinalLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
+
+                NotifyNetWorkedDataReady();
+
+                if (ActiveBenchmark)
+                {
+                    //TimeFinish = NWDBenchmark.SinceStartup();
+                    TimeFinish = Time.realtimeSinceStartup;
+                    NWDBenchmark.Finish();
+                    TimeNWDFinish = NWDLauncherBenchmark.Watch.ElapsedMilliseconds / 1000.0F;
+                    //LauncherBenchmarkToMarkdown();
+                }
+                NWDLauncherBenchmark.Watch.Stop();
+                NWDBenchmark.AllResults();
+#if UNITY_EDITOR
+            }
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void EngineStandard()

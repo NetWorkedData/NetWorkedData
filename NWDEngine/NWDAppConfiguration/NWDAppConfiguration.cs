@@ -32,6 +32,15 @@ using NetWorkedData.NWDEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#if UNITY_EDITOR
+    public enum NWDAppInstallation : int
+    {
+        FirstInstallation,
+        FormInstallation,
+        Installed,
+    }
+#endif
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
     public class NWDAppConfigurationRestaure : Attribute
     {
@@ -60,7 +69,9 @@ namespace NetWorkedData
         {
             set; get;
         }
-        public bool Installed = false;
+#if UNITY_EDITOR
+        public NWDAppInstallation Installed = NWDAppInstallation.FirstInstallation;
+#endif
         public string CompileOn = "Mac Windows Linux";
         public string BuilderUser = "User";
         public string WebFolder = "NWDFolder";
