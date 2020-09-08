@@ -55,6 +55,27 @@ namespace NetWorkedData
         /// Generate automatically the C# files of configurations 
         /// </summary>
         /// <param name="sEnvironment"></param>
+        /// 
+        public void FirstGenerateCSharpFile(NWDAppEnvironment sEnvironment)
+        {
+            // generate file editor configuration in specific folder
+            GenerateCSharpFile_Editor(sEnvironment);
+            // generate file launcher configuration in specific folder
+            GenerateCSharpFile_Launcher(sEnvironment);
+            // generate file classes restaure configurations in specific folder
+            GenerateCSharpFile_Restaure(sEnvironment);
+            try
+            {
+                AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+            }
+            catch (IOException e)
+            {
+                Debug.LogException(e);
+                throw;
+            }
+
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void GenerateCSharpFile(NWDAppEnvironment sEnvironment)
         {
             NWDBenchmark.Start();
