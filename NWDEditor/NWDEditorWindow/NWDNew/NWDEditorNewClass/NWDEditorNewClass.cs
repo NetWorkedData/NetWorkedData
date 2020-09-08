@@ -202,7 +202,8 @@ namespace NetWorkedData.NWDEditor
             Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(tFilePath);
             EditorGUIUtility.PingObject(Selection.activeObject);
 
-            AssetDatabase.ImportAsset(tOwnerClassesFolderPath);
+            //AssetDatabase.ImportAsset(tOwnerClassesFolderPath);
+            AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

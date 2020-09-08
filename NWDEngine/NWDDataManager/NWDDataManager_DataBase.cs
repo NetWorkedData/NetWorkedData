@@ -55,7 +55,7 @@ namespace NetWorkedData
                 if (Directory.Exists(tAccessPath + "/" + NWD.K_StreamingAssets) == false)
                 {
                     AssetDatabase.CreateFolder(NWD.K_Assets, NWD.K_StreamingAssets);
-                    AssetDatabase.ImportAsset(NWD.K_Assets+"/" + NWD.K_StreamingAssets);
+                    AssetDatabase.ImportAsset(NWD.K_Assets + "/" + NWD.K_StreamingAssets);
                     AssetDatabase.Refresh();
                 }
                 // path for base editor

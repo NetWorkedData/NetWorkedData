@@ -44,6 +44,13 @@ namespace NetWorkedData
     public partial class NWDAppConfiguration : NWDApp
     {
         //-------------------------------------------------------------------------------------------------------------
+        //public void FileToReImport(string sPath)
+        //{
+        //    FileToReImportList.Add(sPath);
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //private List<string> FileToReImportList = new List<string>();
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Generate automatically the C# files of configurations 
         /// </summary>
@@ -62,6 +69,18 @@ namespace NetWorkedData
                 // generate file classes restaure configurations in specific folder
                 GenerateCSharpFile_Restaure(sEnvironment);
             }
+            try
+            {
+                AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+            }
+            catch (IOException e)
+            {
+                Debug.LogException(e);
+                throw;
+            }
+
+            //AssetDatabase.ImportAsset()
+            //FileToReImportList
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -128,16 +147,16 @@ namespace NetWorkedData
             string tPathPrivate = tFindPrivateConfigurationFolder + "/NWDConfigurations_Editor.cs";
             string rReturnPrivateFormatted = NWDToolbox.CSharpFormat(rReturn.ToString());
             File.WriteAllText(tPathPrivate, rReturnPrivateFormatted);
-            try
-            {
-                AssetDatabase.ImportAsset(tPathPrivate, ImportAssetOptions.ForceUpdate);
-                AssetDatabase.ImportAsset(NWDToolbox.FindPrivateConfigurationFolder(), ImportAssetOptions.ForceUpdate);
-            }
-            catch (IOException e)
-            {
-                Debug.LogException(e);
-                throw;
-            }
+            //try
+            //{
+            //    AssetDatabase.ImportAsset(tPathPrivate, ImportAssetOptions.ForceUpdate);
+            //    AssetDatabase.ImportAsset(NWDToolbox.FindPrivateConfigurationFolder(), ImportAssetOptions.ForceUpdate);
+            //}
+            //catch (IOException e)
+            //{
+            //    Debug.LogException(e);
+            //    throw;
+            //}
             NWDBenchmark.Finish();
 
         }
@@ -270,17 +289,17 @@ namespace NetWorkedData
             rReturn.AppendLine("//=====================================================================================================================");
             string tPath = tOwnerConfigurationFolderPath + "/NWDConfigurations.cs";
             string rReturnFormatted = NWDToolbox.CSharpFormat(rReturn.ToString());
-            File.WriteAllText(tPath, rReturnFormatted);
-            try
-            {
-                AssetDatabase.ImportAsset(tPath, ImportAssetOptions.ForceUpdate);
-                AssetDatabase.ImportAsset(NWDToolbox.FindOwnerConfigurationFolder(), ImportAssetOptions.ForceUpdate);
-            }
-            catch (IOException e)
-            {
-                Debug.LogException(e);
-                throw;
-            }
+            //File.WriteAllText(tPath, rReturnFormatted);
+            //try
+            //{
+            //    AssetDatabase.ImportAsset(tPath, ImportAssetOptions.ForceUpdate);
+            //    AssetDatabase.ImportAsset(NWDToolbox.FindOwnerConfigurationFolder(), ImportAssetOptions.ForceUpdate);
+            //}
+            //catch (IOException e)
+            //{
+            //    Debug.LogException(e);
+            //    throw;
+            //}
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -408,16 +427,16 @@ namespace NetWorkedData
                     File.WriteAllText(tPathTypeClass, rReturnClassFormatted);
                 }
             }
-            try
-            {
-                AssetDatabase.ImportAsset(tPathType, ImportAssetOptions.ForceUpdate);
-                AssetDatabase.ImportAsset(NWDToolbox.FindOwnerConfigurationFolder(), ImportAssetOptions.ForceUpdate);
-            }
-            catch (IOException e)
-            {
-                Debug.LogException(e);
-                throw;
-            }
+            //try
+            //{
+            //    AssetDatabase.ImportAsset(tPathType, ImportAssetOptions.ForceUpdate);
+            //    AssetDatabase.ImportAsset(NWDToolbox.FindOwnerConfigurationFolder(), ImportAssetOptions.ForceUpdate);
+            //}
+            //catch (IOException e)
+            //{
+            //    Debug.LogException(e);
+            //    throw;
+            //}
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

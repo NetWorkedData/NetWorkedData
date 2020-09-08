@@ -203,16 +203,16 @@ namespace NetWorkedData
                     File.WriteAllText(tPathType, rReturnTypeFormatted);
                 }
             }
-            try
-            {
-                AssetDatabase.ImportAsset(tPathType, ImportAssetOptions.ForceUpdate);
-                AssetDatabase.ImportAsset(NWDToolbox.FindCompileConfigurationFolder(), ImportAssetOptions.ForceUpdate);
-            }
-            catch (IOException e)
-            {
-                Debug.LogException(e);
-                throw;
-            }
+            //try
+            //{
+            //    AssetDatabase.ImportAsset(tPathType, ImportAssetOptions.ForceUpdate);
+            //    AssetDatabase.ImportAsset(NWDToolbox.FindCompileConfigurationFolder(), ImportAssetOptions.ForceUpdate);
+            //}
+            //catch (IOException e)
+            //{
+            //    Debug.LogException(e);
+            //    throw;
+            //}
         }
         //-------------------------------------------------------------------------------------------------------------
         public string CreationCSHARPCallLoader()
