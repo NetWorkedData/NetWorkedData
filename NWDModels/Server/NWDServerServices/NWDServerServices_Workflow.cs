@@ -28,7 +28,7 @@ namespace NetWorkedData
     public partial class NWDServerServices : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
-        const string K_Public_Webservices = "Public_Webservices";
+        public const string K_Public_Webservices = "Public_Webservices";
         const string K_Email = "contact@me.com";
         //-------------------------------------------------------------------------------------------------------------
         public NWDServerServices()

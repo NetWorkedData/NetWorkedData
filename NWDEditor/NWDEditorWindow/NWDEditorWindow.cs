@@ -355,6 +355,8 @@ namespace NetWorkedData.NWDEditor
     public class NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
+        protected NWDEditorWindow Window;
+        //-------------------------------------------------------------------------------------------------------------
         public virtual void OnEnable(NWDEditorWindow sEditorWindow)
         {
             throw new Exception("override OnEnable()");

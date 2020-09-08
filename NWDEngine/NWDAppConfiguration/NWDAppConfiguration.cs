@@ -60,6 +60,7 @@ namespace NetWorkedData
         {
             set; get;
         }
+        public bool Installed = false;
         public string CompileOn = "Mac Windows Linux";
         public string BuilderUser = "User";
         public string WebFolder = "NWDFolder";
