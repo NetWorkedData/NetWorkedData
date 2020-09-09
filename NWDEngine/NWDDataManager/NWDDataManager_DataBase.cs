@@ -40,6 +40,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool ConnectToDatabaseEditor()
         {
+            //Debug.Log("#### ConnectToDatabaseEditor");
             if (NWDLauncher.ActiveBenchmark)
             {
                 NWDBenchmark.Start();
@@ -59,14 +60,14 @@ namespace NetWorkedData
                     AssetDatabase.Refresh();
                 }
                 // path for base editor
-                string tDatabasePathEditor = NWD.K_Assets+"/" + NWD.K_StreamingAssets + "/" + DatabaseEditorName();
+                string tDatabasePathEditor = /*NWD.K_Assets+"/" + NWD.K_StreamingAssets + "/" +*/ DatabaseEditorName();
 #else
                 // Get saved App version from pref
                 // check if file exists in Application.persistentDataPath
 #if (UNITY_TVOS)
-                string tPathEditor = string.Format("{0}/{1}", Application.temporaryCachePath, DatabaseEditorName());
+                string tPathEditor = string.Format("{0}/{1}", Application.temporaryCachePath, DatabaseBuildName());
 #else
-                string tPathEditor = string.Format("{0}/{1}", Application.persistentDataPath, DatabaseEditorName());
+                string tPathEditor = string.Format("{0}/{1}", Application.persistentDataPath, DatabaseBuildName());
 #endif
 
                 // if must be update by build version : delete old editor data!
@@ -77,6 +78,7 @@ namespace NetWorkedData
                 // Write editor database
                 if (!File.Exists(tPathEditor))
                 {
+                    //Debug.Log("Application will copy editor database : " + tPathEditor);
                     if (NWDLauncher.ActiveBenchmark)
                     {
                         NWDBenchmark.Start("Copy editor");
@@ -89,26 +91,26 @@ namespace NetWorkedData
                     }
                     NWDLauncher.CopyDatabase = true;
 #if UNITY_ANDROID
-                    var tLoadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + DatabaseEditorName());  // this is the path to your StreamingAssets in android
+                    var tLoadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + DatabaseBuildName());  // this is the path to your StreamingAssets in android
                     while (!tLoadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
                     // then save to Application.persistentDataPath
                     File.WriteAllBytes(tPathEditor, tLoadDb.bytes);
 #elif (UNITY_IOS)
-                    var tLoadDb = Application.dataPath + "/Raw/" + DatabaseEditorName();  // this is the path to your StreamingAssets in iOS
+                    var tLoadDb = Application.dataPath + "/Raw/" + DatabaseBuildName();  // this is the path to your StreamingAssets in iOS
                     File.Copy(tLoadDb, tPathEditor);
 #elif (UNITY_TVOS)
-                    string tLoadDb = Application.dataPath + "/Raw/" + DatabaseEditorName();  // this is the path to your StreamingAssets in tvOS
+                    string tLoadDb = Application.dataPath + "/Raw/" + DatabaseBuildName();  // this is the path to your StreamingAssets in tvOS
                     Debug.Log(" read file in " + tLoadDb);
                     Debug.Log(" copy file to " + tPathEditor);
                     File.Copy(tLoadDb, tPathEditor);
 #elif (UNITY_STANDALONE_OSX)
-                    var tLoadDb = Application.dataPath + "/" + NWD.K_Resources + "/Data/"+NWD.K_StreamingAssets + "/" + DatabaseEditorName();
+                    var tLoadDb = Application.dataPath + "/" + NWD.K_Resources + "/Data/"+NWD.K_StreamingAssets + "/" + DatabaseBuildName();
                     File.Copy(tLoadDb, tPathEditor);
 #elif (UNITY_WP8 || UNITY_WINRT || UNITY_WSA_10_0 || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX)
                     var tLoadDb = Application.dataPath + "/" + NWD.K_StreamingAssets + "/" + DatabaseEditorName();
                     File.Copy(tLoadDb, tPathEditor);
 #else
-                    var tLoadDb = Application.dataPath + "/" + NWD.K_Resources + "/" + NWD.K_StreamingAssets + "/" + DatabaseEditorName();
+                    var tLoadDb = Application.dataPath + "/" + NWD.K_Resources + "/" + NWD.K_StreamingAssets + "/" + DatabaseBuildName();
                     File.Copy(tLoadDb, tPathEditor);
 #endif
                     if (NWDLauncher.ActiveBenchmark)
@@ -292,24 +294,28 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool UpdateBuildTimestamp()
         {
+            //Debug.Log("#### UpdateBuildTimestamp");
+            const string BuidTimestampKey = "APP_VERSION";
             bool rReturn = false;
             // Get saved App version from pref
             int tBuildTimeStamp = NWDAppConfiguration.SharedInstance().SelectedEnvironment().BuildTimestamp;
-            int tBuildTimeStampActual = NWDRuntimePrefs.ShareInstance().getInt("APP_VERSION");
+            int tBuildTimeStampActual = NWDRuntimePrefs.ShareInstance().getInt(BuidTimestampKey);
+            //Debug.Log("#### UpdateBuildTimestamp tBuildTimeStamp = "+ tBuildTimeStamp  + " : " + NWEDateHelper.ConvertFromTimestamp(tBuildTimeStamp).ToString("yyyy-MM-dd HH:mm:ss"));
+            //Debug.Log("#### tBuildTimeStampActual tBuildTimeStampActual = " + tBuildTimeStampActual + " : " + NWEDateHelper.ConvertFromTimestamp(tBuildTimeStampActual).ToString("yyyy-MM-dd HH:mm:ss"));
             // test version
             if (tBuildTimeStamp > tBuildTimeStampActual)
             {
                 rReturn = true;
-                NWDRuntimePrefs.ShareInstance().set("APP_VERSION", tBuildTimeStamp);
+                NWDRuntimePrefs.ShareInstance().set(BuidTimestampKey, tBuildTimeStamp);
             }
             // Save App version in pref for futur used
             if (rReturn == true)
             {
-                //Debug.Log("#DATABASE# Database must upadte by bundle");
+                Debug.Log("#DATABASE# Database must upadte by bundle");
             }
             else
             {
-                //Debug.Log("#DATABASE# Database is ok (no update needed)");
+                Debug.Log("#DATABASE# Database is ok (no update needed)");
             }
             return rReturn;
         }

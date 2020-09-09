@@ -183,9 +183,8 @@ namespace NetWorkedData.NWDEditor
             File.WriteAllText(tPathPrivate, rReturnPrivateFormatted);
             try
             {
-                AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
-                //AssetDatabase.ImportAsset(tPathPrivate, ImportAssetOptions.ForceUpdate);
-                //AssetDatabase.ImportAsset(NWDToolbox.FindPrivateConfigurationFolder(), ImportAssetOptions.ForceUpdate);
+                AssetDatabase.ImportAsset(tPathPrivate, ImportAssetOptions.ForceUpdate);
+                AssetDatabase.ImportAsset(NWDToolbox.FindPrivateConfigurationFolder(), ImportAssetOptions.ForceUpdate);
             }
             catch (IOException eException)
             {

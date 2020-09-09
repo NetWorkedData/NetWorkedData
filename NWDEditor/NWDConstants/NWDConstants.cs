@@ -107,7 +107,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         // Idemobi alert Strings
         public const string K_ALERT_IDEMOBI_TITLE = "NetWorkedData";
-        public const string K_ALERT_IDEMOBI_MESSAGE = "NetWorkedData is an idéMobi module to create and manage datas in your game. You  can create your owner classes and manage like standard NetWorkedDatas";
+        public const string K_ALERT_IDEMOBI_MESSAGE = "NetWorkedData is an idéMobi module to create and manage datas in your game. You  can create your owner classes and manage like standard NetWorkedData";
         public const string K_ALERT_IDEMOBI_OK = "Thanks!";
         public const string K_ALERT_IDEMOBI_SEE_DOC = "See online docs";
         public const string K_ALERT_IDEMOBI_SEE_WEBSITE = "See website";
@@ -115,7 +115,7 @@ namespace NetWorkedData
 
         //-------------------------------------------------------------------------------------------------------------
         // Menu Strings
-        public const string K_MENU_BASE = "NetWorkedDatas/";
+        public const string K_MENU_BASE = "NetWorkedData/";
         public const string K_MENU_IDEMOBI = K_MENU_BASE + "Developed by ideMobi";
         public const string K_MENU_EDITOR_PREFERENCES = K_MENU_BASE + "Tools/Editor preferences";
         public const string K_MENU_EDITOR_NODAL = K_MENU_BASE + "Tools/Editor Nodal";

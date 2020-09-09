@@ -16,11 +16,11 @@ using UnityEngine;
 using System.IO;
 using System;
 using System.Diagnostics;
+using System.Reflection;
 //=====================================================================================================================
 #if UNITY_EDITOR
 using UnityEditor;
 using NetWorkedData.NWDEditor;
-using System.Reflection;
 #endif
 //=====================================================================================================================
 namespace NetWorkedData

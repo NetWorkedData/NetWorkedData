@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
+using System.IO;
 //=====================================================================================================================
 namespace NetWorkedData.NWDEditor
 {
@@ -70,13 +71,11 @@ namespace NetWorkedData.NWDEditor
                     NWDEditorWindow.GenerateCSharpFile();
                 }
             }
-
             // Begin scroll view
             NWDGUILayout.Title("App's configurations");
             //NWDGUILayout.Informations("The settings below modify the compiled binary. Be careful when making changes!");
             //NWDGUILayout.Line();
             _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-
             // Launcher
             NWDGUILayout.Section("Launcher");
             NWDGUILayout.SubSection("Launcher configuration");
@@ -89,7 +88,6 @@ namespace NetWorkedData.NWDEditor
             {
                 NWDAppConfiguration.SharedInstance().LauncherFaster = 1;
             }
-
             // Data tag
             float tMinWidht = 270.0F;
             int tColum = 1;
@@ -119,7 +117,6 @@ namespace NetWorkedData.NWDEditor
             {
                 EditorGUILayout.EndHorizontal();
             }
-
             NWDGUILayout.Section("Cache on compile");
             NWDGUILayout.SubSection("Override max methods in cache");
             NWDAppConfiguration.SharedInstance().OverrideCacheMethodEverywhere = EditorGUILayout.Toggle("Override all", NWDAppConfiguration.SharedInstance().OverrideCacheMethodEverywhere);
@@ -133,7 +130,6 @@ namespace NetWorkedData.NWDEditor
                 NWDAppConfiguration.SharedInstance().OverrideCacheMethod = true;
                 NWDAppConfiguration.SharedInstance().OverrideCacheMethodInPlayMode = true;
             }
-
             NWDGUILayout.Section("Slack with editor");
             NWDGUILayout.SubSection("Webhook URL");
             NWDAppConfiguration.SharedInstance().SlackWebhookURL = EditorGUILayout.TextField("Webhook URL", NWDAppConfiguration.SharedInstance().SlackWebhookURL);
@@ -143,12 +139,10 @@ namespace NetWorkedData.NWDEditor
                 NWDOperationWebhook.NewMessage("Test webhook integration success!");
             }
             EditorGUI.EndDisabledGroup();
-
             NWDGUILayout.Section("Account");
             NWDGUILayout.SubSection("Account anonymous");
             NWDAppConfiguration.SharedInstance().AnonymousDeviceConnected = EditorGUILayout.ToggleLeft("Anonymous account connected from system device!", NWDAppConfiguration.SharedInstance().AnonymousDeviceConnected);
             NWDAppConfiguration.SharedInstance().PurgeOldAccountDatabase = EditorGUILayout.ToggleLeft("Purge old account", NWDAppConfiguration.SharedInstance().PurgeOldAccountDatabase);
-
             // Web Services
             NWDGUILayout.Section("Webservices");
             NWDGUILayout.SubSection("Webservices config for all environments");
@@ -211,13 +205,11 @@ namespace NetWorkedData.NWDEditor
             }
             // Database informations
             NWDGUILayout.Section("Databases");
-
             NWDGUILayout.SubSection("Databases parameters");
             NWDAppConfiguration.SharedInstance().AutoDeleteTrashDatas = EditorGUILayout.Toggle("Auto delete trashed datas", NWDAppConfiguration.SharedInstance().AutoDeleteTrashDatas);
             NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
             NWDAppConfiguration.SharedInstance().BundleDatas = EditorGUILayout.Toggle("Bundle datas", NWDAppConfiguration.SharedInstance().BundleDatas);
-            string tDatabasePathEditor = NWD.K_StreamingAssets + "/" + NWDDataManager.SharedInstance().DatabaseEditorName();
-
+            string tDatabasePathEditor = /*NWD.K_StreamingAssets + "/" +*/ NWDDataManager.SharedInstance().DatabaseEditorName();
             NWDGUILayout.SubSection("Databases editor config for all environments");
             EditorGUILayout.LabelField("Editor path ", tDatabasePathEditor);
             EditorGUILayout.LabelField("Editor hash salt", NWDAppConfiguration.SharedInstance().EditorPass);
@@ -231,9 +223,9 @@ namespace NetWorkedData.NWDEditor
                 if (GUILayout.Button("Editor database show path and copy password to clipboard"))
                 {
                     NWEClipboard.CopyToClipboard(NWDAppConfiguration.SharedInstance().GetEditorPass());
-                    EditorUtility.RevealInFinder(NWD.K_Assets + "/" + tDatabasePathEditor);
-                    EditorUtility.OpenWithDefaultApp(NWD.K_Assets + "/" + tDatabasePathEditor);
-                    Debug.LogWarning("Editor database path  = " + NWD.K_Assets + "/" + tDatabasePathEditor);
+                    EditorUtility.RevealInFinder(/*NWD.K_Assets + "/" +*/ tDatabasePathEditor);
+                    EditorUtility.OpenWithDefaultApp(/*NWD.K_Assets + "/" + */ tDatabasePathEditor);
+                    Debug.LogWarning("Editor database path  = " /*+ NWD.K_Assets + "/"*/+ tDatabasePathEditor);
                     Debug.LogWarning("Editor password = " + NWDAppConfiguration.SharedInstance().GetEditorPass());
                 }
             }
@@ -241,18 +233,54 @@ namespace NetWorkedData.NWDEditor
             {
                 if (GUILayout.Button("Editor database show path "))
                 {
-                    EditorUtility.RevealInFinder(NWD.K_Assets + "/" + tDatabasePathEditor);
-                    EditorUtility.OpenWithDefaultApp(NWD.K_Assets + "/" + tDatabasePathEditor);
-                    Debug.LogWarning("Editor database path = " + NWD.K_Assets + "/" + tDatabasePathEditor);
+                    EditorUtility.RevealInFinder(/*NWD.K_Assets + "/" +*/ tDatabasePathEditor);
+                    EditorUtility.OpenWithDefaultApp(/*NWD.K_Assets + "/" +*/ tDatabasePathEditor);
+                    Debug.LogWarning("Editor database path = " /*+ NWD.K_Assets + "/" */+ tDatabasePathEditor);
                 }
             }
-            // Database account informations
+            string tDatabasePathBuild = NWD.K_Assets + "/" + NWD.K_StreamingAssets + "/" + NWDDataManager.SharedInstance().DatabaseBuildName();
+            NWDGUILayout.SubSection("Databases Build config for all environments");
+            EditorGUILayout.LabelField("Build path ", tDatabasePathBuild);
+            EditorGUILayout.LabelField("Build hash salt", NWDAppConfiguration.SharedInstance().EditorPass);
+            EditorGUILayout.LabelField("Build hash salt A", NWDAppConfiguration.SharedInstance().EditorPassA);
+            EditorGUILayout.LabelField("Build hash salt B", NWDAppConfiguration.SharedInstance().EditorPassB);
+            if (NWDDataManager.SharedInstance().IsSecure())
+            {
+                EditorGUI.BeginDisabledGroup(true);
+                EditorGUILayout.TextField("Build password", NWDAppConfiguration.SharedInstance().GetEditorPass());
+                EditorGUI.EndDisabledGroup();
+                if (GUILayout.Button("Build database show path and copy password to clipboard"))
+                {
+                    NWEClipboard.CopyToClipboard(NWDAppConfiguration.SharedInstance().GetEditorPass());
+                    EditorUtility.RevealInFinder( tDatabasePathBuild);
+                    EditorUtility.OpenWithDefaultApp( tDatabasePathBuild);
+                    Debug.LogWarning("Build database path  = " + tDatabasePathBuild);
+                    Debug.LogWarning("Build password = " + NWDAppConfiguration.SharedInstance().GetEditorPass());
+                }
+            }
+            else
+            {
+                if (GUILayout.Button("Build database show path "))
+                {
+                    EditorUtility.RevealInFinder( tDatabasePathBuild);
+                    EditorUtility.OpenWithDefaultApp( tDatabasePathBuild);
+                    Debug.LogWarning("Build database path = " + tDatabasePathBuild);
+                }
+            }
+            if (GUILayout.Button("Copy Build database to Editor Database"))
+            {
+                if (File.Exists(tDatabasePathEditor))
+                {
+                    File.Delete(tDatabasePathEditor);
+                }
+                File.Copy(tDatabasePathBuild, tDatabasePathEditor);
+            }
+            //Database account informations
             NWDGUILayout.SubSection("Databases accounts config for all environments (by device)");
             EditorGUILayout.LabelField("Account path ", NWDDataManager.SharedInstance().PathDatabaseAccount());
             EditorGUILayout.LabelField("Account hash salt", NWDAppConfiguration.SharedInstance().AccountHashSalt);
             EditorGUILayout.LabelField("Account hash salt A", NWDAppConfiguration.SharedInstance().AccountHashSaltA);
             EditorGUILayout.LabelField("Account hash salt B", NWDAppConfiguration.SharedInstance().AccountHashSaltB);
-
             if (NWDDataManager.SharedInstance().IsSecure())
             {
                 string tAccountPass = NWDAppConfiguration.SharedInstance().GetAccountPass(string.Empty);
@@ -275,9 +303,7 @@ namespace NetWorkedData.NWDEditor
                     EditorUtility.RevealInFinder(NWDDataManager.SharedInstance().PathDatabaseAccount());
                     EditorUtility.OpenWithDefaultApp(NWDDataManager.SharedInstance().PathDatabaseAccount());
                     Debug.LogWarning("Account database path = " + NWDDataManager.SharedInstance().PathDatabaseAccount());
-
                 }
-
             }
             NWDGUILayout.LittleSpace();
             // finish scroll view

@@ -34,6 +34,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public const string K_DeviceDatabaseName = "PRP_Device.prp";
         public const string K_EditorDatabaseName = "PRP_EditorDB.prp";
+        public const string K_BuildDatabaseName = "PRP_EditorDB.pbp";
         //-------------------------------------------------------------------------------------------------------------
         public const string K_StreamingAssets = "StreamingAssets";
         public const string K_Assets = "Assets";

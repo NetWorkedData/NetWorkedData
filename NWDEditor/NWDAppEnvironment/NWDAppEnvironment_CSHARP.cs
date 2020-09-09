@@ -72,7 +72,7 @@ namespace NetWorkedData
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.PreProdTimeFormat) + " = \"" + PreProdTimeFormat.Replace("\"", "\\\"") + "\";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AppProtocol) + " = \"" + AppProtocol.Replace("\"", "\\\"") + "\";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SpeedOfGameTime) + " = " + SpeedOfGameTime.ToString() + "F;");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.BuildTimestamp) + " = " + BuildTimestamp.ToString() + ";");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.BuildTimestamp) + " = " + BuildTimestamp.ToString() + "; // "+ NWEDateHelper.ConvertFromTimestamp(BuildTimestamp).ToString("yyyy-MM-dd HH:mm:ss"));
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ThreadPoolForce) + " = " + ThreadPoolForce.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.WritingModeLocal) + " = " + typeof(NWDWritingMode).Name + "." + WritingModeLocal.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.WritingModeWebService) + " = " + typeof(NWDWritingMode).Name + "." + WritingModeWebService.ToString() + ";");

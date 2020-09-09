@@ -26,6 +26,7 @@ using System;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
+using System.IO;
 //=====================================================================================================================
 namespace NetWorkedData.NWDEditor
 {
@@ -74,7 +75,7 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public void OnPreprocessBuild(BuildReport report)
         {
-           NWDBenchmark.Start();
+            NWDBenchmark.Start();
             // prevent error not exist (delete by dev)
             NWDErrorHelper tErrorHelper = NWDBasisHelper.BasisHelper<NWDError>() as NWDErrorHelper;
             tErrorHelper.GenerateBasisError();
@@ -99,7 +100,7 @@ namespace NetWorkedData.NWDEditor
                                                                             "PreProduction" //3
                                                                             ) + 1;
             }
-            else if(GetEditoBuildEnvironment() == NWDEditorBuildEnvironment.Prod)
+            else if (GetEditoBuildEnvironment() == NWDEditorBuildEnvironment.Prod)
             {
                 tResultEnvironment = 1;
             }
@@ -197,7 +198,26 @@ namespace NetWorkedData.NWDEditor
             // update vesion of app build from NWDVersion system
             NWDVersion.UpdateVersionBundle();
             PlayerSettings.productName = tName;
-
+            // verify if database exists
+            string tDatabasePathEditor = /*NWD.K_Assets + "/" + NWD.K_StreamingAssets + "/" +*/ NWDDataManager.SharedInstance().DatabaseEditorName();
+            string tDatabasePathBuild = NWD.K_Assets + "/" + NWD.K_StreamingAssets + "/" + NWDDataManager.SharedInstance().DatabaseBuildName();
+            if (File.Exists(tDatabasePathBuild) == false)
+            {
+                Debug.Log("Copy database from editor to build because is first build");
+                // if not exist copy for build
+                File.Copy(tDatabasePathEditor, tDatabasePathBuild);
+            }
+            // if build is 
+            if (tBuild == true)
+            {
+                Debug.Log("Copy database from editor to build");
+                if (File.Exists(tDatabasePathBuild))
+                {
+                    File.Delete(tDatabasePathBuild);
+                }
+                File.Copy(tDatabasePathEditor, tDatabasePathBuild);
+            }
+            Debug.Log("tTimeStamp use to build is = " + NWEDateHelper.ConvertFromTimestamp(tTimeStamp).ToString("yyyy-MM-dd HH:mm:ss"));
             // change the build environment 
             if (tResultEnvironment == 1)
             {
