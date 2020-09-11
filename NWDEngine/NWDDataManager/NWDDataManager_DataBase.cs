@@ -191,7 +191,8 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             // path for base editor
             //rReturn = Application.dataPath + "/" + NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseAccountName();
-            rReturn = NWD.K_Assets+"/" + DatabaseAccountName();
+            //rReturn = NWD.K_Assets+"/" + DatabaseAccountName();
+            rReturn = DatabaseAccountName();
 #elif (UNITY_TVOS)
             rReturn = string.Format("{0}/{1}", Application.temporaryCachePath, DatabaseAccountName());
 #else

@@ -26,7 +26,7 @@ namespace NetWorkedData.MacroDefine
     public partial class MDEConstants
     {
         //-------------------------------------------------------------------------------------------------------------
-        public const string Path = "Assets/pref.MDE";
+        public const string Path = "NWDMacroPref.MDE";
         public const float RowHeight = 16.0F;
         public const float ManagementWidth = 100.0F;
         public const string NONE = "NONE";

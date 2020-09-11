@@ -101,6 +101,12 @@ namespace NetWorkedData
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.WebServer, false)]
         public NWDSecurePassword WebDomainNameSecure_Password { get; set; }
 
+        [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.WebServer, false)]
+        [NWDTooltips("Add module : UpdraftPlus , Complianz – GDPR/CCPA Cookie Consent , Contact Form 7, Really Simple SSL, Jetpack ... ")]
+        public string WorpressUser { get; set; }
+        [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.WebServer, false)]
+        public NWDSecurePassword WorpressSecure_Password { get; set; }
+
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.Streaming, false)]
         public string StreamDomainNameServer { get; set; }
 

@@ -254,6 +254,7 @@ namespace NetWorkedData
                     }
                     if (GUI.Button(new Rect(tX + tTiersWidth, sPosition.y, tTiersWidthB, NWDGUI.kMiniButtonStyle.fixedHeight), "Random"))
                     {
+                        GUI.FocusControl(null);
                         tdecode = NWDToolbox.RandomStringCypher(24);
                     }
                     string tencode = InternalCryptAes(tdecode);
