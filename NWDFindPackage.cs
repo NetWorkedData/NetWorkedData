@@ -115,8 +115,13 @@ namespace NetWorkedData
             {
                 tPro = NWDConstants._pro;
             }
-            string tPath = PathEditor(sAddPath + tPro + ".psd");
+            string tPath = PathEditor(sAddPath + tPro + ".png");
             Texture2D rTexture2D = AssetDatabase.LoadAssetAtPath<Texture2D>(tPath);
+            if (rTexture2D == null)
+            {
+                tPath = PathEditor(sAddPath + tPro + ".psd");
+                rTexture2D = AssetDatabase.LoadAssetAtPath<Texture2D>(tPath);
+            }
             //if (rTexture2D == null)
             //{
             //    Debug.LogWarning("erreur to find " + tPath);

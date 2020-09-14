@@ -698,8 +698,9 @@ namespace NetWorkedData.NWDEditor
             }
             // if (EditorGUIUtility.isProSkin == true)
             {
-                float tLogoSize = NWDGUI.kTitleStyle.fixedHeight;
-                GUI.Label(new Rect(position.width - tLogoSize, 0, tLogoSize, tLogoSize), NWDGUI.kNetWorkedDataLogoContent);
+                //float tLogoSize = NWDGUI.kTitleStyle.fixedHeight;
+                float tLogoSize = 48.0F;
+                GUI.Label(new Rect(position.width - tLogoSize+4, 0-4, tLogoSize, tLogoSize), NWDGUI.kNetWorkedDataLogoContent);
             }
             if (RemoveFieldFocus == true)
             {
