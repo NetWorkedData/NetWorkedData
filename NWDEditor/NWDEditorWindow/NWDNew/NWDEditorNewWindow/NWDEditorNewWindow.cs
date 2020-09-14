@@ -114,11 +114,11 @@ namespace NetWorkedData.NWDEditor
             Directory.CreateDirectory(tOwnerClassesFolderPath);
             Directory.CreateDirectory(tOwnerClassesFolderPath + "/" + WindowName + "/Editor");
             // write icon to modify
-            string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/NWDExampleWindow.psd";
-            string tIconPathNew = tOwnerClassesFolderPath + "/" + WindowName + "/Editor/" + WindowName + ".psd";
+            string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/NWDExampleWindow.png";
+            string tIconPathNew = tOwnerClassesFolderPath + "/" + WindowName + "/Editor/" + WindowName + ".png";
             File.Copy(tIconPath, tIconPathNew);
-            string tIconPathPro = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/NWDExampleWindow_pro.psd";
-            string tIconPathNewPro = tOwnerClassesFolderPath + "/" + WindowName + "/Editor/" + WindowName + "_pro.psd";
+            string tIconPathPro = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/NWDExampleWindow_pro.png";
+            string tIconPathNewPro = tOwnerClassesFolderPath + "/" + WindowName + "/Editor/" + WindowName + "_pro.png";
             File.Copy(tIconPathPro, tIconPathNewPro);
             AssetDatabase.ImportAsset(tIconPathNew);
             AssetDatabase.ImportAsset(tIconPathNewPro);

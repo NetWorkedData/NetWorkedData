@@ -154,7 +154,7 @@ namespace NetWorkedData
         public void ResetIconByDefaultIcon()
         {
             //NWDBenchmark.Start();
-            string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/NWDExample.psd";
+            string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/NWDExample.png";
             string tLookFor = ClassNamePHP + "";
             //Debug.Log("Loook for :" + tLookFor);
             string[] sGUIDs = AssetDatabase.FindAssets(tLookFor);
@@ -163,7 +163,7 @@ namespace NetWorkedData
             {
                 string tTemp = AssetDatabase.GUIDToAssetPath(tGUID);
                 //Debug.Log("Scrip at :" + tTemp);
-                if (Path.GetFileName(tTemp) == ClassNamePHP + ".png" || Path.GetFileName(tTemp) == ClassNamePHP + ".psd")
+                if (Path.GetFileName(tTemp) == ClassNamePHP + ".png")
                 {
                     tPathString = tTemp;
                 }
@@ -176,7 +176,7 @@ namespace NetWorkedData
                 {
                     File.Delete(tPathString);
                     string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                    File.Copy(tIconPath, tPathFilename + ".psd");
+                    File.Copy(tIconPath, tPathFilename + ".png");
                     AssetDatabase.ImportAsset(tPathFilename);
                     EditorUtility.FocusProjectWindow();
                     Selection.activeObject = AssetDatabase.LoadAssetAtPath<Texture2D>(tPathFilename);
@@ -196,7 +196,7 @@ namespace NetWorkedData
                 Directory.CreateDirectory(tOwnerClassesFolderPath + "/" + ClassNamePHP);
                 Directory.CreateDirectory(tOwnerClassesFolderPath + "/" + ClassNamePHP + "/Editor");
                 // copy file
-                string tPathFilename = tOwnerClassesFolderPath + "/" + ClassNamePHP + "/Editor/" + ClassNamePHP + ".psd";
+                string tPathFilename = tOwnerClassesFolderPath + "/" + ClassNamePHP + "/Editor/" + ClassNamePHP + ".png";
                 File.Copy(tIconPath, tPathFilename);
                 AssetDatabase.ImportAsset(tPathFilename);
                 EditorUtility.FocusProjectWindow();
