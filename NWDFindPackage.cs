@@ -92,21 +92,21 @@ namespace NetWorkedData
         {
             return SharedInstance().ScriptFolderFromAssets + sAddPath;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public static string PathEditorTextures(string sAddPath = NWEConstants.K_EMPTY_STRING)
-        {
-            return SharedInstance().ScriptFolderFromAssets + "/NWDEditor/Editor/Images/" + sAddPath;
-        }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static string PathEditorTextures(string sAddPath = NWEConstants.K_EMPTY_STRING)
+        //{
+        //    return SharedInstance().ScriptFolderFromAssets + "/NWDEditor/Editor/Images/" + sAddPath;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static string PathEditor(string sAddPath = NWEConstants.K_EMPTY_STRING)
         {
             return SharedInstance().ScriptFolderFromAssets + "/NWDEditor/Editor/Images/" + sAddPath;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public static Texture2D PackageEditorTexture(string sAddPath = NWEConstants.K_EMPTY_STRING)
-        {
-            return AssetDatabase.LoadAssetAtPath<Texture2D>(PathEditorTextures(sAddPath));
-        }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static Texture2D PackageEditorTexture(string sAddPath = NWEConstants.K_EMPTY_STRING)
+        //{
+        //    return AssetDatabase.LoadAssetAtPath<Texture2D>(PathEditorTextures(sAddPath));
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static Texture2D PackageEditor(string sAddPath = NWEConstants.K_EMPTY_STRING)
         {
@@ -135,10 +135,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static Texture EditorTexture(string sName)
         {
-            Texture rTexture = PackageEditorTexture(sName + ".png");
+            Texture rTexture = PackageEditor(sName + ".png");
             if (rTexture == null)
             {
-                rTexture = PackageEditorTexture(sName + ".psd");
+                rTexture = PackageEditor(sName + ".psd");
             }
             //if (rTexture == null)
             //{

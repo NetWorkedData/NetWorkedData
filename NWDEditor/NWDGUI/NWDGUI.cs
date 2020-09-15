@@ -43,15 +43,11 @@ namespace NetWorkedData.NWDEditor
         public static Color KTAB_BAR_LINE_COLOR;
         public static Color KTAB_BAR_HIGHLIGHT_COLOR;
         //-------------------------------------------------------------------------------------------------------------
-        public static Texture2D kImageUp = NWDFindPackage.PackageEditorTexture("Images/NWDInterfaceUp.png");
-        public static Texture2D kImageDown = NWDFindPackage.PackageEditorTexture("Images/NWDInterfaceDown.png");
-        public static Texture2D kImageLeft = NWDFindPackage.PackageEditorTexture("Images/NWDInterfaceLeft.png");
-        public static Texture2D kImageRight = NWDFindPackage.PackageEditorTexture("Images/NWDInterfaceRight.png");
-
-
-        public static Texture2D kImageBezierTexture = NWDFindPackage.PackageEditorTexture("Images/NWDBezierTexture.png");
-
-
+        public static Texture2D kImageUp = NWDFindPackage.PackageEditor("Images/NWDInterfaceUp");
+        public static Texture2D kImageDown = NWDFindPackage.PackageEditor("Images/NWDInterfaceDown");
+        public static Texture2D kImageLeft = NWDFindPackage.PackageEditor("Images/NWDInterfaceLeft");
+        public static Texture2D kImageRight = NWDFindPackage.PackageEditor("Images/NWDInterfaceRight");
+        public static Texture2D kImageBezierTexture = NWDFindPackage.PackageEditor("Images/NWDBezierTexture");
         //-------------------------------------------------------------------------------------------------------------
         public static Texture2D kImageSyncGeneralForward = NWDFindPackage.PackageEditor("NWDSyncGeneralForward");
 
@@ -59,9 +55,7 @@ namespace NetWorkedData.NWDEditor
         public static Texture2D kImageSyncGeneralWaiting = NWDFindPackage.PackageEditor("NWDSyncGeneralWaiting");
         public static Texture2D kImageSyncDanger = NWDFindPackage.PackageEditor("NWDSyncDanger");
         public static Texture2D kImageSyncForward = NWDFindPackage.PackageEditor("NWDSyncForward");
-
         public static Texture2D kImageSyncProceed = NWDFindPackage.PackageEditor("NWDProceed");
-
         public static Texture2D kImageSyncWaiting = NWDFindPackage.PackageEditor("NWDSyncWaiting");
         public static Texture2D kImageWaiting = NWDFindPackage.PackageEditor("NWDWaiting");
         public static Texture2D kImageDiskUnknow = NWDFindPackage.PackageEditor("NWDDiskUnknow");
