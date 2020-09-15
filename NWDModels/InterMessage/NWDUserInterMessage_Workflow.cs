@@ -359,11 +359,13 @@ namespace NetWorkedData
 
             // Replace Tag by Characters
             int tCpt = 0;
+#if NWD_QUEST
             foreach(NWDCharacter k in ReplaceCharacters.GetReachableDatas())
             {
                 rText = k.Enrichment(rText, tCpt, sLanguage, sBold);
                 tCpt++;
             }
+#endif
 
             // Replace Tag by Items
             tCpt = 0;
