@@ -194,6 +194,10 @@ namespace NetWorkedData
                     NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
                     NWDEditorWindow.GenerateCSharpFile();
                 }
+                if (GUILayout.Button("Generate File Empty Template", NWDGUI.KTableSearchButton))
+                {
+                    GenerateFileEmptyTemplate();
+                }
                 if (GUILayout.Button("Generate File UnitTest", NWDGUI.KTableSearchButton))
                 {
                     GenerateFileUnitTest();

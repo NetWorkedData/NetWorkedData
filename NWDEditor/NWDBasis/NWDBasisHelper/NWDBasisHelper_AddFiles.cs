@@ -37,6 +37,16 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
+        public void GenerateFileEmptyTemplate()
+        {
+            string tMacro = null;
+            foreach (NWDClassMacroAttribute tMacroAttribute in ClassType.GetCustomAttributes(typeof(NWDClassMacroAttribute), true))
+            {
+                tMacro = tMacroAttribute.Macro;
+            }
+            NWDEditorNewClassContent.GenerateFileEmptyTemplate(ClassNamePHP, ClassType.BaseType.Name, tMacro);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void GenerateFileUnitTest()
         {
             string tMacro = null;

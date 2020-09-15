@@ -22,6 +22,7 @@
 using System.IO;
 using UnityEditor;
 using System.Text;
+using UnityEngine;
 //=====================================================================================================================
 namespace NetWorkedData.NWDEditor
 {
@@ -83,6 +84,95 @@ namespace NetWorkedData.NWDEditor
         //    File.WriteAllText(tFilePath + ".cs", tFile.ToString());
         //    AssetDatabase.ImportAsset(tFilePath + ".cs");
         //}
+
+        //-------------------------------------------------------------------------------------------------------------
+        public static void GenerateFileEmptyTemplate(string sClassNamePHP, string sClassNameBasis, string sMacro)
+        {
+            string[] assetPaths = AssetDatabase.GetAllAssetPaths();
+            string assetPathFinal = null;
+            string tDir = null;
+            foreach (string assetPath in assetPaths)
+            {
+                if (assetPath.Contains(sClassNamePHP)) // or .js if you want
+                {
+                    string tFileName = Path.GetFileName(assetPath);
+                    tFileName = Path.GetFileName(assetPath);
+                    string tExtension = Path.GetExtension(tFileName);
+                    tDir = Path.GetPathRoot(tFileName);
+                    if (tExtension == ".cs")
+                    {
+                        if (tFileName == sClassNamePHP + ".cs")
+                        {
+                            assetPathFinal = assetPath;
+                            break;
+                        }
+                        else if (tFileName == sClassNamePHP + "_Workflow.cs")
+                        {
+                            assetPathFinal = assetPath;
+                        }
+                        else
+                        {
+                            // do nothing
+                        }
+                    }
+                }
+            }
+            if (string.IsNullOrEmpty(assetPathFinal) == false)
+            {
+                UnityEngine.Object tFile = AssetDatabase.LoadMainAssetAtPath(assetPathFinal);
+                AssetDatabase.OpenAsset(tFile);
+                EditorGUIUtility.PingObject(tFile);
+                Selection.activeGameObject = tFile as GameObject;
+            }
+            if (tDir != null)
+            {
+                string tClassExamplePath_Empty = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/NWDExample_Empty.cs";
+                string tClassExample_Empty = File.ReadAllText(tClassExamplePath_Empty);
+                tClassExample_Empty = tClassExample_Empty.Replace("NWDExample", sClassNamePHP);
+                tClassExample_Empty = tClassExample_Empty.Replace("NWDBasis", sClassNameBasis);
+                if (string.IsNullOrEmpty(sMacro) == false)
+                {
+                    tClassExample_Empty = tClassExample_Empty.Replace("NWD_EXAMPLE_MACRO", sMacro);
+                    tClassExample_Empty = tClassExample_Empty.Replace("//MACRO_DEFINE ", "");
+                }
+                string tClassExamplePath_EmptyEditor = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/NWDExample_EmptyEditor.cs";
+                string tClassExample_EmptyEditor = File.ReadAllText(tClassExamplePath_EmptyEditor);
+                tClassExample_EmptyEditor = tClassExample_EmptyEditor.Replace("NWDExample", sClassNamePHP);
+                tClassExample_EmptyEditor = tClassExample_EmptyEditor.Replace("NWDBasis", sClassNameBasis);
+                if (string.IsNullOrEmpty(sMacro) == false)
+                {
+                    tClassExample_EmptyEditor = tClassExample_EmptyEditor.Replace("NWD_EXAMPLE_MACRO", sMacro);
+                    tClassExample_EmptyEditor = tClassExample_EmptyEditor.Replace("//MACRO_DEFINE ", "");
+                }
+
+                if (Directory.Exists(tDir + "/Tests"))
+                {
+                    Directory.CreateDirectory(tDir + "/Tests");
+                }
+                if (File.Exists(tDir + sClassNamePHP + "_Workflow.cs") == false)
+                {
+                    File.WriteAllText(tDir + sClassNamePHP + "_Workflow.cs", tClassExample_Empty);
+                    Object tFile = AssetDatabase.LoadMainAssetAtPath(tDir + sClassNamePHP + "_Workflow.cs");
+                    if (tFile != null)
+                    {
+                        AssetDatabase.OpenAsset(tFile);
+                        EditorGUIUtility.PingObject(tFile);
+                        Selection.activeGameObject = tFile as GameObject;
+                    }
+                }
+                if (File.Exists(tDir + sClassNamePHP + "_Editor.cs") == false)
+                {
+                    File.WriteAllText(tDir + sClassNamePHP + "_Editor.cs", tClassExample_EmptyEditor);
+                    Object tFile = AssetDatabase.LoadMainAssetAtPath(tDir + sClassNamePHP + "_Editor.cs");
+                    if (tFile != null)
+                    {
+                        AssetDatabase.OpenAsset(tFile);
+                        EditorGUIUtility.PingObject(tFile);
+                        Selection.activeGameObject = tFile as GameObject;
+                    }
+                }
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static void GenerateFileUnitTest(string sClassNamePHP, string sMacro)
         {

@@ -1460,6 +1460,11 @@ namespace NetWorkedData
                 ResetIconByDefaultIcon();
             }
 
+            if (GUILayout.Button("Generate File Empty Template", EditorStyles.miniButton))
+            {
+                GenerateFileEmptyTemplate();
+            }
+
             if (GUILayout.Button("Generate File UnitTest", EditorStyles.miniButton))
             {
                 GenerateFileUnitTest();
