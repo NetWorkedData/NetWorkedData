@@ -95,12 +95,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string PathEditorTextures(string sAddPath = NWEConstants.K_EMPTY_STRING)
         {
-            return SharedInstance().ScriptFolderFromAssets + "/NWDEditor/Editor/Textures/" + sAddPath;
+            return SharedInstance().ScriptFolderFromAssets + "/NWDEditor/Editor/Images/" + sAddPath;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string PathEditor(string sAddPath = NWEConstants.K_EMPTY_STRING)
         {
-            return SharedInstance().ScriptFolderFromAssets + "/NWDEditor/Editor/" + sAddPath;
+            return SharedInstance().ScriptFolderFromAssets + "/NWDEditor/Editor/Images/" + sAddPath;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Texture2D PackageEditorTexture(string sAddPath = NWEConstants.K_EMPTY_STRING)

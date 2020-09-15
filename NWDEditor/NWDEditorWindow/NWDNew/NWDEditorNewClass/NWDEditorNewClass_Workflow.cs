@@ -348,10 +348,10 @@ namespace NetWorkedData.NWDEditor
             Directory.CreateDirectory(tOwnerClassesFolderPath);
             Directory.CreateDirectory(tOwnerClassesFolderPath + "/Editor");
             // write icon to modify
-            string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/NWDExample.png";
+            string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Images/NWDExample.png";
             string tIconPathNew = tOwnerClassesFolderPath + "/Editor/" + sClassNamePHP + ".png";
             File.Copy(tIconPath, tIconPathNew);
-            string tIconPathPro = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/NWDExample_pro.png";
+            string tIconPathPro = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Images/NWDExample_pro.png";
             string tIconPathNewPro = tOwnerClassesFolderPath + "/Editor/" + sClassNamePHP + "_pro.png";
             File.Copy(tIconPathPro, tIconPathNewPro);
             AssetDatabase.ImportAsset(tIconPathNew);

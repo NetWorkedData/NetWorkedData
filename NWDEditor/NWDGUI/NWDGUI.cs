@@ -43,13 +43,13 @@ namespace NetWorkedData.NWDEditor
         public static Color KTAB_BAR_LINE_COLOR;
         public static Color KTAB_BAR_HIGHLIGHT_COLOR;
         //-------------------------------------------------------------------------------------------------------------
-        public static Texture2D kImageUp = NWDFindPackage.PackageEditorTexture("NWDInterfaceUp.png");
-        public static Texture2D kImageDown = NWDFindPackage.PackageEditorTexture("NWDInterfaceDown.png");
-        public static Texture2D kImageLeft = NWDFindPackage.PackageEditorTexture("NWDInterfaceLeft.png");
-        public static Texture2D kImageRight = NWDFindPackage.PackageEditorTexture("NWDInterfaceRight.png");
+        public static Texture2D kImageUp = NWDFindPackage.PackageEditorTexture("Images/NWDInterfaceUp.png");
+        public static Texture2D kImageDown = NWDFindPackage.PackageEditorTexture("Images/NWDInterfaceDown.png");
+        public static Texture2D kImageLeft = NWDFindPackage.PackageEditorTexture("Images/NWDInterfaceLeft.png");
+        public static Texture2D kImageRight = NWDFindPackage.PackageEditorTexture("Images/NWDInterfaceRight.png");
 
 
-        public static Texture2D kImageBezierTexture = NWDFindPackage.PackageEditorTexture("NWDBezierTexture.psd");
+        public static Texture2D kImageBezierTexture = NWDFindPackage.PackageEditorTexture("Images/NWDBezierTexture.png");
 
 
         //-------------------------------------------------------------------------------------------------------------

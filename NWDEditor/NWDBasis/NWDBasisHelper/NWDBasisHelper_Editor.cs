@@ -154,7 +154,7 @@ namespace NetWorkedData
         public void ResetIconByDefaultIcon()
         {
             //NWDBenchmark.Start();
-            string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/NWDExample.png";
+            string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Images/NWDExample.png";
             string tLookFor = ClassNamePHP + "";
             //Debug.Log("Loook for :" + tLookFor);
             string[] sGUIDs = AssetDatabase.FindAssets(tLookFor);
@@ -195,7 +195,9 @@ namespace NetWorkedData
                 // create directories
                 Directory.CreateDirectory(tOwnerClassesFolderPath + "/" + ClassNamePHP);
                 Directory.CreateDirectory(tOwnerClassesFolderPath + "/" + ClassNamePHP + "/Editor");
+                //Directory.CreateDirectory(tOwnerClassesFolderPath + "/" + ClassNamePHP + "/Editor/Images");
                 // copy file
+                //string tPathFilename = tOwnerClassesFolderPath + "/" + ClassNamePHP + "/Editor/Images/" + ClassNamePHP + ".png";
                 string tPathFilename = tOwnerClassesFolderPath + "/" + ClassNamePHP + "/Editor/" + ClassNamePHP + ".png";
                 File.Copy(tIconPath, tPathFilename);
                 AssetDatabase.ImportAsset(tPathFilename);
