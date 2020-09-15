@@ -120,9 +120,13 @@ namespace NetWorkedData.NWDEditor
             string tIconPathPro = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Images/NWDExampleWindow_pro.png";
             string tIconPathNewPro = tOwnerClassesFolderPath + "/" + WindowName + "/Editor/" + WindowName + "_pro.png";
             File.Copy(tIconPathPro, tIconPathNewPro);
+            string tIconPathAFDesign = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Natives/NWDExampleWindow.afdesign";
+            string tIconPathNewAFDesign = tOwnerClassesFolderPath + "/Editor/" + WindowName + ".afdesign";
+            File.Copy(tIconPathAFDesign, tIconPathNewAFDesign);
+            // Import Asset
             AssetDatabase.ImportAsset(tIconPathNew);
             AssetDatabase.ImportAsset(tIconPathNewPro);
-
+            AssetDatabase.ImportAsset(tIconPathNewAFDesign);
             // change meta
             TextureImporter tIconPathNewImporter = AssetImporter.GetAtPath(tIconPathNew) as TextureImporter;
             if (tIconPathNewImporter != null)

@@ -354,8 +354,13 @@ namespace NetWorkedData.NWDEditor
             string tIconPathPro = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Images/NWDExample_pro.png";
             string tIconPathNewPro = tOwnerClassesFolderPath + "/Editor/" + sClassNamePHP + "_pro.png";
             File.Copy(tIconPathPro, tIconPathNewPro);
+            string tIconPathAFDesign = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Natives/NWDExample.afdesign";
+            string tIconPathNewAFDesign = tOwnerClassesFolderPath + "/Editor/" + sClassNamePHP + ".afdesign";
+            File.Copy(tIconPathAFDesign, tIconPathNewAFDesign);
+
             AssetDatabase.ImportAsset(tIconPathNew);
             AssetDatabase.ImportAsset(tIconPathNewPro);
+            AssetDatabase.ImportAsset(tIconPathNewAFDesign);
 
             // change meta
             TextureImporter tIconPathNewImporter = AssetImporter.GetAtPath(tIconPathNew) as TextureImporter;
