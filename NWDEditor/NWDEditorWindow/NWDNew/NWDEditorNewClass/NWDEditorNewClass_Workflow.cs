@@ -357,11 +357,10 @@ namespace NetWorkedData.NWDEditor
             string tIconPathAFDesign = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Natives/NWDExample.afdesign";
             string tIconPathNewAFDesign = tOwnerClassesFolderPath + "/Editor/" + sClassNamePHP + ".afdesign";
             File.Copy(tIconPathAFDesign, tIconPathNewAFDesign);
-
+            // Import Asset
             AssetDatabase.ImportAsset(tIconPathNew);
             AssetDatabase.ImportAsset(tIconPathNewPro);
             AssetDatabase.ImportAsset(tIconPathNewAFDesign);
-
             // change meta
             TextureImporter tIconPathNewImporter = AssetImporter.GetAtPath(tIconPathNew) as TextureImporter;
             tIconPathNewImporter.textureType = TextureImporterType.GUI;
@@ -372,9 +371,7 @@ namespace NetWorkedData.NWDEditor
             tIconPathNewImporterSerialized.FindProperty("m_PSDRemoveMatte").boolValue = true;
             tIconPathNewImporterSerialized.FindProperty("m_PSDShowRemoveMatteOption").boolValue = true; // this is not needed unless you want to show the option (and warning)
             tIconPathNewImporterSerialized.ApplyModifiedProperties();
-
             AssetDatabase.WriteImportSettingsIfDirty(tIconPathNew);
-
             // change meta pro
             TextureImporter tIconPathNewProImporter = AssetImporter.GetAtPath(tIconPathNewPro) as TextureImporter;
             tIconPathNewProImporter.textureType = TextureImporterType.GUI;
@@ -385,7 +382,6 @@ namespace NetWorkedData.NWDEditor
             tIconPathNewProImporterSerialized.FindProperty("m_PSDRemoveMatte").boolValue = true;
             tIconPathNewProImporterSerialized.FindProperty("m_PSDShowRemoveMatteOption").boolValue = true; // this is not needed unless you want to show the option (and warning)
             tIconPathNewProImporterSerialized.ApplyModifiedProperties();
-
             AssetDatabase.WriteImportSettingsIfDirty(tIconPathNewPro);
         }
         //-------------------------------------------------------------------------------------------------------------

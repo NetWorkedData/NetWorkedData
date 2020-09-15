@@ -144,7 +144,6 @@ namespace NetWorkedData.NWDEditor
                 }
             }
             AssetDatabase.WriteImportSettingsIfDirty(tIconPathNew);
-
             // change meta pro
             TextureImporter tIconPathNewProImporter = AssetImporter.GetAtPath(tIconPathNewPro) as TextureImporter;
             if (tIconPathNewProImporter != null)
@@ -162,7 +161,6 @@ namespace NetWorkedData.NWDEditor
                 }
             }
             AssetDatabase.WriteImportSettingsIfDirty(tIconPathNewPro);
-
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -260,7 +258,6 @@ namespace NetWorkedData.NWDEditor
             {
                 EditorGUILayout.LabelField(" ", "menu position is Ok!");
             }
-
             NWDGUILayout.Section("Classes management");
             // create properties type
             List<string> tListOfType = new List<string>();
@@ -293,7 +290,6 @@ namespace NetWorkedData.NWDEditor
             string tNextSelectedType = tListOfType[tNextIndex];
             tNextSelectedType = tRegExpressionEmptyType.Replace(tNextSelectedType, " ");
             tNextClassList.Add(tNextSelectedType);
-
             // remove empty properties
             tNextClassList.Remove(" ");
             // meorize new properties list
