@@ -300,7 +300,9 @@ namespace NetWorkedData
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.OverrideCacheMethodInPlayMode) + " = " + OverrideCacheMethodInPlayMode.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.OverrideCacheMethodEverywhere) + " = " + OverrideCacheMethodEverywhere.ToString().ToLower() + ";");
             rReturn.AppendLine("#if UNITY_EDITOR");
-            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.SlackWebhookURL) + " = \"" + SlackWebhookURL + "\";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.SlackWebhookURLNotification) + " = \"" + SlackWebhookURLNotification + "\";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.SlackWebhookURLSync) + " = \"" + SlackWebhookURLSync + "\";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.SlackWebhookURLUpgrade) + " = \"" + SlackWebhookURLUpgrade + "\";");
             rReturn.AppendLine("#endif");
             rReturn.AppendLine("RestaureEditorConfigurations();");
             rReturn.AppendLine("return true;");

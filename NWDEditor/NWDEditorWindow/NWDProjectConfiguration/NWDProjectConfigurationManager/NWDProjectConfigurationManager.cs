@@ -337,11 +337,24 @@ namespace NetWorkedData.NWDEditor
             // Shared configurations
             NWDGUILayout.Section("Shared configurations");
             NWDGUILayout.SubSection("Webhook URL for Slack");
-            NWDAppConfiguration.SharedInstance().SlackWebhookURL = EditorGUILayout.TextField("Webhook URL", NWDAppConfiguration.SharedInstance().SlackWebhookURL);
-            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().SlackWebhookURL));
-            if (GUILayout.Button("Test Webhook"))
+            NWDAppConfiguration.SharedInstance().SlackWebhookURLNotification = EditorGUILayout.TextField("Webhook URL Notification", NWDAppConfiguration.SharedInstance().SlackWebhookURLNotification);
+            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().SlackWebhookURLNotification));
+            if (GUILayout.Button("Test Webhook Notification"))
             {
-                NWDOperationWebhook.NewMessage("Test Webhook integration success!");
+                NWDOperationWebhook.NewMessage("Test Webhook Notification integration success!", WebHookType.Notification);
+            }
+
+            NWDAppConfiguration.SharedInstance().SlackWebhookURLSync = EditorGUILayout.TextField("Webhook URL Sync", NWDAppConfiguration.SharedInstance().SlackWebhookURLSync);
+            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().SlackWebhookURLSync));
+            if (GUILayout.Button("Test Webhook Sync"))
+            {
+                NWDOperationWebhook.NewMessage("Test Webhook Sync integration success!", WebHookType.Sync);
+            }
+            NWDAppConfiguration.SharedInstance().SlackWebhookURLUpgrade = EditorGUILayout.TextField("Webhook URL Upgrade", NWDAppConfiguration.SharedInstance().SlackWebhookURLUpgrade);
+            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().SlackWebhookURLUpgrade));
+            if (GUILayout.Button("Test Webhook Upgrade"))
+            {
+                NWDOperationWebhook.NewMessage("Test Webhook Upgrade integration success!", WebHookType.Ugrade);
             }
             // end scroll
             GUILayout.EndScrollView();

@@ -130,15 +130,15 @@ namespace NetWorkedData.NWDEditor
                 NWDAppConfiguration.SharedInstance().OverrideCacheMethod = true;
                 NWDAppConfiguration.SharedInstance().OverrideCacheMethodInPlayMode = true;
             }
-            NWDGUILayout.Section("Slack with editor");
-            NWDGUILayout.SubSection("Webhook URL");
-            NWDAppConfiguration.SharedInstance().SlackWebhookURL = EditorGUILayout.TextField("Webhook URL", NWDAppConfiguration.SharedInstance().SlackWebhookURL);
-            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().SlackWebhookURL));
-            if (GUILayout.Button("Test webhook"))
-            {
-                NWDOperationWebhook.NewMessage("Test webhook integration success!");
-            }
-            EditorGUI.EndDisabledGroup();
+            //NWDGUILayout.Section("Slack with editor");
+            //NWDGUILayout.SubSection("Webhook URL");
+            //NWDAppConfiguration.SharedInstance().SlackWebhookURL = EditorGUILayout.TextField("Webhook URL", NWDAppConfiguration.SharedInstance().SlackWebhookURL);
+            //EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().SlackWebhookURL));
+            //if (GUILayout.Button("Test webhook"))
+            //{
+            //    NWDOperationWebhook.NewMessage("Test webhook integration success!");
+            //}
+            //EditorGUI.EndDisabledGroup();
             NWDGUILayout.Section("Account");
             NWDGUILayout.SubSection("Account anonymous");
             NWDAppConfiguration.SharedInstance().AnonymousDeviceConnected = EditorGUILayout.ToggleLeft("Anonymous account connected from system device!", NWDAppConfiguration.SharedInstance().AnonymousDeviceConnected);

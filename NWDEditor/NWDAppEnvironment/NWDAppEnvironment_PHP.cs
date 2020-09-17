@@ -47,66 +47,74 @@ namespace NetWorkedData
         public void CreatePHP(List<Type> sTypeList, bool sCreateAll = true, bool sWriteOnDisk = true, NWDServerAuthentication sConn = null)
         {
             NWDBenchmark.Start();
-            // save datas
-            NWDProjectCredentialsManager.SharedInstance().ShowUtility();
-            NWDDataManager.SharedInstance().DataQueueExecute();
-            LoadDataNecessary();
-            List<string> tFolders = CreatePHPFolder(sWriteOnDisk);
-            Dictionary<string, string> tFilesAndDatas = new Dictionary<string, string>();
-            CreatePHPManagementFile(tFilesAndDatas, sWriteOnDisk);
-            CreatePHPWebservicesFile(tFilesAndDatas, sWriteOnDisk);
-            if (sCreateAll == true)
+            NWDCluster tNWDCluster = NWDCluster.SelectClusterforEnvironment(this);
+            if (tNWDCluster == null)
             {
-                CreatePHPErrorGenerate();
-                CreatePHPConstantsFile(tFilesAndDatas, sWriteOnDisk);
-                CreatePHPAuthenticationFile(tFilesAndDatas, sWriteOnDisk);
-                CreatePHPRescueFile(tFilesAndDatas, sWriteOnDisk);
-                CreatePHPBlankFile(tFilesAndDatas, sWriteOnDisk);
-                CreatePHPIndexFile(tFilesAndDatas, sWriteOnDisk);
-                CreatePHPDotHTAccessFile(tFilesAndDatas, sWriteOnDisk);
-                CreatePHPMaintenanceFile(tFilesAndDatas, sWriteOnDisk);
-                CreatePHPObsoleteFile(tFilesAndDatas, sWriteOnDisk);
-                CreatePHP_StaticFinishFile(tFilesAndDatas, sWriteOnDisk);
-                CreatePHP_StaticFunctionsFile(tFilesAndDatas, sWriteOnDisk);
-                CreatePHP_StaticRequestFile(tFilesAndDatas, sWriteOnDisk);
-                CreatePHP_StaticRespondFile(tFilesAndDatas, sWriteOnDisk);
-                CreatePHP_StaticStartFile(tFilesAndDatas, sWriteOnDisk);
-                CreatePHP_StaticValuesFile(tFilesAndDatas, sWriteOnDisk);
-            }
-            foreach (Type tType in sTypeList)
-            {
-                NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
-                if (tDatas.TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
-                {
-                    tFolders.Add(DBFolder(sWriteOnDisk) + tDatas.ClassNamePHP);
-                    Dictionary<string, string> tResult = NWDBasisHelper.FindTypeInfos(tType).CreatePHP(this, true);
-                    foreach (KeyValuePair<string, string> tKeyValue in tResult)
-                    {
-                        tFilesAndDatas.Add(DBFolder(sWriteOnDisk) + tKeyValue.Key, tKeyValue.Value);
-                    }
-                    Dictionary<string, string> tResultAddOn = NWDBasisHelper.FindTypeInfos(tType).CreatePHPAddonFiles(this, sWriteOnDisk);
-                    foreach (KeyValuePair<string, string> tKeyValue in tResultAddOn)
-                    {
-                        tFilesAndDatas.Add(tKeyValue.Key, tKeyValue.Value);
-                    }
-                }
-            }
-            if (sWriteOnDisk == true)
-            {
-                WriteFolderAndFiles(tFolders, tFilesAndDatas);
             }
             else
             {
-                if (sConn == null)
+
+                // save datas
+                NWDProjectCredentialsManager.SharedInstance().ShowUtility();
+                NWDDataManager.SharedInstance().DataQueueExecute();
+                LoadDataNecessary();
+                List<string> tFolders = CreatePHPFolder(sWriteOnDisk);
+                Dictionary<string, string> tFilesAndDatas = new Dictionary<string, string>();
+                CreatePHPManagementFile(tFilesAndDatas, sWriteOnDisk);
+                CreatePHPWebservicesFile(tFilesAndDatas, sWriteOnDisk);
+                if (sCreateAll == true)
                 {
-                    SendFolderAndFiles(tFolders, tFilesAndDatas, false);
+                    CreatePHPErrorGenerate();
+                    CreatePHPConstantsFile(tFilesAndDatas, sWriteOnDisk);
+                    CreatePHPAuthenticationFile(tFilesAndDatas, sWriteOnDisk);
+                    CreatePHPRescueFile(tFilesAndDatas, sWriteOnDisk);
+                    CreatePHPBlankFile(tFilesAndDatas, sWriteOnDisk);
+                    CreatePHPIndexFile(tFilesAndDatas, sWriteOnDisk);
+                    CreatePHPDotHTAccessFile(tFilesAndDatas, sWriteOnDisk);
+                    CreatePHPMaintenanceFile(tFilesAndDatas, sWriteOnDisk);
+                    CreatePHPObsoleteFile(tFilesAndDatas, sWriteOnDisk);
+                    CreatePHP_StaticFinishFile(tFilesAndDatas, sWriteOnDisk);
+                    CreatePHP_StaticFunctionsFile(tFilesAndDatas, sWriteOnDisk);
+                    CreatePHP_StaticRequestFile(tFilesAndDatas, sWriteOnDisk);
+                    CreatePHP_StaticRespondFile(tFilesAndDatas, sWriteOnDisk);
+                    CreatePHP_StaticStartFile(tFilesAndDatas, sWriteOnDisk);
+                    CreatePHP_StaticValuesFile(tFilesAndDatas, sWriteOnDisk);
+                }
+                foreach (Type tType in sTypeList)
+                {
+                    NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
+                    if (tDatas.TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
+                    {
+                        tFolders.Add(DBFolder(sWriteOnDisk) + tDatas.ClassNamePHP);
+                        Dictionary<string, string> tResult = NWDBasisHelper.FindTypeInfos(tType).CreatePHP(this, true);
+                        foreach (KeyValuePair<string, string> tKeyValue in tResult)
+                        {
+                            tFilesAndDatas.Add(DBFolder(sWriteOnDisk) + tKeyValue.Key, tKeyValue.Value);
+                        }
+                        Dictionary<string, string> tResultAddOn = NWDBasisHelper.FindTypeInfos(tType).CreatePHPAddonFiles(this, sWriteOnDisk);
+                        foreach (KeyValuePair<string, string> tKeyValue in tResultAddOn)
+                        {
+                            tFilesAndDatas.Add(tKeyValue.Key, tKeyValue.Value);
+                        }
+                    }
+                }
+                if (sWriteOnDisk == true)
+                {
+                    WriteFolderAndFiles(tFolders, tFilesAndDatas);
                 }
                 else
                 {
-                    sConn.SendFolderAndFiles(tFolders, tFilesAndDatas, false);
+                    if (sConn == null)
+                    {
+                        SendFolderAndFiles(tFolders, tFilesAndDatas, false);
+                    }
+                    else
+                    {
+                        sConn.SendFolderAndFiles(tFolders, tFilesAndDatas, false);
+                    }
                 }
+                NWDOperationWebhook.NewWebService(this, sTypeList);
             }
-            NWDOperationWebhook.NewWebService(this, sTypeList);
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -249,129 +257,135 @@ namespace NetWorkedData
             }
 
             NWDCluster tNWDCluster = NWDCluster.SelectClusterforEnvironment(this);
-            // prevent null effect
-            tNWDCluster.NotNullChecker();
-            tConstantsFile.AppendLine(NWD.K_CommentSeparator);
-            tConstantsFile.AppendLine("// CONSTANT FOR EREG");
-            tConstantsFile.AppendLine("$ereg_os = '/^(editor|unity|ios|osx|android|web|win|wp8|ps3|ps4|psp|switch)$/';");
-            tConstantsFile.AppendLine("$ereg_version = '/^([0-9]{1,2})+(\\.[0-9]{1,3})*$/';");
-            tConstantsFile.AppendLine("$ereg_lang = '/^([A-Z\\_\\-a-z]{2,7})$/';");
-            tConstantsFile.AppendLine("$ereg_UUID = '/^([A-Za-z0-9\\-]{15,48})$/';");
-            tConstantsFile.AppendLine("$ereg_hash = '/^(.*)$/';");
-            tConstantsFile.AppendLine("$ereg_token = '/^(.*)$/';");
-            tConstantsFile.AppendLine("// CONSTANT FOR WEB");
-            tConstantsFile.AppendLine("$NWD_FLOAT_FORMAT = " + NWDConstants.FloatSQLFormat + ";");
-            tConstantsFile.AppendLine("$NWD_DOUBLE_FORMAT = " + NWDConstants.DoubleSQLFormat + ";");
-            tConstantsFile.AppendLine("$HTTP_URL = '" + GetConfigurationServerHTTPS() + "/" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';");
-            tConstantsFile.AppendLine("$WS_DIR = '" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';");
-            tConstantsFile.AppendLine(NWD.K_CommentSeparator);
-            tConstantsFile.AppendLine("// CONSTANT FOR SHA512");
-            tConstantsFile.AppendLine("$NWD_SHA_SEC = '" + DataSHAPassword.Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("$NWD_SHA_VEC = '" + DataSHAVector.Replace("'", "'") + "';");
-            tConstantsFile.AppendLine("$NWD_SLT_STR = '" + SaltStart.Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("$NWD_SLT_END = '" + SaltEnd.Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("" + NWD.K_NWD_SLT_SRV + " = '" + tNWDCluster.SaltServer.Decrypt().Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine(NWD.K_CommentSeparator);
-            tConstantsFile.AppendLine("// CONSTANT FOR TEMPORAL SALT");
-            tConstantsFile.AppendLine("$NWD_SLT_TMP = " + SaltFrequency.ToString() + ";");
-            tConstantsFile.AppendLine(NWD.K_CommentSeparator);
-            tConstantsFile.AppendLine("// CONSTANT FOR SMTP");
-            if (string.IsNullOrEmpty(tNWDCluster.MailHost))
+            if (tNWDCluster == null)
             {
-                tConstantsFile.AppendLine("$SMTP_HOST = ''; // NOT DEFINED");
             }
             else
             {
-                tConstantsFile.AppendLine("$SMTP_HOST = '" + tNWDCluster.MailHost.Trim().Replace("'", "\'") + "';");
+                // prevent null effect
+                tNWDCluster.NotNullChecker();
+                tConstantsFile.AppendLine(NWD.K_CommentSeparator);
+                tConstantsFile.AppendLine("// CONSTANT FOR EREG");
+                tConstantsFile.AppendLine("$ereg_os = '/^(editor|unity|ios|osx|android|web|win|wp8|ps3|ps4|psp|switch)$/';");
+                tConstantsFile.AppendLine("$ereg_version = '/^([0-9]{1,2})+(\\.[0-9]{1,3})*$/';");
+                tConstantsFile.AppendLine("$ereg_lang = '/^([A-Z\\_\\-a-z]{2,7})$/';");
+                tConstantsFile.AppendLine("$ereg_UUID = '/^([A-Za-z0-9\\-]{15,48})$/';");
+                tConstantsFile.AppendLine("$ereg_hash = '/^(.*)$/';");
+                tConstantsFile.AppendLine("$ereg_token = '/^(.*)$/';");
+                tConstantsFile.AppendLine("// CONSTANT FOR WEB");
+                tConstantsFile.AppendLine("$NWD_FLOAT_FORMAT = " + NWDConstants.FloatSQLFormat + ";");
+                tConstantsFile.AppendLine("$NWD_DOUBLE_FORMAT = " + NWDConstants.DoubleSQLFormat + ";");
+                tConstantsFile.AppendLine("$HTTP_URL = '" + GetConfigurationServerHTTPS() + "/" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';");
+                tConstantsFile.AppendLine("$WS_DIR = '" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';");
+                tConstantsFile.AppendLine(NWD.K_CommentSeparator);
+                tConstantsFile.AppendLine("// CONSTANT FOR SHA512");
+                tConstantsFile.AppendLine("$NWD_SHA_SEC = '" + DataSHAPassword.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$NWD_SHA_VEC = '" + DataSHAVector.Replace("'", "'") + "';");
+                tConstantsFile.AppendLine("$NWD_SLT_STR = '" + SaltStart.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$NWD_SLT_END = '" + SaltEnd.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("" + NWD.K_NWD_SLT_SRV + " = '" + tNWDCluster.SaltServer.Decrypt().Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine(NWD.K_CommentSeparator);
+                tConstantsFile.AppendLine("// CONSTANT FOR TEMPORAL SALT");
+                tConstantsFile.AppendLine("$NWD_SLT_TMP = " + SaltFrequency.ToString() + ";");
+                tConstantsFile.AppendLine(NWD.K_CommentSeparator);
+                tConstantsFile.AppendLine("// CONSTANT FOR SMTP");
+                if (string.IsNullOrEmpty(tNWDCluster.MailHost))
+                {
+                    tConstantsFile.AppendLine("$SMTP_HOST = ''; // NOT DEFINED");
+                }
+                else
+                {
+                    tConstantsFile.AppendLine("$SMTP_HOST = '" + tNWDCluster.MailHost.Trim().Replace("'", "\'") + "';");
+                }
+                if (string.IsNullOrEmpty(tNWDCluster.MailPort.ToString()))
+                {
+                    tConstantsFile.AppendLine("$SMTP_PORT = ''; // NOT DEFINED");
+                }
+                else
+                {
+                    tConstantsFile.AppendLine("$SMTP_PORT = " + tNWDCluster.MailPort.ToString() + ";");
+                }
+                if (string.IsNullOrEmpty(tNWDCluster.MailFrom))
+                {
+                    tConstantsFile.AppendLine("$SMTP_FROM = ''; // NOT DEFINED");
+                }
+                else
+                {
+                    tConstantsFile.AppendLine("$SMTP_FROM = '" + tNWDCluster.MailFrom.Trim().Replace("'", "\'") + "';");
+                }
+                if (string.IsNullOrEmpty(tNWDCluster.MailUserName))
+                {
+                    tConstantsFile.AppendLine("$SMTP_USER = ''; // NOT DEFINED");
+                }
+                else
+                {
+                    tConstantsFile.AppendLine("$SMTP_PSW = '" + tNWDCluster.MailUserName.Trim().Replace("'", "\'") + "';");
+                }
+                if (string.IsNullOrEmpty(tNWDCluster.MailPassword.Decrypt()))
+                {
+                    tConstantsFile.AppendLine("$SMTP_PSW = ''; // NOT DEFINED");
+                }
+                else
+                {
+                    tConstantsFile.AppendLine("$SMTP_PSW = '" + tNWDCluster.MailPassword.Decrypt().Trim().Replace("'", "\'") + "';");
+                }
+                tConstantsFile.AppendLine(NWD.K_CommentSeparator);
+                tConstantsFile.AppendLine("// CONSTANT TO CONNECT TO SQL DATABASE");
+                tConstantsFile.AppendLine("global $K_ConnectAllDatabases;");
+                tConstantsFile.AppendLine("$K_ConnectAllDatabases = false;");
+                foreach (NWDServerDatabaseAuthentication tServerDatabase in NWDServerDatas.GetAllConfigurationServerDatabase(this))
+                {
+                    tConstantsFile.AppendLine("// Constant for ServerDatabase " + tServerDatabase.Title);
+                    tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['title'] = '" + tServerDatabase.Title.Replace("'", "\'") + "';");
+                    tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['id'] = '" + tServerDatabase.NameID.Replace("'", "\'") + "';");
+                    tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['host'] = '" + tServerDatabase.Host.Replace("'", "\'") + "';");
+                    tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['port'] = " + tServerDatabase.Port.ToString() + ";");
+                    tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['user'] = '" + tServerDatabase.User.Replace("'", "\'") + "';");
+                    tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['password'] = '" + tServerDatabase.Password.Replace("'", "\'") + "';");
+                    tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['database'] = '" + tServerDatabase.Database.Replace("'", "\'") + "';");
+                    tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['maxuser'] = " + tServerDatabase.MaxUser.Replace("'", "\'") + ";");
+                    tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['max'] = " + tServerDatabase.RangeMax.ToString() + ";");
+                    tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['min'] = " + tServerDatabase.RangeMin.ToString() + ";");
+                }
+                if (LogMode != NWDEnvironmentLogMode.NoLog)
+                {
+                    tConstantsFile.AppendLine("// add random for test");
+                    tConstantsFile.AppendLine("shuffle($SQL_LIST);");
+                }
+                tConstantsFile.AppendLine("//connection to mysql socket");
+                tConstantsFile.AppendLine("" + NWD.K_SQL_CON + " = '';");
+                tConstantsFile.AppendLine("" + NWD.K_SQL_CON + "DB = '';");
+                tConstantsFile.AppendLine("$SQL_MNG = false;");
+                tConstantsFile.AppendLine(NWD.K_CommentSeparator);
+                tConstantsFile.AppendLine("// ADMIN SECRET KEY");
+                tConstantsFile.AppendLine("$NWD_ADM_KEY = '" + NWDCluster.SelectClusterforEnvironment(this).AdminKey.Decrypt().Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine(NWD.K_CommentSeparator);
+                tConstantsFile.AppendLine("$NWD_RES_MAIL = '" + NWDCluster.SelectClusterforEnvironment(this).RescueEmail + "';");
+                tConstantsFile.AppendLine("$NWD_APP_PRO = '" + AppProtocol.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$NWD_APP_NAM = '" + AppName.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine(NWD.K_CommentSeparator);
+                tConstantsFile.AppendLine("" + NWD.K_ENV + " = '" + Environment + "';");
+                tConstantsFile.AppendLine("" + NWD.K_ENV + "SYNC = '" + Environment + "Sync';");
+                tConstantsFile.AppendLine(NWD.K_CommentSeparator);
+                tConstantsFile.AppendLine("$RTH = " + TokenHistoric.ToString() + ";");
+                tConstantsFile.AppendLine(NWD.K_CommentSeparator);
+                tConstantsFile.AppendLine("$WSBUILD = " + NWDAppConfiguration.SharedInstance().WebBuild + ";");
+                tConstantsFile.AppendLine(NWD.K_CommentSeparator);
+                tConstantsFile.AppendLine("// global variables");
+                tConstantsFile.AppendLine("global $SQL_CURRENT_DATABASE, $SQL_CURRENT_ACCESSRANGE, $SQL_FAKE_ACCESSRANGE ;");
+                tConstantsFile.AppendLine("global " + NWD.K_SQL_CON_EDITOR + ";");
+                tConstantsFile.AppendLine("$SQL_CURRENT_DATABASE = NULL;");
+                tConstantsFile.AppendLine("$SQL_CURRENT_ACCESSRANGE = -1;");
+                tConstantsFile.AppendLine("global $UserRange;");
+                tConstantsFile.AppendLine("$UserRange = -1;");
+                tConstantsFile.AppendLine("global $admin;");
+                tConstantsFile.AppendLine("$admin = false;");
+                tConstantsFile.AppendLine(NWD.K_CommentSeparator);
+                tConstantsFile.AppendLine("?>");
+                string tFileFormatted = NWDToolbox.CSharpFormat(tConstantsFile.ToString());
+                sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_CONSTANTS_FILE, tFileFormatted);
+                //NWDBenchmark.Finish();
             }
-            if (string.IsNullOrEmpty(tNWDCluster.MailPort.ToString()))
-            {
-                tConstantsFile.AppendLine("$SMTP_PORT = ''; // NOT DEFINED");
-            }
-            else
-            {
-                tConstantsFile.AppendLine("$SMTP_PORT = " + tNWDCluster.MailPort.ToString() + ";");
-            }
-            if (string.IsNullOrEmpty(tNWDCluster.MailFrom))
-            {
-                tConstantsFile.AppendLine("$SMTP_FROM = ''; // NOT DEFINED");
-            }
-            else
-            {
-                tConstantsFile.AppendLine("$SMTP_FROM = '" + tNWDCluster.MailFrom.Trim().Replace("'", "\'") + "';");
-            }
-            if (string.IsNullOrEmpty(tNWDCluster.MailUserName))
-            {
-                tConstantsFile.AppendLine("$SMTP_USER = ''; // NOT DEFINED");
-            }
-            else
-            {
-                tConstantsFile.AppendLine("$SMTP_PSW = '" + tNWDCluster.MailUserName.Trim().Replace("'", "\'") + "';");
-            }
-            if (string.IsNullOrEmpty(tNWDCluster.MailPassword.Decrypt()))
-            {
-                tConstantsFile.AppendLine("$SMTP_PSW = ''; // NOT DEFINED");
-            }
-            else
-            {
-                tConstantsFile.AppendLine("$SMTP_PSW = '" + tNWDCluster.MailPassword.Decrypt().Trim().Replace("'", "\'") + "';");
-            }
-            tConstantsFile.AppendLine(NWD.K_CommentSeparator);
-            tConstantsFile.AppendLine("// CONSTANT TO CONNECT TO SQL DATABASE");
-            tConstantsFile.AppendLine("global $K_ConnectAllDatabases;");
-            tConstantsFile.AppendLine("$K_ConnectAllDatabases = false;");
-            foreach (NWDServerDatabaseAuthentication tServerDatabase in NWDServerDatas.GetAllConfigurationServerDatabase(this))
-            {
-                tConstantsFile.AppendLine("// Constant for ServerDatabase " + tServerDatabase.Title);
-                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['title'] = '" + tServerDatabase.Title.Replace("'", "\'") + "';");
-                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['id'] = '" + tServerDatabase.NameID.Replace("'", "\'") + "';");
-                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['host'] = '" + tServerDatabase.Host.Replace("'", "\'") + "';");
-                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['port'] = " + tServerDatabase.Port.ToString() + ";");
-                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['user'] = '" + tServerDatabase.User.Replace("'", "\'") + "';");
-                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['password'] = '" + tServerDatabase.Password.Replace("'", "\'") + "';");
-                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['database'] = '" + tServerDatabase.Database.Replace("'", "\'") + "';");
-                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['maxuser'] = " + tServerDatabase.MaxUser.Replace("'", "\'") + ";");
-                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['max'] = " + tServerDatabase.RangeMax.ToString() + ";");
-                tConstantsFile.AppendLine("$SQL_LIST['" + tServerDatabase.Range + "']['min'] = " + tServerDatabase.RangeMin.ToString() + ";");
-            }
-            if (LogMode != NWDEnvironmentLogMode.NoLog)
-            {
-                tConstantsFile.AppendLine("// add random for test");
-                tConstantsFile.AppendLine("shuffle($SQL_LIST);");
-            }
-            tConstantsFile.AppendLine("//connection to mysql socket");
-            tConstantsFile.AppendLine("" + NWD.K_SQL_CON + " = '';");
-            tConstantsFile.AppendLine("" + NWD.K_SQL_CON + "DB = '';");
-            tConstantsFile.AppendLine("$SQL_MNG = false;");
-            tConstantsFile.AppendLine(NWD.K_CommentSeparator);
-            tConstantsFile.AppendLine("// ADMIN SECRET KEY");
-            tConstantsFile.AppendLine("$NWD_ADM_KEY = '" + NWDCluster.SelectClusterforEnvironment(this).AdminKey.Decrypt().Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine(NWD.K_CommentSeparator);
-            tConstantsFile.AppendLine("$NWD_RES_MAIL = '" + NWDCluster.SelectClusterforEnvironment(this).RescueEmail + "';");
-            tConstantsFile.AppendLine("$NWD_APP_PRO = '" + AppProtocol.Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine("$NWD_APP_NAM = '" + AppName.Replace("'", "\'") + "';");
-            tConstantsFile.AppendLine(NWD.K_CommentSeparator);
-            tConstantsFile.AppendLine("" + NWD.K_ENV + " = '" + Environment + "';");
-            tConstantsFile.AppendLine("" + NWD.K_ENV + "SYNC = '" + Environment + "Sync';");
-            tConstantsFile.AppendLine(NWD.K_CommentSeparator);
-            tConstantsFile.AppendLine("$RTH = " + TokenHistoric.ToString() + ";");
-            tConstantsFile.AppendLine(NWD.K_CommentSeparator);
-            tConstantsFile.AppendLine("$WSBUILD = " + NWDAppConfiguration.SharedInstance().WebBuild + ";");
-            tConstantsFile.AppendLine(NWD.K_CommentSeparator);
-            tConstantsFile.AppendLine("// global variables");
-            tConstantsFile.AppendLine("global $SQL_CURRENT_DATABASE, $SQL_CURRENT_ACCESSRANGE, $SQL_FAKE_ACCESSRANGE ;");
-            tConstantsFile.AppendLine("global " + NWD.K_SQL_CON_EDITOR + ";");
-            tConstantsFile.AppendLine("$SQL_CURRENT_DATABASE = NULL;");
-            tConstantsFile.AppendLine("$SQL_CURRENT_ACCESSRANGE = -1;");
-            tConstantsFile.AppendLine("global $UserRange;");
-            tConstantsFile.AppendLine("$UserRange = -1;");
-            tConstantsFile.AppendLine("global $admin;");
-            tConstantsFile.AppendLine("$admin = false;");
-            tConstantsFile.AppendLine(NWD.K_CommentSeparator);
-            tConstantsFile.AppendLine("?>");
-            string tFileFormatted = NWDToolbox.CSharpFormat(tConstantsFile.ToString());
-            sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_CONSTANTS_FILE, tFileFormatted);
-            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void CreatePHPManagementFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)

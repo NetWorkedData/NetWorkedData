@@ -32,32 +32,69 @@ using NetWorkedData.NWDEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum WebHookType : int
+    {
+        Ugrade,
+        Sync,
+        Notification,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //[ExecuteInEditMode]
+    //public partial class NWDOperationWebhookSync : NWDOperationWebhook
+    //{
+    //    //-------------------------------------------------------------------------------------------------------------
+    //    public static new string WebHookURL()
+    //    {
+    //        Debug.Log("NWDOperationWebhookSync WebHookURL()");
+    //        return NWDAppConfiguration.SharedInstance().SlackWebhookURLSync;
+    //    }
+    //    //-------------------------------------------------------------------------------------------------------------
+    //}
+    ////+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //[ExecuteInEditMode]
+    //public partial class NWDOperationWebhookWS : NWDOperationWebhook
+    //{
+    //    //-------------------------------------------------------------------------------------------------------------
+    //    public static new string WebHookURL()
+    //    {
+    //        Debug.Log("NWDOperationWebhookWS WebHookURL()");
+    //        return NWDAppConfiguration.SharedInstance().SlackWebhookURL;
+    //    }
+    //    //-------------------------------------------------------------------------------------------------------------î
+    //}
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [ExecuteInEditMode]
     public partial class NWDOperationWebhook : NWEOperation
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static void NewMessage( string sMessage)
+        //public static int kTimeOutOfRequest = 300;
+        public GameObject GameObjectToSpawn;
+        public UnityWebRequest Request;
+        public NWDAppEnvironment Environment;
+        public string URL;
+        public string Json;
+        //-------------------------------------------------------------------------------------------------------------
+        public static void NewMessage(string sMessage, WebHookType sWebHookType)
         {
-            NewMessage(NWDAppConfiguration.SharedInstance().SelectedEnvironment(), sMessage);
+            NewMessage(NWDAppConfiguration.SharedInstance().SelectedEnvironment(), sMessage, sWebHookType);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void NewMessage(NWDAppEnvironment sEnvironment, string sMessage)
+        public static void NewMessage(NWDAppEnvironment sEnvironment, string sMessage, WebHookType sWebHookType)
         {
             string tWarning = "";
             if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
             {
                 tWarning = ":warning: ";
             }
-
-            NWDOperationWebhook.SlackText("[:robot_face: *NetWorkedData* :package: *" + sEnvironment.AppName + "* :grinning: " + NWDProjectConfigurationManagerContent.SharedInstance().UserName + " ("+ SystemInfo.deviceUniqueIdentifier + ")] " +
+            SlackText("[:robot_face: *NetWorkedData* :package: *" + sEnvironment.AppName + "* :grinning: " + NWDProjectConfigurationManagerContent.SharedInstance().UserName + " (" + SystemInfo.deviceUniqueIdentifier + ")] " +
                 "\n" +
                 tWarning +
-               // "<color=" + NWDToolbox.ColorToString(sEnvironment.CartridgeColor) + "> " +
+                // "<color=" + NWDToolbox.ColorToString(sEnvironment.CartridgeColor) + "> " +
                 "*" + sEnvironment.Environment + "*" +
-               // "</color>" +
+                // "</color>" +
                 " : " +
                 //"\n" +
-                "" + sMessage);
+                "" + sMessage, sWebHookType);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void NewWebService(NWDAppEnvironment sEnvironment, List<Type> sTypeList)
@@ -82,18 +119,14 @@ namespace NetWorkedData
             }
             string tMessage = "New WebServices are available for environment *" + sEnvironment.Environment +
                 "*. WebServices are available at <" + sEnvironment.GetServerHTTPS() + "/" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "/" + sEnvironment.Environment + "/" + "|WS" + NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000") + "> !" + tClasses;
-            NewMessage(sEnvironment, tMessage);
+            NewMessage(sEnvironment, tMessage, WebHookType.Ugrade);
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public NWDOperationWebhook SlackBlock(string sText)
+        static public NWDOperationWebhook SlackBlock(string sText, WebHookType sWebHookType)
         {
             Dictionary<string, object> tJson = new Dictionary<string, object>();
             List<Dictionary<string, object>> tBlocks = new List<Dictionary<string, object>>();
             tJson.Add("blocks", tBlocks);
-
-            //Dictionary<string, object> tblockOne = new Dictionary<string, object>();
-            //tblockOne.Add("type", "divider");
-            //tBlocks.Add(tblockOne);
             Dictionary<string, object> tblockTwo = new Dictionary<string, object>();
             tblockTwo.Add("type", "mrkdwn");
             tblockTwo.Add("text", sText);
@@ -103,28 +136,21 @@ namespace NetWorkedData
             tBlocks.Add(tblockTwoSection);
 
             string tPayLoad = NWEMiniJSON.Json.Serialize(tJson);
-            return NWDOperationWebhook.AddOperation(tPayLoad);
+            return AddOperation(tPayLoad, sWebHookType);
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public static int kTimeOutOfRequest = 300;
-        public GameObject GameObjectToSpawn;
-        public UnityWebRequest Request;
-        public NWDAppEnvironment Environment;
-        public string URL;
-        public string Json;
-        //-------------------------------------------------------------------------------------------------------------
-        static public NWDOperationWebhook SlackText(string sText)
+        static public NWDOperationWebhook SlackText(string sText, WebHookType sWebHookType)
         {
             Dictionary<string, string> tJson = new Dictionary<string, string>();
             tJson.Add("type", "mrkdwn");
             tJson.Add("text", sText);
             string tPayLoad = NWEMiniJSON.Json.Serialize(tJson);
-            return NWDOperationWebhook.AddOperation(tPayLoad);
+            return AddOperation(tPayLoad, sWebHookType);
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public NWDOperationWebhook AddOperation(string sJson)
+        static public NWDOperationWebhook AddOperation(string sJson, WebHookType sWebHookType)
         {
-            NWDOperationWebhook rReturn = NWDOperationWebhook.Create(sJson);
+            NWDOperationWebhook rReturn = Create(sJson, sWebHookType);
             if (rReturn != null)
             {
                 NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(rReturn, true);
@@ -132,11 +158,35 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public NWDOperationWebhook Create(string sJson)
+        public static string WebHookURL(WebHookType sWebHookType)
         {
-            Debug.Log("NWDOperationWebhook Create() with " + sJson);
+            string tReturn = string.Empty;
+            switch (sWebHookType)
+            {
+                case WebHookType.Ugrade:
+                    {
+                        tReturn = NWDAppConfiguration.SharedInstance().SlackWebhookURLUpgrade;
+                    }
+                    break;
+                case WebHookType.Sync:
+                    {
+                        tReturn = NWDAppConfiguration.SharedInstance().SlackWebhookURLSync;
+                    }
+                    break;
+                case WebHookType.Notification:
+                    {
+                        tReturn = NWDAppConfiguration.SharedInstance().SlackWebhookURLNotification;
+                    }
+                    break;
+            }
+            Debug.Log(" tReturn = " + tReturn);
+            return tReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static public NWDOperationWebhook Create(string sJson, WebHookType sWebHookType)
+        {
             NWDOperationWebhook rReturn = null;
-            if (string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().SlackWebhookURL) == false)
+            if (string.IsNullOrEmpty(WebHookURL(sWebHookType)) == false)
             {
                 GameObject tGameObjectToSpawn = new GameObject("webHook");
 #if UNITY_EDITOR
@@ -147,8 +197,9 @@ namespace NetWorkedData
                 rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebhook>();
                 rReturn.Environment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
                 rReturn.GameObjectToSpawn = tGameObjectToSpawn;
-                rReturn.URL = NWDAppConfiguration.SharedInstance().SlackWebhookURL;
+                rReturn.URL = WebHookURL(sWebHookType);
                 rReturn.Json = sJson;
+                Debug.Log(rReturn.GetType().Name + " Create() with " + sJson);
             }
             else
             {

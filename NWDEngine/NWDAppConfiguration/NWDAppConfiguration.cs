@@ -105,7 +105,9 @@ namespace NetWorkedData
         public int LauncherFaster = 10;
         public bool AnonymousDeviceConnected = true;
 
-        public string SlackWebhookURL = "";
+        public string SlackWebhookURLNotification = "";
+        public string SlackWebhookURLSync = "";
+        public string SlackWebhookURLUpgrade = "";
 
         public bool OverrideCacheMethodEverywhere = false;
         public bool OverrideCacheMethod = false;

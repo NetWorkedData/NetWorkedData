@@ -76,6 +76,10 @@ namespace NetWorkedData
                         break;
                 }
             }
+            if (rReturn == null)
+            {
+                NWDAlert.Alert("Alert", "No active cluster for " + sEnvironment.Environment, "Cancel", null);
+            }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
