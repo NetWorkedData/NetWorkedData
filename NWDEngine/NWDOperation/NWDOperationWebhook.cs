@@ -79,6 +79,18 @@ namespace NetWorkedData
             NewMessage(NWDAppConfiguration.SharedInstance().SelectedEnvironment(), sMessage, sWebHookType);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void NewEditorOperation(NWDAppEnvironment sEnvironment, string sMessage, List<Type> sTypeList, WebHookType sWebHookType)
+        {
+            List<string> tlistName = new List<string>();
+            foreach (Type tType in sTypeList)
+            {
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                tlistName.Add(tHelper.ClassNamePHP);
+            }
+            string tMessage = sMessage + " " + string.Join(", ", tlistName);
+            NewMessage(sEnvironment, tMessage, sWebHookType);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void NewMessage(NWDAppEnvironment sEnvironment, string sMessage, WebHookType sWebHookType)
         {
             string tWarning = "";

@@ -501,6 +501,7 @@ namespace NetWorkedData
             else
             {
                 NWDAppEnvironmentSyncContent.SharedInstance().OperationSynchro(sEnvironment, ClasseInThisSync(), null, false, false, NWDOperationSpecial.Pull);
+                NWDOperationWebhook.NewEditorOperation(sEnvironment, "Sync pull operation", ClasseInThisSync(), WebHookType.Sync);
             }
 #else
             NWDDataManager.SharedInstance().AddWebRequestPull(ClasseInThisSync(), true, sEnvironment);
@@ -525,6 +526,7 @@ namespace NetWorkedData
             {
                 //NWDEditorMenu.EnvironementSync().PullForce(ClasseInThisSync(), sEnvironment);
                 NWDAppEnvironmentSyncContent.SharedInstance().OperationSynchro(sEnvironment, ClasseInThisSync(), null, true, false, NWDOperationSpecial.Pull);
+                NWDOperationWebhook.NewEditorOperation(sEnvironment, "Sync pull force datas operation", ClasseInThisSync(), WebHookType.Sync);
             }
 #else
             NWDDataManager.SharedInstance().AddWebRequestPullForce(ClasseInThisSync(), true, sEnvironment);
@@ -548,6 +550,7 @@ namespace NetWorkedData
             {
 
                 NWDAppEnvironmentSyncContent.SharedInstance().OperationSynchro(sEnvironment, null, sTypeAndReferences, true, false, NWDOperationSpecial.PullReference);
+                NWDOperationWebhook.NewEditorOperation(sEnvironment, "Sync pull references operation", ClasseInThisSync(), WebHookType.Sync);
             }
 #else
             NWDDataManager.SharedInstance().AddWebRequestPullReferences(sTypeAndReferences, true, sEnvironment);
@@ -568,6 +571,7 @@ namespace NetWorkedData
             {
 
                 NWDAppEnvironmentSyncContent.SharedInstance().OperationSynchro(sEnvironment, null, sTypeAndReferences, true, false, NWDOperationSpecial.PushReference);
+                NWDOperationWebhook.NewEditorOperation(sEnvironment, "Sync push references operation", ClasseInThisSync(), WebHookType.Sync);
             }
 #else
             NWDDataManager.SharedInstance().AddWebRequestPushReferences(sTypeAndReferences, true, sEnvironment);
@@ -596,6 +600,7 @@ namespace NetWorkedData
             else
             {
                 NWDAppEnvironmentSyncContent.SharedInstance().OperationSynchro(sEnvironment, ClasseInThisSync(), null, true, true, NWDOperationSpecial.None);
+                NWDOperationWebhook.NewEditorOperation(sEnvironment, "Sync force datas operation", ClasseInThisSync(), WebHookType.Sync);
             }
 #else
             NWDDataManager.SharedInstance().AddWebRequestSynchronizationForce(ClasseInThisSync(), true, sEnvironment);
@@ -619,6 +624,7 @@ namespace NetWorkedData
             else
             {
                 NWDAppEnvironmentSyncContent.SharedInstance().OperationSynchro(sEnvironment, ClasseInThisSync(), null, false, false, NWDOperationSpecial.None);
+                NWDOperationWebhook.NewEditorOperation(sEnvironment, "Sync datas operation", ClasseInThisSync(), WebHookType.Sync);
             }
 #else
             NWDDataManager.SharedInstance().AddWebRequestSynchronization(ClasseInThisSync(), true, sEnvironment);
@@ -630,22 +636,23 @@ namespace NetWorkedData
         /// <summary>
         /// Synchronizations from web service.
         /// </summary>
-#if UNITY_EDITOR
-        public bool SynchronizationFromWebServiceClean(NWDAppEnvironment sEnvironment)
-        {
-            bool rReturn = false;
-            //NWDAppEnvironmentSync.SharedInstance().StartProcess(sEnvironment);
-            if (Application.isPlaying == true)
-            {
-            }
-            else
-            {
-                NWDAppEnvironmentSyncContent.SharedInstance().OperationSynchro(sEnvironment, ClasseInThisSync(), null, false, false, NWDOperationSpecial.Clean);
-            }
-            rReturn = true;
-            return rReturn;
-        }
-#endif
+//#if UNITY_EDITOR
+//        public bool SynchronizationFromWebServiceClean(NWDAppEnvironment sEnvironment)
+//        {
+//            bool rReturn = false;
+//            //NWDAppEnvironmentSync.SharedInstance().StartProcess(sEnvironment);
+//            if (Application.isPlaying == true)
+//            {
+//            }
+//            else
+//            {
+//                NWDAppEnvironmentSyncContent.SharedInstance().OperationSynchro(sEnvironment, ClasseInThisSync(), null, false, false, NWDOperationSpecial.Clean);
+//                NWDOperationWebhook.NewEditorOperation(sEnvironment, "Clean operation", ClasseInThisSync(), WebHookType.Sync);
+//            }
+//            rReturn = true;
+//            return rReturn;
+//        }
+//#endif
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Synchronizations from web service.
@@ -661,6 +668,8 @@ namespace NetWorkedData
             {
                 //NWDEditorMenu.EnvironementSync().SynchronizationSpecial(ClasseInThisSync(), sEnvironment, sSpecial);
                 NWDAppEnvironmentSyncContent.SharedInstance().OperationSynchro(sEnvironment, ClasseInThisSync(), null, false, false, sSpecial);
+                //NWDOperationWebhook.NewEditorOperation(sEnvironment, ":wrench: Special operation : " + sSpecial.ToString(), ClasseInThisSync(), WebHookType.Sync); ;
+                NWDOperationWebhook.NewEditorOperation(sEnvironment, ":hammer_and_wrench: Special operation : " + sSpecial.ToString(), ClasseInThisSync(), WebHookType.Sync); ;
             }
             rReturn = true;
             return rReturn;

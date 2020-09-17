@@ -352,6 +352,7 @@ namespace NetWorkedData
                 rReturnList.Add(NWDToolbox.PropertyName(() => NWDExample.Fictive().WebModel));
                 rReturnList.Add(NWDToolbox.PropertyName(() => NWDExample.Fictive().Integrity));
             }
+            //NWDDebug.Log("tWebModel = " + tWebModel);
             return rReturnList;
         }
         //-------------------------------------------------------------------------------------------------------------

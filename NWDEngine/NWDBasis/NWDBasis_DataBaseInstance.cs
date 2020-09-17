@@ -190,14 +190,21 @@ namespace NetWorkedData
             // Find the good webservice version
             int tWebBuildUsed = WebModelToUse();
             // test the web service version
-            if (WebModel < tWebBuildUsed && WebModel != 0)
+
+            if (WebModel < tWebBuildUsed && tWebBuildUsed != 0)
             {
-                //Debug.Log("NWDBasis WebserviceVersionCheckMe() Update version");
-                this.AddonWebversionUpgradeMe(WebModel, tWebBuildUsed);
-                // use to update NWDBasis when push to server.
-                //this.AddonVersionMe(); // Modify the special webservice override ( for example version)
-                this.UpdateData(false, NWDWritingMode.ByDefaultLocal, true);
-                //NWDDataManager.SharedInstance().UpdateObject(this, AccountDependent());
+                //if (tWebBuildUsed != 0)
+                //{
+                //if (WebModel < tWebBuildUsed )
+                //{
+                    //Debug.Log("NWDBasis WebserviceVersionCheckMe() Update version");
+                    this.AddonWebversionUpgradeMe(WebModel, tWebBuildUsed);
+                    // use to update NWDBasis when push to server.
+                    //this.AddonVersionMe(); // Modify the special webservice override ( for example version)
+                    this.UpdateData(false, NWDWritingMode.ByDefaultLocal, true);
+                    //NWDDataManager.SharedInstance().UpdateObject(this, AccountDependent());
+                //}
+                //}
             }
         }
         //-------------------------------------------------------------------------------------------------------------

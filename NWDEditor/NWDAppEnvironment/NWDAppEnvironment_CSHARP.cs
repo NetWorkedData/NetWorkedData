@@ -39,7 +39,7 @@ namespace NetWorkedData
             StringBuilder rReturn = new StringBuilder(string.Empty);
             string tPropertyName = "null";
 
-           if (NWDAppConfiguration.SharedInstance().DevEnvironment == this)
+            if (NWDAppConfiguration.SharedInstance().DevEnvironment == this)
             {
                 tPropertyName = NWDToolbox.PropertyName(() => NWDAppConfiguration.SharedInstance().DevEnvironment);
                 rReturn.AppendLine("//" + tPropertyName);
@@ -72,12 +72,12 @@ namespace NetWorkedData
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.PreProdTimeFormat) + " = \"" + PreProdTimeFormat.Replace("\"", "\\\"") + "\";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AppProtocol) + " = \"" + AppProtocol.Replace("\"", "\\\"") + "\";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SpeedOfGameTime) + " = " + SpeedOfGameTime.ToString() + "F;");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.BuildTimestamp) + " = " + BuildTimestamp.ToString() + "; // "+ NWEDateHelper.ConvertFromTimestamp(BuildTimestamp).ToString("yyyy-MM-dd HH:mm:ss"));
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.BuildTimestamp) + " = " + BuildTimestamp.ToString() + "; // " + NWEDateHelper.ConvertFromTimestamp(BuildTimestamp).ToString("yyyy-MM-dd HH:mm:ss"));
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ThreadPoolForce) + " = " + ThreadPoolForce.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.WritingModeLocal) + " = " + typeof(NWDWritingMode).Name + "." + WritingModeLocal.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.WritingModeWebService) + " = " + typeof(NWDWritingMode).Name + "." + WritingModeWebService.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.WritingModeEditor) + " = " + typeof(NWDWritingMode).Name + "." + WritingModeEditor.ToString() + ";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.CartridgeColor) + " = new Color(" + NWDToolbox.FloatToString(CartridgeColor.r) + "F," +  NWDToolbox.FloatToString(CartridgeColor.g) + "F," + NWDToolbox.FloatToString(CartridgeColor.b) + "F," + NWDToolbox.FloatToString(CartridgeColor.a) + "F);");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.CartridgeColor) + " = new Color(" + NWDToolbox.FloatToString(CartridgeColor.r) + "F," + NWDToolbox.FloatToString(CartridgeColor.g) + "F," + NWDToolbox.FloatToString(CartridgeColor.b) + "F," + NWDToolbox.FloatToString(CartridgeColor.a) + "F);");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.LogMode) + " = " + typeof(NWDEnvironmentLogMode).Name + "." + LogMode.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.LoadBalancingLimit) + " = " + LoadBalancingLimit.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RuntimeDefineDictionary) + ".Clear();");
@@ -86,10 +86,15 @@ namespace NetWorkedData
                 rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RuntimeDefineDictionary) + ".Add(" + tKeyValue.Key + ", \"" + tKeyValue.Value.Replace("\"", "\\\"") + "\");");
             }
             rReturn.AppendLine("#if UNITY_EDITOR");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.WebservicesStateByKey) + ".Clear();");
+            foreach (KeyValuePair<int, NWDWebServiceState> tKeyValue in WebservicesStateByKey)
+            {
+                rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.WebservicesStateByKey) + ".Add(" + tKeyValue.Key + ", " + typeof(NWDWebServiceState).Name + "." + tKeyValue.Value.ToString() + ");");
+            }
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.EditorDefineDictionary) + ".Clear();");
             foreach (KeyValuePair<long, string> tKeyValue in EditorDefineDictionary)
             {
-                rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.EditorDefineDictionary) + ".Add("+ tKeyValue.Key+", \""+ tKeyValue.Value.Replace("\"","\\\"")+ "\");");
+                rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.EditorDefineDictionary) + ".Add(" + tKeyValue.Key + ", \"" + tKeyValue.Value.Replace("\"", "\\\"") + "\");");
             }
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.IPBanMaxTentative) + " = " + IPBanMaxTentative.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.IPBanTimer) + " = " + IPBanTimer.ToString() + ";");

@@ -284,6 +284,12 @@ namespace NetWorkedData.NWDEditor
             NWDServerWindow.ShowAndFocusWindow();
         }
         //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + "Webservices management", false, 33)]
+        public static void Webservices()
+        {
+            NWDWebServiceManager.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_ALL_ENVIRONMENT + "Increment and generate WebServices", true, 51)]
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_ALL_ENVIRONMENT + K_WS_REGENERATE, true, 52)]
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_DEV_ENVIRONMENT + K_WS_REGENERATE, true, 80)]

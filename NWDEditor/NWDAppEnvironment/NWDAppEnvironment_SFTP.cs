@@ -31,36 +31,101 @@ using Renci.SshNet;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDWebServiceState : int
+    {
+        Active,
+        Maitenance,
+        Obsolete,
+        ToDelete,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAppEnvironment
     {
         //-------------------------------------------------------------------------------------------------------------
-        public void SetMaintenance(bool sMaintenance)
+        public Dictionary<int, NWDWebServiceState> WebservicesStateByKey = new Dictionary<int, NWDWebServiceState>();
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDWebServiceState GetWebservicesStateByKey(int sWebService)
+        {
+            NWDWebServiceState rReturn = NWDWebServiceState.Active;
+            if (WebservicesStateByKey.ContainsKey(sWebService))
+            {
+                rReturn = WebservicesStateByKey[sWebService];
+            }
+            else
+            {
+                WebservicesStateByKey.Add(sWebService, NWDWebServiceState.Active);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetMaintenance(int sWebService, bool sMaintenance)
         {
             NWDBenchmark.Start();
+            if (WebservicesStateByKey.ContainsKey(sWebService))
+            {
+                WebservicesStateByKey[sWebService] = NWDWebServiceState.Maitenance;
+            }
+            else
+            {
+                WebservicesStateByKey.Add(sWebService, NWDWebServiceState.Maitenance);
+            }
             foreach (NWDServerAuthentication tConn in NWDServerServices.GetAllConfigurationServerSFTP(this))
             {
-                tConn.SetMaintenance(this, sMaintenance);
+                tConn.SetMaintenance(this, sWebService, sMaintenance);
+            }
+            if (sMaintenance == true)
+            {
+                NWDOperationWebhook.NewMessage(this, ":no_entry: " + sWebService + " Maintenance is on", WebHookType.Ugrade);
+            }
+            else
+            {
+                NWDOperationWebhook.NewMessage(this, ":+1: " + sWebService + " Maintenance is off", WebHookType.Ugrade);
             }
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetObsolete(bool sObsolete)
+        public void SetObsolete(int sWebService, bool sObsolete)
         {
             NWDBenchmark.Start();
+            if (WebservicesStateByKey.ContainsKey(sWebService))
+            {
+                WebservicesStateByKey[sWebService] = NWDWebServiceState.Obsolete;
+            }
+            else
+            {
+                WebservicesStateByKey.Add(sWebService, NWDWebServiceState.Obsolete);
+            }
             foreach (NWDServerAuthentication tConn in NWDServerServices.GetAllConfigurationServerSFTP(this))
             {
-                tConn.SetObsolete(this, sObsolete);
+                tConn.SetObsolete(this, sWebService, sObsolete);
+            }
+            if (sObsolete == true)
+            {
+                NWDOperationWebhook.NewMessage(this, ":no_entry: " + sWebService + " Obsolete is on", WebHookType.Ugrade);
+            }
+            else
+            {
+                NWDOperationWebhook.NewMessage(this, ":+1: " + sWebService + " Obsolete is off", WebHookType.Ugrade);
             }
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetActivate()
+        public void SetActivate(int sWebService)
         {
             NWDBenchmark.Start();
+            if (WebservicesStateByKey.ContainsKey(sWebService))
+            {
+                WebservicesStateByKey[sWebService] = NWDWebServiceState.Active;
+            }
+            else
+            {
+                WebservicesStateByKey.Add(sWebService, NWDWebServiceState.Active);
+            }
             foreach (NWDServerAuthentication tConn in NWDServerServices.GetAllConfigurationServerSFTP(this))
             {
-                tConn.SetActivate(this);
+                tConn.SetActivate(this, sWebService);
             }
+            NWDOperationWebhook.NewMessage(this, ":+1: " + sWebService + " are actived", WebHookType.Ugrade);
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

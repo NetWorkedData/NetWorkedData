@@ -7,8 +7,8 @@
 // Add NWD_VERBOSE in scripting define symbols (Edit->Project Settings…->Player->[Choose Plateform]->Other Settings->Scripting Define Symbols)
 #if NWD_VERBOSE
 #if UNITY_EDITOR
-#define NWD_LOG
-#define NWD_BENCHMARK
+//#define NWD_LOG
+//#define NWD_BENCHMARK
 #elif DEBUG
 //#define NWD_LOG
 //#define NWD_BENCHMARK
@@ -192,7 +192,7 @@ namespace NetWorkedData.NWDEditor
                                         tDescription += " : " + LastInfos.errorDesc.Description.GetBaseString();
                                     }
 #if UNITY_EDITOR
-                                    Debug.LogWarning("" + tTitle + " " + tDescription);
+                                    Debug.LogWarning("" + tTitle + " " + tDescription +  " infos " + LastInfos.errorInfos);
                                     //LastInfos.errorDesc.ShowAlert(LastInfos.errorInfos);
 #endif
                                 }
@@ -571,51 +571,61 @@ namespace NetWorkedData.NWDEditor
             if (tSync == true)
             {
                 OperationSynchroAllClasses(tEnvironment, false, false);
+                NWDOperationWebhook.NewMessage(tEnvironment, "Sync all", WebHookType.Sync);
                 GUIUtility.ExitGUI();
             }
             if (tSyncForce == true)
             {
                 OperationSynchroAllClasses(tEnvironment, true, true);
+                NWDOperationWebhook.NewMessage(tEnvironment, "Sync all force", WebHookType.Sync);
                 GUIUtility.ExitGUI();
             }
             if (tPull == true)
             {
                 OperationSynchroAllClasses(tEnvironment, false, false, NWDOperationSpecial.Pull);
+                NWDOperationWebhook.NewMessage(tEnvironment, "Pull all", WebHookType.Sync);
                 GUIUtility.ExitGUI();
             }
             if (tPullForce == true)
             {
                 OperationSynchroAllClasses(tEnvironment, true, true, NWDOperationSpecial.Pull);
+                NWDOperationWebhook.NewMessage(tEnvironment, "Pull all force", WebHookType.Sync);
                 GUIUtility.ExitGUI();
             }
             if (tOperationClean == true)
             {
                 OperationSynchroAllClasses(tEnvironment, false, true, NWDOperationSpecial.Clean);
+                NWDOperationWebhook.NewMessage(tEnvironment, "Clean all", WebHookType.Sync);
                 GUIUtility.ExitGUI();
             }
             if (tOperationUpgrade == true)
             {
                 OperationManagement(tEnvironment, true);
+                NWDOperationWebhook.NewMessage(tEnvironment, "Upgrade all", WebHookType.Sync);
                 GUIUtility.ExitGUI();
             }
             if (tOperationOptimize == true)
             {
                 OperationSynchroAllClasses(tEnvironment, false, true, NWDOperationSpecial.Optimize);
+                NWDOperationWebhook.NewMessage(tEnvironment, "Optimize all", WebHookType.Sync);
                 GUIUtility.ExitGUI();
             }
             if (tOperationIndexes == true)
             {
                 OperationSynchroAllClasses(tEnvironment, false, true, NWDOperationSpecial.Indexes);
+                NWDOperationWebhook.NewMessage(tEnvironment, "Indexes all", WebHookType.Sync);
                 GUIUtility.ExitGUI();
             }
             if (tOperationBlank == true)
             {
                 OperationSynchroBlank(tEnvironment);
+                NWDOperationWebhook.NewMessage(tEnvironment, "blank test", WebHookType.Sync);
                 GUIUtility.ExitGUI();
             }
             if (tOperationSpecial == true)
             {
                 OperationSynchroAllClasses(tEnvironment, false, true, NWDOperationSpecial.Special);
+                NWDOperationWebhook.NewMessage(tEnvironment, "Special all", WebHookType.Sync);
                 GUIUtility.ExitGUI();
             }
             //NWDBenchmark.Finish();
@@ -760,89 +770,9 @@ namespace NetWorkedData.NWDEditor
         public void WebServicesTools(float sRectWidth)
         {
             //NWDBenchmark.Start();
-            float tWidthThird = Mathf.Floor((sRectWidth - NWDGUI.KTAB_BAR_HEIGHT) / 3.0F);
-            NWDGUILayout.Section("Webservice " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + " tools");
-            GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
-            GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
-            GUILayout.Label("Dev", NWDGUI.KTableSearchTitle);
-            if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
-            {
-                NWDGUI.BeginRedArea();
-                if (GUILayout.Button("Maintenance", NWDGUI.KTableSearchButton))
-                {
-                    NWDAppConfiguration.SharedInstance().DevEnvironment.SetMaintenance(true);
-                }
-                if (GUILayout.Button("Obsolete", NWDGUI.KTableSearchButton))
-                {
-                    NWDAppConfiguration.SharedInstance().DevEnvironment.SetObsolete(true);
-                }
-                if (GUILayout.Button("Activate", NWDGUI.KTableSearchButton))
-                {
-                    NWDAppConfiguration.SharedInstance().DevEnvironment.SetActivate();
-                }
-                NWDGUI.EndRedArea();
-            }
-            else
-            {
-                GUILayout.FlexibleSpace();
-                GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
-                GUILayout.FlexibleSpace();
-            }
-            GUILayout.EndVertical();
-            GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
-            GUILayout.Label("Preprod", NWDGUI.KTableSearchTitle);
-            if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
-            {
-                NWDGUI.BeginRedArea();
-                if (GUILayout.Button("Maintenance", NWDGUI.KTableSearchButton))
-                {
-                    NWDAppConfiguration.SharedInstance().PreprodEnvironment.SetMaintenance(true);
-                }
-                if (GUILayout.Button("Obsolete", NWDGUI.KTableSearchButton))
-                {
-                    NWDAppConfiguration.SharedInstance().PreprodEnvironment.SetObsolete(true);
-                }
-                if (GUILayout.Button("Activate", NWDGUI.KTableSearchButton))
-                {
-                    NWDAppConfiguration.SharedInstance().PreprodEnvironment.SetActivate();
-                }
-                NWDGUI.EndRedArea();
-            }
-            else
-            {
-                GUILayout.FlexibleSpace();
-                GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
-                GUILayout.FlexibleSpace();
-            }
-            GUILayout.EndVertical();
-            GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
-            GUILayout.Label("Prod", NWDGUI.KTableSearchTitle);
-            if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
-            {
-                NWDGUI.BeginRedArea();
-                if (GUILayout.Button("Maintenance", NWDGUI.KTableSearchButton))
-                {
-                    NWDAppConfiguration.SharedInstance().ProdEnvironment.SetMaintenance(true);
-                }
-                if (GUILayout.Button("Obsolete", NWDGUI.KTableSearchButton))
-                {
-                    NWDAppConfiguration.SharedInstance().ProdEnvironment.SetObsolete(true);
-                }
-                if (GUILayout.Button("Activate", NWDGUI.KTableSearchButton))
-                {
-                    NWDAppConfiguration.SharedInstance().ProdEnvironment.SetActivate();
-                }
-                NWDGUI.EndRedArea();
-            }
-            else
-            {
-                GUILayout.FlexibleSpace();
-                GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
-                GUILayout.FlexibleSpace();
-            }
-            GUILayout.EndVertical();
-            GUILayout.EndHorizontal();
-            GUILayout.Space(NWDGUI.kFieldMarge);
+            //NWDGUILayout.Section("Webservice " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + " tools");
+            //NWDWebServiceManagerContent.DrawForWebservice(NWDAppConfiguration.SharedInstance().WebBuild);
+            //GUILayout.Space(NWDGUI.kFieldMarge);
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -902,7 +832,7 @@ namespace NetWorkedData.NWDEditor
                                            bool sPriority = false,
                                            NWDOperationSpecial sOperation = NWDOperationSpecial.None)
         {
-            Debug.Log("OperationSynchroAllClasses () with Operation " + sOperation.ToString());
+            NWDDebug.Log("OperationSynchroAllClasses () with Operation " + sOperation.ToString());
             //NWDBenchmark.Start(sOperation.ToString());
             OperationSynchro(sEnvironment, NWDDataManager.SharedInstance().ClassSynchronizeList, null, sForceSync, sPriority, sOperation);
             //NWDBenchmark.Finish(sOperation.ToString());       

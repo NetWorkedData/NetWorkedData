@@ -557,11 +557,15 @@ namespace NetWorkedData
                     tR.y += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                     EditorGUI.TextField(tR, "dyn integrity seq", IntegrityAssembly(), NWDGUI.kMiniLabelStyle);
                     tR.y += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    EditorGUI.TextField(tR, "head integrity Csv", CSVAssemblyHead(), NWDGUI.kMiniLabelStyle);
+                    string CSVHeader = CSVAssemblyHead();
+                    int tCCSVHeaderColumns = CSVHeader.Split('|').Length;
+                    EditorGUI.TextField(tR, "head int Csv " + tCCSVHeaderColumns, CSVHeader, NWDGUI.kMiniLabelStyle);
                     tR.y += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    EditorGUI.TextField(tR, "dyn integrity Csv", CSVAssembly(), NWDGUI.kMiniLabelStyle);
+                    string tCSV = CSVAssembly();
+                    int tCSVColumns = tCSV.Split('|').Length;
+                    EditorGUI.TextField(tR, "dyn int Csv "+ tCSVColumns, tCSV, NWDGUI.kMiniLabelStyle);
                     tR.y += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    EditorGUI.TextField(tR, "dyn integrity req", IntegrityValue(), NWDGUI.kMiniLabelStyle);
+                    EditorGUI.TextField(tR, "dyn int req", IntegrityValue(), NWDGUI.kMiniLabelStyle);
                     tR.y += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                     EditorGUI.BeginDisabledGroup(CanBeEdit == false);
                 }

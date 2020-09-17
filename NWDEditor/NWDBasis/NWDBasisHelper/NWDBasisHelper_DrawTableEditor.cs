@@ -1417,7 +1417,7 @@ namespace NetWorkedData
             NWDGUILayout.Separator();
             foreach (KeyValuePair<int, string> tModels in WebModelSQLOrder)
             {
-                EditorGUILayout.LabelField("WebService " + tModels.Key.ToString());
+                EditorGUILayout.LabelField("WebService " + tModels.Key.ToString(), PropertiesOrderArray(tModels.Key).Count() + " columns");
             }
 
             // draw section
@@ -2287,7 +2287,8 @@ namespace NetWorkedData
                         {
                             EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                         }
-                        SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                        //SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Clean);
                     }
                     if (GUILayout.Button("Special", NWDGUI.KTableSearchButton))
                     {
@@ -2367,7 +2368,8 @@ namespace NetWorkedData
                         {
                             EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                         }
-                        SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                        //SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Clean);
                     }
                     if (GUILayout.Button("Special", NWDGUI.KTableSearchButton))
                     {
@@ -2449,7 +2451,8 @@ namespace NetWorkedData
                         {
                             EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                         }
-                        SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                        //SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                        SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Clean);
                     }
                     if (GUILayout.Button("Special", NWDGUI.KTableSearchButton))
                     {

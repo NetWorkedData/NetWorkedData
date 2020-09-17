@@ -586,7 +586,7 @@ namespace NetWorkedData
                 int tWS = WebModelToUse();
                 if (this.WebModel != tWS)
                 {
-                    //Debug.Log(" set from " + WebModel + " To " + tWS);
+                    Debug.Log(" set from " + WebModel + " To " + tWS);
                     this.WebModel = tWS;
                 }
             }

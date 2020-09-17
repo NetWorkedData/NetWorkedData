@@ -91,38 +91,41 @@ namespace NetWorkedData
                         tCluster.Domains.Flush();
                         foreach (NWDServerServices tServerServices in tCluster.Services.GetEditorDatas())
                         {
-                            //Debug.Log("Analyze Cluster analyze tServerServices : " + tServerServices.InternalKey);
-                            if (tServerServices.IsEnable())
+                            if (tServerServices != null)
                             {
-                                if (tServerServices.ServerDomain != null)
+                                //Debug.Log("Analyze Cluster analyze tServerServices : " + tServerServices.InternalKey);
+                                if (tServerServices.IsEnable())
                                 {
-                                    NWDServerDomain tServerDomains = tServerServices.ServerDomain.GetEditorData() as NWDServerDomain;
-                                    if (tServerDomains != null)
+                                    if (tServerServices.ServerDomain != null)
                                     {
-                                        //Debug.Log("Analyze Cluster analyze  tServerDomains : " + tServerDomains.InternalKey);
-                                        if (tServerDomains.IsEnable())
+                                        NWDServerDomain tServerDomains = tServerServices.ServerDomain.GetEditorData() as NWDServerDomain;
+                                        if (tServerDomains != null)
                                         {
-                                            //Debug.Log("Analyze Cluster add  domains : " + tServerDomains.InternalKey);
-                                            tCluster.Domains.AddData(tServerDomains);
+                                            //Debug.Log("Analyze Cluster analyze  tServerDomains : " + tServerDomains.InternalKey);
+                                            if (tServerDomains.IsEnable())
+                                            {
+                                                //Debug.Log("Analyze Cluster add  domains : " + tServerDomains.InternalKey);
+                                                tCluster.Domains.AddData(tServerDomains);
+                                            }
+                                            else
+                                            {
+                                                //Debug.Log("Analyze Cluster domains : " + tServerDomains.InternalKey + " IS DISABLE ?");
+                                            }
                                         }
                                         else
                                         {
-                                            //Debug.Log("Analyze Cluster domains : " + tServerDomains.InternalKey + " IS DISABLE ?");
+                                            //Debug.Log("Analyze Cluster tServerDomains is NULL");
                                         }
                                     }
                                     else
                                     {
-                                        //Debug.Log("Analyze Cluster tServerDomains is NULL");
+                                        //Debug.Log("Analyze Cluster tServerServices : " + tServerServices.InternalKey + " ServerDomain is NULL");
                                     }
                                 }
                                 else
                                 {
-                                    //Debug.Log("Analyze Cluster tServerServices : " + tServerServices.InternalKey + " ServerDomain is NULL");
+                                    //Debug.Log("Analyze Cluster tServerServices : " + tServerServices.InternalKey + " IS DISABLE !?");
                                 }
-                            }
-                            else
-                            {
-                                //Debug.Log("Analyze Cluster tServerServices : " + tServerServices.InternalKey + " IS DISABLE !?");
                             }
                         }
                         if (tCluster.Dev == true)

@@ -73,6 +73,7 @@ namespace NetWorkedData
 
         public const string K_APP_SYNC_ENVIRONMENT_TITLE = "Sync";
         public const string K_APP_CONFIGURATION_TITLE = "App configuration";
+        public const string K_WEBSERVICE_MANAGEMENT_TITLE = "Webservices management";
         public const string K_DATA_SELECTOR_TITLE = "Selector";
         public const string K_DATA_SELECTOR_TITLE_FOR = "Selector for ";
         public const string K_LOCALIZATION_CONFIGURATION_TITLE = "Localization";

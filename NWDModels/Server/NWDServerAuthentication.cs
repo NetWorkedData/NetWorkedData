@@ -111,35 +111,36 @@ namespace NetWorkedData
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetMaintenance(NWDAppEnvironment sEnvironment, bool sMaintenance)
+        public void SetMaintenance(NWDAppEnvironment sEnvironment, int sWebService, bool sMaintenance)
         {
             //NWDBenchmark.Start();
-            SetHTACCESS(sEnvironment, sMaintenance, false);
+            SetHTACCESS(sEnvironment,  sWebService, sMaintenance, false);
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetObsolete(NWDAppEnvironment sEnvironment, bool sObsolete)
+        public void SetObsolete(NWDAppEnvironment sEnvironment, int sWebService, bool sObsolete)
         {
             //NWDBenchmark.Start();
-            SetHTACCESS(sEnvironment, false, sObsolete);
+            SetHTACCESS(sEnvironment,  sWebService, false, sObsolete);
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetActivate(NWDAppEnvironment sEnvironment)
+        public void SetActivate(NWDAppEnvironment sEnvironment, int sWebService)
         {
             //NWDBenchmark.Start();
-            SetHTACCESS(sEnvironment, false, false);
+            SetHTACCESS(sEnvironment,  sWebService, false, false);
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetHTACCESS(NWDAppEnvironment sEnvironment, bool sMaintenance, bool sObsolete)
+        public void SetHTACCESS(NWDAppEnvironment sEnvironment, int sWebService, bool sMaintenance, bool sObsolete)
         {
             //NWDBenchmark.Start();
             // connect SFTP
             if (ConnectSFTP())
             {
                 // prepare the destination
-                string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
+                //string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
+                string tWebServiceFolder = NWDAppConfiguration.SharedInstance().OldWebServiceFolder(sWebService);
                 string tDestinationFolder = tWebServiceFolder + "/" + sEnvironment.Environment + "/";
                 string tDestination = Folder + tDestinationFolder + NWD.K_HTACCESS;
                 // delete existing file 
