@@ -103,12 +103,17 @@ namespace NetWorkedData
         /// Addons editor intreface expected height.
         /// </summary>
         /// <returns>The editor expected height.</returns>
+        //public override float AddonEditorHeight(float sWidth)
+        //{
+        //    // Height calculate for the interface addon for editor
+        //    float tYadd = base.AddonEditorHeight(sWidth);
+        //    tYadd += NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 100);
+        //    return tYadd;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditorHeight(float sWidth)
         {
-            // Height calculate for the interface addon for editor
-            float tYadd = base.AddonEditorHeight(sWidth);
-            tYadd += NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 100);
-            return tYadd;
+            return LayoutEditorHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -119,30 +124,21 @@ namespace NetWorkedData
         public override void AddonEditor(Rect sRect)
         {
             base.AddonEditor(sRect);
-            Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 100);
-            int tI = 0;
-            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-            tI++;
+            NWDGUILayout.Separator();
             if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
             {
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Credentials window"))
+                if (GUILayout.Button( "Credentials window"))
                 {
                     NWDProjectCredentialsManager.SharedInstanceFocus();
                 }
-                tI++;
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Flush credentials"))
+                if (GUILayout.Button( "Flush credentials"))
                 {
                     NWDProjectCredentialsManagerContent.FlushCredentials(NWDCredentialsRequired.ForSFTPGenerate);
                 }
-                tI++;
-                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-                tI++;
-                EditorGUI.HelpBox(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
-                tI += 2;
-                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-                tI++;
-                GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Services", NWDGUI.kBoldLabelStyle);
-                tI++;
+                NWDGUILayout.Separator();
+                EditorGUILayout.HelpBox( "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
+                NWDGUILayout.Separator();
+                GUILayout.Label( "Services", NWDGUI.kBoldLabelStyle);
                 if (Services == null)
                 {
                     Services = new NWDReferencesListType<NWDServerServices>();
@@ -150,34 +146,28 @@ namespace NetWorkedData
                 foreach (NWDServerServices tServices in Services.GetRawDatas())
                 {
                     tServices.PropertiesPrevent();
-                    GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tServices.InternalKey);
-                    tI++;
-                    GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "(" + tServices.InternalDescription + ")", NWDGUI.kItalicLabelStyle);
-                    tI++;
+                    GUILayout.Label(tServices.InternalKey);
+                    GUILayout.Label( "(" + tServices.InternalDescription + ")", NWDGUI.kItalicLabelStyle);
                     GUIContent tButtonTitle = null;
                     NWDServer tServer = tServices.Server.GetRawData();
                     if (tServer != null)
                     {
                         string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServices.User + " -p " + tServer.Port;
                         tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
-                        if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                        if (GUILayout.Button( tButtonTitle))
                         {
                             NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
                         }
-                        tI++;
                         string tURL = "sftp://" + tServices.User + ":" + tServices.Secure_Password.Decrypt() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + tServices.Folder;
                         tButtonTitle = new GUIContent("Try sftp directly", tURL);
-                        if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                        if (GUILayout.Button( tButtonTitle))
                         {
                             Application.OpenURL(tURL);
                         }
-                        tI++;
                     }
                 }
-                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-                tI++;
-                GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Databases", NWDGUI.kBoldLabelStyle);
-                tI++;
+                NWDGUILayout.Separator();
+                GUILayout.Label( "Databases", NWDGUI.kBoldLabelStyle);
                 if (DataBases == null)
                 {
                     DataBases = new NWDReferencesListType<NWDServerDatas>();
@@ -185,39 +175,35 @@ namespace NetWorkedData
                 foreach (NWDServerDatas tServices in DataBases.GetRawDatas())
                 {
                     tServices.PropertiesPrevent();
-                    GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tServices.InternalKey);
-                    tI++;
-                    GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "(" + tServices.InternalDescription + ")", NWDGUI.kItalicLabelStyle);
-                    tI++;
+                    GUILayout.Label(tServices.InternalKey);
+                    GUILayout.Label("(" + tServices.InternalDescription + ")", NWDGUI.kItalicLabelStyle);
                     GUIContent tButtonTitle = null;
                     NWDServer tServer = tServices.Server.GetRawData();
                     if (tServer != null)
                     {
                         string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Admin_User + " -p " + tServer.Port;
                         tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
-                        if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                        if (GUILayout.Button( tButtonTitle))
                         {
                             NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
                         }
-                        tI++;
                     }
                     if (tServices.PhpMyAdmin == true)
                     {
                         //string tURL = "https://" + tServices.MySQLUser + ":" + tServices.MySQLPassword.GetValue() + "@" + tServices.MySQLIP.GetValue() + "/phpmyadmin/";
                         string tURL = "https://" + tServices.MySQLIP.GetValue() + "/phpmyadmin/?pma_username=" + tServices.MySQLUser + "&pma_password=" + tServices.MySQLSecurePassword.Decrypt() + "";
                         tButtonTitle = new GUIContent("Try PhpMyAdmin directly", tURL);
-                        if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                        if (GUILayout.Button( tButtonTitle))
                         {
                             NWEClipboard.CopyToClipboard(tServices.MySQLSecurePassword.Decrypt());
                             Application.OpenURL(tURL);
                         }
-                        tI++;
                     }
                 }
             }
             else
             {
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Need credentials for actions"))
+                if (GUILayout.Button( "Need credentials for actions"))
                 {
                     NWDProjectCredentialsManager.SharedInstanceFocus();
                 }

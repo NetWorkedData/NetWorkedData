@@ -39,36 +39,35 @@ namespace NetWorkedData
     public partial class NWDServerDatas : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
+        //public override float AddonEditorHeight(float sWidth)
+        //{
+        //    float tYadd = NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 100);
+        //    return tYadd;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditorHeight(float sWidth)
         {
-            float tYadd = NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 100);
-            return tYadd;
+            return LayoutEditorHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonEditor(Rect sRect)
         {
-            PropertiesPrevent();
-            Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 3, 100);
-            int tI = 0;
-            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[2, tI]));
-            tI++;
-            //EditorGUI.LabelField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Continent", Continent.ConcatRepresentations());
-            //tI++;
+            base.AddonEditor(sRect);
+            NWDGUILayout.Separator();
 
+            PropertiesPrevent();
+            NWDGUILayout.Separator();
             if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
             {
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[2, tI]), "Credentials window"))
+                if (GUILayout.Button("Credentials window"))
                 {
                     NWDProjectCredentialsManager.SharedInstanceFocus();
                 }
-                tI++;
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[2, tI]), "Flush credentials"))
+                if (GUILayout.Button("Flush credentials"))
                 {
                     NWDProjectCredentialsManagerContent.FlushCredentials(NWDCredentialsRequired.ForSFTPGenerate);
                 }
-                tI++;
-                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[2, tI]));
-                tI++;
+                NWDGUILayout.Separator();
                 GUIStyle tSyleTextArea = new GUIStyle(GUI.skin.textArea);
 
                 GUIContent tButtonTitle = null;
@@ -77,22 +76,7 @@ namespace NetWorkedData
                 if (tServer != null)
                 {
                     //-----------------
-                    EditorGUI.HelpBox(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[2, tI + 1]), "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
-                    tI += 2;
-                    //tButtonTitle = new GUIContent("Open terminal", " open terminal or console on your desktop");
-                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                    //{
-                    //    // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
-                    //    FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
-                    //    System.Diagnostics.Process.Start(tFileInfo.FullName);
-                    //}
-                    //tI++;
-
-                    //string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Root_User + " -p " + tServer.Port;
-                    //if (tServer.AdminInstalled)
-                    //{
-                    //    tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Admin_User + " -p " + tServer.Port;
-                    //}
+                    EditorGUILayout.HelpBox("Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
 
                     string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + " & ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Root_User + " -p " + tServer.Port;
                     if (tServer.AdminInstalled)
@@ -101,19 +85,16 @@ namespace NetWorkedData
                     }
 
                     tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
-                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[2, tI]), tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
                     }
-                    tI++;
-                    GUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[2, tI + 1]), tcommandKeyGen);
-                    tI += 2;
-                    NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[2, tI]));
-                    tI++;
+                    GUILayout.TextField(tcommandKeyGen);
+                    NWDGUILayout.Separator();
                     //-----------------
                     // find ip of server by dns if associated
                     EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(tServer.DomainNameServer) == true);
-                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[2, tI]), "Find IP from Server (NWDServerDomain)"))
+                    if (GUILayout.Button("Find IP from Server (NWDServerDomain)"))
                     {
                         string tLocalIP = "0.0.0.0";
                         foreach (IPAddress tIP in Dns.GetHostAddresses(tServer.DomainNameServer))
@@ -126,20 +107,18 @@ namespace NetWorkedData
                         MySQLIP.SetValue(tLocalIP);
                     }
                     EditorGUI.EndDisabledGroup();
-                    tI++;
                     //-----------------
                     tButtonTitle = new GUIContent("Try connexion", " try connexion with root or admin");
-                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[2, tI]), tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
                     "ls",
                 });
                     }
-                    tI++;
                     //-----------------
                     tButtonTitle = new GUIContent("install MariaDB", " try install MariaDB (fork of MySQL)");
-                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[2, tI]), tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         List<string> tCommandList = new List<string>();
 
@@ -231,37 +210,9 @@ namespace NetWorkedData
                         }
                         tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
                     }
-                    tI++;
-
-                    //tButtonTitle = new GUIContent("install PhpMyAdmin", " try install PhpMyAdmin");
-                    //if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
-                    //{
-                    //    List<string> tCommandList = new List<string>();
-
-                    //    tCommandList.Add("echo \"<color=red> -> server update</color>\"");
-                    //    tCommandList.Add("apt-get update");
-                    //    tCommandList.Add("apt-get -y upgrade");
-                    //    tCommandList.Add("apt-get -y dist-upgrade");
-                    //    if (PhpMyAdmin == true)
-                    //    {
-                    //        tCommandList.Add("echo \"<color=red> -> install php</color>\"");
-
-                    //        tCommandList.Add("echo \"<color=red> -> phpmyadmin install</color>\"");
-                    //        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/dbconfig-install boolean true\"");
-                    //        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/app-password-confirm password " + Root_MysqlPassword + "\"");
-                    //        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/mysql/admin-pass password " + Root_MysqlPassword + "\"");
-                    //        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/mysql/app-pass password " + Root_MysqlPassword + "\"");
-                    //        tCommandList.Add("debconf-set-selections <<< \"phpmyadmin phpmyadmin/reconfigure-webserver multiselect none\"");
-                    //        tCommandList.Add("apt-get -y -q install phpmyadmin");
-                    //        tCommandList.Add("echo PURGE | debconf-communicate phpmyadmin");
-                    //        tCommandList.Add("systemctl restart apache2");
-                    //    }
-                    //    tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
-                    //}
-                    //tI++;
 
                     tButtonTitle = new GUIContent("Install User", " try install User In MariaDB");
-                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[2, tI]), tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         List<string> tCommandList = new List<string>();
                         tCommandList.Add("echo \"<color=red> -> add user in mysql</color>\"");
@@ -278,36 +229,33 @@ namespace NetWorkedData
                         }
                         tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
                     }
-                    tI++;
 
-
-                    if (GUI.Button(tMatrix[0, tI], "http://xxx/phpmyadmin/"))
+                    GUILayout.BeginHorizontal();
+                    if (GUILayout.Button("http://xxx/phpmyadmin/"))
                     {
                         string tURL = "http://" + MySQLIP.GetValue() + "/phpmyadmin/?pma_username=" + MySQLUser + "&pma_password=" + MySQLSecurePassword.Decrypt() + "";
                         Application.OpenURL(tURL);
                     }
-                    if (GUI.Button(tMatrix[1, tI], "https://xxx/phpmyadmin/"))
+                    if (GUILayout.Button("https://xxx/phpmyadmin/"))
                     {
                         string tURL = "https://" + MySQLIP.GetValue() + "/phpmyadmin/?pma_username=" + MySQLUser + "&pma_password=" + MySQLSecurePassword.Decrypt() + "";
                         Application.OpenURL(tURL);
                     }
-                    tI++;
-
+                    GUILayout.EndHorizontal();
 
 
                     //-----------------
                     string tURLAdmin = "sftp://" + tServer.Admin_User + ":" + tServer.Admin_Secure_Password.Decrypt() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/";
                     tButtonTitle = new GUIContent("Try sftp ADMIN directly", tURLAdmin);
-                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[2, tI]), tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         //NWEClipboard.CopyToClipboard(Password.GetValue());
                         Application.OpenURL(tURLAdmin);
                     }
-                    tI++;
 
                     //-----------------
                     tButtonTitle = new GUIContent("restart phpmyadmin", "try to fix bug in login");
-                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[2, tI]), tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         List<string> tCommandList = new List<string>();
                         //tCommandList.Add("/etc/init.d/apache2 restart");
@@ -315,16 +263,15 @@ namespace NetWorkedData
                         tCommandList.Add("/etc/init.d/mysql restart");
                         tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
                     }
-                    tI++;
 
                     //-----------------
-                    NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[2, tI]));
-                    tI++;
+                    NWDGUILayout.Separator();
 
                     //-----------------
                     NWDGUI.BeginRedArea();
+                    GUILayout.BeginHorizontal();
                     tButtonTitle = new GUIContent("Flush dev account", "warning");
-                    if (GUI.Button(tMatrix[0, tI], tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         if (EditorUtility.DisplayDialog("WARNING", "YOU WILL DELETE ALL DATAS OF PLAYERS!", "YES", "CANCEL"))
                         {
@@ -349,7 +296,7 @@ namespace NetWorkedData
                     }
 
                     tButtonTitle = new GUIContent("Flush preprod account", "warning");
-                    if (GUI.Button(tMatrix[1, tI], tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         if (EditorUtility.DisplayDialog("WARNING", "YOU WILL DELETE ALL DATAS OF PLAYERS!", "YES", "CANCEL"))
                         {
@@ -374,7 +321,7 @@ namespace NetWorkedData
                     }
 
                     tButtonTitle = new GUIContent("Flush prod account", "warning");
-                    if (GUI.Button(tMatrix[2, tI], tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         if (EditorUtility.DisplayDialog("WARNING", "YOU WILL DELETE ALL DATAS OF PLAYERS!", "YES", "CANCEL"))
                         {
@@ -397,11 +344,12 @@ namespace NetWorkedData
                             tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
                         }
                     }
+                    GUILayout.EndHorizontal();
                     NWDGUI.EndRedArea();
-                    tI++;
                     //-----------------
+                    GUILayout.BeginHorizontal();
                     tButtonTitle = new GUIContent("Flush dev editor", "warning");
-                    if (GUI.Button(tMatrix[0, tI], tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         List<string> tCommandList = new List<string>();
                         List<string> tTableList = new List<string>();
@@ -423,7 +371,7 @@ namespace NetWorkedData
                     }
 
                     tButtonTitle = new GUIContent("Flush preprod editor", "warning");
-                    if (GUI.Button(tMatrix[1, tI], tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         List<string> tCommandList = new List<string>();
                         List<string> tTableList = new List<string>();
@@ -445,7 +393,7 @@ namespace NetWorkedData
                     }
 
                     tButtonTitle = new GUIContent("Flush prod editor", "warning");
-                    if (GUI.Button(tMatrix[2, tI], tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         List<string> tCommandList = new List<string>();
                         List<string> tTableList = new List<string>();
@@ -465,14 +413,14 @@ namespace NetWorkedData
                         }
                         tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
                     }
-                    tI++;
+                    GUILayout.EndHorizontal();
 
                     //-----------------
                     NWDServerDatas tServerDatasOrg = ServerEditorOriginal.GetRawData();
                     EditorGUI.BeginDisabledGroup(tServerDatasOrg == null);
                     {
                         tButtonTitle = new GUIContent("Replace Database from original", " delete and copy editor table ");
-                        if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[2, tI]), tButtonTitle))
+                        if (GUILayout.Button(tButtonTitle))
                         {
                             if (tServerDatasOrg != null)
                             {
@@ -512,7 +460,6 @@ namespace NetWorkedData
                                 tServerOriginal.ExecuteSSH(tButtonTitle.text, tCommandListAnother);
                             }
                         }
-                        tI++;
                         //-----------------
                     }
                     EditorGUI.EndDisabledGroup();
@@ -646,7 +593,7 @@ namespace NetWorkedData
             }
             else
             {
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Need credentials for actions"))
+                if (GUILayout.Button("Need credentials for actions"))
                 {
                     NWDProjectCredentialsManager.SharedInstanceFocus();
                 }

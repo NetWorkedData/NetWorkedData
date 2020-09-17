@@ -39,69 +39,53 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditorHeight(float sWidth)
         {
-            float tYadd = NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 100);
-            return tYadd;
+            return base.AddonEditorHeight(sWidth);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonEditor(Rect sRect)
         {
             PropertiesPrevent();
-            Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 100);
-            int tI = 0;
-            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-            tI++;
-
-            //EditorGUI.LabelField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Continent", Continent.ConcatRepresentations());
-            //tI++;
-
-
+            NWDGUILayout.Separator();
             if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
             {
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Credentials window"))
+                if (GUILayout.Button( "Credentials window"))
                 {
                     NWDProjectCredentialsManager.SharedInstanceFocus();
                 }
-                tI++;
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Flush credentials"))
+                if (GUILayout.Button( "Flush credentials"))
                 {
                     NWDProjectCredentialsManagerContent.FlushCredentials(NWDCredentialsRequired.ForSFTPGenerate);
                 }
-                tI++;
-                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-                tI++;
+                NWDGUILayout.Separator();
                 GUIContent tButtonTitle = null;
                 NWDServer tServer = Server.GetRawData();
                 NWDServerDomain tServerDomain = ServerDomain.GetRawData();
                 if (tServer != null)
                 {
                     //-----------------
-                    EditorGUI.HelpBox(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
-                    tI += 2;
+                    EditorGUILayout.HelpBox( "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
+                   
                     string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + " & ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Root_User + " -p " + tServer.Port;
                     if (tServer.AdminInstalled)
                     {
                         tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + " & ssh -keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Admin_User + " -p " + tServer.Port;
                     }
-                    tI++;
-                    GUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 1]), tcommandKeyGen);
-                    tI += 2;
-                    NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-                    tI++;
+                    GUILayout.TextField( tcommandKeyGen);
+                    NWDGUILayout.Separator();
 
                     //-----------------
                     tButtonTitle = new GUIContent("Try connexion", " try connexion with root or admin");
-                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    if (GUILayout.Button( tButtonTitle))
                     {
                         tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
                     "ls",
                 });
                     }
-                    tI++;
 
                     //-----------------
                     tButtonTitle = new GUIContent("Install Apache PHP", "Install Apache and PHP 7");
-                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    if (GUILayout.Button( tButtonTitle))
                     {
                         List<string> tCommandList = new List<string>();
 
@@ -218,12 +202,11 @@ namespace NetWorkedData
                             tServer.ExecuteSSH(tButtonTitle.text, tCommandList);
                         }
                     }
-                    tI++;
 
                     //-----------------
                     EditorGUI.BeginDisabledGroup(UserInstalled == true);
                     tButtonTitle = new GUIContent("Install User", "Install User");
-                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    if (GUILayout.Button( tButtonTitle))
                     {
                         if (tServerDomain != null)
                         {
@@ -354,7 +337,6 @@ namespace NetWorkedData
                         }
                     }
                     EditorGUI.EndDisabledGroup();
-                    tI++;
                     //-----------------
 
                     /*
@@ -486,7 +468,7 @@ namespace NetWorkedData
 
 
                     tButtonTitle = new GUIContent("Check apache", "check apache ");
-                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    if (GUILayout.Button( tButtonTitle))
                     {
                         tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
@@ -497,114 +479,107 @@ namespace NetWorkedData
                     //"tail -100 /var/log/apache2/access.log"
                 });
                     }
-                    tI++;
 
                     //-----------------
                     tButtonTitle = new GUIContent("Try User connexion", " try connexion with user");
-                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    if (GUILayout.Button( tButtonTitle))
                     {
                         tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
                     "ls",
                 }, null, tServer.Port, User, Secure_Password.Decrypt());
                     }
-                    tI++;
 
                     //-----------------
+                    GUILayout.BeginHorizontal();
                     tButtonTitle = new GUIContent("default html", " try connexion to index.html");
-                    if (GUI.Button(tMatrix[0, tI], tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         Application.OpenURL("http://" + tServer.IP.ToString() + "/index.html");
                     }
                     tButtonTitle = new GUIContent("default phpinfo", " try connexion to index.html with ssl");
-                    if (GUI.Button(tMatrix[1, tI], tButtonTitle))
+                    if (GUILayout.Button( tButtonTitle))
                     {
                         Application.OpenURL("http://" + tServer.IP.ToString() + "/phpinfo.php");
                     }
-                    tI++;
-
+                    GUILayout.EndHorizontal();
                     if (tServerDomain != null)
                     {
+                    GUILayout.BeginHorizontal();
                         tButtonTitle = new GUIContent("WS html", " try connexion to index.html");
-                        if (GUI.Button(tMatrix[0, tI], tButtonTitle))
+                        if (GUILayout.Button( tButtonTitle))
                         {
                             Application.OpenURL("http://" + tServerDomain.ServerDNS + "/index.html");
                         }
                         tButtonTitle = new GUIContent("WS ssl html", " try connexion to index.html with ssl");
-                        if (GUI.Button(tMatrix[1, tI], tButtonTitle))
+                        if (GUILayout.Button( tButtonTitle))
                         {
                             Application.OpenURL("https://" + tServerDomain.ServerDNS + "/index.html");
                         }
-                        tI++;
+                    GUILayout.EndHorizontal();
+
+                    GUILayout.BeginHorizontal();
                         tButtonTitle = new GUIContent("WS phpinfo", " try connexion to phpinfo.php");
-                        if (GUI.Button(tMatrix[0, tI], tButtonTitle))
+                        if (GUILayout.Button( tButtonTitle))
                         {
                             Application.OpenURL("http://" + tServerDomain.ServerDNS + "/phpinfo.php");
                         }
                         tButtonTitle = new GUIContent("WS ssl phpinfo", " try connexion to phpinfo.php with ssl");
-                        if (GUI.Button(tMatrix[1, tI], tButtonTitle))
+                        if (GUILayout.Button( tButtonTitle))
                         {
                             Application.OpenURL("https://" + tServerDomain.ServerDNS + "/phpinfo.php");
                         }
-                        tI++;
+                    GUILayout.EndHorizontal();
                     }
                     //-----------------
-                    NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-                    tI++;
+                    NWDGUILayout.Separator();
 
                     if (tServerDomain != null && UserInstalled == true /*&& SSLInstalled == false*/)
                     {
                         //-----------------
                         string tCerbot = "certbot --agree-tos -n --no-eff-email --apache --redirect --email " + Email + " -d " + tServerDomain.ServerDNS + "";
-                        EditorGUI.TextField(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Try cerbot", tCerbot);
-                        tI++;
+                        EditorGUILayout.TextField("Try cerbot", tCerbot);
                         //-----------------
                         tButtonTitle = new GUIContent("Try certbot SSL", " try connexion to generate certbot ssl (lest's encrypt)");
-                        if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                        if (GUILayout.Button( tButtonTitle))
                         {
                             tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                         {
                         tCerbot,
                         });
                         }
-                        tI++;
                         //-----------------
                     }
                     //-----------------
                     tButtonTitle = new GUIContent("Test security of SSL", "test security for this SSL config");
-                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    if (GUILayout.Button( tButtonTitle))
                     {
                         Application.OpenURL("https://www.ssllabs.com/ssltest/analyze.html?d=" + tServerDomain.ServerDNS + "");
                     }
-                    tI++;
                     //-----------------
-                    NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
-                    tI++;
-
+                    NWDGUILayout.Separator();
                     //-----------------
                     string tURLAdmin = "sftp://" + tServer.Admin_User + ":" + tServer.Admin_Secure_Password.Decrypt() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/";
                     tButtonTitle = new GUIContent("Try sftp ADMIN directly", tURLAdmin);
-                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    if (GUILayout.Button( tButtonTitle))
                     {
                         //NWEClipboard.CopyToClipboard(Password.GetValue());
                         Application.OpenURL(tURLAdmin);
                     }
-                    tI++;
                     //-----------------
                     string tURL = "sftp://" + User + ":" + Secure_Password.Decrypt() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + Folder;
                     tButtonTitle = new GUIContent("Try sftp directly", tURL);
-                    if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), tButtonTitle))
+                    if (GUILayout.Button( tButtonTitle))
                     {
                         //NWEClipboard.CopyToClipboard(Password.GetValue());
                         Application.OpenURL(tURL);
                     }
-                    tI++;
                     //-----------------
                 }
             }
             else
             {
-                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Need credentials for actions"))
+                if (GUILayout.Button( "Need credentials for actions"))
                 {
                     NWDProjectCredentialsManager.SharedInstanceFocus();
                 }

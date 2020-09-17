@@ -451,8 +451,14 @@ namespace NetWorkedData.NWDEditor
                 kIdentityColor = new Color(0.3f, 0.3f, 0.3f, 0.4f);
                 kPropertyColor = new Color(0.2f, 0.2f, 0.2f, 0.2f);
 
-
                 kRedElementColor = tRedColor;
+
+                //KTAB_BAR_LINE_COLOR = NWDToolbox.ColorWithAlpha(tBaseColor, 0.7F);
+
+                // TODO : change color for better color
+                KTAB_BAR_BACK_COLOR = NWDToolbox.ColorWithAlpha(tBaseColor, 0.7F);
+                KTAB_BAR_LINE_COLOR = new Color(0.3f, 0.3f, 0.3f, 0.4f);
+                KTAB_BAR_HIGHLIGHT_COLOR = new Color(0.3f, 0.3f, 0.3f, 0.4f);
 
                 kRowColorSelected = NWDToolbox.ColorWithAlpha(tBaseColor, 0.8F);
                 kRowColorSelectedDark = NWDToolbox.ColorWithAlpha(tBaseColor, 0.8F);

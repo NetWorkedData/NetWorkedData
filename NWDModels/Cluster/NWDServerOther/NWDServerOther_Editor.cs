@@ -84,7 +84,6 @@ namespace NetWorkedData
                 {
                     List<string> tCommandList = new List<string>();
 
-
                     tCommandList.Add("echo \"<color=red> -> server update</color>\"");
                     tCommandList.Add("apt-get update");
                     tCommandList.Add("apt-get -y upgrade");
