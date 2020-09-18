@@ -122,7 +122,7 @@ namespace NetWorkedData
         {
             //NWDBenchmark.Start();
             StringBuilder rReturn = new StringBuilder(string.Empty);
-            string tWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
+            string tWebService = NWDAppConfiguration.SharedInstance().WebServiceFolderMax();
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = NWDToolbox.DateTimeYYYYMMddHHmmss(tTime);
             string tYearString = NWDToolbox.DateTimeYYYY(tTime);
@@ -160,7 +160,7 @@ namespace NetWorkedData
         {
             //NWDBenchmark.Start();
             string rReturn = string.Empty;
-            string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
+            string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolderMax();
             if (sWriteOnDisk == true)
             {
                 string tWSFolderPath = NWDToolbox.FindOwnerServerFolder() + "/" + tWebServiceFolder + "/";
@@ -194,7 +194,7 @@ namespace NetWorkedData
         {
             //NWDBenchmark.Start();
             List<string> rReturn = new List<string>();
-            string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
+            string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolderMax();
             if (sWriteOnDisk == true)
             {
                 string tWSFolderPath = NWDToolbox.FindOwnerServerFolder();
@@ -275,8 +275,8 @@ namespace NetWorkedData
                 tConstantsFile.AppendLine("// CONSTANT FOR WEB");
                 tConstantsFile.AppendLine("$NWD_FLOAT_FORMAT = " + NWDConstants.FloatSQLFormat + ";");
                 tConstantsFile.AppendLine("$NWD_DOUBLE_FORMAT = " + NWDConstants.DoubleSQLFormat + ";");
-                tConstantsFile.AppendLine("$HTTP_URL = '" + GetConfigurationServerHTTPS() + "/" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';");
-                tConstantsFile.AppendLine("$WS_DIR = '" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';");
+                tConstantsFile.AppendLine("$HTTP_URL = '" + GetConfigurationServerHTTPS() + "/" + NWDAppConfiguration.SharedInstance().WebServiceFolderMax() + "';");
+                tConstantsFile.AppendLine("$WS_DIR = '" + NWDAppConfiguration.SharedInstance().WebServiceFolderMax() + "';");
                 tConstantsFile.AppendLine(NWD.K_CommentSeparator);
                 tConstantsFile.AppendLine("// CONSTANT FOR SHA512");
                 tConstantsFile.AppendLine("$NWD_SHA_SEC = '" + DataSHAPassword.Replace("'", "\'") + "';");

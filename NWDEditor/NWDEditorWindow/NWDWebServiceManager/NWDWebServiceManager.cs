@@ -59,6 +59,10 @@ namespace NetWorkedData.NWDEditor
         public static void DrawForWebservice(int sWebservices)
         {
             bool tUnused = false;
+            if (sWebservices == NWDAppConfiguration.SharedInstance().WebBuild)
+            {
+                EditorGUILayout.HelpBox("This WebService is the active webservice for this build!", MessageType.Warning);
+            }
             foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
             {
                 if (NWDBasisHelper.FindTypeInfos(tType).WebModelSQLOrder.ContainsKey(sWebservices) == true)
@@ -290,6 +294,11 @@ namespace NetWorkedData.NWDEditor
             _kScrollPosition = GUILayout.BeginScrollView(_kScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             // Launcher
 
+            NWDGUILayout.Section("WebServices actual");
+            EditorGUILayout.LabelField(" WebBuild used ", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
+            EditorGUILayout.LabelField(" WebBuild max", NWDAppConfiguration.SharedInstance().WebBuildMax.ToString());
+
+            NWDGUILayout.Section("WebServices management");
             Dictionary<int, bool> tWSList = new Dictionary<int, bool>();
             tWSList.Add(0, true);
             foreach (KeyValuePair<int, bool> tWS in NWDAppConfiguration.SharedInstance().WSList)
@@ -311,13 +320,111 @@ namespace NetWorkedData.NWDEditor
             }
             foreach (KeyValuePair<int, bool> tWS in tWSList)
             {
-                NWDGUILayout.Section("Webservice " + tWS.Key.ToString("0000"));
+                NWDGUILayout.SubSection("Webservice " + tWS.Key.ToString("0000"));
                 DrawForWebservice(tWS.Key);
             }
 
 
+            NWDGUILayout.Section("WebServices next generate");
+            //if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
+            {
+                NWDGUI.BeginRedArea();
+                if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
+                {
+                    if (GUILayout.Button("Generate next WS" + (NWDAppConfiguration.SharedInstance().WebBuildMax + 1).ToString("0000"), NWDGUI.KTableSearchButton))
+                    {
+                        NWDDataManager.SharedInstance().CreatePHPAllClass(true, false);
+                    }
+                }
+                else
+                {
+                    NWDGUI.BeginRedArea();
+                    if (GUILayout.Button("Need credentials", NWDGUI.KTableSearchButton))
+                    {
+                        NWDProjectCredentialsManager.SharedInstanceFocus();
+                    }
+                    NWDGUI.EndRedArea();
+                }
+                NWDGUI.EndRedArea();
+            }
+            NWDGUILayout.Section("WebServices re-generate");
 
+            GUILayout.BeginHorizontal();
 
+            GUILayout.BeginVertical();
+            GUILayout.Label(NWDAppConfiguration.SharedInstance().DevEnvironment.Environment, NWDGUI.KTableSearchTitle);
+            if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateDev))
+            {
+                if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
+                {
+                    NWDGUI.BeginRedArea();
+                    if (GUILayout.Button("Regenerate " + NWDAppConfiguration.SharedInstance().WebBuildMax, NWDGUI.KTableSearchButton))
+                    {
+                        NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(NWDDataManager.SharedInstance().ClassTypeList, true, false); ;
+                    }
+                    NWDGUI.EndRedArea();
+                }
+            }
+            else
+            {
+                NWDGUI.BeginRedArea();
+                if (GUILayout.Button("Need credentials", NWDGUI.KTableSearchButton))
+                {
+                    NWDProjectCredentialsManager.SharedInstanceFocus();
+                }
+                NWDGUI.EndRedArea();
+            }
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical();
+            GUILayout.Label(NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment, NWDGUI.KTableSearchTitle);
+            if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGeneratePreprod))
+            {
+                if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
+                {
+                    NWDGUI.BeginRedArea();
+                    if (GUILayout.Button("Regenerate " + NWDAppConfiguration.SharedInstance().WebBuildMax, NWDGUI.KTableSearchButton))
+                    {
+                        NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(NWDDataManager.SharedInstance().ClassTypeList, true, false); ;
+                    }
+                    NWDGUI.EndRedArea();
+                }
+            }
+            else
+            {
+                NWDGUI.BeginRedArea();
+                if (GUILayout.Button("Need credentials", NWDGUI.KTableSearchButton))
+                {
+                    NWDProjectCredentialsManager.SharedInstanceFocus();
+                }
+                NWDGUI.EndRedArea();
+            }
+
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical();
+            GUILayout.Label(NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment, NWDGUI.KTableSearchTitle);
+            if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateProd))
+            {
+                if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
+                {
+                    NWDGUI.BeginRedArea();
+                    if (GUILayout.Button("Regenerate " + NWDAppConfiguration.SharedInstance().WebBuildMax, NWDGUI.KTableSearchButton))
+                    {
+                        NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(NWDDataManager.SharedInstance().ClassTypeList, true, false); ;
+                    }
+                    NWDGUI.EndRedArea();
+                }
+            }
+            else
+            {
+                NWDGUI.BeginRedArea();
+                if (GUILayout.Button("Need credentials", NWDGUI.KTableSearchButton))
+                {
+                    NWDProjectCredentialsManager.SharedInstanceFocus();
+                }
+                NWDGUI.EndRedArea();
+            }
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
 
             GUILayout.EndScrollView();
             //// finish with reccord red button

@@ -39,10 +39,18 @@ namespace NetWorkedData
     public class NWDConsentWindow : NWDBasisWindow<NWDConsentWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "App/RGPD", false, 250)]
-        public static void MenuMethod()
+        const string K_APP_MENU = "Consents" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT;
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_APP_MENU + "/Consents key", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 1)]
+        public static void MenuMethodVersion()
         {
-            ShowWindow();
+            ShowWindow(typeof(NWDConsent));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_APP_MENU + "/Account's consents", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 1)]
+        public static void MenuMethodPreferenceKey()
+        {
+            ShowWindow(typeof(NWDAccountConsent));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

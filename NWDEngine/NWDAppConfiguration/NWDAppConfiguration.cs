@@ -513,7 +513,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string WebServiceFolder()
         {
-            return WebFolder.TrimEnd('/').TrimStart('/') + "_" + WebBuild.ToString("0000");
+            //return WebFolder.TrimEnd('/').TrimStart('/') + "_" + WebBuild.ToString("0000");
+            return OldWebServiceFolder(WebBuild);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string WebServiceFolderMax()
+        {
+            //return WebFolder.TrimEnd('/').TrimStart('/') + "_" + WebBuildMax.ToString("0000");
+            return OldWebServiceFolder(WebBuildMax);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string OldWebServiceFolder(int sWebService)
