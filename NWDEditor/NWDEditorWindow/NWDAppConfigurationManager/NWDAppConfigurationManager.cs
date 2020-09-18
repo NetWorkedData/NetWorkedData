@@ -179,7 +179,7 @@ namespace NetWorkedData.NWDEditor
             }
             foreach (KeyValuePair<int, bool> tWS in tWSList)
             {
-                EditorGUI.BeginDisabledGroup(tWS.Key == 0);
+                EditorGUI.BeginDisabledGroup(tWS.Key == 0 || tWS.Key == NWDAppConfiguration.SharedInstance().WebBuild);
                 bool tUnused = false;
                 foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
                 {
@@ -190,16 +190,27 @@ namespace NetWorkedData.NWDEditor
                     }
                 }
                 NWDBasisHelper tDatasToTest = NWDBasisHelper.FindTypeInfos(typeof(NWDParameter));
-
+                if (tWS.Key == NWDAppConfiguration.SharedInstance().WebBuild)
+                {
+                    tUnused = true;
+                }
                 if (tUnused == false)
                 {
-                    bool tV = EditorGUILayout.Toggle("(" + NWDAppConfiguration.SharedInstance().WebFolder + "_" + tWS.Key.ToString("0000") + " unused)", tWS.Value);
+                    bool tV = EditorGUILayout.ToggleLeft(NWDAppConfiguration.SharedInstance().WebFolder + "_" + tWS.Key.ToString("0000") + " not in config (without modification than preview webservice)", tWS.Value);
                     NWDAppConfiguration.SharedInstance().WSList[tWS.Key] = tV;
                 }
                 else
                 {
-                    bool tV = EditorGUILayout.Toggle(NWDAppConfiguration.SharedInstance().WebFolder + "_" + tWS.Key.ToString("0000") + " in config", tWS.Value);
+                    if (tWS.Key == NWDAppConfiguration.SharedInstance().WebBuild)
+                    {
+                        EditorGUILayout.ToggleLeft(NWDAppConfiguration.SharedInstance().WebFolder + "_" + tWS.Key.ToString("0000") + " in config and used in build", tWS.Value);
+                        NWDAppConfiguration.SharedInstance().WSList[tWS.Key] = true;
+                    }
+                    else
+                    {
+                    bool tV = EditorGUILayout.ToggleLeft(NWDAppConfiguration.SharedInstance().WebFolder + "_" + tWS.Key.ToString("0000") + " in config", tWS.Value);
                     NWDAppConfiguration.SharedInstance().WSList[tWS.Key] = tV;
+                    }
                 }
                 EditorGUI.EndDisabledGroup();
             }
