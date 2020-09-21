@@ -343,19 +343,21 @@ namespace NetWorkedData.NWDEditor
             {
                 NWDOperationWebhook.NewMessage("Test Webhook Notification integration success!", WebHookType.Notification);
             }
-
+            EditorGUI.EndDisabledGroup();
             NWDAppConfiguration.SharedInstance().SlackWebhookURLSync = EditorGUILayout.TextField("Webhook URL Sync", NWDAppConfiguration.SharedInstance().SlackWebhookURLSync);
             EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().SlackWebhookURLSync));
             if (GUILayout.Button("Test Webhook Sync"))
             {
                 NWDOperationWebhook.NewMessage("Test Webhook Sync integration success!", WebHookType.Sync);
             }
+            EditorGUI.EndDisabledGroup();
             NWDAppConfiguration.SharedInstance().SlackWebhookURLUpgrade = EditorGUILayout.TextField("Webhook URL Upgrade", NWDAppConfiguration.SharedInstance().SlackWebhookURLUpgrade);
             EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().SlackWebhookURLUpgrade));
             if (GUILayout.Button("Test Webhook Upgrade"))
             {
                 NWDOperationWebhook.NewMessage("Test Webhook Upgrade integration success!", WebHookType.Ugrade);
             }
+            EditorGUI.EndDisabledGroup();
             // end scroll
             GUILayout.EndScrollView();
             // finish with reccord red button
