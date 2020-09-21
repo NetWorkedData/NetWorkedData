@@ -245,7 +245,6 @@ namespace NetWorkedData
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PreloadDatas) + " = " + PreloadDatas.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.BundleDatas) + " = " + BundleDatas.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.AutoDeleteTrashDatas) + " = " + AutoDeleteTrashDatas.ToString().ToLower() + ";");
-            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.LauncherBenchmark) + " = " + LauncherBenchmark.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.LauncherFaster) + " = " + LauncherFaster.ToString() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.ProjetcLanguage) + " = \"" + ProjetcLanguage + "\";");
             foreach (KeyValuePair<string, string> tEntry in BundleName.OrderBy(x => x.Key))
@@ -371,7 +370,7 @@ namespace NetWorkedData
             rReturnType.AppendLine("/// </summary>");
             rReturnType.AppendLine("public override bool RestaureTypesConfigurations()");
             rReturnType.AppendLine("{");
-            rReturnType.AppendLine("if (NWDLauncher.ActiveBenchmark == true) {NWDBenchmark.Start();};");
+            rReturnType.AppendLine("" + typeof(NWDBenchmarkLauncher).Name + ".Start();");
 
             rReturnType.AppendLine("foreach (MethodInfo tMethod in this.GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance))");
             rReturnType.AppendLine("{");
@@ -384,10 +383,7 @@ namespace NetWorkedData
                 rReturnType.AppendLine("}");
             }
             rReturnType.AppendLine("}");
-
-            List<Type> tAllTypes = new List<Type>(NWDLauncher.AllNetWorkedDataTypes);
-            tAllTypes.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
-            rReturnType.AppendLine("if (NWDLauncher.ActiveBenchmark == true) {NWDBenchmark.Finish();};");
+            rReturnType.AppendLine("" + typeof(NWDBenchmarkLauncher).Name + ".Finish();");
             rReturnType.AppendLine("return true;");
             rReturnType.AppendLine("}");
             rReturnType.AppendLine("//-------------------------------------------------------------------------------------------------------------");
@@ -398,6 +394,8 @@ namespace NetWorkedData
             string tPathType = tOwnerConfigurationFolderPath + "/NWDConfigurations_Classes.cs";
             string rReturnTypeFormatted = NWDToolbox.CSharpFormat(rReturnType.ToString());
             File.WriteAllText(tPathType, rReturnTypeFormatted);
+            List<Type> tAllTypes = new List<Type>(NWDLauncher.AllNetWorkedDataTypes);
+            tAllTypes.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
             foreach (Type tType in tAllTypes)
             {
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);

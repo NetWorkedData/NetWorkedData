@@ -40,11 +40,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private static void AddIndexMethod()
         {
-            //Debug.Log("<color=orange>### NWDLauncher AddIndexMethod()</color>");
-            if (ActiveBenchmark)
-            {
-                NWDBenchmark.Start();
-            }
+            NWDBenchmarkLauncher.Start();
             State = NWDStatut.IndexMethodStart;
             Type[] tAllTypes = Assembly.GetExecutingAssembly().GetTypes();
             Type[] tAllIndexerTypes = (from Type type in tAllTypes where type.IsSubclassOf(typeof(NWDBasisIndexer)) select type).ToArray();
@@ -65,10 +61,7 @@ namespace NetWorkedData
                 }
             }
             State = NWDStatut.IndexMethodFinish;
-            if (ActiveBenchmark)
-            {
-                NWDBenchmark.Finish();
-            }
+            NWDBenchmarkLauncher.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

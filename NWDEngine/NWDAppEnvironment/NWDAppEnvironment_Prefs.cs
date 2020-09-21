@@ -41,10 +41,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SavePreferences()
         {
-            //if (NWDLauncher.ActiveBenchmark)
-            //{
-            //NWDBenchmark.Start();
-            //}
+            NWDBenchmarkLauncher.Start();
             if (string.IsNullOrEmpty(GetAccountReference()))
             {
                 SetAccountReference(NWDToolbox.GenerateUniqueAccountID(this, true));
@@ -55,18 +52,12 @@ namespace NetWorkedData
                 NWDBasisPreferences.SetString(kRequesTokenKey, this, RequesToken, false);
                 NWDDataManager.SharedInstance().DataQueueExecute();
             }
-            //if (NWDLauncher.ActiveBenchmark)
-            //{
-            //NWDBenchmark.Finish(true, "RequesToken = " + RequesToken);
-            //}
+            NWDBenchmarkLauncher.Finish(true, "RequesToken = " + RequesToken);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void LoadPreferences()
         {
-            //if (NWDLauncher.ActiveBenchmark)
-            //{
-            //    NWDBenchmark.Start();
-            //}
+            NWDBenchmarkLauncher.Start();
             SetAccountReference(NWDRuntimePrefs.ShareInstance().getString(Environment + kPlayerAccountReferenceKey));
             RequesToken = NWDBasisPreferences.GetString(kRequesTokenKey, this, string.Empty, false);
             if (string.IsNullOrEmpty(GetAccountReference()))
@@ -75,18 +66,12 @@ namespace NetWorkedData
                 RequesToken = string.Empty;
                 SavePreferences();
             }
-            //if (NWDLauncher.ActiveBenchmark)
-            //{
-            //    NWDBenchmark.Finish(true, "RequesToken = " + RequesToken);
-            //}
+            NWDBenchmarkLauncher.Finish(true, "RequesToken = " + RequesToken);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ResetPreferences(bool withTemporaryAccount = true, string sWithSign = null)
         {
-            //if (NWDLauncher.ActiveBenchmark)
-            //{
-            //    NWDBenchmark.Start();
-            //}
+            NWDBenchmarkLauncher.Start();
             SavePreferences();
             NWDDataManager.SharedInstance().DataQueueExecute();
             SetAccountReference(NWDToolbox.GenerateUniqueAccountID(this, withTemporaryAccount));
@@ -110,10 +95,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             NWDAppEnvironmentChooser.Refresh();
 #endif
-            //if (NWDLauncher.ActiveBenchmark)
-            //{
-            //    NWDBenchmark.Finish(true, "RequesToken = " + RequesToken);
-            //}
+            NWDBenchmarkLauncher.Finish(true, "RequesToken = " + RequesToken);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

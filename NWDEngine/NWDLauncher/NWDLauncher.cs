@@ -98,7 +98,7 @@ namespace NetWorkedData
         static private int StepIndex = 0;
         static private bool Launched = false;
         static bool Preload = true;
-        static public bool ActiveBenchmark = false;
+        //static public bool ActiveBenchmark = false;
         static public string RowInformations = string.Empty;
         static public bool CopyDatabase = false;
         //-------------------------------------------------------------------------------------------------------------
@@ -182,14 +182,12 @@ namespace NetWorkedData
             {
                 tRepport.Add("PRELOAD DATAS", "Preload datas"); tRepportLayout.Add("---");
             }
-            if (ActiveBenchmark == true)
-            {
+
+#if NWD_LAUNCHER_BENCHMARK
                 tRepport.Add("BENCHMARK STEP", "Launcher benchmarked"); tRepportLayout.Add("---");
-            }
-            else
-            {
+#else
                 tRepport.Add("BENCHMARK STEP", "Launcher no benchmark"); tRepportLayout.Add("---");
-            }
+#endif
             tRepport.Add("SQL Version", NWDDataManager.SharedInstance().GetVersion()); tRepportLayout.Add("---");
             if (NWDDataManager.SharedInstance().IsSecure() == true)
             {
@@ -216,12 +214,13 @@ namespace NetWorkedData
             // free to remplace by conclusion of this benchmark
             tRepport.Add("CONCLUSION", ""); tRepportLayout.Add("---");
             // if you active benchmark you can have result in Markdown table
-            if (ActiveBenchmark)
-            {
+#if NWD_LAUNCHER_BENCHMARK
                 NWDDebug.Log("benchmark : REPPORT | " + string.Join(" | ", tRepport.Keys) + " |");
                 NWDDebug.Log("benchmark : REPPORT | " + string.Join(" | ", tRepportLayout) + " |");
-            }
+#endif
+#if NWD_LAUNCHER_BENCHMARK || NWD_LAUNCHER_RESULT_BENCHMARK
             NWDDebug.ForceLog("benchmark : REPPORT | " + string.Join(" | ", tRepport.Values) + " |");
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         static public void ResetLauncher()
@@ -233,7 +232,6 @@ namespace NetWorkedData
             StepIndex = 0;
             Launched = false;
             Preload = true;
-            ActiveBenchmark = false;
             RowInformations = string.Empty;
             CopyDatabase = false;
             TimeStart = 0;

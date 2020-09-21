@@ -101,7 +101,7 @@ namespace NetWorkedData
         public bool PreloadDatas = true;
         public bool BundleDatas = true;
         public bool AutoDeleteTrashDatas = true;
-        public bool LauncherBenchmark = false;
+        //public bool LauncherBenchmark = false;
         public int LauncherFaster = 10;
         public bool AnonymousDeviceConnected = true;
 

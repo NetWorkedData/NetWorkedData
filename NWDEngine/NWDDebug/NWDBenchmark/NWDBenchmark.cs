@@ -27,10 +27,187 @@ using NetWorkedData.NWDEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDBenchmark
+    public class NWDBenchmarkLauncher : NWDBenchmarkBase
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        const string MACRO_LAUNCHER = "NWD_LAUNCHER_BENCHMARK";
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO_LAUNCHER)]
+        public static void AllResults()
+        {
+            K_AllResults();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO_LAUNCHER)]
+        public static void ResetAllResults()
+        {
+            K_ResetAllResults();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO_LAUNCHER)]
+        public static void ResetAll()
+        {
+            K_ResetAll();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO_LAUNCHER)]
+        public static void Start()
+        {
+            K_Start();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO_LAUNCHER)]
+        public static void Start(string sKey)
+        {
+            K_Start(sKey);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO_LAUNCHER)]
+        public static void Trace()
+        {
+            K_Trace();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO_LAUNCHER)]
+        public static void Log(string sInfos = "")
+        {
+            K_Log(sInfos);
+        }//-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO_LAUNCHER)]
+        public static void LogWarning(string sInfos = "")
+        {
+            K_LogWarning(sInfos);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO_LAUNCHER)]
+        public static void Finish(bool sWithDebug = true, string sMoreInfos = "")
+        {
+            K_Finish(sWithDebug, sMoreInfos);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO_LAUNCHER)]
+        public static void Step(bool sWithDebug = true, string sMoreInfos = "")
+        {
+            K_Step(sWithDebug, sMoreInfos);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO_LAUNCHER)]
+        public static void Finish(string sKey, bool sWithDebug = true, string sMoreInfos = "")
+        {
+            K_Finish(sKey, sWithDebug, sMoreInfos);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO_LAUNCHER)]
+        public static void Step(string sKey, bool sWithDebug = true, string sMoreInfos = "")
+        {
+            K_Step(sKey, sWithDebug, sMoreInfos);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO_LAUNCHER)]
+        public static void QuickStart(string sKey = null)
+        {
+            K_QuickStart(sKey);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO_LAUNCHER)]
+        public static void QuickFinish(string sKey = null)
+        {
+            K_QuickFinish(sKey);
+        }
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDBenchmark : NWDBenchmarkBase
     {
         //-------------------------------------------------------------------------------------------------------------
         const string MACRO = "NWD_BENCHMARK";
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
+        public static void AllResults()
+        {
+            K_AllResults();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
+        public static void ResetAllResults()
+        {
+            K_ResetAllResults();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
+        public static void ResetAll()
+        {
+            K_ResetAll();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
+        public static void Start()
+        {
+            K_Start();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
+        public static void Start(string sKey)
+        {
+            K_Start(sKey);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
+        public static void Trace()
+        {
+            K_Trace();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
+        public static void Log(string sInfos = "")
+        {
+            K_Log(sInfos);
+        }//-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
+        public static void LogWarning(string sInfos = "")
+        {
+            K_LogWarning(sInfos);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
+        public static void Finish(bool sWithDebug = true, string sMoreInfos = "")
+        {
+            K_Finish(sWithDebug, sMoreInfos);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
+        public static void Step(bool sWithDebug = true, string sMoreInfos = "")
+        {
+            K_Step(sWithDebug, sMoreInfos);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
+        public static void Finish(string sKey, bool sWithDebug = true, string sMoreInfos = "")
+        {
+            K_Finish(sKey, sWithDebug, sMoreInfos);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
+        public static void Step(string sKey, bool sWithDebug = true, string sMoreInfos = "")
+        {
+            K_Step(sKey, sWithDebug, sMoreInfos);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
+        public static void QuickStart(string sKey = null)
+        {
+            K_QuickStart(sKey);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [Conditional(MACRO)]
+        public static void QuickFinish(string sKey = null)
+        {
+            K_QuickFinish(sKey);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public abstract class NWDBenchmarkBase
+    {
         //-------------------------------------------------------------------------------------------------------------
         private static Dictionary<string, long> cStartDico = new Dictionary<string, long>(new StringIndexKeyComparer());
         private static Dictionary<string, long> cStepDico = new Dictionary<string, long>(new StringIndexKeyComparer());
@@ -58,7 +235,12 @@ namespace NetWorkedData
         private static string Red = "#890000FF";
         private static string Blue = "#002089FF";
         //-------------------------------------------------------------------------------------------------------------
-        static NWDBenchmark()
+        //public static string GetKeyWihRandom()
+        //{
+        //    return GetKey() + " " + NWDToolbox.RandomStringUnix(12);
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        static NWDBenchmarkBase()
         {
             PrefReload();
             Watch.Start();
@@ -72,7 +254,7 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public void PrefReload()
+        public static void PrefReload()
         {
 #if (UNITY_EDITOR)
             BenchmarkLimit = NWDProjectPrefs.GetFloat(NWDConstants.K_EDITOR_BENCHMARK_LIMIT, 0.0F);
@@ -95,22 +277,16 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        [Conditional(MACRO)]
-        public static void ResetAll()
+        protected static void K_ResetAll()
         {
             Watch.Restart();
             cStartDico.Clear();
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public static string GetKeyWihRandom()
-        //{
-        //    return GetKey() + " " + NWDToolbox.RandomStringUnix(12);
-        //}
-        //-------------------------------------------------------------------------------------------------------------
         private static string GetKey()
         {
             StackTrace st = new StackTrace();
-            StackFrame sf = st.GetFrame(2);
+            StackFrame sf = st.GetFrame(3);
             MethodBase tM = sf.GetMethod();
             string tDot = ".";
             if (tM.IsStatic == true) { tDot = ">"; }
@@ -121,15 +297,14 @@ namespace NetWorkedData
         /// <summary>
         /// Log just a trace.
         /// </summary>
-        public static void Trace()
+        protected static void K_Trace()
         {
             UnityEngine.Debug.Log("TRACE " + GetKey());
         }
         //-------------------------------------------------------------------------------------------------------------
-        [Conditional(MACRO)]
-        public static void Start()
+        protected static void K_Start()
         {
-            Start(GetKey());
+            K_Start(GetKey());
         }
         //-------------------------------------------------------------------------------------------------------------
         private static string GetIndentation()
@@ -149,15 +324,10 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        [Conditional(MACRO)]
-        public static void Start(string sKey)
+        protected static void K_Start(string sKey)
         {
-            //long tStart = Watch.ElapsedMilliseconds;
-
             if (cStartDico.ContainsKey(sKey) == true)
             {
-                //string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + " all ready started!";
-                //UnityEngine.Debug.Log(tLog);
             }
             else
             {
@@ -177,45 +347,29 @@ namespace NetWorkedData
                     UnityEngine.Debug.Log(tLog);
                 }
             }
-
-            //long tStop = Watch.ElapsedMilliseconds - tStart;
-            //BenchmarkError += tStop;
-            //UnityEngine.Debug.Log("NWDBenchmark STOPWATCH Start() : " + (tStop / 1000.0F).ToString("F3") + " s");
         }
         //-------------------------------------------------------------------------------------------------------------
-        [Conditional(MACRO)]
-        public static void Log(string sInfos = "")
+        protected static void K_Log(string sInfos = "")
         {
             UnityEngine.Debug.Log("benchmark : " + GetIndentation() + "|\t• " + " Log : " + sInfos);
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public static double SinceStartup(string sInfos = "")
-        //{
-        //    double tTime = Time.realtimeSinceStartup;
-        //    UnityEngine.Debug.Log("benchmark : Realtime Since Startup : " + tTime.ToString("F3") + " seconds " + sInfos);
-        //    return tTime;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        [Conditional(MACRO)]
-        public static void LogWarning(string sInfos = "")
+        protected static void K_LogWarning(string sInfos = "")
         {
             UnityEngine.Debug.LogWarning("benchmark : " + GetIndentation() + "|\t !!! " + " Log : " + sInfos);
         }
         //-------------------------------------------------------------------------------------------------------------
-        [Conditional(MACRO)]
-        public static void Finish(bool sWithDebug = true, string sMoreInfos = "")
+        protected static void K_Finish(bool sWithDebug = true, string sMoreInfos = "")
         {
-            Finish(GetKey(), sWithDebug, sMoreInfos);
+            K_Finish(GetKey(), sWithDebug, sMoreInfos);
         }
         //-------------------------------------------------------------------------------------------------------------
-        [Conditional(MACRO)]
-        public static void Step(bool sWithDebug = true, string sMoreInfos = "")
+        protected static void K_Step(bool sWithDebug = true, string sMoreInfos = "")
         {
-            Step(GetKey(), sWithDebug, sMoreInfos);
+            K_Step(GetKey(), sWithDebug, sMoreInfos);
         }
         //-------------------------------------------------------------------------------------------------------------
-        [Conditional(MACRO)]
-        public static void Finish(string sKey, bool sWithDebug = true, string sMoreInfos = "")
+        protected static void K_Finish(string sKey, bool sWithDebug = true, string sMoreInfos = "")
         {
             //long tStart = Watch.ElapsedMilliseconds;
             if (cStepDico.ContainsKey(sKey) == true)
@@ -266,8 +420,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [Conditional(MACRO)]
-        public static void Step(string sKey, bool sWithDebug = true, string sMoreInfos = "")
+        protected static void K_Step(string sKey, bool sWithDebug = true, string sMoreInfos = "")
         {
             double rDeltaAbsolute = 0;
             double rDelta = 0;
@@ -312,8 +465,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [Conditional(MACRO)]
-        public static void QuickStart(string sKey = null)
+        protected static void K_QuickStart(string sKey = null)
         {
             string tKey = string.Empty;
             if (sKey != null)
@@ -336,8 +488,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [Conditional(MACRO)]
-        public static void QuickFinish(string sKey = null)
+        protected static void K_QuickFinish(string sKey = null)
         {
             string tKey = string.Empty;
             if (sKey != null)
@@ -365,19 +516,16 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [Conditional(MACRO)]
-        public static void ResetAllResults()
+        protected static void K_ResetAllResults()
         {
             kMethodResult = new Dictionary<string, List<double>>();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [Conditional(MACRO)]
-        public static void AllResults()
+        protected static void K_AllResults()
         {
             foreach (KeyValuePair<string, List<double>> tResult in kMethodResult)
             {
                 List<double> tResultList = tResult.Value.OrderByDescending(d => d).ToList();
-
                 double rRawDelta = Enumerable.Average(tResultList);
                 double rRawSum = Enumerable.Sum(tResultList);
                 double rRawMax = Enumerable.Max(tResultList);
@@ -411,8 +559,6 @@ namespace NetWorkedData
                 {
                     tMaxColor = Red;
                 }
-
-
                 string tSumColor = Green;
                 if (rRawSum >= kWarningDefault)
                 {
@@ -422,7 +568,6 @@ namespace NetWorkedData
                 {
                     tSumColor = Red;
                 }
-
                 UnityEngine.Debug.Log("benchmark Result " +
                     "'<b>" + tResult.Key + "</b>' has " + tResultList.Count + " value" + (tResult.Value.Count > 1 ? "s" : "") +
                     " and average is <color=" + tMaxColor + ">" + rDelta.ToString("F6") + "</color> seconds" +
@@ -432,7 +577,6 @@ namespace NetWorkedData
 
                     ""
                     );
-
             }
         }
         //-------------------------------------------------------------------------------------------------------------

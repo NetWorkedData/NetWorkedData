@@ -58,10 +58,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public IEnumerator AsyncReloadAllObjectsInEditorDatabase(NWDBundle sBundle)
         {
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWDBenchmark.Start();
-            }
+
+            NWDBenchmarkLauncher.Start();
             EditorDatabaseLoaded = false;
             while (EditorDatabaseConnected == false)
             {
@@ -83,10 +81,7 @@ namespace NetWorkedData
             //AccountLanguageLoad();
             //LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWDBenchmark.Finish();
-            }
+            NWDBenchmarkLauncher.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool ReloadClassInEditorDatabase(int sCounter, NWDBundle sBundle)
@@ -103,10 +98,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllObjectsInEditorDatabase(NWDBundle sBundle)
         {
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWDBenchmark.Start();
-            }
+            NWDBenchmarkLauncher.Start();
             if (EditorDatabaseConnected == true)
             {
                 //NWDBenchmark.Start("LoadData");
@@ -131,18 +123,12 @@ namespace NetWorkedData
                 EditorRefresh();
                 //NWDLauncher.SetState(NWDStatut.DataEditorLoaded);
             }
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWDBenchmark.Finish();
-            }
+            NWDBenchmarkLauncher.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public IEnumerator AsyncReloadAllObjectsInDeviceDatabase(NWDBundle sBundle)
         {
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWDBenchmark.Start();
-            }
+            NWDBenchmarkLauncher.Start();
             DeviceDatabaseLoaded = false;
             while (DeviceDatabaseConnected == false)
             {
@@ -166,10 +152,7 @@ namespace NetWorkedData
             LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             AccountLanguageLoad();
             EditorRefresh();
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWDBenchmark.Finish();
-            }
+            NWDBenchmarkLauncher.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool ReloadClassInDeviceDatabase(int sCounter, NWDBundle sBundle)
@@ -187,10 +170,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllObjectsInDeviceDatabase(NWDBundle sBundle)
         {
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWDBenchmark.Start();
-            }
+            NWDBenchmarkLauncher.Start();
             if (DeviceDatabaseConnected == true)
             {
                 DeviceDatabaseLoaded = false;
@@ -209,18 +189,13 @@ namespace NetWorkedData
                 AccountLanguageLoad();
                 EditorRefresh();
             }
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWDBenchmark.Finish();
-            }
+            NWDBenchmarkLauncher.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public IEnumerator AsyncIndexAllObjects()
         {
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWDBenchmark.Start();
-            }
+
+            NWDBenchmarkLauncher.Start();
             RowsCounterOp = 0;
             MethodCounterOp = 0;
             DatasIndexed = false;
@@ -246,11 +221,8 @@ namespace NetWorkedData
             //LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
             NWDLauncher.RowInformations = "Rows indexed : " + RowsCounterOp + " rows. Used " + IndexationCounterOp + " operation(s) and " + MethodCounterOp + " method(s).";
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWDBenchmark.Log(NWDLauncher.RowInformations);
-                NWDBenchmark.Finish();
-            }
+            NWDBenchmarkLauncher.Log(NWDLauncher.RowInformations);
+            NWDBenchmarkLauncher.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDBasisHelper IndexInMemoryAllObjectsByClass(int sCounter)
@@ -258,17 +230,11 @@ namespace NetWorkedData
             NWDBasisHelper tHelper = null;
             if (sCounter >= 0 && sCounter < ClassTypeList.Count)
             {
-                if (NWDLauncher.ActiveBenchmark)
-                {
-                    NWDBenchmark.Start();
-                }
+                NWDBenchmarkLauncher.Start();
                 Type tType = ClassTypeList[sCounter];
                 tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 int tRow = tHelper.IndexInMemoryAllObjects();
-                if (NWDLauncher.ActiveBenchmark)
-                {
-                    NWDBenchmark.Finish(true, " " + tHelper.ClassNamePHP + " " + tRow + " rows indexed");
-                }
+                NWDBenchmarkLauncher.Finish(true, " " + tHelper.ClassNamePHP + " " + tRow + " rows indexed");
             }
             return tHelper;
         }
@@ -279,10 +245,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void IndexAllObjects()
         {
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWDBenchmark.Start();
-            }
+            NWDBenchmarkLauncher.Start();
             RowsCounterOp = 0;
             MethodCounterOp = 0;
             DatasIndexed = false;
@@ -297,11 +260,8 @@ namespace NetWorkedData
             DatasIndexed = true;
             EditorRefresh();
             NWDLauncher.RowInformations = "Rows indexed : " + RowsCounterOp + " rows. Used " + IndexationCounterOp + " operation(s) and " + MethodCounterOp + " method(s).";
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWDBenchmark.Log(NWDLauncher.RowInformations);
-                NWDBenchmark.Finish();
-            }
+            NWDBenchmarkLauncher.Log(NWDLauncher.RowInformations);
+            NWDBenchmarkLauncher.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllObjects(NWDBundle sBundle)

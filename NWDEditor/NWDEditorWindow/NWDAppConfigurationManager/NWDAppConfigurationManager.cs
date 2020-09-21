@@ -80,7 +80,7 @@ namespace NetWorkedData.NWDEditor
             NWDGUILayout.Section("Launcher");
             NWDGUILayout.SubSection("Launcher configuration");
             NWDGUILayout.Informations("Show result of launcher benchmark in log?");
-            NWDAppConfiguration.SharedInstance().LauncherBenchmark = EditorGUILayout.Toggle("Show benchmark", NWDAppConfiguration.SharedInstance().LauncherBenchmark);
+            //NWDAppConfiguration.SharedInstance().LauncherBenchmark = EditorGUILayout.Toggle("Show benchmark", NWDAppConfiguration.SharedInstance().LauncherBenchmark);
             NWDGUILayout.Informations("Coroutine render scene after a specific number of classes wereloaded. More the value is high, more the refresh is down but not fine. More the  value is low, more the refresh is high but the app take more time to finsh the launching because every render take time.");
             //NWDAppConfiguration.SharedInstance().LauncherFaster = EditorGUILayout.IntField("Launcher faster", NWDAppConfiguration.SharedInstance().LauncherFaster);
             NWDAppConfiguration.SharedInstance().LauncherFaster = EditorGUILayout.IntSlider("Launcher faster", NWDAppConfiguration.SharedInstance().LauncherFaster, 1, NWDLauncher.AllNetWorkedDataTypes.Count);

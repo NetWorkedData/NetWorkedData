@@ -49,7 +49,7 @@ namespace NetWorkedData
         public string Device { get; set; }
         public bool PreloadDatas { get; set; }
         public int PreloadFaster { get; set; }
-        public bool BenchmarkStep { get; set; }
+        //public bool BenchmarkStep { get; set; }
         public double LaunchUnity { get; set; }
         public bool SQLSecure { get; set; }
         public string SQLVersion { get; set; }

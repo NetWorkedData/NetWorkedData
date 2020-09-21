@@ -663,10 +663,7 @@ namespace NetWorkedData
             NWDBenchmark.QuickStart("Data Loading " + ClassNamePHP);
             // if no bundle class 
             // else do with bundle 
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWDBenchmark.Start();
-            }
+            NWDBenchmarkLauncher.Start();
             int tCount = 0;
 #if UNITY_EDITOR
             NWDDataManager.SharedInstance().DataQueueExecute();
@@ -719,11 +716,7 @@ namespace NetWorkedData
             Type[] tPropTypelist = tPropTypelistA.ToArray();
             string[] tColumnList = tColumnListA.ToArray();
             int tReferenceIndex = Array.IndexOf(tColumnList, "Reference");
-            //PropertyInfo[] tPropTypeArrayToCreate = tPropTypelistToCreate.ToArray();
-            //if (NWDLauncher.ActiveBenchmark)
-            //{
-            //    NWDBenchmark.Step();
-            //}
+            //NWDBenchmarkLauncher.Step();
             string tSQL = "SELECT `" + string.Join("`, `", tColumnList) + "` FROM `" + ClassNamePHP + "` " + sWhere + ";";
             try
             {
@@ -788,14 +781,7 @@ namespace NetWorkedData
             FilterTableEditor();
             RepaintTableEditor();
 #endif
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                //NWDBenchmark.Step(true, " " + ClassNamePHP + "Datas count = " + Datas.Count);
-                //NWDBenchmark.Step(true, " " + ClassNamePHP + "DatasByReference count = " + DatasByReference.Count);
-                //NWDBenchmark.Step(true, " " + ClassNamePHP + "DatasByInternalKey count = " + DatasByInternalKey.Count);
-                NWDBenchmark.Finish(true, " " + ClassNamePHP + " " + tCount + " row loaded! DatasByReference count = " + DatasByReference.Count);
-            }
-
+            NWDBenchmarkLauncher.Finish(true, " " + ClassNamePHP + " " + tCount + " row loaded! DatasByReference count = " + DatasByReference.Count);
             NWDBenchmark.QuickFinish("Data Loading " + ClassNamePHP);
             NWDBenchmark.QuickFinish("?");
             NWDBenchmark.QuickFinish();

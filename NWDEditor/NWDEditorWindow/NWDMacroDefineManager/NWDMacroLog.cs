@@ -57,7 +57,7 @@ namespace NetWorkedData.MacroDefine
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // You can create custom enum of macro
     // Just follow this example class
-    public class NWDLog : MDEDataTypeEnumGeneric<NWDLog>
+    public class NWDLogMacro : MDEDataTypeEnumGeneric<NWDLogMacro>
     {
         //-------------------------------------------------------------------------------------------------------------
         // the title of enum controller
@@ -66,15 +66,15 @@ namespace NetWorkedData.MacroDefine
         public static int Order = SetOrder(1);
         //-------------------------------------------------------------------------------------------------------------
         // declare all values
-        public static NWDLog None = AddNone("no global Log");
+        public static NWDLogMacro None = AddNone("no global Log");
         // string will be convert in UNIX format automatically
-        public static NWDLog Sample = Add(2, "NWD_LOG", "with global Log");
+        public static NWDLogMacro Sample = Add(2, "NWD_LOG", "with global Log");
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // You can create custom enum of macro
     // Just follow this example class
-    public class NWDBenchmark : MDEDataTypeEnumGeneric<NWDBenchmark>
+    public class NWDBenchmarkMacro : MDEDataTypeEnumGeneric<NWDBenchmarkMacro>
     {
         //-------------------------------------------------------------------------------------------------------------
         // the title of enum controller
@@ -83,9 +83,27 @@ namespace NetWorkedData.MacroDefine
         public static int Order = SetOrder(3);
         //-------------------------------------------------------------------------------------------------------------
         // declare all values
-        public static NWDBenchmark None = AddNone("no global Benchmark");
+        public static NWDBenchmarkMacro None = AddNone("no global Benchmark");
         // string will be convert in UNIX format automatically
-        public static NWDBenchmark Sample = Add(2, "NWD_BENCHMARK", "with global Benchmark");
+        public static NWDBenchmarkMacro Sample = Add(2, "NWD_BENCHMARK", "with global Benchmark");
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // You can create custom enum of macro
+    // Just follow this example class
+    public class NWDLauncherBenchmark : MDEDataTypeEnumGeneric<NWDLauncherBenchmark>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        // the title of enum controller
+        public static string Title = SetTitle("NWD Launcher Benchmark");
+        public static string Group = SetGroup(MDEConstants.GroupEngine);
+        public static int Order = SetOrder(3);
+        //-------------------------------------------------------------------------------------------------------------
+        // declare all values
+        public static NWDLauncherBenchmark None = AddNone("no launcher Benchmark");
+        // string will be convert in UNIX format automatically
+        public static NWDLauncherBenchmark All = Add(1, "NWD_LAUNCHER_BENCHMARK", "with all launcher Benchmark");
+        public static NWDLauncherBenchmark Result = Add(2, "NWD_LAUNCHER_RESULT_BENCHMARK", "with just launcher  result Benchmark");
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

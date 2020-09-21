@@ -39,11 +39,10 @@ namespace NetWorkedData
         private static void LaunchRuntimeSync()
         {
             NWDDebug.Log("Runtime Sync log is active");
-            NWDLauncherBenchmark.Watch.Start();
-            //if (ActiveBenchmark)
-            {
+            NWDLauncherChronometer.Watch.Start();
+#if NWD_LAUNCHER_BENCHMARK
                 NWDBenchmark.Start();
-            }
+#endif
             NWDBundle tBasisBundle = NWDBundle.None;
             if (NWDAppConfiguration.SharedInstance().BundleDatas == false)
             {
@@ -64,7 +63,7 @@ namespace NetWorkedData
             RestaureStandard();
 
 
-            NWDLauncherBenchmark.WatchEngineLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherChronometer.WatchEngineLaunch = NWDLauncherChronometer.Watch.ElapsedMilliseconds;
             NotifyEngineReady();
 
             // connect editor
@@ -77,7 +76,7 @@ namespace NetWorkedData
             // index all data editor
             IndexEditorStandard();
 
-            NWDLauncherBenchmark.WatchEditorLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherChronometer.WatchEditorLaunch = NWDLauncherChronometer.Watch.ElapsedMilliseconds;
             NotifyDataEditorReady();
 
             // connect account
@@ -89,7 +88,7 @@ namespace NetWorkedData
             // index all data
             IndexAccountStandard();
 
-            NWDLauncherBenchmark.WatchAccountLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherChronometer.WatchAccountLaunch = NWDLauncherChronometer.Watch.ElapsedMilliseconds;
             NotifyDataAccountReady();
 
             // Special NWDAppConfiguration loaded()
@@ -97,26 +96,21 @@ namespace NetWorkedData
             // Ready!
             Ready();
 
-            NWDLauncherBenchmark.WatchFinalLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherChronometer.WatchFinalLaunch = NWDLauncherChronometer.Watch.ElapsedMilliseconds;
             NotifyNetWorkedDataReady();
-
-            //if (ActiveBenchmark)
-            {
-                //TimeFinish = NWDBenchmark.SinceStartup();
                 TimeFinish = Time.realtimeSinceStartup;
+                TimeNWDFinish = NWDLauncherChronometer.Watch.ElapsedMilliseconds / 1000.0F;
+#if NWD_LAUNCHER_BENCHMARK
                 NWDBenchmark.Finish();
-                TimeNWDFinish = NWDLauncherBenchmark.Watch.ElapsedMilliseconds / 1000.0F;
-                //LauncherBenchmarkToMarkdown();
-            }
-            NWDLauncherBenchmark.Watch.Stop();
+#endif
+            NWDLauncherChronometer.Watch.Stop();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void EngineRuntimeSync()
         {
-            if (ActiveBenchmark)
-            {
+#if NWD_LAUNCHER_BENCHMARK
                 NWDBenchmark.Start();
-            }
+#endif
             State = NWDStatut.EngineStart;
             Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
             AllNetWorkedDataTypes.Clear();
@@ -183,10 +177,9 @@ namespace NetWorkedData
             }
             StepSum = StepSum + AllNetWorkedDataTypes.Count * 3;
             State = NWDStatut.EngineFinish;
-            if (ActiveBenchmark)
-            {
+#if NWD_LAUNCHER_BENCHMARK
                 NWDBenchmark.Finish();
-            }
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
     }

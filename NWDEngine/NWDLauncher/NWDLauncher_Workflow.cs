@@ -33,7 +33,6 @@ namespace NetWorkedData
             if (Launched == false)
             {
                 TimeStart = Time.realtimeSinceStartup;
-                ActiveBenchmark = NWDAppConfiguration.SharedInstance().LauncherBenchmark;
                 StepSum = 0;
                 StepIndex = 0;
                 NWDBenchmark.Start("Launch");
@@ -45,20 +44,14 @@ namespace NetWorkedData
                     case NWDCompileType.Editor:
                         {
 #if UNITY_EDITOR
-                            if (ActiveBenchmark)
-                            {
-                                NWDBenchmark.Log("Launch in editor");
-                            }
+                            NWDBenchmarkLauncher.Log("Launch in editor");
                             tEditorByPass = true;
 #endif
                         }
                         break;
                     case NWDCompileType.PlayMode:
                         {
-                            if (ActiveBenchmark)
-                            {
-                                NWDBenchmark.Log("Launch as playmode");
-                            }
+                            NWDBenchmarkLauncher.Log("Launch as playmode");
                             tEditorByPass = true;
                         }
                         break;
@@ -78,19 +71,12 @@ namespace NetWorkedData
                     Preload = NWDAppConfiguration.SharedInstance().PreloadDatas;
                     if (Preload == true)
                     {
-                        if (ActiveBenchmark)
-                        {
-                            NWDBenchmark.Log("Launch in runtime preload (sync)");
-                        }
+                        NWDBenchmarkLauncher.Log("Launch in runtime preload (sync)");
                         LaunchRuntimeSync();
                     }
                     else
                     {
-                        if (ActiveBenchmark)
-                        {
-                            NWDBenchmark.Log("Launch in runtime by NWDGameDataManager.ShareInstance (async)");
-                        }
-                        //Launch_Runtime_Async(); // waiting order from NWDGameDataManager.ShareInstance()
+                        NWDBenchmarkLauncher.Log("Launch in runtime by NWDGameDataManager.ShareInstance (async)");
                     }
                 }
                 //tSW.Stop();
@@ -98,14 +84,13 @@ namespace NetWorkedData
                 NWDBenchmark.Finish("Launch");
                 if (Preload == true)
                 {
-                    if (ActiveBenchmark)
-                    {
+#if NWD_LAUNCHER_BENCHMARK
                         LauncherBenchmarkToMarkdown();
                         if (NWBBenchmarkResult.CurrentData() != null)
                         {
                             NWBBenchmarkResult.CurrentData().BenchmarkNow();
                         }
-                    }
+#endif
                 }
             }
         }

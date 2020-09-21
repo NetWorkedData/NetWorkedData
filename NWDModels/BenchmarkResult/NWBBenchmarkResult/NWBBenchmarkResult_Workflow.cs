@@ -81,7 +81,7 @@ namespace NetWorkedData
             Device = SystemInfo.deviceModel;
             PreloadDatas = NWDLauncher.GetPreload();
             PreloadFaster = NWDAppConfiguration.SharedInstance().LauncherFaster;
-            BenchmarkStep = NWDLauncher.ActiveBenchmark;
+            //BenchmarkStep = NWDLauncher.ActiveBenchmark;
             LaunchUnity = NWDLauncher.TimeStart;
             SQLSecure = NWDDataManager.SharedInstance().IsSecure();
             SQLVersion = NWDDataManager.SharedInstance().GetVersion();

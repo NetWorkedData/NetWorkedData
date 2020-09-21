@@ -79,16 +79,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string AccountLanguageLoad()
         {
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWDBenchmark.Start();
-            }
+            NWDBenchmarkLauncher.Start();
             if (DeviceDatabaseLoaded == true)
             {
-                if (NWDLauncher.ActiveBenchmark)
-                {
-                    NWDBenchmark.Start("account language");
-                }
+                NWDBenchmarkLauncher.Start("account language");
                 NWDAccountPreference tAccountLanguage = NWDAccountPreference.GetByInternalKeyOrCreate(NWD.K_PlayerLanguageKey, new NWDMultiType(string.Empty));
                 if (tAccountLanguage != null)
                 {
@@ -104,35 +98,20 @@ namespace NetWorkedData
                 {
                     Debug.LogWarning("NO NWDAccountPreference tAccountLanguage ... error in access ? or no datas loaded ? or another thing ?!");
                 }
-                if (NWDLauncher.ActiveBenchmark)
-                {
-                    NWDBenchmark.Finish("account language", true, "PlayerLanguage = " + PlayerLanguage + "");
-                }
+                NWDBenchmarkLauncher.Finish("account language", true, "PlayerLanguage = " + PlayerLanguage + "");
             }
             else
             {
-                if (NWDLauncher.ActiveBenchmark)
-                {
-                    NWDBenchmark.Start("device language");
-                }
+                NWDBenchmarkLauncher.Start("device language");
                 PlayerLanguage = NWDRuntimePrefs.ShareInstance().getString(NWD.K_PlayerLanguageKey, PlayerLanguage);
-                if (NWDLauncher.ActiveBenchmark)
-                {
-                    NWDBenchmark.Finish("device language", true, "PlayerLanguage bypass by NWEPrefsManager :  " + PlayerLanguage + ""); ;
-                }
+                NWDBenchmarkLauncher.Finish("device language", true, "PlayerLanguage bypass by NWEPrefsManager :  " + PlayerLanguage + "");
             }
             PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
 #if UNITY_EDITOR
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWDBenchmark.Step(true, "<b>PlayerLanguageLoad</b> Language is " + PlayerLanguage);
-            }
+            NWDBenchmarkLauncher.Step(true, "<b>PlayerLanguageLoad</b> Language is " + PlayerLanguage);
 #endif
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
-            if (NWDLauncher.ActiveBenchmark)
-            {
-                NWDBenchmark.Finish();
-            }
+            NWDBenchmarkLauncher.Finish();
             return PlayerLanguage;
         }
         //-------------------------------------------------------------------------------------------------------------

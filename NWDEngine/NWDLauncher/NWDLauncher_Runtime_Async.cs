@@ -61,11 +61,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static IEnumerator LaunchRuntimeAsync()
         {
-            NWDLauncherBenchmark.Watch.Start();
-            //if (ActiveBenchmark)
-            {
-                NWDBenchmark.Start();
-            }
+            NWDLauncherChronometer.Watch.Start();
+            NWDBenchmarkLauncher.Start();
             NWDBundle tBasisBundle = NWDBundle.None;
             if (NWDAppConfiguration.SharedInstance().BundleDatas == false)
             {
@@ -101,7 +98,7 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().ClassInDeviceDatabaseNumberExpected + // index account class
                 0;
 
-            NWDLauncherBenchmark.WatchEngineLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherChronometer.WatchEngineLaunch = NWDLauncherChronometer.Watch.ElapsedMilliseconds;
             NotifyEngineReady();
 
 
@@ -127,7 +124,7 @@ namespace NetWorkedData
             //tWaitTime = NWDDataManager.SharedInstance().AsyncIndexAllObjects();
             //yield return tWaitTime;
 
-            NWDLauncherBenchmark.WatchEditorLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherChronometer.WatchEditorLaunch = NWDLauncherChronometer.Watch.ElapsedMilliseconds;
             NotifyDataEditorReady();
 
             // need account pincode
@@ -141,7 +138,7 @@ namespace NetWorkedData
             NotifyStep(true);
             yield return tWaitTime;
 
-            NWDLauncherBenchmark.WatchAccountLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
+            NWDLauncherChronometer.WatchAccountLaunch = NWDLauncherChronometer.Watch.ElapsedMilliseconds;
             NotifyDataAccountReady();
             NotifyStep(true);
 
@@ -167,29 +164,24 @@ namespace NetWorkedData
             //NWDBenchmark.Log(" NWDDataManager.SharedInstance().ClassAccountExpected = " + NWDDataManager.SharedInstance().ClassAccountExpected);
             //NWDBenchmark.Log(" StepSum = " + StepSum + " and StepIndex =" + StepIndex);
 
-            if (ActiveBenchmark)
-            {
                 //TimeFinish = NWDBenchmark.SinceStartup();
                 TimeFinish = Time.realtimeSinceStartup;
-                NWDBenchmark.Finish();
-                TimeNWDFinish = NWDLauncherBenchmark.Watch.ElapsedMilliseconds / 1000.0F;
+                TimeNWDFinish = NWDLauncherChronometer.Watch.ElapsedMilliseconds / 1000.0F;
                 LauncherBenchmarkToMarkdown();
                 if (NWBBenchmarkResult.CurrentData() != null)
                 {
                     NWBBenchmarkResult.CurrentData().BenchmarkNow();
                 }
-            }
-            NWDLauncherBenchmark.WatchFinalLaunch = NWDLauncherBenchmark.Watch.ElapsedMilliseconds;
+            NWDBenchmarkLauncher.Finish();
+            NWDLauncherChronometer.WatchFinalLaunch = NWDLauncherChronometer.Watch.ElapsedMilliseconds;
             NotifyNetWorkedDataReady();
-            NWDLauncherBenchmark.Watch.Stop();
+            NWDLauncherChronometer.Watch.Stop();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static IEnumerator EngineRuntimeAsync()
         {
-            if (ActiveBenchmark)
-            {
-                NWDBenchmark.Start();
-            }
+
+            NWDBenchmarkLauncher.Start();
             State = NWDStatut.EngineStart;
             Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
             AllNetWorkedDataTypes.Clear();
@@ -262,18 +254,12 @@ namespace NetWorkedData
             }
             StepSum = StepSum + AllNetWorkedDataTypes.Count * 3;
             State = NWDStatut.EngineFinish;
-            if (ActiveBenchmark)
-            {
-                NWDBenchmark.Finish();
-            }
+            NWDBenchmarkLauncher.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static IEnumerator DeclareRuntimeAsync()
         {
-            if (ActiveBenchmark)
-            {
-                NWDBenchmark.Start();
-            }
+            NWDBenchmarkLauncher.Start();
             State = NWDStatut.ClassDeclareStart;
             foreach (Type tType in AllNetWorkedDataTypes)
             {
@@ -289,10 +275,7 @@ namespace NetWorkedData
             }
             State = NWDStatut.ClassDeclareFinish;
             NotifyStep();
-            if (ActiveBenchmark)
-            {
-                NWDBenchmark.Finish();
-            }
+            NWDBenchmarkLauncher.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

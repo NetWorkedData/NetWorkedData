@@ -29,7 +29,7 @@ namespace NetWorkedData
     /// <summary>
     /// This class is used to benchmark the performance of NetWorkedData engine 
     /// </summary>
-    public static class NWDLauncherBenchmark
+    public static class NWDLauncherChronometer
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
