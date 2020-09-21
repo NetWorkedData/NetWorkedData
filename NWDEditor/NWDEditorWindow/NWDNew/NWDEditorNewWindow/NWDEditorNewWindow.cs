@@ -102,12 +102,6 @@ namespace NetWorkedData.NWDEditor
             // write file
             string tFilePath = tOwnerClassesFolderPath + "/" + WindowName + "/" + WindowName + ".cs";
             File.WriteAllText(tFilePath, tClassExample);
-            // flush params
-            WindowName = string.Empty;
-            WindowMenuName = string.Empty;
-            WindowDescription = string.Empty;
-            WindowMenuPosition = 1000;
-            ClassesList = new List<string>();
             // import new script
             AssetDatabase.ImportAsset(tFilePath);
             // create directories
@@ -121,7 +115,7 @@ namespace NetWorkedData.NWDEditor
             string tIconPathNewPro = tOwnerClassesFolderPath + "/" + WindowName + "/Editor/" + WindowName + "_pro.png";
             File.Copy(tIconPathPro, tIconPathNewPro);
             string tIconPathAFDesign = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Natives/NWDExampleWindow.afdesign";
-            string tIconPathNewAFDesign = tOwnerClassesFolderPath + "/Editor/" + WindowName + ".afdesign";
+            string tIconPathNewAFDesign = tOwnerClassesFolderPath + "/" + WindowName + "/Editor/" + WindowName + ".afdesign";
             File.Copy(tIconPathAFDesign, tIconPathNewAFDesign);
             // Import Asset
             AssetDatabase.ImportAsset(tIconPathNew);
@@ -161,6 +155,12 @@ namespace NetWorkedData.NWDEditor
                 }
             }
             AssetDatabase.WriteImportSettingsIfDirty(tIconPathNewPro);
+            // flush params
+            WindowName = string.Empty;
+            WindowMenuName = string.Empty;
+            WindowDescription = string.Empty;
+            WindowMenuPosition = 1000;
+            ClassesList = new List<string>();
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
