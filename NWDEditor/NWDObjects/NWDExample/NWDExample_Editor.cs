@@ -51,115 +51,16 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Addons editor intreface expected height.
-        /// </summary>
-        /// <returns>The editor expected height.</returns>
-        public override float AddonEditorHeight(float sWidth)
-        {
-            //EditorMatrixLine = 5;
-            //EditorMatrixColunm = 1;
-            //return base.AddonEditorHeight(sWidth);
-            return LayoutEditorHeight;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
         /// Addons editor interface.
         /// </summary>
         /// <returns>The editor height addon.</returns>
         /// <param name="sRect">S in rect.</param>
         public override void AddonEditor(Rect sRect)
         {
+            base.AddonEditor(sRect);
             //GUILayout.BeginArea(sRect);
-            //EditorGUILayout.BeginVertical();
-            //NWDGUILayout.Separator();
-            EditorGUILayout.TextField("jhhjkkhj", "jkhjhkhjk");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            //EditorGUILayout.EndVertical();
-            //if (Event.current.type == EventType.Repaint)
-            //{
-            //    LayoutEditorHeight = GUILayoutUtility.GetLastRect().height;
-            //}
-            //GUILayout.EndArea();
 
-            //base.AddonEditor(sRect);
-            //NWDGUI.Separator(EditorMatrix[0, EditorMatrixIndex]);
-            //EditorMatrixIndex++;
-            //// Draw Editor addon in matrix
-            //if (GUI.Button(EditorMatrix[0, EditorMatrixIndex], "Click me"))
-            //{
-            //    // do that... 
-            //}
-            //EditorMatrixIndex++;
-            //NWDGUI.Separator(EditorMatrix[0, EditorMatrixIndex]);
-            //EditorMatrixIndex++;
-            // Draw the interface addon for editor
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Adds the height of node draw.
-        /// </summary>
-        /// <returns>The on node draw height.</returns>
-        public override float AddOnNodeDrawHeight(float sCardWidth)
-        {
-            EditorNodalMatrixLine = 5;
-            EditorNodalMatrixColunm = 1;
-            return base.AddOnNodeDrawHeight(sCardWidth);
+            //GUILayout.EndArea();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -169,21 +70,9 @@ namespace NetWorkedData
         public override void AddOnNodeDraw(Rect sRect)
         {
             base.AddOnNodeDraw(sRect);
-            // Draw Editor addon in matrix
-            if (GUI.Button(EditorNodalMatrix[0, EditorNodalMatrixIndex], "Nodal click me"))
-            {
-                // do that... 
-            }
-            EditorNodalMatrixIndex++;
-            // Draw the interface addon for editor nodal
-            // Or use Layout
-            GUILayout.BeginArea(sRect);
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.Label("jjj");
-            GUILayout.EndArea();
+            //GUILayout.BeginArea(sRect);
+
+            //GUILayout.EndArea();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override bool AddonErrorFound()

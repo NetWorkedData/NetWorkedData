@@ -30,6 +30,11 @@ namespace NetWorkedData
     public partial class NWDDataManager  // TODO : put in static?
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// If Alert already show in log...
+        /// </summary>
+        bool ErrorInSaltAlreadyLogWarning = false;
+        //-------------------------------------------------------------------------------------------------------------
         public bool TestSaltMemorizationForAllClass()
         {
             bool rReturn = true;
@@ -37,19 +42,20 @@ namespace NetWorkedData
             {
                 if (NWDBasisHelper.FindTypeInfos(tType).SaltValid == false)
                 {
-                    Debug.LogWarning(" Erreur in salt for " + NWDBasisHelper.FindTypeInfos(tType).ClassName);
+                    if (ErrorInSaltAlreadyLogWarning == false)
+                    {
+                        Debug.LogWarning("Erreur in salt for " + NWDBasisHelper.FindTypeInfos(tType).ClassName);
+                    }
                     rReturn = false;
                     break;
                 }
             }
-//            if (rReturn == false)
-//            {
-//#if UNITY_EDITOR
-//                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile (NWDAppConfiguration.SharedInstance().SelectedEnvironment ());
-//#else
-//                // no... ALERT USER ERROR IN APP DISTRIBUTION
-//#endif
-//            }
+            if (rReturn == false)
+            {
+                ErrorInSaltAlreadyLogWarning = true;
+                //Regenerate salt automatically ?
+                // NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -68,7 +74,7 @@ namespace NetWorkedData
             return DatasIndexed;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool DatasAreNotReady() 
+        public bool DatasAreNotReady()
         {
             return !DatasIndexed;
         }

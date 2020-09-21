@@ -51,6 +51,7 @@ namespace NetWorkedData.NWDEditor
 		new Type[] {
         typeof(GNCGene),
 		typeof(GNCSpecie),
+        typeof(GNCGeneticIndividual),
 		/* Add NWDBasis here*/
 		})]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

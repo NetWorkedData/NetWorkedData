@@ -316,6 +316,7 @@ namespace NetWorkedData
         protected int EditorNodalMatrixLine = 2;
         protected int EditorNodalMatrixColunm = 1;
         //-------------------------------------------------------------------------------------------------------------
+        // TODO rename AddonNodalHeight
         public virtual float AddOnNodeDrawHeight(float sCardWidth)
         {
             return LayoutNodalHeight;
