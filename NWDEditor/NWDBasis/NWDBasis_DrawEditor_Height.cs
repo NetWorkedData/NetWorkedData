@@ -155,7 +155,7 @@ namespace NetWorkedData
             float tH = 0;
             if (sNodalCard != null)
             {
-                tH = AddOnNodeDrawHeight(sInRect.width - 4 * NWDGUI.kFieldMarge) + NWDGUI.kFieldMarge * 4;
+                tH = AddonNodalHeight(sInRect.width - 4 * NWDGUI.kFieldMarge) + NWDGUI.kFieldMarge * 4;
 
                 //tH += NWDGUI.kBoldLabelStyle.CalcHeight(new GUIContent(InternalKey), sInRect.width);
                 //tH += NWDGUI.kBoldLabelStyle.CalcHeight(new GUIContent(InternalDescription), sInRect.width);
@@ -212,13 +212,13 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AddOnSize(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
+        public void AddonSize(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         {
             bool tDraw = true;
             float tH = 0;
             if (sNodalCard != null)
             {
-                tDraw = sNodalCard.ParentDocument.DrawAddOnArea;
+                tDraw = sNodalCard.ParentDocument.DrawAddonArea;
             }
             if (tDraw == true)
             {
@@ -226,11 +226,11 @@ namespace NetWorkedData
             }
             if (PropertiesRect.height > 0)
             {
-                AddOnRect = new Rect(PropertiesRect.x, PropertiesRect.y + PropertiesRect.height + NWDGUI.kFieldMarge, sInRect.width, tH);
+                AddonRect = new Rect(PropertiesRect.x, PropertiesRect.y + PropertiesRect.height + NWDGUI.kFieldMarge, sInRect.width, tH);
             }
             else
             {
-                AddOnRect = new Rect(PropertiesRect.x, PropertiesRect.y , sInRect.width, tH);
+                AddonRect = new Rect(PropertiesRect.x, PropertiesRect.y , sInRect.width, tH);
             }
 
             //AddOnRect.x -= NWDGUI.kFieldMarge;
@@ -238,7 +238,7 @@ namespace NetWorkedData
 
             if (sNodalCard != null)
             {
-                sNodalCard.AddOnRect = AddOnRect;
+                sNodalCard.AddonRect = AddonRect;
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -261,13 +261,13 @@ namespace NetWorkedData
             }
             else
             {
-                if (AddOnRect.height > 0)
+                if (AddonRect.height > 0)
                 {
-                    ActionRect = new Rect(AddOnRect.x, AddOnRect.y + AddOnRect.height + NWDGUI.kFieldMarge, AddOnRect.width, tH);
+                    ActionRect = new Rect(AddonRect.x, AddonRect.y + AddonRect.height + NWDGUI.kFieldMarge, AddonRect.width, tH);
                 }
                 else
                 {
-                    ActionRect = new Rect(AddOnRect.x, AddOnRect.y + NWDGUI.kFieldMarge, AddOnRect.width, tH);
+                    ActionRect = new Rect(AddonRect.x, AddonRect.y + NWDGUI.kFieldMarge, AddonRect.width, tH);
                 }
             }
             if (sNodalCard != null)
@@ -279,9 +279,9 @@ namespace NetWorkedData
         public void ContentSize(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         {
             PropertiesSize(sInRect, sWithScrollview, sNodalCard);
-            AddOnSize(sInRect, sWithScrollview, sNodalCard);
+            AddonSize(sInRect, sWithScrollview, sNodalCard);
             //ContentRect = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, PropertiesRect.width, PropertiesRect.height + AddOnRect.height + NWDGUI.kFieldMarge*2);
-            ContentRect = new Rect(-NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, PropertiesRect.width, PropertiesRect.height + AddOnRect.height + NWDGUI.kFieldMarge * 2);
+            ContentRect = new Rect(-NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, PropertiesRect.width, PropertiesRect.height + AddonRect.height + NWDGUI.kFieldMarge * 2);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ScroolViewSize(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
@@ -316,8 +316,7 @@ namespace NetWorkedData
         protected int EditorNodalMatrixLine = 2;
         protected int EditorNodalMatrixColunm = 1;
         //-------------------------------------------------------------------------------------------------------------
-        // TODO rename AddonNodalHeight
-        public virtual float AddOnNodeDrawHeight(float sCardWidth)
+        public virtual float AddonNodalHeight(float sCardWidth)
         {
             return LayoutNodalHeight;
             //return NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, EditorNodalMatrixLine);

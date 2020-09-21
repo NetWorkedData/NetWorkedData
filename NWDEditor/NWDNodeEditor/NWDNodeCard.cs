@@ -59,7 +59,7 @@ namespace NetWorkedData.NWDEditor
         public Rect InformationsRect;
         public Rect NodalRect;
         public Rect PropertiesRect;
-        public Rect AddOnRect;
+        public Rect AddonRect;
         public Rect ActionRect;
 
         //-------------------------------------------------------------------------------------------------------------

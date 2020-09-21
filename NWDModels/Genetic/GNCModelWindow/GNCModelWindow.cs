@@ -49,8 +49,8 @@ namespace NetWorkedData.NWDEditor
 	[NWDTypeWindowParamAttribute("Genetic ",
 		"Genetic models",
 		new Type[] {
-        typeof(GNCGene),
 		typeof(GNCSpecie),
+        typeof(GNCGene),
         typeof(GNCGeneticIndividual),
 		/* Add NWDBasis here*/
 		})]

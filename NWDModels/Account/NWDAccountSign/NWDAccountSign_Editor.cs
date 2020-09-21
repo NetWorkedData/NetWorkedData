@@ -283,7 +283,7 @@ namespace NetWorkedData
         /// Adds the height of node draw.
         /// </summary>
         /// <returns>The on node draw height.</returns>
-        public override float AddOnNodeDrawHeight(float sCardWidth)
+        public override float AddonNodalHeight(float sCardWidth)
         {
             return 130.0f;
         }
@@ -292,7 +292,7 @@ namespace NetWorkedData
         /// Adds node draw.
         /// </summary>
         /// <param name="sRect">S rect.</param>
-        public override void AddOnNodeDraw(Rect sRect)
+        public override void AddonNodal(Rect sRect)
         {
 
         }

@@ -136,7 +136,7 @@ namespace NetWorkedData.NWDEditor
         public bool DrawInformationsArea = true;
         public bool DrawPropertiesArea = true;
         public bool DrawActionArea = false;
-        public bool DrawAddOnArea = false;
+        public bool DrawAddonArea = false;
         public NWDNodeEditor EditorWindow;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -179,7 +179,7 @@ namespace NetWorkedData.NWDEditor
             DrawInformationsArea = NWDProjectPrefs.GetBool("TopCard");
             DrawPropertiesArea = NWDProjectPrefs.GetBool("MiddleCard");
             DrawActionArea = NWDProjectPrefs.GetBool("BottomCard");
-            DrawAddOnArea = NWDProjectPrefs.GetBool("AddonnEditorCard");
+            DrawAddonArea = NWDProjectPrefs.GetBool("AddonnEditorCard");
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -239,11 +239,11 @@ namespace NetWorkedData.NWDEditor
             }
             tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            bool tAddonnEditorCard = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), DrawAddOnArea, "View add-on");
-            if (tAddonnEditorCard != DrawAddOnArea)
+            bool tAddonnEditorCard = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), DrawAddonArea, "View add-on");
+            if (tAddonnEditorCard != DrawAddonArea)
             {
-                DrawAddOnArea = tAddonnEditorCard;
-                NWDProjectPrefs.SetBool("AddonnEditorCard", DrawAddOnArea);
+                DrawAddonArea = tAddonnEditorCard;
+                NWDProjectPrefs.SetBool("AddonnEditorCard", DrawAddonArea);
                 ReEvaluateLayout();
             }
             tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;

@@ -54,7 +54,7 @@ namespace NetWorkedData
             {
                 ErrorInSaltAlreadyLogWarning = true;
                 //Regenerate salt automatically ?
-                // NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
             return rReturn;
         }

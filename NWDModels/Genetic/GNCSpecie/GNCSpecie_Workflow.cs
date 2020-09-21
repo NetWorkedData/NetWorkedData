@@ -50,6 +50,7 @@ namespace NetWorkedData
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
             base.Initialization();
+            CythoplasteOrganite = K_CO_MIN;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

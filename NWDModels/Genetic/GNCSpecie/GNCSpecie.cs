@@ -60,10 +60,15 @@ namespace NetWorkedData
     public partial class GNCSpecie : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
+        public const int K_CO_MIN = 5;
+        public const int K_CO_MAX = 20;
+        //-------------------------------------------------------------------------------------------------------------
         #region Properties
-		//[NWDInspectorGroupReset]
-		public string LatinName {get; set;}
+        //[NWDInspectorGroupReset]
+        public string LatinName {get; set;}
 		public NWDLocalizableStringType CommonName {get; set;}
+        [NWDIntSlider(K_CO_MIN, K_CO_MAX)]
+        public int CythoplasteOrganite { get; set; }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

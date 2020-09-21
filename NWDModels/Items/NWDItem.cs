@@ -297,7 +297,7 @@ namespace NetWorkedData
         static int kOwnershipSetValue;
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddOnNodeDraw(Rect sRect)
+        public override void AddonNodal(Rect sRect)
         {
             NWDUserOwnership tOwnership = NWDUserOwnership.FindReachableByItem(this, false);
             EditorGUI.indentLevel = 1;

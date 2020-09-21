@@ -67,6 +67,7 @@ namespace NetWorkedData
 		public NWDReferenceType<GNCSpecie> Specie {get; set;}
 		public NWDReferencesListType<GNCGene> PaternalHeritage {get; set;}
 		public NWDReferencesListType<GNCGene> MaternalHeritage {get; set;}
+        [NWDFloatSlider(0,1)]
 		public float CytoplasmicMaleSterility {get; set;}
 
 

@@ -39,7 +39,7 @@ namespace NetWorkedData
         public Rect InformationsRect;
         public Rect NodalRect;
         public Rect PropertiesRect;
-        public Rect AddOnRect;
+        public Rect AddonRect;
         public Rect ActionRect;
         public Rect ContentRect;
         public Rect ScrollRect;
@@ -774,7 +774,7 @@ namespace NetWorkedData
                 GUILayout.BeginArea(tRb);
                 Rect tAreaLayouted = EditorGUILayout.BeginVertical();
                 // draw nodal informations with layout
-                AddOnNodeDraw(tRb);
+                AddonNodal(tRb);
                 EditorGUILayout.EndVertical();
                 GUILayout.EndArea();
                 if (Event.current.type == EventType.Repaint)
@@ -827,11 +827,11 @@ namespace NetWorkedData
             bool tDrawEditor = true;
             if (sNodalCard != null)
             {
-                tDrawEditor = sNodalCard.ParentDocument.DrawAddOnArea;
+                tDrawEditor = sNodalCard.ParentDocument.DrawAddonArea;
             }
             if (tDrawEditor == true)
             {
-                DrawAddOn(sNodalCard);
+                DrawAddon(sNodalCard);
             }
             EditorGUI.EndDisabledGroup();
             // finish scrollview 
@@ -888,13 +888,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         protected float LayoutEditorHeight = 1024;
         //-------------------------------------------------------------------------------------------------------------
-        public void DrawAddOn(NWDNodeCard sNodalCard)
+        public void DrawAddon(NWDNodeCard sNodalCard)
         {
             //NWDBenchmark.Start();
-            Rect tR = AddOnRect;
+            Rect tR = AddonRect;
             if (sNodalCard != null)
             {
-                tR = sNodalCard.AddOnRect;
+                tR = sNodalCard.AddonRect;
             }
             Rect tRb = NWDGUI.UnMargeAll(tR);
             //Debug.Log(" rect : " + tR.ToString() + " become " + tRb.ToString());
@@ -1428,8 +1428,7 @@ namespace NetWorkedData
             return sNeedBeUpdate;
         }
         //-------------------------------------------------------------------------------------------------------------
-        // TODO Rename AddonNodal
-        public virtual void AddOnNodeDraw(Rect sRect)
+        public virtual void AddonNodal(Rect sRect)
         {
             //NWDBenchmark.Start();
             EditorNodalMatrix = NWDGUI.DiviseArea(sRect, EditorNodalMatrixColunm, EditorNodalMatrixLine);

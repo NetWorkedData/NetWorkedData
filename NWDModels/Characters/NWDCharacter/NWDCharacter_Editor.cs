@@ -31,12 +31,12 @@ namespace NetWorkedData
     public partial class NWDCharacter : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddOnNodeDrawHeight(float sCardWidth)
+        public override float AddonNodalHeight(float sCardWidth)
         {
             return 200f;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddOnNodeDraw(Rect sRect)
+        public override void AddonNodal(Rect sRect)
         {
             DrawPreviewTexture2D(new Rect(sRect.x + NWDGUI.kFieldMarge, sRect.y + NWDGUI.kFieldMarge, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize));
         }

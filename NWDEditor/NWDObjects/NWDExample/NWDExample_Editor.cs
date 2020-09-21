@@ -67,9 +67,9 @@ namespace NetWorkedData
         /// Adds node draw.
         /// </summary>
         /// <param name="sRect">S rect.</param>
-        public override void AddOnNodeDraw(Rect sRect)
+        public override void AddonNodal(Rect sRect)
         {
-            base.AddOnNodeDraw(sRect);
+            base.AddonNodal(sRect);
             //GUILayout.BeginArea(sRect);
 
             //GUILayout.EndArea();
