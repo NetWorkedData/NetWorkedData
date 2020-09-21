@@ -101,7 +101,10 @@ namespace NetWorkedData
                     if (ActiveBenchmark)
                     {
                         LauncherBenchmarkToMarkdown();
-                        NWBBenchmarkResult.CurrentData().BenchmarkNow();
+                        if (NWBBenchmarkResult.CurrentData() != null)
+                        {
+                            NWBBenchmarkResult.CurrentData().BenchmarkNow();
+                        }
                     }
                 }
             }

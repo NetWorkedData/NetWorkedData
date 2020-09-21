@@ -42,7 +42,7 @@ namespace NetWorkedData
             NWDBenchmark.Start();
             NWDGUILayout.Section("Configuration for " + Environment + " environment");
             NWDGUILayout.SubSection("Cluster data used for " + Environment);
-            NWDCluster tCluster = NWDCluster.SelectClusterforEnvironment(this);
+            NWDCluster tCluster = NWDCluster.SelectClusterforEnvironment(this, false);
             string tClusterSelection = "No selected cluster";
             if (tCluster != null)
             {

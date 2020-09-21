@@ -47,7 +47,7 @@ namespace NetWorkedData
         public void CreatePHP(List<Type> sTypeList, bool sCreateAll = true, bool sWriteOnDisk = true, NWDServerAuthentication sConn = null)
         {
             NWDBenchmark.Start();
-            NWDCluster tNWDCluster = NWDCluster.SelectClusterforEnvironment(this);
+            NWDCluster tNWDCluster = NWDCluster.SelectClusterforEnvironment(this, true);
             if (tNWDCluster == null)
             {
             }
@@ -256,7 +256,7 @@ namespace NetWorkedData
                 tConstantsFile.AppendLine("$SQL_ACCESS_SQL = array();");
             }
 
-            NWDCluster tNWDCluster = NWDCluster.SelectClusterforEnvironment(this);
+            NWDCluster tNWDCluster = NWDCluster.SelectClusterforEnvironment(this, true);
             if (tNWDCluster == null)
             {
             }
@@ -358,9 +358,9 @@ namespace NetWorkedData
                 tConstantsFile.AppendLine("$SQL_MNG = false;");
                 tConstantsFile.AppendLine(NWD.K_CommentSeparator);
                 tConstantsFile.AppendLine("// ADMIN SECRET KEY");
-                tConstantsFile.AppendLine("$NWD_ADM_KEY = '" + NWDCluster.SelectClusterforEnvironment(this).AdminKey.Decrypt().Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$NWD_ADM_KEY = '" + NWDCluster.SelectClusterforEnvironment(this, false).AdminKey.Decrypt().Replace("'", "\'") + "';");
                 tConstantsFile.AppendLine(NWD.K_CommentSeparator);
-                tConstantsFile.AppendLine("$NWD_RES_MAIL = '" + NWDCluster.SelectClusterforEnvironment(this).RescueEmail + "';");
+                tConstantsFile.AppendLine("$NWD_RES_MAIL = '" + NWDCluster.SelectClusterforEnvironment(this, false).RescueEmail + "';");
                 tConstantsFile.AppendLine("$NWD_APP_PRO = '" + AppProtocol.Replace("'", "\'") + "';");
                 tConstantsFile.AppendLine("$NWD_APP_NAM = '" + AppName.Replace("'", "\'") + "';");
                 tConstantsFile.AppendLine(NWD.K_CommentSeparator);

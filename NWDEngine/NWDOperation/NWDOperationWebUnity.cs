@@ -733,7 +733,7 @@ namespace NetWorkedData
                 case NWDCompileType.Editor:
                     {
 #if UNITY_EDITOR
-                        HeaderParams.Add(NWD.AdminHashKey, NWDToolbox.GenerateAdminHash(NWDCluster.SelectClusterforEnvironment(Environment).AdminKey.Decrypt(), Environment.SaltFrequency));
+                        HeaderParams.Add(NWD.AdminHashKey, NWDToolbox.GenerateAdminHash(NWDCluster.SelectClusterforEnvironment(Environment, true).AdminKey.Decrypt(), Environment.SaltFrequency));
 #endif
                     }
                     break;

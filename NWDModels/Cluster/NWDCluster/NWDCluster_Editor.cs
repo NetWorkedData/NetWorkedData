@@ -30,7 +30,7 @@ namespace NetWorkedData
     public partial class NWDCluster : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
-        static public NWDCluster SelectClusterforEnvironment(NWDAppEnvironment sEnvironment)
+        static public NWDCluster SelectClusterforEnvironment(NWDAppEnvironment sEnvironment, bool sShowAlert)
         {
             NWDCluster rReturn = null;
             NWDEnvironmentType tEnvironmentType = NWDEnvironmentType.Dev;
@@ -78,7 +78,10 @@ namespace NetWorkedData
             }
             if (rReturn == null)
             {
-                NWDAlert.Alert("Alert", "No active cluster for " + sEnvironment.Environment, "Cancel", null);
+                if (sShowAlert == true)
+                {
+                    NWDAlert.Alert("Alert", "No active cluster for " + sEnvironment.Environment, "Cancel", null);
+                }
             }
             return rReturn;
         }
@@ -127,18 +130,18 @@ namespace NetWorkedData
             NWDGUILayout.Separator();
             if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
             {
-                if (GUILayout.Button( "Credentials window"))
+                if (GUILayout.Button("Credentials window"))
                 {
                     NWDProjectCredentialsManager.SharedInstanceFocus();
                 }
-                if (GUILayout.Button( "Flush credentials"))
+                if (GUILayout.Button("Flush credentials"))
                 {
                     NWDProjectCredentialsManagerContent.FlushCredentials(NWDCredentialsRequired.ForSFTPGenerate);
                 }
                 NWDGUILayout.Separator();
-                EditorGUILayout.HelpBox( "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
+                EditorGUILayout.HelpBox("Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
                 NWDGUILayout.Separator();
-                GUILayout.Label( "Services", NWDGUI.kBoldLabelStyle);
+                GUILayout.Label("Services", NWDGUI.kBoldLabelStyle);
                 if (Services == null)
                 {
                     Services = new NWDReferencesListType<NWDServerServices>();
@@ -147,27 +150,27 @@ namespace NetWorkedData
                 {
                     tServices.PropertiesPrevent();
                     GUILayout.Label(tServices.InternalKey);
-                    GUILayout.Label( "(" + tServices.InternalDescription + ")", NWDGUI.kItalicLabelStyle);
+                    GUILayout.Label("(" + tServices.InternalDescription + ")", NWDGUI.kItalicLabelStyle);
                     GUIContent tButtonTitle = null;
                     NWDServer tServer = tServices.Server.GetRawData();
                     if (tServer != null)
                     {
                         string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServices.User + " -p " + tServer.Port;
                         tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
-                        if (GUILayout.Button( tButtonTitle))
+                        if (GUILayout.Button(tButtonTitle))
                         {
                             NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
                         }
                         string tURL = "sftp://" + tServices.User + ":" + tServices.Secure_Password.Decrypt() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + tServices.Folder;
                         tButtonTitle = new GUIContent("Try sftp directly", tURL);
-                        if (GUILayout.Button( tButtonTitle))
+                        if (GUILayout.Button(tButtonTitle))
                         {
                             Application.OpenURL(tURL);
                         }
                     }
                 }
                 NWDGUILayout.Separator();
-                GUILayout.Label( "Databases", NWDGUI.kBoldLabelStyle);
+                GUILayout.Label("Databases", NWDGUI.kBoldLabelStyle);
                 if (DataBases == null)
                 {
                     DataBases = new NWDReferencesListType<NWDServerDatas>();
@@ -183,7 +186,7 @@ namespace NetWorkedData
                     {
                         string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Admin_User + " -p " + tServer.Port;
                         tButtonTitle = new GUIContent("local ssh-keygen -R", tcommandKeyGen);
-                        if (GUILayout.Button( tButtonTitle))
+                        if (GUILayout.Button(tButtonTitle))
                         {
                             NWDSSHWindow.ExecuteProcessTerminal(tcommandKeyGen);
                         }
@@ -193,7 +196,7 @@ namespace NetWorkedData
                         //string tURL = "https://" + tServices.MySQLUser + ":" + tServices.MySQLPassword.GetValue() + "@" + tServices.MySQLIP.GetValue() + "/phpmyadmin/";
                         string tURL = "https://" + tServices.MySQLIP.GetValue() + "/phpmyadmin/?pma_username=" + tServices.MySQLUser + "&pma_password=" + tServices.MySQLSecurePassword.Decrypt() + "";
                         tButtonTitle = new GUIContent("Try PhpMyAdmin directly", tURL);
-                        if (GUILayout.Button( tButtonTitle))
+                        if (GUILayout.Button(tButtonTitle))
                         {
                             NWEClipboard.CopyToClipboard(tServices.MySQLSecurePassword.Decrypt());
                             Application.OpenURL(tURL);
@@ -203,7 +206,7 @@ namespace NetWorkedData
             }
             else
             {
-                if (GUILayout.Button( "Need credentials for actions"))
+                if (GUILayout.Button("Need credentials for actions"))
                 {
                     NWDProjectCredentialsManager.SharedInstanceFocus();
                 }
