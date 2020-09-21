@@ -49,6 +49,15 @@ namespace NetWorkedData
         /// Use to restaure configuration of your App: never override the NetWorkedData engine will do it for you!
         /// </summary>
         /// <returns></returns>
+        public virtual bool RestaureEditorConfigurations()
+        {
+            return false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Use to restaure configuration of your App: never override the NetWorkedData engine will do it for you!
+        /// </summary>
+        /// <returns></returns>
         public virtual bool RestaureTypesConfigurations()
         {
             return false;

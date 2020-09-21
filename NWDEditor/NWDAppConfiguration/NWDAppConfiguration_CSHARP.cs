@@ -144,7 +144,7 @@ namespace NetWorkedData
             rReturn.AppendLine("/// Restaure the configurations ");
             rReturn.AppendLine("/// </summary>");
             rReturn.AppendLine("[NWDAppConfigurationRestaure()]");
-            rReturn.AppendLine("public bool RestaureEditorConfigurations()");
+            rReturn.AppendLine("public override bool RestaureEditorConfigurations()");
             rReturn.AppendLine("{");
             rReturn.AppendLine("#if UNITY_EDITOR");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.Installed) + " = " + typeof(NWDAppInstallation).Name + "." + this.Installed.ToString() + ";");
