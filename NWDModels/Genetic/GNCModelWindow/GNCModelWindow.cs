@@ -57,7 +57,7 @@ namespace NetWorkedData.NWDEditor
 	public class GNCModelWindow : NWDBasisWindow <GNCModelWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_ALL_CLASSES + "Genetic " + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, NWDEditorMenu.K_CUSTOMS_MANAGEMENT_INDEX + 1)]
+		[MenuItem (NWDEditorMenu.K_NETWORKEDDATA + "Genetic " + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, NWDEditorMenu.K_MODULES_MANAGEMENT_INDEX + 2)]
 		public static void MenuMethod ()
 		{
             ShowWindow();

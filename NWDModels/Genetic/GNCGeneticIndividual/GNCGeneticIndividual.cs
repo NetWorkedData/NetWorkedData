@@ -59,17 +59,9 @@ namespace NetWorkedData
     [NWDClassMenuNameAttribute("Genetic Individual")]
     public partial class GNCGeneticIndividual : NWDBasisGameSaveDependent
     {
-        #warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
         //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
-        // Your properties
-        //-------------------------------------------------------------------------------------------------------------
-
         //PROPERTIES
 		//[NWDInspectorGroupReset]
 		public NWDReferenceType<GNCSpecie> Specie {get; set;}
