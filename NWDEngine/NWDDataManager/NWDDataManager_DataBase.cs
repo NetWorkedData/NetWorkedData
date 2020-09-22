@@ -98,7 +98,7 @@ namespace NetWorkedData
                     var tLoadDb = Application.dataPath + "/" + NWD.K_Resources + "/Data/"+NWD.K_StreamingAssets + "/" + DatabaseBuildName();
                     File.Copy(tLoadDb, tPathEditor);
 #elif (UNITY_WP8 || UNITY_WINRT || UNITY_WSA_10_0 || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX)
-                    var tLoadDb = Application.dataPath + "/" + NWD.K_StreamingAssets + "/" + DatabaseEditorName();
+                    var tLoadDb = Application.dataPath + "/" + NWD.K_StreamingAssets + "/" + DatabaseBuildName();
                     File.Copy(tLoadDb, tPathEditor);
 #else
                     var tLoadDb = Application.dataPath + "/" + NWD.K_Resources + "/" + NWD.K_StreamingAssets + "/" + DatabaseBuildName();
