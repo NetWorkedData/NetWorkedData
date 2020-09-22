@@ -118,15 +118,17 @@ namespace NetWorkedData
                 // Ready!
                 Ready();
 
+                TimeFinish = Time.realtimeSinceStartup;
+                TimeNWDFinish = NWDLauncherChronometer.Watch.ElapsedMilliseconds / 1000.0F;
+                LauncherBenchmarkToMarkdown();
+                if (NWBBenchmarkResult.CurrentData() != null)
+                {
+                    NWBBenchmarkResult.CurrentData().BenchmarkNow();
+                }
+                NWDBenchmarkLauncher.Finish();
                 NWDLauncherChronometer.WatchFinalLaunch = NWDLauncherChronometer.Watch.ElapsedMilliseconds;
-
                 NotifyNetWorkedDataReady();
-
-                    TimeFinish = Time.realtimeSinceStartup;
-                  NWDBenchmarkLauncher.Finish();
-                    TimeNWDFinish = NWDLauncherChronometer.Watch.ElapsedMilliseconds / 1000.0F;
                 NWDLauncherChronometer.Watch.Stop();
-                NWDBenchmark.AllResults();
 #if UNITY_EDITOR
             }
 #endif

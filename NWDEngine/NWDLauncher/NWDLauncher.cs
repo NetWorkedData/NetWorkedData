@@ -157,6 +157,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static void LauncherBenchmarkToMarkdown()
         {
+#if NWD_LAUNCHER_BENCHMARK || NWD_LAUNCHER_RESULT_BENCHMARK
+            UnityEngine.Debug.Log("LauncherBenchmarkToMarkdown()");
             Dictionary<string, string> tRepport = new Dictionary<string, string>();
             List<string> tRepportLayout = new List<string>();
             // Engine part
@@ -218,7 +220,6 @@ namespace NetWorkedData
                 NWDDebug.Log("benchmark : REPPORT | " + string.Join(" | ", tRepport.Keys) + " |");
                 NWDDebug.Log("benchmark : REPPORT | " + string.Join(" | ", tRepportLayout) + " |");
 #endif
-#if NWD_LAUNCHER_BENCHMARK || NWD_LAUNCHER_RESULT_BENCHMARK
             NWDDebug.ForceLog("benchmark : REPPORT | " + string.Join(" | ", tRepport.Values) + " |");
 #endif
         }
