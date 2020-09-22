@@ -28,6 +28,7 @@ namespace NetWorkedData
     public static partial class NWDLauncher
     {
         //-------------------------------------------------------------------------------------------------------------
+        [RuntimeInitializeOnLoadMethod]
         static private void LaunchEngine()
         {
             if (Launched == false)
