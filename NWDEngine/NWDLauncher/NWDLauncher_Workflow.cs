@@ -18,26 +18,37 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
-
 using UnityEngine;
-
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#if UNITY_EDITOR
+    [InitializeOnLoad]
+#endif
     public static partial class NWDLauncher
     {
+        //-------------------------------------------------------------------------------------------------------------
+        static NWDLauncher()
+        {
+            Debug.Log("static constructor");
+            LaunchEngine();
+        }
         //-------------------------------------------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod]
         static private void LaunchEngine()
         {
+            Debug.Log("LaunchEngine()");
             if (Launched == false)
             {
+                Launched = true;
                 TimeStart = Time.realtimeSinceStartup;
                 StepSum = 0;
                 StepIndex = 0;
                 NWDBenchmark.Start("Launch");
-                Launched = true;
                 //NWDToolbox.EditorAndPlaying("NWDLauncher Launch()");
                 bool tEditorByPass = false;
                 switch (CompileAs())
