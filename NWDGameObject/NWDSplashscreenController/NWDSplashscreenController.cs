@@ -31,7 +31,7 @@ using UnityEngine.Networking;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDSplashscreenController : MonoBehaviour
+    public partial class NWDSplashscreenController : NWDCallBackDataLoadOnly
     {
         //-------------------------------------------------------------------------------------------------------------
         float deltaTime = 0.0f;
@@ -89,10 +89,40 @@ namespace NetWorkedData
             {
                 BundleVersion.text = "App Version " + Application.version;
             }
+            UpdateEngineVersion();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void UpdateEngineVersion()
+        {
             if (EngineVersion != null)
             {
-                EngineVersion.text = "NeWeeDy " + NWDEngineVersion.Version + "-" + NWDAppConfiguration.SharedInstance().SelectedEnvironment().Environment;
+                EngineVersion.text = "NeWeeDy " + NWDEngineVersion.Version + "-" + NWDAppConfiguration.SharedInstance().SelectedEnvironment().Environment + " " + NWDDataManager.SharedInstance().GetVersion();
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void LauncherEngineReady(NWENotification sNotification, bool sPreloadDatas)
+        {
+            UpdateEngineVersion();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void LauncherEditorReady(NWENotification sNotification, bool sPreloadDatas)
+        {
+            UpdateEngineVersion();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void LauncherAccountReady(NWENotification sNotification, bool sPreloadDatas)
+        {
+            
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void LauncherStep(NWENotification sNotification, bool sPreloadDatas, float sPurcent)
+        {
+           
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void LauncherNetWorkdeDataReady(NWENotification sNotification, bool sPreloadDatas)
+        {
+            
         }
         //-------------------------------------------------------------------------------------------------------------
         private void Update()

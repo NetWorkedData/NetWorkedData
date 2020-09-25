@@ -17,6 +17,10 @@
 #undef NWD_LOG
 #undef NWD_BENCHMARK
 #endif
+
+#if DEBUG
+#define NWD_LOG
+#endif
 //=====================================================================================================================
 using System;
 using System.Collections;
