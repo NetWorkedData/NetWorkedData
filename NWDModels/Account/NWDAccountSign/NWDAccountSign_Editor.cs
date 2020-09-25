@@ -64,8 +64,7 @@ namespace NetWorkedData
         /// <param name="sInRect">S in rect.</param>
         public override void AddonEditor(Rect sRect)
         {
-            // Draw the interface addon for editor
-            Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 1, kEditorLign);
+            NWDGUILayout.Separator();
 
             bool tActive = false;
             List<string> tEnvironment = new List<string>();
@@ -94,44 +93,42 @@ namespace NetWorkedData
                     tActive = true;
                 }
             }
-            int tI = 0;
-            NWDGUI.Separator(tMatrix[0, tI++]);
 
             if (tActive == false)
             {
-                GUI.Label(tMatrix[0, tI++], "Not active in this environment");
+                GUILayout.Label("Not active in this environment");
             }
             else
             {
 
-                GUI.Label(tMatrix[0, tI++], "To associate with device", NWDGUI.kBoldLabelStyle);
+                GUILayout.Label("To associate with device", NWDGUI.kBoldLabelStyle);
                 // start
                 EditorGUI.BeginDisabledGroup(SignStatus == NWDAccountSignAction.Associated);
-                if (GUI.Button(tMatrix[0, tI++], "Associate Editor Secret Key", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("Associate Editor Secret Key", NWDGUI.kMiniButtonStyle))
                 {
                     RegisterDeviceEditor();
                 }
-                if (GUI.Button(tMatrix[0, tI++], "Associate Player Secret Key", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("Associate Player Secret Key", NWDGUI.kMiniButtonStyle))
                 {
                     RegisterDevicePlayer();
                 }
                 EditorGUI.EndDisabledGroup();
                 // end
 
-                NWDGUI.Separator(tMatrix[0, tI++]);
-                GUI.Label(tMatrix[0, tI++], "To associate with standard account", NWDGUI.kBoldLabelStyle);
-                Email = EditorGUI.TextField(tMatrix[0, tI++], "Email", Email);
-                Login = EditorGUI.TextField(tMatrix[0, tI++], "Login", Login);
-                Password = EditorGUI.TextField(tMatrix[0, tI++], "Password", Password);
+                NWDGUILayout.Separator();
+                GUILayout.Label("To associate with standard account", NWDGUI.kBoldLabelStyle);
+                Email = EditorGUILayout.TextField("Email", Email);
+                Login = EditorGUILayout.TextField("Login", Login);
+                Password = EditorGUILayout.TextField("Password", Password);
 
-                EditorGUI.LabelField(tMatrix[0, tI++], "futur SignHash l/p", GetSignLoginPasswordHash(Login, Password));
-                EditorGUI.LabelField(tMatrix[0, tI++], "futur SignHash e/p", GetSignEmailPasswordHash(Email, Password));
-                EditorGUI.LabelField(tMatrix[0, tI++], "futur RescueHash", GetRescueEmailHash(Email));
-                EditorGUI.LabelField(tMatrix[0, tI++], "futur LoginHash", GetLoginHash(Login));
+                EditorGUILayout.LabelField("futur SignHash l/p", GetSignLoginPasswordHash(Login, Password));
+                EditorGUILayout.LabelField("futur SignHash e/p", GetSignEmailPasswordHash(Email, Password));
+                EditorGUILayout.LabelField("futur RescueHash", GetRescueEmailHash(Email));
+                EditorGUILayout.LabelField("futur LoginHash", GetLoginHash(Login));
 
                 // start
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password) || SignStatus == NWDAccountSignAction.Associated);
-                if (GUI.Button(tMatrix[0, tI++], "Associate Email Password", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("Associate Email Password", NWDGUI.kMiniButtonStyle))
                 {
                     RegisterEmailPassword(Email, Password);
                     NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDAccountSign) });
@@ -141,7 +138,7 @@ namespace NetWorkedData
 
                 // start
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Login) || SignStatus == NWDAccountSignAction.Associated);
-                if (GUI.Button(tMatrix[0, tI++], "Associate Login Password Email", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("Associate Login Password Email", NWDGUI.kMiniButtonStyle))
                 {
                     RegisterEmailLoginPassword(Email, Login, Password);
                     NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDAccountSign) });
@@ -151,7 +148,7 @@ namespace NetWorkedData
 
                 // start
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Email) || SignStatus != NWDAccountSignAction.Associated);
-                if (GUI.Button(tMatrix[0, tI++], "Rescue by Email", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("Rescue by Email", NWDGUI.kMiniButtonStyle))
                 {
                     Debug.Log("email rescue hash = " + NWDAccountSign.GetRescueEmailHash(Email));
                     NWDDataManager.SharedInstance().AddWebRequestRescue(Email);
@@ -161,7 +158,7 @@ namespace NetWorkedData
 
                 // start
                 EditorGUI.BeginDisabledGroup(SignStatus != NWDAccountSignAction.Associated);
-                if (GUI.Button(tMatrix[0, tI++], "Associate Delete", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("Associate Delete", NWDGUI.kMiniButtonStyle))
                 {
                     RegisterDelete();
                     NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDAccountSign) });
@@ -174,10 +171,10 @@ namespace NetWorkedData
                 //    string.IsNullOrEmpty(Password)  ||
                 //    string.IsNullOrEmpty(Email)
                 //    );
-                if (GUI.Button(tMatrix[0, tI++], "Select similar rescue", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("Select similar rescue", NWDGUI.kMiniButtonStyle))
                 {
                     NWDAccountSign tSignFound = null;
-                    string tRescueWanted = GetRescueEmailHash(Email);
+                    string tRescueWanted = NWESecurityTools.GenerateSha(GetRescueEmailHash(Email) + NWDAppEnvironment.SelectedEnvironment().SaltEnd, NWESecurityShaTypeEnum.Sha1);
                     Debug.Log("tRescueWanted = " + tRescueWanted);
                     foreach (NWDAccountSign tAccountSign in BasisHelper().Datas)
                     {
@@ -192,7 +189,7 @@ namespace NetWorkedData
                     }
                     if (tSignFound != null)
                     {
-                        Debug.Log("tRescueWanted = " + tRescueWanted +" find the reference : " + tSignFound.Reference + " for account " + tSignFound.Account.GetReference());
+                        Debug.Log("tRescueWanted = " + tRescueWanted + " find the reference : " + tSignFound.Reference + " for account " + tSignFound.Account.GetReference());
                         BasisHelper().SetObjectInEdition(tSignFound);
                     }
                     else
@@ -204,17 +201,17 @@ namespace NetWorkedData
                 //EditorGUI.EndDisabledGroup();
                 // end
 
-                NWDGUI.Separator(tMatrix[0, tI++]);
-                GUI.Label(tMatrix[0, tI++], "To associate with social token", NWDGUI.kBoldLabelStyle);
-                Social = EditorGUI.TextField(tMatrix[0, tI++], "Social", Social);
+                NWDGUILayout.Separator();
+                GUILayout.Label("To associate with social token", NWDGUI.kBoldLabelStyle);
+                Social = EditorGUILayout.TextField("Social", Social);
 
                 // start
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Social));
-                if (GUI.Button(tMatrix[0, tI++], "Associate FacebookID", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("Associate FacebookID", NWDGUI.kMiniButtonStyle))
                 {
                     RegisterSocialNetwork(Social, NWDAccountSignType.Facebook);
                 }
-                if (GUI.Button(tMatrix[0, tI++], "Associate GoogleID", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("Associate GoogleID", NWDGUI.kMiniButtonStyle))
                 {
                     RegisterSocialNetwork(Social, NWDAccountSignType.Google);
                 }
@@ -223,7 +220,7 @@ namespace NetWorkedData
 
                 // start
                 EditorGUI.BeginDisabledGroup(SignStatus != NWDAccountSignAction.Associated);
-                if (GUI.Button(tMatrix[0, tI++], "Associate Delete", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("Associate Delete", NWDGUI.kMiniButtonStyle))
                 {
                     RegisterDelete();
                     NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDAccountSign) });
@@ -231,61 +228,41 @@ namespace NetWorkedData
                 EditorGUI.EndDisabledGroup();
                 // end
 
-                NWDGUI.Separator(tMatrix[0, tI++]);
-                GUI.Label(tMatrix[0, tI++], "Test the sign", NWDGUI.kBoldLabelStyle);
+                NWDGUILayout.Separator();
+                GUILayout.Label("Test the sign", NWDGUI.kBoldLabelStyle);
 
                 // start
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(SignHash));
-                if (GUI.Button(tMatrix[0, tI++], "Test Sign in", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("Test Sign in", NWDGUI.kMiniButtonStyle))
                 {
                     NWDDataManager.SharedInstance().AddWebRequestSignIn(SignHash);
                 }
-                if (GUI.Button(tMatrix[0, tI++], "Test Sign in with error", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("Test Sign in with error", NWDGUI.kMiniButtonStyle))
                 {
                     NWDDataManager.SharedInstance().AddWebRequestSignIn(SignHash + "a");
                 }
-                if (GUI.Button(tMatrix[0, tI++], "Sign OUT", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("Sign OUT", NWDGUI.kMiniButtonStyle))
                 {
                     NWDDataManager.SharedInstance().AddWebRequestSignOut();
                 }
-                if (GUI.Button(tMatrix[0, tI++], "Reset Session", NWDGUI.kMiniButtonStyle))
+                if (GUILayout.Button("Reset Session", NWDGUI.kMiniButtonStyle))
                 {
                     NWDAppEnvironment.SelectedEnvironment().ResetPreferences();
                 }
-                //if (GUI.Button(tMatrix[0, tI++], "Rescue", NWDGUI.kMiniButtonStyle))
+                //if (GUILayout.Button("Rescue", NWDGUI.kMiniButtonStyle))
                 //{
                 //    NWDDataManager.SharedInstance().AddWebRequestSignOut();
                 //}
                 EditorGUI.EndDisabledGroup();
                 // end
 
-                NWDGUI.Separator(tMatrix[0, tI++]);
-                GUI.Label(tMatrix[0, tI++], "Hard or not hard sign ?", NWDGUI.kBoldLabelStyle);
-                if (GUI.Button(tMatrix[0, tI++], "Crack estimation", NWDGUI.kMiniButtonStyle))
+                NWDGUILayout.Separator();
+                GUILayout.Label("Hard or not hard sign ?", NWDGUI.kBoldLabelStyle);
+                if (GUILayout.Button("Crack estimation", NWDGUI.kMiniButtonStyle))
                 {
                     NWEPassAnalyseWindow.SharedInstance().AnalyzePassword(SignHash);
                 }
             }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addons editor intreface expected height.
-        /// </summary>
-        /// <returns>The editor expected height.</returns>
-        public override float AddonEditorHeight(float sWidth)
-        {
-            // Height calculate for the interface addon for editor
-            float tYadd = NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, kEditorLign);
-            return tYadd;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Adds the height of node draw.
-        /// </summary>
-        /// <returns>The on node draw height.</returns>
-        public override float AddonNodalHeight(float sCardWidth)
-        {
-            return 130.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

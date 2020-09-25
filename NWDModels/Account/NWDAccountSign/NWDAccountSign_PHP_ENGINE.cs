@@ -63,7 +63,7 @@ namespace NetWorkedData
             tFile.AppendLine("$sEmail = str_replace('%','',$sEmail);");
             tFile.Append("$tQuerySign = 'SELECT * ");
             tFile.Append("FROM `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "` ");
-            tFile.Append("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "` = \\''.$SQL_CON->real_escape_string(sha1(strtolower($sEmail).'" + NWDAppEnvironment.SelectedEnvironment().SaltStart + "')).'\\' ");
+            tFile.Append("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "` = \\''.$SQL_CON->real_escape_string(HashSign(sha1(strtolower($sEmail)).'" + NWDAppEnvironment.SelectedEnvironment().SaltStart + "')).'\\' ");
             tFile.Append("AND  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "` != \\'\\' ");
             tFile.Append("AND  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` != \\'\\' ");
             tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignStatus) + "` = \\'" + ((int)NWDAccountSignAction.Associated).ToString() + "\\' ");
@@ -101,7 +101,7 @@ namespace NetWorkedData
             tFile.AppendLine("while($tResult == false)");
             tFile.AppendLine("{");
             tFile.AppendLine("$tPassword = RandomString(" + sEnvironment.RescuePasswordLength + ");");
-            tFile.AppendLine("$tSignHash = sha1($sEmail.$tPassword.$NWD_SLT_END);");
+            tFile.AppendLine("$tSignHash = HashSign(sha1($sEmail.$tPassword.$NWD_SLT_END));");
             tFile.AppendLine("// test if hash exists");
             tFile.Append("$tQueryTest = 'SELECT `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Reference) + "` ");
             tFile.Append("FROM `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "` ");
@@ -120,7 +120,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = true;");
             tFile.Append("$tQueryUpdate = 'UPDATE `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "` ");
             tFile.Append("SET  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` = \\''.$tSignHash.'\\' ");
-            tFile.Append("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "` = \\''.$SQL_CON->real_escape_string(sha1(strtolower($sEmail).'" + NWDAppEnvironment.SelectedEnvironment().SaltStart + "')).'\\' ");
+            tFile.Append("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "` = \\''.$SQL_CON->real_escape_string(HashSign(sha1(strtolower($sEmail)).'" + NWDAppEnvironment.SelectedEnvironment().SaltStart + "')).'\\' ");
             tFile.Append("AND  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "` != \\'\\' ");
             tFile.Append("AND  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` != \\'\\' ");
             tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignStatus) + "` = \\'" + ((int)NWDAccountSignAction.Associated).ToString() + "\\' ");
@@ -174,7 +174,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = true;");
             tFile.Append("$tQueryUpdate = 'UPDATE `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "` ");
             tFile.Append("SET  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` = \\''.$tSignHash.'\\' ");
-            tFile.Append("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "` = \\''.$SQL_CON->real_escape_string(sha1(strtolower($sEmail).'" + NWDAppEnvironment.SelectedEnvironment().SaltStart + "')).'\\' ");
+            tFile.Append("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "` = \\''.$SQL_CON->real_escape_string(HashSign(sha1(strtolower($sEmail)).'" + NWDAppEnvironment.SelectedEnvironment().SaltStart + "')).'\\' ");
             tFile.Append("AND  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "` != \\'\\' ");
             tFile.Append("AND  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` != \\'\\' ");
             tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignStatus) + "` = \\'" + ((int)NWDAccountSignAction.Associated).ToString() + "\\' ");
@@ -251,7 +251,7 @@ namespace NetWorkedData
                 {
             tFile.Append("$tQuerySign = 'SELECT * ");
             tFile.Append("FROM `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "` ");
-            tFile.Append("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "` = \\''.$SQL_CON->real_escape_string(sha1(strtolower($sEmail).'" + NWDAppEnvironment.SelectedEnvironment().SaltStart + "')).'\\' ");
+            tFile.Append("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "` = \\''.$SQL_CON->real_escape_string(HashSign(sha1(strtolower($sEmail)).'" + NWDAppEnvironment.SelectedEnvironment().SaltStart + "')).'\\' ");
             tFile.Append("AND  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "` != \\'\\' ");
             tFile.Append("AND  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` != \\'\\' ");
             tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignStatus) + "` = \\'" + ((int)NWDAccountSignAction.Associated).ToString() + "\\' ");
@@ -340,7 +340,7 @@ namespace NetWorkedData
                 tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Account) + "`, '; $tInsertSQLValue.= '\\''.EscapeString($sAccountReference).'\\', ';");
                 tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RangeAccess) + "`, '; $tInsertSQLValue.= '\\''.EscapeString($tRangeAccess).'\\', ';");
                 tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignType) + "`, '; $tInsertSQLValue.= '\\''.EscapeString($sSDKt).'\\', ';");
-                tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "`, ';$tInsertSQLValue.= '\\''.EscapeString($sSDKv).'\\', ';");
+                tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "`, ';$tInsertSQLValue.= '\\''.HashSign(EscapeString($sSDKv)).'\\', ';");
                 tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "`, ';$tInsertSQLValue.= '\\''.EscapeString($sSDKr).'\\', ';");
                 tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().LoginHash) + "`, ';$tInsertSQLValue.= '\\''.EscapeString($sSDKl).'\\', ';");
                 tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignStatus) + "`, ';$tInsertSQLValue.= '\\'" + (int)NWDAccountSignAction.Associated + "\\', ';");

@@ -266,6 +266,11 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetPreferences();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void ResetPlayerPrefs()
+        {
+            PlayerPrefs.DeleteAll();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void BlankTest()
         {
             //UnityEngine.Debug.Log("<color=red>!!!!!</color><color=orange>Blank Test</color>" + " state : " + NWDLauncher.GetState().ToString());

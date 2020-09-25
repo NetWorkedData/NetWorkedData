@@ -10,8 +10,8 @@
 #define NWD_LOG
 #define NWD_BENCHMARK
 #elif DEBUG
-#define NWD_LOG
-#define NWD_BENCHMARK
+//#define NWD_LOG
+//#define NWD_BENCHMARK
 #endif
 #else
 #undef NWD_LOG
@@ -19,7 +19,7 @@
 #endif
 
 #if DEBUG
-#define NWD_LOG
+//#define NWD_LOG
 #endif
 //=====================================================================================================================
 using System;

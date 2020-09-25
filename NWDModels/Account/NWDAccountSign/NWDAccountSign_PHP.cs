@@ -55,22 +55,22 @@ namespace NetWorkedData
             tFile.AppendLine("if ($sCsvList[" + t_Index_SignActionKey + "] == " + ((int)NWDAccountSignAction.TryToAssociate).ToString() + ")");
             tFile.AppendLine("{");
             {
-                //tFile.AppendLine("$tSignHashFinal = md5($sCsvList[" + t_Index_SignHashKey + "]);");
-                tFile.AppendLine("$tSignHashFinal = $sCsvList[" + t_Index_SignHashKey + "];");
+                tFile.AppendLine("$tSignHashFinal = HashSign($sCsvList[" + t_Index_SignHashKey + "]);");
+                tFile.AppendLine("$tRescueHashFinal = HashSign($sCsvList[" + t_Index_RescueHashKey + "]);");
+                tFile.AppendLine("$tLoginHashFinal = HashSign($sCsvList[" + t_Index_LoginHashKey + "]);");
                 tFile.Append("$tQueryRequest = 'SELECT * FROM `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "` WHERE ");
-                //tFile.AppendLine(" ( `" + tSignHashKey + "` = \\''.EscapeString($sCsvList[" + t_Index_SignHashKey + "]).'\\'';");
                 tFile.AppendLine(" ( `" + tSignHashKey + "` = \\''.EscapeString($tSignHashFinal).'\\'';");
                 tFile.AppendLine("if ($sCsvList[" + t_Index_RescueHashKey + "]!='')");
                 tFile.AppendLine("{");
                 {
-                    tFile.Append("$tQueryRequest .= ' OR `" + tRescueHashKey + "` = \\''.EscapeString($sCsvList[" + t_Index_RescueHashKey + "]).'\\'';");
+                    tFile.Append("$tQueryRequest .= ' OR `" + tRescueHashKey + "` = \\''.EscapeString($tRescueHashFinal).'\\'';");
 
                 }
                 tFile.AppendLine("}");
                 tFile.AppendLine("if ($sCsvList[" + t_Index_LoginHashKey + "]!='')");
                 tFile.AppendLine("{");
                 {
-                    tFile.Append("$tQueryRequest .= ' OR `" + tLoginHashKey + "` = \\''.EscapeString($sCsvList[" + t_Index_LoginHashKey + "]).'\\'';");
+                    tFile.Append("$tQueryRequest .= ' OR `" + tLoginHashKey + "` = \\''.EscapeString($tLoginHashFinal).'\\'';");
 
                 }
                 tFile.AppendLine("}");
@@ -103,6 +103,8 @@ namespace NetWorkedData
                     {
                         tFile.AppendLine("$sReplaces[" + t_Index_SignActionKey + "]=" + ((int)NWDAccountSignAction.Associated).ToString() + ";");
                         tFile.AppendLine("$sReplaces[" + t_Index_SignHashKey + "] = $tSignHashFinal;");
+                        tFile.AppendLine("$sReplaces[" + t_Index_RescueHashKey + "] = $tRescueHashFinal;");
+                        tFile.AppendLine("$sReplaces[" + t_Index_LoginHashKey + "] = $tLoginHashFinal;");
                         tFile.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces, $sSaltUI);");
                     }
                     tFile.AppendLine("}");
@@ -116,6 +118,7 @@ namespace NetWorkedData
                 tFile.AppendLine("$sReplaces[" + t_Index_SignActionKey + "] = " + ((int)NWDAccountSignAction.Dissociated).ToString() + ";");
                 tFile.AppendLine("$sReplaces[" + t_Index_SignHashKey + "] = '';");
                 tFile.AppendLine("$sReplaces[" + t_Index_RescueHashKey + "] = '';");
+                //tFile.AppendLine("$sReplaces[" + t_Index_LoginHashKey + "] = '';"); // don't reuse this login if it's perhaps active?
                 tFile.AppendLine("$sReplaces[" + t_Index_InternalDescription + "] = 'Dissociated';");
                 tFile.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces, $sSaltUI);");
             }

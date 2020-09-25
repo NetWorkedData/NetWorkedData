@@ -150,9 +150,9 @@ namespace NetWorkedData
         private void CreatePHP_StaticFunctionsFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             NWDBenchmark.Start();
-            string tSignAccountKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Account);
-            string tSignHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash);
-            string tRescueHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash);
+            //string tSignAccountKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Account);
+            //string tSignHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash);
+            //string tRescueHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash);
             string tAC = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().AC);
             string tReference = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Reference);
             string tBan = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Ban);
@@ -176,6 +176,16 @@ namespace NetWorkedData
             // --------------------------------------
             tFile.AppendLine("// ban account ?");
             tFile.AppendLine("$ban = false;");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            // --------------------------------------
+            tFile.AppendLine("function HashSign($sValue)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine("global $NWD_SLT_END;");
+                tFile.AppendLine("return sha1($sValue.$NWD_SLT_END);");
+                //tFile.AppendLine("return $sValue;");
+            }
+            tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
             // --------------------------------------
             tFile.AppendLine("function EscapeString($sString)");
