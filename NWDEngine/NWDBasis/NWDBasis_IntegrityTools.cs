@@ -219,7 +219,32 @@ namespace NetWorkedData
 #if NWD_INTEGRITY_NONE
             return string.Empty;
 #else
-            return BasisHelper().HashSum(BasisHelper().SaltStart + IntegrityAssembly() + BasisHelper().SaltEnd);
+            if (BasisHelper().TemplateHelper.NeedUseAccountSalt())
+            {
+#if UNITY_EDITOR
+                string tSalt = NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetAccountSalt();
+                string tAccount = GetEventualAccount();
+                if (tAccount != NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetAccountReference())
+                {
+                    tSalt = string.Empty;
+                    if (string.IsNullOrEmpty(tAccount) == false)
+                    {
+                        NWDAccount tAccountData = NWDBasisHelper.GetRawDataByReference<NWDAccount>(tAccount);
+                        if (tAccountData != null)
+                        {
+                            tSalt = tAccountData.Salt;
+                        }
+                    }
+                }
+                return BasisHelper().HashSum(BasisHelper().SaltStart + IntegrityAssembly() + tSalt);
+#else
+                return BasisHelper().HashSum(BasisHelper().SaltStart + IntegrityAssembly() + NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetAccountSalt());
+#endif
+            }
+            else
+            {
+                return BasisHelper().HashSum(BasisHelper().SaltStart + IntegrityAssembly() + BasisHelper().SaltEnd);
+            }
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------

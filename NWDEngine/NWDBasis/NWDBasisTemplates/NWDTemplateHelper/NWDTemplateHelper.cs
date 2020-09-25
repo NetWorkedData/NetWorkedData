@@ -169,6 +169,10 @@ namespace NetWorkedData
         public NWDTemplateBundlisable GetBundlisable() { return Bundlisable; }
         //-------------------------------------------------------------------------------------------------------------
         public NWDTemplateAccountDependent GetAccountDependent() { return AccountDependent; }
+        public bool NeedUseAccountSalt()
+        {
+            return AccountDependent != NWDTemplateAccountDependent.NoAccountDependent && AccountDependent != NWDTemplateAccountDependent.RestrictedAccountDependent;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public NWDTemplateGameSaveDependent GetGamesaveDependent() { return GamesaveDependent; }
         //-------------------------------------------------------------------------------------------------------------

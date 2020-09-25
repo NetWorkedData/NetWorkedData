@@ -32,6 +32,7 @@ namespace NetWorkedData
         public string errorCode { get; private set; }
         public string token { get; private set; }
         public string uuid { get; private set; }
+        public string salt { get; private set; }
         public string preview_user { get; private set; }
         public string next_user { get; private set; }
         public string errorInfos { get; private set; }
@@ -119,6 +120,9 @@ namespace NetWorkedData
                     case NWD.K_WEB_UUID_KEY:
                         uuid = tValue.ToString();
                         break;
+                    case NWD.K_WEB_SALT_KEY:
+                        salt = tValue.ToString();
+                        break;
                     case NWD.K_JSON_WEB_SERVICE_KEY:
                         wsBuild = int.Parse(tValue.ToString());
                         int tWSBuildEditor = NWDAppConfiguration.SharedInstance().WebBuild;
@@ -201,6 +205,7 @@ namespace NetWorkedData
             isNewUser = false;
             isUserTransfert = false;
             uuid = string.Empty;
+            salt = string.Empty;
 
             param = new Dictionary<string, object>();
 

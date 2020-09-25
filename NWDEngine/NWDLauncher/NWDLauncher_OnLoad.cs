@@ -25,6 +25,14 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public static partial class NWDLauncher
     {
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        static NWDLauncher()
+        {
+            Debug.Log("static constructor");
+            Launch();
+        }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod]
         static public void Launch()

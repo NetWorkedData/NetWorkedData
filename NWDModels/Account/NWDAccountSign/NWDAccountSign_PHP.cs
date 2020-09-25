@@ -55,8 +55,11 @@ namespace NetWorkedData
             tFile.AppendLine("if ($sCsvList[" + t_Index_SignActionKey + "] == " + ((int)NWDAccountSignAction.TryToAssociate).ToString() + ")");
             tFile.AppendLine("{");
             {
+                //tFile.AppendLine("$tSignHashFinal = md5($sCsvList[" + t_Index_SignHashKey + "]);");
+                tFile.AppendLine("$tSignHashFinal = $sCsvList[" + t_Index_SignHashKey + "];");
                 tFile.Append("$tQueryRequest = 'SELECT * FROM `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "` WHERE ");
-                tFile.AppendLine(" ( `" + tSignHashKey + "` = \\''.EscapeString($sCsvList[" + t_Index_SignHashKey + "]).'\\'';");
+                //tFile.AppendLine(" ( `" + tSignHashKey + "` = \\''.EscapeString($sCsvList[" + t_Index_SignHashKey + "]).'\\'';");
+                tFile.AppendLine(" ( `" + tSignHashKey + "` = \\''.EscapeString($tSignHashFinal).'\\'';");
                 tFile.AppendLine("if ($sCsvList[" + t_Index_RescueHashKey + "]!='')");
                 tFile.AppendLine("{");
                 {
@@ -92,14 +95,15 @@ namespace NetWorkedData
                         tFile.AppendLine("$sReplaces[" + t_Index_SignHashKey + "] = '';");
                         tFile.AppendLine("$sReplaces[" + t_Index_RescueHashKey + "] = '';");
                         tFile.AppendLine("$sReplaces[" + t_Index_InternalDescription + "] = 'Error';");
-                        tFile.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces);");
+                        tFile.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces ,$sSaltUI);");
                     }
                     tFile.AppendLine("}");
                     tFile.AppendLine("else");
                     tFile.AppendLine("{");
                     {
                         tFile.AppendLine("$sReplaces[" + t_Index_SignActionKey + "]=" + ((int)NWDAccountSignAction.Associated).ToString() + ";");
-                        tFile.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces);");
+                        tFile.AppendLine("$sReplaces[" + t_Index_SignHashKey + "] = $tSignHashFinal;");
+                        tFile.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces, $sSaltUI);");
                     }
                     tFile.AppendLine("}");
                 }
@@ -113,7 +117,7 @@ namespace NetWorkedData
                 tFile.AppendLine("$sReplaces[" + t_Index_SignHashKey + "] = '';");
                 tFile.AppendLine("$sReplaces[" + t_Index_RescueHashKey + "] = '';");
                 tFile.AppendLine("$sReplaces[" + t_Index_InternalDescription + "] = 'Dissociated';");
-                tFile.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces);");
+                tFile.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces, $sSaltUI);");
             }
             tFile.AppendLine("}");
             tFile.AppendLine("else");

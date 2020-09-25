@@ -536,6 +536,7 @@ namespace NetWorkedData
                                             if (!ResultInfos.uuid.Equals(string.Empty))
                                             {
                                                 Environment.SetAccountReference(ResultInfos.uuid);
+                                                Environment.SetAccountSalt(ResultInfos.salt);
                                             }
 
                                             //NWDBenchmark.Step(tBenchmark);

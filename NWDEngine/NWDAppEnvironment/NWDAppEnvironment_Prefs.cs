@@ -34,14 +34,19 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         const string kPlayerAccountReferenceKey = "kPlayerAccountReference_Key";
+        const string kPlayerAccountSaltKey = "kPlayerAccountSalt_Key";
         public const string kRequesTokenKey = "kRequesToken_Key";
-        const string kAnonymousPlayerAccountReferenceKey = "kAnonymousPlayerAccountReference_Key";
-        const string kAnonymousResetPasswordKey = "kAnonymousResetPassword_Key";
-        const string kPlayerStatusKey = "kPlayerStatus_Key";
+        //const string kAnonymousPlayerAccountReferenceKey = "kAnonymousPlayerAccountReference_Key";
+        //const string kAnonymousResetPasswordKey = "kAnonymousResetPassword_Key";
+        //const string kPlayerStatusKey = "kPlayerStatus_Key";
         //-------------------------------------------------------------------------------------------------------------
         public void SavePreferences()
         {
             NWDBenchmarkLauncher.Start();
+            if (string.IsNullOrEmpty(GetAccountSalt()))
+            {
+                SetAccountSalt(NWDToolbox.RandomStringAlpha(NWDAccount.K_PERSONAL_SALT_LENGHT));
+            }
             if (string.IsNullOrEmpty(GetAccountReference()))
             {
                 SetAccountReference(NWDToolbox.GenerateUniqueAccountID(this, true));
@@ -49,6 +54,7 @@ namespace NetWorkedData
             else
             {
                 NWDRuntimePrefs.ShareInstance().set(Environment + kPlayerAccountReferenceKey, GetAccountReference());
+                NWDRuntimePrefs.ShareInstance().set(Environment + kPlayerAccountSaltKey, GetAccountSalt());
                 NWDBasisPreferences.SetString(kRequesTokenKey, this, RequesToken, false);
                 NWDDataManager.SharedInstance().DataQueueExecute();
             }
@@ -59,7 +65,12 @@ namespace NetWorkedData
         {
             NWDBenchmarkLauncher.Start();
             SetAccountReference(NWDRuntimePrefs.ShareInstance().getString(Environment + kPlayerAccountReferenceKey));
+            SetAccountSalt(NWDRuntimePrefs.ShareInstance().getString(Environment + kPlayerAccountSaltKey));
             RequesToken = NWDBasisPreferences.GetString(kRequesTokenKey, this, string.Empty, false);
+            if (string.IsNullOrEmpty(GetAccountSalt()))
+            {
+                SetAccountSalt(NWDToolbox.RandomStringAlpha(NWDAccount.K_PERSONAL_SALT_LENGHT));
+            }
             if (string.IsNullOrEmpty(GetAccountReference()))
             {
                 SetAccountReference(NWDToolbox.GenerateUniqueAccountID(this, true));
@@ -75,6 +86,7 @@ namespace NetWorkedData
             SavePreferences();
             NWDDataManager.SharedInstance().DataQueueExecute();
             SetAccountReference(NWDToolbox.GenerateUniqueAccountID(this, withTemporaryAccount));
+            SetAccountSalt(NWDToolbox.RandomStringAlpha(NWDAccount.K_PERSONAL_SALT_LENGHT));
             RequesToken = string.Empty;
             SavePreferences();
             if (withTemporaryAccount == false)
