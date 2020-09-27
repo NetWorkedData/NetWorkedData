@@ -210,13 +210,10 @@ namespace NetWorkedData
         ////-------------------------------------------------------------------------------------------------------------
         private void OnDrawGizmosSelected()
         {
-            // Debug.Log("NWEScreenGaugeBasic OnDrawGizmosSelected()");
-            //DrawOnScene();
-            Prepare();
-
+            Rect tScreen = Camera.main.pixelRect;
+            //Debug.Log("tScreen " + tScreen.ToString());
             if (IsVisible == true)
             {
-
                 float tX = 0;
                 switch (AlignHorizontal)
                 {
@@ -227,12 +224,12 @@ namespace NetWorkedData
                         break;
                     case NWEScreenAlignHorizontal.Middle:
                         {
-                            tX = (Screen.width / 2.0F);
+                            tX = (tScreen.width / 2.0F);
                         }
                         break;
                     case NWEScreenAlignHorizontal.Right:
                         {
-                            tX = Screen.width - (Size.x / 2.0F);
+                            tX = tScreen.width - (Size.x / 2.0F);
                         }
                         break;
                 }
@@ -246,18 +243,18 @@ namespace NetWorkedData
                         break;
                     case NWEScreenAlignVertical.Center:
                         {
-                            tY = (Screen.height / 2.0F);
+                            tY = (tScreen.height / 2.0F);
                         }
                         break;
                     case NWEScreenAlignVertical.Top:
                         {
-                            tY = Screen.height - (Size.y / 2.0F);
+                            tY = tScreen.height - (Size.y / 2.0F);
                         }
                         break;
                 }
                 Vector2 ScreenPos = new Vector2(tX, tY);
-
-                Vector2Int ScreenPosition = new Vector2Int((int)(ScreenPos.x - Size.x / 2.0F + Offset.x), (int)(Screen.height - ScreenPos.y - Size.y / 2.0F + Offset.y));
+                //Debug.Log("ScreenPos " + ScreenPos.ToString());
+                Vector2Int ScreenPosition = new Vector2Int((int)(ScreenPos.x - Size.x / 2.0F + Offset.x), (int)(ScreenPos.y - Size.y / 2.0F + Offset.y));
                 Rect tRectBackground = new Rect(ScreenPosition, Size);
                 Vector2 tFillPosition;
                 Vector2 tFillSize;

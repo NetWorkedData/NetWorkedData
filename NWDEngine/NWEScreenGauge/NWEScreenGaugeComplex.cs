@@ -292,12 +292,8 @@ namespace NetWorkedData
         ////-------------------------------------------------------------------------------------------------------------
         private void OnDrawGizmosSelected()
         {
-            //Debug.Log("NWEScreenGaugeComplex OnDrawGizmosSelected()");
-            //DrawOnScene();
-
             Prepare();
-            SceneView tSceneView = SceneView.lastActiveSceneView;
-            Rect tScreen= tSceneView.camera.pixelRect;
+            Rect tScreen = Camera.main.pixelRect;
             //Debug.Log("tScreen " + tScreen.ToString());
             if (IsVisible == true)
             {
@@ -340,8 +336,8 @@ namespace NetWorkedData
                         break;
                 }
                 Vector2 ScreenPos = new Vector2(tX, tY);
-
-                Vector2Int ScreenPosition = new Vector2Int((int)(ScreenPos.x - Size.x / 2.0F + Offset.x), (int)(Screen.height - ScreenPos.y - Size.y / 2.0F + Offset.y));
+                //Debug.Log("ScreenPos " + ScreenPos.ToString());
+                Vector2Int ScreenPosition = new Vector2Int((int)(ScreenPos.x - Size.x / 2.0F + Offset.x), (int)(ScreenPos.y - Size.y / 2.0F + Offset.y));
                 Rect tRectBackground = new Rect(ScreenPosition, Size);
                 Vector2 tFillPosition;
                 Vector2 tFillSize;
