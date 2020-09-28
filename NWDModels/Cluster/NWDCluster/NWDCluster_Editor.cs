@@ -152,7 +152,11 @@ namespace NetWorkedData
                     GUILayout.Label(tServices.InternalKey);
                     GUILayout.Label("(" + tServices.InternalDescription + ")", NWDGUI.kItalicLabelStyle);
                     GUIContent tButtonTitle = null;
-                    NWDServer tServer = tServices.Server.GetRawData();
+                    NWDServer tServer = null;
+                    if (tServices.Server != null)
+                    {
+                        tServer = tServices.Server.GetRawData();
+                    }
                     if (tServer != null)
                     {
                         string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServices.User + " -p " + tServer.Port;
@@ -181,7 +185,11 @@ namespace NetWorkedData
                     GUILayout.Label(tServices.InternalKey);
                     GUILayout.Label("(" + tServices.InternalDescription + ")", NWDGUI.kItalicLabelStyle);
                     GUIContent tButtonTitle = null;
-                    NWDServer tServer = tServices.Server.GetRawData();
+                    NWDServer tServer = null;
+                    if (tServices.Server != null)
+                    {
+                        tServer = tServices.Server.GetRawData();
+                    }
                     if (tServer != null)
                     {
                         string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Admin_User + " -p " + tServer.Port;
@@ -194,6 +202,14 @@ namespace NetWorkedData
                     if (tServices.PhpMyAdmin == true)
                     {
                         //string tURL = "https://" + tServices.MySQLUser + ":" + tServices.MySQLPassword.GetValue() + "@" + tServices.MySQLIP.GetValue() + "/phpmyadmin/";
+                        if (tServices.MySQLIP == null)
+                        {
+                            tServices.MySQLIP = new NWDIPType();
+                        }
+                        if (tServices.MySQLSecurePassword == null)
+                        {
+                            tServices.MySQLSecurePassword = new NWDSecurePassword();
+                        }
                         string tURL = "https://" + tServices.MySQLIP.GetValue() + "/phpmyadmin/?pma_username=" + tServices.MySQLUser + "&pma_password=" + tServices.MySQLSecurePassword.Decrypt() + "";
                         tButtonTitle = new GUIContent("Try PhpMyAdmin directly", tURL);
                         if (GUILayout.Button(tButtonTitle))

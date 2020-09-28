@@ -48,34 +48,42 @@ namespace NetWorkedData
             NWDGUILayout.Separator();
             if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
             {
-                if (GUILayout.Button( "Credentials window"))
+                if (GUILayout.Button("Credentials window"))
                 {
                     NWDProjectCredentialsManager.SharedInstanceFocus();
                 }
-                if (GUILayout.Button( "Flush credentials"))
+                if (GUILayout.Button("Flush credentials"))
                 {
                     NWDProjectCredentialsManagerContent.FlushCredentials(NWDCredentialsRequired.ForSFTPGenerate);
                 }
                 NWDGUILayout.Separator();
                 GUIContent tButtonTitle = null;
-                NWDServer tServer = Server.GetRawData();
-                NWDServerDomain tServerDomain = ServerDomain.GetRawData();
+                NWDServer tServer = null;
+                if (Server != null)
+                {
+                    tServer = Server.GetRawData();
+                }
+                NWDServerDomain tServerDomain = null;
+                if (ServerDomain != null)
+                {
+                    tServerDomain = ServerDomain.GetRawData();
+                }
                 if (tServer != null)
                 {
                     //-----------------
-                    EditorGUILayout.HelpBox( "Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
-                   
+                    EditorGUILayout.HelpBox("Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);
+
                     string tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + " & ssh-keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Root_User + " -p " + tServer.Port;
                     if (tServer.AdminInstalled)
                     {
                         tcommandKeyGen = "ssh-keygen -R " + tServer.IP.GetValue() + " & ssh -keygen -R " + tServer.IP.GetValue() + ":" + tServer.Port + " & ssh " + tServer.IP.GetValue() + " -l " + tServer.Admin_User + " -p " + tServer.Port;
                     }
-                    GUILayout.TextField( tcommandKeyGen);
+                    GUILayout.TextField(tcommandKeyGen);
                     NWDGUILayout.Separator();
 
                     //-----------------
                     tButtonTitle = new GUIContent("Try connexion", " try connexion with root or admin");
-                    if (GUILayout.Button( tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
@@ -85,7 +93,7 @@ namespace NetWorkedData
 
                     //-----------------
                     tButtonTitle = new GUIContent("Install Apache PHP", "Install Apache and PHP 7");
-                    if (GUILayout.Button( tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         List<string> tCommandList = new List<string>();
 
@@ -206,7 +214,7 @@ namespace NetWorkedData
                     //-----------------
                     EditorGUI.BeginDisabledGroup(UserInstalled == true);
                     tButtonTitle = new GUIContent("Install User", "Install User");
-                    if (GUILayout.Button( tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         if (tServerDomain != null)
                         {
@@ -290,7 +298,7 @@ namespace NetWorkedData
                 "sed -i '$ a CustomLog /var/log/apache2/" + tServerDomain.ServerDNS + "-ssl-access.log combined env=NoLog' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 "sed -i '$ a SSLEngine On' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 //"sed -i '$ a SSLProtocol all -SSLv2 -SSLv3 -TLSv1 -TLSv1.1' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
-                "sed -i '$ a SSLProtocol +TLSv1.2 +TLSv1.3' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
+                //"sed -i '$ a SSLProtocol +TLSv1.2 +TLSv1.3' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 "sed -i '$ a SSLCipherSuite ALL:!DH:!EXPORT:!RC4:+HIGH:+MEDIUM:!LOW:!aNULL:!eNULL' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 "sed -i '$ a SSLCertificateFile /home/" + User + "/ssl/" + tServerDomain.ServerDNS + ".crt' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
                 "sed -i '$ a SSLCertificateKeyFile /home/" + User + "/ssl/" + tServerDomain.ServerDNS + ".key' /etc/apache2/sites-available/" + tServerDomain.ServerDNS +  _SSL +"_ws.conf",
@@ -468,7 +476,7 @@ namespace NetWorkedData
 
 
                     tButtonTitle = new GUIContent("Check apache", "check apache ");
-                    if (GUILayout.Button( tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
@@ -482,7 +490,7 @@ namespace NetWorkedData
 
                     //-----------------
                     tButtonTitle = new GUIContent("Try User connexion", " try connexion with user");
-                    if (GUILayout.Button( tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
@@ -498,38 +506,38 @@ namespace NetWorkedData
                         Application.OpenURL("http://" + tServer.IP.ToString() + "/index.html");
                     }
                     tButtonTitle = new GUIContent("default phpinfo", " try connexion to index.html with ssl");
-                    if (GUILayout.Button( tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         Application.OpenURL("http://" + tServer.IP.ToString() + "/phpinfo.php");
                     }
                     GUILayout.EndHorizontal();
                     if (tServerDomain != null)
                     {
-                    GUILayout.BeginHorizontal();
+                        GUILayout.BeginHorizontal();
                         tButtonTitle = new GUIContent("WS html", " try connexion to index.html");
-                        if (GUILayout.Button( tButtonTitle))
+                        if (GUILayout.Button(tButtonTitle))
                         {
                             Application.OpenURL("http://" + tServerDomain.ServerDNS + "/index.html");
                         }
                         tButtonTitle = new GUIContent("WS ssl html", " try connexion to index.html with ssl");
-                        if (GUILayout.Button( tButtonTitle))
+                        if (GUILayout.Button(tButtonTitle))
                         {
                             Application.OpenURL("https://" + tServerDomain.ServerDNS + "/index.html");
                         }
-                    GUILayout.EndHorizontal();
+                        GUILayout.EndHorizontal();
 
-                    GUILayout.BeginHorizontal();
+                        GUILayout.BeginHorizontal();
                         tButtonTitle = new GUIContent("WS phpinfo", " try connexion to phpinfo.php");
-                        if (GUILayout.Button( tButtonTitle))
+                        if (GUILayout.Button(tButtonTitle))
                         {
                             Application.OpenURL("http://" + tServerDomain.ServerDNS + "/phpinfo.php");
                         }
                         tButtonTitle = new GUIContent("WS ssl phpinfo", " try connexion to phpinfo.php with ssl");
-                        if (GUILayout.Button( tButtonTitle))
+                        if (GUILayout.Button(tButtonTitle))
                         {
                             Application.OpenURL("https://" + tServerDomain.ServerDNS + "/phpinfo.php");
                         }
-                    GUILayout.EndHorizontal();
+                        GUILayout.EndHorizontal();
                     }
                     //-----------------
                     NWDGUILayout.Separator();
@@ -541,7 +549,7 @@ namespace NetWorkedData
                         EditorGUILayout.TextField("Try cerbot", tCerbot);
                         //-----------------
                         tButtonTitle = new GUIContent("Try certbot SSL", " try connexion to generate certbot ssl (lest's encrypt)");
-                        if (GUILayout.Button( tButtonTitle))
+                        if (GUILayout.Button(tButtonTitle))
                         {
                             tServer.ExecuteSSH(tButtonTitle.text, new List<string>()
                         {
@@ -552,7 +560,7 @@ namespace NetWorkedData
                     }
                     //-----------------
                     tButtonTitle = new GUIContent("Test security of SSL", "test security for this SSL config");
-                    if (GUILayout.Button( tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         Application.OpenURL("https://www.ssllabs.com/ssltest/analyze.html?d=" + tServerDomain.ServerDNS + "");
                     }
@@ -561,7 +569,7 @@ namespace NetWorkedData
                     //-----------------
                     string tURLAdmin = "sftp://" + tServer.Admin_User + ":" + tServer.Admin_Secure_Password.Decrypt() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/";
                     tButtonTitle = new GUIContent("Try sftp ADMIN directly", tURLAdmin);
-                    if (GUILayout.Button( tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         //NWEClipboard.CopyToClipboard(Password.GetValue());
                         Application.OpenURL(tURLAdmin);
@@ -569,7 +577,7 @@ namespace NetWorkedData
                     //-----------------
                     string tURL = "sftp://" + User + ":" + Secure_Password.Decrypt() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/" + Folder;
                     tButtonTitle = new GUIContent("Try sftp directly", tURL);
-                    if (GUILayout.Button( tButtonTitle))
+                    if (GUILayout.Button(tButtonTitle))
                     {
                         //NWEClipboard.CopyToClipboard(Password.GetValue());
                         Application.OpenURL(tURL);
@@ -579,7 +587,7 @@ namespace NetWorkedData
             }
             else
             {
-                if (GUILayout.Button( "Need credentials for actions"))
+                if (GUILayout.Button("Need credentials for actions"))
                 {
                     NWDProjectCredentialsManager.SharedInstanceFocus();
                 }

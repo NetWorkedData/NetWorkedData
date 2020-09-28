@@ -72,7 +72,11 @@ namespace NetWorkedData
 
                 GUIContent tButtonTitle = null;
 
-                NWDServer tServer = Server.GetRawData();
+                NWDServer tServer = null;
+                if (Server != null)
+                {
+                    tServer = Server.GetRawData();
+                }
                 if (tServer != null)
                 {
                     //-----------------
@@ -416,6 +420,10 @@ namespace NetWorkedData
                     GUILayout.EndHorizontal();
 
                     //-----------------
+                    if (ServerEditorOriginal == null)
+                    {
+                        ServerEditorOriginal = new NWDReferenceType<NWDServerDatas>();
+                    }
                     NWDServerDatas tServerDatasOrg = ServerEditorOriginal.GetRawData();
                     EditorGUI.BeginDisabledGroup(tServerDatasOrg == null);
                     {

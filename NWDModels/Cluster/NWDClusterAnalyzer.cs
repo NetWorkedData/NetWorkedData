@@ -156,7 +156,11 @@ namespace NetWorkedData
                                     {
                                         if (tServerServices.IsEnable())
                                         {
-                                            NWDServerDomain tDomain = tServerServices.ServerDomain.GetEditorData() as NWDServerDomain;
+                                            NWDServerDomain tDomain = null;
+                                            if (tServerServices.ServerDomain != null)
+                                            {
+                                                tDomain = tServerServices.ServerDomain.GetEditorData() as NWDServerDomain;
+                                            }
                                             if (tDomain != null)
                                             {
                                                 if (tDomain.IsEnable())
@@ -214,7 +218,11 @@ namespace NetWorkedData
                                     {
                                         if (tServerServices.IsEnable())
                                         {
-                                            NWDServerDomain tDomain = tServerServices.ServerDomain.GetEditorData() as NWDServerDomain;
+                                            NWDServerDomain tDomain = null;
+                                            if (tServerServices.ServerDomain != null)
+                                            {
+                                                tDomain = tServerServices.ServerDomain.GetEditorData() as NWDServerDomain;
+                                            }
                                             if (tDomain != null)
                                             {
                                                 if (tDomain.IsEnable())
@@ -272,7 +280,11 @@ namespace NetWorkedData
                                     {
                                         if (tServerServices.IsEnable())
                                         {
-                                            NWDServerDomain tDomain = tServerServices.ServerDomain.GetEditorData() as NWDServerDomain;
+                                            NWDServerDomain tDomain = null;
+                                            if (tServerServices.ServerDomain != null)
+                                            {
+                                                tDomain = tServerServices.ServerDomain.GetEditorData() as NWDServerDomain;
+                                            }
                                             if (tDomain != null)
                                             {
                                                 if (tDomain.IsEnable())

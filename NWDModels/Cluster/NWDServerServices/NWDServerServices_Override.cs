@@ -77,7 +77,11 @@ namespace NetWorkedData
         {
             base.AddonUpdateMe();
             InternalKey = "Unused config";
-            NWDServerDomain tServerDNS = ServerDomain.GetRawData();
+            NWDServerDomain tServerDNS = null;
+            if (ServerDomain != null)
+            {
+                tServerDNS = ServerDomain.GetRawData();
+            }
             if (tServerDNS != null)
             {
                 if (string.IsNullOrEmpty(tServerDNS.ServerDNS) == false)

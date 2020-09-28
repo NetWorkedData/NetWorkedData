@@ -389,6 +389,7 @@ namespace NetWorkedData.NWDEditor
                         NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                         tHelper.LoadEditorPrefererences();
                         mPanelSelected = NWDBasisHelper.FindTypeInfos(tType).PanelActivate;
+                        GUI.FocusControl(null);
                     }
                     mTabSelected = tTabSelected;
                     // DRAW TABLE!
