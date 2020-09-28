@@ -150,9 +150,9 @@ namespace NetWorkedData
         private void CreatePHP_StaticFunctionsFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             NWDBenchmark.Start();
-            string tSignAccountKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Account);
-            string tSignHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash);
-            string tRescueHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash);
+            //string tSignAccountKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Account);
+            //string tSignHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash);
+            //string tRescueHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash);
             string tAC = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().AC);
             string tReference = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Reference);
             string tBan = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Ban);
@@ -176,6 +176,16 @@ namespace NetWorkedData
             // --------------------------------------
             tFile.AppendLine("// ban account ?");
             tFile.AppendLine("$ban = false;");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            // --------------------------------------
+            tFile.AppendLine("function HashSign($sValue)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine("global $NWD_SLT_END;");
+                tFile.AppendLine("return sha1($sValue.$NWD_SLT_END);");
+                //tFile.AppendLine("return $sValue;");
+            }
+            tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
             // --------------------------------------
             tFile.AppendLine("function EscapeString($sString)");
@@ -1445,7 +1455,7 @@ namespace NetWorkedData
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_RESTART_WEBSERVICE_KEY + "'] = true;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("function respond_UserTransfert($sOldReference, $sNewReference)");
+            tFile.AppendLine("function respond_UserTransfert($sOldReference, $sNewReference, $sSalt)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine(NWDError.PHP_log(this, "$sOldReference = '.$sOldReference.'"));
@@ -1455,18 +1465,20 @@ namespace NetWorkedData
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_USER_TRANSFERT_KEY + "'] = true;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_PREVIEW_USER_KEY + "'] = $sOldReference;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_NEXT_USER_KEY + "'] = $sNewReference;");
+            tFile.AppendLine("$REP['" + NWD.K_WEB_SALT_KEY + "'] = $sSalt;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("function respond_NewUser($sOldReference, $sNewReference)");
+            tFile.AppendLine("function respond_NewUser($sOldReference, $sNewReference, $sSalt)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine(NWDError.PHP_log(this, "$sOldReference = '.$sOldReference.'"));
             tFile.AppendLine(NWDError.PHP_log(this, "$sNewReference = '.$sNewReference.'"));
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_NEW_USER_KEY + "'] = true;");
+            tFile.AppendLine("$REP['" + NWD.K_WEB_SALT_KEY + "'] = $sSalt;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("function respond_ChangeUser($sOldReference, $sNewReference)");
+            tFile.AppendLine("function respond_ChangeUser($sOldReference, $sNewReference, $sSalt)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine(NWDError.PHP_log(this, "$sOldReference = '.$sOldReference.'"));
@@ -1475,6 +1487,7 @@ namespace NetWorkedData
             tFile.AppendLine("global $CHANGE_USER;");
             tFile.AppendLine("$CHANGE_USER = true;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_NEW_USER_KEY + "'] = true;");
+            tFile.AppendLine("$REP['" + NWD.K_WEB_SALT_KEY + "'] = $sSalt;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("?>");

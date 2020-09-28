@@ -37,6 +37,8 @@ namespace NetWorkedData
     public partial class NWDAccount : NWDBasisAccountRestricted
     {
         //-------------------------------------------------------------------------------------------------------------
+       public const int K_PERSONAL_SALT_LENGHT = 24;
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Use to tag account reference as temporary reference, cluster need return a real account reference.
         /// </summary>
@@ -74,6 +76,12 @@ namespace NetWorkedData
         [NWDTooltips("The statut of this account in process of test (normal and default are 'InGame')")]
         [NWDCertified]
         public NWDAccountEnvironment UseInEnvironment { get; set; }
+        [NWDInspectorGroupEnd]
+
+        [NWDInspectorGroupStart("Account salt")]
+        [NWDTooltips("Salt use for personal data")]
+        [NWDCertified]
+        public string Salt { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Account ban")]

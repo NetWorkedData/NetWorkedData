@@ -73,6 +73,7 @@ namespace NetWorkedData
         //public NWDAppEnvironmentPlayerStatut PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
         //-------------------------------------------------------------------------------------------------------------
         private string AccountReference = string.Empty;
+        private string AccountSalt = string.Empty;
         //-------------------------------------------------------------------------------------------------------------
         public string GetAccountReference()
         {
@@ -83,6 +84,16 @@ namespace NetWorkedData
         {
             AccountReference = sPlayerAccountReference;
             NWDAccountInfos.ResetCurrentData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetAccountSalt()
+        {
+            return AccountSalt;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetAccountSalt(string sPlayerAccountSalt)
+        {
+            AccountSalt = sPlayerAccountSalt;
         }
         //private NWDAccountInfos PlayerInfos = null;
 

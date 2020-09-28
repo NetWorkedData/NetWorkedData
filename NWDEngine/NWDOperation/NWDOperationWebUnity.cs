@@ -17,6 +17,10 @@
 #undef NWD_LOG
 #undef NWD_BENCHMARK
 #endif
+
+#if DEBUG
+//#define NWD_LOG
+#endif
 //=====================================================================================================================
 using System;
 using System.Collections;
@@ -536,6 +540,7 @@ namespace NetWorkedData
                                             if (!ResultInfos.uuid.Equals(string.Empty))
                                             {
                                                 Environment.SetAccountReference(ResultInfos.uuid);
+                                                Environment.SetAccountSalt(ResultInfos.salt);
                                             }
 
                                             //NWDBenchmark.Step(tBenchmark);

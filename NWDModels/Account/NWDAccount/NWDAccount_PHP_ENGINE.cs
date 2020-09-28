@@ -108,6 +108,81 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
+
+
+            // --------------------------------------
+            tFile.AppendLine("// Test if account is ban or not");
+            tFile.AppendLine("function GetAccountSalt($sReference)");
+            tFile.AppendLine("{");
+            {
+                tFile.AppendLine(NWDError.PHP_BenchmarkStart(sEnvironment));
+                tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+                tFile.AppendLine(NWDError.PHP_log(sEnvironment, " GetAccountSalt ($sReference = '.$sReference.')"));
+                tFile.AppendLine("$rSalt = '';");
+                tFile.AppendLine("$tQuery = 'SELECT `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Reference) + "`,`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Salt) + "` FROM `" + NWDBasisHelper.TableNamePHP<NWDAccount>(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Reference) + "` = \\''.EscapeString($sReference).'\\' AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().AC) + "` = 1;';");
+                tFile.AppendLine("$tResult = SelectFromConnexionRangeAccess(GetRangeAccessForAccount($sReference), $tQuery);");
+                tFile.AppendLine("if ($tResult['error'] == true)");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine(NWDError.PHP_log(sEnvironment, "'.$tResult['error_log'].'"));
+                    tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_ACC90));
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine("else");
+                tFile.AppendLine("{");
+                {
+                    tFile.AppendLine("if ($tResult['count'] == 0)");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("// if user is temporary user I must find the last letter equal to '" + NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE + "'");
+                        tFile.AppendLine("if (TestTemporaryAccount($sReference))");
+                        tFile.AppendLine("{");
+                        {
+                            tFile.AppendLine("// normal ... unknow user!");
+                        }
+                        tFile.AppendLine("}");
+                        tFile.AppendLine("else");
+                        tFile.AppendLine("{");
+                        {
+                            tFile.AppendLine("// strange… an unknow account but not temporary … it's not possible");
+                            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_ACC92));
+                            //tFile.AppendLine("error('ACC92',true, __FILE__, __FUNCTION__, __LINE__);");
+                        }
+                        tFile.AppendLine("}");
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("else if ($tResult['count'] == 1)");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine("foreach($tResult['connexions'] as $tConnexionKey => $tConnexionSub)");
+                        tFile.AppendLine("{");
+                        {
+                            tFile.AppendLine("foreach($tResult['datas'][$tConnexionKey] as $tRow)");
+                            tFile.AppendLine("{");
+                            {
+                                tFile.AppendLine("$rSalt = $tRow['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Salt) + "'];");
+                            }
+                            tFile.AppendLine("}");
+                        }
+                        tFile.AppendLine("}");
+                    }
+                    tFile.AppendLine("}");
+                    tFile.AppendLine("else //or more than one user with this UUID … strange… I push an error, user must be unique");
+                    tFile.AppendLine("{");
+                    {
+                        tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_ACC95));
+                        //tFile.AppendLine("error('ACC95',true, __FILE__, __FUNCTION__, __LINE__);");
+                    }
+                    tFile.AppendLine("}");
+                }
+                tFile.AppendLine("}");
+                tFile.AppendLine(NWDError.PHP_BenchmarkFinish(sEnvironment));
+                tFile.AppendLine("return $rSalt;");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+
             // --------------------------------------
             tFile.AppendLine("// Test if account is ban or not");
             tFile.AppendLine("function TestBanAccount($sReference)");
@@ -202,7 +277,7 @@ namespace NetWorkedData
                     tFile.Append(" FROM `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "`");
                     tFile.Append(" WHERE ");
                     tFile.Append("(");
-                    tFile.Append(" `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` = \\''.EscapeString($sSDKv).'\\' ");
+                    tFile.Append(" `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` = \\''.HashSign(EscapeString($sSDKv)).'\\' ");
                     tFile.Append(" AND  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` != \\'\\' ");
                     tFile.Append(")");
                     tFile.Append(" OR ");
@@ -291,7 +366,7 @@ namespace NetWorkedData
                         tFile.Append("$tQuerySign = 'SELECT `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Account) + "`");
                         tFile.Append(" FROM `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "`");
                         tFile.Append(" WHERE");
-                        tFile.Append(" `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` = \\''.EscapeString($sSDKI).'\\' ");
+                        tFile.Append(" `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` = \\''.HashSign(EscapeString($sSDKI)).'\\' ");
                         tFile.Append(" AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` != \\'\\' ");
                         tFile.Append(" AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignStatus) + "` = \\'" + ((int)NWDAccountSignAction.Associated).ToString() + "\\' ");
                         tFile.Append(" AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().AC) + "` = 1;");
@@ -341,12 +416,14 @@ namespace NetWorkedData
                                     tFile.AppendLine("{");
                                     {
                                         tFile.AppendLine("$tReference = $tRowSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Account) + "'];");
+
                                         tFile.AppendLine("if(TestBanAccount($tReference) == false)");
                                         tFile.AppendLine("{");
                                         {
+                                            tFile.AppendLine("$tSalt = GetAccountSalt($tReference);");
                                             tFile.AppendLine("// second authentification later ... here");
                                             tFile.AppendLine("respondUUID($tReference);");
-                                            tFile.AppendLine("respond_ChangeUser($sReference, $tReference);");
+                                            tFile.AppendLine("respond_ChangeUser($sReference, $tReference, $tSalt);");
                                             tFile.AppendLine("NWDRequestTokenReset($tReference);");
                                         }
                                         tFile.AppendLine("}");
@@ -509,6 +586,7 @@ namespace NetWorkedData
                     tFile.AppendLine("$tInternalKey = '';");
                     tFile.AppendLine("$tInternalDescription = '';");
                     tFile.AppendLine("$tNewUUID = CreateAccountUniqueReference ($tConnexion, $tUserRange);");
+                    tFile.AppendLine("$tSalt = RandomString(" + K_PERSONAL_SALT_LENGHT + ");");
 
                     //tFile.AppendLine("$tNewUUID = referenceSecondGenerate ('" + NWDBasisHelper.BasisHelper<NWDAccount>().ClassTrigramme + "', '" + NWDBasisHelper.TableNamePHP<NWDAccount>(sEnvironment) + "', '" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Reference) + "');");
                     tFile.AppendLine("$tInsertSQL='';");
@@ -554,6 +632,7 @@ namespace NetWorkedData
                     tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Preview) + "`, '; $tInsertSQLValue.= '\\'\\', ';");
                     tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Tag) + "`, '; $tInsertSQLValue.= '\\'" + ((int)NWDBasisTag.TagServerCreated).ToString() + "\\', '; // " + NWDBasisTag.TagServerCreated.ToString() + "");
                     tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().UseInEnvironment) + "`, ';$tInsertSQLValue.= '\\'0\\', ';");
+                    tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Salt) + "`, ';$tInsertSQLValue.= '\\''.$tSalt.'\\', ';");
                     tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().WebModel) + "`, '; $tInsertSQLValue.= '\\'" + NWDBasisHelper.BasisHelper<NWDAccount>().LastWebBuild + "\\', ';");
                     tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().XX) + "` '; $tInsertSQLValue.= '\\'0\\'';");
                     tFile.AppendLine("$tInsertSQL.=')';");
@@ -573,7 +652,7 @@ namespace NetWorkedData
                         tFile.AppendLine("if ($sOldUUID !='" + ServerFakeAccount + "')");
                         tFile.AppendLine("{");
                         {
-                            tFile.AppendLine("respond_UserTransfert($sOldUUID, $tNewUUID);");
+                            tFile.AppendLine("respond_UserTransfert($sOldUUID, $tNewUUID, $tSalt);");
                             tFile.AppendLine(NWDError.PHP_log(sEnvironment, "sSDKv : '.$sSDKv.' NO Row"));
                             tFile.AppendLine("CreateAccountSign($tNewUUID, $sSDKt, $sSDKv, $sSDKr, $sSDKl);");
                         }
@@ -581,7 +660,7 @@ namespace NetWorkedData
                         tFile.AppendLine("else");
                         tFile.AppendLine("{");
                         {
-                            tFile.AppendLine("respond_NewUser($sOldUUID, $tNewUUID);");
+                            tFile.AppendLine("respond_NewUser($sOldUUID, $tNewUUID, $tSalt);");
                         }
                         tFile.AppendLine("}");
                         tFile.AppendLine("respondUUID($tNewUUID);");

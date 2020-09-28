@@ -293,7 +293,7 @@ namespace NetWorkedData
             // Save App version in pref for futur used
             if (rReturn == true)
             {
-                Debug.Log("#DATABASE# Database must upadte by bundle");
+                Debug.Log("#DATABASE# Database must be update by bundle : copy from bundle");
             }
             else
             {

@@ -94,6 +94,7 @@ namespace NetWorkedData
         public const string K_WEB_HEADER_LANG_KEY = "lang";
         public const string K_WEB_HEADER_VERSION_KEY = "version";
         public const string K_WEB_UUID_KEY = "uuid";
+        public const string K_WEB_SALT_KEY = "saltui";
         public const string K_WEB_REQUEST_TOKEN_KEY = "token";
         public const string HashKey = "hash";
         public const string AdminHashKey = "adminHash";

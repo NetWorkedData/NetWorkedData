@@ -197,6 +197,7 @@ namespace NetWorkedData.NWDEditor
             EditorGUILayout.LabelField("Secret key editor", NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDeviceEditor(), EditorStyles.label);
             EditorGUILayout.LabelField("Secret key player", NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevicePlayer(), EditorStyles.label);
             EditorGUILayout.LabelField("Account used", NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetAccountReference());
+            EditorGUILayout.LabelField("Account salt", NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetAccountSalt());
             if (NWDAccountInfos.CurrentData() != null)
             {
                 EditorGUILayout.LabelField("Account infos used", NWDAccountInfos.CurrentData().Reference);

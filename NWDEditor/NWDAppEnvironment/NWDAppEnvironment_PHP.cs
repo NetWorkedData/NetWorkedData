@@ -471,6 +471,7 @@ namespace NetWorkedData
             tWebServices.AppendLine("{");
             tWebServices.AppendLine("if(NWDRequestTokenIsValid($uuid,$token) == true)");
             tWebServices.AppendLine("{");
+            tWebServices.AppendLine("$saltui = GetAccountSalt($uuid);");
             // I need include ALL tables management files to manage ALL tables
             foreach (Type tType in NWDDataManager.SharedInstance().ClassSynchronizeList)
             {
@@ -479,7 +480,7 @@ namespace NetWorkedData
                 {
                     tWebServices.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
                     tWebServices.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-                    tWebServices.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
+                    tWebServices.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $saltui, $admin);");
                     tWebServices.AppendLine("}");
                 }
             }
@@ -588,11 +589,12 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if(TestBanAccount($uuid) == false)");
             tFile.AppendLine("{");
+            tFile.AppendLine("$saltui = GetAccountSalt($uuid);");
             foreach (Type tType in NWDDataManager.SharedInstance().ClassSynchronizeList)
             {
                 tFile.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
                 tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-                tFile.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
+                tFile.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $saltui, $admin);");
                 tFile.AppendLine("}");
             }
             tFile.AppendLine("}");

@@ -32,13 +32,6 @@ namespace NetWorkedData
     public static partial class NWDLauncher
     {
         //-------------------------------------------------------------------------------------------------------------
-        static NWDLauncher()
-        {
-            Debug.Log("static constructor");
-            LaunchEngine();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [RuntimeInitializeOnLoadMethod]
         static private void LaunchEngine()
         {
             Debug.Log("LaunchEngine()");

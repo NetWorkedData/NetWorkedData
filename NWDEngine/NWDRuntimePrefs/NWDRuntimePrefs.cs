@@ -40,17 +40,20 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDRuntimePrefs ShareInstance()
         {
-            
             if (kSharedInstance == null)
             {
                 kSharedInstance = new NWDRuntimePrefs();
             }
-
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
+        //public void DeleteAll()
+        //{
+        //    PlayerPrefs.DeleteAll();
+        //}
+    //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
-        public bool HasKey(string sKey)
+    public bool HasKey(string sKey)
         {
             return NWDProjectPrefs.HasKey(sKey);
         }
@@ -61,7 +64,6 @@ namespace NetWorkedData
             {
                 return false;
             }
-
             return true;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -160,6 +162,11 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 #else
+        public bool HasKey(string sKey)
+        {
+            return PlayerPrefs.HasKey(sKey);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public bool isFirstLaunch()
         {
             if (PlayerPrefs.HasKey(kFirstLaunch))
