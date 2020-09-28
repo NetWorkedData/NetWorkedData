@@ -63,9 +63,9 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         #region var
         //-------------------------------------------------------------------------------------------------------------
-#if NWD_DEVELOPER
+        #if NWD_DEVELOPER
         static bool kStopRecompile = false;
-#endif
+        #endif
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -390,20 +390,26 @@ namespace NetWorkedData.NWDEditor
         #endregion
         #region Tools
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(K_NETWORKEDDATA + K_TOOLS + "Password analyzer window", false, 200)]
+        [MenuItem(K_NETWORKEDDATA + K_TOOLS + "Import mixte datas", false, 201)]
+        public static void ImportDataMenu()
+        {
+            NWDBasisHelper.ImportMultiCSV();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_TOOLS + "Password analyzer window", false, 240)]
         public static void PasswordAnalyze()
         {
             NWEPassAnalyseWindow.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(K_NETWORKEDDATA + K_TOOLS + "New footer window", false, 201)]
+        [MenuItem(K_NETWORKEDDATA + K_TOOLS + "New footer window", false, 241)]
         public static void NewFooterWindow()
         {
             NWDEditorFooter.NewFooter();
         }
         //-------------------------------------------------------------------------------------------------------------
         #region Special Recompile
-#if NWD_DEVELOPER
+        #if NWD_DEVELOPER
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_TOOLS + "Stop recompile", true)]
         public static bool TestStopRecompile()
@@ -437,7 +443,7 @@ namespace NetWorkedData.NWDEditor
         {
             StopRecompile();
         }
-#endif
+        #endif
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #endregion

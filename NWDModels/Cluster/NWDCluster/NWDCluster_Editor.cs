@@ -23,6 +23,7 @@ using UnityEngine;
 //=====================================================================================================================
 using UnityEditor;
 using NetWorkedData.NWDEditor;
+using System.Collections.Generic;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -127,6 +128,30 @@ namespace NetWorkedData
         public override void AddonEditor(Rect sRect)
         {
             base.AddonEditor(sRect);
+            NWDGUILayout.Separator();
+            if (GUILayout.Button("Export Cluster ALL DATAS"))
+            {
+                List<NWDBasis> tDatasList = new List<NWDBasis>();
+                tDatasList.Add(this);
+                tDatasList.AddRange(this.Services.GetRawDatasList());
+                foreach (NWDServerServices tServerService in this.Services.GetRawDatasList())
+                {
+                    if (tServerService.ServerDomain!=null)
+                    {
+                        if (tServerService.ServerDomain.GetRawData()!=null)
+                        {
+                            tDatasList.Add(tServerService.ServerDomain.GetRawData());
+                        }
+                    }
+                }
+                tDatasList.AddRange(this.DataBases.GetRawDatasList());
+                tDatasList.AddRange(this.Domains.GetRawDatasList());
+                NWDBasisHelper.ExportMultiCSV(tDatasList, "Clusterdata-" + InternalKey);
+            }
+            if (GUILayout.Button("Import Cluster and other datas"))
+            {
+                NWDBasisHelper.ImportMultiCSV();
+            }
             NWDGUILayout.Separator();
             if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateForAll))
             {
