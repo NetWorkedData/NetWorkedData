@@ -21,6 +21,7 @@
 #if UNITY_EDITOR
 using System;
 using System.IO;
+using NetWorkedData.NWDEditor;
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -50,7 +51,7 @@ namespace NetWorkedData
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void CreatePHPAllClass(NWDAppEnvironment sEnvironment ,bool sIncrement = true, bool sWriteOnDisk = true)
+        public void CreatePHPAllClass(NWDAppEnvironment sEnvironment, bool sIncrement = true, bool sWriteOnDisk = true)
         {
             NWDBenchmark.Start();
             if (sIncrement == true)
@@ -93,7 +94,23 @@ namespace NetWorkedData
             }
             foreach (NWDAppEnvironment tEnvironement in NWDAppConfiguration.SharedInstance().AllEnvironements())
             {
-                tEnvironement.CreatePHP(NWDDataManager.SharedInstance().ClassTypeList, true, sWriteOnDisk);
+                bool tValid = false;
+                if (tEnvironement == NWDAppConfiguration.SharedInstance().DevEnvironment)
+                {
+                    tValid = NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateDev);
+                }
+                if (tEnvironement == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+                {
+                    tValid = NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGeneratePreprod);
+                }
+                if (tEnvironement == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+                {
+                    tValid = NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateProd);
+                }
+                if (tValid == true)
+                {
+                    tEnvironement.CreatePHP(NWDDataManager.SharedInstance().ClassTypeList, true, sWriteOnDisk);
+                }
             }
             NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppEnvironment.SelectedEnvironment());
             NWDBenchmark.Finish();

@@ -329,7 +329,7 @@ namespace NetWorkedData.NWDEditor
             //if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
             {
                 NWDGUI.BeginRedArea();
-                if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
+                if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateForAll))
                 {
                     if (GUILayout.Button("Generate next WS" + (NWDAppConfiguration.SharedInstance().WebBuildMax + 1).ToString("0000"), NWDGUI.KTableSearchButton))
                     {

@@ -31,7 +31,8 @@ namespace NetWorkedData.NWDEditor
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDCredentialsRequired : int
     {
-        ForSFTPGenerate,
+        ForSFTPGenerateForAll,
+        ForSFTPGenerateOneOrMore,
         ForSFTPGenerateDev,
         ForSFTPGeneratePreprod,
         ForSFTPGenerateProd,
@@ -275,26 +276,32 @@ namespace NetWorkedData.NWDEditor
         public static bool IsValid(NWDCredentialsRequired sCredentialsType)
         {
             bool rReturn = false;
+            NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
             switch (sCredentialsType)
             {
-                case NWDCredentialsRequired.ForSFTPGenerate:
+                case NWDCredentialsRequired.ForSFTPGenerateForAll:
                     {
-                        rReturn = string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.Password) == false && string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.VectorString) == false;
+                        rReturn = NWDAppConfiguration.SharedInstance().DevServerIsActive() && NWDAppConfiguration.SharedInstance().PreprodServerIsActive() && NWDAppConfiguration.SharedInstance().ProdServerIsActive();
+                    }
+                    break;
+                case NWDCredentialsRequired.ForSFTPGenerateOneOrMore:
+                    {
+                        rReturn = NWDAppConfiguration.SharedInstance().DevServerIsActive() || NWDAppConfiguration.SharedInstance().PreprodServerIsActive() || NWDAppConfiguration.SharedInstance().ProdServerIsActive();
                     }
                     break;
                 case NWDCredentialsRequired.ForSFTPGenerateDev:
                     {
-                        rReturn = string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.Password) == false && string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.VectorString) == false;
+                        rReturn = NWDAppConfiguration.SharedInstance().DevServerIsActive();
                     }
                     break;
                 case NWDCredentialsRequired.ForSFTPGeneratePreprod:
                     {
-                        rReturn = string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.Password) == false && string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.VectorString) == false;
+                        rReturn = NWDAppConfiguration.SharedInstance().PreprodServerIsActive();
                     }
                     break;
                 case NWDCredentialsRequired.ForSFTPGenerateProd:
                     {
-                        rReturn = string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.Password) == false && string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.VectorString) == false;
+                        rReturn = NWDAppConfiguration.SharedInstance().ProdServerIsActive();
                     }
                     break;
             }

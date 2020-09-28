@@ -100,7 +100,7 @@ namespace NetWorkedData
             GUIContent tButtonTitle = null;
             //-----------------
             base.AddonEditor(sRect);
-            if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
+            if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateForAll))
             {
                 NWDGUILayout.Separator();
                 EditorGUILayout.LabelField("Continents", Continent.ConcatRepresentations());

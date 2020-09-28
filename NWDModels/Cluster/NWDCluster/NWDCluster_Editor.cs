@@ -128,7 +128,7 @@ namespace NetWorkedData
         {
             base.AddonEditor(sRect);
             NWDGUILayout.Separator();
-            if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
+            if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateForAll))
             {
                 if (GUILayout.Button("Credentials window"))
                 {
@@ -136,7 +136,7 @@ namespace NetWorkedData
                 }
                 if (GUILayout.Button("Flush credentials"))
                 {
-                    NWDProjectCredentialsManagerContent.FlushCredentials(NWDCredentialsRequired.ForSFTPGenerate);
+                    NWDProjectCredentialsManagerContent.FlushCredentials(NWDCredentialsRequired.ForSFTPGenerateForAll);
                 }
                 NWDGUILayout.Separator();
                 EditorGUILayout.HelpBox("Don't forgot to check your ~/.ssh/known_hosts file permission!", MessageType.Warning);

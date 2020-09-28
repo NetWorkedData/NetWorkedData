@@ -88,6 +88,10 @@ namespace NetWorkedData
                     if (tCluster.IsEnable())
                     {
                         //Debug.Log("<b><color=red>Analyze</color> Cluster : " + tCluster.InternalKey + "</b>");
+                        if (tCluster.Domains == null)
+                        {
+                            tCluster.Domains = new NWDReferencesListType<NWDServerDomain>();
+                        }
                         tCluster.Domains.Flush();
                         foreach (NWDServerServices tServerServices in tCluster.Services.GetEditorDatas())
                         {

@@ -67,7 +67,7 @@ namespace NetWorkedData.NWDEditor
         static bool kStopRecompile = false;
 #endif
         //-------------------------------------------------------------------------------------------------------------
-#endregion
+        #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Menu
         //-------------------------------------------------------------------------------------------------------------
@@ -257,7 +257,7 @@ namespace NetWorkedData.NWDEditor
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_ALL_ENVIRONMENT + K_WS_NEED_CREDENTIALS, true, 50)]
         public static bool NeedCredentialsValidMenu()
         {
-            return !NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate);
+            return !NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateOneOrMore);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_DEV_ENVIRONMENT + K_WS_NEED_CREDENTIALS, true, 79)]
@@ -292,12 +292,24 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_ALL_ENVIRONMENT + "Increment and generate WebServices", true, 51)]
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_ALL_ENVIRONMENT + K_WS_REGENERATE, true, 52)]
-        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_DEV_ENVIRONMENT + K_WS_REGENERATE, true, 80)]
-        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_PREPROD_ENVIRONMENT + K_WS_REGENERATE, true, 84)]
-        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_PROD_ENVIRONMENT + K_WS_REGENERATE, true, 88)]
         public static bool GenerateServersValidMenu()
         {
-            return NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate);
+            return NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateOneOrMore);
+        }
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_DEV_ENVIRONMENT + K_WS_REGENERATE, true, 80)]
+        public static bool GenerateServersValidMenuDev()
+        {
+            return NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateDev);
+        }
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_PREPROD_ENVIRONMENT + K_WS_REGENERATE, true, 84)]
+        public static bool GenerateServersValidMenuPreprod()
+        {
+            return NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGeneratePreprod);
+        }
+        [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_PROD_ENVIRONMENT + K_WS_REGENERATE, true, 88)]
+        public static bool GenerateServersValidMenuProd()
+        {
+            return NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateProd);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_CLUSTER + K_ALL_ENVIRONMENT + "Increment and generate WebServices", false, 51)]

@@ -57,7 +57,7 @@ namespace NetWorkedData
 
             PropertiesPrevent();
             NWDGUILayout.Separator();
-            if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerate))
+            if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateForAll))
             {
                 if (GUILayout.Button("Credentials window"))
                 {
@@ -65,7 +65,7 @@ namespace NetWorkedData
                 }
                 if (GUILayout.Button("Flush credentials"))
                 {
-                    NWDProjectCredentialsManagerContent.FlushCredentials(NWDCredentialsRequired.ForSFTPGenerate);
+                    NWDProjectCredentialsManagerContent.FlushCredentials(NWDCredentialsRequired.ForSFTPGenerateForAll);
                 }
                 NWDGUILayout.Separator();
                 GUIStyle tSyleTextArea = new GUIStyle(GUI.skin.textArea);
