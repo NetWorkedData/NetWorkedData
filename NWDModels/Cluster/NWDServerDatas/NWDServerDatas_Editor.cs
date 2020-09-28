@@ -249,6 +249,14 @@ namespace NetWorkedData
 
 
                     //-----------------
+                    if (tServer.IP == null)
+                    {
+                        tServer.IP = new NWDIPType();
+                    }
+                    if (tServer.Admin_Secure_Password == null)
+                    {
+                        tServer.Admin_Secure_Password = new NWDSecurePassword();
+                    }
                     string tURLAdmin = "sftp://" + tServer.Admin_User + ":" + tServer.Admin_Secure_Password.Decrypt() + "@" + tServer.IP.GetValue() + ":" + tServer.Port + "/";
                     tButtonTitle = new GUIContent("Try sftp ADMIN directly", tURLAdmin);
                     if (GUILayout.Button(tButtonTitle))

@@ -47,6 +47,22 @@ namespace NetWorkedData
             Folder = sFolder.TrimEnd('/').TrimStart('/') + "/";
             User = sUser;
             Password = sPassword;
+            if (Host == null)
+            {
+                Host = string.Empty;
+            }
+            if (Folder == null)
+            {
+                Folder = string.Empty;
+            }
+            if (User == null)
+            {
+                User = string.Empty;
+            }
+            if (Password == null)
+            {
+                Password = string.Empty;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         SftpClient SftpConnexion;

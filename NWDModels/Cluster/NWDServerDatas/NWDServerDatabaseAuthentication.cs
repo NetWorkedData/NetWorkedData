@@ -61,6 +61,35 @@ namespace NetWorkedData
             Database = sDatabase;
             User = sUser;
             Password = sPassword;
+
+            if (Title ==null)
+            {
+                Title = string.Empty;
+            }
+            if (NameID == null)
+            {
+                NameID = string.Empty;
+            }
+            if (MaxUser == null)
+            {
+                MaxUser = "100";
+            }
+            if (Host == null)
+            {
+                Host = string.Empty;
+            }
+            if (Database == null)
+            {
+                Database = string.Empty;
+            }
+            if (User == null)
+            {
+                User = string.Empty;
+            }
+            if (Password == null)
+            {
+                Password = string.Empty;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }

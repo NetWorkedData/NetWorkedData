@@ -262,6 +262,28 @@ namespace NetWorkedData
             }
             else
             {
+                string tAdminKey = string.Empty;
+                if (tNWDCluster.AdminKey == null)
+                {
+                    tNWDCluster.AdminKey = new NWDSecurePassword();
+                }
+                tAdminKey = tNWDCluster.AdminKey.Decrypt();
+                if (tAdminKey == null)
+                {
+                    tAdminKey = string.Empty;
+                }
+
+
+                string tSaltServer = string.Empty;
+                if (tNWDCluster.SaltServer == null)
+                {
+                    tNWDCluster.SaltServer = new NWDSecurePassword();
+                }
+                tSaltServer = tNWDCluster.SaltServer.Decrypt();
+                if (tSaltServer == null)
+                {
+                    tSaltServer = string.Empty;
+                }
                 // prevent null effect
                 tNWDCluster.NotNullChecker();
                 tConstantsFile.AppendLine(NWD.K_CommentSeparator);
@@ -283,7 +305,7 @@ namespace NetWorkedData
                 tConstantsFile.AppendLine("$NWD_SHA_VEC = '" + DataSHAVector.Replace("'", "'") + "';");
                 tConstantsFile.AppendLine("$NWD_SLT_STR = '" + SaltStart.Replace("'", "\'") + "';");
                 tConstantsFile.AppendLine("$NWD_SLT_END = '" + SaltEnd.Replace("'", "\'") + "';");
-                tConstantsFile.AppendLine("" + NWD.K_NWD_SLT_SRV + " = '" + tNWDCluster.SaltServer.Decrypt().Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("" + NWD.K_NWD_SLT_SRV + " = '" + tSaltServer.Replace("'", "\'") + "';");
                 tConstantsFile.AppendLine(NWD.K_CommentSeparator);
                 tConstantsFile.AppendLine("// CONSTANT FOR TEMPORAL SALT");
                 tConstantsFile.AppendLine("$NWD_SLT_TMP = " + SaltFrequency.ToString() + ";");
@@ -358,9 +380,9 @@ namespace NetWorkedData
                 tConstantsFile.AppendLine("$SQL_MNG = false;");
                 tConstantsFile.AppendLine(NWD.K_CommentSeparator);
                 tConstantsFile.AppendLine("// ADMIN SECRET KEY");
-                tConstantsFile.AppendLine("$NWD_ADM_KEY = '" + NWDCluster.SelectClusterforEnvironment(this, false).AdminKey.Decrypt().Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$NWD_ADM_KEY = '" + tAdminKey.Replace("'", "\'") + "';");
                 tConstantsFile.AppendLine(NWD.K_CommentSeparator);
-                tConstantsFile.AppendLine("$NWD_RES_MAIL = '" + NWDCluster.SelectClusterforEnvironment(this, false).RescueEmail + "';");
+                tConstantsFile.AppendLine("$NWD_RES_MAIL = '" + tNWDCluster.RescueEmail + "';");
                 tConstantsFile.AppendLine("$NWD_APP_PRO = '" + AppProtocol.Replace("'", "\'") + "';");
                 tConstantsFile.AppendLine("$NWD_APP_NAM = '" + AppName.Replace("'", "\'") + "';");
                 tConstantsFile.AppendLine(NWD.K_CommentSeparator);
