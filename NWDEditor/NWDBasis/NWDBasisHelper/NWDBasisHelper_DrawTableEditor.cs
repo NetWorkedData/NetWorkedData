@@ -1131,6 +1131,34 @@ namespace NetWorkedData
                 {
                     tIndexStop++;
                 }
+                if (Datas.Count == 0)
+                {
+                    GUILayout.BeginArea(tScrollRectDelimited);
+                    GUILayout.BeginHorizontal();
+                    GUILayout.FlexibleSpace();
+                    GUILayout.BeginVertical(GUILayout.Width(300));
+                    GUILayout.FlexibleSpace();
+                    GUILayout.BeginVertical(EditorStyles.helpBox);
+                    GUILayout.Label("You have no data!", NWDGUI.kInspectorReferenceCenter);
+                    NWDGUILayout.Separator();
+                    if (GUILayout.Button("Import datas from file"))
+                    {
+                        ImportMultiCSV();
+                    }
+                    GUILayout.Label("or", NWDGUI.kInspectorReferenceCenter);
+                    if (GUILayout.Button("Create first data"))
+                    {
+                        NewData();
+                    }
+                    GUILayout.EndVertical();
+                    GUILayout.FlexibleSpace();
+                    GUILayout.EndVertical();
+                    GUILayout.FlexibleSpace();
+                    GUILayout.EndHorizontal();
+                    GUILayout.EndArea();
+                }
+                else
+                {
                 m_ScrollPositionList = GUI.BeginScrollView(
                     /*tScrollRect*/ tScrollRectDelimited,
                     m_ScrollPositionList,
@@ -1302,6 +1330,7 @@ namespace NetWorkedData
                 }
                 // ===========================================
                 GUI.EndScrollView();
+                }
                 //if (tPagesBarHeight > 0)
                 //{
                 //    tRect.y += NWDGUI.kFieldMarge;
