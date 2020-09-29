@@ -111,6 +111,7 @@ namespace NetWorkedData.NWDEditor
             NWDBenchmark.Start();
             if (Loaded == false)
             {
+                Loaded = true;
                 ListOfCredential.Clear();
                 foreach (NWDProjectCredentialsTag tValue in Enum.GetValues(typeof(NWDProjectCredentialsTag)))
                 {
@@ -118,7 +119,6 @@ namespace NetWorkedData.NWDEditor
                 }
                 //Debug.Log("NWDProjectCredentialsManagerContent LOAD in progress");
                 // get values
-                Loaded = true;
                 Tag = (NWDProjectCredentialsTag)NWDProjectPrefs.GetInt(NWDConstants.K_CREDENTIALS_TAG, 0);
                 Title = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_TITLE, UNKNOW);
                 SaveCredentials = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_SAVE, false);
@@ -127,6 +127,7 @@ namespace NetWorkedData.NWDEditor
                 VectorString = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
                 Passphrase = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE, string.Empty);
                 PassphraseUsed = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE_USED, false);
+                NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
             }
             NWDBenchmark.Finish();
         }
@@ -141,6 +142,7 @@ namespace NetWorkedData.NWDEditor
             VectorString = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
             Passphrase = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE, string.Empty);
             PassphraseUsed = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE_USED, false);
+            NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Save()
@@ -239,7 +241,8 @@ namespace NetWorkedData.NWDEditor
             // start scroll
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             NWDGUILayout.Section("Credentials tag");
-            NWDProjectCredentialsTag tTag = (NWDProjectCredentialsTag)EditorGUILayout.Popup("Credential list", (int)Tag, ListOfCredential.ToArray());
+            //NWDProjectCredentialsTag tTag = (NWDProjectCredentialsTag)EditorGUILayout.Popup("Credential list", (int)Tag, ListOfCredential.ToArray());
+            NWDProjectCredentialsTag tTag = (NWDProjectCredentialsTag)EditorGUILayout.EnumPopup("Credential list", Tag);
             if (tTag != Tag)
             {
                 Save();
