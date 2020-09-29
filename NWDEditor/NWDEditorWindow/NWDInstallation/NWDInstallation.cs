@@ -149,8 +149,8 @@ namespace NetWorkedData.NWDEditor
                 EditorGUI.BeginDisabledGroup(!tInstalllWillBeOk);
                 if (GUILayout.Button("Install and close"))
                 {
-                    NWDProjectCredentialsManagerContent.Password = Password;
-                    NWDProjectCredentialsManagerContent.VectorString = VectorString;
+                    //NWDProjectCredentialsManagerContent.Password = Password;
+                    //NWDProjectCredentialsManagerContent.VectorString = VectorString;
 
                     NWDAppConfiguration.SharedInstance().DevEnvironment.AppName = AppName;
                     NWDAppConfiguration.SharedInstance().PreprodEnvironment.AppName = AppName;

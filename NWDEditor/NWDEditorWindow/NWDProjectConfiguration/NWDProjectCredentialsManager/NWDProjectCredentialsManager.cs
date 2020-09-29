@@ -41,6 +41,7 @@ namespace NetWorkedData.NWDEditor
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDProjectCredentialsManagerContent : NWDEditorWindowContent
     {
+        //-------------------------------------------------------------------------------------------------------------
         const string UNKNOW = "unassigned";
         //-------------------------------------------------------------------------------------------------------------
         enum NWDProjectCredentialsTag
@@ -57,6 +58,113 @@ namespace NetWorkedData.NWDEditor
             Nine,
         }
         //-------------------------------------------------------------------------------------------------------------
+        class NWDCredentials
+        {
+            //-------------------------------------------------------------------------------------------------------------
+            public NWDProjectCredentialsTag Tag = NWDProjectCredentialsTag.Standard;
+            public string Password = string.Empty;
+            public string Title = string.Empty;
+            public string VectorString = string.Empty;
+            public string Passphrase = string.Empty;
+            public bool ShowPasswordInLog = false;
+            public bool SaveCredentials = false;
+            public bool PassphraseUsed = true;
+            //-------------------------------------------------------------------------------------------------------------
+            public string TitleToUse()
+            {
+                return "(" + ((int)Tag).ToString() + ") " + Title + (SaveCredentials==true ?" - saved":"");
+            }
+            //-------------------------------------------------------------------------------------------------------------
+            public void Load()
+            {
+                NWDBenchmark.Start();
+                Title = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_TITLE, UNKNOW);
+                SaveCredentials = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_SAVE, false);
+                ShowPasswordInLog = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, false);
+                Password = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
+                VectorString = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
+                Passphrase = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE, string.Empty);
+                PassphraseUsed = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE_USED, false);
+                NWDBenchmark.Finish();
+            }
+            //-------------------------------------------------------------------------------------------------------------
+            public void ReLoad()
+            {
+                NWDBenchmark.Start();
+                SaveCredentials = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_SAVE, false);
+                ShowPasswordInLog = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, false);
+                Password = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
+                Title = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_TITLE, UNKNOW);
+                VectorString = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
+                Passphrase = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE, string.Empty);
+                PassphraseUsed = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE_USED, false);
+                NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
+            }
+            //-------------------------------------------------------------------------------------------------------------
+            public void Save()
+            {
+                NWDBenchmark.Start();
+                NWDProjectPrefs.SetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_SAVE, SaveCredentials);
+                NWDProjectPrefs.SetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE_USED, PassphraseUsed);
+                if (SaveCredentials == true)
+                {
+                    NWDProjectPrefs.SetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, ShowPasswordInLog);
+                    NWDProjectPrefs.SetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE, Passphrase);
+
+                    if (string.IsNullOrEmpty(Title))
+                    {
+                        NWDProjectPrefs.SetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_TITLE, UNKNOW);
+                    }
+                    else
+                    {
+                        NWDProjectPrefs.SetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_TITLE, Title);
+                    }
+
+                    if (PassphraseUsed == true)
+                    {
+                        if (string.IsNullOrEmpty(Passphrase) == false)
+                        {
+                            string tPhraseShaOne = NWESecurityTools.GenerateSha(Passphrase);
+                            Password = tPhraseShaOne.Substring(0, tPhraseShaOne.Length / 2);
+                            VectorString = tPhraseShaOne.Substring(tPhraseShaOne.Length / 2, (tPhraseShaOne.Length / 2) - 1);
+                        }
+                        else
+                        {
+                            Password = string.Empty;
+                            VectorString = string.Empty;
+                        }
+                    }
+                    NWDProjectPrefs.SetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSWORD, Password);
+                    NWDProjectPrefs.SetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_VECTOR, VectorString);
+                }
+                else
+                {
+                    NWDProjectPrefs.SetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, false);
+                    NWDProjectPrefs.SetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_TITLE, UNKNOW);
+                    NWDProjectPrefs.SetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
+                    NWDProjectPrefs.SetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
+                    NWDProjectPrefs.SetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE, string.Empty);
+                    NWDProjectPrefs.SetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE_USED, false);
+                }
+                NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
+                NWDBenchmark.Finish();
+            }
+            //-------------------------------------------------------------------------------------------------------------
+            public void Flush()
+            {
+                NWDBenchmark.Start();
+                SaveCredentials = false;
+                ShowPasswordInLog = false;
+                Password = string.Empty;
+                VectorString = string.Empty;
+                Passphrase = string.Empty;
+                Title = UNKNOW;
+                Save();
+                NWDBenchmark.Finish();
+            }
+            //-------------------------------------------------------------------------------------------------------------
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Scroll position in window
         /// </summary>
@@ -71,16 +179,42 @@ namespace NetWorkedData.NWDEditor
         /// The scroll position.
         /// </summary>
         static Vector2 ScrollPosition;
-        static public string Password = string.Empty;
-        static public string Title = string.Empty;
-        static public string VectorString = string.Empty;
-        static public string Passphrase = string.Empty;
-        static public bool ShowPasswordInLog = false;
-        static public bool SaveCredentials = false;
-        static public bool PassphraseUsed = true;
+        //static public string Title = string.Empty;
+        //static public string Password = string.Empty;
+        //static public string VectorString = string.Empty;
+        //static public string Passphrase = string.Empty;
+        //static public bool ShowPasswordInLog = false;
+        //static public bool SaveCredentials = false;
+        //static public bool PassphraseUsed = true;
         static NWDProjectCredentialsTag Tag = NWDProjectCredentialsTag.Standard;
-        bool Loaded = false;
-        List<string> ListOfCredential = new List<string>();
+        static bool Loaded = false;
+        static List<string> ListOfCredential = new List<string>();
+        static Dictionary<NWDProjectCredentialsTag, NWDCredentials> CredentialDico = new Dictionary<NWDProjectCredentialsTag, NWDCredentials>();
+        //-------------------------------------------------------------------------------------------------------------
+        static public string Password()
+        {
+            string rReturn = CredentialDico[Tag].Password;
+            if (string.IsNullOrEmpty(rReturn))
+            {
+                rReturn = string.Empty;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static public string VectorString()
+        {
+            string rReturn = CredentialDico[Tag].VectorString;
+            if (string.IsNullOrEmpty(rReturn))
+            {
+                rReturn = string.Empty;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static public bool ShowPasswordInLog()
+        {
+            return CredentialDico[Tag].ShowPasswordInLog;
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
@@ -100,9 +234,9 @@ namespace NetWorkedData.NWDEditor
         public static void FlushCredentials(NWDCredentialsRequired sCredentialsType)
         {
             NWDBenchmark.Start();
-            Passphrase = string.Empty;
-            Password = string.Empty;
-            VectorString = string.Empty;
+            //Passphrase = string.Empty;
+            //Password = string.Empty;
+            //VectorString = string.Empty;
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -115,48 +249,56 @@ namespace NetWorkedData.NWDEditor
                 ListOfCredential.Clear();
                 foreach (NWDProjectCredentialsTag tValue in Enum.GetValues(typeof(NWDProjectCredentialsTag)))
                 {
-                    ListOfCredential.Insert((int)tValue, NWDProjectPrefs.GetString(tValue.ToString() + NWDConstants.K_CREDENTIALS_TITLE, UNKNOW));
+                    NWDCredentials tCredentials = new NWDCredentials();
+                    tCredentials.Tag = tValue;
+                    tCredentials.Load();
+                    CredentialDico.Add(tValue, tCredentials);
+                    ListOfCredential.Insert((int)tValue, tCredentials.TitleToUse());
                 }
                 //Debug.Log("NWDProjectCredentialsManagerContent LOAD in progress");
                 // get values
                 Tag = (NWDProjectCredentialsTag)NWDProjectPrefs.GetInt(NWDConstants.K_CREDENTIALS_TAG, 0);
-                Title = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_TITLE, UNKNOW);
-                SaveCredentials = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_SAVE, false);
-                ShowPasswordInLog = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, false);
-                Password = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
-                VectorString = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
-                Passphrase = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE, string.Empty);
-                PassphraseUsed = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE_USED, false);
+
+                //Title = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_TITLE, UNKNOW);
+                //SaveCredentials = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_SAVE, false);
+                //ShowPasswordInLog = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, false);
+                //Password = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
+                //VectorString = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
+                //Passphrase = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE, string.Empty);
+                //PassphraseUsed = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE_USED, false);
                 NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
             }
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ReLoad()
-        {
-            NWDBenchmark.Start();
-            SaveCredentials = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_SAVE, false);
-            ShowPasswordInLog = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, false);
-            Password = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
-            Title = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_TITLE, UNKNOW);
-            VectorString = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
-            Passphrase = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE, string.Empty);
-            PassphraseUsed = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE_USED, false);
-            NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
-        }
+        //public void ReLoad()
+        //{
+        //    NWDBenchmark.Start();
+        //    SaveCredentials = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_SAVE, false);
+        //    ShowPasswordInLog = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, false);
+        //    Password = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
+        //    Title = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_TITLE, UNKNOW);
+        //    VectorString = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
+        //    Passphrase = NWDProjectPrefs.GetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE, string.Empty);
+        //    PassphraseUsed = NWDProjectPrefs.GetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE_USED, false);
+        //    NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void Save()
         {
             NWDBenchmark.Start();
+            CredentialDico[Tag].Save();
+            ListOfCredential[(int)Tag] = CredentialDico[Tag].TitleToUse();
+            /*
             // set values
             NWDProjectPrefs.SetInt(NWDConstants.K_CREDENTIALS_TAG, (int)Tag);
             if (string.IsNullOrEmpty(Title))
             {
-                ListOfCredential[(int)Tag] = UNKNOW;
+                ListOfCredential[(int)Tag] = "(" + ((int)Tag).ToString() + ") " + UNKNOW;
             }
             else
             {
-                ListOfCredential[(int)Tag] = Title;
+                ListOfCredential[(int)Tag] = "(" + ((int)Tag).ToString() + ") " + Title;
             }
             NWDProjectPrefs.SetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_SAVE, SaveCredentials);
             NWDProjectPrefs.SetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE_USED, PassphraseUsed);
@@ -200,6 +342,7 @@ namespace NetWorkedData.NWDEditor
                 NWDProjectPrefs.SetString(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE, string.Empty);
                 NWDProjectPrefs.SetBool(Tag.ToString() + NWDConstants.K_CREDENTIALS_PASSPHRASE_USED, false);
             }
+            */
             NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
             NWDBenchmark.Finish();
         }
@@ -207,13 +350,15 @@ namespace NetWorkedData.NWDEditor
         public void Flush()
         {
             NWDBenchmark.Start();
-            SaveCredentials = false;
-            ShowPasswordInLog = false;
-            Password = string.Empty;
-            VectorString = string.Empty;
-            Passphrase = string.Empty;
-            Title = string.Empty;
-            Save();
+            CredentialDico[Tag].Flush();
+            ListOfCredential[(int)Tag] = CredentialDico[Tag].TitleToUse();
+            //SaveCredentials = false;
+            //ShowPasswordInLog = false;
+            //Password = string.Empty;
+            //VectorString = string.Empty;
+            //Passphrase = string.Empty;
+            //Title = string.Empty;
+            //Save();
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -241,35 +386,35 @@ namespace NetWorkedData.NWDEditor
             // start scroll
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             NWDGUILayout.Section("Credentials tag");
-            //NWDProjectCredentialsTag tTag = (NWDProjectCredentialsTag)EditorGUILayout.Popup("Credential list", (int)Tag, ListOfCredential.ToArray());
-            NWDProjectCredentialsTag tTag = (NWDProjectCredentialsTag)EditorGUILayout.EnumPopup("Credential list", Tag);
+            NWDProjectCredentialsTag tTag = (NWDProjectCredentialsTag)EditorGUILayout.Popup("Credential list", (int)Tag, ListOfCredential.ToArray());
+            //NWDProjectCredentialsTag tTag = (NWDProjectCredentialsTag)EditorGUILayout.EnumPopup("Credential list", Tag);
             if (tTag != Tag)
             {
                 Save();
                 Tag = tTag;
-                ReLoad();
             }
+            NWDCredentials tCredentials = CredentialDico[Tag];
             EditorGUI.BeginChangeCheck();
-            Title = EditorGUILayout.TextField("Credential Title", Title);
+            tCredentials.Title = EditorGUILayout.TextField("Credential Title", tCredentials.Title);
             //General preferences
             NWDGUILayout.Section("Credentials preferences");
-            SaveCredentials = EditorGUILayout.Toggle("Save credentials", SaveCredentials);
-            ShowPasswordInLog = EditorGUILayout.Toggle("Show passwords in log", ShowPasswordInLog);
+            tCredentials.SaveCredentials = EditorGUILayout.Toggle("Save credentials", tCredentials.SaveCredentials);
+            tCredentials.ShowPasswordInLog = EditorGUILayout.Toggle("Show passwords in log", tCredentials.ShowPasswordInLog);
             //Credentials preferences
             NWDGUILayout.Section("Credentials");
-            bool tPassphraseUsed = EditorGUILayout.Toggle("Use passphrase", PassphraseUsed);
-            if (tPassphraseUsed != PassphraseUsed)
+            bool tPassphraseUsed = EditorGUILayout.Toggle("Use passphrase", tCredentials.PassphraseUsed);
+            if (tPassphraseUsed != tCredentials.PassphraseUsed)
             {
                 if (tPassphraseUsed == false)
                 {
-                    Password = string.Empty;
-                    VectorString = string.Empty;
+                    tCredentials.Password = string.Empty;
+                    tCredentials.VectorString = string.Empty;
                 }
-                PassphraseUsed = tPassphraseUsed;
+                tCredentials.PassphraseUsed = tPassphraseUsed;
             }
-            if (PassphraseUsed == true)
+            if (tCredentials.PassphraseUsed == true)
             {
-                Passphrase = EditorGUILayout.PasswordField("General passphrase", Passphrase);
+                tCredentials.Passphrase = EditorGUILayout.PasswordField("General passphrase", tCredentials.Passphrase);
                 EditorGUI.BeginDisabledGroup(true);
                 //Password = EditorGUILayout.PasswordField("General password", Password);
                 //VectorString = EditorGUILayout.PasswordField("General vector", VectorString);
@@ -277,8 +422,8 @@ namespace NetWorkedData.NWDEditor
             }
             else
             {
-                Password = EditorGUILayout.PasswordField("General password", Password);
-                VectorString = EditorGUILayout.PasswordField("General vector", VectorString);
+                tCredentials.Password = EditorGUILayout.PasswordField("General password", tCredentials.Password);
+                tCredentials.VectorString = EditorGUILayout.PasswordField("General vector", tCredentials.VectorString);
             }
             //check change
             if (EditorGUI.EndChangeCheck())

@@ -107,8 +107,8 @@ namespace NetWorkedData
             {
                 // Set AES bits size
                 Int32 sAesSize = 128;
-                string tKey = KeyLengthFix(NWDProjectCredentialsManagerContent.Password, 24);
-                string tVector = KeyLengthFix(NWDProjectCredentialsManagerContent.VectorString, 16);
+                string tKey = KeyLengthFix(NWDProjectCredentialsManagerContent.Password(), 24);
+                string tVector = KeyLengthFix(NWDProjectCredentialsManagerContent.VectorString(), 16);
                 // Encrypt the string to an array of bytes.
                 byte[] sKey = Encoding.ASCII.GetBytes(tKey);
                 byte[] sIV = Encoding.ASCII.GetBytes(tVector);
@@ -164,8 +164,8 @@ namespace NetWorkedData
             {
                 // Set AES bits size
                 Int32 sAesSize = 128;
-                string tKey = KeyLengthFix(NWDProjectCredentialsManagerContent.Password, 24);
-                string tVector = KeyLengthFix(NWDProjectCredentialsManagerContent.VectorString, 16);
+                string tKey = KeyLengthFix(NWDProjectCredentialsManagerContent.Password(), 24);
+                string tVector = KeyLengthFix(NWDProjectCredentialsManagerContent.VectorString(), 16);
                 byte[] sPlainText = Convert.FromBase64String(Value);
                 byte[] sKey = Encoding.ASCII.GetBytes(tKey);
                 byte[] sIV = Encoding.ASCII.GetBytes(tVector);
@@ -231,7 +231,7 @@ namespace NetWorkedData
             float tTiersWidthB = tTiersWidth - NWDGUI.kFieldMarge;
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
             EditorGUI.LabelField(new Rect(sPosition.x, sPosition.y, sPosition.width, NWDGUI.kLabelStyle.fixedHeight), tContent);
-            if (string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.Password) == false && string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.VectorString) == false)
+            if (string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.Password()) == false && string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.VectorString()) == false)
             {
                 if (string.IsNullOrEmpty(Value))
                 {
