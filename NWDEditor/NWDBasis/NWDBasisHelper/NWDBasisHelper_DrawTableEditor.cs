@@ -1139,7 +1139,11 @@ namespace NetWorkedData
                     GUILayout.BeginVertical(GUILayout.Width(300));
                     GUILayout.FlexibleSpace();
                     GUILayout.BeginVertical(EditorStyles.helpBox);
-                    GUILayout.Label(new GUIContent(ClassNamePHP, TextureOfClass()), NWDGUI.KTableSearchClassIcon, GUILayout.Height(NWDGUI.kLabelStyle.fixedHeight * 4));
+                    //GUILayout.Label(new GUIContent(ClassNamePHP, TextureOfClass()), NWDGUI.KTableSearchClassIcon, GUILayout.Height(NWDGUI.kLabelStyle.fixedHeight * 4));
+                    if (GUILayout.Button(new GUIContent(ClassNamePHP, TextureOfClass()), NWDGUI.KTableSearchClassIcon, GUILayout.Height(NWDGUI.kLabelStyle.fixedHeight * 4)))
+                    {
+                        NWEScriptOpener.OpenScript(ClassType);
+                    }
                     NWDGUILayout.Separator();
                     GUILayout.Label("You have no data!", NWDGUI.kInspectorReferenceCenter);
                     NWDGUILayout.Separator();
