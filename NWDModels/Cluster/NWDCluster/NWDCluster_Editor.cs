@@ -130,6 +130,11 @@ namespace NetWorkedData
             if (GUILayout.Button("Import Cluster mixte export", NWDGUI.KTableSearchButton))
             {
                 ImportMultiCSV();
+                //foreach (NWDCluster tCluster in Datas)
+                //{
+                //    tCluster.CheckUnicityCluster();
+                //}
+                //NWDClusterAnalyzer.CheckAllCluster();
                 NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
             }
             if (GUILayout.Button("Force check", NWDGUI.KTableSearchButton))
