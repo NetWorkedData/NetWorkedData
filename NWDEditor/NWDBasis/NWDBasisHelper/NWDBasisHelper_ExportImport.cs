@@ -238,7 +238,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void ImportMultiCSV()
+        public static void ImportMultiCSV(bool sEachClassAlert = false)
         {
             NWDBenchmark.Start();
             string tPath = EditorUtility.OpenFilePanel("Import Datas", string.Empty, KExportExtension);
@@ -300,7 +300,7 @@ namespace NetWorkedData
                                                 tDataArray[tI] = NWDToolbox.TextCSVUnprotect(tDataArray[tI]);
                                             }
                                             string tReference = tBasiHelper.GetReferenceValueFromCSV(tDataArray);
-                                            Debug.Log("try import data "+ tBasiHelper.ClassNamePHP + " referenced :" + tReference);
+                                            Debug.Log("try import data " + tBasiHelper.ClassNamePHP + " referenced :" + tReference);
                                             NWDTypeClass tObject = tBasiHelper.GetDataByReference(tReference);
                                             if (tObject == null)
                                             {
@@ -312,7 +312,10 @@ namespace NetWorkedData
                                             }
                                             tObject.ErrorCheck();
                                         }
-                                        EditorUtility.DisplayDialog(tBasiHelper.ClassNamePHP, "Import finished", "Ok");
+                                        if (sEachClassAlert == true)
+                                        {
+                                            EditorUtility.DisplayDialog(tBasiHelper.ClassNamePHP, "Import finished", "Ok");
+                                        }
                                     }
                                     else
                                     {
@@ -325,6 +328,7 @@ namespace NetWorkedData
                                 }
                             }
                         }
+                        EditorUtility.DisplayDialog("Import mixte", "Import finished", "Ok");
                     }
                 }
                 NWDDataManager.SharedInstance().DataQueueExecute();

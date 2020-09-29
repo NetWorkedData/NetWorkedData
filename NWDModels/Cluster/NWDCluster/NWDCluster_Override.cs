@@ -254,7 +254,6 @@ namespace NetWorkedData
             base.AddonUpdatedMeFromWeb();
             CheckUnicityCluster();
             NWDClusterAnalyzer.CheckAllCluster();
-            NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

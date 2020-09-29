@@ -236,6 +236,12 @@ namespace NetWorkedData
             // TODO verif if method is call in good place in good timing
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUpdatedMeFromWeb()
+        {
+            base.AddonUpdatedMeFromWeb();
+            NWDClusterAnalyzer.CheckAllCluster();
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
