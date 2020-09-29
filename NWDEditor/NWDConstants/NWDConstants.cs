@@ -60,6 +60,7 @@ namespace NetWorkedData
         public const string K_CREDENTIALS_VECTOR = "VectorStringKey_79877414532159874";
         public const string K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG = "ShowPasswordInLogKey_79585254215";
         public const string K_CREDENTIALS_SAVE = "SaveCredentialsKey_7895452114789523654";
+        public const string K_CREDENTIALS_TAG= "TagCredentialsKey_55687768543186454";
         //-------------------------------------------------------------------------------------------------------------
         public const string K_EDITOR_BUILD_ENVIRONMENT = "EditorBuildEnvironment";
         public const string K_EDITOR_BUILD_RENAME = "EditorBuildRename";
