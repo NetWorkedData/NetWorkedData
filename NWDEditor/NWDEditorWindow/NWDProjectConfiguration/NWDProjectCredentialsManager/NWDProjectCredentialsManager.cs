@@ -268,8 +268,8 @@ namespace NetWorkedData.NWDEditor
             {
                 Passphrase = EditorGUILayout.PasswordField("General passphrase", Passphrase);
                 EditorGUI.BeginDisabledGroup(true);
-                Password = EditorGUILayout.PasswordField("General password", Password);
-                VectorString = EditorGUILayout.PasswordField("General vector", VectorString);
+                //Password = EditorGUILayout.PasswordField("General password", Password);
+                //VectorString = EditorGUILayout.PasswordField("General vector", VectorString);
                 EditorGUI.EndDisabledGroup();
             }
             else
