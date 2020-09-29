@@ -57,8 +57,11 @@ namespace NetWorkedData.NWDEditor
         static Vector2 ScrollPosition;
         static public string Password = string.Empty;
         static public string VectorString = string.Empty;
+        static public string Passphrase = string.Empty;
         static public bool ShowPasswordInLog = false;
         static public bool SaveCredentials = false;
+        static public bool PassphraseUsed = true;
+        bool Loaded = false;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Returns the <see cref="_kSharedInstanceContent"/> or instance one
@@ -77,29 +80,55 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public static void FlushCredentials(NWDCredentialsRequired sCredentialsType)
         {
+            NWDBenchmark.Start();
+            Passphrase = string.Empty;
             Password = string.Empty;
             VectorString = string.Empty;
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Load()
         {
-            //NWDBenchmark.Start();
-            // get values
-            SaveCredentials = NWDProjectPrefs.GetBool(NWDConstants.K_CREDENTIALS_SAVE, false);
-            ShowPasswordInLog = NWDProjectPrefs.GetBool(NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, false);
-            Password = NWDProjectPrefs.GetString(NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
-            VectorString = NWDProjectPrefs.GetString(NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Start();
+            if (Loaded == false)
+            {
+                //Debug.Log("NWDProjectCredentialsManagerContent LOAD in progress");
+                // get values
+                Loaded = true;
+                SaveCredentials = NWDProjectPrefs.GetBool(NWDConstants.K_CREDENTIALS_SAVE, false);
+                ShowPasswordInLog = NWDProjectPrefs.GetBool(NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, false);
+                Password = NWDProjectPrefs.GetString(NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
+                VectorString = NWDProjectPrefs.GetString(NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
+                Passphrase = NWDProjectPrefs.GetString(NWDConstants.K_CREDENTIALS_PASSPHRASE, string.Empty);
+                PassphraseUsed = NWDProjectPrefs.GetBool(NWDConstants.K_CREDENTIALS_PASSPHRASE_USED, false);
+            }
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Save()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             // set values
             NWDProjectPrefs.SetBool(NWDConstants.K_CREDENTIALS_SAVE, SaveCredentials);
+            NWDProjectPrefs.SetBool(NWDConstants.K_CREDENTIALS_PASSPHRASE_USED, PassphraseUsed);
             if (SaveCredentials == true)
             {
                 NWDProjectPrefs.SetBool(NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, ShowPasswordInLog);
+                NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_PASSPHRASE, Passphrase);
+                if (PassphraseUsed == true)
+                {
+                    if (string.IsNullOrEmpty(Passphrase) == false)
+                    {
+                        string tPhraseShaOne = NWESecurityTools.GenerateSha(Passphrase);
+                        Password = tPhraseShaOne.Substring(0, tPhraseShaOne.Length / 2);
+                        VectorString = tPhraseShaOne.Substring(tPhraseShaOne.Length / 2, (tPhraseShaOne.Length / 2) - 1);
+                    }
+                    else
+                    {
+                        Password = string.Empty;
+                        VectorString = string.Empty;
+                    }
+                }
                 NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_PASSWORD, Password);
                 NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_VECTOR, VectorString);
             }
@@ -108,18 +137,23 @@ namespace NetWorkedData.NWDEditor
                 NWDProjectPrefs.SetBool(NWDConstants.K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG, false);
                 NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
                 NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
+                NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_PASSPHRASE, string.Empty);
+                NWDProjectPrefs.SetBool(NWDConstants.K_CREDENTIALS_PASSPHRASE_USED, false);
             }
             NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void flush()
         {
+            NWDBenchmark.Start();
             SaveCredentials = false;
             ShowPasswordInLog = false;
             Password = string.Empty;
             VectorString = string.Empty;
+            Passphrase = string.Empty;
             Save();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -132,27 +166,43 @@ namespace NetWorkedData.NWDEditor
             NWDGUILayout.Title("Credentials for project");
             // start scroll
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-
             EditorGUI.BeginChangeCheck();
-
             //General preferences
             NWDGUILayout.Section("Credentials preferences");
-
             SaveCredentials = EditorGUILayout.Toggle("Save credentials", SaveCredentials);
             ShowPasswordInLog = EditorGUILayout.Toggle("Show passwords in log", ShowPasswordInLog);
-
+            //Credentials preferences
             NWDGUILayout.Section("Credentials");
-
-            Password = EditorGUILayout.PasswordField("General password", Password);
-            VectorString = EditorGUILayout.PasswordField("General vector", VectorString);
-
+            bool tPassphraseUsed = EditorGUILayout.Toggle("Use passphrase", PassphraseUsed);
+            if (tPassphraseUsed!= PassphraseUsed)
+            {
+                if (tPassphraseUsed==false)
+                {
+                    Password = string.Empty;
+                    VectorString = string.Empty;
+                }
+                PassphraseUsed = tPassphraseUsed;
+            }
+            if (PassphraseUsed == true)
+            {
+                Passphrase = EditorGUILayout.PasswordField("General passphrase", Passphrase);
+                EditorGUI.BeginDisabledGroup(true);
+                Password = EditorGUILayout.PasswordField("General password", Password);
+                VectorString = EditorGUILayout.PasswordField("General vector", VectorString);
+                EditorGUI.EndDisabledGroup();
+            }
+            else
+            {
+                Password = EditorGUILayout.PasswordField("General password", Password);
+                VectorString = EditorGUILayout.PasswordField("General vector", VectorString);
+            }
+            //check change
             if (EditorGUI.EndChangeCheck())
             {
                 Save();
             }
-
+            //Actions in scroll
             NWDGUILayout.Section("Actions");
-
             if (GUILayout.Button("Flush"))
             {
                 flush();
@@ -182,12 +232,12 @@ namespace NetWorkedData.NWDEditor
         /// <returns></returns>
         public static NWDProjectCredentialsManager SharedInstance()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDProjectCredentialsManager), ShowAsWindow()) as NWDProjectCredentialsManager;
             }
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -197,10 +247,10 @@ namespace NetWorkedData.NWDEditor
         /// <returns></returns>
         public static void SharedInstanceFocus()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             SharedInstance().ShowMe();
             SharedInstance().Focus();
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -232,14 +282,14 @@ namespace NetWorkedData.NWDEditor
         /// </summary>
         public void OnEnable()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             // set ideal size
             NormalizeWidth = 300;
             NormalizeHeight = 300;
             // set title
             TitleInit(NWDConstants.K_CREDENTIALS_CONFIGURATION_TITLE, typeof(NWDProjectCredentialsManager));
             NWDProjectCredentialsManagerContent.SharedInstance().Load();
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -247,8 +297,8 @@ namespace NetWorkedData.NWDEditor
         /// </summary>
         private void OnDisable()
         {
+            NWDBenchmark.Start();
             // for all NWDEditorWindow refresh
-
             NWDProjectConfigurationManager.Refresh();
             NWDAppConfigurationManager.Refresh();
             NWDAppEnvironmentConfigurationManager.Refresh();
@@ -256,10 +306,12 @@ namespace NetWorkedData.NWDEditor
             NWDAppEnvironmentSync.Refresh();
             NWDAppEnvironmentChooser.Refresh();
             NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool Checked(NWDCredentialsRequired sCredentialsType)
         {
+            NWDBenchmark.Start();
             bool rReturn = IsValid(sCredentialsType);
             if (rReturn == false)
             {
@@ -271,11 +323,13 @@ namespace NetWorkedData.NWDEditor
                     SharedInstanceFocus();
                 }
             }
+            NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool IsValid(NWDCredentialsRequired sCredentialsType)
         {
+            NWDBenchmark.Start();
             bool rReturn = false;
             //NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
             switch (sCredentialsType)
@@ -306,6 +360,7 @@ namespace NetWorkedData.NWDEditor
                     }
                     break;
             }
+            NWDBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -314,12 +369,13 @@ namespace NetWorkedData.NWDEditor
         /// </summary>
         public override void OnPreventGUI()
         {
-            //NWDBenchmark.Start();
+            NWDBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDProjectCredentialsManagerContent.SharedInstance().OnPreventGUI(position);
             NWDGUILayout.Line();
             NWDGUILayout.LittleSpace();
             NWDGUI.BeginRedArea();
+            //Actions in window
             if (GUILayout.Button("Flush and close"))
             {
                 NWDProjectCredentialsManagerContent.SharedInstance().flush();
@@ -327,7 +383,7 @@ namespace NetWorkedData.NWDEditor
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
-            //NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

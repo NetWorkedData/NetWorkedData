@@ -55,6 +55,8 @@ namespace NetWorkedData
 
         //-------------------------------------------------------------------------------------------------------------
         public const string K_CREDENTIALS_PASSWORD = "PasswordKey_31564873413687653";
+        public const string K_CREDENTIALS_PASSPHRASE = "PassphraseKey_455454542687653";
+        public const string K_CREDENTIALS_PASSPHRASE_USED = "PassphraseUsedKey_455454542687653";
         public const string K_CREDENTIALS_VECTOR = "VectorStringKey_79877414532159874";
         public const string K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG = "ShowPasswordInLogKey_79585254215";
         public const string K_CREDENTIALS_SAVE = "SaveCredentialsKey_7895452114789523654";
