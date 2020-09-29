@@ -348,7 +348,7 @@ namespace NetWorkedData
         public void ServerEnvironmentCheck()
         {
 #if UNITY_EDITOR
-            Debug.Log("ServerEnvironmentCheck()");
+            //Debug.Log("ServerEnvironmentCheck()");
 
             NWDProjectCredentialsManagerContent.SharedInstance().Load();
 
