@@ -97,9 +97,9 @@ namespace NetWorkedData
                     {
                         tFileDicoArray = (List<object>)NWEMiniJSON.Json.Deserialize(tFile);
                     }
-                    catch (Exception e)
+                    catch (Exception sException)
                     {
-
+                        Debug.LogWarning(sException.ToString());
                     }
                     if (tFileDicoArray != null)
                     {
@@ -194,7 +194,7 @@ namespace NetWorkedData
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void ExportMultiCSV(List<NWDBasis> sDatasList, string sFilename = "MultiData")
+        public static void ExportMultiCSV(List<NWDBasis> sDatasList, string sFilename = "MultiDatas")
         {
             NWDDataManager.SharedInstance().DataQueueExecute();
             Dictionary<NWDBasisHelper, List<NWDBasis>> tHelperList = new Dictionary<NWDBasisHelper, List<NWDBasis>>();
@@ -203,10 +203,9 @@ namespace NetWorkedData
                 if (tHelperList.ContainsKey(tdata.BasisHelper()) == false)
                 {
                     List<NWDBasis> tList = new List<NWDBasis>();
-                    tList.Add(tdata);
                     tHelperList.Add(tdata.BasisHelper(), tList);
                 }
-                else
+                if (tHelperList[tdata.BasisHelper()].Contains(tdata) == false)
                 {
                     tHelperList[tdata.BasisHelper()].Add(tdata);
                 }
@@ -253,9 +252,9 @@ namespace NetWorkedData
                     {
                         tFileDicoArray = (List<object>)NWEMiniJSON.Json.Deserialize(tFile);
                     }
-                    catch (Exception e)
+                    catch (Exception sException)
                     {
-
+                        Debug.LogWarning(sException.ToString());
                     }
                     if (tFileDicoArray != null)
                     {
@@ -301,7 +300,7 @@ namespace NetWorkedData
                                                 tDataArray[tI] = NWDToolbox.TextCSVUnprotect(tDataArray[tI]);
                                             }
                                             string tReference = tBasiHelper.GetReferenceValueFromCSV(tDataArray);
-                                            Debug.Log("try import data referenced :" + tReference);
+                                            Debug.Log("try import data "+ tBasiHelper.ClassNamePHP + " referenced :" + tReference);
                                             NWDTypeClass tObject = tBasiHelper.GetDataByReference(tReference);
                                             if (tObject == null)
                                             {

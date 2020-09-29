@@ -29,7 +29,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static NWDLauncher()
         {
-            Debug.Log("static constructor");
+            //Debug.Log("static constructor");
             Launch();
         }
 #endif

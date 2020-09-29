@@ -158,7 +158,7 @@ namespace NetWorkedData
         static void LauncherBenchmarkToMarkdown()
         {
 #if NWD_LAUNCHER_BENCHMARK || NWD_LAUNCHER_RESULT_BENCHMARK
-            UnityEngine.Debug.Log("LauncherBenchmarkToMarkdown()");
+            //UnityEngine.Debug.Log("LauncherBenchmarkToMarkdown()");
             Dictionary<string, string> tRepport = new Dictionary<string, string>();
             List<string> tRepportLayout = new List<string>();
             // Engine part
@@ -252,7 +252,7 @@ namespace NetWorkedData
             {
                 // WTF ... your launcher is not started! 
 #if UNITY_EDITOR
-                EditorUtility.DisplayDialog("NetWorkedData Alert", "Your launcher is not ready", "OK");
+                EditorUtility.DisplayDialog("NetWorkedData Alert", "Your launcher is not started", "OK");
 #endif
                 //rReturn = false; //? no prefere launch the static method
                 Launch();

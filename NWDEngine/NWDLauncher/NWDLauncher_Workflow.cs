@@ -34,7 +34,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static private void LaunchEngine()
         {
-            Debug.Log("LaunchEngine()");
+            //Debug.Log("LaunchEngine()");
             if (Launched == false)
             {
                 Launched = true;
