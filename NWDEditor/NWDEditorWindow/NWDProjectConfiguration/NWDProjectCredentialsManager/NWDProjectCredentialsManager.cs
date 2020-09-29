@@ -109,6 +109,7 @@ namespace NetWorkedData.NWDEditor
                 NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_PASSWORD, string.Empty);
                 NWDProjectPrefs.SetString(NWDConstants.K_CREDENTIALS_VECTOR, string.Empty);
             }
+            NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -276,7 +277,7 @@ namespace NetWorkedData.NWDEditor
         public static bool IsValid(NWDCredentialsRequired sCredentialsType)
         {
             bool rReturn = false;
-            NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
+            //NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
             switch (sCredentialsType)
             {
                 case NWDCredentialsRequired.ForSFTPGenerateForAll:

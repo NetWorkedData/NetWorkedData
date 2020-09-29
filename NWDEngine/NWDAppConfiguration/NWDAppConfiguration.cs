@@ -348,12 +348,20 @@ namespace NetWorkedData
         public void ServerEnvironmentCheck()
         {
 #if UNITY_EDITOR
-            NWDBasisHelper tServerHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDServer));
+            Debug.Log("ServerEnvironmentCheck()");
+
+            NWDProjectCredentialsManagerContent.SharedInstance().Load();
+
             NWDBasisHelper tServerClusterHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDCluster));
+            NWDBasisHelper tServerHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDServer));
             NWDBasisHelper tServerDatasHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDServerDatas));
             NWDBasisHelper tServerServicesHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDServerServices));
             NWDBasisHelper tServerDomainsHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDServerDomain));
 
+            if (tServerClusterHelper.IsLoaded() == false)
+            {
+                tServerDomainsHelper.LoadFromDatabaseByBundle(NWDBundle.ALL, false);
+            }
             if (tServerHelper.IsLoaded() == false)
             {
                 tServerHelper.LoadFromDatabaseByBundle(NWDBundle.ALL, false);
@@ -366,29 +374,25 @@ namespace NetWorkedData
             {
                 tServerServicesHelper.LoadFromDatabaseByBundle(NWDBundle.ALL, false);
             }
-            if (tServerClusterHelper.IsLoaded() == false)
-            {
-                tServerClusterHelper.LoadFromDatabaseByBundle(NWDBundle.ALL, false);
-            }
-            if (tServerClusterHelper.IsLoaded() == false)
+            if (tServerDomainsHelper.IsLoaded() == false)
             {
                 tServerDomainsHelper.LoadFromDatabaseByBundle(NWDBundle.ALL, false);
             }
 
+            DevCluster = false;
             DevServerServicesState = false;
             DevServerDataState = false;
             DevServerDomainState = false;
+
+            PreprodCluster = false;
             PreprodServerServiceState = false;
             PreprodServerDataState = false;
             PreprodServerDomainState = false;
+
+            ProdCluster = false;
             ProdServerServiceState = false;
             ProdServerDataState = false;
             ProdServerDomainState = false;
-
-            DevCluster = false;
-            PreprodCluster = false;
-            ProdCluster = false;
-
 
             foreach (NWDServerDomain tServerDomain in tServerDomainsHelper.Datas)
             {
@@ -405,6 +409,7 @@ namespace NetWorkedData
                     ProdServerDomainState = true;
                 }
             }
+
             foreach (NWDServerServices tServerDomain in tServerServicesHelper.Datas)
             {
                 if (tServerDomain.Secure_Password.Decrypt() != null)
@@ -439,6 +444,7 @@ namespace NetWorkedData
                     break;
                 }
             }
+
             foreach (NWDServerDatas tServerData in tServerDatasHelper.Datas)
             {
                 if (tServerData.MySQLSecurePassword.Decrypt() != null)
@@ -473,6 +479,7 @@ namespace NetWorkedData
                     break;
                 }
             }
+
             foreach (NWDCluster tCluster in tServerClusterHelper.Datas)
             {
                 if (tCluster.AdminKey == null)
@@ -483,7 +490,7 @@ namespace NetWorkedData
                 {
                     tCluster.SaltServer = new NWDSecurePassword();
                 }
-                if (string.IsNullOrEmpty(tCluster.AdminKey.Decrypt()) == false && string.IsNullOrEmpty(tCluster.SaltServer.Decrypt()) == false)
+                if (string.IsNullOrEmpty(tCluster.AdminKey.Decrypt()) == false )
                 {
                     if (tCluster.Dev == true)
                     {
@@ -498,8 +505,22 @@ namespace NetWorkedData
                         ProdCluster = true;
                     }
                 }
+                if (string.IsNullOrEmpty(tCluster.SaltServer.Decrypt()) == true)
+                {
+                    if (tCluster.Dev == true)
+                    {
+                        DevServerServicesState = false;
+                    }
+                    if (tCluster.Preprod == true)
+                    {
+                        PreprodServerServiceState = false;
+                    }
+                    if (tCluster.Prod == true)
+                    {
+                        ProdServerServiceState = false;
+                    }
+                }
             }
-
             NWDAppEnvironmentSync.Refresh();
 #endif
         }
@@ -514,6 +535,11 @@ namespace NetWorkedData
             return DevServerServicesState && DevServerDataState && DevServerDomainState && DevCluster;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public bool DevServerSyncActive()
+        {
+            return DevServerDomainState && DevCluster;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         private bool PreprodCluster = false;
         private bool PreprodServerServiceState = false;
         private bool PreprodServerDataState = false;
@@ -524,6 +550,11 @@ namespace NetWorkedData
             return PreprodServerServiceState && PreprodServerDataState && PreprodServerDomainState && PreprodCluster;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public bool PreprodServerSyncActive()
+        {
+            return PreprodServerDomainState && PreprodCluster;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         private bool ProdCluster = false;
         private bool ProdServerServiceState = false;
         private bool ProdServerDataState = false;
@@ -532,6 +563,11 @@ namespace NetWorkedData
         public bool ProdServerIsActive()
         {
             return ProdServerServiceState && ProdServerDataState && ProdServerDomainState && ProdCluster;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool ProdServerSyncActive()
+        {
+            return ProdServerDomainState && ProdCluster;
         }
         //-------------------------------------------------------------------------------------------------------------
         // Determine the default mode

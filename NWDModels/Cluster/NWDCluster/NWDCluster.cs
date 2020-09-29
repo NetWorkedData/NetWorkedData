@@ -44,7 +44,7 @@ namespace NetWorkedData
         [NWDInspectorGroupReset]
 
         [NWDInspectorGroupStart("Servers")]
-        [NWDNotEditable]
+        //[NWDNotEditable]
         public NWDReferencesListType<NWDServerDomain> Domains { get; set; }
         public NWDReferencesListType<NWDServerServices> Services { get; set; }
         public NWDReferencesListType<NWDServerDatas> DataBases { get; set; }

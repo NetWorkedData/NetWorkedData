@@ -28,6 +28,137 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDClusterHelper : NWDHelper<NWDCluster>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonActions()
+        {
+            NWDGUILayout.Section("Addon Actions");
+            int tSelectionCount = 0;
+            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+            {
+                if (tKeyValue.Value == true)
+                {
+                    tSelectionCount++;
+                }
+            }
+
+            EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
+            if (GUILayout.Button("Export selection Cluster All Datas", NWDGUI.KTableSearchButton))
+            {
+                List<NWDBasis> tDatasList = new List<NWDBasis>();
+                foreach (KeyValuePair<NWDTypeClass, bool> tObjectSelection in EditorTableDatasSelected)
+                {
+                    if (tObjectSelection.Value == true)
+                    {
+                        NWDCluster tThisCluster = tObjectSelection.Key as NWDCluster;
+                        tDatasList.Add(tThisCluster);
+                        if (tThisCluster.Services != null)
+                        {
+                            tDatasList.AddRange(tThisCluster.Services.GetRawDatasList());
+                            foreach (NWDServerServices tServerService in tThisCluster.Services.GetRawDatasList())
+                            {
+                                if (tServerService.ServerDomain != null)
+                                {
+                                    if (tServerService.ServerDomain.GetRawData() != null)
+                                    {
+                                        tDatasList.Add(tServerService.ServerDomain.GetRawData());
+                                    }
+                                }
+                                if (tServerService.Server != null)
+                                {
+                                    if (tServerService.Server.GetRawData() != null)
+                                    {
+                                        tDatasList.Add(tServerService.Server.GetRawData());
+                                    }
+                                }
+                            }
+                        }
+                        if (tThisCluster.DataBases != null)
+                        {
+                            tDatasList.AddRange(tThisCluster.DataBases.GetRawDatasList());
+                            foreach (NWDServerDatas tServerDatas in tThisCluster.DataBases.GetRawDatasList())
+                            {
+                                if (tServerDatas.Server != null)
+                                {
+                                    if (tServerDatas.Server.GetRawData() != null)
+                                    {
+                                        tDatasList.Add(tServerDatas.Server.GetRawData());
+                                    }
+                                }
+                            }
+                        }
+                        if (tThisCluster.Domains != null)
+                        {
+                            tDatasList.AddRange(tThisCluster.Domains.GetRawDatasList());
+                        }
+                    }
+                }
+                ExportMultiCSV(tDatasList, "ClusterAllDatas");
+            }
+            if (GUILayout.Button("Export selection Cluster Editor Datas", NWDGUI.KTableSearchButton))
+            {
+                List<NWDBasis> tDatasList = new List<NWDBasis>();
+                foreach (KeyValuePair<NWDTypeClass, bool> tObjectSelection in EditorTableDatasSelected)
+                {
+                    if (tObjectSelection.Value == true)
+                    {
+                        NWDCluster tThisCluster = tObjectSelection.Key as NWDCluster;
+                        tDatasList.Add(tThisCluster);
+                        if (tThisCluster.Services != null)
+                        {
+                            foreach (NWDServerServices tServerService in tThisCluster.Services.GetRawDatasList())
+                            {
+                                if (tServerService.ServerDomain != null)
+                                {
+                                    if (tServerService.ServerDomain.GetRawData() != null)
+                                    {
+                                        tDatasList.Add(tServerService.ServerDomain.GetRawData());
+                                    }
+                                }
+                            }
+                        }
+                        if (tThisCluster.Domains != null)
+                        {
+                            tDatasList.AddRange(tThisCluster.Domains.GetRawDatasList());
+                        }
+                    }
+                }
+                ExportMultiCSV(tDatasList, "ClusterEditor");
+            }
+            EditorGUI.EndDisabledGroup();
+            if (GUILayout.Button("Import Cluster mixte export", NWDGUI.KTableSearchButton))
+            {
+                ImportMultiCSV();
+                NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
+            }
+            if (GUILayout.Button("Force check", NWDGUI.KTableSearchButton))
+            {
+                NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
+            }
+            if (GUILayout.Button("Reset ALL clusters infos ", NWDGUI.KTableSearchButton))
+            {
+                if(EditorUtility.DisplayDialog("ALERT", "You will delete ALL DATAS for clusters, servers, databases, services, domains, etc", "DELETE", "Cancel"))
+                {
+                    NWDBasisHelper tServerClusterHelper = FindTypeInfos(typeof(NWDCluster));
+                    NWDBasisHelper tServerHelper = FindTypeInfos(typeof(NWDServer));
+                    NWDBasisHelper tServerDatasHelper = FindTypeInfos(typeof(NWDServerDatas));
+                    NWDBasisHelper tServerServicesHelper = FindTypeInfos(typeof(NWDServerServices));
+                    NWDBasisHelper tServerDomainsHelper = FindTypeInfos(typeof(NWDServerDomain));
+
+                    tServerClusterHelper.ResetTable();
+                    tServerHelper.ResetTable();
+                    tServerDatasHelper.ResetTable();
+                    tServerServicesHelper.ResetTable();
+                    tServerDomainsHelper.ResetTable();
+
+                    NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDCluster : NWDBasisUnsynchronize
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -128,30 +259,79 @@ namespace NetWorkedData
         public override void AddonEditor(Rect sRect)
         {
             base.AddonEditor(sRect);
+            /*
             NWDGUILayout.Separator();
             if (GUILayout.Button("Export Cluster ALL DATAS"))
             {
                 List<NWDBasis> tDatasList = new List<NWDBasis>();
                 tDatasList.Add(this);
-                tDatasList.AddRange(this.Services.GetRawDatasList());
-                foreach (NWDServerServices tServerService in this.Services.GetRawDatasList())
+                if (this.Services != null)
                 {
-                    if (tServerService.ServerDomain!=null)
+                    tDatasList.AddRange(this.Services.GetRawDatasList());
+                    foreach (NWDServerServices tServerService in this.Services.GetRawDatasList())
                     {
-                        if (tServerService.ServerDomain.GetRawData()!=null)
+                        if (tServerService.ServerDomain != null)
                         {
-                            tDatasList.Add(tServerService.ServerDomain.GetRawData());
+                            if (tServerService.ServerDomain.GetRawData() != null)
+                            {
+                                tDatasList.Add(tServerService.ServerDomain.GetRawData());
+                            }
+                        }
+                        if (tServerService.Server != null)
+                        {
+                            if (tServerService.Server.GetRawData() != null)
+                            {
+                                tDatasList.Add(tServerService.Server.GetRawData());
+                            }
                         }
                     }
                 }
-                tDatasList.AddRange(this.DataBases.GetRawDatasList());
+                if (this.DataBases != null)
+                {
+                    tDatasList.AddRange(this.DataBases.GetRawDatasList());
+                    foreach (NWDServerDatas tServerDatas in this.DataBases.GetRawDatasList())
+                    {
+                        if (tServerDatas.Server != null)
+                        {
+                            if (tServerDatas.Server.GetRawData() != null)
+                            {
+                                tDatasList.Add(tServerDatas.Server.GetRawData());
+                            }
+                        }
+                    }
+                }
+                if (this.Domains != null)
+                {
+                    tDatasList.AddRange(this.Domains.GetRawDatasList());
+                }
+                NWDBasisHelper.ExportMultiCSV(tDatasList, "Clusterdata_" + NWDToolbox.UnixCleaner(InternalKey));
+            }
+            if (GUILayout.Button("Export Cluster for EDITOR"))
+            {
+                List<NWDBasis> tDatasList = new List<NWDBasis>();
+                if (this.Services != null)
+                {
+                    tDatasList.AddRange(this.Services.GetRawDatasList());
+                    foreach (NWDServerServices tServerService in this.Services.GetRawDatasList())
+                    {
+                        if (tServerService.ServerDomain != null)
+                        {
+                            if (tServerService.ServerDomain.GetRawData() != null)
+                            {
+                                tDatasList.Add(tServerService.ServerDomain.GetRawData());
+                            }
+                        }
+                    }
+                }
                 tDatasList.AddRange(this.Domains.GetRawDatasList());
-                NWDBasisHelper.ExportMultiCSV(tDatasList, "Clusterdata-" + InternalKey);
+                NWDBasisHelper.ExportMultiCSV(tDatasList, "Clusterdata_" + NWDToolbox.UnixCleaner(InternalKey));
             }
             if (GUILayout.Button("Import Cluster and other datas"))
             {
                 NWDBasisHelper.ImportMultiCSV();
             }
+            */
+
             NWDGUILayout.Separator();
             if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateForAll))
             {

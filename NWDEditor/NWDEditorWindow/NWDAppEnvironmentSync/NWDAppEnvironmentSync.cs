@@ -329,7 +329,7 @@ namespace NetWorkedData.NWDEditor
             GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
             GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
             GUILayout.Label("Dev", NWDGUI.KTableSearchTitle);
-            if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
+            if (NWDAppConfiguration.SharedInstance().DevServerSyncActive())
             {
                 if (GUILayout.Button("Sync all", NWDGUI.KTableSearchButton))
                 {
@@ -410,7 +410,7 @@ namespace NetWorkedData.NWDEditor
             GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
             GUILayout.Label("Preprod", NWDGUI.KTableSearchTitle);
 
-            if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
+            if (NWDAppConfiguration.SharedInstance().PreprodServerSyncActive())
             {
                 if (GUILayout.Button("Sync all", NWDGUI.KTableSearchButton))
                 {
@@ -488,7 +488,7 @@ namespace NetWorkedData.NWDEditor
             GUILayout.EndVertical();
             GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
             GUILayout.Label("Prod", NWDGUI.KTableSearchTitle);
-            if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
+            if (NWDAppConfiguration.SharedInstance().ProdServerSyncActive())
             {
                 if (GUILayout.Button("Sync all", NWDGUI.KTableSearchButton))
                 {

@@ -225,6 +225,17 @@ namespace NetWorkedData
             // do something when object will be delete from local base
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Addons the delete me.
+        /// </summary>
+        public override void AddonDeletedMe()
+        {
+            base.AddonDeletedMe();
+            NWDClusterAnalyzer.CheckAllCluster();
+            NWDAppConfiguration.SharedInstance().ServerEnvironmentCheck();
+            // do something when object will be delete from local base
+        }
+        //-------------------------------------------------------------------------------------------------------------
         //public override bool AddonSyncForce()
         //{
         //    base.AddonSyncForce();

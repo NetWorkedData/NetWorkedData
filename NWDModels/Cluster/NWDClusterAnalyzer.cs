@@ -92,7 +92,15 @@ namespace NetWorkedData
                         {
                             tCluster.Domains = new NWDReferencesListType<NWDServerDomain>();
                         }
-                        tCluster.Domains.Flush();
+                        //tCluster.Domains.Flush();
+                        if (tCluster.Services == null)
+                        {
+                            tCluster.Services = new NWDReferencesListType<NWDServerServices>();
+                        }
+                        if (tCluster.DataBases == null)
+                        {
+                            tCluster.DataBases = new NWDReferencesListType<NWDServerDatas>();
+                        }
                         foreach (NWDServerServices tServerServices in tCluster.Services.GetEditorDatas())
                         {
                             if (tServerServices != null)

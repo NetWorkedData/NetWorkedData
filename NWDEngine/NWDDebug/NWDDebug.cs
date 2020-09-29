@@ -61,7 +61,7 @@ namespace NetWorkedData
             string tDot = ".";
             if (tM.IsStatic == true) { tDot = ">"; }
             string tMethod = tM.DeclaringType.Name + tDot + tM.Name;
-            UnityEngine.Debug.Log("TRACE " + tMethod);
+            //UnityEngine.Debug.Log("TRACE " + tMethod);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

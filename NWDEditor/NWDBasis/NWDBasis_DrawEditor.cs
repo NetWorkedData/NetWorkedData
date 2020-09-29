@@ -1116,7 +1116,7 @@ namespace NetWorkedData
                 bool tProdLock = tPreprodLockAnalyze;
 
                 EditorGUI.BeginDisabledGroup(tDisableDev);
-                if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
+                if (NWDAppConfiguration.SharedInstance().DevServerSyncActive())
                 {
                     tDevLock = EditorGUI.ToggleLeft(tMatrixRect[0, tLine], "Dev", tDevLockAnalyze);
                 }
@@ -1129,7 +1129,7 @@ namespace NetWorkedData
                     //&& DevSync >= 0
                     )
                 {
-                    if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
+                    if (NWDAppConfiguration.SharedInstance().DevServerSyncActive())
                     {
                         if (DevSync > -1)
                         {
@@ -1183,7 +1183,7 @@ namespace NetWorkedData
 
 
                 EditorGUI.BeginDisabledGroup(tDisablePreprod);
-                if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
+                if (NWDAppConfiguration.SharedInstance().PreprodServerSyncActive())
                 {
                     tPreprodLock = EditorGUI.ToggleLeft(tMatrixRect[1, tLine], "Preprod", tPreprodLockAnalyze);
                 }
@@ -1196,7 +1196,7 @@ namespace NetWorkedData
                     // && PreprodSync >= 0
                     )
                 {
-                    if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
+                    if (NWDAppConfiguration.SharedInstance().PreprodServerSyncActive())
                     {
                         if (PreprodSync > -1)
                         {
@@ -1249,7 +1249,7 @@ namespace NetWorkedData
 
 
                 EditorGUI.BeginDisabledGroup(tDisableProd);
-                if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
+                if (NWDAppConfiguration.SharedInstance().ProdServerSyncActive())
                 {
                     tProdLock = EditorGUI.ToggleLeft(tMatrixRect[2, tLine], "Prod", tProdLockAnalyze);
                 }
@@ -1262,7 +1262,7 @@ namespace NetWorkedData
                     // && ProdSync >= 0
                     )
                 {
-                    if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
+                    if (NWDAppConfiguration.SharedInstance().ProdServerSyncActive())
                     {
                         if (ProdSync > -1)
                         {

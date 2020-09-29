@@ -1520,6 +1520,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         Vector2 ScrollAction;
         //-------------------------------------------------------------------------------------------------------------
+        public virtual void AddonActions()
+        {
+            //NWDGUILayout.Label("...no addon actions...");
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void DrawPanelAction(Rect sRect)
         {
             int tSelectionCount = 0;
@@ -1545,6 +1550,9 @@ namespace NetWorkedData
             }
 
             // draw section
+
+            //NWDGUILayout.Section("Addon Actions");
+            AddonActions();
             NWDGUILayout.Section("Rows Actions");
 
             // draw subsection
@@ -2277,7 +2285,7 @@ namespace NetWorkedData
             //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
             if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
             {
-                if (NWDAppConfiguration.SharedInstance().DevServerIsActive())
+                if (NWDAppConfiguration.SharedInstance().DevServerSyncActive())
                 {
                     NWDGUI.BeginRedArea();
                     EditorGUI.BeginDisabledGroup(WebModelChanged);
@@ -2358,7 +2366,7 @@ namespace NetWorkedData
             //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
             if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable)
             {
-                if (NWDAppConfiguration.SharedInstance().PreprodServerIsActive())
+                if (NWDAppConfiguration.SharedInstance().PreprodServerSyncActive())
                 {
                     NWDGUI.BeginRedArea();
                     EditorGUI.BeginDisabledGroup(WebModelChanged);
@@ -2441,7 +2449,7 @@ namespace NetWorkedData
             if (TemplateHelper.GetSynchronizable() != NWDTemplateClusterDatabase.NoSynchronizable && TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
 
             {
-                if (NWDAppConfiguration.SharedInstance().ProdServerIsActive())
+                if (NWDAppConfiguration.SharedInstance().ProdServerSyncActive())
                 {
                     NWDGUI.BeginRedArea();
                     EditorGUI.BeginDisabledGroup(WebModelChanged);
