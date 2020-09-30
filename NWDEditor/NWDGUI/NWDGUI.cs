@@ -230,6 +230,8 @@ namespace NetWorkedData.NWDEditor
 
         public static GUIStyle kIconCenterStyle;
 
+        public static GUIStyle kCredentialTagRightStyle;
+
         //-------------------------------------------------------------------------------------------------------------
         public static GUIContent kNodeContentIcon;
 
@@ -688,6 +690,11 @@ namespace NetWorkedData.NWDEditor
                 kLabelRightStyle = new GUIStyle(EditorStyles.label);
                 kLabelRightStyle.alignment = TextAnchor.MiddleRight;
                 kLabelRightStyle.fixedHeight = kLabelRightStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
+
+                kCredentialTagRightStyle = new GUIStyle(EditorStyles.label);
+                kCredentialTagRightStyle.alignment = TextAnchor.LowerRight;
+                kCredentialTagRightStyle.fixedHeight = kCredentialTagRightStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
+                kCredentialTagRightStyle.fontStyle = FontStyle.Italic;
 
                 kTextAreaStyle = new GUIStyle(EditorStyles.textField);
                 kTextAreaStyle.wordWrap = true;

@@ -211,6 +211,12 @@ namespace NetWorkedData.NWDEditor
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        static public string ActiveTagDescription()
+        {
+            string rReturn = "auth as " + CredentialDico[Tag].Title;
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         static public bool ShowPasswordInLog()
         {
             return CredentialDico[Tag].ShowPasswordInLog;

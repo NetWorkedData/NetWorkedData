@@ -231,6 +231,10 @@ namespace NetWorkedData
             float tTiersWidthB = tTiersWidth - NWDGUI.kFieldMarge;
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
             EditorGUI.LabelField(new Rect(sPosition.x, sPosition.y, sPosition.width, NWDGUI.kLabelStyle.fixedHeight), tContent);
+
+
+            GUI.Label(new Rect(sPosition.x, sPosition.y + NWDGUI.kTextFieldStyle.fixedHeight * 2 + NWDGUI.kFieldMarge * 2, EditorGUIUtility.labelWidth - NWDGUI.kFieldMarge, NWDGUI.kLabelStyle.fixedHeight), NWDProjectCredentialsManagerContent.ActiveTagDescription(), NWDGUI.kCredentialTagRightStyle);
+
             if (string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.Password()) == false && string.IsNullOrEmpty(NWDProjectCredentialsManagerContent.VectorString()) == false)
             {
                 if (string.IsNullOrEmpty(Value))
