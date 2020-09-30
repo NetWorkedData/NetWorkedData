@@ -1,0 +1,160 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1968141525719734}
+  m_IsPrefabParent: 1
+--- !u!1 &1968141525719734
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4748268464594618}
+  - component: {fileID: 114851336511019738}
+  - component: {fileID: 114060426804862190}
+  - component: {fileID: 114107347638845664}
+  - component: {fileID: 114727233570549202}
+  - component: {fileID: 114000357802723428}
+  m_Layer: 0
+  m_Name: NWDGameDataManagerUnitySingleton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4748268464594618
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1968141525719734}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114000357802723428
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1968141525719734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 047a7a736e9f5499fabbcfe4a8dc8cc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TestEverySeconds: 60
+  NetworkState: 0
+--- !u!114 &114060426804862190
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1968141525719734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51d474e914e6b46c58d6446538a9d9d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114107347638845664
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1968141525719734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6038819985645411bbd6666972b1e98b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsVisible: 0
+  ColorBackground: {r: 1, g: 1, b: 1, a: 1}
+  ColorFill: {r: 1, g: 0, b: 0, a: 1}
+  Size: {x: 200, y: 5}
+  AlignHorizontal: 2
+  AlignVertical: 2
+  Offset: {x: 0, y: 0}
+  Reverse: 1
+  HorizontalValue: 1
+  VerticalValue: 1
+  HorizontalMin: 0
+  VerticalMin: 0
+  ColorBorder: {r: 0, g: 0, b: 0, a: 1}
+  Border: 1
+  TextureBackground: {fileID: 0}
+  TextureFill: {fileID: 0}
+  TextureOverLay: {fileID: 0}
+  ColorLimit: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  BorderLimit: 1
+  ShowText: 1
+  OverlayText: 
+  OverlayTextOffset: {x: 0, y: 0}
+  OverlayTextOverset: {x: 0, y: 0}
+  OverlayFont: {fileID: 0}
+  OverlaySize: 10
+  OverlayColor: {r: 0, g: 0, b: 0, a: 1}
+  OverlayTextAnchor: 4
+--- !u!114 &114727233570549202
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1968141525719734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6038819985645411bbd6666972b1e98b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsVisible: 0
+  ColorBackground: {r: 1, g: 1, b: 1, a: 1}
+  ColorFill: {r: 1, g: 0, b: 0, a: 1}
+  Size: {x: 200, y: 20}
+  AlignHorizontal: 2
+  AlignVertical: 2
+  Offset: {x: 0, y: 0}
+  Reverse: 1
+  HorizontalValue: 0
+  VerticalValue: 1
+  HorizontalMin: 0
+  VerticalMin: 0
+  ColorBorder: {r: 0, g: 0, b: 0, a: 1}
+  Border: 1
+  TextureBackground: {fileID: 0}
+  TextureFill: {fileID: 0}
+  TextureOverLay: {fileID: 0}
+  ColorLimit: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  BorderLimit: 1
+  ShowText: 1
+  OverlayText: 
+  OverlayTextOffset: {x: 0, y: 0}
+  OverlayTextOverset: {x: 0, y: 0}
+  OverlayFont: {fileID: 0}
+  OverlaySize: 10
+  OverlayColor: {r: 0, g: 0, b: 0, a: 1}
+  OverlayTextAnchor: 4
+--- !u!114 &114851336511019738
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1968141525719734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6e12019099c2453383e763bede76f48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LoadingDatasGauge: {fileID: 114107347638845664}
+  OperationGauge: {fileID: 114727233570549202}
+  NetWorkCheck: {fileID: 114000357802723428}
