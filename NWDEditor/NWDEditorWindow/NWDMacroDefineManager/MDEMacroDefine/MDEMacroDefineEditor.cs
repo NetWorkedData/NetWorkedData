@@ -50,6 +50,7 @@ namespace NetWorkedData.MacroDefine
         string NewMacro = string.Empty;
         Vector2 ScroolPoint;
         bool Modified = false;
+        Dictionary<NWDMacroDefiner, int> EnumTypeListGloball = new Dictionary<NWDMacroDefiner, int>();
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance for deamon class.
@@ -260,8 +261,10 @@ namespace NetWorkedData.MacroDefine
             foreach (string tM in AllMacrosOriginal)
             {
 
-                GUILayout.BeginHorizontal();
-                if (GUILayout.Button(MDEConstants.Remove, GUILayout.Height(MDEConstants.RowHeight)))
+                GUILayout.BeginHorizontal(GUILayout.Height(MDEConstants.RowHeight));
+
+                GUILayout.Label(tM, GUILayout.Width (EditorGUIUtility.labelWidth));
+                if (GUILayout.Button(MDEConstants.Remove))
                 {
                     AllMacrosOriginal.Remove(tM);
                     foreach (BuildTargetGroup tBuildTargetGroup in ActiveGroup)
@@ -275,17 +278,200 @@ namespace NetWorkedData.MacroDefine
                     GUIUtility.ExitGUI();
                 }
 
-                if (GUILayout.Button(MDEConstants.EnableAll, GUILayout.Height(MDEConstants.RowHeight)))
+                if (GUILayout.Button(MDEConstants.EnableAll))
                 {
                     Modified = ChangeThisMacroAll(tM, true);
                 }
-                if (GUILayout.Button(MDEConstants.DisableAll, GUILayout.Height(MDEConstants.RowHeight)))
+                if (GUILayout.Button(MDEConstants.DisableAll))
                 {
                     Modified = ChangeThisMacroAll(tM, false);
                 }
                 GUILayout.EndHorizontal();
             }
             GUILayout.EndVertical();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            if (MacroTypeList.Count > 0)
+            {
+                foreach (KeyValuePair<string, List<NWDMacroDefiner>> tKeyValue in MacroTypeList)
+                {
+                    GUILayout.BeginVertical();
+                    GUILayout.Label(tKeyValue.Key, NWDGUI.KTableHeaderStatut);
+                    foreach (NWDMacroDefiner tMacro in tKeyValue.Value)
+                    {
+                        if (tMacro.GetType().IsSubclassOf(typeof(NWDMacroEnumDefiner)))
+                        {
+                            GUILayout.BeginHorizontal(GUILayout.Height(MDEConstants.RowHeight));
+                            List<string> tArrayMacro = tMacro.StringValuesArray();
+                            List<string> tArrayMacroAdd = tMacro.StringValuesArrayAdd();
+                            List<string> tArrayRepresentation = tMacro.RepresentationValuesArray();
+                            if (EnumTypeListGloball.ContainsKey(tMacro) == false)
+                            {
+                                EnumTypeListGloball.Add(tMacro, 0);
+                            }
+                            int tIndex = EnumTypeListGloball[tMacro];
+                            tIndex = EditorGUILayout.Popup(tMacro.GetTitle(), tIndex, tArrayRepresentation.ToArray());
+                            EnumTypeListGloball[tMacro] = tIndex;
+                            if (GUILayout.Button(MDEConstants.ChangeAll, GUILayout.Height(NWDGUI.kPopupStyle.fixedHeight)))
+                            {
+                                foreach (string tMM in tArrayMacro)
+                                {
+                                    ChangeThisMacroAll(tArrayMacro[1], false);
+                                }
+                                if (tIndex >= 0)
+                                {
+                                    //if (tArrayMacro[tIndex] != MDEConstants.NONE)
+                                    {
+                                        ChangeThisMacroAll(tArrayMacro[tIndex], true);
+                                        string[] sList = tArrayMacroAdd[tIndex].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                                        foreach (string tAdd in sList)
+                                        {
+                                            ChangeThisMacroAll(tAdd, true);
+                                        }
+                                    }
+                                }
+                            }
+                            GUILayout.EndHorizontal();
+                            //GUILayout.Space(5.0F);
+                        }
+                        if (tMacro.GetType().IsSubclassOf(typeof(NWDMacroBoolDefiner)))
+                        {
+                            List<string> tArrayMacro = tMacro.StringValuesArray();
+                            List<string> tArrayMacroAdd = tMacro.StringValuesArrayAdd();
+                            if (tArrayMacro.Count == 2)
+                            {
+                                GUILayout.BeginHorizontal(GUILayout.Height(MDEConstants.RowHeight));
+                                GUILayout.Label(tMacro.GetTitle(), GUILayout.Width(EditorGUIUtility.labelWidth));
+                                if (GUILayout.Button(MDEConstants.EnableAll))
+                                {
+                                    ChangeThisMacroAll(tArrayMacro[1], true);
+                                    string[] sList = tArrayMacroAdd[1].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                                    foreach (string tAdd in sList)
+                                    {
+                                        ChangeThisMacroAll(tAdd, true);
+                                    }
+                                }
+                                if (GUILayout.Button(MDEConstants.DisableAll))
+                                {
+                                    ChangeThisMacroAll(tArrayMacro[1], false);
+                                }
+                                GUILayout.EndHorizontal();
+                                //GUILayout.Space(7.0F);
+                            }
+                        }
+                    }
+                    GUILayout.EndVertical();
+                }
+            }
+
+            if (EnumTypeList.Count > 0)
+            {
+                GUILayout.BeginVertical();
+                GUILayout.Label(MDEConstants.EnumArea, NWDGUI.KTableHeaderStatut);
+                EnumTypeList.Sort((tA, tB) => string.Compare(tA.GetTitle(), tB.GetTitle(), StringComparison.Ordinal));
+                foreach (NWDMacroDefiner tEnum in EnumTypeList)
+                {
+                    GUILayout.BeginHorizontal(GUILayout.Height(MDEConstants.RowHeight));
+                    List<string> tArrayMacro = tEnum.StringValuesArray();
+                    List<string> tArrayMacroAdd = tEnum.StringValuesArrayAdd();
+                    List<string> tArrayRepresentation = tEnum.RepresentationValuesArray();
+                    if (EnumTypeListGloball.ContainsKey(tEnum) == false)
+                    {
+                        EnumTypeListGloball.Add(tEnum, 0);
+                    }
+                    int tIndex = EnumTypeListGloball[tEnum];
+                    tIndex = EditorGUILayout.Popup(tEnum.GetTitle(), tIndex, tArrayRepresentation.ToArray());
+                    EnumTypeListGloball[tEnum] = tIndex;
+                    if (GUILayout.Button(MDEConstants.ChangeAll, GUILayout.Height(NWDGUI.kPopupStyle.fixedHeight)))
+                    {
+                        foreach (string tMM in tArrayMacro)
+                        {
+                            ChangeThisMacroAll(tArrayMacro[1], false);
+                        }
+                        if (tIndex >= 0)
+                        {
+                            //if (tArrayMacro[tIndex] != MDEConstants.NONE)
+                            {
+                                ChangeThisMacroAll(tArrayMacro[tIndex], true);
+                                string[] sList = tArrayMacroAdd[tIndex].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                                foreach (string tAdd in sList)
+                                {
+                                    ChangeThisMacroAll(tAdd, true);
+                                }
+                            }
+                        }
+                    }
+                    GUILayout.EndHorizontal();
+                    //GUILayout.Space(5.0F);
+                }
+                GUILayout.EndVertical();
+            }
+            if (BoolTypeList.Count > 0)
+            {
+                GUILayout.BeginVertical();
+                GUILayout.Label(MDEConstants.BoolArea, NWDGUI.KTableHeaderStatut);
+                BoolTypeList.Sort((tA, tB) => string.Compare(tA.GetTitle(), tB.GetTitle(), StringComparison.Ordinal));
+                foreach (NWDMacroDefiner tBool in BoolTypeList)
+                {
+                    List<string> tArrayMacro = tBool.StringValuesArray();
+                    List<string> tArrayMacroAdd = tBool.StringValuesArrayAdd();
+                    if (tArrayMacro.Count == 2)
+                    {
+                        GUILayout.BeginHorizontal(GUILayout.Height(MDEConstants.RowHeight));
+                        GUILayout.Label(tBool.GetTitle(), GUILayout.Width(EditorGUIUtility.labelWidth));
+                        if (GUILayout.Button(MDEConstants.EnableAll))
+                        {
+                            ChangeThisMacroAll(tArrayMacro[1], true);
+                            string[] sList = tArrayMacroAdd[1].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                            foreach (string tAdd in sList)
+                            {
+                                ChangeThisMacroAll(tAdd, true);
+                            }
+                        }
+                        if (GUILayout.Button(MDEConstants.DisableAll))
+                        {
+                            ChangeThisMacroAll(tArrayMacro[1], false);
+                        }
+                        GUILayout.EndHorizontal();
+                        //GUILayout.Space(7.0F);
+                    }
+                }
+                GUILayout.EndVertical();
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             GUILayout.EndVertical();
             foreach (BuildTargetGroup tBuildTargetGroup in ActiveGroup)
             {
@@ -348,7 +534,7 @@ namespace NetWorkedData.MacroDefine
                                     {
                                         ActiveGroupMacroDefine[tBuildTargetGroup].Remove(tR);
                                     }
-                                    tIndex = EditorGUILayout.Popup(tMacro.GetTitle(), tIndex, tArrayRepresentation.ToArray());
+                                    tIndex = EditorGUILayout.Popup(tMacro.GetTitle(), tIndex, tArrayRepresentation.ToArray(), GUILayout.Height(MDEConstants.RowHeight));
                                     if (tIndex >= 0)
                                     {
                                         if (tArrayMacro[tIndex] != MDEConstants.NONE)
@@ -364,7 +550,7 @@ namespace NetWorkedData.MacroDefine
                                             }
                                         }
                                     }
-                                    GUILayout.Space(5.0F);
+                                    //GUILayout.Space(5.0F);
                                 }
                                 if (tMacro.GetType().IsSubclassOf(typeof(NWDMacroBoolDefiner)))
                                 {
@@ -391,7 +577,7 @@ namespace NetWorkedData.MacroDefine
                                         {
                                             tSelected = true;
                                         }
-                                        tSelected = EditorGUILayout.Toggle(new GUIContent(tMacro.GetTitle(), tArrayMacroAdd[1]), tSelected);
+                                        tSelected = EditorGUILayout.Toggle(new GUIContent(tMacro.GetTitle(), tArrayMacroAdd[1]), tSelected, GUILayout.Height(MDEConstants.RowHeight));
                                         if (tSelected == false)
                                         {
                                             tIndex = 0;
@@ -414,7 +600,7 @@ namespace NetWorkedData.MacroDefine
                                                 }
                                             }
                                         }
-                                        GUILayout.Space(5.0F);
+                                        //GUILayout.Space(5.0F);
                                     }
                                 }
                             }
@@ -446,7 +632,7 @@ namespace NetWorkedData.MacroDefine
                             {
                                 ActiveGroupMacroDefine[tBuildTargetGroup].Remove(tR);
                             }
-                            tIndex = EditorGUILayout.Popup(tEnum.GetTitle(), tIndex, tArrayRepresentation.ToArray());
+                            tIndex = EditorGUILayout.Popup(tEnum.GetTitle(), tIndex, tArrayRepresentation.ToArray(), GUILayout.Height(MDEConstants.RowHeight));
                             if (tIndex >= 0)
                             {
                                 if (tArrayMacro[tIndex] != MDEConstants.NONE)
@@ -462,7 +648,7 @@ namespace NetWorkedData.MacroDefine
                                     }
                                 }
                             }
-                            GUILayout.Space(5.0F);
+                            //GUILayout.Space(5.0F);
                         }
                         GUILayout.EndVertical();
                     }
@@ -496,7 +682,7 @@ namespace NetWorkedData.MacroDefine
                                 {
                                     tSelected = true;
                                 }
-                                tSelected = EditorGUILayout.Toggle(new GUIContent(tBool.GetTitle(), tArrayMacroAdd[1]), tSelected);
+                                tSelected = EditorGUILayout.Toggle(new GUIContent(tBool.GetTitle(), tArrayMacroAdd[1]), tSelected, GUILayout.Height(MDEConstants.RowHeight));
                                 if (tSelected == false)
                                 {
                                     tIndex = 0;
@@ -519,7 +705,7 @@ namespace NetWorkedData.MacroDefine
                                         }
                                     }
                                 }
-                                GUILayout.Space(5.0F);
+                                //GUILayout.Space(5.0F);
                             }
                         }
                         GUILayout.EndVertical();
@@ -660,6 +846,14 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         public bool ChangeThisMacroAll(string sMacro, bool sActive)
         {
+            if (sActive == true)
+            {
+                Debug.Log("will add " + sMacro);
+            }
+            else
+            {
+                Debug.Log("will remove " + sMacro);
+            }
             bool rReturnModified = false;
             foreach (BuildTargetGroup tBuildTargetGroup in ActiveGroup)
             {
