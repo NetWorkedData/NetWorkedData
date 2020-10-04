@@ -50,6 +50,8 @@ namespace NetWorkedData.MacroDefine
         string NewMacro = string.Empty;
         Vector2 ScroolPoint;
         bool Modified = false;
+
+        public List<string> AllMacros = new List<string>();
         Dictionary<NWDMacroDefiner, int> EnumTypeListGloball = new Dictionary<NWDMacroDefiner, int>();
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -113,6 +115,7 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         public void Load()
         {
+            AllMacros.Clear();
             Modified = false;
             ActiveGroup.Clear();
             ActiveGroupMacroDefine.Clear();
@@ -137,6 +140,10 @@ namespace NetWorkedData.MacroDefine
                             {
                                 if (string.IsNullOrEmpty(tM) == false)
                                 {
+                                    if (AllMacros.Contains(tM) == false)
+                                    {
+                                        AllMacros.Add(tM);
+                                    }
                                     if (tMacroList.Contains(tM) == false)
                                     {
                                         tMacroList.Add(tM);
@@ -177,6 +184,21 @@ namespace NetWorkedData.MacroDefine
                     if (tType.IsSubclassOf(typeof(NWDMacroEnumDefiner)))
                     {
                         NWDMacroDefiner tEnum = Activator.CreateInstance(tType, null) as NWDMacroDefiner;
+                        NWDMacroEnumDefiner tEnumAs = tEnum as NWDMacroEnumDefiner;
+                        foreach (string tM in tEnumAs.StringValuesArray())
+                        {
+                            if (AllMacros.Contains(tM) == false)
+                            {
+                                AllMacros.Add(tM);
+                            }
+                        }
+                        foreach (string tM in tEnumAs.StringValuesArrayAdd())
+                        {
+                            if (AllMacros.Contains(tM) == false)
+                            {
+                                AllMacros.Add(tM);
+                            }
+                        }
                         string tGroup = tEnum.GetGroup();
                         if (string.IsNullOrEmpty(tGroup))
                         {
@@ -203,6 +225,21 @@ namespace NetWorkedData.MacroDefine
                     if (tType.IsSubclassOf(typeof(NWDMacroBoolDefiner)))
                     {
                         NWDMacroDefiner tBool = Activator.CreateInstance(tType, null) as NWDMacroDefiner;
+                        NWDMacroBoolDefiner tEnumAs = tBool as NWDMacroBoolDefiner;
+                        foreach (string tM in tEnumAs.StringValuesArray())
+                        {
+                            if (AllMacros.Contains(tM) == false)
+                            {
+                                AllMacros.Add(tM);
+                            }
+                        }
+                        foreach (string tM in tEnumAs.StringValuesArrayAdd())
+                        {
+                            if (AllMacros.Contains(tM) == false)
+                            {
+                                AllMacros.Add(tM);
+                            }
+                        }
                         string tGroup = tBool.GetGroup();
                         if (string.IsNullOrEmpty(tGroup))
                         {
@@ -229,6 +266,7 @@ namespace NetWorkedData.MacroDefine
                 }
             }
             AllMacrosOriginal.Sort();
+            AllMacros.Sort();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void OnEnable(NWDEditorWindow sEditorWindow)
@@ -263,7 +301,7 @@ namespace NetWorkedData.MacroDefine
 
                 GUILayout.BeginHorizontal(GUILayout.Height(MDEConstants.RowHeight));
 
-                GUILayout.Label(tM, GUILayout.Width (EditorGUIUtility.labelWidth));
+                GUILayout.Label(tM, GUILayout.Width(EditorGUIUtility.labelWidth));
                 if (GUILayout.Button(MDEConstants.Remove))
                 {
                     AllMacrosOriginal.Remove(tM);

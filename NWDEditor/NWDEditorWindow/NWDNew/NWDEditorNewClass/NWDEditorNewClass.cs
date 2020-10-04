@@ -76,7 +76,7 @@ namespace NetWorkedData.NWDEditor
 
 
         string MacroLimit = string.Empty;
-
+        List<string> tMacroList;
         List<string> tListOfType = new List<string>();
         List<string> tListOfclass = new List<string>();
         NWDTemplateHelper TemplateHelper = new NWDTemplateHelper();
@@ -125,7 +125,7 @@ namespace NetWorkedData.NWDEditor
             //{
             //    tClassExample = tClassExample.Replace("[" +typeof(NWDClassServerSynchronizeAttribute).Name+"(true)]", "["+typeof(NWDClassServerSynchronizeAttribute).Name+"(false)]");
             //}
-            Debug.Log("MacroLimit = " + MacroLimit);
+            //Debug.Log("MacroLimit = " + MacroLimit);
             tClassExample = tClassExample.Replace("NWDExample_Tri", ClassNameTrigramme);
             tClassExample = tClassExample.Replace("NWDExample_Description", ClassNameDescription);
             tClassExample = tClassExample.Replace("NWDExample_MenuName", ClassNameMenuName);
@@ -309,6 +309,9 @@ namespace NetWorkedData.NWDEditor
             //tListOfclass.Insert(0, typeof(NWDBasisAccountRestricted).Name); // not accessible to create Data in framework
             tListOfclass.Insert(0, typeof(NWDBasisBundled).Name);
             tListOfclass.Insert(0, typeof(NWDBasis).Name);
+
+            MDEMacroDefineEditorContent.SharedInstance().Load();
+            tMacroList = MDEMacroDefineEditorContent.SharedInstance().AllMacros;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void OnDisable(NWDEditorWindow sEditorWindow)
@@ -414,7 +417,17 @@ namespace NetWorkedData.NWDEditor
                     EditorGUILayout.LabelField(" ", "trigramme is Ok!");
                 }
             }
+            // or selectb in Macro in MacroDefiner ?
+
+            int tIndexMacro = tMacroList.IndexOf(MacroLimit);
+            tIndexMacro = EditorGUILayout.Popup("Macro limit from project", tIndexMacro, tMacroList.ToArray());
+            if (tIndexMacro >=0)
+            {
+                MacroLimit = tMacroList[tIndexMacro];
+            }
+
             MacroLimit = EditorGUILayout.TextField("Macro limit", MacroLimit);
+
             NWDGUILayout.Section("Class description");
             ClassNameDescription = EditorGUILayout.TextField("Description", ClassNameDescription, GUILayout.Height(80.0F));
             ClassNameDescription = ClassNameDescription.Replace("\\", string.Empty);

@@ -49,6 +49,7 @@ namespace NetWorkedData.NWDEditor
         List<string> ClassesList = new List<string>();
         bool WindowMacroScript = false;
         bool WindowInModule = false;
+        List<string> tMacroList;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance for deamon class.
@@ -68,6 +69,13 @@ namespace NetWorkedData.NWDEditor
             }
             NWDBenchmark.Finish();
             return _kSharedInstanceContent;
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public override void OnEnable(NWDEditorWindow sEditorWindow)
+        {
+            MDEMacroDefineEditorContent.SharedInstance().Load();
+            tMacroList =  MDEMacroDefineEditorContent.SharedInstance().AllMacros;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -172,6 +180,7 @@ namespace NetWorkedData.NWDEditor
             WindowMenuPosition = 1000;
             ClassesList = new List<string>();
             //NWDBenchmark.Finish();
+
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -233,10 +242,22 @@ namespace NetWorkedData.NWDEditor
             NWDGUILayout.Section("Window description");
             // futur class description
             WindowDescription = EditorGUILayout.TextField("Description", WindowDescription);
+
+
+            int tIndexMacro = tMacroList.IndexOf(WindowMacro);
+            tIndexMacro = EditorGUILayout.Popup("Macro limit from project", tIndexMacro, tMacroList.ToArray());
+            if (tIndexMacro >= 0)
+            {
+                WindowMacro = tMacroList[tIndexMacro];
+                WindowMacroScript = false;
+            }
+
             WindowMacro = EditorGUILayout.TextField("Macro limit", WindowMacro);
+            EditorGUI.BeginDisabledGroup(tIndexMacro>=0 || string.IsNullOrEmpty(WindowMacro));
             WindowMacroScript = EditorGUILayout.Toggle("Macro new script", WindowMacroScript);
+            EditorGUI.EndDisabledGroup();
 #if NWD_DEVELOPER
-            WindowInModule = EditorGUILayout.Toggle("Windo for module", WindowInModule);
+            WindowInModule = EditorGUILayout.Toggle("Window for module", WindowInModule);
 #endif
             WindowDescription = WindowDescription.Replace("\\", string.Empty);
             NWDGUILayout.Section("Menu in interface");
@@ -394,6 +415,7 @@ namespace NetWorkedData.NWDEditor
             NormalizeHeight = 700;
             // set title
             TitleInit("Custom classes window", typeof(NWDEditorNewWindow));
+            NWDEditorNewWindowContent.SharedInstance().OnEnable(this);
             NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
