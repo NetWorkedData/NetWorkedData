@@ -28,6 +28,7 @@ using System.Reflection;
 using System.IO;
 using UnityEditor;
 using System.Linq;
+using NetWorkedData.MacroDefine;
 //=====================================================================================================================
 namespace NetWorkedData.NWDEditor
 {
@@ -133,6 +134,7 @@ namespace NetWorkedData.NWDEditor
             tClassExample = tClassExample.Replace("NWDBasis", ClassBase);
             if (string.IsNullOrEmpty(MacroLimit) == false)
             {
+                MDEMacroDefineEditorContent.SharedInstance().AddMacro(MacroLimit);
                 tClassExample = tClassExample.Replace("NWD_EXAMPLE_MACRO", MacroLimit);
                 tClassExample = tClassExample.Replace("//MACRO_DEFINE ", "");
             }

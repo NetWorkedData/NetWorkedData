@@ -619,6 +619,60 @@ namespace NetWorkedData.MacroDefine
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void AddMacro(string sMacro, bool sActiveDefault = true)
+        {
+            Load();
+            string tNewMacro = sMacro.ToUpper();
+            tNewMacro = tNewMacro.Replace(";", "");
+            tNewMacro = tNewMacro.Replace(" ", "_");
+            tNewMacro = tNewMacro.Replace("-", "_");
+            AllMacrosOriginal.Add(UnixCleaner(tNewMacro));
+            foreach (BuildTargetGroup tBuildTargetGroup in ActiveGroup)
+            {
+                if (sActiveDefault)
+                {
+                    if (ActiveGroupMacroDefine[tBuildTargetGroup].Contains(tNewMacro) == false)
+                    {
+                        ActiveGroupMacroDefine[tBuildTargetGroup].Add(tNewMacro);
+                    }
+                }
+            }
+            WritePref();
+            foreach (BuildTargetGroup tBuildTargetGroupSet in ActiveGroup)
+            {
+                string tSymbos = string.Join(";", ActiveGroupMacroDefine[tBuildTargetGroupSet]);
+                PlayerSettings.SetScriptingDefineSymbolsForGroup(tBuildTargetGroupSet, tSymbos);
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public void ChangeThisMacroAll(string sMacro, bool sActive)
+        {
+            foreach (BuildTargetGroup tBuildTargetGroup in ActiveGroup)
+            {
+                if (sActive == true)
+                {
+                    if (ActiveGroupMacroDefine[tBuildTargetGroup].Contains(sMacro) == false)
+                    {
+                        ActiveGroupMacroDefine[tBuildTargetGroup].Add(sMacro);
+                    }
+                }
+                else
+                {
+                    if (ActiveGroupMacroDefine[tBuildTargetGroup].Contains(sMacro) == true)
+                    {
+                        ActiveGroupMacroDefine[tBuildTargetGroup].Remove(sMacro);
+                    }
+                }
+            }
+            WritePref();
+            foreach (BuildTargetGroup tBuildTargetGroupSet in ActiveGroup)
+            {
+                string tSymbos = string.Join(";", ActiveGroupMacroDefine[tBuildTargetGroupSet]);
+                PlayerSettings.SetScriptingDefineSymbolsForGroup(tBuildTargetGroupSet, tSymbos);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

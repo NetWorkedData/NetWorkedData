@@ -26,6 +26,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System;
 using UnityEditor;
+using NetWorkedData.MacroDefine;
 //=====================================================================================================================
 namespace NetWorkedData.NWDEditor
 {
@@ -46,6 +47,8 @@ namespace NetWorkedData.NWDEditor
         string WindowDescription = string.Empty;
         int WindowMenuPosition = 0; // 0-1000 + 2000 : => [2000 … 3000]
         List<string> ClassesList = new List<string>();
+        bool WindowMacroScript = false;
+        bool WindowInModule = false;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance for deamon class.
@@ -85,8 +88,15 @@ namespace NetWorkedData.NWDEditor
             tClassExample = tClassExample.Replace("//[MenuItem ", "[MenuItem ");
             if (string.IsNullOrEmpty(WindowMacro) == false)
             {
+                MDEMacroDefineEditorContent.SharedInstance().AddMacro(WindowMacro);
                 tClassExample = tClassExample.Replace("NWD_EXAMPLE_MACRO", WindowMacro);
                 tClassExample = tClassExample.Replace("//MACRO_DEFINE ", "");
+                tClassExample = tClassExample.Replace("/* MACRO_SCRIPT", "");
+                tClassExample = tClassExample.Replace("MACRO_SCRIPT */", "");
+            }
+            if (WindowInModule == true)
+            {
+                tClassExample = tClassExample.Replace("K_CUSTOMS_MANAGEMENT_INDEX", "K_MODULES_MANAGEMENT_INDEX");
             }
             // place the classes
             string tClassesLinearize = string.Empty;
@@ -224,6 +234,10 @@ namespace NetWorkedData.NWDEditor
             // futur class description
             WindowDescription = EditorGUILayout.TextField("Description", WindowDescription);
             WindowMacro = EditorGUILayout.TextField("Macro limit", WindowMacro);
+            WindowMacroScript = EditorGUILayout.Toggle("Macro new script", WindowMacroScript);
+#if NWD_DEVELOPER
+            WindowInModule = EditorGUILayout.Toggle("Windo for module", WindowInModule);
+#endif
             WindowDescription = WindowDescription.Replace("\\", string.Empty);
             NWDGUILayout.Section("Menu in interface");
             // futur class menu name
