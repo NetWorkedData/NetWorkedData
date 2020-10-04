@@ -259,6 +259,8 @@ namespace NetWorkedData.MacroDefine
             GUILayout.BeginVertical();
             foreach (string tM in AllMacrosOriginal)
             {
+
+                GUILayout.BeginHorizontal();
                 if (GUILayout.Button(MDEConstants.Remove, GUILayout.Height(MDEConstants.RowHeight)))
                 {
                     AllMacrosOriginal.Remove(tM);
@@ -272,6 +274,16 @@ namespace NetWorkedData.MacroDefine
                     Modified = true;
                     GUIUtility.ExitGUI();
                 }
+
+                if (GUILayout.Button(MDEConstants.EnableAll, GUILayout.Height(MDEConstants.RowHeight)))
+                {
+                    Modified = ChangeThisMacroAll(tM, true);
+                }
+                if (GUILayout.Button(MDEConstants.DisableAll, GUILayout.Height(MDEConstants.RowHeight)))
+                {
+                    Modified = ChangeThisMacroAll(tM, false);
+                }
+                GUILayout.EndHorizontal();
             }
             GUILayout.EndVertical();
             GUILayout.EndVertical();
@@ -646,8 +658,9 @@ namespace NetWorkedData.MacroDefine
         }
 
         //-------------------------------------------------------------------------------------------------------------
-        public void ChangeThisMacroAll(string sMacro, bool sActive)
+        public bool ChangeThisMacroAll(string sMacro, bool sActive)
         {
+            bool rReturnModified = false;
             foreach (BuildTargetGroup tBuildTargetGroup in ActiveGroup)
             {
                 if (sActive == true)
@@ -655,6 +668,7 @@ namespace NetWorkedData.MacroDefine
                     if (ActiveGroupMacroDefine[tBuildTargetGroup].Contains(sMacro) == false)
                     {
                         ActiveGroupMacroDefine[tBuildTargetGroup].Add(sMacro);
+                        rReturnModified = true;
                     }
                 }
                 else
@@ -662,15 +676,11 @@ namespace NetWorkedData.MacroDefine
                     if (ActiveGroupMacroDefine[tBuildTargetGroup].Contains(sMacro) == true)
                     {
                         ActiveGroupMacroDefine[tBuildTargetGroup].Remove(sMacro);
+                        rReturnModified = true;
                     }
                 }
             }
-            WritePref();
-            foreach (BuildTargetGroup tBuildTargetGroupSet in ActiveGroup)
-            {
-                string tSymbos = string.Join(";", ActiveGroupMacroDefine[tBuildTargetGroupSet]);
-                PlayerSettings.SetScriptingDefineSymbolsForGroup(tBuildTargetGroupSet, tSymbos);
-            }
+            return rReturnModified;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

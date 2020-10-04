@@ -28,11 +28,13 @@ namespace NetWorkedData.MacroDefine
         //-------------------------------------------------------------------------------------------------------------
         public const string Path = "NWDMacroPref.MDE";
         public const float RowHeight = 16.0F;
-        public const float ManagementWidth = 100.0F;
+        public const float ManagementWidth = 200.0F;
         public const string NONE = "NONE";
         //-------------------------------------------------------------------------------------------------------------
         public const string Management = "Management";
         public const string Remove = "remove";
+        public const string EnableAll = "enable";
+        public const string DisableAll = "disable";
         public const string MacroDefineEditor = "Macro Define Editor";
         public const string Menu = "Window/" + MacroDefineEditor;
         public const string EnumArea = "Macro add by enum";
