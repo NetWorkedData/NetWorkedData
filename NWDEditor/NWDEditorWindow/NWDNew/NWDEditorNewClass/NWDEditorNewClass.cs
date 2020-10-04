@@ -353,9 +353,16 @@ namespace NetWorkedData.NWDEditor
             EditorGUILayout.EnumPopup("Account dependent", TemplateHelper.GetAccountDependent());
             EditorGUILayout.EnumPopup("Gamesave dependent", TemplateHelper.GetGamesaveDependent());
             EditorGUI.EndDisabledGroup();
-
+            EditorGUI.BeginDisabledGroup(TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent);
+            if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
+            {
+            }
+            else
+            {
+                ClassUnityConnection = false;
+            }
             ClassUnityConnection = EditorGUILayout.Toggle("Connect in GameObject", ClassUnityConnection);
-
+            EditorGUI.EndDisabledGroup();
             ClassName = EditorGUILayout.TextField("Name ", ClassName);
             ClassName = tRegExpression.Replace(ClassName, string.Empty);
             if (ClassName.Length < K_CLASSNAME_MIN)
