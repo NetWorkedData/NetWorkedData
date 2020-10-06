@@ -18,20 +18,24 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
-#if NWD_ITEMPACK
-using System;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public partial class NWDItemPack :NWDBasis
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDItemPack() {}
+    public partial class NWDItem : NWDBasis
+    {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDItemPack(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) {}
-		//-------------------------------------------------------------------------------------------------------------
-        public override void Initialization() {}
+        public NWDItem() {}
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDItem(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) {}
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
+            Uncountable = false;
+            HiddenInGame = false;
+            Usable = true;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public string Enrichment(string sText, int sCpt = 0, string sLanguage = null, bool sBold = true)
         {
@@ -42,20 +46,19 @@ namespace NetWorkedData
                 tBstart = string.Empty;
                 tBend = string.Empty;
             }
+
             // Replace Tag by Item Name
-            NWDItem tItem = ItemDescription.GetRawData();
-            string tName = "[Missing Detail]";
-            if (tItem != null)
-            {
-                tName = tItem.Name.GetLocalString();
-            }
-            string rText = sText.Replace("#G" + sCpt + NWEConstants.K_HASHTAG, tBstart + tName + tBend);
+            string rText = sText.Replace("#I" + sCpt + NWEConstants.K_HASHTAG, tBstart + Name + tBend);
 
             return rText;
         }
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetDiscovered(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        {
+            NWDUserOwnership.SetDiscovered(this, sWritingMode);
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
-#endif
