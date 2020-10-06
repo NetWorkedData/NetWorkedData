@@ -55,6 +55,9 @@ namespace NetWorkedData
         Data,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [NWDClassTrigrammeAttribute("XXXI")]
+    [NWDClassDescriptionAttribute("Index By Base Class")]
+    [NWDClassMenuNameAttribute("Index By Base")]
     public partial class NWDIndexByBase : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -71,6 +74,9 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDInternalKeyNotEditable]
+    [NWDClassTrigrammeAttribute("XXXE")]
+    [NWDClassDescriptionAttribute("Editor Index By Base Class")]
+    [NWDClassMenuNameAttribute("Editor Index")]
     public partial class NWDEditorIndex<TIndex, TKey, TValue> : NWDIndexByBase where TIndex : NWDIndexByBase where TKey : NWDBasis where TValue : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------

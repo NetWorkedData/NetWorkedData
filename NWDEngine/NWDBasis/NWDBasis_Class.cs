@@ -36,6 +36,9 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [NWDClassTrigrammeAttribute("XYZ")]
+    [NWDClassDescriptionAttribute("Basis descriptions Class")]
+    [NWDClassMenuNameAttribute("Basis")]
     public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
