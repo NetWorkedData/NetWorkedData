@@ -603,7 +603,7 @@ namespace NetWorkedData
                 NWDProjectPrefs.SetInt(ActionsPrefkey(() => m_ItemPerPageSelection), m_ItemPerPageSelection);
             }
             tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
-            tRect.width = sRect.width - NWDGUI.KTableSearchWidth *2 - NWDGUI.kFieldMarge * 3;
+            tRect.width = sRect.width - NWDGUI.KTableSearchWidth * 2 - NWDGUI.kFieldMarge * 3;
             EditorGUI.BeginChangeCheck();
             float tRowZoom = GUI.HorizontalSlider(tRect, RowZoom, 1.0F, 2.0F);
             if (EditorGUI.EndChangeCheck() == true)
@@ -686,7 +686,7 @@ namespace NetWorkedData
             {
                 GUI.Label(tRect, "Filters", NWDGUI.KTableSearchTitle);
                 // divise area 
-                tRect.width = Mathf.Floor((tRect.width - NWDGUI.KTableSearchWidth - NWDGUI.kFieldMarge * 2)/2.0f);
+                tRect.width = Mathf.Floor((tRect.width - NWDGUI.KTableSearchWidth - NWDGUI.kFieldMarge * 2) / 2.0f);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
                 // draw Reference
@@ -944,11 +944,11 @@ namespace NetWorkedData
             tRect.y += NWDGUI.KTAB_BAR_HEIGHT + NWDGUI.kFieldMarge;
 
             float tWidthTiers = Mathf.Floor(sRect.width / 4.0F);
-           
+
 
             float tW = NWDProjectPrefs.GetInt(NWDConstants.K_EDITOR_PANEL_WIDTH, 320);
             Rect tWindowRectInpsector = new Rect(tRect.width - tW, tRect.position.y, tW, sRect.height - tRect.position.y);
-            
+
             // if necessary recalcul row informations
             RowAnalyze();
             bool tMargeNeed = false;
@@ -1068,7 +1068,7 @@ namespace NetWorkedData
                 tDialogRect.height += (NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge) * 3 + NWDGUI.ErrorMinHeight;
 
                 EditorGUI.EndDisabledGroup();
-                
+
                 if (NWDLauncher.GetState() == NWDStatut.EditorReady)
                 {
                     tDialogRect.height += NWDGUI.kFieldMarge;
@@ -1165,69 +1165,123 @@ namespace NetWorkedData
                 }
                 else
                 {
-                m_ScrollPositionList = GUI.BeginScrollView(
-                    /*tScrollRect*/ tScrollRectDelimited,
-                    m_ScrollPositionList,
-                    tScrollContentRect,
-                    false,
-                    true,
-                    GUIStyle.none,
-                    GUI.skin.verticalScrollbar
-                    );
-                tRect.y += tScrollRect.height + NWDGUI.kTableHeaderHeight * 2;
-                // ===========================================
-                // EVENT USE
-                bool tSelectAndClick = false;
-                Vector2 tMousePosition = new Vector2(-200, -200);
-                if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
-                {
-                    tMousePosition = Event.current.mousePosition;
-                    if (Event.current.alt == true)
+                    m_ScrollPositionList = GUI.BeginScrollView(
+                        /*tScrollRect*/ tScrollRectDelimited,
+                        m_ScrollPositionList,
+                        tScrollContentRect,
+                        false,
+                        true,
+                        GUIStyle.none,
+                        GUI.skin.verticalScrollbar
+                        );
+                    tRect.y += tScrollRect.height + NWDGUI.kTableHeaderHeight * 2;
+                    // ===========================================
+                    // EVENT USE
+                    bool tSelectAndClick = false;
+                    Vector2 tMousePosition = new Vector2(-200, -200);
+                    if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
                     {
-                        //Debug.Log("alt and select");
-                        tSelectAndClick = true;
-                        sEditorWindow.Focus();
-                    }
-                }
-                // TODO: add instruction in tab view
-                // KEY S
-                if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.S)
-                {
-                    NWDTypeClass tSelected = GetObjectInEdition();
-                    if (tSelected != null)
-                    {
-                        if (DatasByReference.ContainsKey(tSelected.Reference))
+                        tMousePosition = Event.current.mousePosition;
+                        if (Event.current.alt == true)
                         {
-                            //if (tSelected.XX == 0 && tSelected.TestIntegrity())
+                            //Debug.Log("alt and select");
+                            tSelectAndClick = true;
+                            sEditorWindow.Focus();
+                        }
+                    }
+                    // TODO: add instruction in tab view
+                    // KEY S
+                    if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.S)
+                    {
+                        NWDTypeClass tSelected = GetObjectInEdition();
+                        if (tSelected != null)
+                        {
+                            if (DatasByReference.ContainsKey(tSelected.Reference))
                             {
-                                //int tIndex = Datas().ObjectsByReferenceList.IndexOf(tSelected.Reference);
-                                if (EditorTableDatasSelected.ContainsKey(tSelected))
+                                //if (tSelected.XX == 0 && tSelected.TestIntegrity())
                                 {
-                                    EditorTableDatasSelected[tSelected] = !EditorTableDatasSelected[tSelected];
+                                    //int tIndex = Datas().ObjectsByReferenceList.IndexOf(tSelected.Reference);
+                                    if (EditorTableDatasSelected.ContainsKey(tSelected))
+                                    {
+                                        EditorTableDatasSelected[tSelected] = !EditorTableDatasSelected[tSelected];
+                                    }
+                                    Event.current.Use();
                                 }
-                                Event.current.Use();
                             }
                         }
                     }
-                }
-                // TODO: add instruction in tab view
-                // KEY DOWN ARROW
-                if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.DownArrow)
-                {
-                    //Debug.LogVerbose ("KeyDown DownArrow", DebugResult.Success);
-                    NWDTypeClass tSelected = GetObjectInEdition();
-                    if (tSelected != null)
+                    // TODO: add instruction in tab view
+                    // KEY DOWN ARROW
+                    if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.DownArrow)
                     {
-                        if (EditorTableDatas.Contains(tSelected))
+                        //Debug.LogVerbose ("KeyDown DownArrow", DebugResult.Success);
+                        NWDTypeClass tSelected = GetObjectInEdition();
+                        if (tSelected != null)
                         {
-                            int tIndexSelected = EditorTableDatas.IndexOf(tSelected);
-                            if (tIndexSelected < EditorTableDatas.Count - 1)
+                            if (EditorTableDatas.Contains(tSelected))
                             {
-                                NWDTypeClass tNextSelected = EditorTableDatas.ElementAt(tIndexSelected + 1);
+                                int tIndexSelected = EditorTableDatas.IndexOf(tSelected);
+                                if (tIndexSelected < EditorTableDatas.Count - 1)
+                                {
+                                    NWDTypeClass tNextSelected = EditorTableDatas.ElementAt(tIndexSelected + 1);
+                                    SetObjectInEdition(tNextSelected);
+                                    //float tNumberPage = (tIndexSelected + 1) / m_ItemPerPage;
+                                    //int tPageExpected = (int)Math.Floor(tNumberPage);
+                                    //m_PageSelected = tPageExpected;
+                                    ChangeScroolPositionToSelection(tScrollRect);
+                                    Event.current.Use();
+                                    sEditorWindow.Focus();
+                                }
+                            }
+                            else
+                            {
+                            }
+                        }
+                    }
+                    // TODO: add instruction in tab view
+                    // KEY UP ARROW
+                    if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.UpArrow)
+                    {
+                        //Debug.LogVerbose ("KeyDown UpArrow", DebugResult.Success);
+                        NWDTypeClass tSelected = GetObjectInEdition();
+                        if (tSelected != null)
+                        {
+                            if (EditorTableDatas.Contains(tSelected))
+                            {
+                                int tIndexSelected = EditorTableDatas.IndexOf(tSelected);
+                                if (tIndexSelected > 0)
+                                {
+                                    NWDTypeClass tNextSelected = EditorTableDatas.ElementAt(tIndexSelected - 1);
+                                    SetObjectInEdition(tNextSelected);
+                                    //float tNumberPage = (tIndexSelected - 1) / m_ItemPerPage;
+                                    //int tPageExpected = (int)Math.Floor(tNumberPage);
+                                    //m_PageSelected = tPageExpected;
+                                    ChangeScroolPositionToSelection(tScrollRect);
+                                    Event.current.Use();
+                                    sEditorWindow.Focus();
+                                }
+                            }
+                            else
+                            {
+                            }
+                        }
+                    }
+                    float tNumberOfPage = EditorTableDatas.Count / m_ItemPerPage;
+                    int tPagesExpected = (int)Math.Floor(tNumberOfPage);
+                    // TODO: add instruction in tab view
+                    // KEY RIGHT ARROW
+                    if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.RightArrow)
+                    {
+                        //Debug.LogVerbose ("KeyDown RightArrow", DebugResult.Success);
+                        if (m_PageSelected < tPagesExpected)
+                        {
+                            m_PageSelected++;
+                            // TODO : reselect first object
+                            int tIndexSel = m_ItemPerPage * m_PageSelected;
+                            if (tIndexSel < EditorTableDatas.Count)
+                            {
+                                NWDTypeClass tNextSelected = EditorTableDatas.ElementAt(tIndexSel);
                                 SetObjectInEdition(tNextSelected);
-                                //float tNumberPage = (tIndexSelected + 1) / m_ItemPerPage;
-                                //int tPageExpected = (int)Math.Floor(tNumberPage);
-                                //m_PageSelected = tPageExpected;
                                 ChangeScroolPositionToSelection(tScrollRect);
                                 Event.current.Use();
                                 sEditorWindow.Focus();
@@ -1237,105 +1291,51 @@ namespace NetWorkedData
                         {
                         }
                     }
-                }
-                // TODO: add instruction in tab view
-                // KEY UP ARROW
-                if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.UpArrow)
-                {
-                    //Debug.LogVerbose ("KeyDown UpArrow", DebugResult.Success);
-                    NWDTypeClass tSelected = GetObjectInEdition();
-                    if (tSelected != null)
+                    // TODO: add instruction in tab view
+                    // KEY LEFT ARROW
+                    if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.LeftArrow)
                     {
-                        if (EditorTableDatas.Contains(tSelected))
+                        //Debug.LogVerbose ("KeyDown LeftArrow", DebugResult.Success);
+                        if (m_PageSelected > 0)
                         {
-                            int tIndexSelected = EditorTableDatas.IndexOf(tSelected);
-                            if (tIndexSelected > 0)
-                            {
-                                NWDTypeClass tNextSelected = EditorTableDatas.ElementAt(tIndexSelected - 1);
-                                SetObjectInEdition(tNextSelected);
-                                //float tNumberPage = (tIndexSelected - 1) / m_ItemPerPage;
-                                //int tPageExpected = (int)Math.Floor(tNumberPage);
-                                //m_PageSelected = tPageExpected;
-                                ChangeScroolPositionToSelection(tScrollRect);
-                                Event.current.Use();
-                                sEditorWindow.Focus();
-                            }
-                        }
-                        else
-                        {
-                        }
-                    }
-                }
-                float tNumberOfPage = EditorTableDatas.Count / m_ItemPerPage;
-                int tPagesExpected = (int)Math.Floor(tNumberOfPage);
-                // TODO: add instruction in tab view
-                // KEY RIGHT ARROW
-                if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.RightArrow)
-                {
-                    //Debug.LogVerbose ("KeyDown RightArrow", DebugResult.Success);
-                    if (m_PageSelected < tPagesExpected)
-                    {
-                        m_PageSelected++;
-                        // TODO : reselect first object
-                        int tIndexSel = m_ItemPerPage * m_PageSelected;
-                        if (tIndexSel < EditorTableDatas.Count)
-                        {
-                            NWDTypeClass tNextSelected = EditorTableDatas.ElementAt(tIndexSel);
+                            m_PageSelected--;
+                            // TODO : reselect first object
+                            NWDTypeClass tNextSelected = EditorTableDatas.ElementAt(m_ItemPerPage * m_PageSelected);
                             SetObjectInEdition(tNextSelected);
                             ChangeScroolPositionToSelection(tScrollRect);
                             Event.current.Use();
                             sEditorWindow.Focus();
                         }
+                        else
+                        {
+                        }
                     }
-                    else
+                    if (m_PageSelected < 0)
                     {
+                        m_PageSelected = 0;
                     }
-                }
-                // TODO: add instruction in tab view
-                // KEY LEFT ARROW
-                if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.LeftArrow)
-                {
-                    //Debug.LogVerbose ("KeyDown LeftArrow", DebugResult.Success);
-                    if (m_PageSelected > 0)
+                    if (m_PageSelected > tPagesExpected)
                     {
-                        m_PageSelected--;
-                        // TODO : reselect first object
-                        NWDTypeClass tNextSelected = EditorTableDatas.ElementAt(m_ItemPerPage * m_PageSelected);
-                        SetObjectInEdition(tNextSelected);
-                        ChangeScroolPositionToSelection(tScrollRect);
-                        Event.current.Use();
-                        sEditorWindow.Focus();
+                        m_PageSelected = tPagesExpected;
                     }
-                    else
-                    {
-                    }
-                }
-                if (m_PageSelected < 0)
-                {
-                    m_PageSelected = 0;
-                }
-                if (m_PageSelected > tPagesExpected)
-                {
-                    m_PageSelected = tPagesExpected;
-                }
 
-                Rect tRectRow = new Rect(sRect.x, sRect.y, tRect.width, sRect.height);
+                    Rect tRectRow = new Rect(sRect.x, sRect.y, tRect.width, sRect.height);
 
-                if (tRectRow.width < NWDGUI.KTableMinWidth)
-                {
-                    tRectRow.width = NWDGUI.KTableMinWidth;
-                }
-                for (int i = tIndexStart; i < tIndexStop; i++)
-                {
-                    int tItemIndexInPage = m_ItemPerPage * m_PageSelected + i;
-                    if (tItemIndexInPage >= 0 && tItemIndexInPage < EditorTableDatas.Count)
+                    if (tRectRow.width < NWDGUI.KTableMinWidth)
                     {
-                        NWDTypeClass tObject = EditorTableDatas.ElementAt(tItemIndexInPage);
-                        tObject.DrawRowInEditor(tMousePosition, tRectRow, tSelectAndClick, i, RowZoom);
+                        tRectRow.width = NWDGUI.KTableMinWidth;
                     }
-                }
-                // ===========================================
-                GUI.EndScrollView();
+                    for (int i = tIndexStart; i < tIndexStop; i++)
+                    {
+                        int tItemIndexInPage = m_ItemPerPage * m_PageSelected + i;
+                        if (tItemIndexInPage >= 0 && tItemIndexInPage < EditorTableDatas.Count)
+                        {
+                            NWDTypeClass tObject = EditorTableDatas.ElementAt(tItemIndexInPage);
+                            tObject.DrawRowInEditor(tMousePosition, tRectRow, tSelectAndClick, i, RowZoom);
+                        }
+                    }
+                    // ===========================================
+                    GUI.EndScrollView();
                 }
                 //if (tPagesBarHeight > 0)
                 //{
@@ -2024,7 +2024,8 @@ namespace NetWorkedData
             }
 
             // draw section
-            NWDGUILayout.Section("WebServices");
+            DrawWebServicesOperations();
+            // draw section
             DrawWebServicesReplaces();
 
             GUILayout.EndScrollView();
@@ -2070,8 +2071,57 @@ namespace NetWorkedData
                 NWEScriptOpener.OpenScript(ClassType);
             }
 
+
+            NWDGUILayout.Section("Webservice result");
+
+            GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+            GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
+            GUILayout.Label("Dev", NWDGUI.KTableSearchTitle);
+            if (NWDAppConfiguration.SharedInstance().DevServerSyncActive())
+            {
+                GUILayout.Label(NWDAppEnvironmentSyncContent.SharedInstance().DevIcon, NWDGUI.KTableSearchIcon, GUILayout.Height(20));
+            }
+            else
+            {
+                GUILayout.FlexibleSpace();
+                GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
+                GUILayout.FlexibleSpace();
+            }
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
+            GUILayout.Label("Preprod", NWDGUI.KTableSearchTitle);
+
+            if (NWDAppConfiguration.SharedInstance().PreprodServerSyncActive())
+            {
+                GUILayout.Label(NWDAppEnvironmentSyncContent.SharedInstance().PreprodIcon, NWDGUI.KTableSearchIcon, GUILayout.Height(20));
+            }
+            else
+            {
+                GUILayout.FlexibleSpace();
+                GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
+                GUILayout.FlexibleSpace();
+            }
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
+            GUILayout.Label("Prod", NWDGUI.KTableSearchTitle);
+            if (NWDAppConfiguration.SharedInstance().ProdServerSyncActive())
+            {
+                GUILayout.Label(NWDAppEnvironmentSyncContent.SharedInstance().ProdIcon, NWDGUI.KTableSearchIcon, GUILayout.Height(20));
+            }
+            else
+            {
+                GUILayout.FlexibleSpace();
+                GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
+                GUILayout.FlexibleSpace();
+            }
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+            GUILayout.Space(NWDGUI.kFieldMarge);
+
+
+
             // draw section
-            NWDGUILayout.Section("Synchronize");
+            NWDGUILayout.Section("Webservice sync");
 
             EditorGUI.BeginDisabledGroup(WebModelChanged);
 
@@ -2117,7 +2167,18 @@ namespace NetWorkedData
                     }
                     EditorGUI.EndDisabledGroup();
 
-
+                    GUILayout.Space(NWDGUI.kFieldMarge);
+                    //NWDGUILayout.Separator();
+                    if (GUILayout.Button("Flush web queue", NWDGUI.KTableSearchButton))
+                    {
+                        NWDAppEnvironmentSyncContent.SharedInstance().Flush(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                    }
+                    EditorGUI.BeginDisabledGroup(!NWDAppEnvironmentSyncContent.SharedInstance().DevSessionExpired);
+                    if (GUILayout.Button("Reset token", NWDGUI.KTableSearchButton))
+                    {
+                        NWDAppEnvironmentSyncContent.SharedInstance().Reset(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                    }
+                    EditorGUI.EndDisabledGroup();
 
                     //NWDGUI.BeginRedArea();
                     //EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
@@ -2145,7 +2206,7 @@ namespace NetWorkedData
             }
             else
             {
-                GUILayout.Label("sync forbidden", NWDGUI.kNoConfigStyle);
+                GUILayout.Label("forbidden", NWDGUI.kNoConfigStyle);
             }
 
             GUILayout.EndVertical();
@@ -2192,6 +2253,19 @@ namespace NetWorkedData
                     }
                     EditorGUI.EndDisabledGroup();
 
+                    GUILayout.Space(NWDGUI.kFieldMarge);
+                    //NWDGUILayout.Separator();
+                    if (GUILayout.Button("Flush web queue", NWDGUI.KTableSearchButton))
+                    {
+                        NWDAppEnvironmentSyncContent.SharedInstance().Flush(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                    }
+                    EditorGUI.BeginDisabledGroup(!NWDAppEnvironmentSyncContent.SharedInstance().PreprodSessionExpired);
+                    if (GUILayout.Button("Reset token", NWDGUI.KTableSearchButton))
+                    {
+                        NWDAppEnvironmentSyncContent.SharedInstance().Reset(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                    }
+                    EditorGUI.EndDisabledGroup();
+
                     //NWDGUI.BeginRedArea();
                     //EditorGUI.BeginDisabledGroup(tSelectionCount == 0 || WebModelChanged);
                     //if (GUILayout.Button( NWDConstants.K_APP_BASIS_PULL_FROM_SERVER, NWDGUI.KTableSearchButton))
@@ -2218,7 +2292,7 @@ namespace NetWorkedData
             }
             else
             {
-                GUILayout.Label("sync forbidden", NWDGUI.kNoConfigStyle);
+                GUILayout.Label("forbidden", NWDGUI.kNoConfigStyle);
             }
             GUILayout.EndVertical();
             // Change Colmun
@@ -2272,6 +2346,19 @@ namespace NetWorkedData
                         PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().ProdEnvironment);
                         GUIUtility.ExitGUI();
                     }
+
+                    GUILayout.Space(NWDGUI.kFieldMarge);
+                    //NWDGUILayout.Separator();
+                    EditorGUI.EndDisabledGroup();
+                    if (GUILayout.Button("Flush web queue", NWDGUI.KTableSearchButton))
+                    {
+                        NWDAppEnvironmentSyncContent.SharedInstance().Flush(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                    }
+                    EditorGUI.BeginDisabledGroup(!NWDAppEnvironmentSyncContent.SharedInstance().ProdSessionExpired);
+                    if (GUILayout.Button("Reset token", NWDGUI.KTableSearchButton))
+                    {
+                        NWDAppEnvironmentSyncContent.SharedInstance().Reset(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                    }
                     EditorGUI.EndDisabledGroup();
 
                     //NWDGUI.BeginRedArea();
@@ -2300,16 +2387,30 @@ namespace NetWorkedData
             }
             else
             {
-                GUILayout.Label("sync forbidden", NWDGUI.kNoConfigStyle);
+                GUILayout.Label("forbidden", NWDGUI.kNoConfigStyle);
             }
 
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
             EditorGUI.EndDisabledGroup();
 
+            //// draw section
+            //DrawWebServicesOperations();
+            //// draw section
+            //DrawWebServicesReplaces();
 
-            // draw section
-            NWDGUILayout.Section("Operations");
+            GUILayout.EndScrollView();
+            GUILayout.EndArea();
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public void DrawWebServicesOperations()
+        {
+            NWDGUILayout.Section("WebServices operations");
+            GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+            GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+            GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+
 
             GUILayout.BeginHorizontal();
             GUILayout.BeginVertical();
@@ -2392,7 +2493,7 @@ namespace NetWorkedData
             }
             else
             {
-                GUILayout.Label("sync forbidden", NWDGUI.kNoConfigStyle);
+                GUILayout.Label("forbidden", NWDGUI.kNoConfigStyle);
             }
             GUILayout.EndVertical();
             // Change Colmun
@@ -2474,7 +2575,7 @@ namespace NetWorkedData
             }
             else
             {
-                GUILayout.Label("sync forbidden", NWDGUI.kNoConfigStyle);
+                GUILayout.Label("forbidden", NWDGUI.kNoConfigStyle);
             }
             GUILayout.EndVertical();
             // Change Colmun
@@ -2558,30 +2659,23 @@ namespace NetWorkedData
             }
             else
             {
-                GUILayout.Label("sync forbidden", NWDGUI.kNoConfigStyle);
+                GUILayout.Label("forbidden", NWDGUI.kNoConfigStyle);
             }
 
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
-
-            // draw section
-            NWDGUILayout.Section("WebServices");
-
-            DrawWebServicesReplaces();
-
-            GUILayout.EndScrollView();
-            GUILayout.EndArea();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawWebServicesReplaces()
         {
 
-            GUILayout.BeginHorizontal();
-            GUILayout.BeginVertical();
+            NWDGUILayout.Section("WebServices replace");
             GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
             GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
             GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
 
+            GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical();
             GUILayout.Label(tDevContent, NWDGUI.KTableSearchTitle);
 
             //if (BasisType != NWDBasisType.UnsyncClass && BasisType != NWDBasisType.AccountUnsyncClass)
@@ -2616,7 +2710,7 @@ namespace NetWorkedData
             }
             else
             {
-                GUILayout.Label("sync forbidden", NWDGUI.kNoConfigStyle);
+                GUILayout.Label("forbidden", NWDGUI.kNoConfigStyle);
             }
             GUILayout.EndVertical();
             // Change Colmun
@@ -2655,7 +2749,7 @@ namespace NetWorkedData
             }
             else
             {
-                GUILayout.Label("sync forbidden", NWDGUI.kNoConfigStyle);
+                GUILayout.Label("forbidden", NWDGUI.kNoConfigStyle);
             }
             GUILayout.EndVertical();
             // Change Colmun
@@ -2696,7 +2790,7 @@ namespace NetWorkedData
             }
             else
             {
-                GUILayout.Label("sync forbidden", NWDGUI.kNoConfigStyle);
+                GUILayout.Label("forbidden", NWDGUI.kNoConfigStyle);
             }
 
             GUILayout.EndVertical();
