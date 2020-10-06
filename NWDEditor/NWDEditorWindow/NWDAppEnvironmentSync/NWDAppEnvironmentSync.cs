@@ -36,15 +36,15 @@ namespace NetWorkedData.NWDEditor
         /// </summary>
         private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
-        Texture2D DevIcon;
-        Texture2D PreprodIcon;
-        Texture2D ProdIcon;
+        public Texture2D DevIcon;
+        public Texture2D PreprodIcon;
+        public Texture2D ProdIcon;
         string DevProgress = "";
         string PreprodProgress = "";
         string ProdProgress = "";
-        bool DevSessionExpired = false;
-        bool PreprodSessionExpired = false;
-        bool ProdSessionExpired = false;
+        public bool DevSessionExpired = false;
+        public bool PreprodSessionExpired = false;
+        public bool ProdSessionExpired = false;
         int SyncInfosTab = 0;
         Vector2 ScrollPosition;
         bool Init = false;
@@ -192,7 +192,7 @@ namespace NetWorkedData.NWDEditor
                                         tDescription += " : " + LastInfos.errorDesc.Description.GetBaseString();
                                     }
 #if UNITY_EDITOR
-                                    Debug.LogWarning("" + tTitle + " " + tDescription +  " infos " + LastInfos.errorInfos);
+                                    Debug.LogWarning("" + tTitle + " " + tDescription + " infos " + LastInfos.errorInfos);
                                     //LastInfos.errorDesc.ShowAlert(LastInfos.errorInfos);
 #endif
                                 }
@@ -528,7 +528,7 @@ namespace NetWorkedData.NWDEditor
 
 
 
-            NWDGUILayout.Section("Webservice actions");
+            NWDGUILayout.Section("Webservice operations");
 
             GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
             GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
@@ -1075,6 +1075,10 @@ namespace NetWorkedData.NWDEditor
                 ProdIcon = NWDGUI.kImageWaiting;
                 ProdSessionExpired = false;
             }
+            if (Window != null)
+            {
+                Window.Repaint();
+            }
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1083,6 +1087,10 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Start();
             StartProcess(sEnvironment);
             NWDDataManager.SharedInstance().WebOperationQueue.Flush(sEnvironment.Environment);
+            if (Window != null)
+            {
+                Window.Repaint();
+            }
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
