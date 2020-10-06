@@ -81,6 +81,10 @@ namespace NetWorkedData
                     // open StreamingAssets directory and load the db ->
                     NWDBenchmarkLauncher.Log("Application will copy editor database : " + tPathEditor);
                 NWDLauncher.CopyDatabase = true;
+
+                string tLoadDb = Application.streamingAssetsPath + DatabaseBuildName();
+                File.Copy(tLoadDb, tPathEditor);
+                /*
 #if UNITY_ANDROID
                     var tLoadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + DatabaseBuildName());  // this is the path to your StreamingAssets in android
                     while (!tLoadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
@@ -104,7 +108,7 @@ namespace NetWorkedData
                     var tLoadDb = Application.dataPath + "/" + NWD.K_Resources + "/" + NWD.K_StreamingAssets + "/" + DatabaseBuildName();
                     File.Copy(tLoadDb, tPathEditor);
 #endif
-
+*/
                     NWDBenchmarkLauncher.Finish("Copy editor");
             }
             string tDatabasePathEditor = tPathEditor;

@@ -313,6 +313,7 @@ namespace NetWorkedData
             Editable = true;
             Buildable = true;
             InternalDescription = "Default version";
+            InternalKey = Version.ToString();
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
