@@ -82,7 +82,7 @@ namespace NetWorkedData
                     NWDBenchmarkLauncher.Log("Application will copy editor database : " + tPathEditor);
                 NWDLauncher.CopyDatabase = true;
 
-                string tLoadDb = Application.streamingAssetsPath + DatabaseBuildName();
+                string tLoadDb = Application.streamingAssetsPath + "/" + DatabaseBuildName();
                 File.Copy(tLoadDb, tPathEditor);
                 /*
 #if UNITY_ANDROID
