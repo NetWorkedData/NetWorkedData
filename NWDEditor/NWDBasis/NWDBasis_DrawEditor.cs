@@ -570,6 +570,7 @@ namespace NetWorkedData
                     EditorGUI.BeginDisabledGroup(CanBeEdit == false);
                 }
                 tR.height = NWDGUI.kObjectFieldStyle.fixedHeight;
+                EditorGUI.BeginChangeCheck();
                 UnityEngine.Object pObj = EditorGUI.ObjectField(tR, NWDConstants.K_APP_BASIS_PREVIEW_GAMEOBJECT, PreviewObject, typeof(UnityEngine.Object), false);
                 tR.y += NWDGUI.kObjectFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                 string tPreFabGameObject = string.Empty;
@@ -577,7 +578,7 @@ namespace NetWorkedData
                 {
                     tPreFabGameObject = AssetDatabase.GetAssetPath(pObj);
                 }
-                if (Preview != tPreFabGameObject)
+                if (Preview != tPreFabGameObject || EditorGUI.EndChangeCheck())
                 {
                     Preview = tPreFabGameObject;
                     UpdateData(true, NWDWritingMode.ByEditorDefault);
