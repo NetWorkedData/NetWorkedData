@@ -271,7 +271,7 @@ namespace NetWorkedData.NWDEditor
         {
             base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
-            NWDGUILayout.Title("Webservice sync");
+            NWDGUILayout.Title("Webservice");
             NWDGUILayout.Line();
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             float tRectWidth = sRect.width;
@@ -311,6 +311,10 @@ namespace NetWorkedData.NWDEditor
         public void WebServicesSync(float sRectWidth)
         {
             //NWDBenchmark.Start();
+
+
+
+
             float tWidthThird = Mathf.Floor((sRectWidth - NWDGUI.KTAB_BAR_HEIGHT) / 3.0F);
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
             NWDAppEnvironment tDevEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
@@ -326,6 +330,60 @@ namespace NetWorkedData.NWDEditor
             bool tOperationOptimize = false;
             bool tOperationIndexes = false;
             bool tOperationBlank = false;
+
+
+
+
+
+            NWDGUILayout.Section("Webservice result");
+
+            GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+            GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
+            GUILayout.Label("Dev", NWDGUI.KTableSearchTitle);
+            if (NWDAppConfiguration.SharedInstance().DevServerSyncActive())
+            {
+                GUILayout.Label(DevIcon, NWDGUI.KTableSearchIcon, GUILayout.Height(20));
+            }
+            else
+            {
+                GUILayout.FlexibleSpace();
+                GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
+                GUILayout.FlexibleSpace();
+            }
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
+            GUILayout.Label("Preprod", NWDGUI.KTableSearchTitle);
+
+            if (NWDAppConfiguration.SharedInstance().PreprodServerSyncActive())
+            {
+                GUILayout.Label(PreprodIcon, NWDGUI.KTableSearchIcon, GUILayout.Height(20));
+            }
+            else
+            {
+                GUILayout.FlexibleSpace();
+                GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
+                GUILayout.FlexibleSpace();
+            }
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
+            GUILayout.Label("Prod", NWDGUI.KTableSearchTitle);
+            if (NWDAppConfiguration.SharedInstance().ProdServerSyncActive())
+            {
+                GUILayout.Label(ProdIcon, NWDGUI.KTableSearchIcon, GUILayout.Height(20));
+            }
+            else
+            {
+                GUILayout.FlexibleSpace();
+                GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
+                GUILayout.FlexibleSpace();
+            }
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+            GUILayout.Space(NWDGUI.kFieldMarge);
+
+
+
+            NWDGUILayout.Section("Webservice sync");
             GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
             GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
             GUILayout.Label("Dev", NWDGUI.KTableSearchTitle);
@@ -353,42 +411,8 @@ namespace NetWorkedData.NWDEditor
                     tPullForce = true;
                     tEnvironment = tDevEnvironment;
                 }
-                GUILayout.Label("Dev", NWDGUI.KTableSearchTitle);
-                NWDGUI.BeginRedArea();
-                if (GUILayout.Button("Clean all", NWDGUI.KTableSearchButton))
-                {
-                    tOperationClean = true;
-                    tEnvironment = tDevEnvironment;
-                }
-                if (GUILayout.Button("Special all", NWDGUI.KTableSearchButton))
-                {
-                    tOperationSpecial = true;
-                    tEnvironment = tDevEnvironment;
-                }
-                if (GUILayout.Button("Upgrade all", NWDGUI.KTableSearchButton))
-                {
-                    tOperationUpgrade = true;
-                    tEnvironment = tDevEnvironment;
-                }
-                if (GUILayout.Button("Optimize all", NWDGUI.KTableSearchButton))
-                {
-                    tOperationOptimize = true;
-                    tEnvironment = tDevEnvironment;
-                }
-                if (GUILayout.Button("Index all", NWDGUI.KTableSearchButton))
-                {
-                    tOperationIndexes = true;
-                    tEnvironment = tDevEnvironment;
-                }
-                if (GUILayout.Button("Blank", NWDGUI.KTableSearchButton))
-                {
-                    tOperationBlank = true;
-                    tEnvironment = tDevEnvironment;
-                }
-                NWDGUI.EndRedArea();
-                GUILayout.Label("Dev", NWDGUI.KTableSearchTitle);
-                GUILayout.Label(DevIcon, NWDGUI.KTableSearchIcon, GUILayout.Height(20));
-                GUILayout.Label("Dev", NWDGUI.KTableSearchTitle);
+                GUILayout.Space(NWDGUI.kFieldMarge);
+                //NWDGUILayout.Separator();
                 if (GUILayout.Button("Flush web queue", NWDGUI.KTableSearchButton))
                 {
                     Flush(NWDAppConfiguration.SharedInstance().DevEnvironment);
@@ -432,42 +456,8 @@ namespace NetWorkedData.NWDEditor
                     tPullForce = true;
                     tEnvironment = tPreprodEnvironment;
                 }
-                GUILayout.Label("Preprod", NWDGUI.KTableSearchTitle);
-                NWDGUI.BeginRedArea();
-                if (GUILayout.Button("Clean all", NWDGUI.KTableSearchButton))
-                {
-                    tOperationClean = true;
-                    tEnvironment = tPreprodEnvironment;
-                }
-                if (GUILayout.Button("Special all", NWDGUI.KTableSearchButton))
-                {
-                    tOperationSpecial = true;
-                    tEnvironment = tPreprodEnvironment;
-                }
-                if (GUILayout.Button("Upgrade all", NWDGUI.KTableSearchButton))
-                {
-                    tOperationUpgrade = true;
-                    tEnvironment = tPreprodEnvironment;
-                }
-                if (GUILayout.Button("Optimize all", NWDGUI.KTableSearchButton))
-                {
-                    tOperationOptimize = true;
-                    tEnvironment = tPreprodEnvironment;
-                }
-                if (GUILayout.Button("Index all", NWDGUI.KTableSearchButton))
-                {
-                    tOperationIndexes = true;
-                    tEnvironment = tPreprodEnvironment;
-                }
-                if (GUILayout.Button("Blank", NWDGUI.KTableSearchButton))
-                {
-                    tOperationBlank = true;
-                    tEnvironment = tPreprodEnvironment;
-                }
-                NWDGUI.EndRedArea();
-                GUILayout.Label("Preprod", NWDGUI.KTableSearchTitle);
-                GUILayout.Label(PreprodIcon, NWDGUI.KTableSearchIcon, GUILayout.Height(20));
-                GUILayout.Label("Preprod", NWDGUI.KTableSearchTitle);
+                GUILayout.Space(NWDGUI.kFieldMarge);
+                //NWDGUILayout.Separator();
                 if (GUILayout.Button("Flush web queue", NWDGUI.KTableSearchButton))
                 {
                     Flush(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
@@ -510,7 +500,130 @@ namespace NetWorkedData.NWDEditor
                     tPullForce = true;
                     tEnvironment = tProdEnvironment;
                 }
-                GUILayout.Label("Prod", NWDGUI.KTableSearchTitle);
+                GUILayout.Space(NWDGUI.kFieldMarge);
+                //NWDGUILayout.Separator();
+                if (GUILayout.Button("Flush web queue", NWDGUI.KTableSearchButton))
+                {
+                    Flush(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                }
+                EditorGUI.BeginDisabledGroup(!ProdSessionExpired);
+                if (GUILayout.Button("Reset token", NWDGUI.KTableSearchButton))
+                {
+                    Reset(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                }
+                EditorGUI.EndDisabledGroup();
+            }
+            else
+            {
+                GUILayout.FlexibleSpace();
+                GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
+                GUILayout.FlexibleSpace();
+            }
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+            GUILayout.Space(NWDGUI.kFieldMarge);
+
+
+
+
+
+
+            NWDGUILayout.Section("Webservice actions");
+
+            GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+            GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
+            GUILayout.Label("Dev", NWDGUI.KTableSearchTitle);
+            if (NWDAppConfiguration.SharedInstance().DevServerSyncActive())
+            {
+                NWDGUI.BeginRedArea();
+                if (GUILayout.Button("Clean all", NWDGUI.KTableSearchButton))
+                {
+                    tOperationClean = true;
+                    tEnvironment = tDevEnvironment;
+                }
+                if (GUILayout.Button("Special all", NWDGUI.KTableSearchButton))
+                {
+                    tOperationSpecial = true;
+                    tEnvironment = tDevEnvironment;
+                }
+                if (GUILayout.Button("Upgrade all", NWDGUI.KTableSearchButton))
+                {
+                    tOperationUpgrade = true;
+                    tEnvironment = tDevEnvironment;
+                }
+                if (GUILayout.Button("Optimize all", NWDGUI.KTableSearchButton))
+                {
+                    tOperationOptimize = true;
+                    tEnvironment = tDevEnvironment;
+                }
+                if (GUILayout.Button("Index all", NWDGUI.KTableSearchButton))
+                {
+                    tOperationIndexes = true;
+                    tEnvironment = tDevEnvironment;
+                }
+                if (GUILayout.Button("Blank", NWDGUI.KTableSearchButton))
+                {
+                    tOperationBlank = true;
+                    tEnvironment = tDevEnvironment;
+                }
+                NWDGUI.EndRedArea();
+            }
+            else
+            {
+                GUILayout.FlexibleSpace();
+                GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
+                GUILayout.FlexibleSpace();
+            }
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
+            GUILayout.Label("Preprod", NWDGUI.KTableSearchTitle);
+
+            if (NWDAppConfiguration.SharedInstance().PreprodServerSyncActive())
+            {
+                NWDGUI.BeginRedArea();
+                if (GUILayout.Button("Clean all", NWDGUI.KTableSearchButton))
+                {
+                    tOperationClean = true;
+                    tEnvironment = tPreprodEnvironment;
+                }
+                if (GUILayout.Button("Special all", NWDGUI.KTableSearchButton))
+                {
+                    tOperationSpecial = true;
+                    tEnvironment = tPreprodEnvironment;
+                }
+                if (GUILayout.Button("Upgrade all", NWDGUI.KTableSearchButton))
+                {
+                    tOperationUpgrade = true;
+                    tEnvironment = tPreprodEnvironment;
+                }
+                if (GUILayout.Button("Optimize all", NWDGUI.KTableSearchButton))
+                {
+                    tOperationOptimize = true;
+                    tEnvironment = tPreprodEnvironment;
+                }
+                if (GUILayout.Button("Index all", NWDGUI.KTableSearchButton))
+                {
+                    tOperationIndexes = true;
+                    tEnvironment = tPreprodEnvironment;
+                }
+                if (GUILayout.Button("Blank", NWDGUI.KTableSearchButton))
+                {
+                    tOperationBlank = true;
+                    tEnvironment = tPreprodEnvironment;
+                }
+                NWDGUI.EndRedArea();
+            }
+            else
+            {
+                GUILayout.FlexibleSpace();
+                GUILayout.Label("no config", NWDGUI.kNoConfigStyle);
+                GUILayout.FlexibleSpace();
+            }
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
+            GUILayout.Label("Prod", NWDGUI.KTableSearchTitle);
+            if (NWDAppConfiguration.SharedInstance().ProdServerSyncActive())
+            {
                 NWDGUI.BeginRedArea();
                 if (GUILayout.Button("Clean all", NWDGUI.KTableSearchButton))
                 {
@@ -544,19 +657,6 @@ namespace NetWorkedData.NWDEditor
                     tEnvironment = tProdEnvironment;
                 }
                 NWDGUI.EndRedArea();
-                GUILayout.Label("Prod", NWDGUI.KTableSearchTitle);
-                GUILayout.Label(ProdIcon, NWDGUI.KTableSearchIcon, GUILayout.Height(20));
-                GUILayout.Label("Prod", NWDGUI.KTableSearchTitle);
-                if (GUILayout.Button("Flush web queue", NWDGUI.KTableSearchButton))
-                {
-                    Flush(NWDAppConfiguration.SharedInstance().ProdEnvironment);
-                }
-                EditorGUI.BeginDisabledGroup(!ProdSessionExpired);
-                if (GUILayout.Button("Reset token", NWDGUI.KTableSearchButton))
-                {
-                    Reset(NWDAppConfiguration.SharedInstance().ProdEnvironment);
-                }
-                EditorGUI.EndDisabledGroup();
             }
             else
             {
@@ -567,6 +667,19 @@ namespace NetWorkedData.NWDEditor
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
             GUILayout.Space(NWDGUI.kFieldMarge);
+
+
+
+
+
+
+
+
+
+
+
+
+
             // run button selected (if GUI prevent)
             if (tSync == true)
             {
