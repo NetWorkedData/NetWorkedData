@@ -318,8 +318,14 @@ namespace NetWorkedData
                         }
                         else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
                         {
-
-                            EditorGUI.LabelField(tEntitlementRect, Content(), NWDGUI.kPropertyEntitlementStyle);
+                            if (tTypeOfThis.IsSubclassOf(typeof(NWDReference)))
+                            {
+                                EditorGUI.LabelField(tEntitlementRect, Content(), NWDGUI.kDataSelectorPropertieStyle);
+                            }
+                            else
+                            {
+                                EditorGUI.LabelField(tEntitlementRect, Content(), NWDGUI.kPropertyEntitlementStyle);
+                            }
 
                             var tValue = Property.GetValue(sObject, null);
                             if (tValue == null)
@@ -794,7 +800,7 @@ namespace NetWorkedData
             }
             else
             {
-                rReturn = new GUIContent("");
+                rReturn = new GUIContent(TextureOfClass());
             }
             return rReturn;
         }

@@ -202,11 +202,11 @@ namespace NetWorkedData.NWDEditor
                     GUI.changed = true;
                 }
             }
-            Rect tEntitlement = new Rect(sRect.position.x, sRect.position.y, EditorGUIUtility.labelWidth, NWDGUI.kDataSelectorFieldStyle.fixedHeight);
+            Rect tEntitlementRect = new Rect(sRect.position.x, sRect.position.y, EditorGUIUtility.labelWidth, NWDGUI.kDataSelectorFieldStyle.fixedHeight);
             Rect tField = new Rect(sRect.position.x + EditorGUIUtility.labelWidth, sRect.position.y, sRect.width - EditorGUIUtility.labelWidth - NWDGUI.kEditWidth - NWDGUI.kFieldMarge - sInsertion, NWDGUI.kDataSelectorFieldStyle.fixedHeight);
             Rect tEditRect = new Rect(sRect.position.x + sRect.width - NWDGUI.kEditWidth, sRect.position.y + NWDGUI.kDatasSelectorYOffset, NWDGUI.kEditWidth, NWDGUI.kMiniButtonStyle.fixedHeight);
 
-            if (sHelper.HasPreview(sReference))
+            //if (sHelper.HasPreview(sReference)) // always show icon of class
             {
                 GUIContent sImageLabel = sHelper.GetGUIPreview(sReference);
                 Rect tPreviewRect = new Rect(sRect.position.x + EditorGUIUtility.labelWidth, sRect.position.y, NWDGUI.kDataSelectorFieldStyle.fixedHeight, NWDGUI.kDataSelectorFieldStyle.fixedHeight);
@@ -216,12 +216,11 @@ namespace NetWorkedData.NWDEditor
                 tField.width -= NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight;
             }
 
-            tEntitlement = EditorGUI.IndentedRect(tEntitlement);
-            GUI.Label(tEntitlement, sContent, NWDGUI.kPropertyEntitlementStyle);
+            tEntitlementRect = EditorGUI.IndentedRect(tEntitlementRect);
+            GUI.Label(tEntitlementRect, sContent, NWDGUI.kDataSelectorPropertieStyle);
 
             GUIContent sDataLabel = sHelper.GetGUIContent(sReference);
             NWDTypeClass tData = sHelper.GetDataByReference(sReference);
-
 
             if (string.IsNullOrEmpty(sReference) == false && sHelper.GetDataByReference(sReference) == null)
             {
@@ -618,7 +617,7 @@ namespace NetWorkedData.NWDEditor
                 {
                     GUILayout.BeginHorizontal(GUILayout.Width(tWidth));
                 }
-                if (GUILayout.Button(new GUIContent(NWDConstants.kFieldNone), RowSytle))
+                if (GUILayout.Button(new GUIContent(NWDConstants.kFieldNone, Helper.TextureOfClass()), RowSytle))
                 {
                     if (SelectedBlock != null)
                     {

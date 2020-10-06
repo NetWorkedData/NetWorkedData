@@ -167,6 +167,7 @@ namespace NetWorkedData.NWDEditor
 
         //-------------------------------------------------------------------------------------------------------------
         // Datas Selector
+        public static GUIStyle kDataSelectorPropertieStyle;
         public static GUIStyle kDataSelectorFieldStyle;
         public static GUIStyle kDataSelectorFieldIconStyle;
         public static GUIStyle kDataSelectorTileStyle;
@@ -628,9 +629,6 @@ namespace NetWorkedData.NWDEditor
                 kInspectorReferenceCenter.alignment = TextAnchor.MiddleCenter;
                 kInspectorNoData = new GUIStyle(EditorStyles.miniLabel);
                 kInspectorNoData.alignment = TextAnchor.MiddleCenter;
-                kPropertyEntitlementStyle = new GUIStyle(EditorStyles.label);
-                kPropertyEntitlementStyle.fixedHeight = kPropertyEntitlementStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
-                kPropertyEntitlementStyle.richText = true;
                 kLabelStyle = new GUIStyle(EditorStyles.label);
                 kLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
                 kFooterLabelStyle = new GUIStyle(EditorStyles.label);
@@ -714,14 +712,26 @@ namespace NetWorkedData.NWDEditor
 
                 // Data Selector design
 
+                kPropertyEntitlementStyle = new GUIStyle(EditorStyles.label);
+                kPropertyEntitlementStyle.fixedHeight = kPropertyEntitlementStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
+                kPropertyEntitlementStyle.richText = true;
+                kPropertyEntitlementStyle.alignment = TextAnchor.MiddleLeft;
+
+                kDataSelectorPropertieStyle = new GUIStyle(EditorStyles.label);
+
                 kDataSelectorFieldStyle = new GUIStyle(EditorStyles.helpBox);
                 kDataSelectorFieldStyle.richText = true;
                 kDataSelectorFieldStyle.fontSize = 12;
                 kDataSelectorFieldStyle.wordWrap = false;
                 kDataSelectorFieldStyle.alignment = TextAnchor.MiddleLeft;
-                kDataSelectorFieldStyle.imagePosition = ImagePosition.ImageLeft;
+                kDataSelectorFieldStyle.imagePosition = ImagePosition.TextOnly;
                 kDataSelectorFieldStyle.border = new RectOffset(2, 2, 2, 2);
                 kDataSelectorFieldStyle.fixedHeight = kDataSelectorFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
+
+                kDataSelectorPropertieStyle = new GUIStyle(EditorStyles.label);
+                kDataSelectorPropertieStyle.richText = true;
+                kDataSelectorPropertieStyle.alignment = TextAnchor.MiddleLeft;
+                kDataSelectorPropertieStyle.fixedHeight =  kDataSelectorFieldStyle.fixedHeight;
                 // Selector design
                 //kDataSelectorFieldIconStyle = new GUIStyle(kDataSelectorFieldStyle);
                 kDataSelectorFieldIconStyle = new GUIStyle(EditorStyles.label);
