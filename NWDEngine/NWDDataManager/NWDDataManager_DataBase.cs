@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using System.Text;
+using UnityEngine.Networking;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -58,6 +59,7 @@ namespace NetWorkedData
                 }
                 // path for base editor
                 string tDatabasePathEditor = /*NWD.K_Assets+"/" + NWD.K_StreamingAssets + "/" +*/ DatabaseEditorName();
+
 #else
                 // Get saved App version from pref
                 // check if file exists in Application.persistentDataPath
@@ -82,8 +84,15 @@ namespace NetWorkedData
                     NWDBenchmarkLauncher.Log("Application will copy editor database : " + tPathEditor);
                 NWDLauncher.CopyDatabase = true;
 
-                string tLoadDb = Application.streamingAssetsPath + "/" + DatabaseBuildName();
-                File.Copy(tLoadDb, tPathEditor);
+#if UNITY_ANDROID
+                UnityWebRequest tFileLoad = UnityEngine.Networking.UnityWebRequest.Get(Application.streamingAssetsPath + "/" + DatabaseBuildName());
+                tFileLoad.SendWebRequest();
+                while (!tFileLoad.isDone) { }
+                File.WriteAllBytes(tPathEditor, tFileLoad.downloadHandler.data);
+#else
+                File.Copy(Application.streamingAssetsPath + "/" + DatabaseBuildName(), tPathEditor);
+#endif
+
                 /*
 #if UNITY_ANDROID
                     var tLoadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + DatabaseBuildName());  // this is the path to your StreamingAssets in android
