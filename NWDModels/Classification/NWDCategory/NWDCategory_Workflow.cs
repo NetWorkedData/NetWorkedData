@@ -92,11 +92,14 @@ namespace NetWorkedData
             if (sList.Contains(sCat) == false)
             {
                 sList.Add(sCat);
-                foreach (NWDCategory tData in sCat.ChildrenCategoryList.GetEditorDatas())
+                if (sCat.ChildrenCategoryList != null)
                 {
-                    if (tData != null)
+                    foreach (NWDCategory tData in sCat.ChildrenCategoryList.GetEditorDatas())
                     {
-                        ChildrenAssembly(sList, tData);
+                        if (tData != null)
+                        {
+                            ChildrenAssembly(sList, tData);
+                        }
                     }
                 }
             }
@@ -107,8 +110,14 @@ namespace NetWorkedData
             foreach (NWDCategory tData in NWDBasisHelper.BasisHelper<NWDCategory>().Datas)
             {
                 tData.PropertiesPrevent();
-                tData.ChildrenCategoryList.Flush();
-                tData.CascadeCategoryList.Flush();
+                if (tData.ChildrenCategoryList != null)
+                {
+                    tData.ChildrenCategoryList.Flush();
+                }
+                if (tData.CascadeCategoryList != null)
+                {
+                    tData.CascadeCategoryList.Flush();
+                }
             }
             foreach (NWDCategory tData in NWDBasisHelper.BasisHelper<NWDCategory>().Datas)
             {
@@ -131,12 +140,18 @@ namespace NetWorkedData
             }
             foreach (NWDCategory tData in NWDBasisHelper.BasisHelper<NWDCategory>().Datas)
             {
-                List<NWDCategory> tList = new List<NWDCategory>();
-                ChildrenAssembly(tList, tData);
-                tData.CascadeCategoryList.Flush();
-                tData.CascadeCategoryList.AddData(tData);
-                tData.CascadeCategoryList.AddDatas(tList.ToArray());
-                tData.UpdateDataIfModified();
+                if (tData != null)
+                {
+                    List<NWDCategory> tList = new List<NWDCategory>();
+                    ChildrenAssembly(tList, tData);
+                    if (tData.CascadeCategoryList != null)
+                    {
+                        tData.CascadeCategoryList.Flush();
+                        tData.CascadeCategoryList.AddData(tData);
+                        tData.CascadeCategoryList.AddDatas(tList.ToArray());
+                    }
+                    tData.UpdateDataIfModified();
+                }
             }
         }
 #endif

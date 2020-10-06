@@ -41,7 +41,7 @@ namespace NetWorkedData.MacroDefine
         public const string EnumArea = "Macro add by enum";
         public const string BoolArea = "Macro add by boolean";
         public const string ErrorInLoading = "... error in loading ...";
-        public const string Reload = "Reload";
+        public const string Reload = "Rollback";
         public const string Result = "Result in build settings";
         //public const string NewMacroArea = "Define new macro here";
         public const string NewMacro = "Macro";
