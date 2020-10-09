@@ -30,62 +30,6 @@ namespace NetWorkedData.NWDEditor
     public partial class NWDEditorNewClassContent : NWDEditorWindowContent
     {
         //-------------------------------------------------------------------------------------------------------------
-        //public static void GenerateFileUnitTest(string sClassNamePHP, bool sInClassFolder = false)
-        //{
-        //    // create unit folder
-        //    string tTestsFolder = "/Tests";
-        //    if (sInClassFolder == true)
-        //    {
-        //        tTestsFolder = "/" + sClassNamePHP + "/Tests";
-        //    }
-        //    string tUnitTestFolder = NWDFindOwnerClasses.PathOfPackage(tTestsFolder);
-        //    if (Directory.Exists(tUnitTestFolder) == false)
-        //    {
-        //        Directory.CreateDirectory(tUnitTestFolder);
-        //        File.WriteAllText(tUnitTestFolder + "/NWDAssemblyReference.asmref", "{\n\t\"reference\": \"NWDEditor_UnitTests\"\n}");
-        //        AssetDatabase.ImportAsset(tUnitTestFolder);
-        //    }
-        //    // create unit folder for class test
-        //    string tUnitTestClassFolder = tUnitTestFolder + "/" + sClassNamePHP;
-        //    if (sInClassFolder == true)
-        //    {
-        //        tUnitTestClassFolder = tUnitTestFolder;
-        //    }
-        //    Directory.CreateDirectory(tUnitTestClassFolder);
-        //    AssetDatabase.ImportAsset(tUnitTestClassFolder);
-
-        //    // create unit file for class test
-        //    StringBuilder tFile = new StringBuilder();
-        //    tFile.AppendLine("using NUnit.Framework;");
-        //    tFile.AppendLine("using NetWorkedData;");
-        //    tFile.AppendLine("namespace NWDEditorTests");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("\tpublic partial class " + sClassNamePHP + "_Tests");
-        //    tFile.AppendLine("\t{");
-        //    tFile.AppendLine("\t\t[Test]");
-        //    tFile.AppendLine("\t\tpublic void TestDuplicate()");
-        //    tFile.AppendLine("\t\t{");
-        //    tFile.AppendLine("\t\t\tNWDUnitTests.CleanUnitTests(); // clean environment before");
-        //    tFile.AppendLine("\t\t\t" + sClassNamePHP + " tItemA = NWDUnitTests.NewData<" + sClassNamePHP + ">();");
-        //    tFile.AppendLine("\t\t\ttItemA.UpdateData();");
-        //    tFile.AppendLine("\t\t\t" + sClassNamePHP + " tItemB = NWDBasisHelper.DuplicateData(tItemA);");
-        //    tFile.AppendLine("\t\t\tAssert.AreNotEqual(tItemA.Reference, tItemB.Reference);");
-        //    tFile.AppendLine("\t\t\tNWDUnitTests.CleanUnitTests(); // clean environment after");
-        //    tFile.AppendLine("\t\t}");
-        //    tFile.AppendLine("\t}");
-        //    tFile.AppendLine("}");
-        //    string tFilePath = tUnitTestClassFolder + "/" + sClassNamePHP + "_Tests";
-        //    int tG = 0;
-        //    while (File.Exists(tFilePath + ".cs") == true)
-        //    {
-        //        tG++;
-        //        tFilePath = tFilePath + tG;
-        //    }
-        //    File.WriteAllText(tFilePath + ".cs", tFile.ToString());
-        //    AssetDatabase.ImportAsset(tFilePath + ".cs");
-        //}
-
-        //-------------------------------------------------------------------------------------------------------------
         public static void GenerateFileEmptyTemplate(string sClassNamePHP, string sClassNameBasis, string sMacro)
         {
             string[] assetPaths = AssetDatabase.GetAllAssetPaths();
@@ -176,35 +120,104 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public static void GenerateFileUnitTest(string sClassNamePHP, string sMacro)
         {
-            string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder() + "/" + sClassNamePHP + "/Tests";
-            Directory.CreateDirectory(tOwnerClassesFolderPath);
-            // create asmref unit tests
-            string tPatASMREF = tOwnerClassesFolderPath + "/NWDAssemblyReference.asmref";
-            File.WriteAllText(tPatASMREF, "{\n\t\"reference\": \"NWDEditor_UnitTests\"\n}");
-            AssetDatabase.ImportAsset(tPatASMREF);
-            // create directories
-            Directory.CreateDirectory(tOwnerClassesFolderPath);
-            // write file workflow
-            string tClassExamplePath_Workflow = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/Tests/NWDExample_UnitTests.cs";
-            string tClassExample_UnitTests = File.ReadAllText(tClassExamplePath_Workflow);
-            tClassExample_UnitTests = tClassExample_UnitTests.Replace("NWDExample", sClassNamePHP);
+            string tEditorTestClassesFolderPath = NWDToolbox.FindOwnerClassesFolder() + "/" + sClassNamePHP + NWDConstants.NWDUnitTestEditorModePath;
+            Directory.CreateDirectory(tEditorTestClassesFolderPath);
+            string tEditorPatASMREF = tEditorTestClassesFolderPath + "/" + NWDConstants.NWDUnitTestEditorModeReference + ".asmref";
+            File.WriteAllText(tEditorPatASMREF, "{\n\t\"reference\": \""+ NWDConstants.NWDUnitTestEditorModeAssembly + "\"\n}");
+            AssetDatabase.ImportAsset(tEditorPatASMREF);
+
+
+
+            string tEditorClassExamplePath_Workflow_unit = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/UnitTest/EditorModeTest/Tests/NWDExample_EditorUnitTests.cs";
+            string tEditorClassExample_UnitTests_unit = File.ReadAllText(tEditorClassExamplePath_Workflow_unit);
+            tEditorClassExample_UnitTests_unit = tEditorClassExample_UnitTests_unit.Replace("NWDExample", sClassNamePHP);
+            if (string.IsNullOrEmpty(sMacro) == false)
+            {
+                tEditorClassExample_UnitTests_unit = tEditorClassExample_UnitTests_unit.Replace("NWD_EXAMPLE_MACRO", sMacro);
+                tEditorClassExample_UnitTests_unit = tEditorClassExample_UnitTests_unit.Replace("//MACRO_DEFINE ", "");
+            }
+            string tEditorFilePath_UnitTests_unit = tEditorTestClassesFolderPath + "/" + sClassNamePHP + "_EditorUnitTests";
+            int tEditorG_unit = 0;
+            while (File.Exists(tEditorFilePath_UnitTests_unit + ".cs") == true)
+            {
+                tEditorG_unit++;
+                tEditorFilePath_UnitTests_unit = tEditorFilePath_UnitTests_unit + tEditorG_unit;
+            }
+            File.WriteAllText(tEditorFilePath_UnitTests_unit + ".cs", tEditorClassExample_UnitTests_unit);
+            NWDDebug.Log("Write file " + tEditorFilePath_UnitTests_unit + ".cs");
+            AssetDatabase.ImportAsset(tEditorFilePath_UnitTests_unit + ".cs");
+            string tEditorClassExamplePath_Workflow_Process = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/UnitTest/EditorModeTest/Tests/NWDExample_EditorProcessTests.cs";
+            string tEditorClassExample_UnitTests_Process = File.ReadAllText(tEditorClassExamplePath_Workflow_Process);
+            tEditorClassExample_UnitTests_Process = tEditorClassExample_UnitTests_Process.Replace("NWDExample", sClassNamePHP);
 
             if (string.IsNullOrEmpty(sMacro) == false)
             {
-                tClassExample_UnitTests = tClassExample_UnitTests.Replace("NWD_EXAMPLE_MACRO", sMacro);
-                tClassExample_UnitTests = tClassExample_UnitTests.Replace("//MACRO_DEFINE ", "");
+                tEditorClassExample_UnitTests_Process = tEditorClassExample_UnitTests_Process.Replace("NWD_EXAMPLE_MACRO", sMacro);
+                tEditorClassExample_UnitTests_Process = tEditorClassExample_UnitTests_Process.Replace("//MACRO_DEFINE ", "");
             }
 
-            string tFilePath_UnitTests = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_UnitTests";
-            int tG = 0;
-            while (File.Exists(tFilePath_UnitTests + ".cs") == true)
+            string tEditorFilePath_UnitTests_Process = tEditorTestClassesFolderPath + "/" + sClassNamePHP + "_EditorProcessTests";
+            int tEditorG_process = 0;
+            while (File.Exists(tEditorFilePath_UnitTests_Process + ".cs") == true)
             {
-                tG++;
-                tFilePath_UnitTests = tFilePath_UnitTests + tG;
+                tEditorG_process++;
+                tEditorFilePath_UnitTests_Process = tEditorFilePath_UnitTests_Process + tEditorG_process;
             }
-            File.WriteAllText(tFilePath_UnitTests + ".cs", tClassExample_UnitTests);
-            NWDDebug.Log("Write file " + tFilePath_UnitTests + ".cs");
-            AssetDatabase.ImportAsset(tFilePath_UnitTests + ".cs");
+            File.WriteAllText(tEditorFilePath_UnitTests_Process + ".cs", tEditorClassExample_UnitTests_Process);
+            NWDDebug.Log("Write file " + tEditorFilePath_UnitTests_Process + ".cs");
+            AssetDatabase.ImportAsset(tEditorFilePath_UnitTests_Process + ".cs");
+
+
+
+
+            string tPlayTestClassesFolderPath = NWDToolbox.FindOwnerClassesFolder() + "/" + sClassNamePHP + NWDConstants.NWDUnitTestPlayModePath;
+            Directory.CreateDirectory(tPlayTestClassesFolderPath);
+            string tPlayPatASMREF = tPlayTestClassesFolderPath + "/" + NWDConstants.NWDUnitTestPlayModeReference + ".asmref";
+            File.WriteAllText(tPlayPatASMREF, "{\n\t\"reference\": \"" + NWDConstants.NWDUnitTestPlayModeAssembly + "\"\n}");
+            AssetDatabase.ImportAsset(tPlayPatASMREF);
+
+
+            string tPlayClassExamplePath_Workflow_unit = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/UnitTest/PlayModeTest/Tests/NWDExample_PlayUnitTests.cs";
+            string tPlayClassExample_UnitTests_unit = File.ReadAllText(tPlayClassExamplePath_Workflow_unit);
+            tPlayClassExample_UnitTests_unit = tPlayClassExample_UnitTests_unit.Replace("NWDExample", sClassNamePHP);
+            if (string.IsNullOrEmpty(sMacro) == false)
+            {
+                tPlayClassExample_UnitTests_unit = tPlayClassExample_UnitTests_unit.Replace("NWD_EXAMPLE_MACRO", sMacro);
+                tPlayClassExample_UnitTests_unit = tPlayClassExample_UnitTests_unit.Replace("//MACRO_DEFINE ", "");
+            }
+            string tPlayFilePath_UnitTests_unit = tPlayTestClassesFolderPath + "/" + sClassNamePHP + "_PlayUnitTests";
+            int tPlayG_unit = 0;
+            while (File.Exists(tPlayFilePath_UnitTests_unit + ".cs") == true)
+            {
+                tPlayG_unit++;
+                tPlayFilePath_UnitTests_unit = tPlayFilePath_UnitTests_unit + tPlayG_unit;
+            }
+            File.WriteAllText(tPlayFilePath_UnitTests_unit + ".cs", tPlayClassExample_UnitTests_unit);
+            NWDDebug.Log("Write file " + tPlayFilePath_UnitTests_unit + ".cs");
+            AssetDatabase.ImportAsset(tPlayFilePath_UnitTests_unit + ".cs");
+            string tPlayClassExamplePath_Workflow_Process = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/UnitTest/PlayModeTest/Tests/NWDExample_PlayProcessTests.cs";
+            string tPlayClassExample_UnitTests_Process = File.ReadAllText(tPlayClassExamplePath_Workflow_Process);
+            tPlayClassExample_UnitTests_Process = tPlayClassExample_UnitTests_Process.Replace("NWDExample", sClassNamePHP);
+
+            if (string.IsNullOrEmpty(sMacro) == false)
+            {
+                tPlayClassExample_UnitTests_Process = tPlayClassExample_UnitTests_Process.Replace("NWD_EXAMPLE_MACRO", sMacro);
+                tPlayClassExample_UnitTests_Process = tPlayClassExample_UnitTests_Process.Replace("//MACRO_DEFINE ", "");
+            }
+
+            string tPlayFilePath_UnitTests_Process = tPlayTestClassesFolderPath + "/" + sClassNamePHP + "_PlayProcessTests";
+            int tPlayG_process = 0;
+            while (File.Exists(tPlayFilePath_UnitTests_Process + ".cs") == true)
+            {
+                tPlayG_process++;
+                tPlayFilePath_UnitTests_Process = tPlayFilePath_UnitTests_Process + tPlayG_process;
+            }
+            File.WriteAllText(tPlayFilePath_UnitTests_Process + ".cs", tPlayClassExample_UnitTests_Process);
+            NWDDebug.Log("Write file " + tPlayFilePath_UnitTests_Process + ".cs");
+            AssetDatabase.ImportAsset(tPlayFilePath_UnitTests_Process + ".cs");
+
+
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void GenerateFileConnection(string sClassNamePHP, string sClassNameBasis, string sMacro)

@@ -920,9 +920,9 @@ namespace NetWorkedData
                                            "#endif";
                 File.WriteAllText(tEngineRootFolder + "/" + sFindClassName + ".cs", tFindClassesClass);
                 // write asmedf reference 
-                File.WriteAllText(tEngineRootFolder + "/" + "NWDAssemblyReference.asmref", "{\n    \"reference\": \"NWDAssemblyDefinition\"\n}");
+                File.WriteAllText(tEngineRootFolder + "/" + NWDConstants.NWDAssemblyReference + ".asmref", "{\n    \"reference\": \""+ NWDConstants.NWDAssembly + "\"\n}");
                 // force to import this file by Unity3D
-                AssetDatabase.ImportAsset(tEngineRootFolder + "/" + "NWDAssemblyReference.asmref");
+                AssetDatabase.ImportAsset(tEngineRootFolder + "/" + NWDConstants.NWDAssemblyReference + ".asmref");
                 AssetDatabase.ImportAsset(tEngineRootFolder + "/" + sFindClassName + ".cs");
             }
             return tEngineRootFolder;

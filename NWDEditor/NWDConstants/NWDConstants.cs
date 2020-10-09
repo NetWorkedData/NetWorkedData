@@ -60,7 +60,7 @@ namespace NetWorkedData
         public const string K_CREDENTIALS_VECTOR = "VectorStringKey_79877414532159874";
         public const string K_CREDENTIALS_SHOW_PASSWORDS_IN_LOG = "ShowPasswordInLogKey_79585254215";
         public const string K_CREDENTIALS_SAVE = "SaveCredentialsKey_7895452114789523654";
-        public const string K_CREDENTIALS_TAG= "TagCredentialsKey_55687768543186454";
+        public const string K_CREDENTIALS_TAG = "TagCredentialsKey_55687768543186454";
         public const string K_CREDENTIALS_TITLE = "TitleCredentialsKey_4687415685742157";
         //-------------------------------------------------------------------------------------------------------------
         public const string K_EDITOR_BUILD_ENVIRONMENT = "EditorBuildEnvironment";
@@ -86,7 +86,7 @@ namespace NetWorkedData
 
         public const string K_ENVIRONMENTS_CONFIGURATION_TITLE = "Environments";
 
-        public const string K_APP_SYNC_INSPECTOR_TITLE = "Data inspector"; 
+        public const string K_APP_SYNC_INSPECTOR_TITLE = "Data inspector";
         public const string K_ALERT_SALT_SHORT_ERROR = "ALERT SALT ARE NOT MEMORIZE : RECCORD CONFIGURATIONS AND RECOMPILE!";
         public const string K_APP_CLASS_SALT_REGENERATE = "Generate salts";
         //-------------------------------------------------------------------------------------------------------------
@@ -129,7 +129,7 @@ namespace NetWorkedData
         public const string K_MENU_EDITOR_NEWCLASS = K_MENU_BASE + "Tools/New Data/Create New NWDBasis Class";
         public const string K_MENU_EDITOR_NEWWINDOW = K_MENU_BASE + "Tools/New Data/Create New Window NWD management";
         public const string K_MENU_EDITOR_NEWEXTENSION = K_MENU_BASE + "Tools/New Data/Create New Extension Class";
-        
+
         public const string K_MENU_EDITOR_FOOTER = K_MENU_BASE + "Tools/New Footer";
 
         public const string K_MENU_APP_EDIT = K_MENU_BASE + "Application/Configurations";
@@ -405,7 +405,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_INVERSE = "Inverse";
         public const string K_APP_TABLE_SELECT_ENABLED = "Select all enabled";
         public const string K_APP_TABLE_SELECT_DISABLED = "Select all disabled";
-        public const string K_APP_TABLE_SELECT_RESTAURE_FROM_SERVER= "Restaure";
+        public const string K_APP_TABLE_SELECT_RESTAURE_FROM_SERVER = "Restaure";
         public const string K_APP_TABLE_ACTIONS = "Actions";
         public const string K_APP_TABLE_REACTIVE = "Re-active";
         public const string K_APP_TABLE_DISACTIVE = "Disactive";
@@ -530,7 +530,7 @@ namespace NetWorkedData
         public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE = "You are in playing mode, sync only effective on player's data!";
         public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK = "OK";
 
-       //-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
         public static string[] K_VERSION_MAJOR_ARRAY = new string[] {
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
             "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
@@ -579,6 +579,21 @@ namespace NetWorkedData
 
         //-------------------------------------------------------------------------------------------------------------
         public const string _pro = "_pro";
+        //-------------------------------------------------------------------------------------------------------------
+        public const string NWDAssembly = "NetWorkedData";
+        public const string NWDAssemblyReference = "NWDAssemblyReference";
+        public const string NWDAssemblyDefinition = "NWDAssemblyDefinition";
+
+        public const string NWDUnitTestEditorModePath = "/UnityTest/EditorModeTest/Tests";
+        public const string NWDUnitTestEditorModeAssembly = NWDAssembly+".EditorModeTest";
+        public const string NWDUnitTestEditorModeDefinition = "NWDUnitTestEditorModeDefinition";
+        public const string NWDUnitTestEditorModeReference = "NWDUnitTestEditorModeReference";
+
+        public const string NWDUnitTestPlayModePath = "/UnityTest/PlayModeTest/Tests";
+        public const string NWDUnitTestPlayModeAssembly = NWDAssembly+".PlayModeTest";
+        public const string NWDUnitTestPlayModeDefinition = "NWDUnitTestPlayModeDefinition";
+        public const string NWDUnitTestPlayModeReference = "NWDUnitTestPlayModeReference";
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
