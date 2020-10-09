@@ -27,7 +27,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using NetWorkedData;
 //=====================================================================================================================
-namespace NWDEditorTests
+namespace NWDEditModeTests
 {
     public class NWDExample_Tests : NWDClassTest
     {

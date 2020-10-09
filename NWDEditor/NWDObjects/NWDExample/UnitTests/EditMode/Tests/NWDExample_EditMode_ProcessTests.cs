@@ -24,7 +24,7 @@ using System.Collections;
 using UnityEngine.TestTools;
 using NetWorkedData;
 //=====================================================================================================================
-namespace NWDEditorProcess
+namespace NWDEditModeProcess
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDExample_EditorProcessTests : NWDClassTest

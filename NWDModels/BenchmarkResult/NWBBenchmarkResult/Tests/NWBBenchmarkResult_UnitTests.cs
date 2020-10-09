@@ -25,7 +25,7 @@ using UnityEngine;
 using NUnit.Framework;
 using NetWorkedData;
 //=====================================================================================================================
-namespace NWDEditorTests
+namespace NWDEditModeTests
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWBBenchmarkResult_UnitTests : NWDClassTest

@@ -584,12 +584,12 @@ namespace NetWorkedData
         public const string NWDAssemblyReference = "NWDAssemblyReference";
         public const string NWDAssemblyDefinition = "NWDAssemblyDefinition";
 
-        public const string NWDUnitTestEditorModePath = "/UnityTest/EditorModeTest/Tests";
-        public const string NWDUnitTestEditorModeAssembly = NWDAssembly+".EditorModeTest";
-        public const string NWDUnitTestEditorModeDefinition = "NWDUnitTestEditorModeDefinition";
-        public const string NWDUnitTestEditorModeReference = "NWDUnitTestEditorModeReference";
+        public const string NWDUnitTestEditModePath = "/UnityTests/EditMode/Tests";
+        public const string NWDUnitTestEditModeAssembly = NWDAssembly+".EditModeTest";
+        public const string NWDUnitTestEditModeDefinition = "NWDUnitTestEditModeDefinition";
+        public const string NWDUnitTestEditModeReference = "NWDUnitTestEditModeReference";
 
-        public const string NWDUnitTestPlayModePath = "/UnityTest/PlayModeTest/Tests";
+        public const string NWDUnitTestPlayModePath = "/UnityTests/PlayMode/Tests";
         public const string NWDUnitTestPlayModeAssembly = NWDAssembly+".PlayModeTest";
         public const string NWDUnitTestPlayModeDefinition = "NWDUnitTestPlayModeDefinition";
         public const string NWDUnitTestPlayModeReference = "NWDUnitTestPlayModeReference";

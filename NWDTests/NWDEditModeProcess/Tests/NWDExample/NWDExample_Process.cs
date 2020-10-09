@@ -12,7 +12,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using NetWorkedData;
 //=====================================================================================================================
-namespace NWDEditorProcess
+namespace NWDEditModeProcess
 {
     public class NWDExample_Process : NWDClassTest
     {

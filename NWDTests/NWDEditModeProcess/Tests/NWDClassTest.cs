@@ -22,7 +22,7 @@
 using NUnit.Framework;
 using NetWorkedData;
 //=====================================================================================================================
-namespace NWDEditorProcess
+namespace NWDEditModeProcess
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDClassTest
