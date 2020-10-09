@@ -42,7 +42,7 @@ namespace NetWorkedData.NWDEditor
         //    if (Directory.Exists(tUnitTestFolder) == false)
         //    {
         //        Directory.CreateDirectory(tUnitTestFolder);
-        //        File.WriteAllText(tUnitTestFolder + "/NetWorkedData_UnitTests_Reference.asmref", "{\n\t\"reference\": \"NWDEditor_UnitTests\"\n}");
+        //        File.WriteAllText(tUnitTestFolder + "/NWDAssemblyReference.asmref", "{\n\t\"reference\": \"NWDEditor_UnitTests\"\n}");
         //        AssetDatabase.ImportAsset(tUnitTestFolder);
         //    }
         //    // create unit folder for class test
@@ -179,7 +179,7 @@ namespace NetWorkedData.NWDEditor
             string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder() + "/" + sClassNamePHP + "/Tests";
             Directory.CreateDirectory(tOwnerClassesFolderPath);
             // create asmref unit tests
-            string tPatASMREF = tOwnerClassesFolderPath + "/NetWorkedData_UnitTests_Reference.asmref";
+            string tPatASMREF = tOwnerClassesFolderPath + "/NWDAssemblyReference.asmref";
             File.WriteAllText(tPatASMREF, "{\n\t\"reference\": \"NWDEditor_UnitTests\"\n}");
             AssetDatabase.ImportAsset(tPatASMREF);
             // create directories
