@@ -36,10 +36,12 @@ namespace NWDPlayModeProcess
     {
         //-------------------------------------------------------------------------------------------------------------
         [UnityTest]
-        public IEnumerator Temporary_TestTransfert()
+        public IEnumerator Enumerator_Loop()
         {
-            while (true == true)
+            int tI = 0;
+            while (tI < 10)
             {
+                tI++;
                 yield return null;
             }
         }

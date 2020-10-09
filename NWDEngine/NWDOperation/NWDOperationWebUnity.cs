@@ -512,9 +512,9 @@ namespace NetWorkedData
                                                         //NWDBenchmark.Start("PURGE ACCOUNT DATABASE");
                                                         if (Application.isEditor == false)
                                                         {
-                                                            #if NWD_RGPD
+#if NWD_RGPD
                                                             NWDGDPR.Log("Purge database from all old account informations. The old account will be deleted from this device...");
-                                                            #endif
+#endif
                                                             // I drop all table account connected?
                                                             foreach (Type tType in NWDDataManager.SharedInstance().ClassAccountDependentList)
                                                             {
@@ -522,9 +522,9 @@ namespace NetWorkedData
                                                                 tHelper.FlushTable();
                                                                 //tHelper.ResetDatas();
                                                             }
-                                                            #if NWD_RGPD
+#if NWD_RGPD
                                                             NWDGDPR.Log("The old account was deleted from this device!");
-                                                            #endif
+#endif
                                                         }
                                                         else
                                                         {
@@ -533,9 +533,9 @@ namespace NetWorkedData
                                                         //NWDBenchmark.Finish("PURGE ACCOUNT DATABASE");
                                                     }
                                                 }
-                                                            #if NWD_RGPD
+#if NWD_RGPD
                                                 NWDGDPR.Log("New certified account valid on this device!");
-                                                            #endif
+#endif
                                             }
                                             if (!ResultInfos.uuid.Equals(string.Empty))
                                             {
@@ -738,7 +738,14 @@ namespace NetWorkedData
                 case NWDCompileType.Editor:
                     {
 #if UNITY_EDITOR
-                        HeaderParams.Add(NWD.AdminHashKey, NWDToolbox.GenerateAdminHash(NWDCluster.SelectClusterforEnvironment(Environment, true).AdminKey.Decrypt(), Environment.SaltFrequency));
+                        NWDCluster tCluster = NWDCluster.SelectClusterforEnvironment(Environment, true);
+                        if (tCluster != null)
+                        {
+                            if (tCluster.AdminKey != null)
+                            {
+                                HeaderParams.Add(NWD.AdminHashKey, NWDToolbox.GenerateAdminHash(tCluster.AdminKey.Decrypt(), Environment.SaltFrequency));
+                            }
+                        }
 #endif
                     }
                     break;
