@@ -41,9 +41,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool ConnectToDatabaseEditor()
         {
-            //Debug.Log("#### ConnectToDatabaseEditor");
             NWDBenchmarkLauncher.Start();
-            //NWDBenchmarkLauncher.Log("LibVersionNumber() = " + SQLite3.LibVersionNumber());
             bool rReturn = false;
             if (EditorDatabaseConnected == false && EditorDatabaseConnectionInProgress == false)
             {
@@ -57,41 +55,38 @@ namespace NetWorkedData
                     AssetDatabase.ImportAsset(NWD.K_Assets + "/" + NWD.K_StreamingAssets);
                     AssetDatabase.Refresh();
                 }
-                // path for base editor
-                string tDatabasePathEditor = /*NWD.K_Assets+"/" + NWD.K_StreamingAssets + "/" +*/ DatabaseEditorName();
 
+                // path for base editor
+                string tDatabasePathEditor = DatabaseEditorName();
 #else
                 // Get saved App version from pref
                 // check if file exists in Application.persistentDataPath
-#if (UNITY_TVOS)
+    #if (UNITY_TVOS)
                 string tPathEditor = string.Format("{0}/{1}", Application.temporaryCachePath, DatabaseBuildName());
-#else
+    #else
                 string tPathEditor = string.Format("{0}/{1}", Application.persistentDataPath, DatabaseBuildName());
-#endif
-
+    #endif
                 // if must be update by build version : delete old editor data!
                 if (UpdateBuildTimestamp() == true) // must update the editor base
                 {
                     File.Delete(tPathEditor);
                 }
+
                 // Write editor database
                 if (!File.Exists(tPathEditor))
                 {
-                    //Debug.Log("Application will copy editor database : " + tPathEditor);
                     NWDBenchmarkLauncher.Start("Copy editor");
-                    // if it doesn't ->
-                    // open StreamingAssets directory and load the db ->
                     NWDBenchmarkLauncher.Log("Application will copy editor database : " + tPathEditor);
-                NWDLauncher.CopyDatabase = true;
+                    NWDLauncher.CopyDatabase = true;
 
-#if UNITY_ANDROID
-                UnityWebRequest tFileLoad = UnityEngine.Networking.UnityWebRequest.Get(Application.streamingAssetsPath + "/" + DatabaseBuildName());
-                tFileLoad.SendWebRequest();
-                while (!tFileLoad.isDone) { }
-                File.WriteAllBytes(tPathEditor, tFileLoad.downloadHandler.data);
-#else
-                File.Copy(Application.streamingAssetsPath + "/" + DatabaseBuildName(), tPathEditor);
-#endif
+    #if UNITY_ANDROID
+                    UnityWebRequest tFileLoad = UnityEngine.Networking.UnityWebRequest.Get(Application.streamingAssetsPath + "/" + DatabaseBuildName());
+                    tFileLoad.SendWebRequest();
+                    while (!tFileLoad.isDone) { }
+                    File.WriteAllBytes(tPathEditor, tFileLoad.downloadHandler.data);
+    #else
+                    File.Copy(Application.streamingAssetsPath + "/" + DatabaseBuildName(), tPathEditor);
+    #endif
 
                 /*
 #if UNITY_ANDROID
@@ -119,11 +114,9 @@ namespace NetWorkedData
 #endif
 */
                     NWDBenchmarkLauncher.Finish("Copy editor");
-            }
-            string tDatabasePathEditor = tPathEditor;
+                }
+                string tDatabasePathEditor = tPathEditor;
 #endif
-                //Debug.Log(" tDatabasePathEditor =  " + tDatabasePathEditor);
-
                 byte[] tDatabasePathAsBytes = GetNullTerminatedUtf8(tDatabasePathEditor);
                 SQLite3.Result tResult = SQLite3.Open(tDatabasePathAsBytes, out SQLiteEditorHandle, (int)(SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create), IntPtr.Zero);
                 if (tResult != SQLite3.Result.OK)
@@ -132,7 +125,6 @@ namespace NetWorkedData
                 }
                 else
                 {
-
                     DatabaseEditorOpenKey(tDatabasePathEditor);
 
                     EditorDatabaseConnected = true;
@@ -180,7 +172,7 @@ namespace NetWorkedData
                 }
             }
 #if NWD_LAUNCHER_BENCHMARK
-                NWDBenchmark.Finish();
+            NWDBenchmark.Finish();
 #endif
             return rReturn;
         }
