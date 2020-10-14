@@ -54,13 +54,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public Sprite ToSpriteAsync(Sprite sInterim, NWDOperationSpriteDelegate sDelegate)
         {
-            string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+            string tPath = Value.Replace(kAssetDelimiter, string.Empty);
             tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
             NWDOperationSprite tOperation = NWDOperationSprite.AddOperation(tPath, sInterim, false, sDelegate);
             return tOperation.Interim;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Sprite ToSprite ()
+        public Sprite ToSprite()
 		{
             Sprite rSprite = null;
 			if (!string.IsNullOrEmpty(Value))
@@ -72,13 +72,48 @@ namespace NetWorkedData
                 tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
                 rSprite = Resources.Load (tPath, typeof(Sprite)) as Sprite;
                 #endif
-                if (rSprite == null)
-                {
-                    //Debug.LogWarning("rSprite is null at path " + tPath);
-                }
 			}
 			return rSprite;
 		}
+		//-------------------------------------------------------------------------------------------------------------
+		public string GetAbsolutePath()
+		{
+			string rPath = "";
+			if (!string.IsNullOrEmpty(Value))
+            {
+				rPath = Value.Replace(kAssetDelimiter, string.Empty);
+				rPath = NWEPathResources.PathAbsoluteToPathDB(rPath);
+			}
+
+			return rPath;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+        /*public async Task<Sprite> ToAddressableAssetSprite()
+        {
+			// Using exemple:
+			// Task<Sprite> tTask = ToAddressableAssetSprite();
+            // Sprite tMySprite = await tTask;
+
+            Sprite rSprite = null;
+            if (!string.IsNullOrEmpty(Value))
+            {
+                string tPath = Value.Replace(kAssetDelimiter, string.Empty);
+                tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
+                tPath = Path.GetFileName(tPath);
+
+                AsyncOperationHandle<Sprite> tHandle = Addressables.LoadAssetAsync<Sprite>(tPath);
+                await tHandle.Task;
+                if(tHandle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    rSprite = tHandle.Result;
+                }
+                else
+                {
+                    Debug.LogWarning("Addressable " + tHandle.DebugName + " load error");
+                }
+            }
+            return rSprite;
+        }*/
 		//-------------------------------------------------------------------------------------------------------------
         #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
@@ -155,7 +190,7 @@ namespace NetWorkedData
 			bool tRessource = true;
 
 			if (Value != null && Value != string.Empty) {
-				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, string.Empty);
+				string tPath = Value.Replace (kAssetDelimiter, string.Empty);
 				tObject = AssetDatabase.LoadAssetAtPath (tPath, typeof(Sprite)) as Sprite;
 				if (tObject == null) {
 					tRessource = false;
@@ -177,7 +212,7 @@ namespace NetWorkedData
             UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), tContent, tObject, typeof(Sprite), false);
 			tY = tY + NWDGUI.kFieldMarge + tObjectFieldStyle.fixedHeight;
 			if (pObj != null) {
-				tTemporary.Value = NWDAssetType.kAssetDelimiter+AssetDatabase.GetAssetPath (pObj)+NWDAssetType.kAssetDelimiter;
+				tTemporary.Value = kAssetDelimiter+AssetDatabase.GetAssetPath (pObj)+kAssetDelimiter;
 			} else {
 				tTemporary.Value = string.Empty;
 			}
@@ -188,7 +223,7 @@ namespace NetWorkedData
 
 				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ASSET_MUST_BE_DOWNLOAD, tLabelStyle);
 				tY = tY + NWDGUI.kFieldMarge + tLabelStyle.fixedHeight;
-				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, ""),tLabelAssetStyle);
+				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (kAssetDelimiter, ""),tLabelAssetStyle);
 				tY = tY + NWDGUI.kFieldMarge + tLabelAssetStyle.fixedHeight;
                 NWDGUI.BeginRedArea();
                 if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
