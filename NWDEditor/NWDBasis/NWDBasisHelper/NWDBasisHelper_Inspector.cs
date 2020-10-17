@@ -452,16 +452,16 @@ namespace NetWorkedData
                     if (Group.Reducible == true)
                     {
                         bool tActualDraw = Group.IsDrawable();
+                        Rect tFoldoutRect = new Rect(tX + tIndentGroup, tY, tWidth, NWDGUI.kBoldFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge);
                         if (Group.Bold == true)
                         {
-                            tActualDraw = EditorGUI.Foldout(new Rect(tX + tIndentGroup, tY, tWidth, NWDGUI.kBoldFoldoutStyle.fixedHeight), tActualDraw, Group.Content(), NWDGUI.kBoldFoldoutStyle);
-                            tY += NWDGUI.kBoldFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
+                            tActualDraw = EditorGUI.Foldout(tFoldoutRect, tActualDraw, Group.Content(), NWDGUI.kBoldFoldoutStyle);
                         }
                         else
                         {
-                            tActualDraw = EditorGUI.Foldout(new Rect(tX + tIndentGroup, tY, tWidth, NWDGUI.kFoldoutStyle.fixedHeight), tActualDraw, Group.Content(), NWDGUI.kFoldoutStyle);
-                            tY += NWDGUI.kFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
+                            tActualDraw = EditorGUI.Foldout(tFoldoutRect, tActualDraw, Group.Content(), NWDGUI.kFoldoutStyle);
                         }
+                        tY += NWDGUI.kFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
                         if (tActualDraw != Group.IsDrawable())
                         {
                             Group.SetDrawable(tActualDraw);

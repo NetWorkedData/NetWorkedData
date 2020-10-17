@@ -525,7 +525,7 @@ namespace NetWorkedData
                 }
                 EditorGUI.BeginDisabledGroup(CanBeEdit == false);
                 // DRAW TOP CARD AREA
-                tR.height = NWDGUI.kMiniLabelStyle.fixedHeight;
+                tR.height = NWDGUI.kFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
                 BasisHelper().kSyncAndMoreInformations = EditorGUI.Foldout(tR, BasisHelper().kSyncAndMoreInformations, NWDConstants.K_APP_BASIS_INFORMATIONS, NWDGUI.kFoldoutStyle);
                 tR.y += NWDGUI.kFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
                 if (BasisHelper().kSyncAndMoreInformations)
@@ -563,7 +563,7 @@ namespace NetWorkedData
                     tR.y += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                     string tCSV = CSVAssembly();
                     int tCSVColumns = tCSV.Split('|').Length;
-                    EditorGUI.TextField(tR, "dyn int Csv "+ tCSVColumns, tCSV, NWDGUI.kMiniLabelStyle);
+                    EditorGUI.TextField(tR, "dyn int Csv " + tCSVColumns, tCSV, NWDGUI.kMiniLabelStyle);
                     tR.y += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                     EditorGUI.TextField(tR, "dyn int req", IntegrityValue(), NWDGUI.kMiniLabelStyle);
                     tR.y += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
