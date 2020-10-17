@@ -8,11 +8,14 @@
  "keywords": [
     "NetWorkedData",
     "idéMobi",
-    "idemobi"
+    "idemobi",
+    "Database",
+    "Data", 
+    "Cluster"
   ],
   "author": {
-    "name": "idéMobi",
-    "email": "unity@example.com",
+    "name": "NetWorkedData© by idéMobi©",
+    "email": "contact@net-worked-data.com",
     "url": "https://github.com/orgs/NetWorkedData/NetWorkedData.git"
   }
 }
