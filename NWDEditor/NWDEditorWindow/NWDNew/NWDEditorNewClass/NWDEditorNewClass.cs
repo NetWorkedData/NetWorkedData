@@ -580,8 +580,8 @@ namespace NetWorkedData.NWDEditor
             if (GUILayout.Button("Generate class"))
             {
                 // ok generate!
-                GUIUtility.ExitGUI();
                 GenerateNewClass();
+                GUIUtility.ExitGUI();
             }
             EditorGUI.EndDisabledGroup();
             NWDGUILayout.BigSpace();

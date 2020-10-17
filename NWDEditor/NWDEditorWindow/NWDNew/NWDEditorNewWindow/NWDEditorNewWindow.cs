@@ -340,6 +340,7 @@ namespace NetWorkedData.NWDEditor
             {
                 // ok generate!
                 GenerateNewWindow();
+                GUIUtility.ExitGUI();
             }
             EditorGUI.EndDisabledGroup();
             NWDGUILayout.BigSpace();

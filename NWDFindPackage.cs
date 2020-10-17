@@ -90,7 +90,7 @@ namespace NetWorkedData
         /// <param name="sAddPath">S add path.</param>
         public static string PathOfPackage(string sAddPath = NWEConstants.K_EMPTY_STRING)
         {
-            return SharedInstance().ScriptFolderFromAssets + sAddPath;
+            return SharedInstance().ScriptFolder + sAddPath;
         }
         ////-------------------------------------------------------------------------------------------------------------
         //public static string PathEditorTextures(string sAddPath = NWEConstants.K_EMPTY_STRING)
