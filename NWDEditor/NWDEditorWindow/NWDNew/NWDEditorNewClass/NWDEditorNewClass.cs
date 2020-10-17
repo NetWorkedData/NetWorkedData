@@ -46,6 +46,7 @@ namespace NetWorkedData.NWDEditor
         const int K_MENU_MIN = 3;
         const int K_MENU_MAX = 24;
         const int K_CLASSNAME_MIN = 3;
+        const string StartNewGroup = "Start New Group";
         //-------------------------------------------------------------------------------------------------------------
 
         //bool ClassUnityEditorOnly = false;
@@ -159,8 +160,35 @@ namespace NetWorkedData.NWDEditor
             string tPropertiesLinearize = "//PROPERTIES\n\t\t//[NWDInspectorGroupReset]\n";
             foreach (KeyValuePair<string, string> tKeyValue in tPropertiesDico)
             {
-                tPropertiesLinearize += "\t\tpublic " + tKeyValue.Value + " " + tKeyValue.Key + " {get; set;}\n";
+                if (tKeyValue.Value == StartNewGroup)
+                {
+                    tPropertiesLinearize += "\t\t[NWDInspectorGroupEnd]\n";
+                    tPropertiesLinearize += "\t\t[NWDInspectorGroupStart(\"" + tKeyValue.Key + "\")]\n";
+                }
+                else
+                {
+                    tPropertiesLinearize += "\t\tpublic " + tKeyValue.Value + " " + tKeyValue.Key + " {get; set;}\n";
+                }
             }
+
+            tPropertiesLinearize = tPropertiesLinearize.Replace("//[NWDInspectorGroupReset]\n\t\t[NWDInspectorGroupEnd]", "[NWDInspectorGroupReset]");
+
+            tPropertiesLinearize = tPropertiesLinearize.Replace("\t\tpublic int/field", "\t\tpublic int");
+            tPropertiesLinearize = tPropertiesLinearize.Replace("\t\tpublic int/slider", "\t\t[NWDIntSlider(0, 100)]\n\t\tpublic int");
+            tPropertiesLinearize = tPropertiesLinearize.Replace("\t\tpublic float/field", "\t\tpublic float");
+            tPropertiesLinearize = tPropertiesLinearize.Replace("\t\tpublic float/slider", "\t\t[NWDFloatSlider(0.0F, 1.0F]\n\t\tpublic float");
+
+            tPropertiesLinearize = tPropertiesLinearize.Replace("\t\tpublic long/field", "\t\tpublic long");
+            tPropertiesLinearize = tPropertiesLinearize.Replace("\t\tpublic long/slider", "\t\t[NWDIntSlider(0, 100)]\n\t\tpublic long");
+            tPropertiesLinearize = tPropertiesLinearize.Replace("\t\tpublic double/field", "\t\tpublic double");
+            tPropertiesLinearize = tPropertiesLinearize.Replace("\t\tpublic double/slider", "\t\t[NWDFloatSlider(0.0F, 1.0F]\n\t\tpublic double");
+
+            tPropertiesLinearize = tPropertiesLinearize.Replace("\t\tpublic uint/field", "\t\tpublic uint");
+            tPropertiesLinearize = tPropertiesLinearize.Replace("\t\tpublic uint/slider", "\t\t[NWDIntSlider(0, 100)]\n\t\tpublic uint");
+
+            tPropertiesLinearize = tPropertiesLinearize.Replace("\t\tpublic ulong/field", "\t\tpublic long");
+            tPropertiesLinearize = tPropertiesLinearize.Replace("\t\tpublic ulong/slider", "\t\t[NWDIntSlider(0, 100)]\n\t\tpublic ulong");
+
             tClassExample = tClassExample.Replace("//PROPERTIES", tPropertiesLinearize);
             // find the owner classes folder
             string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder() + "/" + ClassName;
@@ -236,14 +264,56 @@ namespace NetWorkedData.NWDEditor
         {
             tListOfType = new List<string>();
             tListOfType.Add(" ");
+            tListOfType.Add(StartNewGroup);
+            tListOfType.Add("        ");
             tListOfType.Add("string");
+            tListOfType.Add("  "); // use as separator remove by ereg
             tListOfType.Add("bool");
-            tListOfType.Add("int");
-            tListOfType.Add("long");
-            tListOfType.Add("double");
-            tListOfType.Add("float");
+
+            tListOfType.Add("   "); // use as separator remove by ereg
+            //tListOfType.Add("int");
+            tListOfType.Add("int/field");
+            tListOfType.Add("int/slider");
+            tListOfType.Add("uint/field");
+            tListOfType.Add("uint/slider");
+            //tListOfType.Add("long");
+            tListOfType.Add("long/field");
+            tListOfType.Add("long/slider");
+            tListOfType.Add("ulong/field");
+            tListOfType.Add("ulong/slider");
+            tListOfType.Add("    "); // use as separator remove by ereg
+            //tListOfType.Add("float");
+            tListOfType.Add("float/field");
+            tListOfType.Add("float/slider");
+            //tListOfType.Add("double");
+            tListOfType.Add("double/field");
+            tListOfType.Add("double/slider");
+
+            //tListOfType.Add("float/range");
             tListOfType.Add("  "); // use as separator remove by ereg
             Type[] tAllTypes = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
+
+
+            List<string> tEnumList = tListOfclass = new List<string>();
+            Type[] tAllNWDTypesEnum = (from System.Type type in tAllTypes
+                                   where type.IsEnum
+                                   select type).ToArray();
+            foreach (Type tType in tAllNWDTypesEnum)
+            {
+                if (tType.ContainsGenericParameters == false)
+                {
+                    tEnumList.Add("enum/"+tType.Name);
+                }
+                else
+                {
+                    tEnumList.Add("enum/" + tType.Name.Replace("`1", ""));
+                }
+            }
+            tEnumList.Sort();
+            tListOfType.AddRange(tEnumList);
+
+            tListOfType.Add("     "); // use as separator remove by ereg
+
             Type[] tAllNWDTypes = (from System.Type type in tAllTypes
                                    where type.IsSubclassOf(typeof(NWEDataType))
                                    select type).ToArray();
@@ -259,6 +329,11 @@ namespace NetWorkedData.NWDEditor
                     tClassPossiblesList.Add(tType.Name.Replace("`1", ""));
                 }
             }
+
+            tListOfType.Add("      "); // use as separator remove by ereg
+
+
+
             tListOfclass = new List<string>();
             foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
             {
@@ -396,12 +471,12 @@ namespace NetWorkedData.NWDEditor
             ClassNameTrigramme = ClassNameTrigramme.ToUpper();
             if (ClassNameTrigramme.Length < K_TRIGRAM_MIN)
             {
-                EditorGUILayout.LabelField(" ", "trigramme must be longer than " + K_TRIGRAM_MIN + " characters");
+                EditorGUILayout.LabelField(" ", "Trigramme must be longer than " + K_TRIGRAM_MIN + " characters");
                 tCanCreate = false;
             }
             else if (ClassNameTrigramme.Length > K_TRIGRAM_MAX)
             {
-                EditorGUILayout.LabelField(" ", "trigramme must be shorter than " + K_TRIGRAM_MAX + " characters");
+                EditorGUILayout.LabelField(" ", "Trigramme must be shorter than " + K_TRIGRAM_MAX + " characters");
                 tCanCreate = false;
             }
             else
@@ -410,11 +485,11 @@ namespace NetWorkedData.NWDEditor
                 if (NWDDataManager.SharedInstance().ClassTrigramDictionary.ContainsKey(ClassNameTrigramme))
                 {
                     tCanCreate = false;
-                    EditorGUILayout.LabelField(" ", "trigramme already used by '" + NWDDataManager.SharedInstance().ClassTrigramDictionary[ClassNameTrigramme].Name + "'!");
+                    EditorGUILayout.LabelField(" ", "Trigramme already used by '" + NWDDataManager.SharedInstance().ClassTrigramDictionary[ClassNameTrigramme].Name + "'!");
                 }
                 else
                 {
-                    EditorGUILayout.LabelField(" ", "trigramme is Ok!");
+                    EditorGUILayout.LabelField(" ", "Trigramme is Ok!");
                 }
             }
             // or selectb in Macro in MacroDefiner ?
@@ -433,21 +508,21 @@ namespace NetWorkedData.NWDEditor
             ClassNameDescription = ClassNameDescription.Replace("\\", string.Empty);
             NWDGUILayout.Section("Menu in interface");
             // futur class menu name
-            ClassNameMenuName = EditorGUILayout.TextField("Menu name", ClassNameMenuName);
+            ClassNameMenuName = EditorGUILayout.TextField("Tab name in windows", ClassNameMenuName);
             ClassNameMenuName = ClassNameMenuName.Replace("\\", string.Empty);
             if (ClassNameMenuName.Length < K_MENU_MIN)
             {
-                EditorGUILayout.LabelField(" ", "menu name must be longer than " + K_MENU_MIN + " characters");
+                EditorGUILayout.LabelField(" ", "Tab name must be longer than " + K_MENU_MIN + " characters");
                 tCanCreate = false;
             }
             else if (ClassNameMenuName.Length > K_MENU_MAX)
             {
-                EditorGUILayout.LabelField(" ", "menu name must be shorter than " + K_MENU_MAX + " characters");
+                EditorGUILayout.LabelField(" ", "Tab name must be shorter than " + K_MENU_MAX + " characters");
                 tCanCreate = false;
             }
             else
             {
-                EditorGUILayout.LabelField(" ", "menu name is Ok!");
+                EditorGUILayout.LabelField(" ", "Tab name is Ok!");
             }
             NWDGUILayout.Section("Properties");
             // create properties type
@@ -505,6 +580,7 @@ namespace NetWorkedData.NWDEditor
             if (GUILayout.Button("Generate class"))
             {
                 // ok generate!
+                GUIUtility.ExitGUI();
                 GenerateNewClass();
             }
             EditorGUI.EndDisabledGroup();
