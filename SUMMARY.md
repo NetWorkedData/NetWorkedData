@@ -2,7 +2,7 @@
 
 * [README](README.md)
 * [Installation](installation/README.md)
-  * [Installation Mutualisée](installation/untitled.md)
+  * [Installation Mutualisée](installation/installation-mutualisee.md)
   * [Installation Cluster Dédiés](installation/installation-cluster-dedies.md)
   * [Installation Cluster Customs](installation/installation-cluster-customs.md)
   * [Installation Community](installation/installation-community.md)
