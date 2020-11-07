@@ -1,7 +1,11 @@
 # Table of contents
 
 * [README](README.md)
-* [Untitled](untitled.md)
+* [Installation](installation/README.md)
+  * [Installation Mutualisée](installation/untitled.md)
+  * [Installation Cluster Dédiés](installation/installation-cluster-dedies.md)
+  * [Installation Cluster Customs](installation/installation-cluster-customs.md)
+  * [Installation Community](installation/installation-community.md)
 * [NWDTests](nwdtests/README.md)
   * [NWDEditModeTests](nwdtests/nwdeditmodetests/README.md)
     * [Tests](nwdtests/nwdeditmodetests/tests/README.md)
