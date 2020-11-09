@@ -188,23 +188,23 @@ namespace NetWorkedData.NWDEditor
             {
                 if (sStatic)
                 {
-                    rMarkDown.AppendLine("#### Property static public " + TypeName(sInfos.DeclaringType) + " " + sInfos.Name);
+                    rMarkDown.AppendLine("#### Property static public " + TypeName(sInfos.PropertyType) + " " + sInfos.Name);
                 }
                 else
                 {
-                    rMarkDown.AppendLine("#### Property public " + TypeName(sInfos.DeclaringType) + " " + sInfos.Name);
+                    rMarkDown.AppendLine("#### Property public " + TypeName(sInfos.PropertyType) + " " + sInfos.Name);
                 }
             }
             else
             {
                 if (sStatic)
                 {
-                    rMarkDown.AppendLine("#### Property static private " + TypeName(sInfos.DeclaringType) + " " + sInfos.Name);
+                    rMarkDown.AppendLine("#### Property static private " + TypeName(sInfos.PropertyType) + " " + sInfos.Name);
                 }
                 else
 
                 {
-                    rMarkDown.AppendLine("#### Property private " + TypeName(sInfos.DeclaringType) + " " + sInfos.Name);
+                    rMarkDown.AppendLine("#### Property private " + TypeName(sInfos.PropertyType) + " " + sInfos.Name);
                 }
             }
             rMarkDown.AppendLine("");
@@ -214,7 +214,7 @@ namespace NetWorkedData.NWDEditor
             rMarkDown.AppendLine("| Type | Description |");
             rMarkDown.AppendLine("|---|---|");
             string tDescriptionType = NO_DESCRIPTION;
-            rMarkDown.AppendLine("|" + TypeName(sInfos.DeclaringType) + "|" + tDescriptionType + "|");
+            rMarkDown.AppendLine("|" + TypeName(sInfos.PropertyType) + "|" + tDescriptionType + "|");
 
             if (sInfos.GetCustomAttributes(true).Length > 0)
             {
