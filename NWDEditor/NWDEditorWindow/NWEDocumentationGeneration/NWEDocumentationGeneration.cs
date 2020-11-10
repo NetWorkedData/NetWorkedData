@@ -27,6 +27,8 @@ using System.Text;
 using System.Reflection;
 using UnityEngine;
 using UnityEditor;
+using System.Text.RegularExpressions;
+using System.Xml;
 //=====================================================================================================================
 namespace NetWorkedData.NWDEditor
 {
@@ -72,7 +74,7 @@ namespace NetWorkedData.NWDEditor
             return rMarkDown.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private string PropertiesInfoMarkDown(Type sType, BindingFlags sFlags)
+        private string PropertiesInfoMarkDown(Type sType, BindingFlags sFlags, XmlDocument sXML)
         {
             PropertyInfo[] tProperties = sType.GetProperties(sFlags).OrderBy(x => x.Name).ToArray();
             StringBuilder rMarkDown = new StringBuilder();
@@ -104,13 +106,13 @@ namespace NetWorkedData.NWDEditor
                 }
                 foreach (PropertyInfo tInfos in tProperties)
                 {
-                    rMarkDown.AppendLine(PropertyInfoMarkDown(tInfos, sFlags.HasFlag(BindingFlags.Instance)));
+                    rMarkDown.AppendLine(PropertyInfoMarkDown(tInfos, sFlags.HasFlag(BindingFlags.Instance), sXML));
                 }
             }
             return rMarkDown.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private string MethodsInfoMarkDown(Type sType, BindingFlags sFlags)
+        private string MethodsInfoMarkDown(Type sType, BindingFlags sFlags, XmlDocument sXML)
         {
             MethodInfo[] tProperties = sType.GetMethods(sFlags).OrderBy(x => x.Name).ToArray();
             StringBuilder rMarkDown = new StringBuilder();
@@ -142,7 +144,7 @@ namespace NetWorkedData.NWDEditor
                 }
                 foreach (MethodInfo tInfos in tProperties)
                 {
-                    rMarkDown.AppendLine(MethodInfoMarkDown(tInfos, sFlags.HasFlag(BindingFlags.Instance)));
+                    rMarkDown.AppendLine(MethodInfoMarkDown(tInfos, sFlags.HasFlag(BindingFlags.Instance), sXML));
                 }
             }
             return rMarkDown.ToString();
@@ -179,10 +181,64 @@ namespace NetWorkedData.NWDEditor
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private string PropertyInfoMarkDown(PropertyInfo sInfos, bool sStatic)
+        private string PropertyInfoMarkDown(PropertyInfo sInfos, bool sStatic, XmlDocument sXML)
         {
             StringBuilder rMarkDown = new StringBuilder();
             rMarkDown.AppendLine("<a name=\"" + sInfos.Name + "\"></a>");
+            if (sXML != null)
+            {
+                XmlElement tSectionDef = null;
+                XmlElement tMemberDef = null;
+                //XElement tdoxygen = sXML.Root.Element("doxygen");
+                //XElement tcompounddef = tdoxygen.Element("compounddef");
+                //IEnumerable<XElement> tests = tcompounddef.Elements("sectiondef");
+                XmlNodeList elemList = sXML.GetElementsByTagName("sectiondef");
+                for (int i = 0; i < elemList.Count; i++)
+                {
+                    Debug.Log(elemList[i].InnerXml);
+                }
+                //foreach (XElement tElement in tests)
+                //{
+                //    foreach (XAttribute tAttribut in tElement.Attributes("kind"))
+                //    {
+                //        if (tAttribut.Value == "property")
+                //        {
+                //            tSectionDef = tElement;
+                //        }
+                //    }
+                //}
+                //if (tSectionDef != null)
+                //{
+                //    IEnumerable<XElement> testB = tSectionDef.Elements("memberdef");
+                //    foreach (XElement tElement in testB)
+                //    {
+                //        foreach (XElement tName in tSectionDef.Elements("name"))
+                //        {
+                //            if (tName.Value == sInfos.Name)
+                //            {
+                //                tMemberDef = tElement;
+                //            }
+                //        }
+                //    }
+                //}
+
+                //if (tMemberDef != null)
+                //{
+                //    Debug.Log("Find element = " + tMemberDef.ToString());
+                //}
+            }
+
+
+            /*
+             * https://docs.microsoft.com/fr-fr/dotnet/api/system.xml.linq.xdocument?view=netcore-3.1
+             * new XElement("Root",  
+        from el in srcTree.Element("Root").Elements()  
+        where ((string)el).StartsWith("data")  
+        select el  
+    ) 
+             */
+
+
             MethodInfo setMethod = sInfos.GetSetMethod();
             if (setMethod != null)
             {
@@ -237,7 +293,7 @@ namespace NetWorkedData.NWDEditor
             return rMarkDown.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private string MethodInfoMarkDown(MethodInfo sInfos, bool sStatic)
+        private string MethodInfoMarkDown(MethodInfo sInfos, bool sStatic, XmlDocument sXML)
         {
             StringBuilder rMarkDown = new StringBuilder();
             rMarkDown.AppendLine("<a name=\"" + sInfos.Name + "\"></a>");
@@ -312,11 +368,14 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public void Compute()
         {
+            string NameSpace = "NetWorkedData";
             Debug.Log("Compute");
             string ProjectDocDirectory = Application.dataPath;
             ProjectDocDirectory = ProjectDocDirectory.Replace("/Assets", "/MarkDown");
+            string XMLDoc = Application.dataPath;
+            XMLDoc = XMLDoc.Replace("/Assets", "/Documentation/" + NameSpace + "/xml");
             Directory.CreateDirectory(ProjectDocDirectory);
-            Type[] typelist = GetTypesInNamespace(Assembly.GetExecutingAssembly(), "NetWorkedData");
+            Type[] typelist = GetTypesInNamespace(Assembly.GetExecutingAssembly(), NameSpace);
             for (int i = 0; i < typelist.Length; i++)
             {
                 Type tType = typelist[i];
@@ -344,6 +403,22 @@ namespace NetWorkedData.NWDEditor
                 else
                 {
                     PathName = tType.Name;
+                }
+
+                string tFileXMLPath = XMLDoc + "/class" + NameSpace + "_1_1" + PathName + ".xml";
+                string tFileXML = string.Empty;
+                XmlDocument tDoc = null;
+                if (File.Exists(tFileXMLPath))
+                {
+                    //Debug.Log("File exists at " + tFileXMLPath + " !");
+                    //tFileXML = File.ReadAllText(tFileXMLPath);
+                    tDoc = new XmlDocument();
+                    tDoc.Load(tFileXMLPath);
+                }
+                else
+                {
+                    //Debug.Log("File does not exist at "+ tFileXMLPath + " !");
+                    // TODO : Parse All XML?
                 }
                 StringBuilder rMarkDown = new StringBuilder();
                 rMarkDown.Append("# " + TypeName(tType));
@@ -437,10 +512,10 @@ namespace NetWorkedData.NWDEditor
                     {
                         //rMarkDown.AppendLine("## Static");
                         //rMarkDown.AppendLine("");
-                        rMarkDown.Append(PropertiesInfoMarkDown(tType, BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly));
-                        rMarkDown.Append(PropertiesInfoMarkDown(tType, BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly));
-                        rMarkDown.Append(MethodsInfoMarkDown(tType, BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly));
-                        rMarkDown.Append(MethodsInfoMarkDown(tType, BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly));
+                        rMarkDown.Append(PropertiesInfoMarkDown(tType, BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, tDoc));
+                        rMarkDown.Append(PropertiesInfoMarkDown(tType, BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly, tDoc));
+                        rMarkDown.Append(MethodsInfoMarkDown(tType, BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, tDoc));
+                        rMarkDown.Append(MethodsInfoMarkDown(tType, BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly, tDoc));
                     }
 
                     if (tType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly).Length > 0 ||
@@ -448,10 +523,10 @@ namespace NetWorkedData.NWDEditor
                     {
                         //rMarkDown.AppendLine("## Instance");
                         //rMarkDown.AppendLine("");
-                        rMarkDown.Append(PropertiesInfoMarkDown(tType, BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly));
-                        rMarkDown.Append(PropertiesInfoMarkDown(tType, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
-                        rMarkDown.Append(MethodsInfoMarkDown(tType, BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly));
-                        rMarkDown.Append(MethodsInfoMarkDown(tType, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
+                        rMarkDown.Append(PropertiesInfoMarkDown(tType, BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly, tDoc));
+                        rMarkDown.Append(PropertiesInfoMarkDown(tType, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly, tDoc));
+                        rMarkDown.Append(MethodsInfoMarkDown(tType, BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly, tDoc));
+                        rMarkDown.Append(MethodsInfoMarkDown(tType, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly, tDoc));
                     }
                 }
                 // ok insert summary
@@ -505,8 +580,16 @@ namespace NetWorkedData.NWDEditor
                 PublicProperties.Clear();
                 PrivateProperties.Clear();
                 File.WriteAllText(ProjectDocDirectory + "/" + PathName + ".md", rMarkDown.ToString());
-                Debug.Log(rMarkDown.ToString());
+
+
+                //Debug.Log(rMarkDown.ToString());
             }
+
+
+
+            // teste C# file parsing
+            string tFile = File.ReadAllText(NWDFindPackage.PathOfPackage() + "/NWDModels/Account/NWDAccount/NWDAccount.cs");
+            Debug.Log(tFile);
         }
         //-------------------------------------------------------------------------------------------------------------
     }
