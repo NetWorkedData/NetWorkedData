@@ -60,7 +60,7 @@ namespace NetWorkedData
         [NWDInspectorGroupStart(NWD.K_INSPECTOR_BASIS)]
         [NWDNotEditable]
         [NWDCertified]
-        public int ID
+        public long ID
         {
             get; set;
         }
@@ -115,88 +115,88 @@ namespace NetWorkedData
         //[NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
-        public bool AC
+        public bool AC // actif ?
         {
             get; set;
         }
         //[NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
-        public int DC
+        public int DC // date creation
         {
             get; set;
         }
         //[NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
-        public int DM
+        public int DM // date modification
         {
             get; set;
         }
         [NWDNotEditable]
         [NWDCertified]
-        public int DD
+        public int DD // desactivation
         {
             get; set;
         }
         //[NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
-        public int XX
+        public int XX // trash
         {
             get; set;
         }
         [NWDNotEditable]
         [NWDCertified]
         [NWDVarChar(256)]
-        public string Integrity
+        public string Integrity 
         {
             get; set;
         }
         [NWDNotEditable]
         [NWDCertified]
-        public int DS
-        {
-            get; set;
-        }
-        [NWDNotEditable]
-        [NWDCertified]
-        [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
-        public int DevSync
+        public int DS //date synchro
         {
             get; set;
         }
         [NWDNotEditable]
         [NWDCertified]
         [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
-        public int PreprodSync
+        public int DevSync //date synchro dev
         {
             get; set;
         }
         [NWDNotEditable]
         [NWDCertified]
         [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
-        public int ProdSync
+        public int PreprodSync //date synchro preprod
         {
             get; set;
         }
         [NWDNotEditable]
         [NWDCertified]
-        public NWDBasisTag Tag
+        [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
+        public int ProdSync //date synchro prod
+        {
+            get; set;
+        }
+        [NWDNotEditable]
+        [NWDCertified]
+        public NWDBasisTag Tag  // to delete
         {
             get; set;
         }
         [NWDNotEditable]
         [NWDCertified]
         [NWDVarChar(256)]
-        public string ServerHash
+        public string ServerHash  // to delete
         {
             get; set;
         }
         [NWDNotEditable]
         [NWDCertified]
         [NWDVarChar(256)]
-        public string ServerLog
+        public string ServerLog  // to delete
         {
             get; set;
         }
@@ -392,7 +392,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool UnTrashable() { return XX <= 1; }
-
 
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool IsReacheableBy(string sGameSaveReference, string sAccountReference = null)
