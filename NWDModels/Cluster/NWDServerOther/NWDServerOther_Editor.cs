@@ -57,15 +57,28 @@ namespace NetWorkedData
             {
                 //-----------------
                 tButtonTitle = new GUIContent("Install root on OVh", "Install root on OVH");
+                string tRoot = "root";
+                if (string.IsNullOrEmpty(Root_User) == false)
+                {
+                    tRoot = Root_User;
+                }
+                EditorGUILayout.TextField("ovh command", "sudo su -l & echo '" + tRoot + ":" + Root_Secure_Password.Decrypt() + "' | chpasswd");
                 if (GUILayout.Button(tButtonTitle))
                 {
                     string tNewPassword = NWDToolbox.RandomStringCypher(24);
                     Debug.Log("tNewPassword : " + tNewPassword);
+                    if (string.IsNullOrEmpty(Root_User))
+                    {
+                        Root_User = "root";
+                        UpdateDataIfModified();
+                    }
                     Execute(this, tButtonTitle.text,
                         new List<string>()
                             {
-                                "export PATH=\"/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin\"",
-                                "sudo -i & echo '" + Root_User + ":" + tNewPassword + "' | chpasswd & exit", // change the password for the Admin
+                                //"export PATH=\"/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin\"",
+                                //"sudo -i & echo '" + Root_User + ":" + tNewPassword + "' | chpasswd & exit", // change the password for the Admin
+                                "sudo su -l",
+                                "echo '" + Root_User + ":" + tNewPassword + "' | chpasswd & exit", // change the password for the Admin
                             },
                          delegate (string sCommand, string sResult)
                            {
@@ -76,125 +89,142 @@ namespace NetWorkedData
                          Port, Admin_User, Admin_Secure_Password.Decrypt());
                 }
 
-
-
-                //-----------------
-                tButtonTitle = new GUIContent("Install Apache PHP", "Install Apache and PHP 7");
-                if (GUILayout.Button(tButtonTitle))
+                NWDGUILayout.Separator();
+                if (ServerType == NWDServerOtherType.GitLab)
                 {
-                    List<string> tCommandList = new List<string>();
-
-                    tCommandList.Add("echo \"<color=red> -> server update</color>\"");
-                    tCommandList.Add("apt-get update");
-                    tCommandList.Add("apt-get -y upgrade");
-                    tCommandList.Add("apt-get -y dist-upgrade");
-
-                    tCommandList.Add("echo \"<color=red> -> install apache</color>\"");
-                    tCommandList.Add("apt-get -y install apache2");
-                    tCommandList.Add("apt-get -y install apache2-doc");
-                    tCommandList.Add("apt-get -y install apache2-suexec-custom");
-                    tCommandList.Add("apt-get -y install logrotate");
-                    tCommandList.Add("apt-get -y install openssl");
-
-                    tCommandList.Add("echo \"<color=red> -> active apache mod</color>\"");
-                    tCommandList.Add("a2enmod ssl");
-                    tCommandList.Add("a2enmod userdir");
-                    tCommandList.Add("a2enmod suexec");
-                    if (Distribution == NWDServerDistribution.debian10)
+                    if (GUILayout.Button(new GUIContent("Install GitLab", "Install GitLab Community")))
                     {
-                        tCommandList.Add("a2enmod http2");
+                        InstallGitLab();
                     }
-
-                    tCommandList.Add("echo \"<color=red> -> apache configure</color>\"");
-                    tCommandList.Add("sed -i 's/\\/var\\/www/\\/home/g' /etc/apache2/suexec/www-data");
-                    tCommandList.Add("sed -i 's/^.*ServerSignature .*$//g' /etc/apache2/apache2.conf");
-                    tCommandList.Add("sed -i '$ a ServerSignature Off' /etc/apache2/apache2.conf");
-
-                    tCommandList.Add("sed -i 's/^.*SSLProtocol .*$//g' /etc/apache2/apache2.conf");
-                    tCommandList.Add("sed -i '$ a SSLProtocol all -SSLv2 -SSLv3 -TLSv1 -TLSv1.1' /etc/apache2/apache2.conf");
-
-                    tCommandList.Add("echo \"<color=red> -> apache restart</color>\"");
-                    tCommandList.Add("systemctl restart apache2");
-
-                    if (Distribution == NWDServerDistribution.debian9)
+                    if (GUILayout.Button(new GUIContent("Sauvegarder GitLab", "GitLab Community")))
                     {
-                        tCommandList.Add("echo \"<color=red> -> install php</color>\"");
-                        tCommandList.Add("apt-get -y install php");
-                        tCommandList.Add("apt-get -y install php-mysql");
-                        tCommandList.Add("apt-get -y install php-curl");
-                        tCommandList.Add("apt-get -y install php-json");
-                        tCommandList.Add("apt-get -y install php-mcrypt");
-                        tCommandList.Add("apt-get -y install php-mbstring");
-                        tCommandList.Add("apt-get -y install php-gettext");
-                        tCommandList.Add("apt-get -y install php-zip");
-                        tCommandList.Add("apt-get -y install php-mail");
-                        tCommandList.Add("apt-get -y install php-pear");
-                        tCommandList.Add("apt-get -y install php-geoip");
-                        tCommandList.Add("apt-get -y install php-gd");
-                        tCommandList.Add("apt-get -y install libapache2-mod-php");
-                        tCommandList.Add("pear install Net_SMTP");
+                        SaveGitLab();
                     }
-                    if (Distribution == NWDServerDistribution.debian10)
+                    if (GUILayout.Button(new GUIContent("Restaure GitLab", "GitLab Community")))
                     {
-                        tCommandList.Add("echo \"<color=red> -> install php</color>\"");
-                        tCommandList.Add("apt-get -y install php7.3-fpm");
-                        tCommandList.Add("sudo a2dismod php7.3");
-                        tCommandList.Add("sudo a2enconf php7.3-fpm");
-                        tCommandList.Add("sudo a2enmod proxy_fcgi");
-                        tCommandList.Add("apt-get -y install php-mysql");
-                        tCommandList.Add("apt-get -y install php-curl");
-                        tCommandList.Add("apt-get -y install php-json");
-                        tCommandList.Add("apt-get -y install php-mcrypt");
-                        tCommandList.Add("apt-get -y install php-mbstring");
-                        tCommandList.Add("apt-get -y install php-gettext");
-                        tCommandList.Add("apt-get -y install php-zip");
-                        tCommandList.Add("apt-get -y install php-mail");
-                        tCommandList.Add("apt-get -y install php-pear");
-                        tCommandList.Add("apt-get -y install php-geoip");
-                        tCommandList.Add("apt-get -y install php-gd");
-                        tCommandList.Add("pear install Net_SMTP");
+                        RestaureGitLab();
                     }
-                    tCommandList.Add("systemctl restart apache2");
-                    tCommandList.Add("echo \"<color=red> -> php folder default</color>\"");
-                    tCommandList.Add("chgrp -R www-data /var/www/html/");
-                    tCommandList.Add("chmod 750 /var/www/html/");
-
-                    tCommandList.Add("echo \"<color=red> -> files default</color>\"");
-                    tCommandList.Add("echo $\"<?php echo phpinfo();?>\" > /var/www/html/phpinfo.php");
-                    tCommandList.Add("echo $\"Are you lost? Ok, I'll help you, you're in front of a screen!\" > /var/www/html/index.html");
-
-                    if (Distribution == NWDServerDistribution.debian9)
-                    {
-                        tCommandList.Add("echo \"<color=red> -> install Let's Encrypt Certbot</color>\"");
-                        tCommandList.Add("echo $\"deb http://ftp.debian.org/debian stretch-backports main\" >> /etc/apt/sources.list.d/backports.list");
-                        tCommandList.Add("apt-get update");
-                        tCommandList.Add("apt-get -y install python-certbot-apache -t stretch-backports");
-                    }
-                    if (Distribution == NWDServerDistribution.debian10)
-                    {
-                        tCommandList.Add("apt-get -y install certbot python-certbot-apache");
-                    }
-
-                    tCommandList.Add("echo \"<color=red> -> apache restart</color>\"");
-                    tCommandList.Add("systemctl restart apache2");
-
-                    ExecuteSSH(tButtonTitle.text, tCommandList);
                 }
-
-
-
-
-
-                EditorGUI.BeginDisabledGroup(WebDomainNameUserInstalled == true);
-                tButtonTitle = new GUIContent("Install User", "Install User");
-                if (GUILayout.Button(tButtonTitle))
+                //-----------------
+                NWDGUILayout.Separator();
+                if (ServerType == NWDServerOtherType.WebServer)
                 {
-                    //if (tServerDomain != null)
+                    tButtonTitle = new GUIContent("Install Apache PHP", "Install Apache and PHP 7");
+                    if (GUILayout.Button(tButtonTitle))
                     {
-                        //string _NoSSL = "_NoSSL";
-                        string _NoSSL = "No_SSL";
-                        string _SSL = "";
-                        ExecuteSSH(tButtonTitle.text, new List<string>()
+                        List<string> tCommandList = new List<string>();
+
+                        tCommandList.Add("echo \"<color=red> -> server update</color>\"");
+                        tCommandList.Add("apt-get update");
+                        tCommandList.Add("apt-get -y upgrade");
+                        tCommandList.Add("apt-get -y dist-upgrade");
+
+                        tCommandList.Add("echo \"<color=red> -> install apache</color>\"");
+                        tCommandList.Add("apt-get -y install apache2");
+                        tCommandList.Add("apt-get -y install apache2-doc");
+                        tCommandList.Add("apt-get -y install apache2-suexec-custom");
+                        tCommandList.Add("apt-get -y install logrotate");
+                        tCommandList.Add("apt-get -y install openssl");
+
+                        tCommandList.Add("echo \"<color=red> -> active apache mod</color>\"");
+                        tCommandList.Add("a2enmod ssl");
+                        tCommandList.Add("a2enmod userdir");
+                        tCommandList.Add("a2enmod suexec");
+                        if (Distribution == NWDServerDistribution.debian10)
+                        {
+                            tCommandList.Add("a2enmod http2");
+                        }
+
+                        tCommandList.Add("echo \"<color=red> -> apache configure</color>\"");
+                        tCommandList.Add("sed -i 's/\\/var\\/www/\\/home/g' /etc/apache2/suexec/www-data");
+                        tCommandList.Add("sed -i 's/^.*ServerSignature .*$//g' /etc/apache2/apache2.conf");
+                        tCommandList.Add("sed -i '$ a ServerSignature Off' /etc/apache2/apache2.conf");
+
+                        tCommandList.Add("sed -i 's/^.*SSLProtocol .*$//g' /etc/apache2/apache2.conf");
+                        tCommandList.Add("sed -i '$ a SSLProtocol all -SSLv2 -SSLv3 -TLSv1 -TLSv1.1' /etc/apache2/apache2.conf");
+
+                        tCommandList.Add("echo \"<color=red> -> apache restart</color>\"");
+                        tCommandList.Add("systemctl restart apache2");
+
+                        if (Distribution == NWDServerDistribution.debian9)
+                        {
+                            tCommandList.Add("echo \"<color=red> -> install php</color>\"");
+                            tCommandList.Add("apt-get -y install php");
+                            tCommandList.Add("apt-get -y install php-mysql");
+                            tCommandList.Add("apt-get -y install php-curl");
+                            tCommandList.Add("apt-get -y install php-json");
+                            tCommandList.Add("apt-get -y install php-mcrypt");
+                            tCommandList.Add("apt-get -y install php-mbstring");
+                            tCommandList.Add("apt-get -y install php-gettext");
+                            tCommandList.Add("apt-get -y install php-zip");
+                            tCommandList.Add("apt-get -y install php-mail");
+                            tCommandList.Add("apt-get -y install php-pear");
+                            tCommandList.Add("apt-get -y install php-geoip");
+                            tCommandList.Add("apt-get -y install php-gd");
+                            tCommandList.Add("apt-get -y install libapache2-mod-php");
+                            tCommandList.Add("pear install Net_SMTP");
+                        }
+                        if (Distribution == NWDServerDistribution.debian10)
+                        {
+                            tCommandList.Add("echo \"<color=red> -> install php</color>\"");
+                            tCommandList.Add("apt-get -y install php7.3-fpm");
+                            tCommandList.Add("sudo a2dismod php7.3");
+                            tCommandList.Add("sudo a2enconf php7.3-fpm");
+                            tCommandList.Add("sudo a2enmod proxy_fcgi");
+                            tCommandList.Add("apt-get -y install php-mysql");
+                            tCommandList.Add("apt-get -y install php-curl");
+                            tCommandList.Add("apt-get -y install php-json");
+                            tCommandList.Add("apt-get -y install php-mcrypt");
+                            tCommandList.Add("apt-get -y install php-mbstring");
+                            tCommandList.Add("apt-get -y install php-gettext");
+                            tCommandList.Add("apt-get -y install php-zip");
+                            tCommandList.Add("apt-get -y install php-mail");
+                            tCommandList.Add("apt-get -y install php-pear");
+                            tCommandList.Add("apt-get -y install php-geoip");
+                            tCommandList.Add("apt-get -y install php-gd");
+                            tCommandList.Add("pear install Net_SMTP");
+                        }
+                        tCommandList.Add("systemctl restart apache2");
+                        tCommandList.Add("echo \"<color=red> -> php folder default</color>\"");
+                        tCommandList.Add("chgrp -R www-data /var/www/html/");
+                        tCommandList.Add("chmod 750 /var/www/html/");
+
+                        tCommandList.Add("echo \"<color=red> -> files default</color>\"");
+                        tCommandList.Add("echo $\"<?php echo phpinfo();?>\" > /var/www/html/phpinfo.php");
+                        tCommandList.Add("echo $\"Are you lost? Ok, I'll help you, you're in front of a screen!\" > /var/www/html/index.html");
+
+                        if (Distribution == NWDServerDistribution.debian9)
+                        {
+                            tCommandList.Add("echo \"<color=red> -> install Let's Encrypt Certbot</color>\"");
+                            tCommandList.Add("echo $\"deb http://ftp.debian.org/debian stretch-backports main\" >> /etc/apt/sources.list.d/backports.list");
+                            tCommandList.Add("apt-get update");
+                            tCommandList.Add("apt-get -y install python-certbot-apache -t stretch-backports");
+                        }
+                        if (Distribution == NWDServerDistribution.debian10)
+                        {
+                            tCommandList.Add("apt-get -y install certbot python-certbot-apache");
+                        }
+
+                        tCommandList.Add("echo \"<color=red> -> apache restart</color>\"");
+                        tCommandList.Add("systemctl restart apache2");
+
+                        ExecuteSSH(tButtonTitle.text, tCommandList);
+                    }
+
+
+
+
+
+                    EditorGUI.BeginDisabledGroup(WebDomainNameUserInstalled == true);
+                    tButtonTitle = new GUIContent("Install User", "Install User");
+                    if (GUILayout.Button(tButtonTitle))
+                    {
+                        //if (tServerDomain != null)
+                        {
+                            //string _NoSSL = "_NoSSL";
+                            string _NoSSL = "No_SSL";
+                            string _SSL = "";
+                            ExecuteSSH(tButtonTitle.text, new List<string>()
                 {
 
                 "addgroup "+NWDServer.K_SFTP_chroot+"", // Add group exists",
@@ -300,172 +330,174 @@ namespace NetWorkedData
 
                 "service sshd restart",
             },
-                           delegate (string sCommand, string sResult)
-                           {
-                               if (sCommand == "service sshd restart")
+                               delegate (string sCommand, string sResult)
                                {
-                                   WebDomainNameUserInstalled = true;
-                                   UpdateDataIfModified();
-                               };
-                           });
+                                   if (sCommand == "service sshd restart")
+                                   {
+                                       WebDomainNameUserInstalled = true;
+                                       UpdateDataIfModified();
+                                   };
+                               });
+                        }
                     }
-                }
-                EditorGUI.EndDisabledGroup();
+                    EditorGUI.EndDisabledGroup();
 
-                //-----------------
-                if (WebDomainNameServer != null && WebDomainNameUserInstalled == true /*&& SSLInstalled == false*/)
-                {
                     //-----------------
-                    string tCerbot = "certbot --agree-tos -n --no-eff-email --apache --redirect --email " + WebDomainNameEmail + " -d " + WebDomainNameServer + "";
-                    string tCerbotWWW = "certbot --agree-tos -n --no-eff-email --apache --redirect --email " + WebDomainNameEmail + " -d www." + WebDomainNameServer + "";
-                    EditorGUILayout.TextField("Try cerbot", tCerbot);
-                    EditorGUILayout.TextField("Try cerbot www", tCerbotWWW);
-                    //-----------------
-                    tButtonTitle = new GUIContent("Try certbot SSL", " try connexion to generate certbot ssl (lest's encrypt)");
-                    if (GUILayout.Button(tButtonTitle))
+                    if (WebDomainNameServer != null && WebDomainNameUserInstalled == true /*&& SSLInstalled == false*/)
                     {
-                        ExecuteSSH(tButtonTitle.text, new List<string>()
+                        //-----------------
+                        string tCerbot = "certbot --agree-tos -n --no-eff-email --apache --redirect --email " + WebDomainNameEmail + " -d " + WebDomainNameServer + "";
+                        string tCerbotWWW = "certbot --agree-tos -n --no-eff-email --apache --redirect --email " + WebDomainNameEmail + " -d www." + WebDomainNameServer + "";
+                        EditorGUILayout.TextField("Try cerbot", tCerbot);
+                        EditorGUILayout.TextField("Try cerbot www", tCerbotWWW);
+                        //-----------------
+                        tButtonTitle = new GUIContent("Try certbot SSL", " try connexion to generate certbot ssl (lest's encrypt)");
+                        if (GUILayout.Button(tButtonTitle))
+                        {
+                            ExecuteSSH(tButtonTitle.text, new List<string>()
                         {
                         tCerbot,tCerbotWWW
                         });
+                        }
+                        //-----------------
                     }
                     //-----------------
-                }
-                //-----------------
-                string tURL = "sftp://" + WebDomainNameUser + ":" + WebDomainNameSecure_Password.Decrypt() + "@" + IP.GetValue() + ":" + Port + "/" + WebDomainNameFolder;
-                tButtonTitle = new GUIContent("Try sftp directly", tURL);
-                if (GUILayout.Button(tButtonTitle))
-                {
-                    Application.OpenURL(tURL);
-                }
-
-                //-----------------
-                tButtonTitle = new GUIContent("install MariaDB", " try install MariaDB (fork of MySQL)");
-                if (GUILayout.Button(tButtonTitle))
-                {
-                    List<string> tCommandList = new List<string>();
-
-                    tCommandList.Add("echo \"<color=red> -> server update</color>\"");
-                    tCommandList.Add("apt-get update");
-                    tCommandList.Add("apt-get -y upgrade");
-                    tCommandList.Add("apt-get -y dist-upgrade");
-
-                    tCommandList.Add("/etc/init.d/mysql stop");
-
-                    tCommandList.Add("echo \"<color=red> -> mysql install (MariaDB)</color>\"");
-                    tCommandList.Add("debconf-set-selections <<< \"mariadb-server mysql-server/root_password password " + Admin_Secure_Password.Decrypt() + "\"");
-                    tCommandList.Add("debconf-set-selections <<< \"mariadb-server mysql-server/root_password_again password " + Admin_Secure_Password.Decrypt() + "\"");
-                    tCommandList.Add("apt-get -y install mariadb-server");
-                    tCommandList.Add("echo PURGE | debconf-communicate mariadb-server");
-                    tCommandList.Add("echo \"<color=red> -> mysql start (MariaDB)</color>\"");
-
-                    if (Distribution == NWDServerDistribution.debian9)
+                    string tURL = "sftp://" + WebDomainNameUser + ":" + WebDomainNameSecure_Password.Decrypt() + "@" + IP.GetValue() + ":" + Port + "/" + WebDomainNameFolder;
+                    tButtonTitle = new GUIContent("Try sftp directly", tURL);
+                    if (GUILayout.Button(tButtonTitle))
                     {
+                        Application.OpenURL(tURL);
+                    }
+
+                    //-----------------
+                    tButtonTitle = new GUIContent("install MariaDB", " try install MariaDB (fork of MySQL)");
+                    if (GUILayout.Button(tButtonTitle))
+                    {
+                        List<string> tCommandList = new List<string>();
+
+                        tCommandList.Add("echo \"<color=red> -> server update</color>\"");
+                        tCommandList.Add("apt-get update");
+                        tCommandList.Add("apt-get -y upgrade");
+                        tCommandList.Add("apt-get -y dist-upgrade");
+
+                        tCommandList.Add("/etc/init.d/mysql stop");
+
+                        tCommandList.Add("echo \"<color=red> -> mysql install (MariaDB)</color>\"");
+                        tCommandList.Add("debconf-set-selections <<< \"mariadb-server mysql-server/root_password password " + Admin_Secure_Password.Decrypt() + "\"");
+                        tCommandList.Add("debconf-set-selections <<< \"mariadb-server mysql-server/root_password_again password " + Admin_Secure_Password.Decrypt() + "\"");
+                        tCommandList.Add("apt-get -y install mariadb-server");
+                        tCommandList.Add("echo PURGE | debconf-communicate mariadb-server");
+                        tCommandList.Add("echo \"<color=red> -> mysql start (MariaDB)</color>\"");
+
+                        if (Distribution == NWDServerDistribution.debian9)
+                        {
+                            //if (External == true)
+                            //{
+                            //tCommandList.Add("sed -i 's/^.*bind\\-address.*$/bind\\-address = 0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                            //}
+                            //else
+                            //{
+                            tCommandList.Add("sed -i 's/^.*bind-address .*$/bind-address = 127.0.0.1/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                            //}
+                        }
+                        if (Distribution == NWDServerDistribution.debian10)
+                        {
+                            //if (External == true)
+                            //{
+                            //    tCommandList.Add("sed -i 's/^.*bind\\-address.*$/#bind\\-address = 0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                            //}
+                            //else
+                            //{
+                            tCommandList.Add("sed -i 's/^.*bind-address .*$/bind-address = 127.0.0.1/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                            //}
+                        }
+
+                        tCommandList.Add("/etc/init.d/mysql start");
+                        ExecuteSSH(tButtonTitle.text, tCommandList);
+                    }
+
+                    //-----------------
+                    tButtonTitle = new GUIContent("Install User in maria db", " try install User In MariaDB");
+                    if (GUILayout.Button(tButtonTitle))
+                    {
+                        List<string> tCommandList = new List<string>();
+                        tCommandList.Add("echo \"<color=red> -> add user in mysql</color>\"");
+                        tCommandList.Add("echo \" -> add user in mysql\"");
+                        tCommandList.Add("mysql -u root -p\"" + Admin_Secure_Password.Decrypt() + "\" -e \"CREATE DATABASE IF NOT EXISTS " + WebDomainNameUser + ";\"");
+                        tCommandList.Add("mysql -u root -p\"" + Admin_Secure_Password.Decrypt() + "\" -e \"GRANT ALL PRIVILEGES ON " + WebDomainNameUser + ".* TO '" + WebDomainNameUser + "'@'localhost' IDENTIFIED BY '" + WebDomainNameSecure_Password.Decrypt() + "';\"");
                         //if (External == true)
                         //{
-                        //tCommandList.Add("sed -i 's/^.*bind\\-address.*$/bind\\-address = 0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                        //    tCommandList.Add("mysql -u root -p\"" + Admin_Secure_Password.Decrypt() + "\" -e \"GRANT ALL PRIVILEGES ON " + WebDomainNameUser + ".* TO '" + WebDomainNameUser + "'@'%' IDENTIFIED BY '" + WebDomainNameSecure_Password.Decrypt() + "';\"");
                         //}
                         //else
                         //{
-                        tCommandList.Add("sed -i 's/^.*bind-address .*$/bind-address = 127.0.0.1/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
+                        tCommandList.Add("mysql -u root -p\"" + Admin_Secure_Password.Decrypt() + "\" -e \"REVOKE ALL PRIVILEGES ON " + WebDomainNameUser + ".* FROM '" + WebDomainNameUser + "'@'%';\"");
                         //}
+                        ExecuteSSH(tButtonTitle.text, tCommandList);
                     }
-                    if (Distribution == NWDServerDistribution.debian10)
+                    //-----------------
+                    tButtonTitle = new GUIContent("Install wordpress", " try install wordpress");
+                    if (GUILayout.Button(tButtonTitle))
                     {
-                        //if (External == true)
-                        //{
-                        //    tCommandList.Add("sed -i 's/^.*bind\\-address.*$/#bind\\-address = 0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
-                        //}
-                        //else
-                        //{
-                        tCommandList.Add("sed -i 's/^.*bind-address .*$/bind-address = 127.0.0.1/g' /etc/mysql/mariadb.conf.d/50-server.cnf");
-                        //}
+                        List<string> tCommandList = new List<string>();
+                        tCommandList.Add("echo \"<color=red> -> add user in mysql</color>\"");
+                        tCommandList.Add("echo \" -> add wordpress\"");
+                        tCommandList.Add("cd /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/");
+                        tCommandList.Add("ls");
+                        tCommandList.Add("wget https://wordpress.org/latest.tar.gz");
+                        tCommandList.Add("tar -xvf latest.tar.gz");
+                        tCommandList.Add("rm latest.tar.gz");
+                        tCommandList.Add("mv /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/wordpress/* /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/");
+                        tCommandList.Add("rm -R wordpress");
+                        tCommandList.Add("rm wordpress");
+                        tCommandList.Add("rm index.html");
+                        //tCommandList.Add("chown -R " + WebDomainNameUser + ":www-data /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/");
+                        tCommandList.Add("chown -R www-data:www-data /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/");
+                        tCommandList.Add("ls");
+                        string tConfigPHP = "/home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/wp-config.php";
+                        tCommandList.Add("rm " + tConfigPHP);
+
+                        tCommandList.Add("echo \"<?php\" > " + tConfigPHP);
+                        tCommandList.Add("echo \"define('FS_METHOD', 'direct');\" >> " + tConfigPHP);
+                        tCommandList.Add("echo \"define('DB_NAME', '" + WebDomainNameUser + "');\" >> " + tConfigPHP);
+                        tCommandList.Add("echo \"define('DB_USER', '" + WebDomainNameUser + "');\" >> " + tConfigPHP);
+                        tCommandList.Add("echo \"define('DB_PASSWORD', '" + WebDomainNameSecure_Password.Decrypt() + "');\" >> " + tConfigPHP);
+                        tCommandList.Add("echo \"define('DB_HOST', 'localhost');\" >> " + tConfigPHP);
+                        tCommandList.Add("echo \"define('DB_CHARSET', 'utf8mb4');\" >> " + tConfigPHP);
+                        tCommandList.Add("echo \"define('DB_COLLATE', '');\" >> " + tConfigPHP);
+                        tCommandList.Add("echo \"define('AUTH_KEY', '" + NWDToolbox.RandomString(32) + "');\" >> " + tConfigPHP);
+                        tCommandList.Add("echo \"define('SECURE_AUTH_KEY', '" + NWDToolbox.RandomString(32) + "');\" >> " + tConfigPHP);
+                        tCommandList.Add("echo \"define('LOGGED_IN_KEY', '" + NWDToolbox.RandomString(32) + "');\" >> " + tConfigPHP);
+                        tCommandList.Add("echo \"define('NONCE_KEY', '" + NWDToolbox.RandomString(32) + "');\" >> " + tConfigPHP);
+                        tCommandList.Add("echo \"define('AUTH_SALT', '" + NWDToolbox.RandomString(32) + "');\" >> " + tConfigPHP);
+                        tCommandList.Add("echo \"define('SECURE_AUTH_SALT', '" + NWDToolbox.RandomString(32) + "');\" >> " + tConfigPHP);
+                        tCommandList.Add("echo \"define('LOGGED_IN_SALT', '" + NWDToolbox.RandomString(32) + "');\" >> " + tConfigPHP);
+                        tCommandList.Add("echo \"define('NONCE_SALT', '" + NWDToolbox.RandomString(32) + "');\" >> " + tConfigPHP);
+                        tCommandList.Add("echo \"\\$table_prefix = 'wp_';\" >> " + tConfigPHP);
+                        tCommandList.Add("echo \"define('WP_DEBUG', false);\" >> " + tConfigPHP);
+                        //tCommandList.Add("echo \"if (!defined('ABSPATH')) { define('ABSPATH', __DIR__. '/'); }\" >> " + tConfigPHP);
+                        tCommandList.Add("echo \"define('ABSPATH', __DIR__. '/');\" >> " + tConfigPHP);
+                        tCommandList.Add("echo \"require_once ABSPATH . 'wp-settings.php';\" >> " + tConfigPHP);
+
+                        tCommandList.Add("chown -R www-data:www-data /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/");
+                        tCommandList.Add("usermod -a -G www-data " + WebDomainNameUser + "");
+                        tCommandList.Add("chmod -R 775 /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/");
+                        tCommandList.Add("rm /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/index.html");
+
+                        ExecuteSSH(tButtonTitle.text, tCommandList);
                     }
 
-                    tCommandList.Add("/etc/init.d/mysql start");
-                    ExecuteSSH(tButtonTitle.text, tCommandList);
-                }
+                    //-----------------
+                    tButtonTitle = new GUIContent("Rights on wordpress", " try install right for wordpress");
+                    if (GUILayout.Button(tButtonTitle))
+                    {
+                        List<string> tCommandList = new List<string>();
+                        tCommandList.Add("chown -R www-data:www-data /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/");
+                        tCommandList.Add("chmod -R 775 /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/");
+                        tCommandList.Add("usermod -a -G www-data " + WebDomainNameUser + "");
+                        ExecuteSSH(tButtonTitle.text, tCommandList);
+                    }
 
-                //-----------------
-                tButtonTitle = new GUIContent("Install User in maria db", " try install User In MariaDB");
-                if (GUILayout.Button(tButtonTitle))
-                {
-                    List<string> tCommandList = new List<string>();
-                    tCommandList.Add("echo \"<color=red> -> add user in mysql</color>\"");
-                    tCommandList.Add("echo \" -> add user in mysql\"");
-                    tCommandList.Add("mysql -u root -p\"" + Admin_Secure_Password.Decrypt() + "\" -e \"CREATE DATABASE IF NOT EXISTS " + WebDomainNameUser + ";\"");
-                    tCommandList.Add("mysql -u root -p\"" + Admin_Secure_Password.Decrypt() + "\" -e \"GRANT ALL PRIVILEGES ON " + WebDomainNameUser + ".* TO '" + WebDomainNameUser + "'@'localhost' IDENTIFIED BY '" + WebDomainNameSecure_Password.Decrypt() + "';\"");
-                    //if (External == true)
-                    //{
-                    //    tCommandList.Add("mysql -u root -p\"" + Admin_Secure_Password.Decrypt() + "\" -e \"GRANT ALL PRIVILEGES ON " + WebDomainNameUser + ".* TO '" + WebDomainNameUser + "'@'%' IDENTIFIED BY '" + WebDomainNameSecure_Password.Decrypt() + "';\"");
-                    //}
-                    //else
-                    //{
-                    tCommandList.Add("mysql -u root -p\"" + Admin_Secure_Password.Decrypt() + "\" -e \"REVOKE ALL PRIVILEGES ON " + WebDomainNameUser + ".* FROM '" + WebDomainNameUser + "'@'%';\"");
-                    //}
-                    ExecuteSSH(tButtonTitle.text, tCommandList);
-                }
-                //-----------------
-                tButtonTitle = new GUIContent("Install wordpress", " try install wordpress");
-                if (GUILayout.Button(tButtonTitle))
-                {
-                    List<string> tCommandList = new List<string>();
-                    tCommandList.Add("echo \"<color=red> -> add user in mysql</color>\"");
-                    tCommandList.Add("echo \" -> add wordpress\"");
-                    tCommandList.Add("cd /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/");
-                    tCommandList.Add("ls");
-                    tCommandList.Add("wget https://wordpress.org/latest.tar.gz");
-                    tCommandList.Add("tar -xvf latest.tar.gz");
-                    tCommandList.Add("rm latest.tar.gz");
-                    tCommandList.Add("mv /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/wordpress/* /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/");
-                    tCommandList.Add("rm -R wordpress");
-                    tCommandList.Add("rm wordpress");
-                    tCommandList.Add("rm index.html");
-                    //tCommandList.Add("chown -R " + WebDomainNameUser + ":www-data /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/");
-                    tCommandList.Add("chown -R www-data:www-data /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/");
-                    tCommandList.Add("ls");
-                    string tConfigPHP = "/home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/wp-config.php";
-                    tCommandList.Add("rm " + tConfigPHP);
-
-                    tCommandList.Add("echo \"<?php\" > " + tConfigPHP);
-                    tCommandList.Add("echo \"define('FS_METHOD', 'direct');\" >> " + tConfigPHP);
-                    tCommandList.Add("echo \"define('DB_NAME', '" + WebDomainNameUser + "');\" >> " + tConfigPHP);
-                    tCommandList.Add("echo \"define('DB_USER', '" + WebDomainNameUser + "');\" >> " + tConfigPHP);
-                    tCommandList.Add("echo \"define('DB_PASSWORD', '" + WebDomainNameSecure_Password.Decrypt() + "');\" >> " + tConfigPHP);
-                    tCommandList.Add("echo \"define('DB_HOST', 'localhost');\" >> " + tConfigPHP);
-                    tCommandList.Add("echo \"define('DB_CHARSET', 'utf8mb4');\" >> " + tConfigPHP);
-                    tCommandList.Add("echo \"define('DB_COLLATE', '');\" >> " + tConfigPHP);
-                    tCommandList.Add("echo \"define('AUTH_KEY', '" + NWDToolbox.RandomString(32) + "');\" >> " + tConfigPHP);
-                    tCommandList.Add("echo \"define('SECURE_AUTH_KEY', '" + NWDToolbox.RandomString(32) + "');\" >> " + tConfigPHP);
-                    tCommandList.Add("echo \"define('LOGGED_IN_KEY', '" + NWDToolbox.RandomString(32) + "');\" >> " + tConfigPHP);
-                    tCommandList.Add("echo \"define('NONCE_KEY', '" + NWDToolbox.RandomString(32) + "');\" >> " + tConfigPHP);
-                    tCommandList.Add("echo \"define('AUTH_SALT', '" + NWDToolbox.RandomString(32) + "');\" >> " + tConfigPHP);
-                    tCommandList.Add("echo \"define('SECURE_AUTH_SALT', '" + NWDToolbox.RandomString(32) + "');\" >> " + tConfigPHP);
-                    tCommandList.Add("echo \"define('LOGGED_IN_SALT', '" + NWDToolbox.RandomString(32) + "');\" >> " + tConfigPHP);
-                    tCommandList.Add("echo \"define('NONCE_SALT', '" + NWDToolbox.RandomString(32) + "');\" >> " + tConfigPHP);
-                    tCommandList.Add("echo \"\\$table_prefix = 'wp_';\" >> " + tConfigPHP);
-                    tCommandList.Add("echo \"define('WP_DEBUG', false);\" >> " + tConfigPHP);
-                    //tCommandList.Add("echo \"if (!defined('ABSPATH')) { define('ABSPATH', __DIR__. '/'); }\" >> " + tConfigPHP);
-                    tCommandList.Add("echo \"define('ABSPATH', __DIR__. '/');\" >> " + tConfigPHP);
-                    tCommandList.Add("echo \"require_once ABSPATH . 'wp-settings.php';\" >> " + tConfigPHP);
-
-                    tCommandList.Add("chown -R www-data:www-data /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/");
-                    tCommandList.Add("usermod -a -G www-data " + WebDomainNameUser + "");
-                    tCommandList.Add("chmod -R 775 /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/");
-                    tCommandList.Add("rm /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/index.html");
-
-                    ExecuteSSH(tButtonTitle.text, tCommandList);
-                }
-
-                //-----------------
-                tButtonTitle = new GUIContent("Rights on wordpress", " try install right for wordpress");
-                if (GUILayout.Button(tButtonTitle))
-                {
-                    List<string> tCommandList = new List<string>();
-                    tCommandList.Add("chown -R www-data:www-data /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/");
-                    tCommandList.Add("chmod -R 775 /home/" + WebDomainNameUser + "/" + WebDomainNameFolder + "/");
-                    tCommandList.Add("usermod -a -G www-data " + WebDomainNameUser + "");
-                    ExecuteSSH(tButtonTitle.text, tCommandList);
                 }
                 // sudo - i & echo root: pa1452sesd | chpasswd
 
@@ -795,6 +827,165 @@ namespace NetWorkedData
                     NWDProjectCredentialsManager.SharedInstanceFocus();
                 }
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void InstallGitLab()
+        {
+            List<string> tCommandList = new List<string>();
+            tCommandList.Add("echo \"<color=red> -> server update</color>\"");
+
+            /*
+            tCommandList.Add("apt-get clean");
+            tCommandList.Add("apt-get update");
+            tCommandList.Add("apt-get -y upgrade");
+            tCommandList.Add("apt-get -y dist-upgrade");
+            tCommandList.Add("apt-get install -y curl");
+            tCommandList.Add("apt-get install -y openssh-server");
+            tCommandList.Add("apt-get install -y ca-certificates");
+            tCommandList.Add("apt-get install -y postfix");
+            tCommandList.Add("apt-get install -y mailutils");
+            */
+
+
+            tCommandList.Add("echo \"<color=red> -> server create folder</color>\"");
+            tCommandList.Add("mkdir /home/gitlab");
+            tCommandList.Add("mkdir /home/gitlab/backups");
+
+            tCommandList.Add("echo \"<color=red> -> gitlab configure</color>\"");
+            string tConfigGitLabRB = "/etc/gitlab/gitlab.rb";
+            tCommandList.Add("rm " + tConfigGitLabRB + "");
+            tCommandList.Add("echo \"# NWD ServerOther Auto configuration\" " + tConfigGitLabRB);
+            tCommandList.Add("echo \"external_url 'https://" + GitLabDomainNameServer + "'\" >> " + tConfigGitLabRB);
+            tCommandList.Add("echo \"# letencrypt\" >> " + tConfigGitLabRB);
+            tCommandList.Add("echo \"letsencrypt['enable'] = true\" >> " + tConfigGitLabRB);
+            tCommandList.Add("echo \"letsencrypt['contact_emails'] = ['" + GitLabEmail + "']\" >> " + tConfigGitLabRB);
+
+            if (
+                string.IsNullOrEmpty(GitLabAWSRegion) == false
+                && string.IsNullOrEmpty(GitLabAWSDirectory) == false
+                && string.IsNullOrEmpty(GitLabAWSAccessKeyID.Decrypt()) == false
+                && string.IsNullOrEmpty(GitLabAWSSecretAccessKey.Decrypt()) == false
+                //&&  string.IsNullOrEmpty(GitLabAWSPassword.Decrypt()) == false
+                )
+            {
+                tCommandList.Add("echo \"# backup on AWS S3\" >> " + tConfigGitLabRB);
+                tCommandList.Add("echo \"gitlab_rails['backup_path'] = \\\"/home/gitlab/backups\\\"\" >> " + tConfigGitLabRB);
+                tCommandList.Add("echo \"gitlab_rails['backup_archive_permissions'] = 0644\" >> " + tConfigGitLabRB);
+                tCommandList.Add("echo \"gitlab_rails['backup_keep_time'] = 604800\" >> " + tConfigGitLabRB);
+                tCommandList.Add("echo \"gitlab_rails['backup_upload_connection'] = {\" >> " + tConfigGitLabRB);
+                tCommandList.Add("echo \" 'provider' => 'AWS',\" >> " + tConfigGitLabRB);
+                tCommandList.Add("echo \" 'region' => '" + GitLabAWSRegion + "',\" >> " + tConfigGitLabRB);
+                tCommandList.Add("echo \" 'aws_access_key_id' => '" + GitLabAWSAccessKeyID.Decrypt() + "',\" >> " + tConfigGitLabRB);
+                tCommandList.Add("echo \" 'aws_secret_access_key' => '" + GitLabAWSSecretAccessKey.Decrypt() + "',\" >> " + tConfigGitLabRB);
+                tCommandList.Add("echo \"}\" >> " + tConfigGitLabRB);
+                tCommandList.Add("echo \"gitlab_rails['backup_upload_remote_directory'] = '" + GitLabAWSDirectory + "'\" >> " + tConfigGitLabRB);
+            }
+
+            /*
+            tCommandList.Add("echo \"<color=red> -> gitlab reconfigure</color>\"");
+            tCommandList.Add("gitlab-ctl reconfigure");
+            tCommandList.Add("gitlab-ctl renew-le-certs");
+            tCommandList.Add("gitlab-ctl start");
+            */
+
+            if (
+                string.IsNullOrEmpty(GitLabAWSRegion) == false
+                && string.IsNullOrEmpty(GitLabAWSDirectory) == false
+                && string.IsNullOrEmpty(GitLabAWSAccessKeyID.Decrypt()) == false
+                && string.IsNullOrEmpty(GitLabAWSSecretAccessKey.Decrypt()) == false
+                //&&  string.IsNullOrEmpty(GitLabAWSPassword.Decrypt()) == false
+                )
+            {
+                tCommandList.Add("echo \"<color=red> -> install amazon S3 </color>\"");
+
+                // line to add in source
+                {
+                    string tLineSource = "deb http://http.debian.net/debian buster-backports main";
+                    //tCommandList.Add("sed -i '/(" + Regex.Escape(tLineSource).Replace("/", "\\/").Replace("\\ ", " ") + ")/d' /etc/apt/sources.list"); // first remove if exists with full pattern ... not working :-/
+                    tCommandList.Add(" sed -i '/buster\\-backports/d' /etc/apt/sources.list");// first remove if exists
+                    tCommandList.Add("echo \"" + tLineSource + "\" >> /etc/apt/sources.list"); // j'aime pas mais pas le choix ...
+                }
+
+                tCommandList.Add("apt-get update");
+                tCommandList.Add("apt-get install -y s3cmd");
+
+                tCommandList.Add("export AWS_ACCESS_KEY_ID=" + GitLabAWSAccessKeyID.Decrypt() + "");
+                tCommandList.Add("export AWS_SECRET_ACCESS_KEY=" + GitLabAWSSecretAccessKey.Decrypt() + "");
+                tCommandList.Add("export AWS_REGION=" + GitLabAWSRegion + "");
+                tCommandList.Add("export AWS_BUCKET=" + GitLabAWSDirectory + "");
+                tCommandList.Add("export AWS_PASSWORD=" + GitLabAWSPassword.Decrypt() + "");
+                tCommandList.Add("echo \"" +
+                    /*Access Key:*/"${AWS_ACCESS_KEY_ID?}\n" +
+                    /*Secret Key*/"${AWS_SECRET_ACCESS_KEY?}\n" +
+                    /*Default Region*/"${AWS_REGION}\n" +
+                    /*S3 Endpoint*/ "\n" +
+                    /*DNS-style bucket+hostname:port template for accessing a bucket*/ "\n" +
+                    /*Encryption password*/ "${AWS_PASSWORD}\n" +
+                    /*Path to GPG program*/ "\n" +
+                    /*Use HTTPS protocol*/"\n" +
+                    /*HTTP Proxy server name*/ "\n" +
+                    /*Test access with supplied credentials*/ "y\n" +
+                    /*Save settings*/ "y\n\" | s3cmd --configure");
+
+
+                // add script file to save some other files
+                string tConfigGitLabBackup = "/etc/gitlab_backup.sh";
+                List<string> tFile = new List<string>();
+                tFile.Add("#!/bin/bash");
+                tFile.Add("# purge old backup files");
+                tFile.Add("find /var/opt/gitlab/backups/*.tar -mmin +360 -exec rm {} \\;");
+                tFile.Add("# param timestamp");
+                tFile.Add("actualtimestamp =$(date '+%s')");
+                tFile.Add("# create gitlab backup");
+                tFile.Add("gitlab -rake gitlab:backup:create");
+                tFile.Add("# create tar for configuration file, keys file and script itself");
+                tFile.Add("tar -cvf \" /home/gitlab/backups/${actualtimestamp}_gitlab_rb.tar\" /etc/gitlab/gitlab.rb");
+                tFile.Add("tar -cvf \" /home/gitlab/backups/${actualtimestamp}_gitlab-secrets_json.tar\" /etc/gitlab/gitlab-secrets.json");
+                tFile.Add("tar -cvf \" /home/gitlab/backups/${actualtimestamp}_gitlab-backup_sh.tar\" /etc/gitlab-backup.sh");
+                tFile.Add("# amazon upload");
+                tFile.Add("s3cmd put /home/gitlab/backups/${actualtimestamp}_gitlab_rb.tar s3://" + GitLabAWSDirectory + "");
+                tFile.Add("s3cmd put /home/gitlab/backups/${actualtimestamp}_gitlab-secrets_json.tar s3://" + GitLabAWSDirectory + "");
+                tFile.Add("s3cmd put /home/gitlab/backups/${actualtimestamp}_gitlab-backup_sh.tar s3://" + GitLabAWSDirectory + "");
+                tFile.Add("# update your server apt");
+                tFile.Add("sudo apt-get update");
+                tFile.Add("sudo apt-get dist-upgrade");
+                tFile.Add("sudo gitlab-ctl renew-le-certs");
+                tFile.Add("sudo gitlab-ctl restart");
+
+                //string tConfigGitLabRB = "/etc/gitlab/gitlab.rb";
+                //tCommandList.Add("rm " + tConfigGitLabRB + "");
+                //tCommandList.Add("echo \"# NWD ServerOther Auto configuration\" " + tConfigGitLabRB);
+
+                tCommandList.Add("rm -f " + tConfigGitLabBackup + "");
+                tCommandList.Add("echo \"# NWD ServerOther Auto configuration\" " + tConfigGitLabBackup);
+                int i = 0;
+                foreach (string tLine in tFile)
+                {
+                    i++;
+                    tCommandList.Add("echo \"<color=red> -> "+ i +" </color>\"");
+                    //tCommandList.Add("echo \""+ tLine.Replace("\"","\\\\\"") + "\" >> " + tConfigGitLabBackup);
+                }
+                tCommandList.Add("chmod + x " + tConfigGitLabBackup + "");
+
+            }
+                ExecuteSSH("INSTALL GitLab", tCommandList);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void SaveGitLab()
+        {
+            List<string> tCommandList = new List<string>();
+            tCommandList.Add("echo \"<color=red> -> save GitLab </color>\"");
+            tCommandList.Add("gitlab-backup create");
+
+            ExecuteSSH("INSTALL GitLab", tCommandList);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void RestaureGitLab()
+        {
+            List<string> tCommandList = new List<string>();
+            tCommandList.Add("echo \"<color=red> -> restaure GitLab </color>\"");
+
+            ExecuteSSH("INSTALL GitLab", tCommandList);
         }
         //-------------------------------------------------------------------------------------------------------------
     }
