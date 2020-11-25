@@ -67,6 +67,8 @@ namespace NetWorkedData
                 {
                     string tNewPassword = NWDToolbox.RandomStringCypher(24);
                     Debug.Log("tNewPassword : " + tNewPassword);
+                    Root_Secure_Password.CryptAes(tNewPassword);
+                    UpdateDataIfModified();
                     if (string.IsNullOrEmpty(Root_User))
                     {
                         Root_User = "root";
@@ -75,10 +77,7 @@ namespace NetWorkedData
                     Execute(this, tButtonTitle.text,
                         new List<string>()
                             {
-                                //"export PATH=\"/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin\"",
-                                //"sudo -i & echo '" + Root_User + ":" + tNewPassword + "' | chpasswd & exit", // change the password for the Admin
-                                "sudo su -l",
-                                "echo '" + Root_User + ":" + tNewPassword + "' | chpasswd & exit", // change the password for the Admin
+                                "echo '" + Root_User + ":" + tNewPassword + "' | sudo chpasswd", // change the password for the Admin
                             },
                          delegate (string sCommand, string sResult)
                            {
@@ -96,13 +95,24 @@ namespace NetWorkedData
                     {
                         InstallGitLab();
                     }
+                    EditorGUI.BeginDisabledGroup(!GitLabAWS());
                     if (GUILayout.Button(new GUIContent("Sauvegarder GitLab", "GitLab Community")))
                     {
                         SaveGitLab();
                     }
                     if (GUILayout.Button(new GUIContent("Restaure GitLab", "GitLab Community")))
                     {
-                        RestaureGitLab();
+                        RestoreGitLab();
+                    }
+                    if (GUILayout.Button(new GUIContent("Install and Restaure GitLab", "GitLab Community")))
+                    {
+                        InstallGitLab();
+                        RestoreGitLab();
+                    }
+                    EditorGUI.EndDisabledGroup();
+                    if (GUILayout.Button(new GUIContent("Restart GitLab", "GitLab Community")))
+                    {
+                        RestartGitLab();
                     }
                 }
                 //-----------------
@@ -829,12 +839,19 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        bool GitLabAWS()
+        {
+            return string.IsNullOrEmpty(GitLabAWSRegion) == false
+                && string.IsNullOrEmpty(GitLabAWSDirectory) == false
+                && string.IsNullOrEmpty(GitLabAWSAccessKeyID.Decrypt()) == false
+                && string.IsNullOrEmpty(GitLabAWSSecretAccessKey.Decrypt()) == false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         void InstallGitLab()
         {
             List<string> tCommandList = new List<string>();
             tCommandList.Add("echo \"<color=red> -> server update</color>\"");
 
-            /*
             tCommandList.Add("apt-get clean");
             tCommandList.Add("apt-get update");
             tCommandList.Add("apt-get -y upgrade");
@@ -842,31 +859,27 @@ namespace NetWorkedData
             tCommandList.Add("apt-get install -y curl");
             tCommandList.Add("apt-get install -y openssh-server");
             tCommandList.Add("apt-get install -y ca-certificates");
-            tCommandList.Add("apt-get install -y postfix");
-            tCommandList.Add("apt-get install -y mailutils");
-            */
-
+            //tCommandList.Add("apt-get install -y postfix");
+            //tCommandList.Add("apt-get install -y mailutils");
 
             tCommandList.Add("echo \"<color=red> -> server create folder</color>\"");
             tCommandList.Add("mkdir /home/gitlab");
             tCommandList.Add("mkdir /home/gitlab/backups");
 
+            tCommandList.Add("echo \"<color=red> -> gitlab download</color>\"");
+            tCommandList.Add("curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash");
+            tCommandList.Add("apt-get install gitlab-ce");
+
             tCommandList.Add("echo \"<color=red> -> gitlab configure</color>\"");
             string tConfigGitLabRB = "/etc/gitlab/gitlab.rb";
             tCommandList.Add("rm " + tConfigGitLabRB + "");
-            tCommandList.Add("echo \"# NWD ServerOther Auto configuration\" " + tConfigGitLabRB);
+            tCommandList.Add("echo \"# NWD ServerOther Auto configuration\" >> " + tConfigGitLabRB);
             tCommandList.Add("echo \"external_url 'https://" + GitLabDomainNameServer + "'\" >> " + tConfigGitLabRB);
             tCommandList.Add("echo \"# letencrypt\" >> " + tConfigGitLabRB);
             tCommandList.Add("echo \"letsencrypt['enable'] = true\" >> " + tConfigGitLabRB);
             tCommandList.Add("echo \"letsencrypt['contact_emails'] = ['" + GitLabEmail + "']\" >> " + tConfigGitLabRB);
 
-            if (
-                string.IsNullOrEmpty(GitLabAWSRegion) == false
-                && string.IsNullOrEmpty(GitLabAWSDirectory) == false
-                && string.IsNullOrEmpty(GitLabAWSAccessKeyID.Decrypt()) == false
-                && string.IsNullOrEmpty(GitLabAWSSecretAccessKey.Decrypt()) == false
-                //&&  string.IsNullOrEmpty(GitLabAWSPassword.Decrypt()) == false
-                )
+            if (GitLabAWS())
             {
                 tCommandList.Add("echo \"# backup on AWS S3\" >> " + tConfigGitLabRB);
                 tCommandList.Add("echo \"gitlab_rails['backup_path'] = \\\"/home/gitlab/backups\\\"\" >> " + tConfigGitLabRB);
@@ -881,20 +894,12 @@ namespace NetWorkedData
                 tCommandList.Add("echo \"gitlab_rails['backup_upload_remote_directory'] = '" + GitLabAWSDirectory + "'\" >> " + tConfigGitLabRB);
             }
 
-            /*
             tCommandList.Add("echo \"<color=red> -> gitlab reconfigure</color>\"");
             tCommandList.Add("gitlab-ctl reconfigure");
             tCommandList.Add("gitlab-ctl renew-le-certs");
             tCommandList.Add("gitlab-ctl start");
-            */
 
-            if (
-                string.IsNullOrEmpty(GitLabAWSRegion) == false
-                && string.IsNullOrEmpty(GitLabAWSDirectory) == false
-                && string.IsNullOrEmpty(GitLabAWSAccessKeyID.Decrypt()) == false
-                && string.IsNullOrEmpty(GitLabAWSSecretAccessKey.Decrypt()) == false
-                //&&  string.IsNullOrEmpty(GitLabAWSPassword.Decrypt()) == false
-                )
+            if (GitLabAWS())
             {
                 tCommandList.Add("echo \"<color=red> -> install amazon S3 </color>\"");
 
@@ -932,60 +937,144 @@ namespace NetWorkedData
                 string tConfigGitLabBackup = "/etc/gitlab_backup.sh";
                 List<string> tFile = new List<string>();
                 tFile.Add("#!/bin/bash");
-                tFile.Add("# purge old backup files");
-                tFile.Add("find /var/opt/gitlab/backups/*.tar -mmin +360 -exec rm {} \\;");
-                tFile.Add("# param timestamp");
-                tFile.Add("actualtimestamp =$(date '+%s')");
-                tFile.Add("# create gitlab backup");
-                tFile.Add("gitlab -rake gitlab:backup:create");
-                tFile.Add("# create tar for configuration file, keys file and script itself");
-                tFile.Add("tar -cvf \" /home/gitlab/backups/${actualtimestamp}_gitlab_rb.tar\" /etc/gitlab/gitlab.rb");
-                tFile.Add("tar -cvf \" /home/gitlab/backups/${actualtimestamp}_gitlab-secrets_json.tar\" /etc/gitlab/gitlab-secrets.json");
-                tFile.Add("tar -cvf \" /home/gitlab/backups/${actualtimestamp}_gitlab-backup_sh.tar\" /etc/gitlab-backup.sh");
-                tFile.Add("# amazon upload");
-                tFile.Add("s3cmd put /home/gitlab/backups/${actualtimestamp}_gitlab_rb.tar s3://" + GitLabAWSDirectory + "");
-                tFile.Add("s3cmd put /home/gitlab/backups/${actualtimestamp}_gitlab-secrets_json.tar s3://" + GitLabAWSDirectory + "");
-                tFile.Add("s3cmd put /home/gitlab/backups/${actualtimestamp}_gitlab-backup_sh.tar s3://" + GitLabAWSDirectory + "");
-                tFile.Add("# update your server apt");
-                tFile.Add("sudo apt-get update");
-                tFile.Add("sudo apt-get dist-upgrade");
-                tFile.Add("sudo gitlab-ctl renew-le-certs");
-                tFile.Add("sudo gitlab-ctl restart");
+                tFile.Add("");
 
-                //string tConfigGitLabRB = "/etc/gitlab/gitlab.rb";
-                //tCommandList.Add("rm " + tConfigGitLabRB + "");
-                //tCommandList.Add("echo \"# NWD ServerOther Auto configuration\" " + tConfigGitLabRB);
+                tFile.Add("# purge old backup files");
+                tFile.Add("echo \"<color=red> -> purge old backup files </color>\"");
+                tFile.Add("find /var/opt/gitlab/backups/*.tar -mmin +360 -exec rm {} \\;");
+                tFile.Add("");
+
+                tFile.Add("# param timestamp");
+                tFile.Add("echo \"<color=red> -> param timestamp </color>\"");
+                tFile.Add("actualtimestamp=$(date '+%s')");
+                tFile.Add("echo \"<color=red> ->actualtimestamp = ${actualtimestamp} </color>\"");
+                tFile.Add("");
+
+                tFile.Add("# create gitlab backup");
+                tFile.Add("echo \"<color=red> -> create gitlab backup </color>\"");
+                tFile.Add("gitlab-backup create");
+                tFile.Add("");
+
+                tFile.Add("# create tar for configuration file, keys file and script itself");
+                tFile.Add("echo \"<color=red> -> create tar for configuration file, keys file and script itself </color>\"");
+                tFile.Add("tar -cvf \"/home/gitlab/backups/${actualtimestamp}_gitlab_rb.tar\" /etc/gitlab/gitlab.rb");
+                tFile.Add("tar -cvf \"/home/gitlab/backups/${actualtimestamp}_gitlab_secrets_json.tar\" /etc/gitlab/gitlab-secrets.json");
+                tFile.Add("tar -cvf \"/home/gitlab/backups/${actualtimestamp}_gitlab_backup_sh.tar\" " + tConfigGitLabBackup + "");
+                tFile.Add("");
+
+                tFile.Add("# amazon upload");
+                tFile.Add("echo \"<color=red> -> amazon upload </color>\"");
+                tFile.Add("s3cmd put \"/home/gitlab/backups/${actualtimestamp}_gitlab_rb.tar\" s3://" + GitLabAWSDirectory + "");
+                tFile.Add("s3cmd put \"/home/gitlab/backups/${actualtimestamp}_gitlab_secrets_json.tar\" s3://" + GitLabAWSDirectory + "");
+                tFile.Add("s3cmd put \"/home/gitlab/backups/${actualtimestamp}_gitlab_backup_sh.tar\" s3://" + GitLabAWSDirectory + "");
+                tFile.Add("");
+
+                tFile.Add("# update your server apt");
+                tFile.Add("echo \"<color=red> -> update your server apt </color>\"");
+                tFile.Add("sudo apt-get update");
+                tFile.Add("sudo apt-get -y dist-upgrade");
+                tFile.Add("");
+
+                tFile.Add("# update gitlab cert");
+                tFile.Add("echo \"<color=red> -> update gitlab cert </color>\"");
+                tFile.Add("sudo gitlab-ctl renew-le-certs");
+                tFile.Add("");
+
+                tFile.Add("# gitlab restart");
+                tFile.Add("echo \"<color=red> -> gitlkab restart </color>\"");
+                tFile.Add("sudo gitlab-ctl restart");
+                tFile.Add("");
 
                 tCommandList.Add("rm -f " + tConfigGitLabBackup + "");
-                tCommandList.Add("echo \"# NWD ServerOther Auto configuration\" " + tConfigGitLabBackup);
-                int i = 0;
                 foreach (string tLine in tFile)
                 {
-                    i++;
-                    tCommandList.Add("echo \"<color=red> -> "+ i +" </color>\"");
-                    //tCommandList.Add("echo \""+ tLine.Replace("\"","\\\\\"") + "\" >> " + tConfigGitLabBackup);
+                    tCommandList.Add("echo '" + tLine.Replace("\'", "\'\\\'\'") + "' >> " + tConfigGitLabBackup); // special escape quote (see https://unix.stackexchange.com/questions/30903/how-to-escape-quotes-in-shell) need use '\'' to escape '
                 }
-                tCommandList.Add("chmod + x " + tConfigGitLabBackup + "");
+                tCommandList.Add("chmod +x " + tConfigGitLabBackup + "");
 
+
+
+                tFile.Add("echo \"<color=red> -> Cron </color>\"");
+                tCommandList.Add("crontab -l > root_cron");
+                tCommandList.Add(" sed -i '/gitlab\\_backup/d' root_cron");// first remove if exists
+                tCommandList.Add("echo \"0 1 * * * " + tConfigGitLabBackup + "\" >> root_cron"); // j'aime pas mais pas le choix ...
+                tCommandList.Add("crontab root_cron");
+                tCommandList.Add("rm root_cron");
+                tCommandList.Add("crontab -l");
+
+                // run backup first time
+                tCommandList.Add(tConfigGitLabBackup);
             }
-                ExecuteSSH("INSTALL GitLab", tCommandList);
+            ExecuteSSH("INSTALL GitLab", tCommandList);
         }
         //-------------------------------------------------------------------------------------------------------------
         void SaveGitLab()
         {
             List<string> tCommandList = new List<string>();
             tCommandList.Add("echo \"<color=red> -> save GitLab </color>\"");
-            tCommandList.Add("gitlab-backup create");
+            //tCommandList.Add("gitlab-backup create");
+            string tConfigGitLabBackup = "/etc/gitlab_backup.sh";
+            tCommandList.Add(tConfigGitLabBackup);
 
-            ExecuteSSH("INSTALL GitLab", tCommandList);
+            ExecuteSSH("Save GitLab", tCommandList);
         }
         //-------------------------------------------------------------------------------------------------------------
-        void RestaureGitLab()
+        void RestoreGitLab()
         {
             List<string> tCommandList = new List<string>();
             tCommandList.Add("echo \"<color=red> -> restaure GitLab </color>\"");
+            tCommandList.Add("mkdir /home/gitlab/restaure");
 
-            ExecuteSSH("INSTALL GitLab", tCommandList);
+            tCommandList.Add("s3cmd get s3://" + GitLabAWSDirectory + "/" + GitLabBackupTimeStamp + "_gitlab_rb.tar /home/gitlab/restaure/gitlab_rb.tar");
+            tCommandList.Add("s3cmd get s3://" + GitLabAWSDirectory + "/" + GitLabBackupTimeStamp + "_gitlab_secrets_json.tar /home/gitlab/restaure/gitlab_secrets_json.tar");
+            tCommandList.Add("s3cmd get s3://" + GitLabAWSDirectory + "/" + GitLabBackupTimeStamp + "_gitlab_backup_sh.tar /home/gitlab/restaure/gitlab_backup_sh.tar");
+
+            tCommandList.Add("rm /etc/gitlab/gitlab.rb");
+            tCommandList.Add("rm /etc/gitlab/gitlab-secrets.json");
+            tCommandList.Add("rm /etc/gitlab_backup.sh");
+
+            tCommandList.Add("cd /home/gitlab/restaure/");
+
+            tCommandList.Add("tar xvf /home/gitlab/restaure/gitlab_rb.tar");
+            tCommandList.Add("tar xvf /home/gitlab/restaure/gitlab_secrets_json.tar");
+            tCommandList.Add("tar xvf /home/gitlab/restaure/gitlab_backup_sh.tar");
+
+            tCommandList.Add("cp /home/gitlab/restaure/etc/gitlab/gitlab.rb /etc/gitlab/gitlab.rb");
+            tCommandList.Add("cp /home/gitlab/restaure/etc/gitlab/gitlab-secrets.json /etc/gitlab/gitlab-secrets.json");
+            tCommandList.Add("cp /home/gitlab/restaure/etc/gitlab_backup.sh /etc/gitlab_backup.sh");
+
+
+            tCommandList.Add("s3cmd get s3://" + GitLabAWSDirectory + "/" + GitLabBackupFile + " /home/gitlab/backups/" + GitLabBackupFile + "");
+            tCommandList.Add("chown git.git /home/gitlab/backups/" + GitLabBackupFile + "");
+
+            tCommandList.Add("gitlab-ctl stop unicorn");
+            tCommandList.Add("gitlab-ctl stop puma");
+            tCommandList.Add("gitlab-ctl stop sidekiq");
+
+            tCommandList.Add("gitlab-backup restore BACKUP=" + GitLabBackupFile.Replace("_gitlab_backup.tar","") + " force=yes") ;
+
+            tCommandList.Add("gitlab-ctl stop");
+            tCommandList.Add("gitlab-ctl reconfigure");
+            tCommandList.Add("gitlab-ctl renew-le-certs");
+            tCommandList.Add("gitlab-ctl start");
+            tCommandList.Add("gitlab-ctl status");
+
+            tCommandList.Add("rm -R /home/gitlab/restaure");
+
+            tCommandList.Add("rm /var/opt/gitlab/backups/" + GitLabBackupFile + "");
+
+            ExecuteSSH("Restaure GitLab", tCommandList);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void RestartGitLab()
+        {
+            List<string> tCommandList = new List<string>();
+            tCommandList.Add("echo \"<color=red> -> gitlab restart</color>\"");
+            tCommandList.Add("gitlab-ctl stop");
+            tCommandList.Add("gitlab-ctl renew-le-certs");
+            tCommandList.Add("gitlab-ctl start");
+            tCommandList.Add("gitlab-ctl status");
+            ExecuteSSH("Restart GitLab", tCommandList);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

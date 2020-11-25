@@ -82,6 +82,11 @@ namespace NetWorkedData
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.GitLab, false)]
         public NWDSecurePassword GitLabAWSPassword { get; set; }
 
+        [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.GitLab, false)]
+        public string GitLabBackupFile { get; set; }
+        [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.GitLab, false)]
+        public int GitLabBackupTimeStamp { get; set; }
+
 
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.Email, false)]
         public string EmailDomainNameServer { get; set; }
