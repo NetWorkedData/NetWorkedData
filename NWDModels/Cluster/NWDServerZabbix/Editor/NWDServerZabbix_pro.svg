@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:10;">
+    <g transform="matrix(1,0,0,1,-90,0)">
+        <g transform="matrix(1,0,0,1,90,-10)">
+            <path d="M65.862,36.138C65.945,35.436 66,34.725 66,34C66,24.059 57.941,16 48,16C41.327,16 35.516,19.64 32.407,25.034C31.076,24.379 29.584,24 28,24C22.477,24 18,28.477 18,34C18,34.756 18.091,35.49 18.25,36.198C17.516,36.078 16.768,36 16,36C8.268,36 2,42.268 2,50C2,57.732 8.268,64 16,64L64,64C71.732,64 78,57.732 78,50C78,42.901 72.712,37.051 65.862,36.138Z" style="fill:rgb(173,10,170);fill-opacity:0.3;fill-rule:nonzero;stroke:rgb(195,99,191);stroke-width:4px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,90,4)">
+            <rect x="14" y="30" width="52" height="16" style="fill:rgb(102,102,102);stroke:rgb(230,230,230);stroke-width:4px;stroke-linecap:round;"/>
+        </g>
+        <g transform="matrix(-1,0,0,1,140,42)">
+            <path d="M-8,0L0,0" style="fill:none;fill-rule:nonzero;stroke:rgb(230,230,230);stroke-width:4px;stroke-linecap:round;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,100,50)">
+            <path d="M0,14L16,14L16,0L16,14L0,14Z" style="fill:rgb(102,102,102);fill-rule:nonzero;stroke:rgb(230,230,230);stroke-width:4px;stroke-linecap:round;"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,102,58)">
+            <circle cx="-6" cy="0" r="6" style="fill:rgb(102,102,102);stroke:rgb(230,230,230);stroke-width:4px;stroke-linecap:round;"/>
+        </g>
+        <g transform="matrix(0.316712,-0.316712,0.316712,0.316712,-407.227,84.558)">
+            <path d="M959.949,741.051L908.579,728.421L922.787,778.213L972.579,792.421L959.949,741.051Z" style="fill:rgb(179,179,179);stroke:rgb(230,230,230);stroke-width:8.93px;stroke-linecap:round;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,87.5,5)">
+            <circle cx="44" cy="22" r="4" style="fill:rgb(102,102,102);stroke:rgb(230,230,230);stroke-width:4px;stroke-linecap:round;"/>
+        </g>
+    </g>
+</svg>
