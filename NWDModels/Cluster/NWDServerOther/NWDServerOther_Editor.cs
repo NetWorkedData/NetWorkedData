@@ -53,7 +53,12 @@ namespace NetWorkedData
             //-----------------
             base.AddonEditor(sRect);
             NWDGUILayout.Separator();
-            if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateForAll))
+                tButtonTitle = new GUIContent("WHAT", "What");
+            if (GUILayout.Button(tButtonTitle))
+                {
+                }
+            //if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateOneOrMore))
+            if (true)
             {
                 //-----------------
                 tButtonTitle = new GUIContent("Install root on OVh", "Install root on OVH");
