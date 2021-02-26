@@ -168,7 +168,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private string PropertyInfoToSQLType(PropertyInfo sPropertyInfo)
         {
-            string rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT \\'\\' ";
+            string rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT \\'\\' ";
             Type tTypeOfThis = sPropertyInfo.PropertyType;
 
             if (tTypeOfThis == typeof(int) ||
@@ -196,11 +196,11 @@ namespace NetWorkedData
                 if (sPropertyInfo.GetCustomAttribute<NWDVarChar>() != null)
                 {
                     NWDVarChar tNWDVarChar = sPropertyInfo.GetCustomAttribute<NWDVarChar>();
-                    rReturn = "VARCHAR(" + tNWDVarChar.CharNumber.ToString() + ") CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT \\'\\' ";
+                    rReturn = "VARCHAR(" + tNWDVarChar.CharNumber.ToString() + ") CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT \\'\\' ";
                 }
                 else
                 {
-                    rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT \\'\\' ";
+                    rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT \\'\\' ";
                 }
             }
             else
@@ -210,11 +210,11 @@ namespace NetWorkedData
                     if (sPropertyInfo.GetCustomAttribute<NWDVarChar>() != null)
                     {
                         NWDVarChar tNWDVarChar = sPropertyInfo.GetCustomAttribute<NWDVarChar>();
-                        rReturn = "VARCHAR(" + tNWDVarChar.CharNumber.ToString() + ") CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT \\'\\' ";
+                        rReturn = "VARCHAR(" + tNWDVarChar.CharNumber.ToString() + ") CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT \\'\\' ";
                     }
                     else
                     {
-                        rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT \\'\\' ";
+                        rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT \\'\\' ";
                     }
                 }
                 else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
