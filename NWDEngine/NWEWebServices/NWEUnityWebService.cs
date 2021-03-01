@@ -156,7 +156,7 @@ namespace NetWorkedData
 
 			mDelegate.UWSConnectionDidReceiveResponse (mUnityWebRequest.responseCode, mURL);
 
-			if (mUnityWebRequest.isNetworkError) {
+			if (mUnityWebRequest.result == UnityWebRequest.Result.ConnectionError) { //obsolete mUnityWebRequest.isNetworkError
 				mDelegate.UWSConnectionDidFail (mUnityWebRequest.error);
 			} else {
 				string dataFromServer = mUnityWebRequest.downloadHandler.text;

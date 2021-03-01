@@ -1,8 +1,8 @@
 {
     "name": "NetWorkedData",
+    "rootNamespace": "",
     "references": [
-        "Unity.TextMeshPro",
-        "SceneTransitionSystemAssembly"
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
