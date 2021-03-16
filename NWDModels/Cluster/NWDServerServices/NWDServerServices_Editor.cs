@@ -46,7 +46,8 @@ namespace NetWorkedData
         {
             PropertiesPrevent();
             NWDGUILayout.Separator();
-            if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateForAll))
+            //if (NWDProjectCredentialsManager.IsValid(NWDCredentialsRequired.ForSFTPGenerateOneOrMore))
+            if (true)
             {
                 if (GUILayout.Button("Credentials window"))
                 {

@@ -429,6 +429,39 @@ namespace NetWorkedData
                 ExecuteSSH(this, tButtonTitle.text, new List<string>() { "shutdown -r -t 5", });
             }
             //-----------------
+            tButtonTitle = new GUIContent("Install root on OVh", "Install root on OVH");
+            string tRoot = "root";
+            if (string.IsNullOrEmpty(Root_User) == false)
+            {
+                tRoot = Root_User;
+            }
+            //-----------------
+            NWDGUILayout.Separator();
+            EditorGUILayout.TextField("ovh command", "sudo su -l & echo '" + tRoot + ":" + Root_Secure_Password.Decrypt() + "' | chpasswd");
+            if (GUILayout.Button(tButtonTitle))
+            {
+                string tNewPassword = NWDToolbox.RandomStringCypher(24);
+                Debug.Log("tNewPassword : " + tNewPassword);
+                Root_Secure_Password.CryptAes(tNewPassword);
+                UpdateDataIfModified();
+                if (string.IsNullOrEmpty(Root_User))
+                {
+                    Root_User = "root";
+                    UpdateDataIfModified();
+                }
+                Execute(this, tButtonTitle.text,
+                    new List<string>()
+                        {
+                                "echo '" + Root_User + ":" + tNewPassword + "' | sudo chpasswd", // change the password for the Admin
+                    },
+                     delegate (string sCommand, string sResult)
+                     {
+                         Debug.Log("tNewPassword : " + tNewPassword + " changed!");
+                         Root_Secure_Password.CryptAes(tNewPassword);
+                         UpdateDataIfModified();
+                     },
+                     Port, Admin_User, Admin_Secure_Password.Decrypt());
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ExecuteSSH(string sScriptTitle, List<string> sCommandList, NWDSSHCommandBlock CommandResultDelegate = null, int sAltPORT = -1, string sAltUser = null, string sAltPassword = null)

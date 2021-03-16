@@ -402,6 +402,12 @@ namespace NetWorkedData.NWDEditor
             NWEPassAnalyseWindow.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(K_NETWORKEDDATA + K_TOOLS + "Documentation generation window", false, 240)]
+        public static void CodeSourceAnalyze()
+        {
+            NWEDocumentationGenerationWindow.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         [MenuItem(K_NETWORKEDDATA + K_TOOLS + "New footer window", false, 241)]
         public static void NewFooterWindow()
         {

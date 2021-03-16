@@ -409,6 +409,18 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public K GetRawFirstData()
+        {
+            List<K> tList = GetRawDatasList();
+
+            if (tList.Count == 0)
+            {
+                return null;
+            }
+
+            return tList[0];
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public K GetRawFirstDataByRandom()
         {
             List<K> tList = GetRawDatasList();

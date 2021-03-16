@@ -72,6 +72,8 @@ namespace NetWorkedData
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.GitLab, false)]
         public string GitLabEmail { get; set; }
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.GitLab, false)]
+        public string GitLabAWSDirectory { get; set; }
+        [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.GitLab, false)]
         public NWDSecurePassword GitLabAWSAccessKeyID { get; set; }
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.GitLab, false)]
         public NWDSecurePassword GitLabAWSSecretAccessKey { get; set; }
@@ -79,6 +81,11 @@ namespace NetWorkedData
         public string GitLabAWSRegion { get; set; }
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.GitLab, false)]
         public NWDSecurePassword GitLabAWSPassword { get; set; }
+
+        [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.GitLab, false)]
+        public string GitLabBackupFile { get; set; }
+        [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.GitLab, false)]
+        public int GitLabBackupTimeStamp { get; set; }
 
 
         [NWDIf(ServerTypeProperty, (int)NWDServerOtherType.Email, false)]

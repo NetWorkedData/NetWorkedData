@@ -181,8 +181,10 @@ namespace NetWorkedData.NWDEditor
                             //rTextResult.AppendLine("<i>#Local$ cat /dev/null > ~/.bash_history");
                             //tShellStream.WriteLine("cat /dev/null > ~/.bash_history");
                             RunCommand("cat /dev/null > ~/.bash_history", tShellStream, TextResult);
-
-                            TextResult.AppendLine("<i>#Local$ try to swith from " + tUserEcho + " to " + Server.Root_User + " with password " + Server.Root_Secure_Password.Decrypt() + "</i>");
+                            if (NWDProjectCredentialsManagerContent.ShowPasswordInLog())
+                            {
+                                TextResult.AppendLine("<i>#Local$ try to swith from " + tUserEcho + " to " + Server.Root_User + " with password " + Server.Root_Secure_Password.Decrypt() + "</i>");
+                            }
 
                             TextResult.AppendLine("<i>#Local$ su -l " + Server.Root_User + "</i>");
                             // Get logged in and get user prompt
