@@ -279,9 +279,11 @@ namespace NetWorkedData
                     }
                     yield return null;
                 }
-                //Debug.Log(" request Request.uploadProgress " + Request.uploadProgress.ToString("#0.000") + " Request.downloadProgress " + Request.downloadProgress.ToString("#0.000")); ;
-
+#if UNITY_2019
                 if (Request.isNetworkError)
+#elif UNITY_2020
+                if (Request.result == UnityWebRequest.Result.ConnectionError) //obsolete Request.isNetworkError
+#endif
                 {
 #if UNITY_EDITOR
                     Debug.Log(Request.error + "\n" + Request.downloadHandler.text + "\n" + Request);
@@ -289,7 +291,11 @@ namespace NetWorkedData
                     Statut = NWEOperationState.Error;
                     ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_WEB01));
                 }
+#if UNITY_2019
                 else if (Request.isHttpError)
+#elif UNITY_2020
+                else if (Request.result == UnityWebRequest.Result.ProtocolError) //obsolete Request.isHttpError
+#endif
                 {
 #if UNITY_EDITOR
                     Debug.Log(Request.error + "\n" + Request.downloadHandler.text + "\n " + Request.url);

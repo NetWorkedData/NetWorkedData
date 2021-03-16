@@ -255,12 +255,20 @@ namespace NetWorkedData
                 }
                 yield return null;
             }
+#if UNITY_2019
             if (Request.isNetworkError)
+#elif UNITY_2020
+            if (Request.result == UnityWebRequest.Result.ConnectionError) //obsolete Request.isNetworkError
+#endif
             {
                 Statut = NWEOperationState.Error;
                 Debug.Log("NWDOperationWebhook isNetworkError " + Request.downloadHandler.text);
             }
+#if UNITY_2019
             else if (Request.isHttpError)
+#elif UNITY_2020
+            else if (Request.result == UnityWebRequest.Result.ProtocolError) //obsolete Request.isHttpError
+#endif
             {
                 Statut = NWEOperationState.Error;
                 Debug.Log("NWDOperationWebhook isHttpError " + Request.downloadHandler.text);

@@ -27,6 +27,8 @@ using System.Text;
 using System.Reflection;
 using UnityEngine;
 using UnityEditor;
+using System.Text.RegularExpressions;
+using System.Xml;
 //=====================================================================================================================
 namespace NetWorkedData.NWDEditor
 {
@@ -72,7 +74,7 @@ namespace NetWorkedData.NWDEditor
             return rMarkDown.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private string PropertiesInfoMarkDown(Type sType, BindingFlags sFlags)
+        private string PropertiesInfoMarkDown(Type sType, BindingFlags sFlags, XmlDocument sXML)
         {
             PropertyInfo[] tProperties = sType.GetProperties(sFlags).OrderBy(x => x.Name).ToArray();
             StringBuilder rMarkDown = new StringBuilder();
@@ -104,13 +106,13 @@ namespace NetWorkedData.NWDEditor
                 }
                 foreach (PropertyInfo tInfos in tProperties)
                 {
-                    rMarkDown.AppendLine(PropertyInfoMarkDown(tInfos, sFlags.HasFlag(BindingFlags.Instance)));
+                    rMarkDown.AppendLine(PropertyInfoMarkDown(tInfos, sFlags.HasFlag(BindingFlags.Instance), sXML));
                 }
             }
             return rMarkDown.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private string MethodsInfoMarkDown(Type sType, BindingFlags sFlags)
+        private string MethodsInfoMarkDown(Type sType, BindingFlags sFlags, XmlDocument sXML)
         {
             MethodInfo[] tProperties = sType.GetMethods(sFlags).OrderBy(x => x.Name).ToArray();
             StringBuilder rMarkDown = new StringBuilder();
@@ -142,7 +144,7 @@ namespace NetWorkedData.NWDEditor
                 }
                 foreach (MethodInfo tInfos in tProperties)
                 {
-                    rMarkDown.AppendLine(MethodInfoMarkDown(tInfos, sFlags.HasFlag(BindingFlags.Instance)));
+                    rMarkDown.AppendLine(MethodInfoMarkDown(tInfos, sFlags.HasFlag(BindingFlags.Instance), sXML));
                 }
             }
             return rMarkDown.ToString();
@@ -179,10 +181,85 @@ namespace NetWorkedData.NWDEditor
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private string PropertyInfoMarkDown(PropertyInfo sInfos, bool sStatic)
+        private string PropertyInfoMarkDown(PropertyInfo sInfos, bool sStatic, XmlDocument sXML)
         {
             StringBuilder rMarkDown = new StringBuilder();
             rMarkDown.AppendLine("<a name=\"" + sInfos.Name + "\"></a>");
+
+            string tDefinition = string.Empty;
+            string tArgsstring = string.Empty;
+            string tBriefdescription = string.Empty;
+            string tName = string.Empty;
+            string tdetaileddescription = string.Empty;
+            string tinbodydescription = string.Empty;
+            string tLocation = string.Empty;
+            if (sXML != null)
+            {
+                XmlNodeList elemList = sXML.GetElementsByTagName("sectiondef");
+                XmlNode childTouse = null;
+                for (int i = 0; i < elemList.Count; i++)
+                {
+                    foreach (XmlNode child in elemList[i].ChildNodes)
+                    {
+                        if (child.Name == "memberdef")
+                        {
+                            //Debug.Log("ok");
+                            if (child.Attributes["kind"].Value == "property")
+                            {
+                                //Debug.Log("ok");
+                                foreach (XmlNode tchild in child.ChildNodes)
+                                {
+                                    if (tchild.Name == "name")
+                                    {
+                                        //Debug.Log("ok " + tchild.InnerText);
+                                        if (tchild.InnerText == sInfos.Name)
+                                        {
+                                            //Debug.Log("ok");
+                                            childTouse = child;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (childTouse != null)
+                {
+                    Debug.Log(childTouse.InnerXml);
+
+                    foreach (XmlNode tchild in childTouse.ChildNodes)
+                    {
+                        if (tchild.Name == "definition")
+                        {
+                            tDefinition = tDefinition + "\n" + tchild.InnerText;
+                        }
+                        if (tchild.Name == "argsstring")
+                        {
+                            tArgsstring = tArgsstring + "\n" + tchild.InnerText;
+                        }
+                        if (tchild.Name == "briefdescription")
+                        {
+                            tBriefdescription = tBriefdescription + "\n" + tchild.InnerText;
+                        }
+                        if (tchild.Name == "name")
+                        {
+                            tName = tName + "\n" + tchild.InnerText;
+                        }
+                        if (tchild.Name == "detaileddescription")
+                        {
+                            tdetaileddescription = tdetaileddescription + "\n" + tchild.InnerText;
+                        }
+                        if (tchild.Name == "inbodydescription")
+                        {
+                            tinbodydescription = tinbodydescription + "\n" + tchild.InnerText;
+                        }
+                        if (tchild.Name == "location")
+                        {
+                            tLocation = tLocation + "\n" + tchild.InnerText;
+                        }
+                    }
+                }
+            }
             MethodInfo setMethod = sInfos.GetSetMethod();
             if (setMethod != null)
             {
@@ -209,12 +286,12 @@ namespace NetWorkedData.NWDEditor
             }
             rMarkDown.AppendLine("");
             string tDescription = NO_DESCRIPTION;
-            rMarkDown.AppendLine("" + tDescription + "");
+            rMarkDown.AppendLine("" + tdetaileddescription + "");
             rMarkDown.AppendLine("");
             rMarkDown.AppendLine("| Type | Description |");
             rMarkDown.AppendLine("|---|---|");
             string tDescriptionType = NO_DESCRIPTION;
-            rMarkDown.AppendLine("|" + TypeName(sInfos.PropertyType) + "|" + tDescriptionType + "|");
+            rMarkDown.AppendLine("|" + TypeName(sInfos.PropertyType) + "|" + tBriefdescription + "|");
 
             if (sInfos.GetCustomAttributes(true).Length > 0)
             {
@@ -237,10 +314,111 @@ namespace NetWorkedData.NWDEditor
             return rMarkDown.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private string MethodInfoMarkDown(MethodInfo sInfos, bool sStatic)
+        private string MethodInfoMarkDown(MethodInfo sInfos, bool sStatic, XmlDocument sXML)
         {
             StringBuilder rMarkDown = new StringBuilder();
             rMarkDown.AppendLine("<a name=\"" + sInfos.Name + "\"></a>");
+
+
+            string tDefinition = string.Empty;
+            string tArgsstring = string.Empty;
+            string tBriefdescription = string.Empty;
+            string tName = string.Empty;
+            string tdetaileddescription = string.Empty;
+            string tinbodydescription = string.Empty;
+            string tLocation = string.Empty;
+            if (sXML != null)
+            {
+                XmlNodeList elemList = sXML.GetElementsByTagName("sectiondef");
+                XmlNode childTouse = null;
+                for (int i = 0; i < elemList.Count; i++)
+                {
+                    foreach (XmlNode child in elemList[i].ChildNodes)
+                    {
+                        if (child.Name == "memberdef")
+                        {
+                            //Debug.Log("ok");
+                            if (child.Attributes["kind"].Value == "function")
+                            {
+                                //Debug.Log("ok");
+                                foreach (XmlNode tchild in child.ChildNodes)
+                                {
+                                    if (tchild.Name == "name")
+                                    {
+                                        //Debug.Log("ok " + tchild.InnerText);
+                                        if (tchild.InnerText == sInfos.Name)
+                                        {
+                                            //Debug.Log("ok");
+                                            childTouse = child;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (childTouse != null)
+                {
+                    Debug.Log(childTouse.InnerXml);
+
+                    foreach (XmlNode tchild in childTouse.ChildNodes)
+                    {
+                        if (tchild.Name == "definition")
+                        {
+                            tDefinition = tDefinition + "\n" + tchild.InnerText;
+                        }
+                        if (tchild.Name == "argsstring")
+                        {
+                            tArgsstring = tArgsstring + "\n" + tchild.InnerText;
+                        }
+                        if (tchild.Name == "briefdescription")
+                        {
+                            tBriefdescription = tBriefdescription + "\n" + tchild.InnerText;
+                        }
+                        if (tchild.Name == "name")
+                        {
+                            tName = tName + "\n" + tchild.InnerText;
+                        }
+                        if (tchild.Name == "detaileddescription")
+                        {
+                            tdetaileddescription = tdetaileddescription + "\n" + tchild.InnerText;
+                        }
+                        if (tchild.Name == "inbodydescription")
+                        {
+                            tinbodydescription = tinbodydescription + "\n" + tchild.InnerText;
+                        }
+                        if (tchild.Name == "location")
+                        {
+                            tLocation = tLocation + "\n" + tchild.InnerText;
+                        }
+                        /*
+        <param>
+          <type>string</type>
+          <declname>sText</declname>
+        </param>
+        <param>
+          <type><ref refid="classNetWorkedData_1_1NWDAccountNickname_1a2f48331410d3baa00ca49142fd47df4f" kindref="member">NWDAccountNickname</ref></type>
+          <declname>sNickname</declname>
+        </param>
+        <param>
+          <type>string</type>
+          <declname>sLanguage</declname>
+          <defval>null</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>sBold</declname>
+          <defval>true</defval>
+        </param>
+                         * 
+                         * */
+
+
+                    }
+                }
+            }
+
+
             if (sInfos.IsPublic)
             {
                 if (sStatic)
@@ -276,7 +454,7 @@ namespace NetWorkedData.NWDEditor
             rMarkDown.AppendLine("| Return Type | Description |");
             rMarkDown.AppendLine("|---|---|");
             string tDescriptionType = NO_DESCRIPTION;
-            rMarkDown.AppendLine("|" + sInfos.ReturnType.Name + "|" + tDescriptionType + "|");
+            rMarkDown.AppendLine("|" + TypeName(sInfos.ReturnType) + "|" + tDescriptionType + "|");
             if (sInfos.GetParameters().Length > 0)
             {
                 rMarkDown.AppendLine("");
@@ -312,11 +490,14 @@ namespace NetWorkedData.NWDEditor
         //-------------------------------------------------------------------------------------------------------------
         public void Compute()
         {
+            string NameSpace = "NetWorkedData";
             Debug.Log("Compute");
             string ProjectDocDirectory = Application.dataPath;
             ProjectDocDirectory = ProjectDocDirectory.Replace("/Assets", "/MarkDown");
+            string XMLDoc = Application.dataPath;
+            XMLDoc = XMLDoc.Replace("/Assets", "/Documentation/" + NameSpace + "/xml");
             Directory.CreateDirectory(ProjectDocDirectory);
-            Type[] typelist = GetTypesInNamespace(Assembly.GetExecutingAssembly(), "NetWorkedData");
+            Type[] typelist = GetTypesInNamespace(Assembly.GetExecutingAssembly(), NameSpace);
             for (int i = 0; i < typelist.Length; i++)
             {
                 Type tType = typelist[i];
@@ -345,6 +526,22 @@ namespace NetWorkedData.NWDEditor
                 {
                     PathName = tType.Name;
                 }
+
+                string tFileXMLPath = XMLDoc + "/class" + NameSpace + "_1_1" + PathName + ".xml";
+                string tFileXML = string.Empty;
+                XmlDocument tDoc = null;
+                if (File.Exists(tFileXMLPath))
+                {
+                    //Debug.Log("File exists at " + tFileXMLPath + " !");
+                    //tFileXML = File.ReadAllText(tFileXMLPath);
+                    tDoc = new XmlDocument();
+                    tDoc.Load(tFileXMLPath);
+                }
+                else
+                {
+                    //Debug.Log("File does not exist at "+ tFileXMLPath + " !");
+                    // TODO : Parse All XML?
+                }
                 StringBuilder rMarkDown = new StringBuilder();
                 rMarkDown.Append("# " + TypeName(tType));
                 rMarkDown.Append(" : " + TypeName(tType.BaseType));
@@ -357,6 +554,9 @@ namespace NetWorkedData.NWDEditor
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                     if (tHelper != null)
                     {
+                        rMarkDown.AppendLine(tHelper.ClassDescription);
+                        rMarkDown.AppendLine("");
+
                         rMarkDown.AppendLine("## Particularities");
                         rMarkDown.AppendLine("");
                         rMarkDown.AppendLine("| Particularity | Parameters |");
@@ -367,14 +567,13 @@ namespace NetWorkedData.NWDEditor
                             Texture2D tTexture = DeCompress(tIcon);
                             byte[] tBytes = tTexture.EncodeToPNG();
                             File.WriteAllBytes(ProjectDocDirectory + "/" + PathName + ".png", tBytes);
-                            rMarkDown.AppendLine("|Icon|![ICON](./" + PathName + ".png)|");
-                            rMarkDown.AppendLine("|Icon|<img style=\"width:64px\" src=\"./" + PathName + ".png\"></img >|");
+                            rMarkDown.AppendLine("|Icon|![ICON](./" + PathName.Replace("\n", "").Replace("\r", "") + ".png)|");
+                            rMarkDown.AppendLine("|Icon|<img style=\"width:64px\" src=\"./" + PathName.Replace("\n", "").Replace("\r", "") + ".png\"></img >|");
                         }
-                        rMarkDown.AppendLine("|Class Name|" + tHelper.ClassName + "|");
-                        rMarkDown.AppendLine("|Class Menu Name|" + tHelper.ClassMenuName + "|");
-                        rMarkDown.AppendLine("|Class Description|" + tHelper.ClassDescription + "|");
-                        rMarkDown.AppendLine("|Class Trigramme|" + tHelper.ClassTrigramme + "|");
-
+                        rMarkDown.AppendLine("|Class Name|" + tHelper.ClassName.Replace("\n", " ").Replace("\r", " ").Replace("  ", " ") + "|");
+                        rMarkDown.AppendLine("|Class Menu Name|" + tHelper.ClassMenuName.Replace("\n", " ").Replace("\r", "").Replace("  ", " ") + "|");
+                        rMarkDown.AppendLine("|Class Description|" + tHelper.ClassDescription.Replace("\n", " ").Replace("\r", " ").Replace("  ", " ") + "|");
+                        rMarkDown.AppendLine("|Class Trigramme|" + tHelper.ClassTrigramme.Replace("\n", " ").Replace("\r", " ").Replace("  ", " ") + "|");
 
                         if (tHelper.TemplateHelper != null)
                         {
@@ -437,10 +636,10 @@ namespace NetWorkedData.NWDEditor
                     {
                         //rMarkDown.AppendLine("## Static");
                         //rMarkDown.AppendLine("");
-                        rMarkDown.Append(PropertiesInfoMarkDown(tType, BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly));
-                        rMarkDown.Append(PropertiesInfoMarkDown(tType, BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly));
-                        rMarkDown.Append(MethodsInfoMarkDown(tType, BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly));
-                        rMarkDown.Append(MethodsInfoMarkDown(tType, BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly));
+                        rMarkDown.Append(PropertiesInfoMarkDown(tType, BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, tDoc));
+                        rMarkDown.Append(PropertiesInfoMarkDown(tType, BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly, tDoc));
+                        rMarkDown.Append(MethodsInfoMarkDown(tType, BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, tDoc));
+                        rMarkDown.Append(MethodsInfoMarkDown(tType, BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly, tDoc));
                     }
 
                     if (tType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly).Length > 0 ||
@@ -448,10 +647,10 @@ namespace NetWorkedData.NWDEditor
                     {
                         //rMarkDown.AppendLine("## Instance");
                         //rMarkDown.AppendLine("");
-                        rMarkDown.Append(PropertiesInfoMarkDown(tType, BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly));
-                        rMarkDown.Append(PropertiesInfoMarkDown(tType, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
-                        rMarkDown.Append(MethodsInfoMarkDown(tType, BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly));
-                        rMarkDown.Append(MethodsInfoMarkDown(tType, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
+                        rMarkDown.Append(PropertiesInfoMarkDown(tType, BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly, tDoc));
+                        rMarkDown.Append(PropertiesInfoMarkDown(tType, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly, tDoc));
+                        rMarkDown.Append(MethodsInfoMarkDown(tType, BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly, tDoc));
+                        rMarkDown.Append(MethodsInfoMarkDown(tType, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly, tDoc));
                     }
                 }
                 // ok insert summary
@@ -460,6 +659,52 @@ namespace NetWorkedData.NWDEditor
                 {
                     tSummary.AppendLine("## Summary");
                     tSummary.AppendLine("");
+
+                    if (PublicProperties.Count > 0)
+                    {
+                        tSummary.AppendLine("### Public properties");
+                        tSummary.AppendLine("");
+                        for (int tk = 0; tk < PublicProperties.Count; tk++)
+                        {
+                            tSummary.AppendLine(" - " + PublicProperties[tk]);
+                        }
+                        tSummary.AppendLine("");
+                    }
+
+                    if (PrivateProperties.Count > 0)
+                    {
+                        tSummary.AppendLine("### Private properties");
+                        tSummary.AppendLine("");
+                        for (int tk = 0; tk < PrivateProperties.Count; tk++)
+                        {
+                            tSummary.AppendLine(" - " + PrivateProperties[tk]);
+                        }
+                        tSummary.AppendLine("");
+                    }
+
+                    if (PublicMethods.Count > 0)
+                    {
+                        tSummary.AppendLine("### Public methods");
+                        tSummary.AppendLine("");
+                        for (int tk = 0; tk < PublicMethods.Count; tk++)
+                        {
+                            tSummary.AppendLine(" - " + PublicMethods[tk]);
+                        }
+                        tSummary.AppendLine("");
+                    }
+
+                    if (PrivateMethods.Count > 0)
+                    {
+                        tSummary.AppendLine("### Private methods");
+                        tSummary.AppendLine("");
+                        for (int tk = 0; tk < PrivateMethods.Count; tk++)
+                        {
+                            tSummary.AppendLine(" - " + PrivateMethods[tk]);
+                        }
+                        tSummary.AppendLine("");
+                    }
+
+                    /*
                     if (PublicProperties.Count > 0 || PrivateProperties.Count > 0)
                     {
                         tSummary.AppendLine("### Properties");
@@ -498,6 +743,7 @@ namespace NetWorkedData.NWDEditor
                             tSummary.AppendLine("|" + PublicMethods[tk] + "|" + PrivateMethods[tk] + "|");
                         }
                     }
+                    */
                 }
                 rMarkDown.Replace("-------Summary-------", tSummary.ToString());
                 PublicMethods.Clear();
@@ -505,8 +751,16 @@ namespace NetWorkedData.NWDEditor
                 PublicProperties.Clear();
                 PrivateProperties.Clear();
                 File.WriteAllText(ProjectDocDirectory + "/" + PathName + ".md", rMarkDown.ToString());
-                Debug.Log(rMarkDown.ToString());
+
+
+                //Debug.Log(rMarkDown.ToString());
             }
+
+
+
+            // teste C# file parsing
+            //string tFile = File.ReadAllText(NWDFindPackage.PathOfPackage() + "/NWDModels/Account/NWDAccount/NWDAccount.cs");
+            //Debug.Log(tFile);
         }
         //-------------------------------------------------------------------------------------------------------------
     }
@@ -560,8 +814,8 @@ namespace NetWorkedData.NWDEditor
         {
             base.OnPreventGUI(sRect);
             NWDBenchmark.Start();
-            NWDGUILayout.Title("Code Source analyzer");
-            if (GUILayout.Button("Analyze"))
+            NWDGUILayout.Title("Code Source Documentation");
+            if (GUILayout.Button("Genrate documentation"))
             {
                 Computer.Compute();
             }
@@ -573,10 +827,10 @@ namespace NetWorkedData.NWDEditor
     public class NWEDocumentationGenerationWindow : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string TutorialLink(string sLink = "")
-        {
-            return NWDConstants.K_NWDURL + "password-tester/";
-        }
+        //public override string TutorialLink(string sLink = "")
+        //{
+        //    return NWDConstants.K_NWDURL + "password-tester/";
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance.
@@ -634,7 +888,7 @@ namespace NetWorkedData.NWDEditor
             NormalizeWidth = 350;
             NormalizeHeight = 700;
             // set title
-            TitleInit("Password analyzer", typeof(NWEDocumentationGenerationWindow));
+            TitleInit("Code documentation", typeof(NWEDocumentationGenerationWindow));
             NWEDocumentationGenerationContent.SharedInstance().OnEnable(this);
             NWDBenchmark.Finish();
         }

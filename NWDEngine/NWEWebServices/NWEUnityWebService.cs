@@ -155,12 +155,17 @@ namespace NetWorkedData
             yield return mUnityWebRequest.SendWebRequest();
 
 			mDelegate.UWSConnectionDidReceiveResponse (mUnityWebRequest.responseCode, mURL);
-
-			if (mUnityWebRequest.isNetworkError) {
+#if UNITY_2019
+			if (mUnityWebRequest.isNetworkError)
+#elif UNITY_2020
+            if (mUnityWebRequest.result == UnityWebRequest.Result.ConnectionError) //obsolete Request.isNetworkError
+#endif
+			{ 
 				mDelegate.UWSConnectionDidFail (mUnityWebRequest.error);
-			} else {
+			}
+			else
+			{
 				string dataFromServer = mUnityWebRequest.downloadHandler.text;
-
 				Debug.Log ("data from server:" + dataFromServer);
 				Dictionary<string, object> data = new Dictionary<string, object> ();
 				if (dataFromServer.Equals (string.Empty)) {
@@ -168,7 +173,9 @@ namespace NetWorkedData
 					data.Add ("error", true);
 					data.Add ("error_code", "0");
 					data.Add ("error_description", "not a json object");
-				} else {
+				}
+				else
+				{
 					data = Json.Deserialize (dataFromServer) as Dictionary<string, object>;
 				}
 				mDelegate.UWSConnectionDidFinish (mUnityWebRequest.responseCode, data);
