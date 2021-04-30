@@ -28,6 +28,21 @@ namespace NetWorkedData.MacroDefine
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // You can create custom enum of macro
     // Just follow this example class
+    public class NWDPlayerPreProcessMacro : MDEDataTypeBoolGeneric<NWDPlayerPreProcessMacro>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        // the title of bool controller
+        public static string Title = SetTitle("NWD Player PreProcess");
+        public static string Group = SetGroup(MDEConstants.GroupOptions);
+        public static int Order = SetOrder(0);
+        //-------------------------------------------------------------------------------------------------------------
+        // declare one value
+        public static NWDPlayerPreProcessMacro MacroBool = SetValue("NWD_PLAYER_PRE_PROCESS");
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // You can create custom enum of macro
+    // Just follow this example class
     public class NWDRGPDMacro : MDEDataTypeBoolGeneric<NWDRGPDMacro>
     {
         //-------------------------------------------------------------------------------------------------------------

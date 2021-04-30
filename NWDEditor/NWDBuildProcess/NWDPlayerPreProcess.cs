@@ -37,10 +37,12 @@ namespace NetWorkedData.NWDEditor
         {
             NWDBenchmark.Start();
             EditorApplication.playModeStateChanged -= PlayModeStateChangedCallback; // remove old callback from compile for this class
+            EditorApplication.quitting -= Quit;
+#if NWD_PLAYER_PRE_PROCESS
             EditorApplication.playModeStateChanged += PlayModeStateChangedCallback;
 #if UNITY_2018_1_OR_NEWER
-            EditorApplication.quitting -= Quit;
             EditorApplication.quitting += Quit;
+#endif
 #endif
             NWDBenchmark.Finish();
         }
