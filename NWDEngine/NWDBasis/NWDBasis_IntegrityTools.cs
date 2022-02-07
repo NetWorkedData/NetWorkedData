@@ -197,10 +197,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void UpdateIntegrity()
         {
+            NotNullChecker();
 #if NWD_INTEGRITY_NONE
             Integrity = string.Empty;
 #else
-            NotNullChecker();
             Integrity = IntegrityValue();
 #endif
         }
