@@ -56,6 +56,7 @@ namespace NetWorkedData
                     if (tInfos == null && string.IsNullOrEmpty(tUniqueReference) == false)
                     {
                         tInfos = NWDBasisHelper.NewDataWithReference<NWDAccountInfos>(tUniqueReference);
+                        tInfos.NotNullChecker();
                         tInfos.SaveData();
                     }
                     NWDBenchmark.Step();

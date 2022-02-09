@@ -55,11 +55,13 @@ namespace NetWorkedData
             if (tAccountInfos != null)
             {
                 rGameSave = NWDBasisHelper.NewData<NWDGameSave>();
-                //rGameSave.InternalKey = NWDAccount.GetCurrentAccountReference();
+                rGameSave.NotNullChecker();
+#if UNITY_EDITOR
+                rGameSave.InternalKey = NWDAccount.CurrentReference();
+#endif
                 rGameSave.Name = "GameSave " + DateTime.Today.ToShortDateString();
                 rGameSave.Tag = NWDBasisTag.TagUserCreated;
                 rGameSave.IsCurrent = true;
-                //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
                 tAccountInfos.CurrentGameSave.SetReference(rGameSave.Reference);
                 tAccountInfos.SaveData();
                 rGameSave.SaveData();

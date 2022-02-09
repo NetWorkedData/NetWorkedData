@@ -285,25 +285,33 @@ namespace NetWorkedData
                 if (Request.result == UnityWebRequest.Result.ConnectionError) //obsolete Request.isNetworkError
 #endif
                 {
-#if UNITY_EDITOR
+                    #if UNITY_EDITOR
                     Debug.Log(Request.error + "\n" + Request.downloadHandler.text + "\n" + Request);
-#endif
+                    #endif
                     Statut = NWEOperationState.Error;
                     ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_WEB01));
                 }
 #if UNITY_2019
                 else if (Request.isHttpError)
-#elif UNITY_2020
-                else if (Request.result == UnityWebRequest.Result.ProtocolError) //obsolete Request.isHttpError
-#endif
                 {
-#if UNITY_EDITOR
+                    #if UNITY_EDITOR
                     Debug.Log(Request.error + "\n" + Request.downloadHandler.text + "\n " + Request.url);
-#endif
+                    #endif
                     Statut = NWEOperationState.Error;
                     ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_WEB02));
                 }
                 else
+#elif UNITY_2020
+                else if (Request.result == UnityWebRequest.Result.ProtocolError) //obsolete Request.isHttpError
+                {
+                    #if UNITY_EDITOR
+                    Debug.Log(Request.error + "\n" + Request.downloadHandler.text + "\n " + Request.url);
+                    #endif
+                    Statut = NWEOperationState.Error;
+                    ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_WEB02));
+                }
+                else
+#endif
                 {
                     ResultInfos.Benchmark.UploadIsFinished();
                     ResultInfos.Benchmark.PerformIsFinished();
