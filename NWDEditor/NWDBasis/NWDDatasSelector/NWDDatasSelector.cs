@@ -643,7 +643,7 @@ namespace NetWorkedData.NWDEditor
                         GUIContent Content = tItem.Content;
                         if (Content == null)
                         {
-                            Content = new GUIContent(tItem.InternalKey, tItem.PreviewTexture2D(), tItem.Reference + " : " + tItem.InternalDescription);
+                            Content = new GUIContent(tItem.InternalKey + " " + tItem.InternalDescription, tItem.PreviewTexture2D(), tItem.Reference);
                         }
                         if (ActualSelection == tItem.Reference)
                         {

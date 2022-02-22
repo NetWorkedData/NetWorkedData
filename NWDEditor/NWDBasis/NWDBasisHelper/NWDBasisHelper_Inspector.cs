@@ -757,14 +757,20 @@ namespace NetWorkedData
                     if (DatasByReference.ContainsKey(sReference))
                     {
                         NWDTypeClass tObject = DatasByReference[sReference] as NWDTypeClass;
-                        if (string.IsNullOrEmpty(tObject.InternalKey))
+
+                        string tKey = "No internal key";
+                        if (!string.IsNullOrEmpty(tObject.InternalKey))
                         {
-                            rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", sReference + " : " + tObject.InternalDescription);
+                            tKey = tObject.InternalKey;
                         }
-                        else
+                        
+                        string tDescription = "";
+                        if (!string.IsNullOrEmpty(tObject.InternalDescription))
                         {
-                            rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", sReference + " : " + tObject.InternalDescription);
+                            tDescription = " (<i>" + tObject.InternalDescription + "</i>)";
                         }
+
+                        rReturn = new GUIContent(tKey + tDescription, "Ref: " + sReference);
                     }
                     else
                     {

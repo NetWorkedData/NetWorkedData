@@ -364,7 +364,7 @@ namespace NetWorkedData
             }
 
             //Content = new GUIContent(InternalKey, PreviewTexture2D(), InternalDescription);
-            Content = new GUIContent(InternalKey, PreviewTexture2D(), Reference + " : " + InternalDescription);
+            Content = new GUIContent("-" + InternalKey + " " + InternalDescription, PreviewTexture2D(), "Ref: " + Reference);
 
             //NWDBenchmark.Finish();
         }
