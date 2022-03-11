@@ -34,13 +34,52 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDDataManagerReimport : AssetPostprocessor
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        void OnPreprocessAsset()
+        {
+           NWDDataManager.SharedInstance().OnBeforeAssemblyReload();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void OnPostprocessAsset()
+        {
+           NWDDataManager.SharedInstance().OnAfterAssemblyReload();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDDataManager
     {
+        //-------------------------------------------------------------------------------------------------------------
+        public void OnBeforeAssemblyReload()
+        {
+            Debug.Log("@@@@ Need Close Data base");
+
+            Debug.Log("@@@@ Need Close Data base editor : " + NWDDataManager.SharedInstance().SQLiteEditorHandle);
+            SQLite3.Result tResult = SQLite3.Close(SQLiteEditorHandle);
+            if (tResult != SQLite3.Result.OK)
+            {
+                throw SQLiteException.New(tResult, string.Format("Could not close database editor ({0})", tResult));
+            }
+
+            Debug.Log("@@@@ Need Close Data base player : " + NWDDataManager.SharedInstance().SQLiteDeviceHandle);
+            tResult =  SQLite3.Close(SQLiteDeviceHandle);
+            if (tResult != SQLite3.Result.OK)
+            {
+                throw SQLiteException.New(tResult, string.Format("Could not close database player ({0})", tResult));
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void OnAfterAssemblyReload()
+        {
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static List<object> kObjectToUpdateQueue = new List<object>();
         //-------------------------------------------------------------------------------------------------------------
         public bool ConnectToDatabaseEditor()
         {
+            Debug.Log("@@@@ Need Open Data base ...  ConnectToDatabaseEditor");
             NWDBenchmarkLauncher.Start();
             bool rReturn = false;
             if (EditorDatabaseConnected == false && EditorDatabaseConnectionInProgress == false)
@@ -61,11 +100,11 @@ namespace NetWorkedData
 #else
                 // Get saved App version from pref
                 // check if file exists in Application.persistentDataPath
-    #if (UNITY_TVOS)
+#if (UNITY_TVOS)
                 string tPathEditor = string.Format("{0}/{1}", Application.temporaryCachePath, DatabaseBuildName());
-    #else
+#else
                 string tPathEditor = string.Format("{0}/{1}", Application.persistentDataPath, DatabaseBuildName());
-    #endif
+#endif
                 // if must be update by build version : delete old editor data!
                 if (UpdateBuildTimestamp() == true) // must update the editor base
                 {
@@ -79,14 +118,14 @@ namespace NetWorkedData
                     NWDBenchmarkLauncher.Log("Application will copy editor database : " + tPathEditor);
                     NWDLauncher.CopyDatabase = true;
 
-    #if UNITY_ANDROID
+#if UNITY_ANDROID
                     UnityWebRequest tFileLoad = UnityEngine.Networking.UnityWebRequest.Get(Application.streamingAssetsPath + "/" + DatabaseBuildName());
                     tFileLoad.SendWebRequest();
                     while (!tFileLoad.isDone) { }
                     File.WriteAllBytes(tPathEditor, tFileLoad.downloadHandler.data);
-    #else
+#else
                     File.Copy(Application.streamingAssetsPath + "/" + DatabaseBuildName(), tPathEditor);
-    #endif
+#endif
 
                 /*
 #if UNITY_ANDROID
@@ -118,6 +157,7 @@ namespace NetWorkedData
                 string tDatabasePathEditor = tPathEditor;
 #endif
                 byte[] tDatabasePathAsBytes = GetNullTerminatedUtf8(tDatabasePathEditor);
+                
                 SQLite3.Result tResult = SQLite3.Open(tDatabasePathAsBytes, out SQLiteEditorHandle, (int)(SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create), IntPtr.Zero);
                 if (tResult != SQLite3.Result.OK)
                 {
@@ -132,12 +172,15 @@ namespace NetWorkedData
                     //IntPtr stmtpragmaX = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA cipher_memory_security = OFF;");
                     //SQLite3.Step(stmtpragmaX);
                     //SQLite3.Finalize(stmtpragmaX);
+
                     IntPtr stmtpragma = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA synchronous = OFF;");
                     SQLite3.Step(stmtpragma);
                     SQLite3.Finalize(stmtpragma);
+
                     IntPtr stmtpragmaB = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA journal_mode = MEMORY");
                     SQLite3.Step(stmtpragmaB);
                     SQLite3.Finalize(stmtpragmaB);
+
                     //Sqlite3DatabaseHandle stmtpragmaC = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA cache_size = 1000000");
                     //SQLite3.Step(stmtpragmaC);
                     //SQLite3.Finalize(stmtpragmaC);
@@ -174,6 +217,8 @@ namespace NetWorkedData
 #if NWD_LAUNCHER_BENCHMARK
             NWDBenchmark.Finish();
 #endif
+
+            Debug.Log("@@@@ Need Open Data base  editor : " + NWDDataManager.SharedInstance().SQLiteEditorHandle);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -212,6 +257,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool ConnectToDatabaseAccount(string sSurProtection)
         {
+            Debug.Log("@@@@ Need Open Data base ... ConnectToDatabaseAccount");
             NWDBenchmarkLauncher.Start();
             //NWDBenchmarkLauncher.Log("LibVersionNumber() = " + SQLite3.LibVersionNumber());
             bool rReturn = true;
@@ -276,6 +322,7 @@ namespace NetWorkedData
                 }
             }
             NWDBenchmarkLauncher.Finish();
+            Debug.Log("@@@@ Need Open Data base  player : " + NWDDataManager.SharedInstance().SQLiteDeviceHandle);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

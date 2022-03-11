@@ -47,6 +47,8 @@ namespace NetWorkedData
             SharedInstance().DataQueueExecute();
             NWENotificationManager.SharedInstance().RemoveAll();
             NWDLauncher.ResetLauncher();
+            Debug.Log("Veuillez accepter mon décés!");
+            OnBeforeAssemblyReload();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
