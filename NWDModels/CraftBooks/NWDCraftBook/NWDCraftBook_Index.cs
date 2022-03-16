@@ -167,27 +167,30 @@ namespace NetWorkedData
                 && IsTrashed() == false
                 && IntegrityIsValid() == true)
             {
-                foreach (string tHash in RecipeHashesArray.GetReferences())
+                if (RecipeHashesArray != null)
                 {
-                    //Debug.Log("InsertInIndex reference =" + Reference + " tHash = "+ tHash);
-                    if (kIndex.ContainsKey(tHash))
+                    foreach (string tHash in RecipeHashesArray.GetReferences())
                     {
-                        List<NWDCraftBook> tList = kIndex[tHash];
-                        if (tList.Contains(this))
+                        //Debug.Log("InsertInIndex reference =" + Reference + " tHash = "+ tHash);
+                        if (kIndex.ContainsKey(tHash))
                         {
-                            // I am in the good index ... do nothing
+                            List<NWDCraftBook> tList = kIndex[tHash];
+                            if (tList.Contains(this))
+                            {
+                                // I am in the good index ... do nothing
+                            }
+                            else
+                            {
+                                // I Changed index! during update ?!!
+                                tList.Add(this);
+                            }
                         }
                         else
                         {
-                            // I Changed index! during update ?!!
+                            List<NWDCraftBook> tList = new List<NWDCraftBook>();
+                            kIndex.Add(tHash, tList);
                             tList.Add(this);
                         }
-                    }
-                    else
-                    {
-                        List<NWDCraftBook> tList = new List<NWDCraftBook>();
-                        kIndex.Add(tHash, tList);
-                        tList.Add(this);
                     }
                 }
             }
