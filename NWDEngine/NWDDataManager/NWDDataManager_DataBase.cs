@@ -33,6 +33,7 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+#if UNITY_EDITOR
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDDataManagerReimport : AssetPostprocessor
     {
@@ -48,22 +49,23 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
     }
+#endif
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDDataManager
     {
         //-------------------------------------------------------------------------------------------------------------
         public void OnBeforeAssemblyReload()
         {
-            Debug.Log("@@@@ Need Close Data base");
+            //Debug.Log("@@@@ Need Close Data base");
 
-            Debug.Log("@@@@ Need Close Data base editor : " + NWDDataManager.SharedInstance().SQLiteEditorHandle);
+            //Debug.Log("@@@@ Need Close Data base editor : " + NWDDataManager.SharedInstance().SQLiteEditorHandle);
             SQLite3.Result tResult = SQLite3.Close(SQLiteEditorHandle);
             if (tResult != SQLite3.Result.OK)
             {
                 //throw SQLiteException.New(tResult, string.Format("Could not close database editor ({0})", tResult));
             }
 
-            Debug.Log("@@@@ Need Close Data base player : " + NWDDataManager.SharedInstance().SQLiteDeviceHandle);
+            //Debug.Log("@@@@ Need Close Data base player : " + NWDDataManager.SharedInstance().SQLiteDeviceHandle);
             tResult =  SQLite3.Close(SQLiteDeviceHandle);
             if (tResult != SQLite3.Result.OK)
             {
@@ -79,7 +81,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool ConnectToDatabaseEditor()
         {
-            Debug.Log("@@@@ Need Open Data base ...  ConnectToDatabaseEditor");
+            //Debug.Log("@@@@ Need Open Data base ...  ConnectToDatabaseEditor");
             NWDBenchmarkLauncher.Start();
             bool rReturn = false;
             if (EditorDatabaseConnected == false && EditorDatabaseConnectionInProgress == false)
@@ -218,7 +220,7 @@ namespace NetWorkedData
             NWDBenchmark.Finish();
 #endif
 
-            Debug.Log("@@@@ Need Open Data base  editor : " + NWDDataManager.SharedInstance().SQLiteEditorHandle);
+            //Debug.Log("@@@@ Need Open Data base  editor : " + NWDDataManager.SharedInstance().SQLiteEditorHandle);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -257,7 +259,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool ConnectToDatabaseAccount(string sSurProtection)
         {
-            Debug.Log("@@@@ Need Open Data base ... ConnectToDatabaseAccount");
+            //Debug.Log("@@@@ Need Open Data base ... ConnectToDatabaseAccount");
             NWDBenchmarkLauncher.Start();
             //NWDBenchmarkLauncher.Log("LibVersionNumber() = " + SQLite3.LibVersionNumber());
             bool rReturn = true;
@@ -322,7 +324,7 @@ namespace NetWorkedData
                 }
             }
             NWDBenchmarkLauncher.Finish();
-            Debug.Log("@@@@ Need Open Data base  player : " + NWDDataManager.SharedInstance().SQLiteDeviceHandle);
+            //Debug.Log("@@@@ Need Open Data base  player : " + NWDDataManager.SharedInstance().SQLiteDeviceHandle);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
