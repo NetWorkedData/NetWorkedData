@@ -175,13 +175,13 @@ namespace NetWorkedData
                     //SQLite3.Step(stmtpragmaX);
                     //SQLite3.Finalize(stmtpragmaX);
 
-                    IntPtr stmtpragma = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA synchronous = OFF;");
-                    SQLite3.Step(stmtpragma);
-                    SQLite3.Finalize(stmtpragma);
+                    //IntPtr stmtpragma = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA synchronous = OFF;");
+                    //SQLite3.Step(stmtpragma);
+                    //SQLite3.Finalize(stmtpragma);
 
-                    IntPtr stmtpragmaB = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA journal_mode = MEMORY");
-                    SQLite3.Step(stmtpragmaB);
-                    SQLite3.Finalize(stmtpragmaB);
+                    //IntPtr stmtpragmaB = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA journal_mode = MEMORY");
+                    //SQLite3.Step(stmtpragmaB);
+                    //SQLite3.Finalize(stmtpragmaB);
 
                     //Sqlite3DatabaseHandle stmtpragmaC = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA cache_size = 1000000");
                     //SQLite3.Step(stmtpragmaC);

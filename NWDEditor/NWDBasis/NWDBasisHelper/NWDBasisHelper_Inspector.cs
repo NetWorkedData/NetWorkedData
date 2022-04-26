@@ -770,7 +770,7 @@ namespace NetWorkedData
                             tDescription = " (<i>" + tObject.InternalDescription + "</i>)";
                         }
 
-                        rReturn = new GUIContent(tKey, "Ref: " + sReference);
+                        rReturn = new GUIContent(tKey + tDescription, "Ref: " + sReference);
                     }
                     else
                     {

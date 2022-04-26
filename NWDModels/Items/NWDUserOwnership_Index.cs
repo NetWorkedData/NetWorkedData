@@ -32,7 +32,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string KeyToUse(NWDUserOwnership sData)
         {
-            return sData.Item.GetReference() + NWDConstants.kFieldSeparatorA + sData.GameSave.GetReference();
+            return sData.Item?.GetReference() + NWDConstants.kFieldSeparatorA + sData.GameSave?.GetReference();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string KeyToUse(string sData)

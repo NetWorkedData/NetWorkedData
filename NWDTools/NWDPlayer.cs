@@ -87,7 +87,7 @@ namespace NetWorkedData
         /// </remarks>
         /// <example>
         /// <code>
-        /// NWDGame.RegisterSocialNetwork("0123456789", NWDAccountSignType.Facebook);
+        /// NWDPlayer.RegisterSocialNetwork("0123456789", NWDAccountSignType.Facebook);
         /// </code>
         /// </example>
         public static void RegisterSocialNetwork(string sSocialID, NWDAccountSignType sSocialType)
@@ -106,7 +106,7 @@ namespace NetWorkedData
         /// </remarks>
         /// <example>
         /// <code>
-        /// NWDGame.RegisterEmailPassword("email@domain.com", "password");
+        /// NWDPlayer.RegisterEmailPassword("email@domain.com", "password");
         /// </code>
         /// </example>
         public static void RegisterEmailPassword(string sEmail, string sPassword)
@@ -127,7 +127,7 @@ namespace NetWorkedData
         /// </remarks>
         /// <example>
         /// <code>
-        /// NWDGame.RegisterLoginPasswordEmail("email@domain.com", "user", "password");
+        /// NWDPlayer.RegisterLoginPasswordEmail("email@domain.com", "user", "password");
         /// </code>
         /// </example>
         public static void RegisterLoginPasswordEmail(string sEmail, string sLogin, string sPassword)
@@ -147,7 +147,7 @@ namespace NetWorkedData
         /// </remarks>
         /// <example>
         /// <code>
-        /// NWDGame.LoginSocial("0123456789");
+        /// NWDPlayer.LoginSocial("0123456789");
         /// </code>
         /// </example>
         public static void LoginSocial(string sSocialID)
@@ -166,7 +166,7 @@ namespace NetWorkedData
         /// </remarks>
         /// <example>
         /// <code>
-        /// NWDGame.LoginEmailPassword("email@domain.com", "password");
+        /// NWDPlayer.LoginEmailPassword("email@domain.com", "password");
         /// </code>
         /// </example>
         public static void LoginEmailPassword(string sEmail, string sPassword)
@@ -202,7 +202,7 @@ namespace NetWorkedData
         /// <param name="sSocialType">A social network type.</param>
         /// <example>
         /// <code>
-        /// NWDGame.AddSocialNetwork("0123456789", NWDAccountSignType.Facebook);
+        /// NWDPlayer.AddSocialNetwork("0123456789", NWDAccountSignType.Facebook);
         /// </code>
         /// </example>
         public static void AddSocialNetwork(string sSocialID, NWDAccountSignType sSocialType)
@@ -217,7 +217,7 @@ namespace NetWorkedData
         /// <param name="sPassword">A password.</param>
         /// <example>
         /// <code>
-        /// NWDGame.AddEmailPassword("email@domain.com", "password");
+        /// NWDPlayer.AddEmailPassword("email@domain.com", "password");
         /// </code>
         /// </example>
         public static void AddEmailPassword(string sEmail, string sPassword)
@@ -233,12 +233,26 @@ namespace NetWorkedData
         /// <param name="sPassword">A password.</param>
         /// <example>
         /// <code>
-        /// NWDGame.AddLoginEmailPassword("user, "email@domain.com", "password");
+        /// NWDPlayer.AddLoginEmailPassword("user, "email@domain.com", "password");
         /// </code>
         /// </example>
         public static void AddLoginEmailPassword(string sLogin, string sEmail, string sPassword)
         {
             NWDAccountSign.CreateAndRegisterLoginPasswordEmail(sLogin, sEmail, sPassword, SessionSuccessBlock, SessionFailedBlock);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Call a web request service: Rescue a new password
+        /// </summary>
+        /// <param name="sEmail">An email.</param>
+        /// <example>
+        /// <code>
+        /// NWDPlayer.RescuePassword("email@domain.com");
+        /// </code>
+        /// </example>
+        public static void RescuePassword(string sEmail)
+        {
+            NWDDataManager.SharedInstance().AddWebRequestRescueWithBlock(sEmail, SessionSuccessBlock, SessionFailedBlock);
         }
         //=============================================================================================================
         // PRIVATE METHOD
