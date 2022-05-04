@@ -31,41 +31,31 @@ namespace NetWorkedData
     public class NWDShowDebugPanel : NWDCallBack
     {
         //-------------------------------------------------------------------------------------------------------------
-        public Button ButtonShowLog;
-        public Button ButtonShowAccount;
-        public Button ButtonAddStats;
-        public Button ButtonReloadDatas;
-        public NWDParameterConnection ParameterConnection;
-        public GameObject PanelShowDebug;
+        [SerializeField] private Button ButtonShowLog = null;
+        [SerializeField] private Button ButtonShowAccount = null;
+        [SerializeField] private Button ButtonAddStats = null;
+        [SerializeField] private Button ButtonReloadDatas = null;
+        [SerializeField] private NWDParameterConnection ParameterConnection = null;
+        [SerializeField] private GameObject PanelShowDebug = null;
         //-------------------------------------------------------------------------------------------------------------
-        public Image CartridgeImage;
-        public Image CartridgeImageSecond;
-        public Text CartridgeText;
-        public Text TextDebug;
+        [SerializeField] private Image CartridgeImage = null;
+        [SerializeField] private Image CartridgeImageSecond = null;
+        [SerializeField] private Text CartridgeText = null;
+        [SerializeField] private Text TextDebug = null;
         //-------------------------------------------------------------------------------------------------------------
-        private const string K_NWD_SHOW_DEBUG_PANEL = "NWDShowDebugPanel";
-        //-------------------------------------------------------------------------------------------------------------
-        //public void ReloadDatasAction()
-        //{
-        //    NWDGameDataManager.UnitySingleton().ReloadAllDatas();
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        public void AddStatsAction()
-        {
-
-        }
+        const string K_NWD_SHOW_DEBUG_PANEL = "NWDShowDebugPanel";
         //-------------------------------------------------------------------------------------------------------------
         public void ShowHidePanel()
         {
             if (PanelShowDebug.activeInHierarchy)
             {
                 PanelShowDebug.SetActive(false);
-                PlayerPrefs.SetInt(K_NWD_SHOW_DEBUG_PANEL, 0);
+                //PlayerPrefs.SetInt(K_NWD_SHOW_DEBUG_PANEL, 0);
             }
             else
             {
                 PanelShowDebug.SetActive(true);
-                PlayerPrefs.SetInt(K_NWD_SHOW_DEBUG_PANEL, 1);
+                //PlayerPrefs.SetInt(K_NWD_SHOW_DEBUG_PANEL, 1);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -91,6 +81,11 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void UpdateParameterText()
+        {
+            ParametersTestAction();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void GDPRTestAction()
         {
 #if NWD_RGPD
@@ -108,6 +103,8 @@ namespace NetWorkedData
             Debug.Log("NWDShowDebugPanel DialogTestAction()");
         }
         //-------------------------------------------------------------------------------------------------------------
+        // PRIVATE METHOD
+        //-------------------------------------------------------------------------------------------------------------
         void Start()
         {
             Debug.Log("NWDShowDebugPanel Start()");
@@ -116,7 +113,7 @@ namespace NetWorkedData
                 UpdateParameterText();
             }
 
-            int tShowPanel = PlayerPrefs.GetInt(K_NWD_SHOW_DEBUG_PANEL, 0);
+            /*int tShowPanel = PlayerPrefs.GetInt(K_NWD_SHOW_DEBUG_PANEL, 0);
             if (tShowPanel == 0)
             {
                 if (PanelShowDebug != null)
@@ -130,15 +127,8 @@ namespace NetWorkedData
                 {
                     PanelShowDebug.SetActive(true);
                 }
-            }
+            }*/
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //#if COLORED_ADVANCED_DEBUG
-        //void CADDebugOverlayAddOnCallBack(CADDebugOverlay sDebug)
-        //{
-        //    sDebug.AddString(NWDDataManager.SharedInstance().Informations());
-        //}
-        //#endif 
         //-------------------------------------------------------------------------------------------------------------
         void Awake()
         {
@@ -150,10 +140,6 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().InformationsUpdate();
             });
 #endif
-            // Add callback to 
-            //#if COLORED_ADVANCED_DEBUG
-            //CADDebugOverlay.CADDebugOverlayAddOn += CADDebugOverlayAddOnCallBack;
-            //#endif
 
             if (CartridgeImage != null)
             {
@@ -179,15 +165,9 @@ namespace NetWorkedData
         void OnDestroy()
         {
             NWENotificationManager.SharedInstance().RemoveObserverEveryWhere(this);
-            //#if COLORED_ADVANCED_DEBUG
-            //CADDebugOverlay.CADDebugOverlayAddOn -= CADDebugOverlayAddOnCallBack;
-            //#endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void UpdateParameterText()
-        {
-            ParametersTestAction();
-        }
+        // OVERRIDE
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDatasLoaded(NWENotification sNotification)
         {
