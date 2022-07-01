@@ -493,7 +493,7 @@ namespace NetWorkedData
             //NWDBenchmark.Start();
             IntPtr stmt = SQLite3.Prepare2(SQLiteEditorHandle, "BEGIN TRANSACTION");
             SQLite3.Step(stmt);
-            SQLite3.Finalize(stmt);
+            //SQLite3.Finalize(stmt);
             if (EditorDatabaseConnected == true && EditorDatabaseConnectionInProgress == false)
             {
                 foreach (Type tType in ClassInEditorDatabaseList)
