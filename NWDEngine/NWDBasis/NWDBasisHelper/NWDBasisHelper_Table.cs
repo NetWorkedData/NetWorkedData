@@ -180,6 +180,7 @@ namespace NetWorkedData
                     rReturn = NWDSQLiteTableState.Update;
                 }
             }
+            SQLite3.Finalize(stmt);
             return rReturn;
         }
 
