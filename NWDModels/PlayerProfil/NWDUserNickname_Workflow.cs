@@ -93,6 +93,17 @@ namespace NetWorkedData
             return rNickname;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void SetNickname(string name)
+        {
+            NWDUserNickname[] tNicknames = NWDBasisHelper.GetReachableDatas<NWDUserNickname>();
+            if (tNicknames.Length > 0)
+            {
+                NWDUserNickname tName = tNicknames[0];
+                tName.Nickname = name;
+                tName.UpdateData();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static string GetNickname()
         {
             string rNickname = string.Empty;
@@ -100,6 +111,21 @@ namespace NetWorkedData
             if (tNickname.Length > 0)
             {
                 rNickname = tNickname[0].Nickname;
+            }
+            return rNickname;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string GetNicknameOrCreate(bool sValue = true)
+        {
+            string rNickname = string.Empty;
+            NWDUserNickname[] tNickname = NWDBasisHelper.GetReachableDatas<NWDUserNickname>();
+            if (tNickname.Length > 0)
+            {
+                rNickname = tNickname[0].Nickname;
+            }
+            else if(sValue)
+            {
+                NewNickname("-");
             }
             return rNickname;
         }

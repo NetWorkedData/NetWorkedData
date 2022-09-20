@@ -31,19 +31,18 @@ namespace NetWorkedData.NWDEditor
         "Users",
         new Type[] {
             typeof(NWDUserInfos),
+            typeof(NWDUserPreference),
+            typeof(NWDUserOwnership),
 #if NWD_USER_IDENTITY
             typeof(NWDUserNickname),
             typeof(NWDUserAvatar),
 #endif
-            typeof(NWDUserPreference),
-            typeof(NWDUserOwnership),
 #if NWD_INTERMESSAGE
             typeof(NWDUserInterMessage),
 #endif
 #if NWD_MODULE_MARKETPLACES
             typeof(NWDUserTransaction),
 #endif
-            //typeof(NWDGameSave),
 		}
     )]
     public partial class NWDUserWindow : NWDBasisWindow<NWDUserWindow>
