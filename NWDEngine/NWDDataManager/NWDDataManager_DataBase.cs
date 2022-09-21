@@ -68,14 +68,14 @@ namespace NetWorkedData
             SQLite3.Result tResult = Sqlite.Close(SQLiteEditorHandle);
             if (tResult != SQLite3.Result.OK)
             {
-                //throw SQLiteException.New(tResult, string.Format("Could not close database editor ({0})", tResult));
+                Debug.LogError(SQLiteException.New(tResult, string.Format("Could not close database editor ({0})", tResult)));
             }
 
             //Debug.Log("@@@@ Need Close Data base player : " + NWDDataManager.SharedInstance().SQLiteDeviceHandle);
             tResult =  Sqlite.Close(SQLiteDeviceHandle);
             if (tResult != SQLite3.Result.OK)
             {
-                //throw SQLiteException.New(tResult, string.Format("Could not close database player ({0})", tResult));
+                Debug.LogError(SQLiteException.New(tResult, string.Format("Could not close database player ({0})", tResult)));
             }
         }
         //-------------------------------------------------------------------------------------------------------------
