@@ -191,7 +191,6 @@ namespace NetWorkedData
                     }
                     break;
             }
-            Debug.Log(" tReturn = " + tReturn);
             return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

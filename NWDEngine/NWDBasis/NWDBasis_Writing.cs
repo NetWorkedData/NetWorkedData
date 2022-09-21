@@ -381,7 +381,7 @@ namespace NetWorkedData
         public override void InsertDataProceedWithTransaction()
         {
             //NWDBenchmark.Start();
-            Debug.Log("NWDBasis InsertDataProceedWithTransaction()");
+            //Debug.Log("NWDBasis InsertDataProceedWithTransaction()");
             //if (AccountDependent())
             //if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
             if (BasisHelper().TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount)
