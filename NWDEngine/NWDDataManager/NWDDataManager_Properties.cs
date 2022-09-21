@@ -96,7 +96,7 @@ namespace NetWorkedData
         /// <summary>
         /// return SQLite pointer on opened database <see cref="NWD.K_DeviceDatabaseName"/>
         /// </summary>
-        public IntPtr SQLiteDeviceHandle;
+        public IntPtr SQLiteDeviceHandle = IntPtr.Zero;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// return if <see cref="NWD.K_EditorDatabaseName"/> is connected or not
@@ -113,7 +113,7 @@ namespace NetWorkedData
         /// <summary>
         /// return SQLite pointer on opened database <see cref="NWD.K_EditorDatabaseName"/>
         /// </summary>
-        public IntPtr SQLiteEditorHandle;
+        public IntPtr SQLiteEditorHandle = IntPtr.Zero;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// reccord if datas are indexed

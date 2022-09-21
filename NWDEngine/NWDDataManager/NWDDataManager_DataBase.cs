@@ -70,12 +70,20 @@ namespace NetWorkedData
             {
                 Debug.LogError(SQLiteException.New(tResult, string.Format("Could not close database editor ({0})", tResult)));
             }
+            else
+            {
+                SQLiteEditorHandle = IntPtr.Zero;
+            }
 
             //Debug.Log("@@@@ Need Close Data base player : " + NWDDataManager.SharedInstance().SQLiteDeviceHandle);
             tResult =  Sqlite.Close(SQLiteDeviceHandle);
             if (tResult != SQLite3.Result.OK)
             {
                 Debug.LogError(SQLiteException.New(tResult, string.Format("Could not close database player ({0})", tResult)));
+            }
+            else
+            {
+                SQLiteDeviceHandle = IntPtr.Zero;
             }
         }
         //-------------------------------------------------------------------------------------------------------------
