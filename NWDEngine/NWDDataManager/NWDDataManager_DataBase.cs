@@ -27,9 +27,15 @@ using System.Text;
 using UnityEngine.Networking;
 
 #if UNITY_EDITOR
+using NetWorkedData.Logged;
 using UnityEditor;
 #endif
-
+//=====================================================================================================================
+#if UNITY_EDITOR
+using Sqlite = NetWorkedData.Logged.SQLite3; // Have a logged interface for SQLite (Editor only !)
+#else
+using Sqlite = NetWorkedData.SQLite3;
+#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -59,14 +65,14 @@ namespace NetWorkedData
             //Debug.Log("@@@@ Need Close Data base");
 
             //Debug.Log("@@@@ Need Close Data base editor : " + NWDDataManager.SharedInstance().SQLiteEditorHandle);
-            SQLite3.Result tResult = SQLite3.Close(SQLiteEditorHandle);
+            SQLite3.Result tResult = Sqlite.Close(SQLiteEditorHandle);
             if (tResult != SQLite3.Result.OK)
             {
                 //throw SQLiteException.New(tResult, string.Format("Could not close database editor ({0})", tResult));
             }
 
             //Debug.Log("@@@@ Need Close Data base player : " + NWDDataManager.SharedInstance().SQLiteDeviceHandle);
-            tResult =  SQLite3.Close(SQLiteDeviceHandle);
+            tResult =  Sqlite.Close(SQLiteDeviceHandle);
             if (tResult != SQLite3.Result.OK)
             {
                 //throw SQLiteException.New(tResult, string.Format("Could not close database player ({0})", tResult));
@@ -159,8 +165,8 @@ namespace NetWorkedData
                 string tDatabasePathEditor = tPathEditor;
 #endif
                 byte[] tDatabasePathAsBytes = GetNullTerminatedUtf8(tDatabasePathEditor);
-                
-                SQLite3.Result tResult = SQLite3.Open(tDatabasePathAsBytes, out SQLiteEditorHandle, (int)(SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create), IntPtr.Zero);
+
+                SQLite3.Result tResult = Sqlite.Open(tDatabasePathAsBytes, out SQLiteEditorHandle, (int)(SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create), IntPtr.Zero);
                 if (tResult != SQLite3.Result.OK)
                 {
                     throw SQLiteException.New(tResult, string.Format("Could not open database file: {0} ({1})", tDatabasePathEditor, tResult));
@@ -171,24 +177,24 @@ namespace NetWorkedData
 
                     EditorDatabaseConnected = true;
                     EditorDatabaseConnectionInProgress = false;
-                    //IntPtr stmtpragmaX = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA cipher_memory_security = OFF;");
-                    //SQLite3.Step(stmtpragmaX);
-                    //SQLite3.Finalize(stmtpragmaX);
+                    //IntPtr stmtpragmaX = Sqlite.Prepare2(SQLiteEditorHandle, "PRAGMA cipher_memory_security = OFF;");
+                    //Sqlite.Step(stmtpragmaX);
+                    //Sqlite.Finalize(stmtpragmaX);
 
-                    //IntPtr stmtpragma = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA synchronous = OFF;");
-                    //SQLite3.Step(stmtpragma);
-                    //SQLite3.Finalize(stmtpragma);
+                    //IntPtr stmtpragma = Sqlite.Prepare2(SQLiteEditorHandle, "PRAGMA synchronous = OFF;");
+                    //Sqlite.Step(stmtpragma);
+                    //Sqlite.Finalize(stmtpragma);
 
-                    //IntPtr stmtpragmaB = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA journal_mode = MEMORY");
-                    //SQLite3.Step(stmtpragmaB);
-                    //SQLite3.Finalize(stmtpragmaB);
+                    //IntPtr stmtpragmaB = Sqlite.Prepare2(SQLiteEditorHandle, "PRAGMA journal_mode = MEMORY");
+                    //Sqlite.Step(stmtpragmaB);
+                    //Sqlite.Finalize(stmtpragmaB);
 
-                    //Sqlite3DatabaseHandle stmtpragmaC = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA cache_size = 1000000");
-                    //SQLite3.Step(stmtpragmaC);
-                    //SQLite3.Finalize(stmtpragmaC);
-                    //Sqlite3DatabaseHandle stmtpragmaD = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA temp_store = MEMORY");
-                    //SQLite3.Step(stmtpragmaD);
-                    //SQLite3.Finalize(stmtpragmaD);
+                    //Sqlite3DatabaseHandle stmtpragmaC = Sqlite.Prepare2(SQLiteEditorHandle, "PRAGMA cache_size = 1000000");
+                    //Sqlite.Step(stmtpragmaC);
+                    //Sqlite.Finalize(stmtpragmaC);
+                    //Sqlite3DatabaseHandle stmtpragmaD = Sqlite.Prepare2(SQLiteEditorHandle, "PRAGMA temp_store = MEMORY");
+                    //Sqlite.Step(stmtpragmaD);
+                    //Sqlite.Finalize(stmtpragmaD);
 
                     if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment ||
                         NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
@@ -261,7 +267,7 @@ namespace NetWorkedData
         {
             //Debug.Log("@@@@ Need Open Data base ... ConnectToDatabaseAccount");
             NWDBenchmarkLauncher.Start();
-            //NWDBenchmarkLauncher.Log("LibVersionNumber() = " + SQLite3.LibVersionNumber());
+            //NWDBenchmarkLauncher.Log("LibVersionNumber() = " + Sqlite.LibVersionNumber());
             bool rReturn = true;
             //Debug.LogWarning("ConnectToDatabaseAccount (" + sSurProtection + ")");
             if (DeviceDatabaseConnected == false && DeviceDatabasConnectionInProgress == false)
@@ -269,7 +275,7 @@ namespace NetWorkedData
                 DeviceDatabasConnectionInProgress = true;
                 string tDatabasePathAccount = PathDatabaseAccount();
                 byte[] tDatabasePathAsBytes = GetNullTerminatedUtf8(tDatabasePathAccount);
-                SQLite3.Result tResult = SQLite3.Open(tDatabasePathAsBytes, out SQLiteDeviceHandle, (int)(SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create), IntPtr.Zero);
+                SQLite3.Result tResult = Sqlite.Open(tDatabasePathAsBytes, out SQLiteDeviceHandle, (int)(SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create), IntPtr.Zero);
                 if (tResult != SQLite3.Result.OK)
                 {
                     throw SQLiteException.New(tResult, string.Format("Could not open database file: {0} ({1})", tDatabasePathAccount, tResult));
@@ -280,21 +286,21 @@ namespace NetWorkedData
 
                     DeviceDatabaseConnected = true;
                     DeviceDatabasConnectionInProgress = false;
-                    //IntPtr stmtpragmaX = SQLite3.Prepare2(SQLiteAccountHandle, "PRAGMA cipher_memory_security = OFF;");
-                    //SQLite3.Step(stmtpragmaX);
-                    //SQLite3.Finalize(stmtpragmaX);
-                    IntPtr stmtpragma = SQLite3.Prepare2(SQLiteDeviceHandle, "PRAGMA synchronous = OFF;");
-                    SQLite3.Step(stmtpragma);
-                    SQLite3.Finalize(stmtpragma);
-                    IntPtr stmtpragmaB = SQLite3.Prepare2(SQLiteDeviceHandle, "PRAGMA journal_mode = MEMORY");
-                    SQLite3.Step(stmtpragmaB);
-                    SQLite3.Finalize(stmtpragmaB);
-                    //Sqlite3DatabaseHandle stmtpragmaC = SQLite3.Prepare2(SQLiteAccountHandle, "PRAGMA cache_size = 1000000");
-                    //SQLite3.Step(stmtpragmaC);
-                    //SQLite3.Finalize(stmtpragmaC);
-                    //Sqlite3DatabaseHandle stmtpragmaD = SQLite3.Prepare2(SQLiteAccountHandle, "PRAGMA temp_store = MEMORY");
-                    //SQLite3.Step(stmtpragmaD);
-                    //SQLite3.Finalize(stmtpragmaD);
+                    //IntPtr stmtpragmaX = Sqlite.Prepare2(SQLiteAccountHandle, "PRAGMA cipher_memory_security = OFF;");
+                    //Sqlite.Step(stmtpragmaX);
+                    //Sqlite.Finalize(stmtpragmaX);
+                    IntPtr stmtpragma = Sqlite.Prepare2(SQLiteDeviceHandle, "PRAGMA synchronous = OFF;");
+                    Sqlite.Step(stmtpragma);
+                    Sqlite.Finalize(stmtpragma);
+                    IntPtr stmtpragmaB = Sqlite.Prepare2(SQLiteDeviceHandle, "PRAGMA journal_mode = MEMORY");
+                    Sqlite.Step(stmtpragmaB);
+                    Sqlite.Finalize(stmtpragmaB);
+                    //Sqlite3DatabaseHandle stmtpragmaC = Sqlite.Prepare2(SQLiteAccountHandle, "PRAGMA cache_size = 1000000");
+                    //Sqlite.Step(stmtpragmaC);
+                    //Sqlite.Finalize(stmtpragmaC);
+                    //Sqlite3DatabaseHandle stmtpragmaD = Sqlite.Prepare2(SQLiteAccountHandle, "PRAGMA temp_store = MEMORY");
+                    //Sqlite.Step(stmtpragmaD);
+                    //Sqlite.Finalize(stmtpragmaD);
 
                     if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment
                     || NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
@@ -359,9 +365,9 @@ namespace NetWorkedData
         public void CreateAllTablesLocalAccount()
         {
             //NWDBenchmark.Start();
-            IntPtr stmt = SQLite3.Prepare2(SQLiteDeviceHandle, "BEGIN TRANSACTION");
-            SQLite3.Step(stmt);
-            SQLite3.Finalize(stmt);
+            IntPtr stmt = Sqlite.Prepare2(SQLiteDeviceHandle, "BEGIN TRANSACTION");
+            Sqlite.Step(stmt);
+            Sqlite.Finalize(stmt);
             if (DeviceDatabaseConnected == true && DeviceDatabasConnectionInProgress == false)
             {
                 foreach (Type tType in ClassInDeviceDatabaseList)
@@ -373,8 +379,8 @@ namespace NetWorkedData
                         foreach (string tQuery in tHelper.CreateTableSQLite(tState))
                         {
                             Debug.Log(tQuery);
-                            stmt = SQLite3.Prepare2(SQLiteDeviceHandle, tQuery);
-                            SQLite3.Result tResult = SQLite3.Step(stmt);
+                            stmt = Sqlite.Prepare2(SQLiteDeviceHandle, tQuery);
+                            SQLite3.Result tResult = Sqlite.Step(stmt);
                             if (tResult != SQLite3.Result.Done)
                             {
                                 Debug.Log("error in execution of query " + tResult.ToString() + ": " + tQuery);
@@ -385,13 +391,13 @@ namespace NetWorkedData
                                 Debug.Log("success query : " + tQuery);
 #endif
                             }
-                            SQLite3.Finalize(stmt);
+                            Sqlite.Finalize(stmt);
                         }
                         string tIndexA = tHelper.CreateIndexSQLite(tState);
                         if (string.IsNullOrEmpty(tIndexA) == false)
                         {
-                            stmt = SQLite3.Prepare2(SQLiteDeviceHandle, tIndexA);
-                            SQLite3.Result tResult = SQLite3.Step(stmt);
+                            stmt = Sqlite.Prepare2(SQLiteDeviceHandle, tIndexA);
+                            SQLite3.Result tResult = Sqlite.Step(stmt);
                             if (tResult != SQLite3.Result.Done)
                             {
                                 Debug.Log("error in execution of query " + tResult.ToString() + ": " + tIndexA);
@@ -402,13 +408,13 @@ namespace NetWorkedData
                                 Debug.Log("success query : " + tIndexA);
 #endif
                             }
-                            SQLite3.Finalize(stmt);
+                            Sqlite.Finalize(stmt);
                         }
                         string tIndexC = tHelper.CreateIndexBundleSQLite(tState);
                         if (string.IsNullOrEmpty(tIndexC) == false)
                         {
-                            stmt = SQLite3.Prepare2(SQLiteDeviceHandle, tIndexC);
-                            SQLite3.Result tResult = SQLite3.Step(stmt);
+                            stmt = Sqlite.Prepare2(SQLiteDeviceHandle, tIndexC);
+                            SQLite3.Result tResult = Sqlite.Step(stmt);
                             if (tResult != SQLite3.Result.Done)
                             {
                                 Debug.Log("error in execution of query " + tResult.ToString() + ": " + tIndexC);
@@ -419,15 +425,15 @@ namespace NetWorkedData
                                 Debug.Log("success query : " + tIndexC);
 #endif
                             }
-                            SQLite3.Finalize(stmt);
+                            Sqlite.Finalize(stmt);
                         }
                         if (tHelper.TemplateHelper.GetBundlisable() == NWDTemplateBundlisable.Bundlisable)
                         {
                             string tIndexB = tHelper.CreateIndexBundleSQLite(tState);
                             if (string.IsNullOrEmpty(tIndexB) == false)
                             {
-                                stmt = SQLite3.Prepare2(SQLiteDeviceHandle, tIndexB);
-                                SQLite3.Result tResult = SQLite3.Step(stmt);
+                                stmt = Sqlite.Prepare2(SQLiteDeviceHandle, tIndexB);
+                                SQLite3.Result tResult = Sqlite.Step(stmt);
                                 if (tResult != SQLite3.Result.Done)
                                 {
                                     Debug.Log("error in execution of query " + tResult.ToString() + ": " + tIndexB);
@@ -438,15 +444,15 @@ namespace NetWorkedData
                                     Debug.Log("success query : " + tIndexB);
 #endif
                                 }
-                                SQLite3.Finalize(stmt);
+                                Sqlite.Finalize(stmt);
                             }
                         }
                     }
                 }
             }
-            stmt = SQLite3.Prepare2(SQLiteDeviceHandle, "COMMIT");
-            SQLite3.Step(stmt);
-            SQLite3.Finalize(stmt);
+            stmt = Sqlite.Prepare2(SQLiteDeviceHandle, "COMMIT");
+            Sqlite.Step(stmt);
+            Sqlite.Finalize(stmt);
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -491,9 +497,9 @@ namespace NetWorkedData
         public void CreateAllTablesLocalEditor()
         {
             //NWDBenchmark.Start();
-            IntPtr stmt = SQLite3.Prepare2(SQLiteEditorHandle, "BEGIN TRANSACTION");
-            SQLite3.Step(stmt);
-            //SQLite3.Finalize(stmt);
+            IntPtr stmt = Sqlite.Prepare2(SQLiteEditorHandle, "BEGIN TRANSACTION");
+            Sqlite.Step(stmt);
+            //Sqlite.Finalize(stmt);
             if (EditorDatabaseConnected == true && EditorDatabaseConnectionInProgress == false)
             {
                 foreach (Type tType in ClassInEditorDatabaseList)
@@ -505,8 +511,8 @@ namespace NetWorkedData
                         foreach (string tQuery in tHelper.CreateTableSQLite(tState))
                         {
                             Debug.Log(tQuery);
-                            stmt = SQLite3.Prepare2(SQLiteEditorHandle, tQuery);
-                            SQLite3.Result tResult = SQLite3.Step(stmt);
+                            stmt = Sqlite.Prepare2(SQLiteEditorHandle, tQuery);
+                            SQLite3.Result tResult = Sqlite.Step(stmt);
                             if (tResult != SQLite3.Result.Done)
                             {
                                 Debug.Log("error in execution of query " + tResult.ToString() + ": " + tQuery);
@@ -517,13 +523,13 @@ namespace NetWorkedData
                                 Debug.Log("success query : " + tQuery);
 #endif
                             }
-                            SQLite3.Finalize(stmt);
+                            Sqlite.Finalize(stmt);
                         }
                         string tIndexA = tHelper.CreateIndexSQLite(tState);
                         if (string.IsNullOrEmpty(tIndexA) == false)
                         {
-                            stmt = SQLite3.Prepare2(SQLiteEditorHandle, tIndexA);
-                            SQLite3.Result tResult = SQLite3.Step(stmt);
+                            stmt = Sqlite.Prepare2(SQLiteEditorHandle, tIndexA);
+                            SQLite3.Result tResult = Sqlite.Step(stmt);
                             if (tResult != SQLite3.Result.Done)
                             {
                                 Debug.Log("error in execution of query " + tResult.ToString() + ": " + tIndexA);
@@ -534,14 +540,14 @@ namespace NetWorkedData
                                 Debug.Log("success query : " + tIndexA);
 #endif
                             }
-                            SQLite3.Finalize(stmt);
+                            Sqlite.Finalize(stmt);
                         }
 
                         string tIndexC = tHelper.CreateIndexModifiySQLite(tState);
                         if (string.IsNullOrEmpty(tIndexC) == false)
                         {
-                            stmt = SQLite3.Prepare2(SQLiteEditorHandle, tIndexC);
-                            SQLite3.Result tResult = SQLite3.Step(stmt);
+                            stmt = Sqlite.Prepare2(SQLiteEditorHandle, tIndexC);
+                            SQLite3.Result tResult = Sqlite.Step(stmt);
                             if (tResult != SQLite3.Result.Done)
                             {
                                 Debug.Log("error in execution of query " + tResult.ToString() + ": " + tIndexC);
@@ -552,15 +558,15 @@ namespace NetWorkedData
                                 Debug.Log("success query : " + tIndexC);
 #endif
                             }
-                            SQLite3.Finalize(stmt);
+                            Sqlite.Finalize(stmt);
                         }
                         if (tHelper.TemplateHelper.GetBundlisable() == NWDTemplateBundlisable.Bundlisable)
                         {
                             string tIndexB = tHelper.CreateIndexBundleSQLite(tState);
                             if (string.IsNullOrEmpty(tIndexB) == false)
                             {
-                                stmt = SQLite3.Prepare2(SQLiteEditorHandle, tIndexB);
-                                SQLite3.Result tResult = SQLite3.Step(stmt);
+                                stmt = Sqlite.Prepare2(SQLiteEditorHandle, tIndexB);
+                                SQLite3.Result tResult = Sqlite.Step(stmt);
                                 if (tResult != SQLite3.Result.Done)
                                 {
                                     Debug.Log("error in execution of query " + tResult.ToString() + ": " + tIndexB);
@@ -571,15 +577,15 @@ namespace NetWorkedData
                                     Debug.Log("success query : " + tIndexB);
 #endif
                                 }
-                                SQLite3.Finalize(stmt);
+                                Sqlite.Finalize(stmt);
                             }
                         }
                     }
                 }
             }
-            stmt = SQLite3.Prepare2(SQLiteEditorHandle, "COMMIT");
-            SQLite3.Step(stmt);
-            SQLite3.Finalize(stmt);
+            stmt = Sqlite.Prepare2(SQLiteEditorHandle, "COMMIT");
+            Sqlite.Step(stmt);
+            Sqlite.Finalize(stmt);
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
