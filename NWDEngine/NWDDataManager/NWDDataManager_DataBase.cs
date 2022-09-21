@@ -46,7 +46,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void OnPreprocessAsset()
         {
-           NWDDataManager.SharedInstance().OnBeforeAssemblyReload();
+           //NWDDataManager.SharedInstance().OnBeforeAssemblyReload();
         }
         //-------------------------------------------------------------------------------------------------------------
         void OnPostprocessAsset()
