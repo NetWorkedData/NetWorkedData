@@ -49,7 +49,7 @@ namespace NetWorkedData.NWDEditor
         List<string> ClassesList = new List<string>();
         bool WindowMacroScript = false;
         bool WindowInModule = false;
-        List<string> tMacroList;
+        List<string> MacroList;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance for deamon class.
@@ -75,7 +75,7 @@ namespace NetWorkedData.NWDEditor
         public override void OnEnable(NWDEditorWindow sEditorWindow)
         {
             MDEMacroDefineEditorContent.SharedInstance().Load();
-            tMacroList =  MDEMacroDefineEditorContent.SharedInstance().AllMacros;
+            MacroList =  MDEMacroDefineEditorContent.SharedInstance().AllMacros;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -244,11 +244,11 @@ namespace NetWorkedData.NWDEditor
             WindowDescription = EditorGUILayout.TextField("Description", WindowDescription);
 
 
-            int tIndexMacro = tMacroList.IndexOf(WindowMacro);
-            tIndexMacro = EditorGUILayout.Popup("Macro limit from project", tIndexMacro, tMacroList.ToArray());
+            int tIndexMacro = MacroList.IndexOf(WindowMacro);
+            tIndexMacro = EditorGUILayout.Popup("Macro limit from project", tIndexMacro, MacroList.ToArray());
             if (tIndexMacro >= 0)
             {
-                WindowMacro = tMacroList[tIndexMacro];
+                WindowMacro = MacroList[tIndexMacro];
                 WindowMacroScript = false;
             }
 

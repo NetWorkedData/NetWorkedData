@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEditor;
+using NetWorkedData.MacroDefine;
 //=====================================================================================================================
 namespace NetWorkedData.NWDEditor
 {
@@ -311,10 +312,6 @@ namespace NetWorkedData.NWDEditor
         public void WebServicesSync(float sRectWidth)
         {
             //NWDBenchmark.Start();
-
-
-
-
             float tWidthThird = Mathf.Floor((sRectWidth - NWDGUI.KTAB_BAR_HEIGHT) / 3.0F);
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
             NWDAppEnvironment tDevEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
@@ -330,10 +327,9 @@ namespace NetWorkedData.NWDEditor
             bool tOperationOptimize = false;
             bool tOperationIndexes = false;
             bool tOperationBlank = false;
+            bool tGlobalSyncOptions = false;
 
-
-
-
+            tGlobalSyncOptions = IsMacroActivated(BuildTargetGroup.Standalone, "NWD_GLOBAL_SYNC_OPTIONS");
 
             NWDGUILayout.Section("Webservice result");
 
@@ -381,25 +377,24 @@ namespace NetWorkedData.NWDEditor
             GUILayout.EndHorizontal();
             GUILayout.Space(NWDGUI.kFieldMarge);
 
-
-
             NWDGUILayout.Section("Webservice sync");
             GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
             GUILayout.BeginVertical(/*GUILayout.MinWidth(tWidthThird),*/ GUILayout.ExpandWidth(true));
             GUILayout.Label("Dev", NWDGUI.KTableSearchTitle);
             if (NWDAppConfiguration.SharedInstance().DevServerSyncActive())
             {
+                EditorGUI.BeginDisabledGroup(!tGlobalSyncOptions);
                 if (GUILayout.Button("Sync all", NWDGUI.KTableSearchButton))
                 {
                     tSync = true;
                     tEnvironment = tDevEnvironment;
                 }
-
                 if (GUILayout.Button("Force sync all", NWDGUI.KTableSearchButton))
                 {
                     tSyncForce = true;
                     tEnvironment = tDevEnvironment;
                 }
+                EditorGUI.EndDisabledGroup();
 
                 if (GUILayout.Button("Pull all", NWDGUI.KTableSearchButton))
                 {
@@ -436,6 +431,7 @@ namespace NetWorkedData.NWDEditor
 
             if (NWDAppConfiguration.SharedInstance().PreprodServerSyncActive())
             {
+                EditorGUI.BeginDisabledGroup(!tGlobalSyncOptions);
                 if (GUILayout.Button("Sync all", NWDGUI.KTableSearchButton))
                 {
                     tSync = true;
@@ -446,6 +442,8 @@ namespace NetWorkedData.NWDEditor
                     tSyncForce = true;
                     tEnvironment = tPreprodEnvironment;
                 }
+                EditorGUI.EndDisabledGroup();
+
                 if (GUILayout.Button("Pull all", NWDGUI.KTableSearchButton))
                 {
                     tPull = true;
@@ -480,6 +478,7 @@ namespace NetWorkedData.NWDEditor
             GUILayout.Label("Prod", NWDGUI.KTableSearchTitle);
             if (NWDAppConfiguration.SharedInstance().ProdServerSyncActive())
             {
+                EditorGUI.BeginDisabledGroup(!tGlobalSyncOptions);
                 if (GUILayout.Button("Sync all", NWDGUI.KTableSearchButton))
                 {
                     tSync = true;
@@ -490,6 +489,8 @@ namespace NetWorkedData.NWDEditor
                     tSyncForce = true;
                     tEnvironment = tProdEnvironment;
                 }
+                EditorGUI.EndDisabledGroup();
+
                 if (GUILayout.Button("Pull all", NWDGUI.KTableSearchButton))
                 {
                     tPull = true;
@@ -1119,8 +1120,14 @@ namespace NetWorkedData.NWDEditor
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public bool IsMacroActivated(BuildTargetGroup sGroup, string sName)
+        {
+            MDEMacroDefineEditorContent.SharedInstance().Load();
+            Dictionary<BuildTargetGroup, List<string>> tActiveMacroList =  MDEMacroDefineEditorContent.SharedInstance().ActiveGroupMacroDefine;
+            return tActiveMacroList[sGroup].Contains(sName);
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
-
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDAppEnvironmentSync : NWDEditorWindow
     {

@@ -40,19 +40,19 @@ namespace NetWorkedData.MacroDefine
         /// </summary>
         private static Vector2 _kScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
-        List<BuildTargetGroup> ActiveGroup = new List<BuildTargetGroup>();
-        Dictionary<BuildTargetGroup, List<string>> ActiveGroupMacroDefine = new Dictionary<BuildTargetGroup, List<string>>();
         Dictionary<BuildTargetGroup, List<string>> ActiveGroupMacroDefineOriginal = new Dictionary<BuildTargetGroup, List<string>>();
+        Dictionary<string, List<NWDMacroDefiner>> MacroTypeList = new Dictionary<string, List<NWDMacroDefiner>>();
+        Dictionary<NWDMacroDefiner, int> EnumTypeListGloball = new Dictionary<NWDMacroDefiner, int>();
         List<NWDMacroDefiner> EnumTypeList = new List<NWDMacroDefiner>();
         List<NWDMacroDefiner> BoolTypeList = new List<NWDMacroDefiner>();
-        Dictionary<string, List<NWDMacroDefiner>> MacroTypeList = new Dictionary<string, List<NWDMacroDefiner>>();
+        List<BuildTargetGroup> ActiveGroup = new List<BuildTargetGroup>();
         List<string> AllMacrosOriginal = new List<string>();
         string NewMacro = string.Empty;
         Vector2 ScroolPoint;
         bool Modified = false;
-
+        //-------------------------------------------------------------------------------------------------------------
+        public Dictionary<BuildTargetGroup, List<string>> ActiveGroupMacroDefine = new Dictionary<BuildTargetGroup, List<string>>();
         public List<string> AllMacros = new List<string>();
-        Dictionary<NWDMacroDefiner, int> EnumTypeListGloball = new Dictionary<NWDMacroDefiner, int>();
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance for deamon class.
