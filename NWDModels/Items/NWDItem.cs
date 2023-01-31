@@ -71,7 +71,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDTooltips("The sub name in game")]
-        public NWDLocalizableStringType SubName
+        public NWDLocalizableLongTextType SubName
         {
             get; set;
         }
