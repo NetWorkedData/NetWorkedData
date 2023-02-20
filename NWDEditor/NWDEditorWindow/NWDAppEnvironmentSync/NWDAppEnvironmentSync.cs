@@ -190,7 +190,7 @@ namespace NetWorkedData.NWDEditor
                                     tDescription = LastInfos.errorDesc.Code;
                                     if (LastInfos.errorDesc.Description != null)
                                     {
-                                        tDescription += " : " + LastInfos.errorDesc.Description.GetBaseString();
+                                        tDescription += " : " + LastInfos.errorDesc.Description.GetLocalString();
                                     }
 #if UNITY_EDITOR
                                     Debug.LogWarning("" + tTitle + " " + tDescription + " infos " + LastInfos.errorInfos);
@@ -948,7 +948,7 @@ namespace NetWorkedData.NWDEditor
         {
             NWDDebug.Log("OperationSynchroAllClasses () with Operation " + sOperation.ToString());
             //NWDBenchmark.Start(sOperation.ToString());
-            OperationSynchro(sEnvironment, NWDDataManager.SharedInstance().ClassSynchronizeList, null, sForceSync, sPriority, sOperation);
+            OperationSynchro(sEnvironment, NWDDataManager.SharedInstance().ClassNotAccountDependentList, null, sForceSync, sPriority, sOperation);
             //NWDBenchmark.Finish(sOperation.ToString());       
         }
         //-------------------------------------------------------------------------------------------------------------

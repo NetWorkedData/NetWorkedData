@@ -38,6 +38,7 @@ namespace NetWorkedData.NWDEditor
 #endif
             typeof(NWDAccountPreference),
             typeof(NWDGameSave),
+            typeof(NWBBenchmarkResult),
 #if NWD_DEVELOPER
             typeof(NWDBasisPreferences),
             typeof(NWDRequestToken),

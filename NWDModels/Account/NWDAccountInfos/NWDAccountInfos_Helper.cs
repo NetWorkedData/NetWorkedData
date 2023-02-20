@@ -19,18 +19,18 @@
 #endif
 //=====================================================================================================================
 using System;
-using System.Collections;
 using System.Collections.Generic;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserPreferenceHelper : NWDHelper<NWDUserPreference>
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDAccountInfosHelper : NWDHelper<NWDAccountInfos>
     {
         //-------------------------------------------------------------------------------------------------------------
         public override List<Type>  OverrideClasseInThisSync()
         {
-            return new List<Type> { /*typeof(NWDPreferenceKey), typeof(NWDAccountPreference),*/ typeof(NWDUserPreference), typeof(NWDGameSave) };
+            return new List<Type> { typeof(NWDAccountInfos), typeof(NWDGameSave) };
         }
         //-------------------------------------------------------------------------------------------------------------
     }
