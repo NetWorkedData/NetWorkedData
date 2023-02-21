@@ -34,7 +34,7 @@ namespace NetWorkedData.NWDEditor
     public partial class NWDUserWindow : NWDBasisWindow<NWDUserWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_USER_MANAGEMENT + "/Avatar", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 20)]
+        [MenuItem(K_PREFERENCES_MENU + "/Avatar", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 20)]
         public static void MenuMethodAvatar()
         {
             ShowWindow(typeof(NWDUserAvatar));

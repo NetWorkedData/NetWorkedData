@@ -41,27 +41,21 @@ namespace NetWorkedData.NWDEditor
     public partial class NWDLocalizationWindow : NWDBasisWindow<NWDLocalizationWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        const string K_LOCALIZATION_MENU = "Localization" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT;
+        const string K_PREFERENCES_MENU = NWDEditorMenu.K_NETWORKEDDATA + "Localization" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT;
         //-------------------------------------------------------------------------------------------------------------
-        //[MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_LOCALIZATION_MENU, false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 3)]
-        //public static void MenuMethod()
-        //{
-        //    ShowWindow();
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_LOCALIZATION_MENU + "/Localization", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 3)]
+        [MenuItem(K_PREFERENCES_MENU + "/Localization", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 3)]
         public static void MenuMethodLocalization()
         {
             ShowWindow(typeof(NWDLocalization));
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_LOCALIZATION_MENU + "/Message", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 3)]
+        [MenuItem(K_PREFERENCES_MENU + "/Message", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 3)]
         public static void MenuMethodMessage()
         {
             ShowWindow(typeof(NWDMessage));
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_LOCALIZATION_MENU + "/Error", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 3)]
+        [MenuItem(K_PREFERENCES_MENU + "/Error", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 3)]
         public static void MenuMethodError()
         {
             ShowWindow(typeof(NWDError));

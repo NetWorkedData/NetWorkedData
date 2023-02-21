@@ -38,27 +38,21 @@ namespace NetWorkedData.NWDEditor
     public class NWDPreferenceWindow : NWDBasisWindow<NWDPreferenceWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        const string K_PREFERENCES_MENU = "Preferences" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT;
+        const string K_PREFERENCES_MENU = NWDEditorMenu.K_NETWORKEDDATA + "Preferences" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT;
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_PREFERENCES_MENU, false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 2)]
-        public static void MenuMethod()
-        {
-            ShowWindow();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_PREFERENCES_MENU + "/Preferences Key", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 3)]
+        [MenuItem(K_PREFERENCES_MENU + "/Preferences Key", false, 803)]
         public static void MenuMethodPreferenceKey()
         {
             ShowWindow(typeof(NWDPreferenceKey));
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_PREFERENCES_MENU + "/Account Preferences", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 3)]
+        [MenuItem(K_PREFERENCES_MENU + "/Account Preferences", false, 804)]
         public static void MenuMethodAccountPreferences()
         {
             ShowWindow(typeof(NWDAccountPreference));
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_PREFERENCES_MENU + "/User Preferences", false, NWDEditorMenu.K_ENGINE_MANAGEMENT_INDEX + 3)]
+        [MenuItem(K_PREFERENCES_MENU + "/User Preferences", false, 805)]
         public static void MenuMethodUserPreferences()
         {
             ShowWindow(typeof(NWDUserPreference));

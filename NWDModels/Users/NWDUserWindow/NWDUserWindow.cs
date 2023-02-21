@@ -48,34 +48,28 @@ namespace NetWorkedData.NWDEditor
     public partial class NWDUserWindow : NWDBasisWindow<NWDUserWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        const string K_USER_MANAGEMENT = "User" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT;
+        const string K_PREFERENCES_MENU = NWDEditorMenu.K_NETWORKEDDATA + "User" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT;
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_USER_MANAGEMENT +"/Information", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 3)]
-        public static void MenuMethod()
-        {
-            ShowWindow();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_USER_MANAGEMENT + "/Preferences", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 4)]
+        [MenuItem(K_PREFERENCES_MENU + "/Preferences", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 50)]
         public static void MenuMethodPreference()
         {
             ShowWindow(typeof(NWDUserPreference));
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_USER_MANAGEMENT + "/Game Save", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 7)]
+        [MenuItem(K_PREFERENCES_MENU + "/Game Save", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 50)]
         public static void MenuMethodGameSave()
         {
             ShowWindow(typeof(NWDGameSave));
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_USER_MANAGEMENT + "/Ownership", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 40)]
+        [MenuItem(K_PREFERENCES_MENU + "/Ownership", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 50)]
         public static void MenuMethodOwnership()
         {
             ShowWindow(typeof(NWDUserOwnership));
         }
         //-------------------------------------------------------------------------------------------------------------
 #if NWD_MODULE_MARKETPLACES
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA +  K_USER_MANAGEMENT +"/Transaction", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 100)]
+        [MenuItem(K_PREFERENCES_MENU +"/Transaction", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 50)]
         public static void MenuMethodTransaction()
         {
             //ShowWindow(typeof(NWDUserTransaction));

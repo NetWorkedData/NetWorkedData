@@ -43,25 +43,21 @@ namespace NetWorkedData
     public class NWDCraftBookWindow : NWDBasisWindow<NWDCraftBookWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + "Craft" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 1003)]
-        public static void MenuMethod()
-        {
-            ShowWindow();
-        }
+        const string K_PREFERENCES_MENU = NWDEditorMenu.K_NETWORKEDDATA + "Craft" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT;
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + "Craft" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT + "/Recipe CraftBook", false, 1003)]
+        [MenuItem(K_PREFERENCES_MENU + "/Recipe CraftBook", false, 1003)]
         public static void MenuMethodRecipe()
         {
             ShowWindow(typeof(NWDCraftBook));
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + "Craft" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT + "/Reward", false, 1003)]
+        [MenuItem(K_PREFERENCES_MENU + "/Reward", false, 1003)]
         public static void MenuMethodReward()
         {
             ShowWindow(typeof(NWDCraftReward));
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + "Craft" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT + "/Recipient", false, 1003)]
+        [MenuItem(K_PREFERENCES_MENU + "/Recipient", false, 1003)]
         public static void MenuMethodRecipient()
         {
             ShowWindow(typeof(NWDCraftRecipient));
