@@ -285,12 +285,12 @@ namespace NetWorkedData.NWDEditor
                 }
             }
             rMarkDown.AppendLine("");
-            string tDescription = NO_DESCRIPTION;
+            //string tDescription = NO_DESCRIPTION;
             rMarkDown.AppendLine("" + tdetaileddescription + "");
             rMarkDown.AppendLine("");
             rMarkDown.AppendLine("| Type | Description |");
             rMarkDown.AppendLine("|---|---|");
-            string tDescriptionType = NO_DESCRIPTION;
+            //string tDescriptionType = NO_DESCRIPTION;
             rMarkDown.AppendLine("|" + TypeName(sInfos.PropertyType) + "|" + tBriefdescription + "|");
 
             if (sInfos.GetCustomAttributes(true).Length > 0)

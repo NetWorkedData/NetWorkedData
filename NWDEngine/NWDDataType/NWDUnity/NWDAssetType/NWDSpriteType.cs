@@ -27,6 +27,7 @@ using System.Threading.Tasks;
 #if UNITY_EDITOR
 using UnityEditor;
 using NetWorkedData.NWDEditor;
+using UnityEngine.U2D;
 #endif
 //=====================================================================================================================
 namespace NetWorkedData
@@ -75,34 +76,24 @@ namespace NetWorkedData
 			return rSprite;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public async Task<Sprite> ToSpriteAsync(string sKeyMap = "")
+        public async Task<Sprite> ToAddressableSprite()
 		{
-            Sprite rSprite = ToSprite();
-			if(rSprite == null)
-			{
-				string tFilenameKey = Path.GetFileName(this.GetAbsolutePath());
-				if (!string.IsNullOrEmpty(sKeyMap))
-				{
-					tFilenameKey += sKeyMap;
-				}
-				Debug.Log("adressable: " + tFilenameKey);
-                Task<Sprite> tTask = LoadAddressableSprite(tFilenameKey);
-                rSprite = await tTask;
-			}
+            Sprite rSprite = null;
+			string tFileNameKey = Path.GetFileName(this.GetAbsolutePath());
+			Task<Sprite> tTask = LoadAddressableSprite(tFileNameKey);
+			rSprite = await tTask;
 
 			return rSprite;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public string GetAbsolutePath()
+		public async Task<Sprite> ToAddressableSpriteAtlas(string sSpriteNameKey)
 		{
-			string rPath = "";
-			if (!string.IsNullOrEmpty(Value))
-            {
-				rPath = Value.Replace(kAssetDelimiter, string.Empty);
-				rPath = NWEPathResources.PathAbsoluteToPathDB(rPath);
-			}
+			Sprite rSprite = null;
+			string tFileNameKey = Path.GetFileName(this.GetAbsolutePath());
+			Task<Sprite> tTask = LoadAddressableSpriteAtlas(tFileNameKey, sSpriteNameKey);
+			rSprite = await tTask;
 
-			return rPath;
+			return rSprite;
 		}
 		//-------------------------------------------------------------------------------------------------------------
         private async Task<Sprite> LoadAddressableSprite(string sKey)
@@ -120,6 +111,22 @@ namespace NetWorkedData
             }
             return rSprite;
         }
+		//-------------------------------------------------------------------------------------------------------------
+		private async Task<Sprite> LoadAddressableSpriteAtlas(string sKey, string sSpriteNameKey)
+        {
+            Sprite rSprite = null;
+            AsyncOperationHandle<SpriteAtlas> tHandle = Addressables.LoadAssetAsync<SpriteAtlas>(sKey);
+			await tHandle.Task;
+            if(tHandle.Status == AsyncOperationStatus.Succeeded)
+            {
+                rSprite = tHandle.Result.GetSprite(sSpriteNameKey);
+            }
+            else
+            {
+                Debug.LogWarning("Addressable " + tHandle.DebugName + " load error");
+            }
+            return rSprite;
+		}
 		//-------------------------------------------------------------------------------------------------------------
         #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------

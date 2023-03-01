@@ -26,6 +26,7 @@ using NetWorkedData.NWDEditor;
 using System;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.Video;
 using System.Threading.Tasks;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.AddressableAssets;
@@ -35,15 +36,15 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [SerializeField]
-    public class NWDAudioClipType : NWDAssetType
+    public class NWDVideoClipType : NWDAssetType
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAudioClipType()
+        public NWDVideoClipType()
         {
             Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAudioClipType(string sValue = NWEConstants.K_EMPTY_STRING)
+        public NWDVideoClipType(string sValue = NWEConstants.K_EMPTY_STRING)
         {
             if (sValue == null)
             {
@@ -55,41 +56,36 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public async Task<AudioClip> ToAddressableAudioClip()
+        public async Task<VideoClip> ToAddressableAudioClip()
 		{
-            AudioClip rClip = null;
+            VideoClip rClip = null;
 			string tFileNameKey = Path.GetFileName(this.GetAbsolutePath());
-			Task<AudioClip> tTask = LoadAddressableAudioClip(tFileNameKey);
+			Task<VideoClip> tTask = LoadAddressableVideoClip(tFileNameKey);
 			rClip = await tTask;
 
 			return rClip;
 		}
         //-------------------------------------------------------------------------------------------------------------
-        public AudioClip ToAudioClip()
+        public VideoClip ToVideoClip()
         {
-            AudioClip rAudioClip = null;
+            VideoClip rVideoClip = null;
             if (Value != null && Value != string.Empty)
             {
                 string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
 #if UNITY_EDITOR
-                rAudioClip = AssetDatabase.LoadAssetAtPath(tPath, typeof(AudioClip)) as AudioClip;
+                rVideoClip = AssetDatabase.LoadAssetAtPath(tPath, typeof(VideoClip)) as VideoClip;
 #else
                 tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
-                rAudioClip = Resources.Load(tPath, typeof(AudioClip)) as AudioClip;
+                rVideoClip = Resources.Load(tPath, typeof(VideoClip)) as VideoClip;
 #endif
-                /*Debug.LogWarning("rTexture at path " + tPath);
-                if (rAudioClip == null)
-                {
-                    Debug.LogWarning("rTexture is null at path " + tPath);
-                }*/
             }
-            return rAudioClip;
+            return rVideoClip;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private async Task<AudioClip> LoadAddressableAudioClip(string sKey)
+        private async Task<VideoClip> LoadAddressableVideoClip(string sKey)
         {
-            AudioClip rClip = null;
-            AsyncOperationHandle<AudioClip> tHandle = Addressables.LoadAssetAsync<AudioClip>(sKey);
+            VideoClip rClip = null;
+            AsyncOperationHandle<VideoClip> tHandle = Addressables.LoadAssetAsync<VideoClip>(sKey);
             await tHandle.Task;
             if(tHandle.Status == AsyncOperationStatus.Succeeded)
             {
@@ -103,9 +99,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
-        AudioClip kAudioClipUsed = null;
-        AudioClip kAudioClipLoaded = null;
-        string kValue = "";
         //-------------------------------------------------------------------------------------------------------------
         public override bool ErrorAnalyze()
         {
@@ -119,7 +112,7 @@ namespace NetWorkedData
                 else
                 {
                     string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
-                    AudioClip tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(AudioClip)) as AudioClip;
+                    VideoClip tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(VideoClip)) as VideoClip;
                     if (tObject == null)
                     {
                         rReturn = true;
@@ -153,7 +146,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
-            NWDAudioClipType tTemporary = new NWDAudioClipType();
+            NWDVideoClipType tTemporary = new NWDVideoClipType();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 
             tTemporary.Value = Value;
@@ -175,31 +168,25 @@ namespace NetWorkedData
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
             tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(NWEConstants.K_A), tWidth);
 
+            VideoClip tObject = null;
+
             bool tRessource = true;
-            //string tDuration = "";
-            if (!string.IsNullOrEmpty(Value))
+
+            if (Value != null && Value != string.Empty)
             {
-                if (kAudioClipLoaded == null || kValue != Value)
-                {
-                    StopClip();
-
-                    kValue = Value;
-                    string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
-                    kAudioClipLoaded = AssetDatabase.LoadAssetAtPath(tPath, typeof(AudioClip)) as AudioClip;
-                    //tDuration = TimeSpan.FromMilliseconds(GetDuration(kAudioClipLoaded)).ToString(@"mm\:ss");
-                }
-
-                if (kAudioClipLoaded == null)
+                string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+                tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(VideoClip)) as VideoClip;
+                if (tObject == null)
                 {
                     tRessource = false;
                 }
                 else
                 {
-                    if (kAudioClipUsed == null)
+                    if (kGUID == null)
                     {
                         if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY + NWDGUI.kFieldMarge + tObjectFieldStyle.fixedHeight, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize), " PLAY"))
                         {
-                            PlayClip(kAudioClipLoaded);
+                            PlayClip(tObject);
                         }
                     }
                     else
@@ -208,6 +195,10 @@ namespace NetWorkedData
                         {
                             StopClip();
                         }
+                        /*if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth + NWDGUI.kPrefabSize, tY + NWDGUI.kFieldMarge + tObjectFieldStyle.fixedHeight, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize), "pause"))
+                        {
+                            PauseClip();
+                        }*/
                     }
                 }
                 if (Value.Contains(NWD.K_Resources) == false)
@@ -215,9 +206,8 @@ namespace NetWorkedData
                     EditorGUI.LabelField(new Rect(tX, tY + tLabelAssetStyle.fixedHeight, tWidth, tLabelAssetStyle.fixedHeight), "NOT IN \"Resources\"", tLabelStyle);
                 }
             }
-
             EditorGUI.BeginDisabledGroup(!tRessource);
-            UnityEngine.Object pObj = EditorGUI.ObjectField(new Rect(tX, tY, tWidth, tObjectFieldStyle.fixedHeight), tContent, kAudioClipLoaded, typeof(AudioClip), false);
+            UnityEngine.Object pObj = EditorGUI.ObjectField(new Rect(tX, tY, tWidth, tObjectFieldStyle.fixedHeight), tContent, tObject, typeof(VideoClip), false);
             tY = tY + NWDGUI.kFieldMarge + tObjectFieldStyle.fixedHeight;
             if (pObj != null)
             {
@@ -228,8 +218,10 @@ namespace NetWorkedData
                 tTemporary.Value = string.Empty;
             }
             EditorGUI.EndDisabledGroup();
-
-            if (tRessource == false)
+            if (tRessource == true)
+            {
+            }
+            else
             {
                 tTemporary.Value = Value;
 
@@ -245,103 +237,71 @@ namespace NetWorkedData
                 NWDGUI.EndRedArea();
                 tY = tY + NWDGUI.kFieldMarge + tMiniButtonStyle.fixedHeight;
             }
-
             return tTemporary;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void StopClip()
+        static object kGUID;
+        //-------------------------------------------------------------------------------------------------------------
+        public static void StopClip()
         {
-            string tMethodName = "StopClip";
+            Assembly tAssembly = typeof(VideoClipImporter).Assembly;
+            Type tVideoUtilType = tAssembly.GetType("UnityEditor.VideoUtil");
+
+            Type[] tTypes = { typeof(GUID) };
+            string tMethodName = "Stop";
             #if UNITY_2021
-            tMethodName = "StopAllPreviewClips";
+            tMethodName = "StopPreview";
             #endif
-
-            GetMethodResult(tMethodName, typeof(AudioImporter), "UnityEditor.AudioUtil");
-
-            /*Assembly tAssembly = typeof(AudioImporter).Assembly;
-            Type tAudioUtilType = tAssembly.GetType("UnityEditor.AudioUtil");
-
-            Type[] tTypes = {};
-            string tMethodName = "StopClip";
-            #if UNITY_2021
-            tMethodName = "StopAllPreviewClips";
-            #endif
-
-            MethodInfo tMethod = tAudioUtilType.GetMethod(tMethodName, tTypes);
+            
+            MethodInfo tMethod = tVideoUtilType.GetMethod(tMethodName, tTypes);
             if (tMethod != null)
             {
-                object[] tObjects = {};
+                object[] tObjects = { kGUID };
                 tMethod.Invoke(null, BindingFlags.Static | BindingFlags.Public, null, tObjects, null);
             }
             else
             {
-                Debug.LogWarning("Method is Null!, can't " + tMethodName + " sound");
-            }*/
+                Debug.LogWarning("Method is Null!, can't " + tMethodName + " video");
+            }
 
-            kAudioClipUsed = null;
+            kGUID = null;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void PlayClip(AudioClip sAudioClip)
+        public static void PlayClip(VideoClip sVideoClip)
         {
-            kAudioClipUsed = sAudioClip;
+            Assembly tAssembly = typeof(VideoClipImporter).Assembly;
+            Type tVideoUtilType = tAssembly.GetType("UnityEditor.VideoUtil");
 
-            string tMethodName = "PlayClip";
+            Type[] tTypesMethodA = { typeof(VideoClip) };
+            string tMethodName = "Start";
             #if UNITY_2021
-            tMethodName = "PlayPreviewClip";
+            tMethodName = "StartPreview";
             #endif
 
-            GetMethodResult(tMethodName,
-                            typeof(AudioImporter),
-                            "UnityEditor.AudioUtil",
-                            new Type[] { typeof(AudioClip), typeof(int), typeof(bool) },
-                            new object[] { sAudioClip, 0, false });
-
-            /*kAudioClipUsed = sAudioClip;
-            Assembly tAssembly = typeof(AudioImporter).Assembly;
-            Type tAudioUtilType = tAssembly.GetType("UnityEditor.AudioUtil");
-            
-            Type[] tTypes = { typeof(AudioClip), typeof(int), typeof(bool) };
-            string tMethodName = "PlayClip";
-            #if UNITY_2021
-            tMethodName = "PlayPreviewClip";
-            #endif
-
-            MethodInfo tMethod = tAudioUtilType.GetMethod(tMethodName, tTypes);
+            MethodInfo tMethod = tVideoUtilType.GetMethod(tMethodName, tTypesMethodA);
             if (tMethod != null)
             {
-                int tSample = (int)(0 * sAudioClip.frequency);
-                object[] tObjects = { sAudioClip, tSample, false };
-                tMethod.Invoke(null, BindingFlags.Static | BindingFlags.Public, null, tObjects, null);
+                object[] tObjectsA = { sVideoClip };
+                kGUID = tMethod.Invoke(null, BindingFlags.Static | BindingFlags.Public, null, tObjectsA, null);
+                
+                Type[] tTypesMethodB = { typeof(GUID), typeof(bool) };
+                tMethod = tVideoUtilType.GetMethod("PlayPreview", tTypesMethodB);
+                if (tMethod != null)
+                {
+                    object[] tObjectsB = { kGUID, false };
+                    tMethod.Invoke(null, BindingFlags.Static | BindingFlags.Public, null, tObjectsB, null);
+                }
             }
             else
             {
-                Debug.LogWarning("Method is Null!, can't " + tMethodName + " sound");
-            }*/
+                Debug.LogWarning("Method is Null!, can't " + tMethodName + " video");
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public double GetDuration(AudioClip sAudioClip)
+        /*public static void PauseClip()
         {
-            double rReturn = 0f;
 
-            Assembly tAssembly = typeof(AudioImporter).Assembly;
-            Type tAudioUtilType = tAssembly.GetType("UnityEditor.AudioUtil");
-            
-            Type[] tTypes = { typeof(AudioClip) };
-            string tMethodName = "GetDuration";
-
-            MethodInfo tMethod = tAudioUtilType.GetMethod(tMethodName, tTypes);
-            if (tMethod != null)
-            {
-                object[] tObjects = { sAudioClip };
-                rReturn = (double)tMethod.Invoke(null, BindingFlags.Static | BindingFlags.Public, null, tObjects, null);
-            }
-            else
-            {
-                Debug.LogWarning("Method is Null!, can't " + tMethodName + " sound");
-            }
-
-            return rReturn;
-        }
+        }*/
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------

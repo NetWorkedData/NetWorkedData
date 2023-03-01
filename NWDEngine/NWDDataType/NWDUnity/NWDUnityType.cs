@@ -40,7 +40,28 @@ namespace NetWorkedData
     [SerializeField]
 	public class NWDUnityType : NWEDataType
 	{
+        //-------------------------------------------------------------------------------------------------------------
+        public object GetMethodResult(string sMethodName, Type sClass, string sUsingName, Type[] sParamTypes = null, object[] sParamValues = null)
+        {
+            object rReturn = null;
 
+            Type tAssemblyType = sClass.Assembly.GetType(sUsingName);
+
+            sParamTypes = sParamTypes ?? new Type[] { };
+            MethodInfo tMethod = tAssemblyType.GetMethod(sMethodName, sParamTypes);
+            if (tMethod != null)
+            {
+                sParamValues = sParamValues ?? new object[] { };
+                rReturn = tMethod.Invoke(null, BindingFlags.Static | BindingFlags.Public, null, sParamValues, null);
+            }
+            else
+            {
+                Debug.LogWarning("Method '" + sMethodName + "' not found!");
+            }
+
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
