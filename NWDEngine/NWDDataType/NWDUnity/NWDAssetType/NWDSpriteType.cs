@@ -23,11 +23,11 @@ using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.AddressableAssets;
 using System.Threading.Tasks;
+using UnityEngine.U2D;
 //=====================================================================================================================
 #if UNITY_EDITOR
 using UnityEditor;
 using NetWorkedData.NWDEditor;
-using UnityEngine.U2D;
 #endif
 //=====================================================================================================================
 namespace NetWorkedData
