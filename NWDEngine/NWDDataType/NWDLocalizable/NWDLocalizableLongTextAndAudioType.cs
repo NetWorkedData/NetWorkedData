@@ -18,23 +18,24 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.IO;
-using UnityEngine;
-//=====================================================================================================================
 #if UNITY_EDITOR
 using UnityEditor;
 using NetWorkedData.NWDEditor;
 #endif
 //=====================================================================================================================
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.AddressableAssets;
+//=====================================================================================================================
 namespace NetWorkedData
 {
     [SerializeField]
-    //-------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------
     public class NWDLocalizableLongTextAndAudioType : NWDLocalizableType
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -58,25 +59,143 @@ namespace NetWorkedData
             kSplitDico = new Dictionary<string, string>();
             DicoPopulate();
         }
-#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
+        public void InitValue()
+        {
+            // Split Value into a List
+            List<string> tValueList = new List<string>();
+            if (!string.IsNullOrEmpty(Value))
+            {
+                tValueList = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries).ToList<string>();
+            }
+
+            foreach(string tLine in tValueList)
+            {
+                string tLangague = string.Empty;
+                string tText = string.Empty;
+                string tAudio = string.Empty;
+                string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
+                if (tLineValue.Length == 2)
+                {
+                    tLangague = tLineValue[0];
+                    string[] k = tLineValue[1].Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries);
+                    if (k.Length == 2)
+                    {
+                        tText = k[0];
+                        tAudio = k[1];
+                    }
+                    else
+                    {
+                        tText = tLineValue[1];
+                    }
+                }
+                else if (tLineValue.Length == 1)
+                {
+                    tLangague = tLineValue[0];
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public new string GetLocalString()
+        {
+            string rValue = "";
+            string tLine = SplitDico(NWDDataManager.SharedInstance().PlayerLanguage);
+            string[] k = tLine.Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries);
+            if (k.Length == 2)
+            {
+                rValue = k[0];
+            }
+            else
+            {
+                rValue = tLine;
+            }
+            return NWDToolbox.TextUnprotect(rValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public AudioClip GetLocalAudio()
+        {
+            string tAudio = GetAudioValue();
+
+            AudioClip rValue = null;
+            if(!string.IsNullOrEmpty(tAudio))
+            {
+                string tPath = tAudio.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+                rValue = AssetDatabase.LoadAssetAtPath(tPath, typeof(AudioClip)) as AudioClip;
+            }
+
+            return rValue;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public async Task<AudioClip> GetAddressableAudio()
+        {
+            string tAudio = GetAudioValue();
+
+            AudioClip rValue = null;
+            if(!string.IsNullOrEmpty(tAudio))
+            {
+                string tFileNameKey = Path.GetFileName(this.GetAbsolutePath(tAudio));
+                Task<AudioClip> tTask = LoadAddressableAudioClip(tFileNameKey);
+                rValue = await tTask;
+            }
+
+            return rValue;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private async Task<AudioClip> LoadAddressableAudioClip(string sKey)
+        {
+            AudioClip rClip = null;
+            AsyncOperationHandle<AudioClip> tHandle = Addressables.LoadAssetAsync<AudioClip>(sKey);
+            await tHandle.Task;
+            if(tHandle.Status == AsyncOperationStatus.Succeeded)
+            {
+                rClip = tHandle.Result;
+            }
+            else
+            {
+                Debug.LogWarning("Addressable " + tHandle.DebugName + " load error");
+            }
+            return rClip;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private string GetAudioValue()
+        {
+            string rAudio = "";
+            string tLine = SplitDico(NWDDataManager.SharedInstance().PlayerLanguage);
+            string[] k = tLine.Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries);
+            if (k.Length == 2)
+            {
+                rAudio = k[1];
+            }
+
+            return rAudio;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private string GetAbsolutePath(string sFile)
+		{
+			string rPath = "";
+			if (!string.IsNullOrEmpty(sFile))
+            {
+				rPath = sFile.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+				rPath = NWEPathResources.PathAbsoluteToPathDB(rPath);
+			}
+
+			return rPath;
+		}
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
         const float kCONT_FIELD_STYLE_SPACE = 5f;
         const int kCONST_NUMBER_OF_LINE = 6;
         AudioClip kAudioClipUsed = null;
-        AudioClip kAudioClipLoaded = null;
-        string kAudio = "";
         //-------------------------------------------------------------------------------------------------------------
         public override float ControlFieldHeight()
         {
             int tRow = 0;
-            if (Value != null && Value != string.Empty)
+            if (!string.IsNullOrEmpty(Value))
             {
-                string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-                tRow += tValueArray.Count();
+                tRow = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries).Count();
             }
 
-            float rReturn = (NWDGUI.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE + NWDGUI.kPopupStyle.fixedHeight + NWDGUI.kObjectFieldStyle.fixedHeight + kCONT_FIELD_STYLE_SPACE + NWDGUI.kFieldMarge * 2) * tRow + NWDGUI.kPopupStyle.fixedHeight;
-            return rReturn;
+            return (NWDGUI.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE + NWDGUI.kPopupStyle.fixedHeight + NWDGUI.kObjectFieldStyle.fixedHeight + kCONT_FIELD_STYLE_SPACE + NWDGUI.kFieldMarge * 2) * tRow + NWDGUI.kPopupStyle.fixedHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
@@ -136,7 +255,6 @@ namespace NetWorkedData
                 if (tLineValue.Length == 2)
                 {
                     tLangague = tLineValue[0];
-                    //tText = tLineValue[1];
 
                     string[] k = tLineValue[1].Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries);
                     if (k.Length == 2)
@@ -149,7 +267,7 @@ namespace NetWorkedData
                         tText = tLineValue[1];
                     }
                 }
-                if (tLineValue.Length == 1)
+                else if (tLineValue.Length == 1)
                 {
                     tLangague = tLineValue[0];
                 }
@@ -182,51 +300,33 @@ namespace NetWorkedData
 
                     // Text field
                     tText = EditorGUI.TextArea(new Rect(tX + NWDGUI.kLangWidth, tY + NWDGUI.kFieldMarge + NWDGUI.kPopupStyle.fixedHeight, tWidth - NWDGUI.kLangWidth, NWDGUI.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE), NWDToolbox.TextUnprotect(tText), NWDGUI.kTextAreaStyle);
-                    //tText = NWDToolbox.TextProtect(tText);
+                    tText = NWDToolbox.TextProtect(tText);
 
                     // Audio field
-                    //bool tRessource = true;
-                    if (!string.IsNullOrEmpty(tAudio))
+                    AudioClip tAudioClipLoaded = null;
+                    if (!string.IsNullOrEmpty(tAudio.Trim()))
                     {
-                        if (kAudioClipLoaded == null || kAudio != tAudio)
-                        {
-                            //StopClip();
+                        string tPath = tAudio.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+                        tAudioClipLoaded = AssetDatabase.LoadAssetAtPath(tPath, typeof(AudioClip)) as AudioClip;
 
-                            kAudio = tAudio;
-                            string tPath = tAudio.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
-                            kAudioClipLoaded = AssetDatabase.LoadAssetAtPath(tPath, typeof(AudioClip)) as AudioClip;
-                            //tDuration = TimeSpan.FromMilliseconds(GetDuration(kAudioClipLoaded)).ToString(@"mm\:ss");
+                        Rect tRect = new Rect(tX - NWDGUI.kLangWidth * 2 + tWidth + 10, tY + NWDGUI.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE + NWDGUI.kPopupStyle.fixedHeight + NWDGUI.kFieldMarge * 2, NWDGUI.kPrefabSize, NWDGUI.kObjectFieldStyle.fixedHeight * 2);
+                        if (tAudioClipLoaded != null && kAudioClipUsed != tAudioClipLoaded)
+                        {
+                            if (GUI.Button(tRect, "PLAY"))
+                            {
+                                PlayClip(tAudioClipLoaded);
+                            }
                         }
-
-                        /*if (kAudioClipLoaded == null)
+                        else
                         {
-                            tRessource = false;
-                        }*/
-                        /*else
-                        {
-                            if (kAudioClipUsed == null)
+                            if (GUI.Button(tRect, "STOP"))
                             {
-                                if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY + NWDGUI.kFieldMarge + tObjectFieldStyle.fixedHeight, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize), " PLAY"))
-                                {
-                                    PlayClip(kAudioClipLoaded);
-                                }
+                                StopClip();
                             }
-                            else
-                            {
-                                if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY + NWDGUI.kFieldMarge + tObjectFieldStyle.fixedHeight, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize), " STOP"))
-                                {
-                                    StopClip();
-                                }
-                            }
-                        }*/
-                        /*if (Value.Contains(NWD.K_Resources) == false)
-                        {
-                            EditorGUI.LabelField(new Rect(tX, tY + tLabelAssetStyle.fixedHeight, tWidth, tLabelAssetStyle.fixedHeight), "NOT IN \"Resources\"", tLabelStyle);
-                        }*/
+                        }
                     }
 
-                    //EditorGUI.BeginDisabledGroup(!tRessource);
-                    UnityEngine.Object tAudioObject = EditorGUI.ObjectField(new Rect(tX - NWDGUI.kLangWidth * 2, tY + NWDGUI.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE + NWDGUI.kPopupStyle.fixedHeight + NWDGUI.kFieldMarge*2, tWidth, NWDGUI.kObjectFieldStyle.fixedHeight), tContent, kAudioClipLoaded, typeof(AudioClip), false);
+                    UnityEngine.Object tAudioObject = EditorGUI.ObjectField(new Rect(tX - NWDGUI.kLangWidth * 2, tY + NWDGUI.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE + NWDGUI.kPopupStyle.fixedHeight + NWDGUI.kFieldMarge * 2, tWidth, NWDGUI.kObjectFieldStyle.fixedHeight), tContent, tAudioClipLoaded, typeof(AudioClip), false);
                     tY = tY + NWDGUI.kFieldMarge + NWDGUI.kObjectFieldStyle.fixedHeight;
                     if (tAudioObject != null)
                     {
@@ -236,7 +336,6 @@ namespace NetWorkedData
                     {
                         tAudio = string.Empty;
                     }
-                    //EditorGUI.EndDisabledGroup();
 
                     EditorGUI.indentLevel = tIndentLevel;
                 }
@@ -266,7 +365,6 @@ namespace NetWorkedData
                 tNewValue = string.Empty;
             }
             tTemporary.Value = tNewValue;
-            //Debug.LogWarning(tNewValue);
 
             return tTemporary;
         }
@@ -283,24 +381,6 @@ namespace NetWorkedData
             }
             string tValue = sValueText + NWDConstants.kFieldSeparatorD + sValueAudio;
 
-            /*string tValue = "";
-            if (string.IsNullOrEmpty(sValueText) && string.IsNullOrEmpty(sValueAudio))
-            {
-                // do nothing
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(sValueText))
-                {
-                    sValueText = " ";
-                }
-                if (string.IsNullOrEmpty(sValueAudio))
-                {
-                    sValueAudio = " ";
-                }
-                tValue = sValueText + NWDConstants.kFieldSeparatorD + sValueAudio;
-            }*/
-
             if (sDictionary.ContainsKey(sValueLangue))
             {
                 sDictionary[sValueLangue] = tValue;
@@ -312,8 +392,38 @@ namespace NetWorkedData
 
             return sDictionary;
         }
-#endif
         //-------------------------------------------------------------------------------------------------------------
+        private void StopClip()
+        {
+            string tMethodName = "StopClip";
+            #if UNITY_2021
+            tMethodName = "StopAllPreviewClips";
+            #endif
+
+            GetMethodResult(tMethodName, typeof(AudioImporter), "UnityEditor.AudioUtil");
+
+            kAudioClipUsed = null;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void PlayClip(AudioClip sAudioClip)
+        {
+            StopClip();
+
+            kAudioClipUsed = sAudioClip;
+
+            string tMethodName = "PlayClip";
+            #if UNITY_2021
+            tMethodName = "PlayPreviewClip";
+            #endif
+
+            GetMethodResult(tMethodName,
+                            typeof(AudioImporter),
+                            "UnityEditor.AudioUtil",
+                            new Type[] { typeof(AudioClip), typeof(int), typeof(bool) },
+                            new object[] { sAudioClip, 0, false });
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#endif
     }
 }
 //=====================================================================================================================
