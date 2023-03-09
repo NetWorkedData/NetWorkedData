@@ -112,7 +112,7 @@ namespace NetWorkedData
             return NWDToolbox.TextUnprotect(rValue);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public AudioClip GetLocalAudio()
+        /*public AudioClip GetLocalAudio()
         {
             string tAudio = GetAudioValue();
 
@@ -124,7 +124,7 @@ namespace NetWorkedData
             }
 
             return rValue;
-        }
+        }*/
         //-------------------------------------------------------------------------------------------------------------
         public async Task<AudioClip> GetAddressableAudio()
         {
