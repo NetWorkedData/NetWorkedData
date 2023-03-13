@@ -99,6 +99,7 @@ namespace NetWorkedData
         public new string GetLocalString()
         {
             string rValue = "";
+
             string tLine = SplitDico(NWDDataManager.SharedInstance().PlayerLanguage);
             string[] k = tLine.Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries);
             if (k.Length == 2)
@@ -109,36 +110,42 @@ namespace NetWorkedData
             {
                 rValue = tLine;
             }
+
             return NWDToolbox.TextUnprotect(rValue);
         }
         //-------------------------------------------------------------------------------------------------------------
-        /*public AudioClip GetLocalAudio()
-        {
-            string tAudio = GetAudioValue();
+        public AudioClip GetLocalAudio()
+		{
+            string tPath = GetAudioValue();
 
-            AudioClip rValue = null;
-            if(!string.IsNullOrEmpty(tAudio))
+            AudioClip rClip = null;
+			if (!string.IsNullOrEmpty(tPath))
             {
-                string tPath = tAudio.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
-                rValue = AssetDatabase.LoadAssetAtPath(tPath, typeof(AudioClip)) as AudioClip;
-            }
+				#if UNITY_EDITOR
+                tPath = tPath.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+				rClip = AssetDatabase.LoadAssetAtPath<AudioClip>(tPath);
+                #else
+                tPath = GetAbsolutePath(tPath);
+                rClip = Resources.Load<AudioClip>(tPath);
+                #endif
+			}
 
-            return rValue;
-        }*/
+			return rClip;
+		}
         //-------------------------------------------------------------------------------------------------------------
         public async Task<AudioClip> GetAddressableAudio()
         {
-            string tAudio = GetAudioValue();
+            string tPath = GetAudioValue();
 
-            AudioClip rValue = null;
-            if(!string.IsNullOrEmpty(tAudio))
+            AudioClip rClip = null;
+            if(!string.IsNullOrEmpty(tPath))
             {
-                string tFileNameKey = Path.GetFileName(this.GetAbsolutePath(tAudio));
+                string tFileNameKey = Path.GetFileName(this.GetAbsolutePath(tPath));
                 Task<AudioClip> tTask = LoadAddressableAudioClip(tFileNameKey);
-                rValue = await tTask;
+                rClip = await tTask;
             }
 
-            return rValue;
+            return rClip;
         }
         //-------------------------------------------------------------------------------------------------------------
         private async Task<AudioClip> LoadAddressableAudioClip(string sKey)

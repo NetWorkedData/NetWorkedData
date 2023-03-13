@@ -62,6 +62,7 @@ namespace NetWorkedData
         public Sprite ToSprite()
 		{
             Sprite rSprite = null;
+			
 			if (!string.IsNullOrEmpty(Value))
             {
 				string tPath = Value.Replace(kAssetDelimiter, string.Empty);
@@ -128,7 +129,7 @@ namespace NetWorkedData
             return rSprite;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public override bool ErrorAnalyze()
         {
@@ -142,7 +143,7 @@ namespace NetWorkedData
                 else
                 {
                     string tPath = Value.Replace(kAssetDelimiter, string.Empty);
-                    Sprite tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(Sprite)) as Sprite;
+                    Sprite tObject = AssetDatabase.LoadAssetAtPath<Sprite>(tPath);
                     if (tObject == null)
                     {
                         rReturn = true;

@@ -56,7 +56,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public async Task<VideoClip> ToAddressableAudioClip()
+        public async Task<VideoClip> ToAddressableVideoClip()
 		{
             VideoClip rClip = null;
 			string tFileNameKey = Path.GetFileName(this.GetAbsolutePath());
