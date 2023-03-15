@@ -99,7 +99,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
         public override bool ErrorAnalyze()
         {
             bool rReturn = false;
@@ -242,32 +241,51 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static object kGUID;
         //-------------------------------------------------------------------------------------------------------------
-        public static void StopClip()
+        private void StopClip()
         {
-            Assembly tAssembly = typeof(VideoClipImporter).Assembly;
-            Type tVideoUtilType = tAssembly.GetType("UnityEditor.VideoUtil");
-
-            Type[] tTypes = { typeof(GUID) };
-            string tMethodName = "Stop";
-            #if UNITY_2021
-            tMethodName = "StopPreview";
-            #endif
-            
-            MethodInfo tMethod = tVideoUtilType.GetMethod(tMethodName, tTypes);
-            if (tMethod != null)
+            if (kGUID != null)
             {
-                object[] tObjects = { kGUID };
-                tMethod.Invoke(null, BindingFlags.Static | BindingFlags.Public, null, tObjects, null);
-            }
-            else
-            {
-                Debug.LogWarning("Method is Null!, can't " + tMethodName + " video");
-            }
+                string tMethodName = "Stop";
+                #if UNITY_2021
+                tMethodName = "StopPreview";
+                #endif
 
-            kGUID = null;
+                GetMethodResult(tMethodName,
+                                typeof(VideoClipImporter),
+                                "UnityEditor.VideoUtil",
+                                new Type[] { typeof(GUID) },
+                                new object[] { kGUID });
+
+                kGUID = null;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void PlayClip(VideoClip sVideoClip)
+        private void PlayClip(VideoClip sVideoClip)
+        {
+            StopClip();
+
+            string tMethodName = "Start";
+            #if UNITY_2021
+            tMethodName = "StartPreview";
+            #endif
+
+            kGUID = GetMethodResult(tMethodName,
+                                    typeof(VideoClipImporter),
+                                    "UnityEditor.VideoUtil",
+                                    new Type[] { typeof(VideoClip) },
+                                    new object[] { sVideoClip });
+
+            if (kGUID != null)
+            {
+                GetMethodResult("PlayPreview",
+                                typeof(VideoClipImporter),
+                                "UnityEditor.VideoUtil",
+                                new Type[] { typeof(GUID), typeof(bool) },
+                                new object[] { kGUID, false });
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /*private static void PlayClip(VideoClip sVideoClip)
         {
             Assembly tAssembly = typeof(VideoClipImporter).Assembly;
             Type tVideoUtilType = tAssembly.GetType("UnityEditor.VideoUtil");
@@ -296,15 +314,14 @@ namespace NetWorkedData
             {
                 Debug.LogWarning("Method is Null!, can't " + tMethodName + " video");
             }
-        }
+        }*/
         //-------------------------------------------------------------------------------------------------------------
-        /*public static void PauseClip()
+        /*private static void PauseClip()
         {
 
         }*/
         //-------------------------------------------------------------------------------------------------------------
 #endif
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

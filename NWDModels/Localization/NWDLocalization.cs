@@ -39,20 +39,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Localization", true, true, true)]
         [NWDInformation("Use Dialog or Message for more complex localization.")]
-        
         [NWDCertified]
         [NWDTooltips("The localizable value")]
-        public NWDLocalizableLongTextType TextValue
-        {
-            get; set;
-        }
-
+        public NWDLocalizableLongTextType TextValue {get; set;}
         [NWDCertified]
         [NWDTooltips("The Key to use to replace by the value use something like {xxxxx} or #xxxx# empty if localization is not use as autoreplace value")]
-        public string KeyValue
-        {
-            get; set;
-        }
+        public string KeyValue {get; set;}
         //-------------------------------------------------------------------------------------------------------------
     }
     //-------------------------------------------------------------------------------------------------------------
