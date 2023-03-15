@@ -124,23 +124,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override float ControlFieldHeight()
         {
-            int tAdd = 0;
-            if (Value != string.Empty)
+            int tVideoHeight = 0;
+            if (kGUID != null)
             {
-                tAdd = 1;
+                tVideoHeight = 210;
             }
-            GUIStyle tObjectFieldStyle = new GUIStyle(EditorStyles.objectField);
-            tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0f);
-            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0f);
-            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0f);
-            GUIStyle tLabelAssetStyle = new GUIStyle(EditorStyles.label);
-            tLabelAssetStyle.fontSize = 12;
-            tLabelAssetStyle.fixedHeight = tLabelAssetStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0f);
-            tLabelAssetStyle.normal.textColor = Color.gray;
 
-            return tObjectFieldStyle.fixedHeight + tAdd * (NWDGUI.kPrefabSize + NWDGUI.kFieldMarge);
+            return (NWDGUI.kPopupStyle.fixedHeight + NWDGUI.kFieldMarge + tVideoHeight);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
@@ -150,92 +140,48 @@ namespace NetWorkedData
 
             tTemporary.Value = Value;
 
-            float tWidth = sPosition.width;
+            float tWidth = sPosition.width - NWDGUI.kLangWidth * 2 + 5;
             float tHeight = sPosition.height;
             float tX = sPosition.position.x;
             float tY = sPosition.position.y;
 
-            GUIStyle tObjectFieldStyle = new GUIStyle(EditorStyles.objectField);
-            tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), tWidth);
-            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), tWidth);
-            tLabelStyle.normal.textColor = Color.red;
-            GUIStyle tLabelAssetStyle = new GUIStyle(EditorStyles.label);
-            tLabelAssetStyle.fontSize = 12;
-            tLabelAssetStyle.fixedHeight = tLabelAssetStyle.CalcHeight(new GUIContent(NWEConstants.K_A), tWidth);
-            tLabelAssetStyle.normal.textColor = Color.gray;
-            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(NWEConstants.K_A), tWidth);
-
-            VideoClip tObject = null;
-
-            bool tRessource = true;
-
-            if (Value != null && Value != string.Empty)
+            VideoClip tVideoClipLoaded = null;
+            if (!string.IsNullOrEmpty(Value.Trim()))
             {
                 string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
-                tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(VideoClip)) as VideoClip;
-                if (tObject == null)
+                tVideoClipLoaded = AssetDatabase.LoadAssetAtPath(tPath, typeof(VideoClip)) as VideoClip;
+
+                Rect tRect = new Rect(tX + tWidth + 5, tY, NWDGUI.kPrefabSize, NWDGUI.kObjectFieldStyle.fixedHeight);
+                if (kGUID == null)
                 {
-                    tRessource = false;
+                    if (GUI.Button(tRect, "PLAY"))
+                    {
+                        PlayClip(tVideoClipLoaded);
+                    }
                 }
                 else
                 {
-                    if (kGUID == null)
+                    if (GUI.Button(tRect, "STOP"))
                     {
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY + NWDGUI.kFieldMarge + tObjectFieldStyle.fixedHeight, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize), " PLAY"))
-                        {
-                            PlayClip(tObject);
-                        }
+                        StopClip();
                     }
-                    else
-                    {
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY + NWDGUI.kFieldMarge + tObjectFieldStyle.fixedHeight, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize), " STOP"))
-                        {
-                            StopClip();
-                        }
-                        /*if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth + NWDGUI.kPrefabSize, tY + NWDGUI.kFieldMarge + tObjectFieldStyle.fixedHeight, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize), "pause"))
-                        {
-                            PauseClip();
-                        }*/
-                    }
-                }
-                if (Value.Contains(NWD.K_Resources) == false)
-                {
-                    EditorGUI.LabelField(new Rect(tX, tY + tLabelAssetStyle.fixedHeight, tWidth, tLabelAssetStyle.fixedHeight), "NOT IN \"Resources\"", tLabelStyle);
                 }
             }
-            EditorGUI.BeginDisabledGroup(!tRessource);
-            UnityEngine.Object pObj = EditorGUI.ObjectField(new Rect(tX, tY, tWidth, tObjectFieldStyle.fixedHeight), tContent, tObject, typeof(VideoClip), false);
-            tY = tY + NWDGUI.kFieldMarge + tObjectFieldStyle.fixedHeight;
-            if (pObj != null)
+
+            UnityEngine.Object tVideoObject = EditorGUI.ObjectField(new Rect(tX, tY, tWidth, NWDGUI.kObjectFieldStyle.fixedHeight), tContent, tVideoClipLoaded, typeof(VideoClip), false);
+            if (tVideoObject != null)
             {
-                tTemporary.Value = NWDAssetType.kAssetDelimiter + AssetDatabase.GetAssetPath(pObj) + NWDAssetType.kAssetDelimiter;
+                tTemporary.Value = NWDAssetType.kAssetDelimiter + AssetDatabase.GetAssetPath(tVideoObject) + NWDAssetType.kAssetDelimiter;
             }
             else
             {
                 tTemporary.Value = string.Empty;
             }
-            EditorGUI.EndDisabledGroup();
-            if (tRessource == true)
-            {
-            }
-            else
-            {
-                tTemporary.Value = Value;
 
-                GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ASSET_MUST_BE_DOWNLOAD, tLabelStyle);
-                tY = tY + NWDGUI.kFieldMarge + tLabelStyle.fixedHeight;
-                GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace(NWDAssetType.kAssetDelimiter, ""), tLabelAssetStyle);
-                tY = tY + NWDGUI.kFieldMarge + tLabelAssetStyle.fixedHeight;
-                NWDGUI.BeginRedArea();
-                if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle))
-                {
-                    tTemporary.Value = string.Empty;
-                }
-                NWDGUI.EndRedArea();
-                tY = tY + NWDGUI.kFieldMarge + tMiniButtonStyle.fixedHeight;
-            }
+            tY += NWDGUI.kPopupStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+            ShowAssetPreviewTexture(tX - NWDGUI.kLangWidth + 10, tY + NWDGUI.kPopupStyle.fixedHeight, tWidth, 200);
+
             return tTemporary;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -285,41 +231,23 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        /*private static void PlayClip(VideoClip sVideoClip)
+        private void ShowAssetPreviewTexture(float sX, float sY, float sWidth, float sHeight)
         {
-            Assembly tAssembly = typeof(VideoClipImporter).Assembly;
-            Type tVideoUtilType = tAssembly.GetType("UnityEditor.VideoUtil");
-
-            Type[] tTypesMethodA = { typeof(VideoClip) };
-            string tMethodName = "Start";
-            #if UNITY_2021
-            tMethodName = "StartPreview";
-            #endif
-
-            MethodInfo tMethod = tVideoUtilType.GetMethod(tMethodName, tTypesMethodA);
-            if (tMethod != null)
+            if (kGUID != null)
             {
-                object[] tObjectsA = { sVideoClip };
-                kGUID = tMethod.Invoke(null, BindingFlags.Static | BindingFlags.Public, null, tObjectsA, null);
-                
-                Type[] tTypesMethodB = { typeof(GUID), typeof(bool) };
-                tMethod = tVideoUtilType.GetMethod("PlayPreview", tTypesMethodB);
-                if (tMethod != null)
+                string tMethodName = "GetPreviewTexture";
+                object tTexture = GetMethodResult(tMethodName,
+                                                typeof(VideoClipImporter),
+                                                "UnityEditor.VideoUtil",
+                                                new Type[] { typeof(GUID) },
+                                                new object[] { kGUID });
+
+                if (tTexture != null)
                 {
-                    object[] tObjectsB = { kGUID, false };
-                    tMethod.Invoke(null, BindingFlags.Static | BindingFlags.Public, null, tObjectsB, null);
+                    EditorGUI.DrawPreviewTexture(new Rect(sX + NWDGUI.kLangWidth * 3, sY - NWDGUI.kObjectFieldStyle.fixedHeight, sWidth, sHeight), tTexture as Texture, null , ScaleMode.ScaleToFit);
                 }
             }
-            else
-            {
-                Debug.LogWarning("Method is Null!, can't " + tMethodName + " video");
-            }
-        }*/
-        //-------------------------------------------------------------------------------------------------------------
-        /*private static void PauseClip()
-        {
-
-        }*/
+        }
         //-------------------------------------------------------------------------------------------------------------
 #endif
     }

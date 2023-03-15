@@ -162,7 +162,13 @@ namespace NetWorkedData
                 tRow += Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries).Count();
             }
 
-            return (tRow * (NWDGUI.kPopupStyle.fixedHeight + NWDGUI.kFieldMarge));
+            int tVideoHeight = 0;
+            if (kVideoClipUsed != null)
+            {
+                tVideoHeight = 200;
+            }
+
+            return (tRow * (NWDGUI.kPopupStyle.fixedHeight + NWDGUI.kFieldMarge) + tVideoHeight);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
@@ -296,6 +302,8 @@ namespace NetWorkedData
             tResult.Remove(NWEConstants.K_MINUS); // remove default value
             tResult.Remove(string.Empty); // remove empty value
 
+            ShowAssetPreviewTexture(tX, tY, tWidth, 200);
+
             if (tResult.ContainsKey(NWDDataLocalizationManager.kBaseDev) == false)
             {
                 tResult = UpdateDictionaryValue(NWDDataLocalizationManager.kBaseDev, "", tResult);
@@ -383,6 +391,24 @@ namespace NetWorkedData
                                 "UnityEditor.VideoUtil",
                                 new Type[] { typeof(GUID), typeof(bool) },
                                 new object[] { kGUID, false });
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void ShowAssetPreviewTexture(float sX, float sY, float sWidth, float sHeight)
+        {
+            if (kGUID != null)
+            {
+                string tMethodName = "GetPreviewTexture";
+                object tTexture = GetMethodResult(tMethodName,
+                                                typeof(VideoClipImporter),
+                                                "UnityEditor.VideoUtil",
+                                                new Type[] { typeof(GUID) },
+                                                new object[] { kGUID });
+
+                if (tTexture != null)
+                {
+                    EditorGUI.DrawPreviewTexture(new Rect(sX + NWDGUI.kLangWidth * 3, sY - NWDGUI.kObjectFieldStyle.fixedHeight, sWidth, sHeight), tTexture as Texture, null , ScaleMode.ScaleToFit);
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
