@@ -34,9 +34,9 @@ namespace NetWorkedData.NWDEditor
     public enum NWDEditorBuildEnvironment : int
     {
         Ask = 0,
+        Prod = 1,
         Dev = 2,
         Preprod = 3,
-        Prod = 1
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDEditorBuildRename : int
@@ -100,19 +100,19 @@ namespace NetWorkedData.NWDEditor
                                                                             "Production", // 1
                                                                             "Development", //2
                                                                             "PreProduction" //3
-                                                                            ) + 1;
+                                                                        ) + 1;
             }
             else if (GetEditoBuildEnvironment() == NWDEditorBuildEnvironment.Prod)
             {
-                tResultEnvironment = 1;
+                tResultEnvironment = (int)NWDEditorBuildEnvironment.Prod;
             }
             else if (GetEditoBuildEnvironment() == NWDEditorBuildEnvironment.Dev)
             {
-                tResultEnvironment = 2;
+                tResultEnvironment = (int)NWDEditorBuildEnvironment.Dev;
             }
             else if (GetEditoBuildEnvironment() == NWDEditorBuildEnvironment.Preprod)
             {
-                tResultEnvironment = 3;
+                tResultEnvironment = (int)NWDEditorBuildEnvironment.Preprod;
             }
 
             // Prebuild 
@@ -121,10 +121,10 @@ namespace NetWorkedData.NWDEditor
                 tName = NWDAppConfiguration.SharedInstance().ProdEnvironment.AppName;
                 tHisto = NWDAppConfiguration.SharedInstance().ProdEnvironment.PreProdTimeFormat;
             }
-            else if (tResultEnvironment == 3)
+            else if (tResultEnvironment == 2)
             {
-                tName = NWDAppConfiguration.SharedInstance().PreprodEnvironment.AppName;
-                tHisto = NWDAppConfiguration.SharedInstance().PreprodEnvironment.PreProdTimeFormat;
+                tName = NWDAppConfiguration.SharedInstance().DevEnvironment.AppName;
+                tHisto = NWDAppConfiguration.SharedInstance().DevEnvironment.PreProdTimeFormat;
                 string tNameFutur = tName;
                 if (!string.IsNullOrEmpty(tHisto))
                 {
@@ -148,10 +148,10 @@ namespace NetWorkedData.NWDEditor
                     }
                 }
             }
-            else if (tResultEnvironment == 2)
+            else if (tResultEnvironment == 3)
             {
-                tName = NWDAppConfiguration.SharedInstance().DevEnvironment.AppName;
-                tHisto = NWDAppConfiguration.SharedInstance().DevEnvironment.PreProdTimeFormat;
+                tName = NWDAppConfiguration.SharedInstance().PreprodEnvironment.AppName;
+                tHisto = NWDAppConfiguration.SharedInstance().PreprodEnvironment.PreProdTimeFormat;
                 string tNameFutur = tName;
                 if (!string.IsNullOrEmpty(tHisto))
                 {
