@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using static NetWorkedData.NWDORM;
 //=====================================================================================================================
 #if UNITY_EDITOR
 using UnityEditor;
@@ -347,6 +348,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void InsertDataProceed()
         {
+            PrepareStatement tStatement;
             //NWDBenchmark.Start();
             // Debug.Log("NWDBasis InsertDataProceed()");
             //if (AccountDependent())
@@ -357,9 +359,10 @@ namespace NetWorkedData
                 {
                     if (New_SQLInsertOrReplace(out string tQuery))
                     {
-                        IntPtr stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, tQuery);
-                        Sqlite.Step(stmt);
-                        Sqlite.Finalize(stmt);
+                        using (tStatement = new PrepareStatement(NWDDataManager.SharedInstance().SQLiteDeviceHandle, tQuery))
+                        {
+                            tStatement.Step();
+                        }
                     }
                 }
             }
@@ -369,9 +372,10 @@ namespace NetWorkedData
                 {
                     if (New_SQLInsertOrReplace(out string tQuery))
                     {
-                        IntPtr stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, tQuery);
-                        Sqlite.Step(stmt);
-                        Sqlite.Finalize(stmt);
+                        using (tStatement = new PrepareStatement(NWDDataManager.SharedInstance().SQLiteEditorHandle, tQuery))
+                        {
+                            tStatement.Step();
+                        }
                     }
                 }
             }
@@ -380,6 +384,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void InsertDataProceedWithTransaction()
         {
+            PrepareStatement tStatement;
+            Transaction tTransaction;
             //NWDBenchmark.Start();
             //Debug.Log("NWDBasis InsertDataProceedWithTransaction()");
             //if (AccountDependent())
@@ -390,15 +396,15 @@ namespace NetWorkedData
                 {
                     if (New_SQLInsertOrReplace(out string tQuery))
                     {
-                        IntPtr stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "BEGIN TRANSACTION");
-                        Sqlite.Step(stmt);
-                        Sqlite.Finalize(stmt);
-                        stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, tQuery);
-                        Sqlite.Step(stmt);
-                        Sqlite.Finalize(stmt);
-                        stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "COMMIT");
-                        Sqlite.Step(stmt);
-                        Sqlite.Finalize(stmt);
+                        using (tTransaction = new Transaction(NWDDataManager.SharedInstance().SQLiteDeviceHandle))
+                        {
+                            tTransaction.Begin();
+                            using (tStatement = new PrepareStatement(NWDDataManager.SharedInstance().SQLiteDeviceHandle, tQuery))
+                            {
+                                tStatement.Step();
+                            }
+                            tTransaction.Commit();
+                        }
                     }
                 }
             }
@@ -408,15 +414,15 @@ namespace NetWorkedData
                 {
                     if (New_SQLInsertOrReplace(out string tQuery))
                     {
-                        IntPtr stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
-                        Sqlite.Step(stmt);
-                        Sqlite.Finalize(stmt);
-                        stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, tQuery);
-                        Sqlite.Step(stmt);
-                        Sqlite.Finalize(stmt);
-                        stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "COMMIT");
-                        Sqlite.Step(stmt);
-                        Sqlite.Finalize(stmt);
+                        using (tTransaction = new Transaction(NWDDataManager.SharedInstance().SQLiteEditorHandle))
+                        {
+                            tTransaction.Begin();
+                            using (tStatement = new PrepareStatement(NWDDataManager.SharedInstance().SQLiteEditorHandle, tQuery))
+                            {
+                                tStatement.Step();
+                            }
+                            tTransaction.Commit();
+                        }
                     }
                 }
             }
@@ -614,6 +620,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void UpdateDataProceed()
         {
+            PrepareStatement tStatement;
             //NWDBenchmark.Start();
             //Debug.Log("NWDBasis UpdateDataProceed()");
             //if (AccountDependent())
@@ -624,9 +631,10 @@ namespace NetWorkedData
                 {
                     if (New_SQLInsertOrReplace(out string tQuery))
                     {
-                        IntPtr stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, tQuery);
-                        Sqlite.Step(stmt);
-                        Sqlite.Finalize(stmt);
+                        using (tStatement = new PrepareStatement(NWDDataManager.SharedInstance().SQLiteDeviceHandle, tQuery))
+                        {
+                            tStatement.Step();
+                        }
                     }
                 }
             }
@@ -636,9 +644,10 @@ namespace NetWorkedData
                 {
                     if (New_SQLInsertOrReplace(out string tQuery))
                     {
-                        IntPtr stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, tQuery);
-                        Sqlite.Step(stmt);
-                        Sqlite.Finalize(stmt);
+                        using (tStatement = new PrepareStatement(NWDDataManager.SharedInstance().SQLiteEditorHandle, tQuery))
+                        {
+                            tStatement.Step();
+                        }
                     }
                 }
             }
@@ -647,6 +656,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void UpdateDataProceedWithTransaction()
         {
+            PrepareStatement tStatement;
+            Transaction tTransaction;
             //NWDBenchmark.Start();
             //Debug.Log("NWDBasis UpdateDataProceedWithTransaction()");
             //if (AccountDependent())
@@ -657,15 +668,15 @@ namespace NetWorkedData
                 {
                     if (New_SQLInsertOrReplace(out string tQuery))
                     {
-                        IntPtr stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "BEGIN TRANSACTION");
-                        Sqlite.Step(stmt);
-                        Sqlite.Finalize(stmt);
-                        stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, tQuery);
-                        Sqlite.Step(stmt);
-                        Sqlite.Finalize(stmt);
-                        stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "COMMIT");
-                        Sqlite.Step(stmt);
-                        Sqlite.Finalize(stmt);
+                        using (tTransaction = new Transaction(NWDDataManager.SharedInstance().SQLiteDeviceHandle))
+                        {
+                            tTransaction.Begin();
+                            using (tStatement = new PrepareStatement(NWDDataManager.SharedInstance().SQLiteDeviceHandle, tQuery))
+                            {
+                                tStatement.Step();
+                            }
+                            tTransaction.Commit();
+                        }
                     }
                 }
             }
@@ -675,15 +686,15 @@ namespace NetWorkedData
                 {
                     if (New_SQLInsertOrReplace(out string tQuery))
                     {
-                        IntPtr stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
-                        Sqlite.Step(stmt);
-                        Sqlite.Finalize(stmt);
-                        stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, tQuery);
-                        Sqlite.Step(stmt);
-                        Sqlite.Finalize(stmt);
-                        stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "COMMIT");
-                        Sqlite.Step(stmt);
-                        Sqlite.Finalize(stmt);
+                        using (tTransaction = new Transaction(NWDDataManager.SharedInstance().SQLiteEditorHandle))
+                        {
+                            tTransaction.Begin();
+                            using (tStatement = new PrepareStatement(NWDDataManager.SharedInstance().SQLiteEditorHandle, tQuery))
+                            {
+                                tStatement.Step();
+                            }
+                            tTransaction.Commit();
+                        }
                     }
                 }
             }
@@ -889,6 +900,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void DeleteDataProceed()
         {
+            PrepareStatement tStatement;
             //NWDBenchmark.Start();
             //if (AccountDependent())
             //if (BasisHelper().TemplateHelper.GetAccountDependent() != NWDTemplateAccountDependent.NoAccountDependent)
@@ -896,18 +908,20 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
-                    IntPtr stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, New_SQLDelete());
-                    Sqlite.Step(stmt);
-                    Sqlite.Finalize(stmt);
+                    using (tStatement = new PrepareStatement(NWDDataManager.SharedInstance().SQLiteDeviceHandle, New_SQLDelete()))
+                    {
+                        tStatement.Step();
+                    }
                 }
             }
             else if (BasisHelper().TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
-                    IntPtr stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, New_SQLDelete());
-                    Sqlite.Step(stmt);
-                    Sqlite.Finalize(stmt);
+                    using (tStatement = new PrepareStatement(NWDDataManager.SharedInstance().SQLiteEditorHandle, New_SQLDelete()))
+                    {
+                        tStatement.Step();
+                    }
                 }
             }
             //NWDBenchmark.Finish();
@@ -915,6 +929,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void DeleteDataProceedWithTransaction()
         {
+            PrepareStatement tStatement;
+            Transaction tTransaction;
             //NWDBenchmark.Start();
             //Debug.Log("NWDBasis DeleteDataProceedWithTransaction()");
             //if (AccountDependent())
@@ -923,30 +939,30 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
-                    IntPtr stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "BEGIN TRANSACTION");
-                    Sqlite.Step(stmt);
-                    Sqlite.Finalize(stmt);
-                    stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, New_SQLDelete());
-                    Sqlite.Step(stmt);
-                    Sqlite.Finalize(stmt);
-                    stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "COMMIT");
-                    Sqlite.Step(stmt);
-                    Sqlite.Finalize(stmt);
+                    using (tTransaction = new Transaction(NWDDataManager.SharedInstance().SQLiteDeviceHandle))
+                    {
+                        tTransaction.Begin();
+                        using (tStatement = new PrepareStatement(NWDDataManager.SharedInstance().SQLiteDeviceHandle, New_SQLDelete()))
+                        {
+                            tStatement.Step();
+                        }
+                        tTransaction.Commit();
+                    }
                 }
             }
             else if (BasisHelper().TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
-                    IntPtr stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
-                    Sqlite.Step(stmt);
-                    Sqlite.Finalize(stmt);
-                    stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, New_SQLDelete());
-                    Sqlite.Step(stmt);
-                    Sqlite.Finalize(stmt);
-                    stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "COMMIT");
-                    Sqlite.Step(stmt);
-                    Sqlite.Finalize(stmt);
+                    using (tTransaction = new Transaction(NWDDataManager.SharedInstance().SQLiteEditorHandle))
+                    {
+                        tTransaction.Begin();
+                        using (tStatement = new PrepareStatement(NWDDataManager.SharedInstance().SQLiteEditorHandle, New_SQLDelete()))
+                        {
+                            tStatement.Step();
+                        }
+                        tTransaction.Commit();
+                    }
                 }
             }
             //NWDBenchmark.Finish();

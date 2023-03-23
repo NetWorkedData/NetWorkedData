@@ -22,9 +22,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using static NetWorkedData.NWDORM;
 
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEditorInternal;
 #endif
 //=====================================================================================================================
 #if UNITY_EDITOR
@@ -252,6 +254,8 @@ namespace NetWorkedData
         /// <param name="sInsertDataQueuePool">S insert data queue pool.</param>
         private void InsertDataQueueExecute(List<NWDTypeClass> sInsertDataQueuePool)
         {
+            Transaction tTransaction1;
+            Transaction tTransaction2;
             if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid() && NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
             {
                 //NWDBenchmark.Start();
@@ -259,22 +263,21 @@ namespace NetWorkedData
                 List<Type> tTypeList = new List<Type>();
                 if (sInsertDataQueuePool.Count > 0)
                 {
-                    IntPtr stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "BEGIN TRANSACTION");
-                    Sqlite.Step(stmt);
-                    Sqlite.Finalize(stmt);
-                    IntPtr stmtE = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
-                    Sqlite.Step(stmtE);
-                    Sqlite.Finalize(stmtE);
-                    foreach (NWDTypeClass tObject in sInsertDataQueuePool)
+                    using (tTransaction1 = new Transaction(NWDDataManager.SharedInstance().SQLiteDeviceHandle))
                     {
-                        tObject.InsertDataProceed();
+                        tTransaction1.Begin();
+                        using (tTransaction2 = new Transaction(NWDDataManager.SharedInstance().SQLiteEditorHandle))
+                        {
+                            tTransaction2.Begin();
+                            foreach (NWDTypeClass tObject in sInsertDataQueuePool)
+                            {
+                                tObject.InsertDataProceed();
+                            }
+                            tTransaction2.Commit();
+                        }
+                        tTransaction1.Commit();
                     }
-                    stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "COMMIT");
-                    Sqlite.Step(stmt);
-                    Sqlite.Finalize(stmt);
-                    stmtE = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "COMMIT");
-                    Sqlite.Step(stmtE);
-                    Sqlite.Finalize(stmtE);
+
                     foreach (NWDTypeClass tObject in sInsertDataQueuePool)
                     {
                         Type tType = tObject.GetType();
@@ -395,6 +398,9 @@ namespace NetWorkedData
         /// <param name="sUpdateDataQueuePool">S update data queue pool.</param>
         private void UpdateDataQueueExecute(List<NWDTypeClass> sUpdateDataQueuePool)
         {
+            Transaction tTransaction1;
+            Transaction tTransaction2;
+
             //NWDBenchmark.Start();
             //NWDDebug.Log("UpdateDataQueueExecute with " + sUpdateDataQueuePool.Count + " Object(s)");
             if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid() && NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
@@ -402,22 +408,21 @@ namespace NetWorkedData
                 List<Type> tTypeList = new List<Type>();
                 if (sUpdateDataQueuePool.Count > 0)
                 {
-                    IntPtr stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "BEGIN TRANSACTION");
-                    Sqlite.Step(stmt);
-                    Sqlite.Finalize(stmt);
-                    IntPtr stmtE = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
-                    Sqlite.Step(stmtE);
-                    Sqlite.Finalize(stmtE);
-                    foreach (NWDTypeClass tObject in sUpdateDataQueuePool)
+                    using (tTransaction1 = new Transaction(NWDDataManager.SharedInstance().SQLiteDeviceHandle))
                     {
-                        tObject.UpdateDataProceed();
+                        tTransaction1.Begin();
+                        using (tTransaction2 = new Transaction(NWDDataManager.SharedInstance().SQLiteEditorHandle))
+                        {
+                            tTransaction2.Begin();
+                            foreach (NWDTypeClass tObject in sUpdateDataQueuePool)
+                            {
+                                tObject.UpdateDataProceed();
+                            }
+                            tTransaction2.Commit();
+                        }
+                        tTransaction1.Commit();
                     }
-                    stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "COMMIT");
-                    Sqlite.Step(stmt);
-                    Sqlite.Finalize(stmt);
-                    stmtE = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "COMMIT");
-                    Sqlite.Step(stmtE);
-                    Sqlite.Finalize(stmtE);
+
                     foreach (NWDTypeClass tObject in sUpdateDataQueuePool)
                     {
                         Type tType = tObject.GetType();
@@ -529,6 +534,9 @@ namespace NetWorkedData
         /// <param name="sDeleteDataQueuePool">S delete data queue pool.</param>
         private void DeleteDataQueueExecute(List<NWDTypeClass> sDeleteDataQueuePool)
         {
+            Transaction tTransaction1;
+            Transaction tTransaction2;
+
             if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid() && NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
             {
                 //NWDBenchmark.Start();
@@ -536,22 +544,20 @@ namespace NetWorkedData
                 List<Type> tTypeList = new List<Type>();
                 if (sDeleteDataQueuePool.Count > 0)
                 {
-                    IntPtr stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "BEGIN TRANSACTION");
-                    Sqlite.Step(stmt);
-                    Sqlite.Finalize(stmt);
-                    IntPtr stmtE = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
-                    Sqlite.Step(stmtE);
-                    Sqlite.Finalize(stmtE);
-                    foreach (NWDTypeClass tObject in sDeleteDataQueuePool)
+                    using (tTransaction1 = new Transaction(NWDDataManager.SharedInstance().SQLiteDeviceHandle))
                     {
-                        tObject.DeleteDataProceed();
+                        tTransaction1.Begin();
+                        using (tTransaction2 = new Transaction(NWDDataManager.SharedInstance().SQLiteEditorHandle))
+                        {
+                            tTransaction2.Begin();
+                            foreach (NWDTypeClass tObject in sDeleteDataQueuePool)
+                            {
+                                tObject.DeleteDataProceed();
+                            }
+                            tTransaction2.Commit();
+                        }
+                        tTransaction1.Commit();
                     }
-                    stmt = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteDeviceHandle, "COMMIT");
-                    Sqlite.Step(stmt);
-                    Sqlite.Finalize(stmt);
-                    stmtE = Sqlite.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "COMMIT");
-                    Sqlite.Step(stmtE);
-                    Sqlite.Finalize(stmtE);
                     foreach (NWDTypeClass tObject in kDeleteDataQueueMain)
                     {
                         Type tType = tObject.GetType();
