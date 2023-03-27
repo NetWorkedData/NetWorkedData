@@ -151,6 +151,9 @@ namespace NetWorkedData
         private async Task<AudioClip> LoadAddressableAudioClip(string sKey)
         {
             AudioClip rClip = null;
+            if (string.IsNullOrWhiteSpace(sKey)) {
+                return null;
+            }
             AsyncOperationHandle<AudioClip> tHandle = Addressables.LoadAssetAsync<AudioClip>(sKey);
             await tHandle.Task;
             if(tHandle.Status == AsyncOperationStatus.Succeeded)
