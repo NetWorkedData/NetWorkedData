@@ -25,7 +25,6 @@ using System.IO;
 using UnityEngine;
 using System.Text;
 using UnityEngine.Networking;
-using static NetWorkedData.NWDORM;
 
 #if UNITY_EDITOR
 using NetWorkedData.Logged;
@@ -274,7 +273,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool ConnectToDatabaseAccount(string sSurProtection)
         {
-            PrepareStatement tStatement;
             //Debug.Log("@@@@ Need Open Data base ... ConnectToDatabaseAccount");
             NWDBenchmarkLauncher.Start();
             //NWDBenchmarkLauncher.Log("LibVersionNumber() = " + Sqlite.LibVersionNumber());
@@ -299,14 +297,12 @@ namespace NetWorkedData
                     //IntPtr stmtpragmaX = Sqlite.Prepare2(SQLiteAccountHandle, "PRAGMA cipher_memory_security = OFF;");
                     //Sqlite.Step(stmtpragmaX);
                     //Sqlite.Finalize(stmtpragmaX);
-                    using (tStatement = new PrepareStatement(SQLiteDeviceHandle, "PRAGMA synchronous = OFF;"))
-                    {
-                        tStatement.Step();
-                    }
-                    using (tStatement = new PrepareStatement(SQLiteDeviceHandle, "PRAGMA journal_mode = MEMORY;"))
-                    {
-                        tStatement.Step();
-                    }
+                    IntPtr stmtpragma = Sqlite.Prepare2(SQLiteDeviceHandle, "PRAGMA synchronous = OFF;");
+                    Sqlite.Step(stmtpragma);
+                    Sqlite.Finalize(stmtpragma);
+                    IntPtr stmtpragmaB = Sqlite.Prepare2(SQLiteDeviceHandle, "PRAGMA journal_mode = MEMORY");
+                    Sqlite.Step(stmtpragmaB);
+                    Sqlite.Finalize(stmtpragmaB);
                     //Sqlite3DatabaseHandle stmtpragmaC = Sqlite.Prepare2(SQLiteAccountHandle, "PRAGMA cache_size = 1000000");
                     //Sqlite.Step(stmtpragmaC);
                     //Sqlite.Finalize(stmtpragmaC);
@@ -376,100 +372,95 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CreateAllTablesLocalAccount()
         {
-            PrepareStatement tStatement;
             //NWDBenchmark.Start();
-            using (Transaction tTransaction = new Transaction(SQLiteDeviceHandle))
+            IntPtr stmt = Sqlite.Prepare2(SQLiteDeviceHandle, "BEGIN TRANSACTION");
+            Sqlite.Step(stmt);
+            Sqlite.Finalize(stmt);
+            if (DeviceDatabaseConnected == true && DeviceDatabasConnectionInProgress == false)
             {
-                tTransaction.Begin();
-
-                if (DeviceDatabaseConnected == true && DeviceDatabasConnectionInProgress == false)
+                foreach (Type tType in ClassInDeviceDatabaseList)
                 {
-                    foreach (Type tType in ClassInDeviceDatabaseList)
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                    if (tHelper.TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount)
                     {
-                        NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                        if (tHelper.TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseAccount)
+                        NWDSQLiteTableState tState = tHelper.TableSQLiteState();
+                        foreach (string tQuery in tHelper.CreateTableSQLite(tState))
                         {
-                            NWDSQLiteTableState tState = tHelper.TableSQLiteState();
-                            foreach (string tQuery in tHelper.CreateTableSQLite(tState))
+                            Debug.Log(tQuery);
+                            stmt = Sqlite.Prepare2(SQLiteDeviceHandle, tQuery);
+                            SQLite3.Result tResult = Sqlite.Step(stmt);
+                            if (tResult != SQLite3.Result.Done)
                             {
-                                using (tStatement = new PrepareStatement(SQLiteDeviceHandle, tQuery))
-                                {
-                                    SQLite3.Result tResult = tStatement.Step();
-                                    if (tResult != SQLite3.Result.Done)
-                                    {
-                                        Debug.Log("error in execution of query " + tResult.ToString() + ": " + tStatement.Query);
-                                    }
-                                    else
-                                    {
-#if UNITY_EDITOR
-                                        Debug.Log("success query : " + tStatement.Query);
-#endif
-                                    }
-                                }
+                                Debug.Log("error in execution of query " + tResult.ToString() + ": " + tQuery);
                             }
-                            string tIndexA = tHelper.CreateIndexSQLite(tState);
-                            if (string.IsNullOrEmpty(tIndexA) == false)
+                            else
                             {
-                                using (tStatement = new PrepareStatement(SQLiteDeviceHandle, tIndexA))
-                                {
-                                    SQLite3.Result tResult = tStatement.Step();
-                                    if (tResult != SQLite3.Result.Done)
-                                    {
-                                        Debug.Log("error in execution of query " + tResult.ToString() + ": " + tStatement.Query);
-                                    }
-                                    else
-                                    {
 #if UNITY_EDITOR
-                                        Debug.Log("success query : " + tStatement.Query);
+                                Debug.Log("success query : " + tQuery);
 #endif
-                                    }
-                                }
                             }
-                            string tIndexC = tHelper.CreateIndexBundleSQLite(tState);
-                            if (string.IsNullOrEmpty(tIndexC) == false)
+                            Sqlite.Finalize(stmt);
+                        }
+                        string tIndexA = tHelper.CreateIndexSQLite(tState);
+                        if (string.IsNullOrEmpty(tIndexA) == false)
+                        {
+                            stmt = Sqlite.Prepare2(SQLiteDeviceHandle, tIndexA);
+                            SQLite3.Result tResult = Sqlite.Step(stmt);
+                            if (tResult != SQLite3.Result.Done)
                             {
-                                using (tStatement = new PrepareStatement(SQLiteDeviceHandle, tIndexC))
-                                {
-                                    SQLite3.Result tResult = tStatement.Step();
-                                    if (tResult != SQLite3.Result.Done)
-                                    {
-                                        Debug.Log("error in execution of query " + tResult.ToString() + ": " + tStatement.Query);
-                                    }
-                                    else
-                                    {
-#if UNITY_EDITOR
-                                        Debug.Log("success query : " + tStatement.Query);
-#endif
-                                    }
-                                }
+                                Debug.Log("error in execution of query " + tResult.ToString() + ": " + tIndexA);
                             }
-                            if (tHelper.TemplateHelper.GetBundlisable() == NWDTemplateBundlisable.Bundlisable)
+                            else
                             {
-                                string tIndexB = tHelper.CreateIndexBundleSQLite(tState);
-                                if (string.IsNullOrEmpty(tIndexB) == false)
-                                {
-                                    using (tStatement = new PrepareStatement(SQLiteDeviceHandle, tIndexB))
-                                    {
-                                        SQLite3.Result tResult = tStatement.Step();
-                                        if (tResult != SQLite3.Result.Done)
-                                        {
-                                            Debug.Log("error in execution of query " + tResult.ToString() + ": " + tStatement.Query);
-                                        }
-                                        else
-                                        {
 #if UNITY_EDITOR
-                                            Debug.Log("success query : " + tStatement.Query);
+                                Debug.Log("success query : " + tIndexA);
 #endif
-                                        }
-                                    }
+                            }
+                            Sqlite.Finalize(stmt);
+                        }
+                        string tIndexC = tHelper.CreateIndexBundleSQLite(tState);
+                        if (string.IsNullOrEmpty(tIndexC) == false)
+                        {
+                            stmt = Sqlite.Prepare2(SQLiteDeviceHandle, tIndexC);
+                            SQLite3.Result tResult = Sqlite.Step(stmt);
+                            if (tResult != SQLite3.Result.Done)
+                            {
+                                Debug.Log("error in execution of query " + tResult.ToString() + ": " + tIndexC);
+                            }
+                            else
+                            {
+#if UNITY_EDITOR
+                                Debug.Log("success query : " + tIndexC);
+#endif
+                            }
+                            Sqlite.Finalize(stmt);
+                        }
+                        if (tHelper.TemplateHelper.GetBundlisable() == NWDTemplateBundlisable.Bundlisable)
+                        {
+                            string tIndexB = tHelper.CreateIndexBundleSQLite(tState);
+                            if (string.IsNullOrEmpty(tIndexB) == false)
+                            {
+                                stmt = Sqlite.Prepare2(SQLiteDeviceHandle, tIndexB);
+                                SQLite3.Result tResult = Sqlite.Step(stmt);
+                                if (tResult != SQLite3.Result.Done)
+                                {
+                                    Debug.Log("error in execution of query " + tResult.ToString() + ": " + tIndexB);
                                 }
+                                else
+                                {
+#if UNITY_EDITOR
+                                    Debug.Log("success query : " + tIndexB);
+#endif
+                                }
+                                Sqlite.Finalize(stmt);
                             }
                         }
                     }
                 }
-
-                tTransaction.Commit();
             }
+            stmt = Sqlite.Prepare2(SQLiteDeviceHandle, "COMMIT");
+            Sqlite.Step(stmt);
+            Sqlite.Finalize(stmt);
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -513,101 +504,96 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CreateAllTablesLocalEditor()
         {
-            PrepareStatement tStatement;
             //NWDBenchmark.Start();
-            using (Transaction tTransaction = new Transaction(SQLiteEditorHandle))
+            IntPtr stmt = Sqlite.Prepare2(SQLiteEditorHandle, "BEGIN TRANSACTION");
+            Sqlite.Step(stmt);
+            Sqlite.Finalize(stmt);
+            if (EditorDatabaseConnected == true && EditorDatabaseConnectionInProgress == false)
             {
-                tTransaction.Begin();
-
-                if (EditorDatabaseConnected == true && EditorDatabaseConnectionInProgress == false)
+                foreach (Type tType in ClassInEditorDatabaseList)
                 {
-                    foreach (Type tType in ClassInEditorDatabaseList)
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                    if (tHelper.TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
                     {
-                        NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                        if (tHelper.TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
+                        NWDSQLiteTableState tState = tHelper.TableSQLiteState();
+                        foreach (string tQuery in tHelper.CreateTableSQLite(tState))
                         {
-                            NWDSQLiteTableState tState = tHelper.TableSQLiteState();
-                            foreach (string tQuery in tHelper.CreateTableSQLite(tState))
+                            Debug.Log(tQuery);
+                            stmt = Sqlite.Prepare2(SQLiteEditorHandle, tQuery);
+                            SQLite3.Result tResult = Sqlite.Step(stmt);
+                            if (tResult != SQLite3.Result.Done)
                             {
-                                using (tStatement = new PrepareStatement(SQLiteEditorHandle, tQuery))
-                                {
-                                    SQLite3.Result tResult = tStatement.Step();
-                                    if (tResult != SQLite3.Result.Done)
-                                    {
-                                        Debug.Log("error in execution of query " + tResult.ToString() + ": " + tStatement.Query);
-                                    }
-                                    else
-                                    {
-#if UNITY_EDITOR
-                                        Debug.Log("success query : " + tStatement.Query);
-#endif
-                                    }
-                                }
+                                Debug.Log("error in execution of query " + tResult.ToString() + ": " + tQuery);
                             }
-                            string tIndexA = tHelper.CreateIndexSQLite(tState);
-                            if (string.IsNullOrEmpty(tIndexA) == false)
+                            else
                             {
-                                using (tStatement = new PrepareStatement(SQLiteEditorHandle, tIndexA))
-                                {
-                                    SQLite3.Result tResult = tStatement.Step();
-                                    if (tResult != SQLite3.Result.Done)
-                                    {
-                                        Debug.Log("error in execution of query " + tResult.ToString() + ": " + tStatement.Query);
-                                    }
-                                    else
-                                    {
 #if UNITY_EDITOR
-                                        Debug.Log("success query : " + tStatement.Query);
+                                Debug.Log("success query : " + tQuery);
 #endif
-                                    }
-                                }
                             }
+                            Sqlite.Finalize(stmt);
+                        }
+                        string tIndexA = tHelper.CreateIndexSQLite(tState);
+                        if (string.IsNullOrEmpty(tIndexA) == false)
+                        {
+                            stmt = Sqlite.Prepare2(SQLiteEditorHandle, tIndexA);
+                            SQLite3.Result tResult = Sqlite.Step(stmt);
+                            if (tResult != SQLite3.Result.Done)
+                            {
+                                Debug.Log("error in execution of query " + tResult.ToString() + ": " + tIndexA);
+                            }
+                            else
+                            {
+#if UNITY_EDITOR
+                                Debug.Log("success query : " + tIndexA);
+#endif
+                            }
+                            Sqlite.Finalize(stmt);
+                        }
 
-                            string tIndexC = tHelper.CreateIndexModifiySQLite(tState);
-                            if (string.IsNullOrEmpty(tIndexC) == false)
+                        string tIndexC = tHelper.CreateIndexModifiySQLite(tState);
+                        if (string.IsNullOrEmpty(tIndexC) == false)
+                        {
+                            stmt = Sqlite.Prepare2(SQLiteEditorHandle, tIndexC);
+                            SQLite3.Result tResult = Sqlite.Step(stmt);
+                            if (tResult != SQLite3.Result.Done)
                             {
-                                using (tStatement = new PrepareStatement(SQLiteEditorHandle, tIndexC))
-                                {
-                                    SQLite3.Result tResult = tStatement.Step();
-                                    if (tResult != SQLite3.Result.Done)
-                                    {
-                                        Debug.Log("error in execution of query " + tResult.ToString() + ": " + tStatement.Query);
-                                    }
-                                    else
-                                    {
-#if UNITY_EDITOR
-                                        Debug.Log("success query : " + tStatement.Query);
-#endif
-                                    }
-                                }
+                                Debug.Log("error in execution of query " + tResult.ToString() + ": " + tIndexC);
                             }
-                            if (tHelper.TemplateHelper.GetBundlisable() == NWDTemplateBundlisable.Bundlisable)
+                            else
                             {
-                                string tIndexB = tHelper.CreateIndexBundleSQLite(tState);
-                                if (string.IsNullOrEmpty(tIndexB) == false)
-                                {
-                                    using (tStatement = new PrepareStatement(SQLiteEditorHandle, tIndexB))
-                                    {
-                                        SQLite3.Result tResult = tStatement.Step();
-                                        if (tResult != SQLite3.Result.Done)
-                                        {
-                                            Debug.Log("error in execution of query " + tResult.ToString() + ": " + tStatement.Query);
-                                        }
-                                        else
-                                        {
 #if UNITY_EDITOR
-                                            Debug.Log("success query : " + tStatement.Query);
+                                Debug.Log("success query : " + tIndexC);
 #endif
-                                        }
-                                    }
+                            }
+                            Sqlite.Finalize(stmt);
+                        }
+                        if (tHelper.TemplateHelper.GetBundlisable() == NWDTemplateBundlisable.Bundlisable)
+                        {
+                            string tIndexB = tHelper.CreateIndexBundleSQLite(tState);
+                            if (string.IsNullOrEmpty(tIndexB) == false)
+                            {
+                                stmt = Sqlite.Prepare2(SQLiteEditorHandle, tIndexB);
+                                SQLite3.Result tResult = Sqlite.Step(stmt);
+                                if (tResult != SQLite3.Result.Done)
+                                {
+                                    Debug.Log("error in execution of query " + tResult.ToString() + ": " + tIndexB);
                                 }
+                                else
+                                {
+#if UNITY_EDITOR
+                                    Debug.Log("success query : " + tIndexB);
+#endif
+                                }
+                                Sqlite.Finalize(stmt);
                             }
                         }
                     }
                 }
-
-                tTransaction.Commit();
             }
+            stmt = Sqlite.Prepare2(SQLiteEditorHandle, "COMMIT");
+            Sqlite.Step(stmt);
+            Sqlite.Finalize(stmt);
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
