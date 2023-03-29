@@ -33,6 +33,7 @@ using NWEMiniJSON;
 #if UNITY_EDITOR
 using UnityEditor;
 using NetWorkedData.NWDEditor;
+using NetWorkedData.NWDORM;
 #endif
 //=====================================================================================================================
 namespace NetWorkedData
@@ -170,6 +171,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator ExecuteAsync()
         {
+            using StaticDatabase tDeviceStatic = NWDDataManager.SharedInstance().DeviceFactory.StartStaticDatabase();
+            using StaticDatabase tEditorStatic = NWDDataManager.SharedInstance().EditorFactory.StartStaticDatabase();
             //string tBenchmark = NWDBenchmark.GetKeyWihRandom();
             //NWDBenchmark.Start(tBenchmark);
             //Debug.Log("NWDOperationWebUnity ExecuteAsync()");

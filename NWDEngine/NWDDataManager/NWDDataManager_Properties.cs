@@ -19,6 +19,7 @@
 #endif
 //=====================================================================================================================
 
+using NetWorkedData.NWDORM;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -96,7 +97,12 @@ namespace NetWorkedData
         /// <summary>
         /// return SQLite pointer on opened database <see cref="NWD.K_DeviceDatabaseName"/>
         /// </summary>
-        public IntPtr SQLiteDeviceHandle = IntPtr.Zero;
+        [Obsolete("Use DeviceFactory instead")]
+        public IntPtr SQLiteDeviceHandleHandle = IntPtr.Zero;
+        /// <summary>
+        /// Handles sqlite database operation.
+        /// </summary>
+        public DatabaseFactory DeviceFactory = null;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// return if <see cref="NWD.K_EditorDatabaseName"/> is connected or not
@@ -113,7 +119,12 @@ namespace NetWorkedData
         /// <summary>
         /// return SQLite pointer on opened database <see cref="NWD.K_EditorDatabaseName"/>
         /// </summary>
+        [Obsolete("Use EditorFactory instead")]
         public IntPtr SQLiteEditorHandle = IntPtr.Zero;
+        /// <summary>
+        /// Handles sqlite database operation.
+        /// </summary>
+        public DatabaseFactory EditorFactory = null;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// reccord if datas are indexed
