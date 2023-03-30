@@ -23,11 +23,11 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using NetWorkedData.NWDORM;
+using System.Text;
 //=====================================================================================================================
 #if UNITY_EDITOR
 using UnityEditor;
 using NetWorkedData.NWDEditor;
-using System.Text;
 #endif
 //=====================================================================================================================
 #if UNITY_EDITOR

@@ -29,11 +29,11 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using NWEMiniJSON;
+using NetWorkedData.NWDORM;
 //=====================================================================================================================
 #if UNITY_EDITOR
 using UnityEditor;
 using NetWorkedData.NWDEditor;
-using NetWorkedData.NWDORM;
 #endif
 //=====================================================================================================================
 namespace NetWorkedData
