@@ -261,18 +261,18 @@ namespace NetWorkedData
                 List<Type> tTypeList = new List<Type>();
                 if (sInsertDataQueuePool.Count > 0)
                 {
-                    using (ITransaction tDeviceTransaction = NWDDataManager.SharedInstance().DeviceFactory.CreateTransaction())
                     {
+                        using ITransaction tDeviceTransaction = NWDDataManager.SharedInstance().DeviceFactory.CreateTransaction();
                         tDeviceTransaction.Begin();
-                        using (ITransaction tEditorTransaction = NWDDataManager.SharedInstance().EditorFactory.CreateTransaction())
+                        using ITransaction tEditorTransaction = NWDDataManager.SharedInstance().EditorFactory.CreateTransaction();
+                        tEditorTransaction.Begin();
+
+                        foreach (NWDTypeClass tObject in sInsertDataQueuePool)
                         {
-                            tEditorTransaction.Begin();
-                            foreach (NWDTypeClass tObject in sInsertDataQueuePool)
-                            {
-                                tObject.InsertDataProceed(tDeviceTransaction, tEditorTransaction);
-                            }
-                            tEditorTransaction.Commit();
+                            tObject.InsertDataProceed(tDeviceTransaction, tEditorTransaction);
                         }
+
+                        tEditorTransaction.Commit();
                         tDeviceTransaction.Commit();
                     }
 
@@ -403,18 +403,18 @@ namespace NetWorkedData
                 List<Type> tTypeList = new List<Type>();
                 if (sUpdateDataQueuePool.Count > 0)
                 {
-                    using (ITransaction tDeviceTransaction = NWDDataManager.SharedInstance().DeviceFactory.CreateTransaction())
                     {
+                        using ITransaction tDeviceTransaction = NWDDataManager.SharedInstance().DeviceFactory.CreateTransaction();
                         tDeviceTransaction.Begin();
-                        using (ITransaction tEditorTransaction = NWDDataManager.SharedInstance().EditorFactory.CreateTransaction())
+                        using ITransaction tEditorTransaction = NWDDataManager.SharedInstance().EditorFactory.CreateTransaction();
+                        tEditorTransaction.Begin();
+
+                        foreach (NWDTypeClass tObject in sUpdateDataQueuePool)
                         {
-                            tEditorTransaction.Begin();
-                            foreach (NWDTypeClass tObject in sUpdateDataQueuePool)
-                            {
-                                tObject.UpdateDataProceed(tDeviceTransaction, tEditorTransaction);
-                            }
-                            tEditorTransaction.Commit();
+                            tObject.UpdateDataProceed(tDeviceTransaction, tEditorTransaction);
                         }
+
+                        tEditorTransaction.Commit();
                         tDeviceTransaction.Commit();
                     }
 
@@ -536,20 +536,21 @@ namespace NetWorkedData
                 List<Type> tTypeList = new List<Type>();
                 if (sDeleteDataQueuePool.Count > 0)
                 {
-                    using (ITransaction tDeviceTransaction = NWDDataManager.SharedInstance().DeviceFactory.CreateTransaction())
                     {
+                        using ITransaction tDeviceTransaction = NWDDataManager.SharedInstance().DeviceFactory.CreateTransaction();
                         tDeviceTransaction.Begin();
-                        using (ITransaction tEditorTransaction = NWDDataManager.SharedInstance().EditorFactory.CreateTransaction())
+                        using ITransaction tEditorTransaction = NWDDataManager.SharedInstance().EditorFactory.CreateTransaction();
+                        tEditorTransaction.Begin();
+
+                        foreach (NWDTypeClass tObject in sDeleteDataQueuePool)
                         {
-                            tEditorTransaction.Begin();
-                            foreach (NWDTypeClass tObject in sDeleteDataQueuePool)
-                            {
-                                tObject.DeleteDataProceed(tDeviceTransaction, tEditorTransaction);
-                            }
-                            tEditorTransaction.Commit();
+                            tObject.DeleteDataProceed(tDeviceTransaction, tEditorTransaction);
                         }
+
+                        tEditorTransaction.Commit();
                         tDeviceTransaction.Commit();
                     }
+
                     foreach (NWDTypeClass tObject in kDeleteDataQueueMain)
                     {
                         Type tType = tObject.GetType();

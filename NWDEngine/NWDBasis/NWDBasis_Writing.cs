@@ -27,6 +27,7 @@ using NetWorkedData.NWDORM;
 #if UNITY_EDITOR
 using UnityEditor;
 using NetWorkedData.NWDEditor;
+using System.Text;
 #endif
 //=====================================================================================================================
 #if UNITY_EDITOR
@@ -975,15 +976,16 @@ namespace NetWorkedData
                 return string.Empty;
             }
             NWDBasisHelper tHelper = BasisHelper();
-            List<string> tKeys = new List<string>();
-            List<string> tValues = new List<string>();
-            foreach (PropertyInfo tProp in tHelper.ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            PropertyInfo[] tProperties = tHelper.ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            string[] tKeys = new string[tProperties.Length];
+            string[] tValues = new string[tProperties.Length];
+            for (int i = 0; i < tProperties.Length; i++)
             {
-                tKeys.Add(tProp.Name);
+                tKeys[i] = tProperties[i].Name;
 
-                Type tTypeOfThis = tProp.PropertyType;
+                Type tTypeOfThis = tProperties[i].PropertyType;
                 string tValueString = string.Empty;
-                object tValue = tProp.GetValue(this, null);
+                object tValue = tProperties[i].GetValue(this, null);
                 if (tValue == null)
                 {
                     if (tTypeOfThis.IsEnum)
@@ -1079,11 +1081,22 @@ namespace NetWorkedData
                     }
                 }
                 //tValueString = "/*" + tProp.Name + "*/" + tValueString;
-                tValues.Add(tValueString);
+                tValues[i] = tValueString;
             }
-            string rReturn = "INSERT OR REPLACE INTO `" + tHelper.ClassNamePHP + "` (`" + string.Join("`, `", tKeys) + "`) VALUES (\"" + string.Join("\", \"", tValues) + "\");";
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("INSERT OR REPLACE INTO `");
+            sb.Append(tHelper.ClassNamePHP);
+            sb.Append("` (`");
+            sb.AppendJoin("`, `", tKeys);
+            sb.Append("`) VALUES (\"");
+            sb.AppendJoin("\", \"", tValues);
+            sb.Append("\");");
+
+            //string rReturn = "INSERT OR REPLACE INTO `" + tHelper.ClassNamePHP + "` (`" + string.Join("`, `", tKeys) + "`) VALUES (\"" + string.Join("\", \"", tValues) + "\");";
             //Debug.Log(rReturn);
-            return rReturn;
+            return sb.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool New_SQLInsertOrReplace(out string sQuery)

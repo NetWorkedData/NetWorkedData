@@ -129,7 +129,7 @@ namespace NetWorkedData
             tActualsList = new List<PropertyInfo>(ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance));
             tMigratePropertyList = new List<PropertyInfo>(ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance));
             tTransfertList.Clear();
-            DatabaseFactory tFactory = NWDDataManager.SharedInstance().DeviceFactory;
+            DatabaseFactory tFactory;
             //SQLiteConnection Connector = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
             //if (kAccountDependent == false)
             //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
@@ -137,6 +137,10 @@ namespace NetWorkedData
             {
                 //Connector = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
                 tFactory = NWDDataManager.SharedInstance().EditorFactory;
+            }
+            else
+            {
+                tFactory = NWDDataManager.SharedInstance().DeviceFactory;
             }
 
             using (IPrepareStatement tStatment = tFactory.CreatePrepareStatement("PRAGMA table_info(`" + ClassNamePHP + "`)"))
@@ -197,12 +201,16 @@ namespace NetWorkedData
         {
 
             List<string> tQuery = new List<string>();
-            DatabaseFactory tFactory = NWDDataManager.SharedInstance().DeviceFactory;
+            DatabaseFactory tFactory;
             //if (kAccountDependent == false)
             //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 tFactory = NWDDataManager.SharedInstance().EditorFactory;
+            }
+            else
+            {
+                tFactory = NWDDataManager.SharedInstance().DeviceFactory;
             }
             if (sState == NWDSQLiteTableState.Migrate)
             {
@@ -679,12 +687,16 @@ namespace NetWorkedData
             RowAnalyzed = false;
 #endif
             //ResetDatas();
-            DatabaseFactory tFactory = NWDDataManager.SharedInstance().DeviceFactory;
+            DatabaseFactory tFactory;
             //if (kAccountDependent == false)
             //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 tFactory = NWDDataManager.SharedInstance().EditorFactory;
+            }
+            else
+            {
+                tFactory = NWDDataManager.SharedInstance().DeviceFactory;
             }
 
             List<PropertyInfo> tProplistA = new List<PropertyInfo>();
@@ -831,12 +843,16 @@ namespace NetWorkedData
 #endif
 
             // delete indexes and table
-            DatabaseFactory tFactory = NWDDataManager.SharedInstance().DeviceFactory;
+            DatabaseFactory tFactory;
             //if (kAccountDependent == false)
             //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 tFactory = NWDDataManager.SharedInstance().EditorFactory;
+            }
+            else
+            {
+                tFactory = NWDDataManager.SharedInstance().DeviceFactory;
             }
             //IntPtr stmt = Sqlite.Prepare2(tConnectorHandle, "BEGIN TRANSACTION");
             //Sqlite.Step(stmt);
@@ -882,12 +898,16 @@ namespace NetWorkedData
             // reset datas
             ResetDatas();
             // delete all datas on table
-            DatabaseFactory tFactory = NWDDataManager.SharedInstance().DeviceFactory;
+            DatabaseFactory tFactory;
             //if (kAccountDependent == false)
             //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 tFactory = NWDDataManager.SharedInstance().EditorFactory;
+            }
+            else
+            {
+                tFactory = NWDDataManager.SharedInstance().DeviceFactory;
             }
             using (ITransaction tTransaction = tFactory.CreateTransaction())
             {
@@ -910,12 +930,16 @@ namespace NetWorkedData
             // reset datas
             ResetDatas();
             // delete indexes and table
-            DatabaseFactory tFactory = NWDDataManager.SharedInstance().DeviceFactory;
+            DatabaseFactory tFactory;
             //if (kAccountDependent == false)
             //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 tFactory = NWDDataManager.SharedInstance().EditorFactory;
+            }
+            else
+            {
+                tFactory = NWDDataManager.SharedInstance().DeviceFactory;
             }
             //IntPtr stmt = Sqlite.Prepare2(tConnectorHandle, "BEGIN TRANSACTION");
             //Sqlite.Step(stmt);
@@ -938,12 +962,16 @@ namespace NetWorkedData
             // reset datas
             ResetDatas();
             // delete indexes and table
-            DatabaseFactory tFactory = NWDDataManager.SharedInstance().DeviceFactory;
+            DatabaseFactory tFactory;
             //if (kAccountDependent == false)
             //if (TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent)
             if (TemplateHelper.GetDeviceDatabase() == NWDTemplateDeviceDatabase.ReccordableInDeviceDatabaseEditor)
             {
                 tFactory = NWDDataManager.SharedInstance().EditorFactory;
+            }
+            else
+            {
+                tFactory = NWDDataManager.SharedInstance().DeviceFactory;
             }
             tFactory.Exec("DROP INDEX IF EXISTS `" + ClassNamePHP + "_Index`;");
             tFactory.Exec("DROP INDEX IF EXISTS `" + ClassNamePHP + "_Bundle`;");
