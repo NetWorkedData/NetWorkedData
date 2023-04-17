@@ -56,6 +56,22 @@ namespace NetWorkedData
             }
             return rReturn;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public int GetSiblingIndex(int sParentIndex = 0)
+        {
+            int rResult = -1;
+            NWDCategory[] tParents = ParentCategoryList.GetReachableDatas();
+            if (tParents != null && tParents.Length > sParentIndex && sParentIndex >= 0)
+            {
+                NWDCategory[] tSiblings = tParents[sParentIndex].ChildrenCategoryList.GetReachableDatas();
+                if (tSiblings != null)
+                {
+                    rResult = Array.IndexOf(tSiblings, this);
+                }
+            }
+
+            return rResult;
+        }
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonInsertMe()
