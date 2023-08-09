@@ -145,9 +145,12 @@ namespace NetWorkedData
                         {
                             if (tDataSub.ParentCategoryList.ConstaintsData(tData))
                             {
-                                if (tData.ChildrenCategoryList.ConstaintsData(tDataSub) == false)
+                                if (tData != null && tData.ChildrenCategoryList != null)
                                 {
-                                    tData.ChildrenCategoryList.AddData(tDataSub);
+                                    if (tData.ChildrenCategoryList.ConstaintsData(tDataSub) == false)
+                                    {
+                                        tData.ChildrenCategoryList.AddData(tDataSub);
+                                    }
                                 }
                             }
                         }
