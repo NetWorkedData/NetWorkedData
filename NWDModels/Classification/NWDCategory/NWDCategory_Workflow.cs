@@ -21,6 +21,7 @@
 #if NWD_CLASSIFICATION
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -29,19 +30,11 @@ namespace NetWorkedData
     public partial class NWDCategory : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDCategory()
-        {
-            //Debug.Log("NWDCategory Constructor");
-        }
+        public NWDCategory() {}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDCategory(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
-        {
-            //Debug.Log("NWDCategory Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
-        }
+        public NWDCategory(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) {}
         //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization()
-        {
-        }
+        public override void Initialization() {}
         //-------------------------------------------------------------------------------------------------------------
         public bool Containts(NWDCategory sCategory)
         {
@@ -72,108 +65,6 @@ namespace NetWorkedData
 
             return rResult;
         }
-#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonInsertMe()
-        {
-
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonInsertedMe()
-        {
-            UpdateAll();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDuplicateMe()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDuplicatedMe()
-        {
-            UpdateAll();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdateMe()
-        {
-
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdatedMe()
-        {
-            UpdateAll();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        static void ChildrenAssembly(List<NWDCategory> sList, NWDCategory sCat)
-        {
-            if (sList.Contains(sCat) == false)
-            {
-                sList.Add(sCat);
-                if (sCat.ChildrenCategoryList != null)
-                {
-                    foreach (NWDCategory tData in sCat.ChildrenCategoryList.GetEditorDatas())
-                    {
-                        if (tData != null)
-                        {
-                            ChildrenAssembly(sList, tData);
-                        }
-                    }
-                }
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        static void UpdateAll()
-        {
-            foreach (NWDCategory tData in NWDBasisHelper.BasisHelper<NWDCategory>().Datas)
-            {
-                tData.PropertiesPrevent();
-                if (tData.ChildrenCategoryList != null)
-                {
-                    tData.ChildrenCategoryList.Flush();
-                }
-                if (tData.CascadeCategoryList != null)
-                {
-                    tData.CascadeCategoryList.Flush();
-                }
-            }
-            foreach (NWDCategory tData in NWDBasisHelper.BasisHelper<NWDCategory>().Datas)
-            {
-                foreach (NWDCategory tDataSub in NWDBasisHelper.BasisHelper<NWDCategory>().Datas)
-                {
-                    if (tDataSub != tData)
-                    {
-                        if (tDataSub.ParentCategoryList != null)
-                        {
-                            if (tDataSub.ParentCategoryList.ConstaintsData(tData))
-                            {
-                                if (tData != null && tData.ChildrenCategoryList != null)
-                                {
-                                    if (tData.ChildrenCategoryList.ConstaintsData(tDataSub) == false)
-                                    {
-                                        tData.ChildrenCategoryList.AddData(tDataSub);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            foreach (NWDCategory tData in NWDBasisHelper.BasisHelper<NWDCategory>().Datas)
-            {
-                if (tData != null)
-                {
-                    List<NWDCategory> tList = new List<NWDCategory>();
-                    ChildrenAssembly(tList, tData);
-                    if (tData.CascadeCategoryList != null)
-                    {
-                        tData.CascadeCategoryList.Flush();
-                        tData.CascadeCategoryList.AddData(tData);
-                        tData.CascadeCategoryList.AddDatas(tList.ToArray());
-                    }
-                    tData.UpdateDataIfModified();
-                }
-            }
-        }
-#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
