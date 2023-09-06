@@ -10,7 +10,40 @@ namespace NetWorkedData
         public string JsonObject = string.Empty;
         public string LinkJson = string.Empty;
 
+        static public Dictionary<string, string> ReferencesDictionary = new Dictionary<string, string>();
+        static public Dictionary<string,object> NWDStringLocalizationList = new Dictionary<string,object>();
+        static public Dictionary<string,object> NWDAssetDataList = new Dictionary<string,object>();
+
         private static ulong tReferenceUnique = (ulong)NWDToolbox.Timestamp() * 10000000000000000;
+
+        public static string ProcessNewLocalizedString(NWDLocalizableType sLocalizedString)
+        {
+            string tNewReference = GetNewReference();
+            // TODO Process creation of new NWDStringLocalization
+            // Create new JSON
+            // Add record to file to export ... 
+            string tObject = "{blabla}";
+            NWDStringLocalizationList.Add(tNewReference, tObject);
+            return tNewReference;
+        }
+        
+        public static string ProcessNewAsset(NWDAssetType sAssetType)
+        {
+            string tNewReference = GetNewReference();
+            // TODO Process creation of new NWDAssetData
+            // Create new JSON
+            // Add record to file to export ... 
+            string tObject = "{bloblo}";
+            NWDAssetDataList.Add(tNewReference, tObject);
+            return tNewReference;
+        }
+        public static string GetNewReference(string sOldReference)
+        {
+            tReferenceUnique++;
+            string rReturn = tReferenceUnique.ToString();
+            ReferencesDictionary.Add(sOldReference, rReturn);
+            return rReturn;
+        }
 
         public static string GetNewReference()
         {
@@ -22,6 +55,7 @@ namespace NetWorkedData
         {
             return LinkJson;
         }
+
         public static string ClassName(string sClassName, bool sCustomClass = false)
         {
             if (sCustomClass)
@@ -44,13 +78,15 @@ namespace NetWorkedData
                 tContent = kSplitDico[NWDDataLocalizationManager.kBaseDev];
                 kSplitDico.Remove(NWDDataLocalizationManager.kBaseDev);
             }
+
             StringBuilder tReturn = new StringBuilder();
             tReturn.Append("{");
             foreach (KeyValuePair<string, string> tdico in sValue.kSplitDico)
             {
                 tReturn.Append("\"" + tdico.Key + "\":\"" + tdico.Value.Replace("\"", "\\\"") + "\",");
             }
-            tReturn.Append("\"Context\":\""+tContent+"\"");
+
+            tReturn.Append("\"Context\":\"" + tContent + "\"");
             tReturn.Append("}");
 
             Init(sProjectHub, sProjectId, GetNewReference(), sValue.GetBaseString(), "", tReturn.ToString(), "NWDTranslate");
