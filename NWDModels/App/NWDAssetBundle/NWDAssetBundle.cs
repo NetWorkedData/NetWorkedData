@@ -31,7 +31,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //[NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("BDL")]
+    [NWDClassTrigrammeAttribute("ABU")]
     [NWDClassDescriptionAttribute("Asset Bundle Unity Managament")]
     [NWDClassMenuNameAttribute("Asset Bundle")]
     public partial class NWDAssetBundle : NWDBasis

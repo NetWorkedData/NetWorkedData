@@ -18,13 +18,12 @@
 #undef NWD_BENCHMARK
 #endif
 //=====================================================================================================================
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.IO;
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.AddressableAssets;
+using System.Threading.Tasks;
+using UnityEngine.U2D;
 //=====================================================================================================================
 #if UNITY_EDITOR
 using UnityEditor;
@@ -52,70 +51,85 @@ namespace NetWorkedData
 			}
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Sprite ToSpriteAsync(Sprite sInterim, NWDOperationSpriteDelegate sDelegate)
+        /*public Sprite ToSpriteAsync(Sprite sInterim, NWDOperationSpriteDelegate sDelegate)
         {
             string tPath = Value.Replace(kAssetDelimiter, string.Empty);
             tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
             NWDOperationSprite tOperation = NWDOperationSprite.AddOperation(tPath, sInterim, false, sDelegate);
             return tOperation.Interim;
-        }
+        }*/
         //-------------------------------------------------------------------------------------------------------------
         public Sprite ToSprite()
 		{
             Sprite rSprite = null;
+			
 			if (!string.IsNullOrEmpty(Value))
             {
 				string tPath = Value.Replace(kAssetDelimiter, string.Empty);
 				#if UNITY_EDITOR
-				rSprite = AssetDatabase.LoadAssetAtPath(tPath, typeof(Sprite)) as Sprite;
+				rSprite = AssetDatabase.LoadAssetAtPath<Sprite>(tPath);
                 #else
                 tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
-                rSprite = Resources.Load (tPath, typeof(Sprite)) as Sprite;
+                rSprite = Resources.Load<Sprite>(tPath);
                 #endif
 			}
+
 			return rSprite;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public string GetAbsolutePath()
+        public async Task<Sprite> ToAddressableSprite()
 		{
-			string rPath = "";
-			if (!string.IsNullOrEmpty(Value))
-            {
-				rPath = Value.Replace(kAssetDelimiter, string.Empty);
-				rPath = NWEPathResources.PathAbsoluteToPathDB(rPath);
-			}
+            Sprite rSprite = null;
+			string tFileNameKey = Path.GetFileName(this.GetAbsolutePath());
+			Task<Sprite> tTask = LoadAddressableSprite(tFileNameKey);
+			rSprite = await tTask;
 
-			return rPath;
+			return rSprite;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        /*public async Task<Sprite> ToAddressableAssetSprite()
+		public async Task<Sprite> ToAddressableSpriteAtlas(string sSpriteNameKey)
+		{
+			Sprite rSprite = null;
+			string tFileNameKey = Path.GetFileName(this.GetAbsolutePath());
+			Task<Sprite> tTask = LoadAddressableSpriteAtlas(tFileNameKey, sSpriteNameKey);
+			rSprite = await tTask;
+
+			return rSprite;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+        private async Task<Sprite> LoadAddressableSprite(string sKey)
         {
-			// Using exemple:
-			// Task<Sprite> tTask = ToAddressableAssetSprite();
-            // Sprite tMySprite = await tTask;
-
             Sprite rSprite = null;
-            if (!string.IsNullOrEmpty(Value))
+            AsyncOperationHandle<Sprite> tHandle = Addressables.LoadAssetAsync<Sprite>(sKey);
+            await tHandle.Task;
+            if(tHandle.Status == AsyncOperationStatus.Succeeded)
             {
-                string tPath = Value.Replace(kAssetDelimiter, string.Empty);
-                tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
-                tPath = Path.GetFileName(tPath);
-
-                AsyncOperationHandle<Sprite> tHandle = Addressables.LoadAssetAsync<Sprite>(tPath);
-                await tHandle.Task;
-                if(tHandle.Status == AsyncOperationStatus.Succeeded)
-                {
-                    rSprite = tHandle.Result;
-                }
-                else
-                {
-                    Debug.LogWarning("Addressable " + tHandle.DebugName + " load error");
-                }
+                rSprite = tHandle.Result;
+            }
+            else
+            {
+                Debug.LogWarning("Addressable " + tHandle.DebugName + " load error");
             }
             return rSprite;
-        }*/
+        }
 		//-------------------------------------------------------------------------------------------------------------
-        #if UNITY_EDITOR
+		private async Task<Sprite> LoadAddressableSpriteAtlas(string sKey, string sSpriteNameKey)
+        {
+            Sprite rSprite = null;
+            AsyncOperationHandle<SpriteAtlas> tHandle = Addressables.LoadAssetAsync<SpriteAtlas>(sKey);
+			await tHandle.Task;
+            if(tHandle.Status == AsyncOperationStatus.Succeeded)
+            {
+                rSprite = tHandle.Result.GetSprite(sSpriteNameKey);
+            }
+            else
+            {
+                Debug.LogWarning("Addressable " + tHandle.DebugName + " load error");
+            }
+            return rSprite;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public override bool ErrorAnalyze()
         {
@@ -129,7 +143,7 @@ namespace NetWorkedData
                 else
                 {
                     string tPath = Value.Replace(kAssetDelimiter, string.Empty);
-                    Sprite tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(Sprite)) as Sprite;
+                    Sprite tObject = AssetDatabase.LoadAssetAtPath<Sprite>(tPath);
                     if (tObject == null)
                     {
                         rReturn = true;

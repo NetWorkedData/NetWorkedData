@@ -34,9 +34,9 @@ namespace NetWorkedData.NWDEditor
     public enum NWDEditorBuildEnvironment : int
     {
         Ask = 0,
+        Prod = 1,
         Dev = 2,
         Preprod = 3,
-        Prod = 1
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDEditorBuildRename : int
@@ -76,12 +76,13 @@ namespace NetWorkedData.NWDEditor
         public void OnPreprocessBuild(BuildReport report)
         {
             NWDBenchmark.Start();
+
             // prevent error not exist (delete by dev)
             NWDErrorHelper tErrorHelper = NWDBasisHelper.BasisHelper<NWDError>() as NWDErrorHelper;
             tErrorHelper.GenerateBasisError();
+
             //Force all datas to be write in database
             NWDDataManager.SharedInstance().DataQueueExecute();
-
             NWDAppConfiguration.SharedInstance().WebBuild = NWDAppConfiguration.SharedInstance().WebBuildMax;
 
             //Get all infos
@@ -90,6 +91,7 @@ namespace NetWorkedData.NWDEditor
             DateTime tDateTime = DateTime.Now;
             int tTimeStamp = NWDToolbox.Timestamp();
             string tFuturBuildDate = tDateTime.ToString("yyyy/MM/dd HH:mm:ss");
+
             // get environment
             int tResultEnvironment = 0;
             if (GetEditoBuildEnvironment() == NWDEditorBuildEnvironment.Ask)
@@ -98,52 +100,26 @@ namespace NetWorkedData.NWDEditor
                                                                             "Production", // 1
                                                                             "Development", //2
                                                                             "PreProduction" //3
-                                                                            ) + 1;
+                                                                        ) + 1;
             }
             else if (GetEditoBuildEnvironment() == NWDEditorBuildEnvironment.Prod)
             {
-                tResultEnvironment = 1;
-            }
-            else if (GetEditoBuildEnvironment() == NWDEditorBuildEnvironment.Preprod)
-            {
-                tResultEnvironment = 3;
+                tResultEnvironment = (int)NWDEditorBuildEnvironment.Prod;
             }
             else if (GetEditoBuildEnvironment() == NWDEditorBuildEnvironment.Dev)
             {
-                tResultEnvironment = 2;
+                tResultEnvironment = (int)NWDEditorBuildEnvironment.Dev;
             }
+            else if (GetEditoBuildEnvironment() == NWDEditorBuildEnvironment.Preprod)
+            {
+                tResultEnvironment = (int)NWDEditorBuildEnvironment.Preprod;
+            }
+
             // Prebuild 
             if (tResultEnvironment == 1)
             {
                 tName = NWDAppConfiguration.SharedInstance().ProdEnvironment.AppName;
                 tHisto = NWDAppConfiguration.SharedInstance().ProdEnvironment.PreProdTimeFormat;
-            }
-            else if (tResultEnvironment == 3)
-            {
-                tName = NWDAppConfiguration.SharedInstance().PreprodEnvironment.AppName;
-                tHisto = NWDAppConfiguration.SharedInstance().PreprodEnvironment.PreProdTimeFormat;
-                string tNameFutur = tName;
-                if (!string.IsNullOrEmpty(tHisto))
-                {
-                    tNameFutur = tName + tDateTime.ToString(tHisto);
-
-                    switch (GetEditoBuildRename())
-                    {
-                        case NWDEditorBuildRename.Ask:
-                            {
-                                if (EditorUtility.DisplayDialog("Use the versioned name", "Do you want to use the name '" + tNameFutur + "' for your bundle", "Yes", "No"))
-                                {
-                                    tName = tNameFutur;
-                                }
-                            }
-                            break;
-                        case NWDEditorBuildRename.Yes:
-                            {
-                                tName = tNameFutur;
-                            }
-                            break;
-                    }
-                }
             }
             else if (tResultEnvironment == 2)
             {
@@ -172,6 +148,34 @@ namespace NetWorkedData.NWDEditor
                     }
                 }
             }
+            else if (tResultEnvironment == 3)
+            {
+                tName = NWDAppConfiguration.SharedInstance().PreprodEnvironment.AppName;
+                tHisto = NWDAppConfiguration.SharedInstance().PreprodEnvironment.PreProdTimeFormat;
+                string tNameFutur = tName;
+                if (!string.IsNullOrEmpty(tHisto))
+                {
+                    tNameFutur = tName + tDateTime.ToString(tHisto);
+
+                    switch (GetEditoBuildRename())
+                    {
+                        case NWDEditorBuildRename.Ask:
+                            {
+                                if (EditorUtility.DisplayDialog("Use the versioned name", "Do you want to use the name '" + tNameFutur + "' for your bundle", "Yes", "No"))
+                                {
+                                    tName = tNameFutur;
+                                }
+                            }
+                            break;
+                        case NWDEditorBuildRename.Yes:
+                            {
+                                tName = tNameFutur;
+                            }
+                            break;
+                    }
+                }
+            }
+
             // buildtiestamp update ?
             bool tBuild = true;
             switch (GetEditorBuildDatabaseUpdate())
@@ -195,9 +199,11 @@ namespace NetWorkedData.NWDEditor
                     }
                     break;
             }
+
             // update vesion of app build from NWDVersion system
             NWDVersion.UpdateVersionBundle();
             PlayerSettings.productName = tName;
+            
             // verify if database exists
             string tDatabasePathEditor = /*NWD.K_Assets + "/" + NWD.K_StreamingAssets + "/" +*/ NWDDataManager.SharedInstance().DatabaseEditorName();
             string tDatabasePathBuild = NWD.K_Assets + "/" + NWD.K_StreamingAssets + "/" + NWDDataManager.SharedInstance().DatabaseBuildName();
@@ -207,6 +213,7 @@ namespace NetWorkedData.NWDEditor
                 // if not exist copy for build
                 File.Copy(tDatabasePathEditor, tDatabasePathBuild);
             }
+
             // if build is 
             if (tBuild == true)
             {
@@ -218,65 +225,57 @@ namespace NetWorkedData.NWDEditor
                 File.Copy(tDatabasePathEditor, tDatabasePathBuild);
             }
             Debug.Log("tTimeStamp use to build is = " + NWEDateHelper.ConvertFromTimestamp(tTimeStamp).ToString("yyyy-MM-dd HH:mm:ss"));
-            // change the build environment 
-            if (tResultEnvironment == 1)
+
+            // Change the build environment            
+            bool tEnvProd = false;
+            bool tEnvDev = false;
+            bool tEnvPreProd = false;
+
+            switch(tResultEnvironment)
             {
-                //Debug.Log("NWDBuildPreProcess PRODUCTION BUILD");
-                // update build timestamp
-                if (tBuild == true)
-                {
-                    //Debug.LogWarning("NWDBuildPreProcess Update the build timestamp in NetWorkedData lib !!!");
-                    NWDAppConfiguration.SharedInstance().ProdEnvironment.BuildTimestamp = tTimeStamp;
-                    //NWDAppConfiguration.SharedInstance().PreprodEnvironment.BuildTimestamp = tTimeStamp;
-                    //NWDAppConfiguration.SharedInstance().DevEnvironment.BuildTimestamp = tTimeStamp;
-                }
-                //Debug.Log("NWDBuildPreProcess !!! PRODUCTION BUILD");
-                NWDAppConfiguration.SharedInstance().ProdEnvironment.BuildDate = tFuturBuildDate;
-                // reccord modif
-                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().ProdEnvironment);
-                // reselect environment
-                NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected = true;
-                NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = false;
-                NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = false;
+                // Prod
+                case 1:
+                    {
+                        NWDAppEnvironment tEnv = NWDAppConfiguration.SharedInstance().ProdEnvironment;
+                        if (tBuild == true)
+                        {
+                            tEnv.BuildTimestamp = tTimeStamp;
+                        }
+                        tEnv.BuildDate = tFuturBuildDate;
+                        tEnvProd = true;
+                    }
+                    break;
+                // Dev
+                case 2:
+                    {
+                        NWDAppEnvironment tEnv = NWDAppConfiguration.SharedInstance().DevEnvironment;
+                        if (tBuild == true)
+                        {
+                            tEnv.BuildTimestamp = tTimeStamp;
+                        }
+                        tEnv.BuildDate = tFuturBuildDate;
+                        tEnvDev = true;
+                    }
+                    break;
+                // Preprod
+                case 3:
+                    {
+                        NWDAppEnvironment tEnv = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
+                        if (tBuild == true)
+                        {
+                            tEnv.BuildTimestamp = tTimeStamp;
+                        }
+                        tEnv.BuildDate = tFuturBuildDate;
+                        tEnvPreProd = true;
+                    }
+                    break;
+                default:
+                    break;
             }
-            else if (tResultEnvironment == 3)
-            {
-                //Debug.Log("NWDBuildPreProcess PRE PRODUCTION BUILD");
-                // update build timestamp
-                if (tBuild == true)
-                {
-                    //Debug.LogWarning("NWDBuildPreProcess Update the build timestamp in NetWorkedData lib !!!");
-                    //NWDAppConfiguration.SharedInstance().ProdEnvironment.BuildTimestamp = tTimeStamp;
-                    NWDAppConfiguration.SharedInstance().PreprodEnvironment.BuildTimestamp = tTimeStamp;
-                    //NWDAppConfiguration.SharedInstance().DevEnvironment.BuildTimestamp = tTimeStamp;
-                }
-                NWDAppConfiguration.SharedInstance().PreprodEnvironment.BuildDate = tFuturBuildDate;
-                // reccord modif
-                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-                // reselect environment
-                NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected = false;
-                NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = true;
-                NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = false;
-            }
-            else if (tResultEnvironment == 2)
-            {
-                //Debug.Log("NWDBuildPreProcess DEVELOPMENT BUILD");
-                // update build timestamp
-                if (tBuild == true)
-                {
-                    //Debug.LogWarning("NWDBuildPreProcess Update the build timestamp in NetWorkedData lib !!!");
-                    //NWDAppConfiguration.SharedInstance().ProdEnvironment.BuildTimestamp = tTimeStamp;
-                    //NWDAppConfiguration.SharedInstance().PreprodEnvironment.BuildTimestamp = tTimeStamp;
-                    NWDAppConfiguration.SharedInstance().DevEnvironment.BuildTimestamp = tTimeStamp;
-                }
-                NWDAppConfiguration.SharedInstance().DevEnvironment.BuildDate = tFuturBuildDate;
-                // reccord modif
-                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().DevEnvironment);
-                // reselect environment
-                NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected = false;
-                NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = false;
-                NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = true;
-            }
+
+            NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected = tEnvProd;
+            NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = tEnvDev;
+            NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = tEnvPreProd;
 
             NWDEditorWindow.GenerateCSharpFile();
             NWDBenchmark.Finish();

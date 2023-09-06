@@ -89,7 +89,12 @@ namespace NetWorkedData
                 if (tTypeOfThis.IsSubclassOf(typeof(NWDLocalizableType)))
                 {
                     NWDLocalizableType tValueObject = (NWDLocalizableType)tProp.GetValue(this, null);
-                    string tValue = tValueObject.Value;
+                    string tValue = "";
+                    if (tValueObject != null)
+                    {
+                        tValue = tValueObject.Value;
+                    }
+
                     Dictionary<string, string> tResultSplitDico = new Dictionary<string, string>(new StringIndexKeyComparer());
 
                     if (tValue != null && tValue != string.Empty && tValue != NWDDataLocalizationManager.kBaseDev + NWDConstants.kFieldSeparatorB)

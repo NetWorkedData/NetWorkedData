@@ -78,7 +78,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateCSharpFile(NWDAppEnvironment sEnvironment)
         {
-            NWDBenchmark.Start();
+            //NWDBenchmark.Start();
             if (NWDLauncher.LauncherIsReady())
             {
                 // save datas
@@ -102,7 +102,7 @@ namespace NetWorkedData
 
             //AssetDatabase.ImportAsset()
             //FileToReImportList
-            NWDBenchmark.Finish();
+            //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -155,8 +155,13 @@ namespace NetWorkedData
 #else
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.CompileOn) + " = \"Window/Linux\";");
 #endif
+            rReturn.AppendLine("\n");
             rReturn.AppendLine("//Fort editor preferences");
-            rReturn.AppendLine("//Environments select\n");
+            rReturn.AppendLine("//Environments select");
+            //Debug.LogWarning("dev: " + this.DevEnvironment.Selected);
+            //Debug.LogWarning("preprod: " + this.PreprodEnvironment.Selected);
+            //Debug.LogWarning("prod: " + this.ProdEnvironment.Selected);
+            //Debug.LogWarning("env: " + sEnvironment.Selected);
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.DevEnvironment) + "." + NWDToolbox.PropertyName(() => this.DevEnvironment.Selected) + " = " + this.DevEnvironment.Selected.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PreprodEnvironment) + "." + NWDToolbox.PropertyName(() => this.PreprodEnvironment.Selected) + " = " + this.PreprodEnvironment.Selected.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.ProdEnvironment) + "." + NWDToolbox.PropertyName(() => this.ProdEnvironment.Selected) + " = " + this.ProdEnvironment.Selected.ToString().ToLower() + ";");

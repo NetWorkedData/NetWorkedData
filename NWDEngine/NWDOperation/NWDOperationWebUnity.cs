@@ -29,6 +29,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using NWEMiniJSON;
+using NetWorkedData.NWDORM;
 //=====================================================================================================================
 #if UNITY_EDITOR
 using UnityEditor;
@@ -170,6 +171,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator ExecuteAsync()
         {
+            using StaticDatabase tDeviceStatic = NWDDataManager.SharedInstance().DeviceFactory.StartStaticDatabase();
+            using StaticDatabase tEditorStatic = NWDDataManager.SharedInstance().EditorFactory.StartStaticDatabase();
             //string tBenchmark = NWDBenchmark.GetKeyWihRandom();
             //NWDBenchmark.Start(tBenchmark);
             //Debug.Log("NWDOperationWebUnity ExecuteAsync()");
@@ -281,9 +284,8 @@ namespace NetWorkedData
                 }
 #if UNITY_2019
                 if (Request.isNetworkError)
-#elif UNITY_2020
+#elif UNITY_2020 || UNITY_2021
                 if (Request.result == UnityWebRequest.Result.ConnectionError) //obsolete Request.isNetworkError
-#endif
                 {
                     #if UNITY_EDITOR
                     Debug.Log(Request.error + "\n" + Request.downloadHandler.text + "\n" + Request);
@@ -291,6 +293,7 @@ namespace NetWorkedData
                     Statut = NWEOperationState.Error;
                     ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_WEB01));
                 }
+#endif
 #if UNITY_2019
                 else if (Request.isHttpError)
                 {
@@ -301,7 +304,7 @@ namespace NetWorkedData
                     ResultInfos.SetError(NWDError.GetErrorDomainCode(NWDError.NWDError_WEB02));
                 }
                 else
-#elif UNITY_2020
+#elif UNITY_2020 || UNITY_2021
                 else if (Request.result == UnityWebRequest.Result.ProtocolError) //obsolete Request.isHttpError
                 {
                     #if UNITY_EDITOR
@@ -312,6 +315,7 @@ namespace NetWorkedData
                 }
                 else
 #endif
+
                 {
                     ResultInfos.Benchmark.UploadIsFinished();
                     ResultInfos.Benchmark.PerformIsFinished();
@@ -428,10 +432,10 @@ namespace NetWorkedData
                                                     }
                                                     else
                                                     {
-#if UNITY_EDITOR
+                                                        #if UNITY_EDITOR
                                                         Environment.LastPreviewRequesToken = Environment.PreviewRequesToken;
                                                         Environment.PreviewRequesToken = Environment.RequesToken;
-#endif
+                                                        #endif
                                                         Environment.RequesToken = ResultInfos.token;
                                                     }
                                                 }
@@ -498,24 +502,21 @@ namespace NetWorkedData
                                         }
                                         else
                                         {
-                                            //NWDBenchmark.Step(tBenchmark);
                                             Statut = NWEOperationState.Success;
                                             if (ResultInfos.isNewUser)
                                             {
                                                 tUserChange = true;
-                                                //NWDBenchmark.Log(" CHANGE USER");
                                                 CanRestart();
                                                 if (ResultInfos.isUserTransfert)
                                                 {
-                                                    //NWDBenchmark.Log(" IS TRANSFERT USER");
-#if NWD_RGPD
+                                                    #if NWD_RGPD
                                                     NWDGDPR.Log("The temporary account will be transfert to certified account...");
                                                     if (!ResultInfos.uuid.Equals(string.Empty))
                                                     {
                                                         NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, ResultInfos.preview_user, ResultInfos.next_user /*, ResultInfos.signkey*/);
                                                     }
                                                     NWDGDPR.Log("The temporary account was transfert to certified account!");
-#endif
+                                                    #endif
                                                 }
                                                 else
                                                 {
@@ -523,33 +524,26 @@ namespace NetWorkedData
                                                     {
                                                         // the best way is to delete all data in the database ... it's slow but better for security
                                                         // change database will be an option, but not secure, the data stay in the old database anyway it's crypted!
-                                                        //NWDBenchmark.Start("PURGE ACCOUNT DATABASE");
                                                         if (Application.isEditor == false)
                                                         {
-#if NWD_RGPD
+                                                            #if NWD_RGPD
                                                             NWDGDPR.Log("Purge database from all old account informations. The old account will be deleted from this device...");
-#endif
+                                                            #endif
                                                             // I drop all table account connected?
                                                             foreach (Type tType in NWDDataManager.SharedInstance().ClassAccountDependentList)
                                                             {
                                                                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                                                                 tHelper.FlushTable();
-                                                                //tHelper.ResetDatas();
                                                             }
-#if NWD_RGPD
+                                                            #if NWD_RGPD
                                                             NWDGDPR.Log("The old account was deleted from this device!");
-#endif
+                                                            #endif
                                                         }
-                                                        else
-                                                        {
-                                                            //NWDBenchmark.Log("!!! bypassed because it's editor");
-                                                        }
-                                                        //NWDBenchmark.Finish("PURGE ACCOUNT DATABASE");
                                                     }
                                                 }
-#if NWD_RGPD
+                                                #if NWD_RGPD
                                                 NWDGDPR.Log("New certified account valid on this device!");
-#endif
+                                                #endif
                                             }
                                             if (!ResultInfos.uuid.Equals(string.Empty))
                                             {
@@ -557,7 +551,6 @@ namespace NetWorkedData
                                                 Environment.SetAccountSalt(ResultInfos.salt);
                                             }
 
-                                            //NWDBenchmark.Step(tBenchmark);
                                             DataDownloadedCompute(ResultInfos);
 
                                             // Notification of a Download success
@@ -597,11 +590,11 @@ namespace NetWorkedData
                 {
                     if (ResultInfos.errorDesc != null)
                     {
-#if UNITY_EDITOR
+                        #if UNITY_EDITOR
                         DebugShowHeaderUploaded(tWWWForm.data);
-                        EditorUtility.DisplayDialog("Error: " + ResultInfos.errorDesc.Code, "" + ResultInfos.errorDesc.Title + "\n" + ResultInfos.errorDesc.Description, "OK");
-#endif
-
+                        EditorUtility.DisplayDialog("Error: " + ResultInfos.errorDesc.Code, "" + ResultInfos.errorDesc.Title.GetLocalString() + "\n" + ResultInfos.errorDesc.Description.GetLocalString(), "OK");
+                        #endif
+ 
                         if (ResultInfos.errorInfos != null)
                         {
                             ResultInfos.errorDesc.ShowAlert(ResultInfos.errorInfos);

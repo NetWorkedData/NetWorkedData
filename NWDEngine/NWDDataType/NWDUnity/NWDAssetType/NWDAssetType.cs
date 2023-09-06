@@ -74,6 +74,18 @@ namespace NetWorkedData
             }
             return rChange;
         }
+		//-------------------------------------------------------------------------------------------------------------
+		public string GetAbsolutePath()
+		{
+			string rPath = "";
+			if (!string.IsNullOrEmpty(Value))
+            {
+				rPath = Value.Replace(kAssetDelimiter, string.Empty);
+				rPath = NWEPathResources.PathAbsoluteToPathDB(rPath);
+			}
+
+			return rPath;
+		}
         //-------------------------------------------------------------------------------------------------------------
         public GameObject ToAssetAsync(GameObject sInterim, NWDOperationAssetDelegate sDelegate)
         {

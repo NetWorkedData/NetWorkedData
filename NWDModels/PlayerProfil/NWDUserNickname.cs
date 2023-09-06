@@ -31,7 +31,7 @@ namespace NetWorkedData.NWDEditor
     public partial class NWDUserWindow : NWDBasisWindow<NWDUserWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDEditorMenu.K_NETWORKEDDATA + K_USER_MANAGEMENT + "/Nickname", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 20)]
+        [MenuItem(K_PREFERENCES_MENU + "/Nickname", false, NWDEditorMenu.K_PLAYER_MANAGEMENT_INDEX + 20)]
         public static void MenuMethodNickname()
         {
             ShowWindow(typeof(NWDUserNickname));

@@ -27,6 +27,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Networking;
+using static UnityEngine.Networking.UnityWebRequest;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -306,7 +307,8 @@ namespace NetWorkedData
             {
                 yield return www.SendWebRequest();
 
-                if (www.isNetworkError || www.isHttpError)
+                if (www.result == Result.ConnectionError || www.result == Result.ProtocolError)
+                //if (www.isNetworkError || www.isHttpError)
                 {
                     UnityEngine.Debug.Log(www.error);
                     double tResult = (double)(Watch.ElapsedMilliseconds / 1000.0F);
@@ -340,7 +342,8 @@ namespace NetWorkedData
                 {
                 }
 
-                if (www.isNetworkError || www.isHttpError)
+                if (www.result == Result.ConnectionError || www.result == Result.ProtocolError)
+                //if (www.isNetworkError || www.isHttpError)
                 {
                     UnityEngine.Debug.Log(www.error);
                     double tResult = (double)(Watch.ElapsedMilliseconds / 1000.0F);

@@ -31,10 +31,10 @@ namespace NetWorkedData
     public class NWDShowDebugPanel : NWDCallBack
     {
         //-------------------------------------------------------------------------------------------------------------
-        [SerializeField] private Button ButtonShowLog = null;
-        [SerializeField] private Button ButtonShowAccount = null;
-        [SerializeField] private Button ButtonAddStats = null;
-        [SerializeField] private Button ButtonReloadDatas = null;
+        //[SerializeField] private Button ButtonShowLog = null;
+        //[SerializeField] private Button ButtonShowAccount = null;
+        //[SerializeField] private Button ButtonAddStats = null;
+        //[SerializeField] private Button ButtonReloadDatas = null;
         [SerializeField] private NWDParameterConnection ParameterConnection = null;
         [SerializeField] private GameObject PanelShowDebug = null;
         //-------------------------------------------------------------------------------------------------------------

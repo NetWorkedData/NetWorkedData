@@ -102,33 +102,33 @@ namespace NetWorkedData.NWDEditor
             {
                 GUI.FocusControl(null);
                 NWDProjectPrefs.SetInt(NWDAppConfiguration.kEnvironmentSelectedKey, tTabSelect);
+                bool tEnvDev = false;
+                bool tEnvPreProd = false;
+                bool tEnvProd = false;
                 switch (tTabSelect)
                 {
                     case 0:
                         {
-                            NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = true;
-                            NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = false;
-                            NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected = false;
-                            NWDAccountInfos.ResetCurrentData();
+                            tEnvDev = true;
                         }
                         break;
                     case 1:
                         {
-                            NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = false;
-                            NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = true;
-                            NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected = false;
-                            NWDAccountInfos.ResetCurrentData();
+                            tEnvPreProd = true;
                         }
                         break;
                     case 2:
                         {
-                            NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = false;
-                            NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = false;
-                            NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected = true;
-                            NWDAccountInfos.ResetCurrentData();
+                            tEnvProd = true;
                         }
                         break;
                 }
+
+                NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = tEnvDev;
+                NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = tEnvPreProd;
+                NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected = tEnvProd;
+                NWDAccountInfos.ResetCurrentData();
+
                 NWDVersion.UpdateVersionBundle();
                 if (NWDAppEnvironmentSync.IsSharedInstance())
                 {
@@ -237,9 +237,6 @@ namespace NetWorkedData.NWDEditor
                         NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
                     }
                 }
-            }
-            else
-            {
             }
 
             NWDGUILayout.SubSection("Account informations");

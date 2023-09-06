@@ -19,6 +19,7 @@
 #endif
 //=====================================================================================================================
 
+using NetWorkedData.NWDORM;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -58,8 +59,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public IEnumerator AsyncReloadAllObjectsInEditorDatabase(NWDBundle sBundle)
         {
-
             NWDBenchmarkLauncher.Start();
+            using StaticDatabase tEditorStatic = NWDDataManager.SharedInstance().EditorFactory.StartStaticDatabase();
+
             EditorDatabaseLoaded = false;
             while (EditorDatabaseConnected == false)
             {
@@ -89,6 +91,7 @@ namespace NetWorkedData
             bool rReturn = false;
             if (sCounter >= 0 && sCounter < ClassInEditorDatabaseList.Count)
             {
+                using StaticDatabase tEditorStatic = NWDDataManager.SharedInstance().EditorFactory.StartStaticDatabase();
                 Type tType = ClassInEditorDatabaseList[sCounter];
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.LoadFromDatabaseByBundle(sBundle, true);
@@ -99,6 +102,8 @@ namespace NetWorkedData
         public void ReloadAllObjectsInEditorDatabase(NWDBundle sBundle)
         {
             NWDBenchmarkLauncher.Start();
+            using StaticDatabase tEditorStatic = NWDDataManager.SharedInstance().EditorFactory.StartStaticDatabase();
+
             if (EditorDatabaseConnected == true)
             {
                 //NWDBenchmark.Start("LoadData");
@@ -129,6 +134,8 @@ namespace NetWorkedData
         public IEnumerator AsyncReloadAllObjectsInDeviceDatabase(NWDBundle sBundle)
         {
             NWDBenchmarkLauncher.Start();
+            using StaticDatabase tDeviceStatic = NWDDataManager.SharedInstance().DeviceFactory.StartStaticDatabase();
+
             DeviceDatabaseLoaded = false;
             while (DeviceDatabaseConnected == false)
             {
@@ -160,6 +167,7 @@ namespace NetWorkedData
             bool rReturn = false;
             if (sCounter >= 0 && sCounter < ClassInDeviceDatabaseList.Count)
             {
+                using StaticDatabase tDeviceStatic = NWDDataManager.SharedInstance().DeviceFactory.StartStaticDatabase();
                 Type tType = ClassInDeviceDatabaseList[sCounter];
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.LoadFromDatabaseByBundle(sBundle, true);
@@ -171,6 +179,8 @@ namespace NetWorkedData
         public void ReloadAllObjectsInDeviceDatabase(NWDBundle sBundle)
         {
             NWDBenchmarkLauncher.Start();
+            using StaticDatabase tDeviceStatic = NWDDataManager.SharedInstance().DeviceFactory.StartStaticDatabase();
+
             if (DeviceDatabaseConnected == true)
             {
                 DeviceDatabaseLoaded = false;

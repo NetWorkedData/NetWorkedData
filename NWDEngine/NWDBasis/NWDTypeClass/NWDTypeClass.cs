@@ -21,6 +21,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using NetWorkedData.NWDORM;
 //=====================================================================================================================
 #if UNITY_EDITOR
 using NetWorkedData.NWDEditor;
@@ -528,19 +529,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void InsertDataProceedWithTransaction() { }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void InsertDataProceed() { }
+        public virtual void InsertDataProceed(ITransaction sDeviceTransaction, ITransaction sEditorTransaction) { }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void InsertDataFinish() { }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void UpdateDataProceedWithTransaction() { }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void UpdateDataProceed() { }
+        public virtual void UpdateDataProceed(ITransaction sDeviceTransaction, ITransaction sEditorTransaction) { }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void UpdateDataFinish() { }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void DeleteDataProceedWithTransaction() { }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void DeleteDataProceed() { }
+        public virtual void DeleteDataProceed(ITransaction sDeviceTransaction, ITransaction sEditorTransaction) { }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void DeleteDataFinish() { }
         //-------------------------------------------------------------------------------------------------------------

@@ -59,9 +59,16 @@ namespace NetWorkedData
         public static List<NWDItem> FindByCategory(NWDCategory sCategory)
         {
             List<NWDItem> rReturn = new List<NWDItem>();
-            foreach (NWDCategory tCategories in sCategory.CascadeCategoryList.GetRawDatas())
+            if( sCategory != null)
             {
-                rReturn.AddRange(NWDIndexCategorieItem.RawDatasByKey(tCategories));
+                if(sCategory.CascadeCategoryList != null)
+                {
+                    NWDCategory[] tArrays = sCategory.CascadeCategoryList.GetRawDatas();
+                    foreach (NWDCategory tCategories in tArrays)
+                    {
+                        rReturn.AddRange(NWDIndexCategorieItem.RawDatasByKey(tCategories));
+                    }
+                }
             }
             return rReturn;
         }

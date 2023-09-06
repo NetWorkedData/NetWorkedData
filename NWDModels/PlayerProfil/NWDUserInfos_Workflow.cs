@@ -20,6 +20,7 @@
 //=====================================================================================================================
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 #if UNITY_IOS
@@ -45,6 +46,41 @@ namespace NetWorkedData
                 return tNickname.Nickname;
             }
             return string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static async Task<Sprite> GetCurrentAvatarAsync(bool isRenderTexture = false)
+        {
+            NWDUserAvatar tAvatar = CurrentData().Avatar.GetReachableData();
+            if (tAvatar != null)
+            {
+                NWDItem tItem = tAvatar.RenderItem.GetReachableData();
+                if (tItem != null)
+                {
+                    if (isRenderTexture)
+                    {
+                        NWDImagePNGType tImage = tAvatar.RenderTexture;
+                        if (tImage != null)
+                        {
+                            return tImage.ToSprite();
+                        }
+                    }
+                    else
+                    {
+                        if (!tItem.SecondarySprite.ValueIsNullOrEmpty())
+                        {
+                            Task<Sprite> tTask = tItem.SecondarySprite.ToAddressableSprite();
+                            return await tTask;
+                        }
+                        else
+                        {
+                            Task<Sprite> tTask = tItem.PrimarySprite.ToAddressableSprite();
+                            return await tTask;
+                        }
+                    }
+                }
+            }
+
+            return null;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Sprite GetCurrentAvatar(bool isRenderTexture = false)
@@ -91,7 +127,7 @@ namespace NetWorkedData
             return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Sprite GetAvatarByUserReference(string sReference, bool isRenderTexture = false)
+        public static /*async Task<Sprite>*/ Sprite GetAvatarByUserReferenceAsync(string sReference, bool isRenderTexture = false)
         {
             NWDUserAvatar tAvatar = NWDBasisHelper.GetCorporateFirstData<NWDUserAvatar>(sReference);
             if (tAvatar != null)
@@ -111,10 +147,14 @@ namespace NetWorkedData
                     {
                         if (!tItem.SecondarySprite.ValueIsNullOrEmpty())
                         {
+                            //Task<Sprite> tTask = tItem.SecondarySprite.ToSprite();
+                            //return await tTask;
                             return tItem.SecondarySprite.ToSprite();
                         }
                         else
                         {
+                            //Task<Sprite> tTask = tItem.PrimarySprite.ToSprite();
+                            //return await tTask;
                             return tItem.PrimarySprite.ToSprite();
                         }
                     }
@@ -174,7 +214,7 @@ namespace NetWorkedData
             return rNickname;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Sprite GetAbsoluteAvatar(bool isPrimarySprite = true)
+        public /*async Task<Sprite>*/ Sprite GetAbsoluteAvatarAsync(bool isPrimarySprite = true)
         {
             Sprite rAvatar = null;
             NWDUserAvatar tAvatar = Avatar.GetRawData();
@@ -185,10 +225,14 @@ namespace NetWorkedData
                 {
                     if (isPrimarySprite)
                     {
+                        //Task<Sprite> tTask = tItem.PrimarySprite.ToSprite();
+                        //rAvatar = await tTask;
                         rAvatar = tItem.PrimarySprite.ToSprite();
                     }
                     else
                     {
+                        //Task<Sprite> tTask = tItem.SecondarySprite.ToSprite();
+                        //rAvatar = await tTask;
                         rAvatar = tItem.SecondarySprite.ToSprite();
                     }
                 }
