@@ -11,8 +11,8 @@ namespace NetWorkedData
         public string LinkJson = string.Empty;
 
         static public Dictionary<string, string> ReferencesDictionary = new Dictionary<string, string>();
-        static public Dictionary<string,object> NWDStringLocalizationList = new Dictionary<string,object>();
-        static public Dictionary<string,object> NWDAssetDataList = new Dictionary<string,object>();
+        static public Dictionary<string,NWDExportObject> NWDStringLocalizationList = new Dictionary<string,NWDExportObject>();
+        static public Dictionary<string,NWDExportObject> NWDAssetDataList = new Dictionary<string,NWDExportObject>();
 
         private static ulong tReferenceUnique = (ulong)NWDToolbox.Timestamp() * 10000000000000000;
 
@@ -23,7 +23,7 @@ namespace NetWorkedData
             // Create new JSON
             // Add record to file to export ... 
             string tObject = "{blabla}";
-            NWDStringLocalizationList.Add(tNewReference, tObject);
+            //NWDStringLocalizationList.Add(tNewReference, tObject);
             return tNewReference;
         }
         
@@ -34,7 +34,7 @@ namespace NetWorkedData
             // Create new JSON
             // Add record to file to export ... 
             string tObject = "{bloblo}";
-            NWDAssetDataList.Add(tNewReference, tObject);
+            //NWDAssetDataList.Add(tNewReference, tObject);
             return tNewReference;
         }
         public static string GetNewReference(string sOldReference)
@@ -68,30 +68,30 @@ namespace NetWorkedData
             }
         }
 
-        public NWDExportObject(ulong sProjectHub, ulong sProjectId, NWDLocalizableStringType sValue)
-        {
-            sValue.BaseVerif();
-            Dictionary<string, string> kSplitDico = new Dictionary<string, string>(sValue.kSplitDico);
-            string tContent = string.Empty;
-            if (kSplitDico.ContainsKey(NWDDataLocalizationManager.kBaseDev))
-            {
-                tContent = kSplitDico[NWDDataLocalizationManager.kBaseDev];
-                kSplitDico.Remove(NWDDataLocalizationManager.kBaseDev);
-            }
-
-            StringBuilder tReturn = new StringBuilder();
-            tReturn.Append("{");
-            foreach (KeyValuePair<string, string> tdico in sValue.kSplitDico)
-            {
-                tReturn.Append("\"" + tdico.Key + "\":\"" + tdico.Value.Replace("\"", "\\\"") + "\",");
-            }
-
-            tReturn.Append("\"Context\":\"" + tContent + "\"");
-            tReturn.Append("}");
-
-            Init(sProjectHub, sProjectId, GetNewReference(), sValue.GetBaseString(), "", tReturn.ToString(), "NWDTranslate");
-            LinkJson = "{\"Reference\":" + ReferenceNew + ", \"Type\":\"NWDTranslate\"}";
-        }
+        // public NWDExportObject(ulong sProjectHub, ulong sProjectId, NWDLocalizableStringType sValue)
+        // {
+        //     sValue.BaseVerif();
+        //     Dictionary<string, string> kSplitDico = new Dictionary<string, string>(sValue.kSplitDico);
+        //     string tContent = string.Empty;
+        //     if (kSplitDico.ContainsKey(NWDDataLocalizationManager.kBaseDev))
+        //     {
+        //         tContent = kSplitDico[NWDDataLocalizationManager.kBaseDev];
+        //         kSplitDico.Remove(NWDDataLocalizationManager.kBaseDev);
+        //     }
+        //
+        //     StringBuilder tReturn = new StringBuilder();
+        //     tReturn.Append("{");
+        //     foreach (KeyValuePair<string, string> tdico in sValue.kSplitDico)
+        //     {
+        //         tReturn.Append("\"" + tdico.Key + "\":\"" + tdico.Value.Replace("\"", "\\\"") + "\",");
+        //     }
+        //
+        //     tReturn.Append("\"Context\":\"" + tContent + "\"");
+        //     tReturn.Append("}");
+        //
+        //     Init(sProjectHub, sProjectId, GetNewReference(), sValue.GetBaseString(), "", tReturn.ToString(), "NWDTranslate");
+        //     LinkJson = "{\"Reference\":" + ReferenceNew + ", \"Type\":\"NWDTranslate\"}";
+        // }
 
         public NWDExportObject(ulong sProjectHub, ulong sProjectId, string sReference, string sTitle, string sDescription, string sJson, string sClassName, bool sCustomClass = false)
         {
