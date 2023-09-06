@@ -54,6 +54,15 @@ namespace NetWorkedData.NWDEditor
                     }
                 }
 
+                foreach (NWDExportObject tTranslate in NWDExportObject.NWDStringLocalizationList.Values)
+                {
+                    tFile.AppendLine(tTranslate.JsonObject);
+                }
+                foreach (NWDExportObject tAsset in NWDExportObject.NWDAssetDataList.Values)
+                {
+                    tFile.AppendLine(tAsset.JsonObject);
+                }
+
                 string tFileFinal = tFile.ToString();
                 File.WriteAllText(tPath, tFileFinal);
                 string tClassResumeFinal = tClassResume.ToString();

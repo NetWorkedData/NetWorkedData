@@ -8,7 +8,6 @@ namespace NetWorkedData
         public string ReferenceOld = string.Empty;
         public string ReferenceNew = string.Empty;
         public string JsonObject = string.Empty;
-        public string LinkJson = string.Empty;
 
         static public Dictionary<string, string> ReferencesDictionary = new Dictionary<string, string>();
         static public Dictionary<string,NWDExportObject> NWDStringLocalizationList = new Dictionary<string,NWDExportObject>();
@@ -16,18 +15,15 @@ namespace NetWorkedData
 
         private static ulong tReferenceUnique = (ulong)NWDToolbox.Timestamp() * 10000000000000000;
 
-        public static string ProcessNewLocalizedString(NWDLocalizableType sLocalizedString)
+        public static string ProcessNewLocalizedString(ulong sProjectHub, ulong sProjectId,NWDLocalizableType sLocalizedString)
         {
-            string tNewReference = GetNewReference();
-            // TODO Process creation of new NWDStringLocalization
-            // Create new JSON
-            // Add record to file to export ... 
-            string tObject = "{blabla}";
-            //NWDStringLocalizationList.Add(tNewReference, tObject);
-            return tNewReference;
+            NWDExportObject tReturn = new NWDExportObject(sProjectHub,sProjectId,sLocalizedString);
+            string tNewReference = tReturn.ReferenceNew;
+            NWDStringLocalizationList.Add(tNewReference,tReturn);
+            return "{\"Reference\":" + tNewReference + ", \"Type\":\"NWDTranslate\"}";
         }
         
-        public static string ProcessNewAsset(NWDAssetType sAssetType)
+        public static string ProcessNewAsset(ulong sProjectHub, ulong sProjectId,NWDAssetType sAssetType)
         {
             string tNewReference = GetNewReference();
             // TODO Process creation of new NWDAssetData
@@ -35,7 +31,7 @@ namespace NetWorkedData
             // Add record to file to export ... 
             string tObject = "{bloblo}";
             //NWDAssetDataList.Add(tNewReference, tObject);
-            return tNewReference;
+            return "{\"Reference\":" + tNewReference + ", \"Type\":\"NWDAssetData\"}";
         }
         public static string GetNewReference(string sOldReference)
         {
@@ -51,11 +47,6 @@ namespace NetWorkedData
             return tReferenceUnique.ToString();
         }
 
-        public string Link()
-        {
-            return LinkJson;
-        }
-
         public static string ClassName(string sClassName, bool sCustomClass = false)
         {
             if (sCustomClass)
@@ -68,30 +59,33 @@ namespace NetWorkedData
             }
         }
 
-        // public NWDExportObject(ulong sProjectHub, ulong sProjectId, NWDLocalizableStringType sValue)
-        // {
-        //     sValue.BaseVerif();
-        //     Dictionary<string, string> kSplitDico = new Dictionary<string, string>(sValue.kSplitDico);
-        //     string tContent = string.Empty;
-        //     if (kSplitDico.ContainsKey(NWDDataLocalizationManager.kBaseDev))
-        //     {
-        //         tContent = kSplitDico[NWDDataLocalizationManager.kBaseDev];
-        //         kSplitDico.Remove(NWDDataLocalizationManager.kBaseDev);
-        //     }
-        //
-        //     StringBuilder tReturn = new StringBuilder();
-        //     tReturn.Append("{");
-        //     foreach (KeyValuePair<string, string> tdico in sValue.kSplitDico)
-        //     {
-        //         tReturn.Append("\"" + tdico.Key + "\":\"" + tdico.Value.Replace("\"", "\\\"") + "\",");
-        //     }
-        //
-        //     tReturn.Append("\"Context\":\"" + tContent + "\"");
-        //     tReturn.Append("}");
-        //
-        //     Init(sProjectHub, sProjectId, GetNewReference(), sValue.GetBaseString(), "", tReturn.ToString(), "NWDTranslate");
-        //     LinkJson = "{\"Reference\":" + ReferenceNew + ", \"Type\":\"NWDTranslate\"}";
-        // }
+        public NWDExportObject(ulong sProjectHub, ulong sProjectId, NWDAssetType sValue)
+        {
+            Init(sProjectHub, sProjectId, GetNewReference(), "", "", "{NULL}","NWDAssetData");
+        }
+         public NWDExportObject(ulong sProjectHub, ulong sProjectId, NWDLocalizableType sValue)
+        {
+            sValue.BaseVerif();
+            Dictionary<string, string> kSplitDico = new Dictionary<string, string>(sValue.kSplitDico);
+            string tContent = string.Empty;
+            if (kSplitDico.ContainsKey(NWDDataLocalizationManager.kBaseDev))
+            {
+                tContent = kSplitDico[NWDDataLocalizationManager.kBaseDev];
+                kSplitDico.Remove(NWDDataLocalizationManager.kBaseDev);
+            }
+        
+            StringBuilder tReturn = new StringBuilder();
+            tReturn.Append("{");
+            foreach (KeyValuePair<string, string> tdico in sValue.kSplitDico)
+            {
+                tReturn.Append("\"" + tdico.Key + "\":\"" + tdico.Value.Replace("\"", "\\\"") + "\",");
+            }
+        
+            tReturn.Append("\"Context\":\"" + tContent + "\"");
+            tReturn.Append("}");
+        
+            Init(sProjectHub, sProjectId, GetNewReference(), sValue.GetBaseString(), "", tReturn.ToString(), "NWDTranslate");
+        }
 
         public NWDExportObject(ulong sProjectHub, ulong sProjectId, string sReference, string sTitle, string sDescription, string sJson, string sClassName, bool sCustomClass = false)
         {
