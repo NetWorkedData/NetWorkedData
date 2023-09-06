@@ -19,6 +19,7 @@
 #endif
 //=====================================================================================================================
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 //=====================================================================================================================
 #if UNITY_EDITOR
@@ -341,6 +342,16 @@ namespace NetWorkedData
         public virtual string ExportCSV(string[] sLanguageArray)
         {
             return string.Empty;
+        }
+        public virtual List<NWDExportObject> ExportNWD3(ulong sProjectHub, ulong sProjectId)
+        {
+            string tReturn = "{"+
+                "\"Reference\":"+NWDToolbox.NumericCleaner(Reference)+"" +
+                "}";
+            return new List<NWDExportObject>()
+            {
+                new NWDExportObject(sProjectHub, sProjectId, Reference, InternalKey, InternalDescription, tReturn, nameof(NWDTypeClass), false)
+            };
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual Texture2D PreviewTexture2D()

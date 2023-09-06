@@ -93,7 +93,7 @@ namespace NetWorkedData
         #endif
         //-------------------------------------------------------------------------------------------------------------
         [NonSerializedAttribute]
-        protected Dictionary<string, string> kSplitDico;
+        public Dictionary<string, string> kSplitDico;
         //-------------------------------------------------------------------------------------------------------------
         protected void DicoPopulate()
         {
