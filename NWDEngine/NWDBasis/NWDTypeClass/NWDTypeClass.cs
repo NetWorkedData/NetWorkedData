@@ -26,6 +26,10 @@ using NetWorkedData.NWDORM;
 #if UNITY_EDITOR
 using NetWorkedData.NWDEditor;
 using UnityEditor;
+using Newtonsoft.Json;
+using NWEMiniJSON;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 #endif
 //=====================================================================================================================
 namespace NetWorkedData
@@ -700,6 +704,48 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NodeCardAnalyze(NWDNodeCard sCard) { }
         //-------------------------------------------------------------------------------------------------------------
+        
+        public string GetJSonBaseParameters()
+        {
+            var tExport = new {
+                RangeAccess = RangeAccess,
+                ID = ID,
+                Reference = Reference,
+                CheckList = CheckList, //NWDBasisCheckList
+                WebModel = WebModel,
+                InternalKey = InternalKey,
+                InternalDescription = InternalDescription,
+                Preview = Preview,
+                AC = AC,
+                DC = DC,
+                DM = DM,
+                DD = DD,
+                XX = XX,
+                Integrity = Integrity,
+                DS = DS,
+                DevSync = DevSync,
+                PreprodSync = PreprodSync,
+                ProdSync = ProdSync,
+                Tag = Tag, //NWDBasisTag
+                ServerHash = ServerHash,
+                ServerLog = ServerLog,
+                InError = InError
+            };
+
+            string tJson = JsonConvert.SerializeObject(tExport);
+
+            return tJson;
+        }
+
+        public string GetJSonMergeWithBase(string sJson)
+        {
+            JObject rJson = JObject.Parse(sJson);
+            JObject tBaseJson = JObject.Parse(GetJSonBaseParameters());
+
+            rJson.Merge(tBaseJson, new JsonMergeSettings {MergeArrayHandling = MergeArrayHandling.Union});
+
+            return rJson.ToString();
+        }        
 #endif
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
