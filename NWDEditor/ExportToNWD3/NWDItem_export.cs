@@ -1,16 +1,16 @@
-using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using UnityEngine;
 
 namespace NetWorkedData
 {
     public partial class NWDItem : NWDBasis
     {
+        #if UNITY_EDITOR
         public override List<NWDExportObject> ExportNWD3(ulong sProjectHub, ulong sProjectId)
         {
-            // Create object for Language!
+            // Create object
             var tExport = new {
+                // Specific data
                 Name = NWDExportObject.ProcessNewLocalizedString(sProjectHub, sProjectId, Name),
                 PluralName = NWDExportObject.ProcessNewLocalizedString(sProjectHub, sProjectId, PluralName),
                 SubName = NWDExportObject.ProcessNewLocalizedString(sProjectHub, sProjectId, SubName),
@@ -58,5 +58,6 @@ namespace NetWorkedData
             rReturn.Add(tObject);
             return rReturn;
         }
+        #endif
     }
 }
