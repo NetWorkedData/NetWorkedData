@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Dynamic;
 using Unity.Android.Types;
+using UnityEngine;
 
 namespace NetWorkedData
 {
@@ -17,24 +18,22 @@ namespace NetWorkedData
 
         private static ulong tReferenceUnique = (ulong)NWDToolbox.Timestamp() * 10000000000000000;
 
-        public static string ProcessNewLocalizedString(ulong sProjectHub, ulong sProjectId,NWDLocalizableType sLocalizedString)
+        public static string ProcessNewLocalizedString(ulong sProjectHub, ulong sProjectId, NWDLocalizableType sLocalizedString)
         {
-            NWDExportObject tReturn = new NWDExportObject(sProjectHub,sProjectId,sLocalizedString);
+            NWDExportObject tReturn = new NWDExportObject(sProjectHub, sProjectId, sLocalizedString);
             string tNewReference = tReturn.ReferenceNew;
-            NWDStringLocalizationList.Add(tNewReference,tReturn);
+            NWDStringLocalizationList.Add(tNewReference, tReturn);
             return "{\"Reference\":" + tNewReference + ", \"Type\":\"NWDTranslate\"}";
         }
         
-        public static string ProcessNewAsset(ulong sProjectHub, ulong sProjectId,NWDAssetType sAssetType)
+        public static string ProcessNewAsset(ulong sProjectHub, ulong sProjectId, NWDAssetType sAssetType)
         {
-            string tNewReference = GetNewReference();
-            // TODO Process creation of new NWDAssetData
-            // Create new JSON
-            // Add record to file to export ... 
-            string tObject = "{bloblo}";
-            //NWDAssetDataList.Add(tNewReference, tObject);
+            NWDExportObject tReturn = new NWDExportObject(sProjectHub, sProjectId, sAssetType);
+            string tNewReference = tReturn.ReferenceNew;
+            NWDAssetDataList.Add(tNewReference, tReturn);
             return "{\"Reference\":" + tNewReference + ", \"Type\":\"NWDAssetData\"}";
         }
+
         public static string GetNewReference(string sOldReference)
         {
             tReferenceUnique++;
