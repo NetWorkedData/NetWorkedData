@@ -23,16 +23,76 @@ namespace NetWorkedData
             NWDExportObject tReturn = new NWDExportObject(sProjectHub, sProjectId, sLocalizedString);
             string tNewReference = tReturn.ReferenceNew;
             NWDStringLocalizationList.Add(tNewReference, tReturn);
-            return "{\"Reference\":" + tNewReference + ", \"Type\":\"NWDTranslate\"}";
+            return "{\"Reference\":" + tNewReference + "}";
         }
         
+        public static string ProcessNewColor(List<NWDColorType> sColors)
+        {
+            string tReturn = "";
+            foreach(NWDColorType k in sColors)
+            {
+                Color tColor = k.GetColor();
+                if (tReturn.Length > 0) tReturn = ",";
+                tReturn = "{\"Red\":" + tColor.r +
+                          ",\"Green\":" + tColor.g +
+                          ",\"Blue\":" + tColor.b +
+                          ",\"Alpha\":" + tColor.a +
+                          "}";
+            }
+            return "[" + tReturn + "]";
+        }
+
+        public static string ProcessNewArray(string sValue)
+        {
+            string tReferences = "";
+            string[] tReferencesList = sValue.Split(new char[] { NWDConstants.kFieldSeparatorA_char });
+            foreach(string k in tReferencesList)
+            {
+                if (tReferences.Length > 0) tReferences += ",";
+                tReferences += k;
+            }
+            return "[" + tReferences + "]";
+        }
+
+        public static string ProcessNewArray(List<string> sValues)
+        {
+            string tReferences = "";
+            foreach(string k in sValues)
+            {
+                if (tReferences.Length > 0) tReferences += ",";
+                tReferences += k;
+            }
+            return "[" + tReferences + "]";
+        }
+
         public static string ProcessNewAsset(ulong sProjectHub, ulong sProjectId, NWDAssetType sAssetType)
         {
             NWDExportObject tReturn = new NWDExportObject(sProjectHub, sProjectId, sAssetType);
             string tNewReference = tReturn.ReferenceNew;
             NWDAssetDataList.Add(tNewReference, tReturn);
-            return "{\"Reference\":" + tNewReference + ", \"Type\":\"NWDAssetData\"}";
+            return "[" + tNewReference + "]";
         }
+
+        public static string ProcessNewAsset(ulong sProjectHub, ulong sProjectId, List<NWDAssetType> sAssetTypes)
+        {
+            string tReferences = "";
+            foreach(NWDAssetType k in sAssetTypes)
+            {
+                NWDExportObject tReturn = new NWDExportObject(sProjectHub, sProjectId, k);
+                string tNewReference = tReturn.ReferenceNew;
+                NWDAssetDataList.Add(tNewReference, tReturn);
+                if (tReferences.Length > 0) tReferences += ",";
+                tReferences += tNewReference;
+            }
+            return "[" + tReferences + "]";
+        }
+
+        /*public static string ProcessNewReferences(ulong sProjectHub, ulong sProjectId, params string[] sValues)
+        {
+            NWDExportObject tReturn = new NWDExportObject(sProjectHub, sProjectId, sValue);
+            string tNewReference = tReturn.ReferenceNew;
+            return "{\"Reference\":" + tNewReference + ", \"Type\":\"NWDAssetData\"}";
+        }*/
 
         public static string GetNewReference(string sOldReference)
         {

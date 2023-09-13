@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using UnityEngine;
 
 namespace NetWorkedData
 {
@@ -8,6 +9,26 @@ namespace NetWorkedData
         #if UNITY_EDITOR
         public override List<NWDExportObject> ExportNWD3(ulong sProjectHub, ulong sProjectId)
         {
+            List<NWDAssetType> tSprites = new List<NWDAssetType>();
+            tSprites.Add(PrimarySprite);
+            tSprites.Add(SecondarySprite);
+            tSprites.Add(TertiarySprite);
+
+            List<NWDAssetType> tTextures = new List<NWDAssetType>();
+            tSprites.Add(PrimaryTexture);
+            tSprites.Add(SecondaryTexture);
+            tSprites.Add(TertiaryTexture);
+
+            List<NWDColorType> tColors = new List<NWDColorType>();
+            tColors.Add(PrimaryColor);
+            tColors.Add(SecondaryColor);
+            tColors.Add(TertiaryColor);
+
+            List<NWDAssetType> tPrefabs = new List<NWDAssetType>();
+            tPrefabs.Add(PrimaryPrefab);
+            tPrefabs.Add(SecondaryPrefab);
+            tPrefabs.Add(TertiaryPrefab);
+
             // Create object
             var tExport = new {
                 // Specific data
@@ -23,31 +44,25 @@ namespace NetWorkedData
                 HiddenInGame = HiddenInGame,
                 Uncountable = Uncountable,
                 Usable = Usable,
-                DelayBeforeUse = DelayBeforeUse,
-                DurationOfUse = DurationOfUse,
-                DelayBeforeReUse = DelayBeforeReUse,
-                ItemExtensionQuantity = ItemExtensionQuantity, //references
+                ItemExtensionQuantity = ItemExtensionQuantity, //Reference Quantity Type
                 ParameterList = ParameterList,
-                PrimarySprite = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, PrimarySprite),
-                SecondarySprite = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, SecondarySprite),
-                TertiarySprite = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, TertiarySprite),
-                PrimaryTexture = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, PrimaryTexture),
-                SecondaryTexture = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, SecondaryTexture),
-                TertiaryTexture = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, TertiaryTexture),
-                PrimaryColor = PrimaryColor,
-                SecondaryColor = SecondaryColor,
-                TertiaryColor = TertiaryColor,
-                PrimaryPrefab = PrimaryPrefab,
-                SecondaryPrefab = SecondaryPrefab,
-                TertiaryPrefab = TertiaryPrefab,
-                EffectPrefab = EffectPrefab,
+                Sprites = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, tSprites),
+                Textures = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, tTextures),
+                Colors = NWDExportObject.ProcessNewColor(tColors),
+                Prefabs = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, tPrefabs),
+                EffectPrefab = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, EffectPrefab),
+                //Categories = NWDExportObject.ProcessNewArray(CategoryList.Value.ToString()), //references
                 JSON = JSON,
                 KeysValues = KeysValues,
-                ItemGroupList = ItemGroupList, //references
-                CraftBookAttachment = CraftBookAttachment, //reference
-                CategoryList = CategoryList, //references
-                FamilyList = FamilyList, //references
-                KeywordList = KeywordList, //references
+                // Missing Data NWD3
+                //ItemGroupList = ItemGroupList, //references
+                //CraftBookAttachment = CraftBookAttachment, //reference
+                //FamilyList = FamilyList, //references
+                //KeywordList = KeywordList, //references
+                // Obsolete Data
+                //DelayBeforeUse = DelayBeforeUse,
+                //DurationOfUse = DurationOfUse,
+                //DelayBeforeReUse = DelayBeforeReUse
             };
             
             string tJson = JsonConvert.SerializeObject(tExport);
