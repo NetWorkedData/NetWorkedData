@@ -11,8 +11,8 @@ namespace NetWorkedData
             // Create object
             var tExport = new {
                 // Specific data
-                ItemConditional = ItemConditional,
-                ItemBatch = ItemBatch,
+                ItemConditional = ItemConditional, //references conditional
+                ItemBatch = NWDExportObject.ProcessNewArray(ItemBatch?.GetReferenceAndQuantity()),
                 Quantity = Quantity,
             };
 

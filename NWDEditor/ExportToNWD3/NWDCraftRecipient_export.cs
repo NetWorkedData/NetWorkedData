@@ -8,20 +8,25 @@ namespace NetWorkedData
         #if UNITY_EDITOR
         public override List<NWDExportObject> ExportNWD3(ulong sProjectHub, ulong sProjectId)
         {
+            List<NWDAssetType> tPrefabs = new()
+            {
+                ActiveParticles,
+                ActiveSound,
+                AddParticles,
+                AddSound,
+                DisactiveParticles,
+                DisactiveSound
+            };
+
             // Create object
             var tExport = new {
                 // Specific data
-                ItemDescription = ItemDescription, //reference
+                ItemDescription = NWDExportObject.ProcessNewArray(ItemDescription?.GetReference()),
                 CraftOnlyMax = CraftOnlyMax,
                 CraftUnUsedElements = CraftUnUsedElements,
-                ActiveParticles = ActiveParticles,
-                ActiveSound = ActiveSound,
-                AddParticles = AddParticles,
-                AddSound = AddSound,
-                DisactiveParticles = DisactiveParticles,
-                DisactiveSound = DisactiveSound,
-                ItemFailedResult = ItemFailedResult, //references
-                ItemGroup = ItemGroup, //reference
+                Prefabs = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, tPrefabs),
+                ItemFailedResult = NWDExportObject.ProcessNewArray(ItemFailedResult?.GetReferenceAndQuantity()),
+                ItemGroup = NWDExportObject.ProcessNewArray(ItemGroup?.GetReference()),
             };
 
             string tJson = JsonConvert.SerializeObject(tExport);

@@ -9,25 +9,33 @@ namespace NetWorkedData
         #if UNITY_EDITOR
         public override List<NWDExportObject> ExportNWD3(ulong sProjectHub, ulong sProjectId)
         {
-            List<NWDAssetType> tSprites = new List<NWDAssetType>();
-            tSprites.Add(PrimarySprite);
-            tSprites.Add(SecondarySprite);
-            tSprites.Add(TertiarySprite);
+            List<NWDAssetType> tSprites = new()
+            {
+                PrimarySprite,
+                SecondarySprite,
+                TertiarySprite
+            };
 
-            List<NWDAssetType> tTextures = new List<NWDAssetType>();
-            tSprites.Add(PrimaryTexture);
-            tSprites.Add(SecondaryTexture);
-            tSprites.Add(TertiaryTexture);
+            List<NWDAssetType> tTextures = new()
+            {
+                PrimaryTexture,
+                SecondaryTexture,
+                TertiaryTexture
+            };
 
-            List<NWDColorType> tColors = new List<NWDColorType>();
-            tColors.Add(PrimaryColor);
-            tColors.Add(SecondaryColor);
-            tColors.Add(TertiaryColor);
+            List<NWDColorType> tColors = new()
+            {
+                PrimaryColor,
+                SecondaryColor,
+                TertiaryColor
+            };
 
-            List<NWDAssetType> tPrefabs = new List<NWDAssetType>();
-            tPrefabs.Add(PrimaryPrefab);
-            tPrefabs.Add(SecondaryPrefab);
-            tPrefabs.Add(TertiaryPrefab);
+            List<NWDAssetType> tPrefabs = new()
+            {
+                PrimaryPrefab,
+                SecondaryPrefab,
+                TertiaryPrefab
+            };
 
             // Create object
             var tExport = new {
@@ -44,21 +52,23 @@ namespace NetWorkedData
                 HiddenInGame = HiddenInGame,
                 Uncountable = Uncountable,
                 Usable = Usable,
-                ItemExtensionQuantity = ItemExtensionQuantity, //Reference Quantity Type
-                ParameterList = ParameterList,
+                ItemExtensionQuantity = NWDExportObject.ProcessNewArray(ItemExtensionQuantity?.GetReferenceAndQuantity()),
                 Sprites = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, tSprites),
                 Textures = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, tTextures),
                 Colors = NWDExportObject.ProcessNewColor(tColors),
                 Prefabs = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, tPrefabs),
                 EffectPrefab = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, EffectPrefab),
-                //Categories = NWDExportObject.ProcessNewArray(CategoryList.Value.ToString()), //references
+                Categories = NWDExportObject.ProcessNewArray(CategoryList?.GetValue()),
                 JSON = JSON,
                 KeysValues = KeysValues,
+                
                 // Missing Data NWD3
+                //ParameterList = ParameterList, //references
                 //ItemGroupList = ItemGroupList, //references
                 //CraftBookAttachment = CraftBookAttachment, //reference
                 //FamilyList = FamilyList, //references
                 //KeywordList = KeywordList, //references
+
                 // Obsolete Data
                 //DelayBeforeUse = DelayBeforeUse,
                 //DurationOfUse = DurationOfUse,

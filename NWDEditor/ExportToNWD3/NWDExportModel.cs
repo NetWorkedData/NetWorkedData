@@ -20,7 +20,7 @@ namespace NetWorkedData
 
         public static string ProcessNewLocalizedString(ulong sProjectHub, ulong sProjectId, NWDLocalizableType sLocalizedString)
         {
-            NWDExportObject tReturn = new NWDExportObject(sProjectHub, sProjectId, sLocalizedString);
+            NWDExportObject tReturn = new(sProjectHub, sProjectId, sLocalizedString);
             string tNewReference = tReturn.ReferenceNew;
             NWDStringLocalizationList.Add(tNewReference, tReturn);
             return "{\"Reference\":" + tNewReference + "}";
@@ -32,8 +32,8 @@ namespace NetWorkedData
             foreach(NWDColorType k in sColors)
             {
                 Color tColor = k.GetColor();
-                if (tReturn.Length > 0) tReturn = ",";
-                tReturn = "{\"Red\":" + tColor.r +
+                if (tReturn.Length > 0) tReturn += ",";
+                tReturn += "{\"Red\":" + tColor.r +
                           ",\"Green\":" + tColor.g +
                           ",\"Blue\":" + tColor.b +
                           ",\"Alpha\":" + tColor.a +
@@ -44,47 +44,54 @@ namespace NetWorkedData
 
         public static string ProcessNewArray(string sValue)
         {
-            string tReferences = "";
-            string[] tReferencesList = sValue.Split(new char[] { NWDConstants.kFieldSeparatorA_char });
-            foreach(string k in tReferencesList)
+            string rReferences = "";
+            string[] tReferencesList = sValue?.Split(new char[] { NWDConstants.kFieldSeparatorA_char });
+            if (tReferencesList != null)
             {
-                if (tReferences.Length > 0) tReferences += ",";
-                tReferences += k;
+                foreach(string k in tReferencesList)
+                {
+                    if (rReferences.Length > 0) rReferences += ",";
+                    rReferences += k;
+                }
             }
-            return "[" + tReferences + "]";
+            return "[" + rReferences + "]";
         }
 
-        public static string ProcessNewArray(List<string> sValues)
+        public static string ProcessNewArray(Dictionary<string, int> sValue)
         {
-            string tReferences = "";
-            foreach(string k in sValues)
+            string rReferences = "";
+            if (sValue != null)
             {
-                if (tReferences.Length > 0) tReferences += ",";
-                tReferences += k;
+                foreach(var k in sValue)
+                {
+                    if (rReferences.Length > 0) rReferences += ",";
+                    string tPair = $"{k.Key}:{k.Value}";
+                    rReferences += "{" + tPair + "}";
+                }
             }
-            return "[" + tReferences + "]";
+            return "[" + rReferences + "]";
         }
 
         public static string ProcessNewAsset(ulong sProjectHub, ulong sProjectId, NWDAssetType sAssetType)
         {
-            NWDExportObject tReturn = new NWDExportObject(sProjectHub, sProjectId, sAssetType);
-            string tNewReference = tReturn.ReferenceNew;
-            NWDAssetDataList.Add(tNewReference, tReturn);
+            NWDExportObject tExport = new(sProjectHub, sProjectId, sAssetType);
+            string tNewReference = tExport.ReferenceNew;
+            NWDAssetDataList.Add(tNewReference, tExport);
             return "[" + tNewReference + "]";
         }
 
         public static string ProcessNewAsset(ulong sProjectHub, ulong sProjectId, List<NWDAssetType> sAssetTypes)
         {
-            string tReferences = "";
+            string rReferences = "";
             foreach(NWDAssetType k in sAssetTypes)
             {
-                NWDExportObject tReturn = new NWDExportObject(sProjectHub, sProjectId, k);
+                NWDExportObject tReturn = new(sProjectHub, sProjectId, k);
                 string tNewReference = tReturn.ReferenceNew;
                 NWDAssetDataList.Add(tNewReference, tReturn);
-                if (tReferences.Length > 0) tReferences += ",";
-                tReferences += tNewReference;
+                if (rReferences.Length > 0) rReferences += ",";
+                rReferences += tNewReference;
             }
-            return "[" + tReferences + "]";
+            return "[" + rReferences + "]";
         }
 
         /*public static string ProcessNewReferences(ulong sProjectHub, ulong sProjectId, params string[] sValues)
@@ -100,24 +107,6 @@ namespace NetWorkedData
             string rReturn = tReferenceUnique.ToString();
             ReferencesDictionary.Add(sOldReference, rReturn);
             return rReturn;
-        }
-
-        public static dynamic Merge(object item1, object item2)
-        {
-            if (item1 == null || item2 == null)
-                return item1 ?? item2 ?? new ExpandoObject();
-
-            dynamic expando = new ExpandoObject();
-            var result = expando as IDictionary<string, object>;
-            foreach (System.Reflection.PropertyInfo fi in item1.GetType().GetProperties())
-            {
-                result[fi.Name] = fi.GetValue(item1, null);
-            }
-            foreach (System.Reflection.PropertyInfo fi in item2.GetType().GetProperties())
-            {
-                result[fi.Name] = fi.GetValue(item2, null);
-            }
-            return result;
         }
 
         public static string GetNewReference()
@@ -142,7 +131,8 @@ namespace NetWorkedData
         {
             Init(sProjectHub, sProjectId, GetNewReference(), "", "", "{NULL}","NWDAssetData");
         }
-         public NWDExportObject(ulong sProjectHub, ulong sProjectId, NWDLocalizableType sValue)
+
+        public NWDExportObject(ulong sProjectHub, ulong sProjectId, NWDLocalizableType sValue)
         {
             sValue.BaseVerif();
             Dictionary<string, string> kSplitDico = new Dictionary<string, string>(sValue.kSplitDico);

@@ -14,7 +14,7 @@ namespace NetWorkedData
                 Title = NWDExportObject.ProcessNewLocalizedString(sProjectHub, sProjectId, Title),
                 Description = NWDExportObject.ProcessNewLocalizedString(sProjectHub, sProjectId, Description),
                 Domain = Domain,
-                Default = Default,
+                Default = Default, //multitype
                 NotifyChange = NotifyChange,
             };
 
