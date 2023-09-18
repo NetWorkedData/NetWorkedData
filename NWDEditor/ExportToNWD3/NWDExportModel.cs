@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Text;
-using System.Dynamic;
-using Unity.Android.Types;
 using UnityEngine;
 
 namespace NetWorkedData
