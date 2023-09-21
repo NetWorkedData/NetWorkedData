@@ -711,7 +711,7 @@ namespace NetWorkedData
                 RangeAccess = RangeAccess,
                 ID = ID,
                 Reference = Reference,
-                CheckList = CheckList, //NWDBasisCheckList
+                CheckList = CheckList,
                 WebModel = WebModel,
                 InternalKey = InternalKey,
                 InternalDescription = InternalDescription,
@@ -726,7 +726,7 @@ namespace NetWorkedData
                 DevSync = DevSync,
                 PreprodSync = PreprodSync,
                 ProdSync = ProdSync,
-                Tag = Tag, //NWDBasisTag
+                Tag = Tag,
                 ServerHash = ServerHash,
                 ServerLog = ServerLog,
                 InError = InError

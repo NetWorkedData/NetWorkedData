@@ -38,7 +38,7 @@ namespace NetWorkedData
 {
     [SerializeField]
     //-----------------------------------------------------------------------------------------------------------------
-    public class NWDLocalizableVideoClipType : NWDLocalizableType
+    public partial class NWDLocalizableVideoClipType : NWDLocalizableType
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDLocalizableVideoClipType()

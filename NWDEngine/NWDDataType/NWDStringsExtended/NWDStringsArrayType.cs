@@ -38,7 +38,7 @@ namespace NetWorkedData
     /// NWDStringsArrayType used to put a reference with float in value. Use properties with name, like 'ItemArray', 'SpotArray', 'BonusArray' , etc.
     /// </summary>
     [SerializeField]
-    public class NWDStringsArrayType : NWEDataType
+    public partial class NWDStringsArrayType : NWEDataType
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDStringsArrayType()

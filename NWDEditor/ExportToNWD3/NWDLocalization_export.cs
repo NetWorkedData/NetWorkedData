@@ -6,7 +6,7 @@ namespace NetWorkedData
     public partial class NWDLocalization : NWDBasis
     {
         #if UNITY_EDITOR
-        public override List<NWDExportObject> ExportNWD3(ulong sProjectHub, ulong sProjectId)
+        /*public override List<NWDExportObject> ExportNWD3(ulong sProjectHub, ulong sProjectId)
         {
             // Create object
             var tExport = new {
@@ -21,7 +21,7 @@ namespace NetWorkedData
             NWDExportObject tObject = new NWDExportObject(sProjectHub, sProjectId, Reference, InternalKey, InternalDescription, tJson, nameof(NWDItem), false);
             rReturn.Add(tObject);
             return rReturn;
-        }
+        }*/
         #endif
     }
 }

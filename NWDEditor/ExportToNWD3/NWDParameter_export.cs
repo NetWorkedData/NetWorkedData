@@ -12,9 +12,9 @@ namespace NetWorkedData
             var tExport = new {
                 // Specific data
                 Name = NWDExportObject.ProcessNewLocalizedString(sProjectHub, sProjectId, Name),
-                ItemDescription = NWDExportObject.ProcessNewArray(ItemDescription?.GetReference()),
+                ItemDescription = ItemDescription?.GetJsonConvert(),
                 Value = Value, //multitype
-                CategoryList = NWDExportObject.ProcessNewArray(CategoryList?.GetValue()),
+                CategoryList = CategoryList?.GetJsonConvert(),
             };
 
             string tJson = JsonConvert.SerializeObject(tExport);

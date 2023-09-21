@@ -11,8 +11,8 @@ namespace NetWorkedData
             // Create object
             var tExport = new {
                 // Specific data
-                ItemDescription = NWDExportObject.ProcessNewArray(ItemDescription?.GetReference()),
-                ItemList = NWDExportObject.ProcessNewArray(ItemList?.GetValue()),
+                ItemDescription = ItemDescription?.GetJsonConvert(),
+                ItemList = ItemList?.GetJsonConvert(),
             };
 
             string tJson = JsonConvert.SerializeObject(tExport);

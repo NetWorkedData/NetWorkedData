@@ -43,8 +43,11 @@ namespace NetWorkedData.NWDEditor
                             {
                                 foreach (NWDExportObject tExport in tKeyValue.Value.ExportNWD3(51376, 18446744071694964799))
                                 {
-                                    tReferencesTranslation.Add(tExport.ReferenceOld, tExport.ReferenceNew);
-                                    tFile.AppendLine(tExport.JsonObject);
+                                    if(tReferencesTranslation.TryAdd(tExport.ReferenceOld, tExport.ReferenceNew))
+                                    {
+                                        tFile.AppendLine(tExport.JsonObject);
+                                    }
+                                    //tReferencesTranslation.Add(tExport.ReferenceOld, tExport.ReferenceNew);
                                 }
 
                                 tSubLine++;

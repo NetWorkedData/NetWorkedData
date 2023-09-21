@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace NetWorkedData
@@ -16,31 +17,82 @@ namespace NetWorkedData
 
         private static ulong tReferenceUnique = (ulong)NWDToolbox.Timestamp() * 10000000000000000;
 
-        public static string ProcessNewLocalizedString(ulong sProjectHub, ulong sProjectId, NWDLocalizableType sLocalizedString)
+        public static object ProcessNewLocalizedString(ulong sProjectHub, ulong sProjectId, NWDLocalizableType sLocalizedString)
         {
-            NWDExportObject tReturn = new(sProjectHub, sProjectId, sLocalizedString);
-            string tNewReference = tReturn.ReferenceNew;
-            NWDStringLocalizationList.Add(tNewReference, tReturn);
-            return "{\"Reference\":" + tNewReference + "}";
+            NWDExportObject tNewData = new(sProjectHub, sProjectId, sLocalizedString);
+            string tNewReference = tNewData.ReferenceNew;
+            NWDStringLocalizationList.Add(tNewReference, tNewData);
+
+            var tExport = new {
+                Reference = tNewReference,
+            };
+            return tExport;
         }
         
-        public static string ProcessNewColor(List<NWDColorType> sColors)
+        public static object ProcessNewAsset(ulong sProjectHub, ulong sProjectId, NWDAssetType sAssetType)
         {
-            string tReturn = "";
+            NWDExportObject tNewData = new(sProjectHub, sProjectId, sAssetType);
+            NWDAssetDataList.Add(tNewData.ReferenceNew, tNewData);
+
+            List<object> rObjects = new() { tNewData.ReferenceNew };
+            return rObjects;
+        }
+
+        public static object ProcessNewAsset(ulong sProjectHub, ulong sProjectId, List<NWDAssetType> sAssetTypes)
+        {
+            List<object> rObjects = new List<object>();
+            foreach(NWDAssetType k in sAssetTypes)
+            {
+                NWDExportObject tNewData = new(sProjectHub, sProjectId, k);
+                NWDAssetDataList.Add(tNewData.ReferenceNew, tNewData);
+                rObjects.Add(tNewData.ReferenceNew);
+            }
+            return rObjects;
+        }
+
+        public static object ProcessNewColor(List<NWDColorType> sColors)
+        {
+            List<object> rObjects = new List<object>();
             foreach(NWDColorType k in sColors)
             {
                 Color tColor = k.GetColor();
-                if (tReturn.Length > 0) tReturn += ",";
-                tReturn += "{\"Red\":" + tColor.r +
-                          ",\"Green\":" + tColor.g +
-                          ",\"Blue\":" + tColor.b +
-                          ",\"Alpha\":" + tColor.a +
-                          "}";
+                var tExport = new {
+                    Red = tColor.r,
+                    Green = tColor.g,
+                    Blue = tColor.b,
+                    Alpha = tColor.a,
+                };
+                rObjects.Add(tExport);
             }
-            return "[" + tReturn + "]";
+            return rObjects;
         }
 
-        public static string ProcessNewArray(string sValue)
+        public static object GetIntSequence(int sMin, int sMax, int sBehavior = 0)
+        {
+            var tExport = new {
+                Min = sMin,
+                Max = sMax,
+                Behavior = sBehavior
+            };
+            return tExport;
+        }
+
+        public static object GetFloatSequence(float sMin, float sMax, int sBehavior = 0)
+        {
+            var tExport = new {
+                Min = sMin,
+                Max = sMax,
+                Behavior = sBehavior
+            };
+            return tExport;
+        }
+
+        public static object ProcessNewRef(object sOldRef)
+        {
+            return "";
+        }
+
+        /*public static string ProcessNewArray(string sValue)
         {
             string rReferences = "";
             string[] tReferencesList = sValue?.Split(new char[] { NWDConstants.kFieldSeparatorA_char });
@@ -68,29 +120,7 @@ namespace NetWorkedData
                 }
             }
             return "[" + rReferences + "]";
-        }
-
-        public static string ProcessNewAsset(ulong sProjectHub, ulong sProjectId, NWDAssetType sAssetType)
-        {
-            NWDExportObject tExport = new(sProjectHub, sProjectId, sAssetType);
-            string tNewReference = tExport.ReferenceNew;
-            NWDAssetDataList.Add(tNewReference, tExport);
-            return "[" + tNewReference + "]";
-        }
-
-        public static string ProcessNewAsset(ulong sProjectHub, ulong sProjectId, List<NWDAssetType> sAssetTypes)
-        {
-            string rReferences = "";
-            foreach(NWDAssetType k in sAssetTypes)
-            {
-                NWDExportObject tReturn = new(sProjectHub, sProjectId, k);
-                string tNewReference = tReturn.ReferenceNew;
-                NWDAssetDataList.Add(tNewReference, tReturn);
-                if (rReferences.Length > 0) rReferences += ",";
-                rReferences += tNewReference;
-            }
-            return "[" + rReferences + "]";
-        }
+        }*/
 
         /*public static string ProcessNewReferences(ulong sProjectHub, ulong sProjectId, params string[] sValues)
         {

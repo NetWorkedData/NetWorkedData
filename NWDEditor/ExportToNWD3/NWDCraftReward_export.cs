@@ -12,7 +12,7 @@ namespace NetWorkedData
             var tExport = new {
                 // Specific data
                 ItemConditional = ItemConditional, //references conditional
-                ItemBatch = NWDExportObject.ProcessNewArray(ItemBatch?.GetReferenceAndQuantity()),
+                ItemBatch = ItemBatch?.GetJsonConvert(),
                 Quantity = Quantity,
             };
 

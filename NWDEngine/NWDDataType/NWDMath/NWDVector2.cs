@@ -36,7 +36,7 @@ namespace NetWorkedData
     //TODO: FINISH THIS CLASS NWDVector2
     [SerializeField]
     //-------------------------------------------------------------------------------------------------------------
-    public class NWDVector2 : NWEDataType
+    public partial class NWDVector2 : NWEDataType
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDVector2()

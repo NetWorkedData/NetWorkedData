@@ -12,10 +12,10 @@ namespace NetWorkedData
             var tExport = new {
                 // Specific data
                 Name = NWDExportObject.ProcessNewLocalizedString(sProjectHub, sProjectId, Name),
-                ItemDescription = NWDExportObject.ProcessNewArray(ItemDescription?.GetReference()),
-                ParentCategoryList = NWDExportObject.ProcessNewArray(ParentCategoryList?.GetValue()),
-                ChildrenCategoryList = NWDExportObject.ProcessNewArray(ChildrenCategoryList?.GetValue()),
-                CascadeCategoryList = NWDExportObject.ProcessNewArray(CascadeCategoryList?.GetValue()),
+                ItemDescription = ItemDescription?.GetJsonConvert(),
+                ParentCategoryList = ParentCategoryList?.GetJsonConvert(),
+                ChildrenCategoryList = ChildrenCategoryList?.GetJsonConvert(),
+                CascadeCategoryList = CascadeCategoryList?.GetJsonConvert(),
             };
 
             string tJson = JsonConvert.SerializeObject(tExport);

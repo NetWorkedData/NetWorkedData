@@ -44,35 +44,20 @@ namespace NetWorkedData
                 PluralName = NWDExportObject.ProcessNewLocalizedString(sProjectHub, sProjectId, PluralName),
                 SubName = NWDExportObject.ProcessNewLocalizedString(sProjectHub, sProjectId, SubName),
                 Description = NWDExportObject.ProcessNewLocalizedString(sProjectHub, sProjectId, Description),
-                FirstAcquisitionNotification = FirstAcquisitionNotification,
-                AddItemNotification = AddItemNotification,
-                RemoveItemNotification = RemoveItemNotification,
-                NoMoreItemNotification = NoMoreItemNotification,
                 Rarity = Rarity,
                 HiddenInGame = HiddenInGame,
                 Uncountable = Uncountable,
+                //Stackable = 0, //New Data NWD3
                 Usable = Usable,
-                ItemExtensionQuantity = NWDExportObject.ProcessNewArray(ItemExtensionQuantity?.GetReferenceAndQuantity()),
+                ItemExtensionQuantity = ItemExtensionQuantity?.GetJsonConvert(),
                 Sprites = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, tSprites),
                 Textures = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, tTextures),
                 Colors = NWDExportObject.ProcessNewColor(tColors),
                 Prefabs = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, tPrefabs),
                 EffectPrefab = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, EffectPrefab),
-                Categories = NWDExportObject.ProcessNewArray(CategoryList?.GetValue()),
+                Categories = CategoryList?.GetJsonConvert(),
                 JSON = JSON,
                 KeysValues = KeysValues,
-                
-                // Missing Data NWD3
-                //ParameterList = ParameterList, //references
-                //ItemGroupList = ItemGroupList, //references
-                //CraftBookAttachment = CraftBookAttachment, //reference
-                //FamilyList = FamilyList, //references
-                //KeywordList = KeywordList, //references
-
-                // Obsolete Data
-                //DelayBeforeUse = DelayBeforeUse,
-                //DurationOfUse = DurationOfUse,
-                //DelayBeforeReUse = DelayBeforeReUse
             };
             
             string tJson = JsonConvert.SerializeObject(tExport);

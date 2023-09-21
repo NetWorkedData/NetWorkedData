@@ -19,14 +19,14 @@ namespace NetWorkedData
             // Create object
             var tExport = new {
                 // Specific data
-                ItemDescription = NWDExportObject.ProcessNewArray(ItemDescription?.GetReference()),
+                ItemDescription = ItemDescription?.GetJsonConvert(),
                 OrderIsImportant = OrderIsImportant,
-                RecipientGroup = NWDExportObject.ProcessNewArray(RecipientGroup?.GetReference()),
-                ItemGroupIngredient = ItemGroupIngredient, //reference array
-                ItemResult = NWDExportObject.ProcessNewArray(ItemResult?.GetReferenceAndQuantity()),
-                AdditionalReward = NWDExportObject.ProcessNewArray(AdditionalReward?.GetValue()),
+                RecipientGroup = RecipientGroup?.GetJsonConvert(),
+                ItemGroupIngredient = ItemGroupIngredient?.GetJsonConvert(),
+                ItemResult = ItemResult?.GetJsonConvert(),
+                AdditionalReward = AdditionalReward?.GetJsonConvert(),
                 Prefabs = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, tPrefabs),
-                RecipeHashesArray = RecipeHashesArray, //string array
+                RecipeHashesArray = RecipeHashesArray?.GetJsonConvert(),
             };
 
             string tJson = JsonConvert.SerializeObject(tExport);

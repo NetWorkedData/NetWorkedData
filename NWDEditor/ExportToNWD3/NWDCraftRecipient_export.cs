@@ -21,12 +21,12 @@ namespace NetWorkedData
             // Create object
             var tExport = new {
                 // Specific data
-                ItemDescription = NWDExportObject.ProcessNewArray(ItemDescription?.GetReference()),
+                ItemDescription = ItemDescription?.GetJsonConvert(),
                 CraftOnlyMax = CraftOnlyMax,
                 CraftUnUsedElements = CraftUnUsedElements,
                 Prefabs = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, tPrefabs),
-                ItemFailedResult = NWDExportObject.ProcessNewArray(ItemFailedResult?.GetReferenceAndQuantity()),
-                ItemGroup = NWDExportObject.ProcessNewArray(ItemGroup?.GetReference()),
+                ItemFailedResult = ItemFailedResult?.GetJsonConvert(),
+                ItemGroup = ItemGroup?.GetJsonConvert(),
             };
 
             string tJson = JsonConvert.SerializeObject(tExport);

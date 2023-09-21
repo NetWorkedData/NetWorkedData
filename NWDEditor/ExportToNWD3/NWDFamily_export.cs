@@ -12,8 +12,8 @@ namespace NetWorkedData
             var tExport = new {
                 // Specific data
                 Name = NWDExportObject.ProcessNewLocalizedString(sProjectHub, sProjectId, Name),
-                ItemDescription = NWDExportObject.ProcessNewArray(ItemDescription?.GetReference()),
-                ParameterList = NWDExportObject.ProcessNewArray(ParameterList?.GetValue()),
+                ItemDescription = ItemDescription?.GetJsonConvert(),
+                ParameterList = ParameterList?.GetJsonConvert(),
             };
 
             string tJson = JsonConvert.SerializeObject(tExport);

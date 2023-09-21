@@ -35,8 +35,12 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [SerializeField]
-    public class NWDVersionType : NWEDataType
+    public partial class NWDVersionType : NWEDataType
     {
+        //-------------------------------------------------------------------------------------------------------------
+        int MajorIndex = 0;
+        int MinorIndex = 0;
+        int BuildIndex = 0;
         //-------------------------------------------------------------------------------------------------------------
         public NWDVersionType()
         {
@@ -69,6 +73,23 @@ namespace NetWorkedData
             tNewIntValue = tNewIntValue.Insert(tNewIntValue.Length - 2, ".");
             Value = tNewIntValue;
             //NWDBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void GetIntVersion()
+        {
+            string[] tValues = Value.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+            if (tValues.Length > 0)
+            {
+                MajorIndex = Array.IndexOf(NWDConstants.K_VERSION_MAJOR_ARRAY, tValues[0]);
+            }
+            if (tValues.Length > 1)
+            {
+                MinorIndex = Array.IndexOf(NWDConstants.K_VERSION_MINOR_ARRAY, tValues[1]);
+            }
+            if (tValues.Length > 2)
+            {
+                BuildIndex = Array.IndexOf(NWDConstants.K_VERSION_BUILD_ARRAY, tValues[2]);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void BaseVerif()
