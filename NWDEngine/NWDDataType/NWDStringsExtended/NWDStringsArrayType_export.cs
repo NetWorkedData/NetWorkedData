@@ -6,9 +6,9 @@ namespace NetWorkedData
     public partial class NWDStringsArrayType : NWEDataType
     {
         #if UNITY_EDITOR
-        public string GetJsonConvert()
+        public object GetJsonConvert()
         {
-            return "[" + GetReferences() + "]";
+            return GetReferences();
         }
         #endif
     }

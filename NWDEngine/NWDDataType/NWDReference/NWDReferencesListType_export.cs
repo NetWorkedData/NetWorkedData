@@ -8,17 +8,16 @@ namespace NetWorkedData
         #if UNITY_EDITOR
         public object GetJsonConvert()
         {
-            string rReferences = "";
-            List<K> tReferencesList = GetRawDatasList();
-            if (tReferencesList != null)
+            List<K> tList = GetRawDatasList();
+            List<object> tReferencesList = new List<object>();
+            if (tList != null)
             {
-                foreach(var k in tReferencesList)
+                foreach(var k in tList)
                 {
-                    if (rReferences.Length > 0) rReferences += ",";
-                    rReferences += k.Reference;
+                    tReferencesList.Add(k.Reference);
                 }
             }
-            return "[" + rReferences + "]";
+            return tReferencesList;
         }
         #endif
     }

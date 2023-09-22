@@ -8,16 +8,8 @@ namespace NetWorkedData
         #if UNITY_EDITOR
         public object GetJsonConvert()
         {
-            Dictionary<string, int> tDico = GetReferenceAndQuantity();
-            string tReferenceQty = "";
-            foreach(var k in tDico)
-            {
-                if (tReferenceQty.Length > 0) tReferenceQty += ",";
-                tReferenceQty += $"\"{k.Key}\":{k.Value}";
-            }
-
             var tExport = new {
-                ReferenceQuantity = tReferenceQty,
+                ReferenceQuantity = GetReferenceAndQuantity(),
             };
             return tExport;
         }

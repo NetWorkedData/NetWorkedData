@@ -8,7 +8,7 @@ namespace NetWorkedData
         #if UNITY_EDITOR
         public object GetJsonConvert()
         {
-            return "[" + GetReferences() + "]";
+            return GetReferences();
         }
         #endif
     }
