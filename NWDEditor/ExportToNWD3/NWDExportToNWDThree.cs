@@ -61,6 +61,10 @@ namespace NetWorkedData.NWDEditor
                 {
                     tFile.AppendLine(tTranslate.JsonObject);
                 }
+                foreach (NWDExportObject tAsset in NWDExportObject.NWDAssetLocalizationList.Values)
+                {
+                    tFile.AppendLine(tAsset.JsonObject);
+                }
                 foreach (NWDExportObject tAsset in NWDExportObject.NWDAssetDataList.Values)
                 {
                     tFile.AppendLine(tAsset.JsonObject);

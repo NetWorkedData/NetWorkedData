@@ -433,11 +433,19 @@ namespace NetWorkedData
                 tResult = "0";
             }
 
-            if (tResult.Length > 19)
+            if (tResult.Length > 18)
             {
-                tResult = tResult.Substring(tResult.Length - 19);
+                tResult = tResult.Substring(tResult.Length - 18);
             }
-            return long.Parse(tResult);
+            try
+            {
+                return long.Parse(tResult);
+            }
+            catch
+            {
+                Debug.Log(tResult);
+                throw;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         static Regex AplhaNumericToNumericRgx = new Regex("[^a-zA-Z0-9]");

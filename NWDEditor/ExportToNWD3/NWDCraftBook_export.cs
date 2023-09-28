@@ -26,7 +26,7 @@ namespace NetWorkedData
                 ItemGroupIngredient = ItemGroupIngredient?.GetJsonConvert(),
                 ItemResult = ItemResult?.GetJsonConvert(),
                 AdditionalReward = AdditionalReward?.GetJsonConvert(),
-                Prefabs = NWDExportObject.ProcessNewAsset(tPrefabs),
+                Prefabs = NWDExportObject.ProcessNewAsset(tPrefabs, "NWDPrefabAsset"),
                 RecipeHashesArray = RecipeHashesArray?.GetJsonConvert(),
             };
 
@@ -36,7 +36,7 @@ namespace NetWorkedData
             List<NWDExportObject> rReturn = new List<NWDExportObject>();
             string tClassName = MethodBase.GetCurrentMethod().DeclaringType.Name;
             NWDExportObject tObject = new NWDExportObject(Reference, InternalKey, InternalDescription, tJson, tClassName, false);
-            rReturn.Add(tObject);
+            //rReturn.Add(tObject);
             return rReturn;
         }
         #endif

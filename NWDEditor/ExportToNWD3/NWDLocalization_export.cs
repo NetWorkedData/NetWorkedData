@@ -11,7 +11,7 @@ namespace NetWorkedData
         {
             var tExport = new {
                 // Specific
-                Text = GetText(),
+                Text = GetText(TextValue),
                 Key = KeyValue,
                 Context = TextValue.GetBaseString(),
                 NeedToBeTranslated = true,
@@ -22,14 +22,14 @@ namespace NetWorkedData
 
             List<NWDExportObject> rReturn = new List<NWDExportObject>();
             string tClassName = MethodBase.GetCurrentMethod().DeclaringType.Name;
-            NWDExportObject tObject = new NWDExportObject(Reference, InternalKey, InternalDescription, tJson, tClassName, false);
+            NWDExportObject tObject = new NWDExportObject(Reference, InternalKey, InternalDescription, tJson, "NWDStringLocalization", false);
             rReturn.Add(tObject);
             return rReturn;
         }
 
-        public object GetText()
+        static public object GetText(NWDLocalizableType textValue)
         {
-            Dictionary<string, string> tDico = TextValue.GetDictionary();
+            Dictionary<string, string> tDico = textValue.GetDictionary();
             Dictionary<NWDLanguageEnum, string> tNewDico = new Dictionary<NWDLanguageEnum, string>();
             foreach(var k in tDico)
             {
@@ -40,6 +40,15 @@ namespace NetWorkedData
                 else if(k.Key.Equals("en"))
                 {
                     tNewDico.Add(NWDLanguageEnum.English, k.Value);
+                }
+            }
+
+            if (!tNewDico.ContainsKey(NWDLanguageEnum.French))
+            {
+                string tBase = textValue.GetBaseString();
+                if (!string.IsNullOrEmpty(tBase))
+                {
+                    tNewDico.Add(NWDLanguageEnum.French, tBase);
                 }
             }
 

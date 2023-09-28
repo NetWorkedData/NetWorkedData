@@ -9,12 +9,12 @@ namespace NetWorkedData
         public object GetJsonConvert()
         {
             List<K> tList = GetRawDatasList();
-            List<object> tReferencesList = new List<object>();
+            List<long> tReferencesList = new List<long>();
             if (tList != null)
             {
                 foreach(var k in tList)
                 {
-                    tReferencesList.Add(k.Reference);
+                    tReferencesList.Add(NWDToolbox.NumericCleaner(k.Reference));
                 }
             }
             return tReferencesList;

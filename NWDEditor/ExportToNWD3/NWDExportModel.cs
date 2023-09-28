@@ -1,6 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using UnityEditor;
 using UnityEngine;
 
 namespace NetWorkedData
@@ -19,13 +23,14 @@ namespace NetWorkedData
 
         static public Dictionary<string, string> ReferencesDictionary = new Dictionary<string, string>();
         static public Dictionary<long,NWDExportObject> NWDStringLocalizationList = new Dictionary<long,NWDExportObject>();
+        static public Dictionary<long, NWDExportObject> NWDAssetLocalizationList = new Dictionary<long, NWDExportObject>();
         static public Dictionary<long,NWDExportObject> NWDAssetDataList = new Dictionary<long,NWDExportObject>();
 
-        private static ulong tReferenceUnique = (ulong)NWDToolbox.Timestamp() * 10000000000000000;
+        private static long tReferenceUnique = NWDToolbox.Timestamp() * 10000000000000000;
 
         public static object ProcessNewLocalizedString(NWDLocalizableType sLocalizedString)
         {
-            NWDExportObject tNewData = new(sLocalizedString);
+            NWDExportObject tNewData = new NWDExportObject(sLocalizedString);
             long tNewReference = tNewData.ReferenceNew;
             NWDStringLocalizationList.Add(tNewReference, tNewData);
 
@@ -34,22 +39,76 @@ namespace NetWorkedData
             };
             return tExport;
         }
-        
-        public static object ProcessNewAsset(NWDAssetType sAssetType)
+
+        public static object ProcessNewLocalizedString(Dictionary<NWDLanguageEnum, object> sValues, string sContext)
         {
-            NWDExportObject tNewData = new(sAssetType);
+            NWDExportObject tNewData = new NWDExportObject(sValues, sContext);
+            long tNewReference = tNewData.ReferenceNew;
+            NWDStringLocalizationList.Add(tNewReference, tNewData);
+
+            var tExport = new
+            {
+                Reference = tNewReference,
+            };
+            return tExport;
+        }
+
+        public static object ProcessNewLocalizedAsset(Dictionary<NWDLanguageEnum, object> sValues, string sContext, string sClassName)
+        {
+            NWDExportObject tNewData = new NWDExportObject(sValues, sContext, sClassName);
+            long tNewReference = tNewData.ReferenceNew;
+            NWDAssetLocalizationList.Add(tNewReference, tNewData);
+
+            var tExport = new
+            {
+                Reference = tNewReference,
+            };
+            return tExport;
+        }
+
+        public static object ProcessNewAsset(NWDLocalizableVideoClipType sValue)
+        {
+            NWDExportObject tNewData = new NWDExportObject(sValue);
+            long tNewReference = tNewData.ReferenceNew;
+            NWDAssetDataList.Add(tNewReference, tNewData);
+
+            var tExport = new
+            {
+                Reference = tNewReference,
+            };
+            return tExport;
+        }
+
+        public static object ProcessNewAsset(NWDAssetType sAssetType, string sClassName)
+        {
+            if (sAssetType == null)
+            {
+                return null;
+            }
+            return ProcessNewAsset(sAssetType.Value, sClassName);
+        }
+
+        public static object ProcessNewAsset(List<NWDAssetType> sAssetTypes, string sClassName)
+        {
+            return ProcessNewAsset(sAssetTypes.Where(x => x != null).Select(x => x.Value).ToList(), sClassName);
+        }
+
+
+        public static object ProcessNewAsset(string sAssetType, string sClassName)
+        {
+            NWDExportObject tNewData = new(sAssetType, sClassName);
             NWDAssetDataList.Add(tNewData.ReferenceNew, tNewData);
 
-            List<object> rObjects = new() { tNewData.ReferenceNew };
+            object rObjects = new { Reference = tNewData.ReferenceNew };
             return rObjects;
         }
 
-        public static object ProcessNewAsset(List<NWDAssetType> sAssetTypes)
+        public static object ProcessNewAsset(List<string> sAssetTypes, string sClassName)
         {
             List<object> rObjects = new List<object>();
-            foreach(NWDAssetType k in sAssetTypes)
+            foreach (string k in sAssetTypes)
             {
-                NWDExportObject tNewData = new(k);
+                NWDExportObject tNewData = new(k, sClassName);
                 NWDAssetDataList.Add(tNewData.ReferenceNew, tNewData);
                 rObjects.Add(tNewData.ReferenceNew);
             }
@@ -143,10 +202,10 @@ namespace NetWorkedData
             return rReturn;
         }
 
-        public static string GetNewReference()
+        public static long GetNewReference()
         {
             tReferenceUnique++;
-            return tReferenceUnique.ToString();
+            return tReferenceUnique;
         }
 
         public static string ClassName(string sClassName, bool sCustomClass = false)
@@ -161,33 +220,202 @@ namespace NetWorkedData
             }
         }
 
-        public NWDExportObject(NWDAssetType sValue)
+        static public string GetAssetSerialization (string sPath)
         {
-            Init(GetNewReference(), "", "", "{NULL}","NWDAssetData");
+#if UNITY_EDITOR
+            string tPath = sPath.Replace("**", "");
+            UnityEngine.Object tAsset = AssetDatabase.LoadMainAssetAtPath(tPath);
+            string tGUId;
+            long tLocalId;
+
+            if (!tAsset || !AssetDatabase.TryGetGUIDAndLocalFileIdentifier(tAsset, out tGUId, out tLocalId))
+            {
+                tGUId = AssetDatabase.AssetPathToGUID(tPath);
+                tLocalId = 0;
+            }
+
+            string tKey = Path.GetFileNameWithoutExtension(tPath);
+            return tGUId + ":" + tLocalId + ":" + tKey + ":2";
+#else
+            return "";
+#endif
+        }
+
+        static public object GetTextAndAudio(NWDLocalizableLongTextAndAudioType sValue)
+        {
+            Dictionary<string, string> tDico = sValue.GetDictionary();
+            Dictionary<NWDLanguageEnum, object> tTextDico = new Dictionary<NWDLanguageEnum, object>();
+            Dictionary<NWDLanguageEnum, object> tAudioDico = new Dictionary<NWDLanguageEnum, object>();
+
+            foreach (var k in tDico)
+            {
+                string[] split = k.Value.Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (k.Key.Equals("fr"))
+                {
+                    tTextDico.Add(NWDLanguageEnum.French, split[0]);
+                    tAudioDico.Add(NWDLanguageEnum.French, ProcessNewAsset(split[1], "NWDAudioAsset"));
+                }
+                else if (k.Key.Equals("en"))
+                {
+                    tTextDico.Add(NWDLanguageEnum.English, split[0]);
+                    tAudioDico.Add(NWDLanguageEnum.English, ProcessNewAsset(split[1], "NWDAudioAsset"));
+                }
+            }
+
+            if (!tTextDico.ContainsKey(NWDLanguageEnum.French))
+            {
+                string tBase = sValue.GetBaseString().Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries)[0];
+                if (!string.IsNullOrWhiteSpace(tBase))
+                {
+                    tTextDico.Add(NWDLanguageEnum.French, tBase);
+                }
+            }
+
+            if (!tAudioDico.ContainsKey(NWDLanguageEnum.French))
+            {
+                string tBase = sValue.GetBaseString().Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries)[1];
+                if (!string.IsNullOrWhiteSpace(tBase))
+                {
+                    tAudioDico.Add(NWDLanguageEnum.French, ProcessNewAsset(tBase, "NWDAudioAsset"));
+                }
+            }
+
+            var tExport = new
+            {
+                Text = ProcessNewLocalizedString (tTextDico, ""),
+                Audio = ProcessNewLocalizedAsset (tAudioDico, "", "NWDAudioLocalization"),
+            };
+            return tExport;
+        }
+
+        object GetVideo(NWDLocalizableVideoClipType sValue)
+        {
+            Dictionary<string, string> tDico = sValue.GetDictionary();
+            Dictionary<NWDLanguageEnum, object> tNewDico = new Dictionary<NWDLanguageEnum, object>();
+            foreach (var k in tDico)
+            {
+                if (k.Key.Equals("fr"))
+                {
+                    tNewDico.Add(NWDLanguageEnum.French, ProcessNewAsset(k.Value, "NWDVideoAsset"));
+                }
+                else if (k.Key.Equals("en"))
+                {
+                    tNewDico.Add(NWDLanguageEnum.English, ProcessNewAsset(k.Value, "NWDVideoAsset"));
+                }
+            }
+
+            if (!tNewDico.ContainsKey(NWDLanguageEnum.French))
+            {
+                string tBase = sValue.GetBaseString();
+                if (!string.IsNullOrWhiteSpace(tBase))
+                {
+                    tNewDico.Add(NWDLanguageEnum.French, ProcessNewAsset(tBase, "NWDVideoAsset"));
+                }
+            }
+
+            var tExport = new
+            {
+                Value = tNewDico,
+            };
+            return tExport;
+        }
+
+        public NWDExportObject(Dictionary<NWDLanguageEnum, object> sValues, string sContext, string sClassName)
+        {
+            long sReference = GetNewReference();
+            object tExport = null;
+            switch (sClassName)
+            {
+                case "NWDAudioLocalization":
+                    tExport = new
+                    {
+                        Reference = sReference,
+                        Audio = new { Value = sValues },
+                        Key = "",
+                        Context = sContext,
+                        NeedToBeTranslated = true,
+                    };
+                    break;
+                case "NWDVideoLocalization":
+                    tExport = new
+                    {
+                        Reference = sReference,
+                        Video = new { Value = sValues },
+                        Key = "",
+                        Context = sContext,
+                        NeedToBeTranslated = true,
+                    };
+                    break;
+            }
+
+            Init(sReference.ToString(), "", "", JsonConvert.SerializeObject(tExport), sClassName);
+        }
+
+        public NWDExportObject(string sValue, string sClassName)
+        {
+
+            long sReference = GetNewReference();
+
+            var tExport = new
+            {
+                Reference = sReference,
+                Asset = new
+                {
+                    UnityAsset = GetAssetSerialization(sValue)
+                }
+            };
+
+            Init(sReference.ToString(), "", "", JsonConvert.SerializeObject(tExport), sClassName);
         }
 
         public NWDExportObject(NWDLocalizableType sValue)
         {
-            sValue.BaseVerif();
-            Dictionary<string, string> kSplitDico = new Dictionary<string, string>(sValue.kSplitDico);
-            string tContent = string.Empty;
-            if (kSplitDico.ContainsKey(NWDDataLocalizationManager.kBaseDev))
+            long tReference = GetNewReference();
+            var tExport = new
             {
-                tContent = kSplitDico[NWDDataLocalizationManager.kBaseDev];
-                kSplitDico.Remove(NWDDataLocalizationManager.kBaseDev);
-            }
-        
-            StringBuilder tReturn = new StringBuilder();
-            tReturn.Append("{");
-            foreach (KeyValuePair<string, string> tdico in sValue.kSplitDico)
+                // Specific
+                Reference = tReference,
+                Text = NWDLocalization.GetText(sValue),
+                Key = "",
+                Context = sValue.GetBaseString(),
+                NeedToBeTranslated = true,
+            };
+
+            Init(tReference.ToString(), sValue.GetBaseString(), "", JsonConvert.SerializeObject(tExport), "NWDStringLocalization");
+        }
+
+        public NWDExportObject(Dictionary<NWDLanguageEnum, object> sValues, string sContext)
+        {
+            long tReference = GetNewReference();
+            var tExport = new
             {
-                tReturn.Append("\"" + tdico.Key + "\":\"" + tdico.Value.Replace("\"", "\\\"") + "\",");
-            }
-        
-            tReturn.Append("\"Context\":\"" + tContent + "\"");
-            tReturn.Append("}");
-        
-            Init(GetNewReference(), sValue.GetBaseString(), "", tReturn.ToString(), "NWDStringLocalization");
+                // Specific
+                Reference = tReference,
+                Text = new { Value = sValues },
+                Key = "",
+                Context = sContext,
+                NeedToBeTranslated = true,
+            };
+
+            Init(tReference.ToString(), sContext, "", JsonConvert.SerializeObject(tExport), "NWDStringLocalization");
+        }
+
+        public NWDExportObject(NWDLocalizableVideoClipType sValue)
+        {
+            long tReference = GetNewReference();
+
+            var tExport = new
+            {
+                // Specific
+                Reference = tReference,
+                Video = GetVideo(sValue),
+                Key = "",
+                Context = sValue.GetBaseString(),
+                NeedToBeTranslated = true,
+            };
+
+            Init(tReference.ToString(), sValue.GetBaseString(), "", JsonConvert.SerializeObject (tExport), "NWDVideoLocalization");
         }
 
         public NWDExportObject(string sReference, string sTitle, string sDescription, string sJson, string sClassName, bool sCustomClass = false)

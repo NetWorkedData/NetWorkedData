@@ -25,7 +25,7 @@ namespace NetWorkedData
                 ItemDescription = ItemDescription?.GetJsonConvert(),
                 CraftOnlyMax = CraftOnlyMax,
                 CraftUnUsedElements = CraftUnUsedElements,
-                Prefabs = NWDExportObject.ProcessNewAsset(tPrefabs),
+                Prefabs = NWDExportObject.ProcessNewAsset(tPrefabs, "NWDPrefabAsset"),
                 ItemFailedResult = ItemFailedResult?.GetJsonConvert(),
                 ItemGroup = ItemGroup?.GetJsonConvert(),
             };
@@ -36,7 +36,7 @@ namespace NetWorkedData
             List<NWDExportObject> rReturn = new List<NWDExportObject>();
             string tClassName = MethodBase.GetCurrentMethod().DeclaringType.Name;
             NWDExportObject tObject = new NWDExportObject(Reference, InternalKey, InternalDescription, tJson, tClassName, false);
-            rReturn.Add(tObject);
+            //rReturn.Add(tObject);
             return rReturn;
         }
         #endif
