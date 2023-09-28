@@ -8,7 +8,10 @@ namespace NetWorkedData
         #if UNITY_EDITOR
         public object GetJsonConvert()
         {
-            return GetReference();
+            return new
+            {
+                Reference = NWDToolbox.NumericCleaner(GetReference())
+            };
         }
         #endif
     }
