@@ -6,23 +6,23 @@ namespace NetWorkedData
     public partial class NWDCategory : NWDBasis
     {
         #if UNITY_EDITOR
-        public override List<NWDExportObject> ExportNWD3(ulong sProjectHub, ulong sProjectId)
+        public override List<NWDExportObject> ExportNWD3()
         {
             // Create object
             var tExport = new {
                 // Specific data
-                Name = NWDExportObject.ProcessNewLocalizedString(sProjectHub, sProjectId, Name),
+                Name = NWDExportObject.ProcessNewLocalizedString(Name),
                 ItemDescription = ItemDescription?.GetJsonConvert(),
-                ParentCategoryList = ParentCategoryList?.GetJsonConvert(),
-                ChildrenCategoryList = ChildrenCategoryList?.GetJsonConvert(),
-                CascadeCategoryList = CascadeCategoryList?.GetJsonConvert(),
+                Parents = ParentCategoryList?.GetJsonConvert(),
+                Children = ChildrenCategoryList?.GetJsonConvert(),
+                Cascade = CascadeCategoryList?.GetJsonConvert(),
             };
 
             string tJson = JsonConvert.SerializeObject(tExport);
             tJson = GetJSonMergeWithBase(tJson);
 
             List<NWDExportObject> rReturn = new List<NWDExportObject>();
-            NWDExportObject tObject = new NWDExportObject(sProjectHub, sProjectId, Reference, InternalKey, InternalDescription, tJson, nameof(NWDItem), false);
+            NWDExportObject tObject = new NWDExportObject(Reference, InternalKey, InternalDescription, tJson, nameof(NWDCategory), false);
             rReturn.Add(tObject);
             return rReturn;
         }

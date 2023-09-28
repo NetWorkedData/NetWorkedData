@@ -6,7 +6,7 @@ namespace NetWorkedData
     public partial class NWDCraftReward : NWDBasis
     {
         #if UNITY_EDITOR
-        public override List<NWDExportObject> ExportNWD3(ulong sProjectHub, ulong sProjectId)
+        public override List<NWDExportObject> ExportNWD3()
         {
             // Create object
             var tExport = new {
@@ -20,7 +20,7 @@ namespace NetWorkedData
             tJson = GetJSonMergeWithBase(tJson);
 
             List<NWDExportObject> rReturn = new List<NWDExportObject>();
-            NWDExportObject tObject = new NWDExportObject(sProjectHub, sProjectId, Reference, InternalKey, InternalDescription, tJson, nameof(NWDItem), false);
+            NWDExportObject tObject = new NWDExportObject(Reference, InternalKey, InternalDescription, tJson, nameof(NWDItem), false);
             rReturn.Add(tObject);
             return rReturn;
         }

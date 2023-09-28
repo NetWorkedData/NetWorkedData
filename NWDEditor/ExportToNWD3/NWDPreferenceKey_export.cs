@@ -6,13 +6,13 @@ namespace NetWorkedData
     public partial class NWDPreferenceKey : NWDBasis
     {
         #if UNITY_EDITOR
-        public override List<NWDExportObject> ExportNWD3(ulong sProjectHub, ulong sProjectId)
+        public override List<NWDExportObject> ExportNWD3()
         {
             // Create object
             var tExport = new {
                 // Specific data
-                Title = NWDExportObject.ProcessNewLocalizedString(sProjectHub, sProjectId, Title),
-                Description = NWDExportObject.ProcessNewLocalizedString(sProjectHub, sProjectId, Description),
+                Title = NWDExportObject.ProcessNewLocalizedString(Title),
+                Description = NWDExportObject.ProcessNewLocalizedString(Description),
                 Domain = Domain,
                 Default = Default, //multitype
                 NotifyChange = NotifyChange,
@@ -22,7 +22,7 @@ namespace NetWorkedData
             tJson = GetJSonMergeWithBase(tJson);
 
             List<NWDExportObject> rReturn = new List<NWDExportObject>();
-            NWDExportObject tObject = new NWDExportObject(sProjectHub, sProjectId, Reference, InternalKey, InternalDescription, tJson, nameof(NWDItem), false);
+            NWDExportObject tObject = new NWDExportObject(Reference, InternalKey, InternalDescription, tJson, nameof(NWDItem), false);
             rReturn.Add(tObject);
             return rReturn;
         }

@@ -348,14 +348,14 @@ namespace NetWorkedData
         {
             return string.Empty;
         }
-        public virtual List<NWDExportObject> ExportNWD3(ulong sProjectHub, ulong sProjectId)
+        public virtual List<NWDExportObject> ExportNWD3()
         {
             string tReturn = "{"+
                 "\"Reference\":"+NWDToolbox.NumericCleaner(Reference)+"" +
                 "}";
             return new List<NWDExportObject>()
             {
-                new NWDExportObject(sProjectHub, sProjectId, Reference, InternalKey, InternalDescription, tReturn, nameof(NWDTypeClass), false)
+                new NWDExportObject(Reference, InternalKey, InternalDescription, tReturn, nameof(NWDTypeClass), false)
             };
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -708,28 +708,28 @@ namespace NetWorkedData
         public string GetJSonBaseParameters()
         {
             var tExport = new {
-                RangeAccess = RangeAccess,
-                ID = ID,
-                Reference = Reference,
-                CheckList = CheckList,
-                WebModel = WebModel,
-                InternalKey = InternalKey,
-                InternalDescription = InternalDescription,
-                Preview = Preview,
-                AC = AC,
-                DC = DC,
-                DM = DM,
-                DD = DD,
-                XX = XX,
-                Integrity = Integrity,
-                DS = DS,
-                DevSync = DevSync,
-                PreprodSync = PreprodSync,
-                ProdSync = ProdSync,
-                Tag = Tag,
-                ServerHash = ServerHash,
-                ServerLog = ServerLog,
-                InError = InError
+                //RangeAccess = RangeAccess,
+                //ID = ID,
+                Reference = NWDToolbox.NumericCleaner(Reference),
+                //CheckList = CheckList,
+                //WebModel = WebModel,
+                //InternalKey = InternalKey,
+                //InternalDescription = InternalDescription,
+                //Preview = Preview,
+                //AC = AC,
+                //DC = DC,
+                //DM = DM,
+                //DD = DD,
+                //XX = XX,
+                //Integrity = Integrity,
+                //DS = DS,
+                //DevSync = DevSync,
+                //PreprodSync = PreprodSync,
+                //ProdSync = ProdSync,
+                //Tag = Tag,
+                //ServerHash = ServerHash,
+                //ServerLog = ServerLog,
+                //InError = InError
             };
 
             string tJson = JsonConvert.SerializeObject(tExport);
@@ -744,7 +744,7 @@ namespace NetWorkedData
 
             rJson.Merge(tBaseJson, new JsonMergeSettings {MergeArrayHandling = MergeArrayHandling.Union});
 
-            return rJson.ToString();
+            return rJson.ToString(Formatting.None);
         }        
 #endif
     }

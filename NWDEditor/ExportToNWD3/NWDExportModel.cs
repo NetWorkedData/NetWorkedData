@@ -7,20 +7,26 @@ namespace NetWorkedData
 {
     public class NWDExportObject
     {
+        public const string kTableName = "Local__Prod_NWDMetaData";
+        public const long kHubProjectId = 86868;
+        public const long kProjectID = 16958220569938382;
+        public const string kModelVersion = "0.0.0.0";
+
+
         public string ReferenceOld = string.Empty;
-        public string ReferenceNew = string.Empty;
+        public long ReferenceNew = 0;
         public string JsonObject = string.Empty;
 
         static public Dictionary<string, string> ReferencesDictionary = new Dictionary<string, string>();
-        static public Dictionary<string,NWDExportObject> NWDStringLocalizationList = new Dictionary<string,NWDExportObject>();
-        static public Dictionary<string,NWDExportObject> NWDAssetDataList = new Dictionary<string,NWDExportObject>();
+        static public Dictionary<long,NWDExportObject> NWDStringLocalizationList = new Dictionary<long,NWDExportObject>();
+        static public Dictionary<long,NWDExportObject> NWDAssetDataList = new Dictionary<long,NWDExportObject>();
 
         private static ulong tReferenceUnique = (ulong)NWDToolbox.Timestamp() * 10000000000000000;
 
-        public static object ProcessNewLocalizedString(ulong sProjectHub, ulong sProjectId, NWDLocalizableType sLocalizedString)
+        public static object ProcessNewLocalizedString(NWDLocalizableType sLocalizedString)
         {
-            NWDExportObject tNewData = new(sProjectHub, sProjectId, sLocalizedString);
-            string tNewReference = tNewData.ReferenceNew;
+            NWDExportObject tNewData = new(sLocalizedString);
+            long tNewReference = tNewData.ReferenceNew;
             NWDStringLocalizationList.Add(tNewReference, tNewData);
 
             var tExport = new {
@@ -29,21 +35,21 @@ namespace NetWorkedData
             return tExport;
         }
         
-        public static object ProcessNewAsset(ulong sProjectHub, ulong sProjectId, NWDAssetType sAssetType)
+        public static object ProcessNewAsset(NWDAssetType sAssetType)
         {
-            NWDExportObject tNewData = new(sProjectHub, sProjectId, sAssetType);
+            NWDExportObject tNewData = new(sAssetType);
             NWDAssetDataList.Add(tNewData.ReferenceNew, tNewData);
 
             List<object> rObjects = new() { tNewData.ReferenceNew };
             return rObjects;
         }
 
-        public static object ProcessNewAsset(ulong sProjectHub, ulong sProjectId, List<NWDAssetType> sAssetTypes)
+        public static object ProcessNewAsset(List<NWDAssetType> sAssetTypes)
         {
             List<object> rObjects = new List<object>();
             foreach(NWDAssetType k in sAssetTypes)
             {
-                NWDExportObject tNewData = new(sProjectHub, sProjectId, k);
+                NWDExportObject tNewData = new(k);
                 NWDAssetDataList.Add(tNewData.ReferenceNew, tNewData);
                 rObjects.Add(tNewData.ReferenceNew);
             }
@@ -147,20 +153,20 @@ namespace NetWorkedData
         {
             if (sCustomClass)
             {
-                return "NWDCustomModels.Models." + sClassName + ", NWDCustomModels, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null";
+                return "NWDCustomModels.Models." + sClassName + ", NWDCustomModels, Version=" + kModelVersion + ", Culture=neutral, PublicKeyToken=null";
             }
             else
             {
-                return "NWDStandardModels.Models." + sClassName + ", NWDStandardModels, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null";
+                return "NWDStandardModels.Models." + sClassName + ", NWDStandardModels, Version=" + kModelVersion + ", Culture=neutral, PublicKeyToken=null";
             }
         }
 
-        public NWDExportObject(ulong sProjectHub, ulong sProjectId, NWDAssetType sValue)
+        public NWDExportObject(NWDAssetType sValue)
         {
-            Init(sProjectHub, sProjectId, GetNewReference(), "", "", "{NULL}","NWDAssetData");
+            Init(GetNewReference(), "", "", "{NULL}","NWDAssetData");
         }
 
-        public NWDExportObject(ulong sProjectHub, ulong sProjectId, NWDLocalizableType sValue)
+        public NWDExportObject(NWDLocalizableType sValue)
         {
             sValue.BaseVerif();
             Dictionary<string, string> kSplitDico = new Dictionary<string, string>(sValue.kSplitDico);
@@ -181,23 +187,32 @@ namespace NetWorkedData
             tReturn.Append("\"Context\":\"" + tContent + "\"");
             tReturn.Append("}");
         
-            Init(sProjectHub, sProjectId, GetNewReference(), sValue.GetBaseString(), "", tReturn.ToString(), "NWDTranslate");
+            Init(GetNewReference(), sValue.GetBaseString(), "", tReturn.ToString(), "NWDStringLocalization");
         }
 
-        public NWDExportObject(ulong sProjectHub, ulong sProjectId, string sReference, string sTitle, string sDescription, string sJson, string sClassName, bool sCustomClass = false)
+        public NWDExportObject(string sReference, string sTitle, string sDescription, string sJson, string sClassName, bool sCustomClass = false)
         {
-            Init(sProjectHub, sProjectId, sReference, sTitle, sDescription, sJson, sClassName, sCustomClass);
+            Init(sReference, sTitle, sDescription, sJson, sClassName, sCustomClass);
         }
 
-        public void Init(ulong sProjectHub, ulong sProjectId, string sReference, string sTitle, string sDescription, string sJson, string sClassName, bool sCustomClass = false)
+        public void Init(string sReference, string sTitle, string sDescription, string sJson, string sClassName, bool sCustomClass = false)
         {
             ReferenceOld = sReference;
             ReferenceNew = NWDToolbox.NumericCleaner(sReference);
             StringBuilder tFile = new StringBuilder();
-            string tData = "[{\"TrackId\":100,\"TrackKind\":0,\"State\":1,\"Origin\":0,\"Data\":\"" + sJson.Replace("\"", "\\\\\\\"") + "\",\"Trashed\":false}]";
+            object tData = new
+            {
+                TrackId = 100,
+                TrackKind = 0,
+                State = 1,
+                Origin = 0,
+                Data = sJson,
+                Trashed = false,
+
+            };
 
             tFile.AppendLine("# reference  " + ReferenceOld + " => " + ReferenceNew);
-            tFile.AppendLine("INSERT INTO `LOCAL_Dev_NWDMetaData` (" +
+            tFile.AppendLine("INSERT INTO `" + kTableName + "` (" +
                              "`ProjectUniqueId`, " +
                              "`DataByDataTrack`, " +
                              "`Title`, " +
@@ -214,14 +229,14 @@ namespace NetWorkedData
                              "`Modification`, " +
                              "`Active`, " +
                              "`Trashed`, " +
-                             "`NeedTranslate`, " +
-                             "`NeedToBeTranslated` ," +
+                             //"`NeedTranslate`, " +
+                             //"`NeedToBeTranslated` ," +
                              //Last line
                              "`Reference`" +
                              ") VALUES "
                              + "("
-                             + "" + sProjectId + ", " //project unique ID of babaoo game
-                             + "'" + tData.Replace("'", "''") + "', " //DataByDataTrack
+                             + "" + kProjectID + ", " //project unique ID of babaoo game
+                             + "'" + JsonConvert.SerializeObject(tData) + "', " //DataByDataTrack
                              + "'" + sTitle.Replace("'", "''") + "', " //Title
                              + "'" + sDescription.Replace("'", "''") + "', " //Description
                              + "'" + ClassName(sClassName, sCustomClass = false) + "', " //ClassName
@@ -231,13 +246,13 @@ namespace NetWorkedData
                              + "1, " //AvailableForWeb
                              + "1, " //AvailableForGame
                              + "1, " //AvailableForApp
-                             + "" + sProjectHub + ", " //project ID of babaoo NWD
+                             + "" + kHubProjectId + ", " //project ID of babaoo NWD
                              + "0, " //Creation
                              + "0, " //Modification
                              + "1, " //Active
                              + "0, " //Trashed
-                             + "1," //NeedTranslate
-                             + "1 ," //NeedToBeTranslated
+                             //+ "1," //NeedTranslate
+                             //+ "1 ," //NeedToBeTranslated
                              //last line
                              + "" + ReferenceNew + "" //Reference
                              + ");");

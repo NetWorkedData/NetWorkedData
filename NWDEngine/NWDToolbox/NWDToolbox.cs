@@ -425,14 +425,19 @@ namespace NetWorkedData
         }//-------------------------------------------------------------------------------------------------------------
         static Regex NumericCleanerRgx = new Regex("[^0-9]");
         //-------------------------------------------------------------------------------------------------------------
-        public static string NumericCleaner(string sString)
+        public static long NumericCleaner(string sString)
         {
             string tResult = NumericCleanerRgx.Replace(sString, string.Empty);
             if (string.IsNullOrEmpty(tResult))
             {
                 tResult = "0";
             }
-            return tResult;
+
+            if (tResult.Length > 19)
+            {
+                tResult = tResult.Substring(tResult.Length - 19);
+            }
+            return long.Parse(tResult);
         }
         //-------------------------------------------------------------------------------------------------------------
         static Regex AplhaNumericToNumericRgx = new Regex("[^a-zA-Z0-9]");

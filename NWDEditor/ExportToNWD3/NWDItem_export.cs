@@ -7,7 +7,7 @@ namespace NetWorkedData
     public partial class NWDItem : NWDBasis
     {
         #if UNITY_EDITOR
-        public override List<NWDExportObject> ExportNWD3(ulong sProjectHub, ulong sProjectId)
+        public override List<NWDExportObject> ExportNWD3()
         {
             List<NWDAssetType> tSprites = new()
             {
@@ -40,21 +40,21 @@ namespace NetWorkedData
             // Create object
             var tExport = new {
                 // Specific data
-                Name = NWDExportObject.ProcessNewLocalizedString(sProjectHub, sProjectId, Name),
-                PluralName = NWDExportObject.ProcessNewLocalizedString(sProjectHub, sProjectId, PluralName),
-                SubName = NWDExportObject.ProcessNewLocalizedString(sProjectHub, sProjectId, SubName),
-                Description = NWDExportObject.ProcessNewLocalizedString(sProjectHub, sProjectId, Description),
+                Name = NWDExportObject.ProcessNewLocalizedString(Name),
+                PluralName = NWDExportObject.ProcessNewLocalizedString(PluralName),
+                SubName = NWDExportObject.ProcessNewLocalizedString(SubName),
+                Description = NWDExportObject.ProcessNewLocalizedString(Description),
                 Rarity = Rarity,
                 HiddenInGame = HiddenInGame,
                 Uncountable = Uncountable,
                 //Stackable = 0, //New Data NWD3
                 Usable = Usable,
                 ItemExtensionQuantity = ItemExtensionQuantity?.GetJsonConvert(),
-                Sprites = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, tSprites),
-                Textures = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, tTextures),
+                Sprites = NWDExportObject.ProcessNewAsset(tSprites),
+                Textures = NWDExportObject.ProcessNewAsset(tTextures),
                 Colors = NWDExportObject.ProcessNewColor(tColors),
-                Prefabs = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, tPrefabs),
-                EffectPrefab = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, EffectPrefab),
+                Prefabs = NWDExportObject.ProcessNewAsset(tPrefabs),
+                EffectPrefab = NWDExportObject.ProcessNewAsset(EffectPrefab),
                 Categories = CategoryList?.GetJsonConvert(),
                 JSON = JSON,
                 KeysValues = KeysValues,
@@ -64,7 +64,7 @@ namespace NetWorkedData
             tJson = GetJSonMergeWithBase(tJson);
 
             List<NWDExportObject> rReturn = new List<NWDExportObject>();
-            NWDExportObject tObject = new NWDExportObject(sProjectHub, sProjectId, Reference, InternalKey, InternalDescription, tJson, nameof(NWDItem), false);
+            NWDExportObject tObject = new NWDExportObject(Reference, InternalKey, InternalDescription, tJson, nameof(NWDItem), false);
             rReturn.Add(tObject);
             return rReturn;
         }

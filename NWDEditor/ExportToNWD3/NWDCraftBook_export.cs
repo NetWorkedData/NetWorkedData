@@ -6,7 +6,7 @@ namespace NetWorkedData
     public partial class NWDCraftBook : NWDBasis
     {
         #if UNITY_EDITOR
-        public override List<NWDExportObject> ExportNWD3(ulong sProjectHub, ulong sProjectId)
+        public override List<NWDExportObject> ExportNWD3()
         {
             List<NWDAssetType> tPrefabs = new()
             {
@@ -25,7 +25,7 @@ namespace NetWorkedData
                 ItemGroupIngredient = ItemGroupIngredient?.GetJsonConvert(),
                 ItemResult = ItemResult?.GetJsonConvert(),
                 AdditionalReward = AdditionalReward?.GetJsonConvert(),
-                Prefabs = NWDExportObject.ProcessNewAsset(sProjectHub, sProjectId, tPrefabs),
+                Prefabs = NWDExportObject.ProcessNewAsset(tPrefabs),
                 RecipeHashesArray = RecipeHashesArray?.GetJsonConvert(),
             };
 
@@ -33,7 +33,7 @@ namespace NetWorkedData
             tJson = GetJSonMergeWithBase(tJson);
 
             List<NWDExportObject> rReturn = new List<NWDExportObject>();
-            NWDExportObject tObject = new NWDExportObject(sProjectHub, sProjectId, Reference, InternalKey, InternalDescription, tJson, nameof(NWDItem), false);
+            NWDExportObject tObject = new NWDExportObject(Reference, InternalKey, InternalDescription, tJson, nameof(NWDItem), false);
             rReturn.Add(tObject);
             return rReturn;
         }

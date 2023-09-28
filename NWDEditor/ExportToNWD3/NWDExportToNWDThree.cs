@@ -27,7 +27,7 @@ namespace NetWorkedData.NWDEditor
             {
                 StringBuilder tFile = new StringBuilder();
                 StringBuilder tClassResume = new StringBuilder();
-                Dictionary<string, string> tReferencesTranslation = new Dictionary<string, string>();
+                Dictionary<string, long> tReferencesTranslation = new Dictionary<string, long>();
                 int tLine = 0;
 
                 foreach (Type tType in NWDLauncher.AllNetWorkedDataTypes)
@@ -41,7 +41,7 @@ namespace NetWorkedData.NWDEditor
                             tFile.AppendLine("# export " + tHelper.ClassTableName);
                             foreach (KeyValuePair<string, NWDTypeClass> tKeyValue in tHelper.DatasByReference)
                             {
-                                foreach (NWDExportObject tExport in tKeyValue.Value.ExportNWD3(51376, 18446744071694964799))
+                                foreach (NWDExportObject tExport in tKeyValue.Value.ExportNWD3())
                                 {
                                     if(tReferencesTranslation.TryAdd(tExport.ReferenceOld, tExport.ReferenceNew))
                                     {
