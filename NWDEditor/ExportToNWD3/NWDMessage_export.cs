@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Reflection;
 using Newtonsoft.Json;
 
 namespace NetWorkedData
@@ -25,7 +26,8 @@ namespace NetWorkedData
             tJson = GetJSonMergeWithBase(tJson);
 
             List<NWDExportObject> rReturn = new List<NWDExportObject>();
-            NWDExportObject tObject = new NWDExportObject(Reference, InternalKey, InternalDescription, tJson, nameof(NWDItem), false);
+            string tClassName = MethodBase.GetCurrentMethod().DeclaringType.Name;
+            NWDExportObject tObject = new NWDExportObject(Reference, InternalKey, InternalDescription, tJson, tClassName, false);
             rReturn.Add(tObject);
             return rReturn;
         }

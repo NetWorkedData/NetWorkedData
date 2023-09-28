@@ -75,6 +75,23 @@ namespace NetWorkedData
             //NWDBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public int ToInt()
+        {
+            int rVersionInteger = 0;
+            int.TryParse(ToString().Replace(".", string.Empty), out rVersionInteger);
+            return rVersionInteger;
+        }
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
         public void GetIntVersion()
         {
             string[] tValues = Value.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
@@ -91,24 +108,6 @@ namespace NetWorkedData
                 BuildIndex = Array.IndexOf(NWDConstants.K_VERSION_BUILD_ARRAY, tValues[2]);
             }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void BaseVerif()
-        {
-            // Need to check with a new dictionary each time
-            if (string.IsNullOrEmpty(Value))
-            {
-                Default();
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public int ToInt()
-        {
-            int rVersionInteger = 0;
-            int.TryParse(ToString().Replace(".", string.Empty), out rVersionInteger);
-            return rVersionInteger;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public override float ControlFieldHeight()
         {
@@ -155,7 +154,6 @@ namespace NetWorkedData
             tTemporary.Value = NWDConstants.K_VERSION_MAJOR_ARRAY[tMajorIndex] + "." + NWDConstants.K_VERSION_MINOR_ARRAY[tMinorIndex] + "." + NWDConstants.K_VERSION_BUILD_ARRAY[tBuildIndex];
             return tTemporary;
         }
-        //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
     }
