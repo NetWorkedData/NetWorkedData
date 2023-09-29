@@ -348,6 +348,7 @@ namespace NetWorkedData
         {
             return string.Empty;
         }
+#if UNITY_EDITOR
         public virtual List<NWDExportObject> ExportNWD3()
         {
             string tReturn = "{"+
@@ -358,6 +359,7 @@ namespace NetWorkedData
                 new NWDExportObject(Reference, InternalKey, InternalDescription, tReturn, nameof(NWDTypeClass), false)
             };
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public virtual Texture2D PreviewTexture2D()
         {

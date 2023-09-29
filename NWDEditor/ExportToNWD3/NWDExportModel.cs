@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
+
 namespace NetWorkedData
 {
     public class NWDExportObject
@@ -222,7 +224,6 @@ namespace NetWorkedData
 
         static public string GetAssetSerialization (string sPath)
         {
-#if UNITY_EDITOR
             string tPath = sPath.Replace("**", "");
             UnityEngine.Object tAsset = AssetDatabase.LoadMainAssetAtPath(tPath);
             string tGUId;
@@ -236,9 +237,6 @@ namespace NetWorkedData
 
             string tKey = Path.GetFileNameWithoutExtension(tPath);
             return tGUId + ":" + tLocalId + ":" + tKey + ":2";
-#else
-            return "";
-#endif
         }
 
         static public object GetTextAndAudio(NWDLocalizableLongTextAndAudioType sValue)
@@ -464,7 +462,7 @@ namespace NetWorkedData
                              ") VALUES "
                              + "("
                              + "" + kProjectID + ", " //project unique ID of babaoo game
-                             + "'" + JsonConvert.SerializeObject(tData) + "', " //DataByDataTrack
+                             + "'" + JsonConvert.SerializeObject(tData).Replace("'", "''") + "', " //DataByDataTrack
                              + "'" + sTitle.Replace("'", "''") + "', " //Title
                              + "'" + sDescription.Replace("'", "''") + "', " //Description
                              + "'" + ClassName(sClassName, sCustomClass = false) + "', " //ClassName
@@ -488,3 +486,4 @@ namespace NetWorkedData
         }
     }
 }
+#endif
