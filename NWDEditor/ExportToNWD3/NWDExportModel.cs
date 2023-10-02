@@ -462,10 +462,10 @@ namespace NetWorkedData
                              ") VALUES "
                              + "("
                              + "" + kProjectID + ", " //project unique ID of babaoo game
-                             + "'" + JsonConvert.SerializeObject(tData).Replace("'", "''") + "', " //DataByDataTrack
-                             + "'" + sTitle.Replace("'", "''") + "', " //Title
-                             + "'" + sDescription.Replace("'", "''") + "', " //Description
-                             + "'" + ClassName(sClassName, sCustomClass = false) + "', " //ClassName
+                             + "'[" + JsonConvert.SerializeObject(tData).Replace(@"\", @"\\").Replace("'", @"\'") + "]', " //DataByDataTrack
+                             + "'" + sTitle.Replace("'", @"\'") + "', " //Title
+                             + "'" + sDescription.Replace("'", @"\'") + "', " //Description
+                             + "'" + ClassName(sClassName, sCustomClass = false).Replace("'", @"\'") + "', " //ClassName
                              + "0, " //IsLocked
                              + "0, " //LockLimit
                              + "'', " //LockerName
