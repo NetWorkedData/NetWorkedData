@@ -6,6 +6,14 @@ using System.Text;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.AddressableAssets.ResourceLocators;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceLocations;
+using UnityEngine.ResourceManagement.ResourceProviders;
+using UnityEngine.SceneManagement;
+using UnityEngine.Video;
+using static UnityEditor.FilePathAttribute;
 
 #if UNITY_EDITOR
 
@@ -81,38 +89,52 @@ namespace NetWorkedData
             return tExport;
         }
 
-        public static object ProcessNewAsset(NWDAssetType sAssetType, string sClassName)
+        public static object ProcessNewAsset(NWDAssetType sAssetType)
         {
             if (sAssetType == null)
             {
                 return null;
             }
-            return ProcessNewAsset(sAssetType.Value, sClassName);
+            return ProcessNewAsset(sAssetType.Value);
         }
 
-        public static object ProcessNewAsset(List<NWDAssetType> sAssetTypes, string sClassName)
+        public static object ProcessNewAsset(List<NWDAssetType> sAssetTypes)
         {
-            return ProcessNewAsset(sAssetTypes.Where(x => x != null).Select(x => x.Value).ToList(), sClassName);
+            return ProcessNewAsset(sAssetTypes.Where(x => x != null).Select(x => x.Value).ToList());
         }
 
 
-        public static object ProcessNewAsset(string sAssetType, string sClassName)
+        public static object ProcessNewAsset(string sAssetType)
         {
-            NWDExportObject tNewData = new(sAssetType, sClassName);
-            NWDAssetDataList.Add(tNewData.ReferenceNew, tNewData);
+            try
+            {
+                NWDExportObject tNewData = new NWDExportObject(sAssetType);
+                NWDAssetDataList.Add(tNewData.ReferenceNew, tNewData);
 
-            object rObjects = new { Reference = tNewData.ReferenceNew };
-            return rObjects;
+                object rObjects = new { Reference = tNewData.ReferenceNew };
+                return rObjects;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
-        public static object ProcessNewAsset(List<string> sAssetTypes, string sClassName)
+        public static object ProcessNewAsset(List<string> sAssetTypes)
         {
             List<object> rObjects = new List<object>();
             foreach (string k in sAssetTypes)
             {
-                NWDExportObject tNewData = new(k, sClassName);
-                NWDAssetDataList.Add(tNewData.ReferenceNew, tNewData);
-                rObjects.Add(tNewData.ReferenceNew);
+                try
+                {
+                    NWDExportObject tNewData = new NWDExportObject(k);
+                    NWDAssetDataList.Add(tNewData.ReferenceNew, tNewData);
+                    rObjects.Add(tNewData.ReferenceNew);
+                }
+                catch
+                {
+                    rObjects.Add(null);
+                }
             }
             return rObjects;
         }
@@ -222,10 +244,26 @@ namespace NetWorkedData
             }
         }
 
-        static public string GetAssetSerialization (string sPath)
+        static public string GetAssetSerialization (string sPath, out string sTitle, out string sDescription, out string sType)
         {
             string tPath = sPath.Replace("**", "");
-            UnityEngine.Object tAsset = AssetDatabase.LoadMainAssetAtPath(tPath);
+            UnityEngine.Object tAsset = null;
+
+            if (!tPath.Contains("/") && !tPath.Contains("\\"))
+            {
+                tAsset = FindObjectFromAddressable(sPath);
+
+                if (tAsset == null)
+                {
+                    Debug.LogWarning("Could not find asset: '" + sPath + "'");
+                    throw new Exception();
+                }
+            }
+            else
+            {
+                tAsset = AssetDatabase.LoadMainAssetAtPath(tPath);
+            }
+
             string tGUId;
             long tLocalId;
 
@@ -235,8 +273,71 @@ namespace NetWorkedData
                 tLocalId = 0;
             }
 
-            string tKey = Path.GetFileNameWithoutExtension(tPath);
-            return tGUId + ":" + tLocalId + ":" + tKey + ":2";
+            sType = GetNWDAssetType (tAsset?.GetType());
+            sTitle = Path.GetFileNameWithoutExtension(tPath);
+            sDescription = tGUId + ":" + tLocalId;
+
+            return sDescription + ":" + sTitle + ":2";
+        }
+
+        static private string GetNWDAssetType (Type sType)
+        {
+            if (sType == typeof(Texture2D))
+            {
+                return "NWDSpriteAsset";
+            }
+            if (sType == typeof(Texture))
+            {
+                return "NWDTextureAsset";
+            }
+            if (sType == typeof(TextAsset))
+            {
+                return "NWDTextAsset";
+            }
+            if (sType == typeof(AudioClip))
+            {
+                return "NWDAudioAsset";
+            }
+            if (sType == typeof(VideoClip))
+            {
+                return "NWDVideoAsset";
+            }
+            if (sType == typeof(GameObject))
+            {
+                return "NWDPrefabAsset";
+            }
+            if (sType?.IsSubclassOf (typeof(ScriptableObject)) ?? false)
+            {
+                return "NWDScriptableObjectAsset";
+            }
+            return "NWDAsset";
+        }
+
+        static private UnityEngine.Object FindObjectFromAddressable(string sKey)
+        {
+            try
+            {
+                UnityEngine.Object rResult = Addressables.LoadAsset<UnityEngine.Object>(sKey).Result;
+                if (rResult)
+                {
+                    return rResult;
+                }
+            }
+            catch { }
+
+            string[] tGUIDs = AssetDatabase.FindAssets("t:ScriptableObject " + sKey);
+            if (tGUIDs.Length > 0)
+            {
+                return AssetDatabase.LoadMainAssetAtPath(AssetDatabase.GUIDToAssetPath(tGUIDs[0]));
+            }
+
+            tGUIDs = AssetDatabase.FindAssets("t:Scene " + sKey);
+            if (tGUIDs.Length > 0)
+            {
+                return AssetDatabase.LoadMainAssetAtPath(AssetDatabase.GUIDToAssetPath(tGUIDs[0]));
+            }
+
+            return null;
         }
 
         static public object GetTextAndAudio(NWDLocalizableLongTextAndAudioType sValue)
@@ -252,37 +353,37 @@ namespace NetWorkedData
                 if (k.Key.Equals("fr"))
                 {
                     tTextDico.Add(NWDLanguageEnum.French, split[0]);
-                    tAudioDico.Add(NWDLanguageEnum.French, ProcessNewAsset(split[1], "NWDAudioAsset"));
+                    tAudioDico.Add(NWDLanguageEnum.French, ProcessNewAsset(split[1]));
                 }
                 else if (k.Key.Equals("en"))
                 {
                     tTextDico.Add(NWDLanguageEnum.English, split[0]);
-                    tAudioDico.Add(NWDLanguageEnum.English, ProcessNewAsset(split[1], "NWDAudioAsset"));
+                    tAudioDico.Add(NWDLanguageEnum.English, ProcessNewAsset(split[1]));
                 }
             }
 
+            string[] tBases = sValue.GetBaseString().Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries);
+
             if (!tTextDico.ContainsKey(NWDLanguageEnum.French))
             {
-                string tBase = sValue.GetBaseString().Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries)[0];
-                if (!string.IsNullOrWhiteSpace(tBase))
+                if (!string.IsNullOrWhiteSpace(tBases[0]))
                 {
-                    tTextDico.Add(NWDLanguageEnum.French, tBase);
+                    tTextDico.Add(NWDLanguageEnum.French, tBases[0]);
                 }
             }
 
             if (!tAudioDico.ContainsKey(NWDLanguageEnum.French))
             {
-                string tBase = sValue.GetBaseString().Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries)[1];
-                if (!string.IsNullOrWhiteSpace(tBase))
+                if (!string.IsNullOrWhiteSpace(tBases[1]))
                 {
-                    tAudioDico.Add(NWDLanguageEnum.French, ProcessNewAsset(tBase, "NWDAudioAsset"));
+                    tAudioDico.Add(NWDLanguageEnum.French, ProcessNewAsset(tBases[1]));
                 }
             }
 
             var tExport = new
             {
-                Text = ProcessNewLocalizedString (tTextDico, ""),
-                Audio = ProcessNewLocalizedAsset (tAudioDico, "", "NWDAudioLocalization"),
+                Text = ProcessNewLocalizedString (tTextDico, tBases[0]),
+                Audio = ProcessNewLocalizedAsset (tAudioDico, tBases[0], "NWDAudioLocalization"),
             };
             return tExport;
         }
@@ -295,11 +396,11 @@ namespace NetWorkedData
             {
                 if (k.Key.Equals("fr"))
                 {
-                    tNewDico.Add(NWDLanguageEnum.French, ProcessNewAsset(k.Value, "NWDVideoAsset"));
+                    tNewDico.Add(NWDLanguageEnum.French, ProcessNewAsset(k.Value));
                 }
                 else if (k.Key.Equals("en"))
                 {
-                    tNewDico.Add(NWDLanguageEnum.English, ProcessNewAsset(k.Value, "NWDVideoAsset"));
+                    tNewDico.Add(NWDLanguageEnum.English, ProcessNewAsset(k.Value));
                 }
             }
 
@@ -308,7 +409,7 @@ namespace NetWorkedData
                 string tBase = sValue.GetBaseString();
                 if (!string.IsNullOrWhiteSpace(tBase))
                 {
-                    tNewDico.Add(NWDLanguageEnum.French, ProcessNewAsset(tBase, "NWDVideoAsset"));
+                    tNewDico.Add(NWDLanguageEnum.French, ProcessNewAsset(tBase));
                 }
             }
 
@@ -350,21 +451,22 @@ namespace NetWorkedData
             Init(sReference.ToString(), "", "", JsonConvert.SerializeObject(tExport), sClassName);
         }
 
-        public NWDExportObject(string sValue, string sClassName)
+        public NWDExportObject(string sValue)
         {
-
             long sReference = GetNewReference();
+
+            string tTitle, tDescription, tType;
 
             var tExport = new
             {
                 Reference = sReference,
                 Asset = new
                 {
-                    UnityAsset = GetAssetSerialization(sValue)
+                    UnityAsset = GetAssetSerialization(sValue, out tTitle, out tDescription, out tType)
                 }
             };
 
-            Init(sReference.ToString(), "", "", JsonConvert.SerializeObject(tExport), sClassName);
+            Init(sReference.ToString(), tTitle, tDescription, JsonConvert.SerializeObject(tExport), tType);
         }
 
         public NWDExportObject(NWDLocalizableType sValue)
