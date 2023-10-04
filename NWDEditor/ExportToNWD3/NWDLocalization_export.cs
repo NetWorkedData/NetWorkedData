@@ -9,9 +9,22 @@ namespace NetWorkedData
         #if UNITY_EDITOR
         public override List<NWDExportObject> ExportNWD3()
         {
+            object tText = null;
+            try
+            {
+                tText = GetText(TextValue, out _);
+            }
+            catch
+            {
+                tText = new
+                {
+                    Value = new Dictionary<NWDLanguageEnum, string>()
+                };
+            }
+
             var tExport = new {
                 // Specific
-                Text = GetText(TextValue),
+                Text = tText,
                 Key = KeyValue,
                 Context = TextValue.GetBaseString(),
                 NeedToBeTranslated = true,
@@ -27,7 +40,7 @@ namespace NetWorkedData
             return rReturn;
         }
 
-        static public object GetText(NWDLocalizableType textValue)
+        static public object GetText(NWDLocalizableType textValue, out string sTitle)
         {
             Dictionary<string, string> tDico = textValue.GetDictionary();
             Dictionary<NWDLanguageEnum, string> tNewDico = new Dictionary<NWDLanguageEnum, string>();
@@ -52,9 +65,20 @@ namespace NetWorkedData
                 }
             }
 
+            if (tNewDico.Count == 0)
+            {
+                throw new System.Exception();
+            }
+
+            if (!tNewDico.TryGetValue(NWDLanguageEnum.French, out sTitle))
+            {
+                sTitle = "No title";
+            }
+
             var tExport = new {
                 Value = tNewDico,
             };
+
             return tExport;
         }
         #endif

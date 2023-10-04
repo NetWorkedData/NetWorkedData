@@ -40,27 +40,42 @@ namespace NetWorkedData
 
         public static object ProcessNewLocalizedString(NWDLocalizableType sLocalizedString)
         {
-            NWDExportObject tNewData = new NWDExportObject(sLocalizedString);
-            long tNewReference = tNewData.ReferenceNew;
-            NWDStringLocalizationList.Add(tNewReference, tNewData);
+            try
+            {
+                NWDExportObject tNewData = new NWDExportObject(sLocalizedString);
+                long tNewReference = tNewData.ReferenceNew;
+                NWDStringLocalizationList.Add(tNewReference, tNewData);
 
-            var tExport = new {
-                Reference = tNewReference,
-            };
-            return tExport;
+                var tExport = new
+                {
+                    Reference = tNewReference,
+                };
+                return tExport;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public static object ProcessNewLocalizedString(Dictionary<NWDLanguageEnum, object> sValues, string sContext)
         {
-            NWDExportObject tNewData = new NWDExportObject(sValues, sContext);
-            long tNewReference = tNewData.ReferenceNew;
-            NWDStringLocalizationList.Add(tNewReference, tNewData);
-
-            var tExport = new
+            try
             {
-                Reference = tNewReference,
-            };
-            return tExport;
+                NWDExportObject tNewData = new NWDExportObject(sValues, sContext);
+                long tNewReference = tNewData.ReferenceNew;
+                NWDStringLocalizationList.Add(tNewReference, tNewData);
+
+                var tExport = new
+                {
+                    Reference = tNewReference,
+                };
+                return tExport;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public static object ProcessNewLocalizedAsset(Dictionary<NWDLanguageEnum, object> sValues, string sContext, string sClassName)
@@ -234,7 +249,7 @@ namespace NetWorkedData
 
         public static string ClassName(string sClassName, bool sCustomClass = false)
         {
-            if (sCustomClass)
+            if (!sClassName.StartsWith("NWD"))
             {
                 return "NWDCustomModels.Models." + sClassName + ", NWDCustomModels, Version=" + kModelVersion + ", Culture=neutral, PublicKeyToken=null";
             }
@@ -380,10 +395,23 @@ namespace NetWorkedData
                 }
             }
 
+            string tBase = tBases[0];
+            if (string.IsNullOrWhiteSpace(tBase))
+            {
+                if (tTextDico.TryGetValue(NWDLanguageEnum.French, out object tValue))
+                {
+                    tBase = (string)tValue;
+                }
+                else
+                {
+                    tBase = "No title";
+                }
+            }
+
             var tExport = new
             {
-                Text = ProcessNewLocalizedString (tTextDico, tBases[0]),
-                Audio = ProcessNewLocalizedAsset (tAudioDico, tBases[0], "NWDAudioLocalization"),
+                Text = ProcessNewLocalizedString (tTextDico, tBase),
+                Audio = ProcessNewLocalizedAsset (tAudioDico, tBase, "NWDAudioLocalization"),
             };
             return tExport;
         }
@@ -448,7 +476,7 @@ namespace NetWorkedData
                     break;
             }
 
-            Init(sReference.ToString(), "", "", JsonConvert.SerializeObject(tExport), sClassName);
+            Init(sReference.ToString(), sContext, "", JsonConvert.SerializeObject(tExport), sClassName);
         }
 
         public NWDExportObject(string sValue)
@@ -472,21 +500,26 @@ namespace NetWorkedData
         public NWDExportObject(NWDLocalizableType sValue)
         {
             long tReference = GetNewReference();
+            string tTitle;
             var tExport = new
             {
                 // Specific
                 Reference = tReference,
-                Text = NWDLocalization.GetText(sValue),
+                Text = NWDLocalization.GetText(sValue, out tTitle),
                 Key = "",
                 Context = sValue.GetBaseString(),
                 NeedToBeTranslated = true,
             };
 
-            Init(tReference.ToString(), sValue.GetBaseString(), "", JsonConvert.SerializeObject(tExport), "NWDStringLocalization");
+            Init(tReference.ToString(), tTitle, "", JsonConvert.SerializeObject(tExport), "NWDStringLocalization");
         }
 
         public NWDExportObject(Dictionary<NWDLanguageEnum, object> sValues, string sContext)
         {
+            if (sValues.Count == 0)
+            {
+                throw new Exception();
+            }
             long tReference = GetNewReference();
             var tExport = new
             {
@@ -565,8 +598,8 @@ namespace NetWorkedData
                              + "("
                              + "" + kProjectID + ", " //project unique ID of babaoo game
                              + "'[" + JsonConvert.SerializeObject(tData).Replace(@"\", @"\\").Replace("'", @"\'") + "]', " //DataByDataTrack
-                             + "'" + sTitle.Replace("'", @"\'") + "', " //Title
-                             + "'" + sDescription.Replace("'", @"\'") + "', " //Description
+                             + "'" + CleanString(sTitle.Replace("'", @"\'")) + "', " //Title
+                             + "'" + CleanString(sDescription.Replace("'", @"\'"), 100) + "', " //Description
                              + "'" + ClassName(sClassName, sCustomClass = false).Replace("'", @"\'") + "', " //ClassName
                              + "0, " //IsLocked
                              + "0, " //LockLimit
@@ -585,6 +618,31 @@ namespace NetWorkedData
                              + "" + ReferenceNew + "" //Reference
                              + ");");
             JsonObject = tFile.ToString();
+        }
+
+        private string CleanString(string sValue, int sTrim = 30)
+        {
+            bool tTrimed = false;
+            if (sValue.Length > sTrim)
+            {
+                sValue = sValue.Substring(0, sTrim);
+                tTrimed = true;
+            }
+
+            int tEndOfLine = sValue.IndexOf("\n");
+
+            if (tEndOfLine >= 0)
+            {
+                sValue = sValue.Substring(0, tEndOfLine);
+                sValue.Replace("\r", "");
+                tTrimed = true;
+            }
+
+            if (tTrimed)
+            {
+                sValue += "...";
+            }
+            return sValue;
         }
     }
 }
