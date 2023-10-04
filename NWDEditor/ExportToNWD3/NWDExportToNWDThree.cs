@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Linq;
 
 #if UNITY_EDITOR
 
@@ -72,6 +73,9 @@ namespace NetWorkedData.NWDEditor
 
                 string tFileFinal = tFile.ToString();
                 File.WriteAllText(tPath, tFileFinal);
+                string tReferences = string.Join("\n", NWDExportObject.ReferencesDictionary.Select(x => "'" + x.Key + "'," + x.Value));
+                File.WriteAllText(tPath.Replace("." + tExtension, "_References.csv"), tReferences);
+
                 string tClassResumeFinal = tClassResume.ToString();
                 File.WriteAllText(tPath.Replace("." + tExtension, "_ClassResume.txt"), tClassResumeFinal);
             }

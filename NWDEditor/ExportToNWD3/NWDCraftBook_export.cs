@@ -26,7 +26,7 @@ namespace NetWorkedData
                 ItemGroupIngredient = ItemGroupIngredient?.GetJsonConvert(),
                 ItemResult = ItemResult?.GetJsonConvert(),
                 AdditionalReward = AdditionalReward?.GetJsonConvert(),
-                Prefabs = NWDExportObject.ProcessNewAsset(tPrefabs),
+                Prefabs = NWDExportObject.ProcessNewAsset(tPrefabs, AssetType.Object),
                 RecipeHashesArray = RecipeHashesArray?.GetJsonConvert(),
             };
 

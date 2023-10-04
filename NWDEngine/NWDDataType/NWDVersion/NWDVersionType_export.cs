@@ -6,7 +6,7 @@ namespace NetWorkedData
     public partial class NWDVersionType : NWEDataType
     {
         #if UNITY_EDITOR
-        public string GetJsonConvert()
+        public object GetJsonConvert()
         {
             GetIntVersion();
             var tExport = new {
@@ -14,7 +14,7 @@ namespace NetWorkedData
                 Minor = MinorIndex,
                 Build = BuildIndex,
             };
-            return JsonConvert.SerializeObject(tExport);
+            return tExport;
         }
         #endif
     }

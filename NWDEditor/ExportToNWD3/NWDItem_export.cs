@@ -51,10 +51,10 @@ namespace NetWorkedData
                 //Stackable = 0, //New Data NWD3
                 Usable = Usable,
                 ItemExtensionQuantity = ItemExtensionQuantity?.GetJsonConvert(),
-                Sprites = NWDExportObject.ProcessNewAsset(tSprites),
-                Textures = NWDExportObject.ProcessNewAsset(tTextures),
+                Sprites = NWDExportObject.ProcessNewAsset(tSprites, AssetType.Object),
+                Textures = NWDExportObject.ProcessNewAsset(tTextures, AssetType.Object),
                 Colors = NWDExportObject.ProcessNewColor(tColors),
-                Prefabs = NWDExportObject.ProcessNewAsset(tPrefabs),
+                Prefabs = NWDExportObject.ProcessNewAsset(tPrefabs, AssetType.Object),
                 EffectPrefab = NWDExportObject.ProcessNewAsset(EffectPrefab),
                 Categories = CategoryList?.GetJsonConvert(),
                 JSON = JSON,

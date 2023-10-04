@@ -25,7 +25,7 @@ namespace NetWorkedData
                 ItemDescription = ItemDescription?.GetJsonConvert(),
                 CraftOnlyMax = CraftOnlyMax,
                 CraftUnUsedElements = CraftUnUsedElements,
-                Prefabs = NWDExportObject.ProcessNewAsset(tPrefabs),
+                Prefabs = NWDExportObject.ProcessNewAsset(tPrefabs, AssetType.Object),
                 ItemFailedResult = ItemFailedResult?.GetJsonConvert(),
                 ItemGroup = ItemGroup?.GetJsonConvert(),
             };

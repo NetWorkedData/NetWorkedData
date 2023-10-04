@@ -437,13 +437,20 @@ namespace NetWorkedData
             {
                 tResult = tResult.Substring(tResult.Length - 18);
             }
+
+            if (tResult == "0")
+            {
+                tResult = sString.GetHashCode().ToString();
+                Debug.LogWarning($"Could not convert reference [{sString}] to long...\nPicked a new random reference: [{tResult}]");
+            }
+
             try
             {
                 return long.Parse(tResult);
             }
-            catch
+            catch (Exception e)
             {
-                Debug.Log(tResult);
+                Debug.LogException(e);
                 throw;
             }
         }

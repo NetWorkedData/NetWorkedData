@@ -709,10 +709,11 @@ namespace NetWorkedData
         
         public string GetJSonBaseParameters()
         {
+            long tReference = NWDToolbox.NumericCleaner(Reference);
             var tExport = new {
                 //RangeAccess = RangeAccess,
                 //ID = ID,
-                Reference = NWDToolbox.NumericCleaner(Reference),
+                Reference = tReference,
                 //CheckList = CheckList,
                 //WebModel = WebModel,
                 //InternalKey = InternalKey,
@@ -735,6 +736,8 @@ namespace NetWorkedData
             };
 
             string tJson = JsonConvert.SerializeObject(tExport);
+
+            NWDExportObject.ReferencesDictionary.Add(Reference, tReference);
 
             return tJson;
         }
