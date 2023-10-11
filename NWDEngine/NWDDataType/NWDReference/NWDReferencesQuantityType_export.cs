@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace NetWorkedData
@@ -9,7 +10,7 @@ namespace NetWorkedData
         public object GetJsonConvert()
         {
             var tExport = new {
-                ReferenceQuantity = GetReferenceAndQuantity(),
+                ReferenceQuantity = GetReferenceAndQuantity().ToDictionary(x => NWDToolbox.NumericCleaner(x.Key), y => (long)y.Value),
             };
             return tExport;
         }
