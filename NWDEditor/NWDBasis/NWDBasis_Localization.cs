@@ -20,13 +20,8 @@
 //=====================================================================================================================
 #if UNITY_EDITOR
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using UnityEngine;
-using UnityEditor;
-using System.IO;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -114,22 +109,37 @@ namespace NetWorkedData
                             }
                         }
                         tRows += "\"" + BasisHelper().ClassTrigramme + "\";\"" + Reference + "\";\"" + InternalKey + "\";\"" + InternalDescription + "\";\"" + tPropertieName + "\";";
+
+                        string tSecondaryToWrite = String.Empty;
                         foreach (string tLang in sLanguageArray)
                         {
                             if (tResultSplitDico.ContainsKey(tLang) == true)
                             {
-                                string tValueToWrite = tResultSplitDico[tLang];
-                                tValueToWrite = tValueToWrite.Replace("\"", "&quot;");
-                                tValueToWrite = tValueToWrite.Replace(";", "&#59");
+                                string[] tTextAndSecondField = tResultSplitDico[tLang].Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries);
+                                string tValueToWrite = tTextAndSecondField[0];
+
+
+                                tValueToWrite = tValueToWrite.Replace(NWDConstants.kFieldSeparatorASubstitute, NWDConstants.kFieldSeparatorA);
+                                tValueToWrite = tValueToWrite.Replace(NWDConstants.kFieldSeparatorBSubstitute, NWDConstants.kFieldSeparatorB);
+                                tValueToWrite = tValueToWrite.Replace(NWDConstants.kFieldSeparatorCSubstitute, NWDConstants.kFieldSeparatorC);
+                                tValueToWrite = tValueToWrite.Replace(NWDConstants.kFieldSeparatorDSubstitute, NWDConstants.kFieldSeparatorD);
+                                tValueToWrite = tValueToWrite.Replace(NWDConstants.kFieldSeparatorESubstitute, NWDConstants.kFieldSeparatorE);
+
+                                tValueToWrite = tValueToWrite.Replace("\"", "\"\"");
                                 tValueToWrite = tValueToWrite.Replace("\r\n", "\n");
-                                tValueToWrite = tValueToWrite.Replace("\n\r", "\n");
                                 tValueToWrite = tValueToWrite.Replace("\r", "\n");
-                                tValueToWrite = tValueToWrite.Replace("\n", "&#00");
 
                                 tRows += "\"" + tValueToWrite + "\"";
+
+                                if (tTextAndSecondField.Length == 2)
+                                {
+                                    tSecondaryToWrite += "\"" + tTextAndSecondField[1] + "\"";
+                                }
+                                tSecondaryToWrite += ";";
                             }
                             tRows += ";";
                         }
+                        tRows += tSecondaryToWrite;
                         tRows += "\n";
                     }
                 }

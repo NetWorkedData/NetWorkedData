@@ -20,15 +20,13 @@
 //=====================================================================================================================
 #if UNITY_EDITOR
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Reflection;
-using UnityEngine;
 //=====================================================================================================================
 using UnityEditor;
-using NetWorkedData.NWDEditor;
+using UnityEngine;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -89,7 +87,10 @@ namespace NetWorkedData
             {
                 foreach (NWDTypeClass tObject in Datas)
                 {
-                    tRows += tObject.ExportCSV(tLanguageArray);
+                    if (tObject.AC && tObject.XX == 0)
+                    {
+                        tRows += tObject.ExportCSV(tLanguageArray);
+                    }
                 }
             }
             else
@@ -126,7 +127,14 @@ namespace NetWorkedData
             string[] tValuesArray = sCSVrow.Split(new string[] { ";" }, StringSplitOptions.None);
             Dictionary<string, string> tDico = new Dictionary<string, string>();
             int i = 0;
-            for (i = 0; i < tValuesArray.Length; i++)
+
+            if (tValuesArray.Length != sKeysArray.Length)
+            {
+                Debug.LogWarning("Keys lenght is " + sKeysArray.Length + " whereas values lenght is " + tValuesArray.Length);
+            }
+
+            int lenght = Math.Min(tValuesArray.Length, sKeysArray.Length);
+            for (i = 0; i < lenght; i++)
             {
                 string tKey = sKeysArray[i].Trim('"');
                 string tValue = tValuesArray[i].Trim('"');
@@ -149,10 +157,23 @@ namespace NetWorkedData
                                 if (tDico.ContainsKey(tLang))
                                 {
                                     string tLangValue = tDico[tLang];
-                                    tLangValue = tLangValue.Replace("&#59", ";");
                                     tLangValue = tLangValue.Replace("&#00", "\n");
-                                    tLangValue = tLangValue.Replace("&quot;", "\"");
+                                    tLangValue = tLangValue.Replace("\"\"", "\"");
+                                    tLangValue = tLangValue.Replace(NWDConstants.kFieldSeparatorA, NWDConstants.kFieldSeparatorASubstitute);
+                                    tLangValue = tLangValue.Replace(NWDConstants.kFieldSeparatorB, NWDConstants.kFieldSeparatorBSubstitute);
+                                    tLangValue = tLangValue.Replace(NWDConstants.kFieldSeparatorC, NWDConstants.kFieldSeparatorCSubstitute);
+                                    tLangValue = tLangValue.Replace(NWDConstants.kFieldSeparatorD, NWDConstants.kFieldSeparatorDSubstitute);
+                                    tLangValue = tLangValue.Replace(NWDConstants.kFieldSeparatorE, NWDConstants.kFieldSeparatorESubstitute);
+
+                                    if (tDico.ContainsKey(tLang + "Audio") && tDico[tLang + "Audio"] != String.Empty)
+                                    {
+                                        Debug.Log("Audio : " + tDico["Type"]);
+                                        tLangValue += NWDConstants.kFieldSeparatorD;
+                                        tLangValue += tDico[tLang + "Audio"];
+                                    }
+
                                     tValueNextList.Add(tLang + NWDConstants.kFieldSeparatorB + tLangValue);
+
                                 }
                             }
                             string[] tNextValueArray = tValueNextList.Distinct().ToArray();

@@ -21,7 +21,9 @@
 #if UNITY_EDITOR
 using System;
 using System.IO;
-using System.Reflection;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -67,17 +69,18 @@ namespace NetWorkedData
             {
                 // prepare header
                 string tHeaders = "\"Type\";\"Reference\";\"InternalKey\";\"InternalDescription\";\"PropertyName\";\"" +
-                                 NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString.Replace(";", "\";\"") + "\"\n";
+                                 NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString.Replace(";", "\";\"") + "\";\"" +
+                                 NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString.Replace(";", "Audio\";\"") + "Audio\"\n";
                 // start to create file
                 string tFile = tHeaders;
                 // populate file by class result
                 foreach (Type tType in NWDDataManager.SharedInstance().ClassTypeList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tFile +=  tHelper.ExportLocalizationInCSV();
+                    tFile += tHelper.ExportLocalizationInCSV();
                 }
                 // write file
-                File.WriteAllText(tPath, tFile);
+                File.WriteAllText(tPath, tFile, Encoding.UTF8);
             }
             NWDBenchmark.Finish();
         }
@@ -91,8 +94,19 @@ namespace NetWorkedData
                 string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
                 string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
 
-                string tFile = File.ReadAllText(tPath);
-                string[] tFileRows = tFile.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                string tFile = File.ReadAllText(tPath, Encoding.UTF8);
+
+                /* Delimit with line return, but not those withing a text value. CSV format transforms " to "".
+                 * (ex: First line : 
+                 * ""Quote on second line"") 
+                 */
+                string[] delimitors = Regex.Matches(tFile, "\n\"[^\"]").Cast<Match>().Select(m => m.Value).ToArray();
+                string[] tFileRows = Regex.Split(tFile, "\n\"[^\"]").Where(s => s != String.Empty).ToArray();
+
+                for (int i = 1; i < tFileRows.Length; i++)
+                {
+                    tFileRows[i] = delimitors[i - 1].Remove(0, 1) + tFileRows[i];
+                }
 
                 if (tFile != null)
                 {
