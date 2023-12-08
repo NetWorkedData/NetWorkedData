@@ -24,9 +24,9 @@ namespace NetWorkedData
 
     public class NWDExportObject
     {
-        public const string kTableName = "Local__Prod_NWDMetaData";
+        public const string kTableName = "Local_Reflex_Prod_NWDMetaData";
         public const long kHubProjectId = 86868;
-        public const long kProjectID = 16964046439949924;
+        public const long kProjectID = 17004892179923615;
         public const string kModelVersion = "0.0.0.0";
 
 
@@ -39,7 +39,7 @@ namespace NetWorkedData
         static public Dictionary<long, NWDExportObject> NWDAssetLocalizationList = new Dictionary<long, NWDExportObject>();
         static public Dictionary<long,NWDExportObject> NWDAssetDataList = new Dictionary<long,NWDExportObject>();
 
-        private static long tReferenceUnique = NWDToolbox.Timestamp() * 10000000000000000;
+        private static long tReferenceUnique = NWDToolbox.NumericCleaner(NWDToolbox.Timestamp() * 10000000000000000);
 
         public static object ProcessNewLocalizedString(NWDLocalizableType sLocalizedString)
         {
@@ -96,8 +96,8 @@ namespace NetWorkedData
 
         public static object ProcessNewAsset(NWDLocalizableVideoClipType sValue)
         {
-            NWDExportObject tNewData = new NWDExportObject(sValue);
-            long tNewReference = tNewData.ReferenceNew;
+            long tNewReference = GetNewReference();
+            NWDExportObject tNewData = new NWDExportObject(sValue, tNewReference);
             NWDAssetDataList.Add(tNewReference, tNewData);
 
             var tExport = new
@@ -544,21 +544,19 @@ namespace NetWorkedData
             Init(tReference.ToString(), sContext, "", JsonConvert.SerializeObject(tExport), "NWDStringLocalization");
         }
 
-        public NWDExportObject(NWDLocalizableVideoClipType sValue)
+        public NWDExportObject(NWDLocalizableVideoClipType sValue, long sReference)
         {
-            long tReference = GetNewReference();
-
             var tExport = new
             {
                 // Specific
-                Reference = tReference,
+                Reference = sReference,
                 Video = GetVideo(sValue),
                 Key = "",
                 Context = sValue.GetBaseString(),
                 NeedToBeTranslated = true,
             };
 
-            Init(tReference.ToString(), sValue.GetBaseString(), "", JsonConvert.SerializeObject (tExport), "NWDVideoLocalization");
+            Init(sReference.ToString(), sValue.GetBaseString(), "", JsonConvert.SerializeObject (tExport), "NWDVideoLocalization");
         }
 
         public NWDExportObject(string sReference, string sTitle, string sDescription, string sJson, string sClassName, bool sCustomClass = false)
@@ -582,35 +580,35 @@ namespace NetWorkedData
 
             };
 
-            tFile.AppendLine("# reference  " + ReferenceOld + " => " + ReferenceNew);
-            tFile.AppendLine("INSERT INTO `" + kTableName + "` (" +
-                             "`ProjectUniqueId`, " +
-                             "`DataByDataTrack`, " +
-                             "`Title`, " +
-                             "`Description`, " +
-                             "`ClassName`, " +
-                             "`IsLocked`, " +
-                             "`LockLimit`, " +
-                             "`LockerName`, " +
-                             "`AvailableForWeb`, " +
-                             "`AvailableForGame`, " +
-                             "`AvailableForApp`, " +
-                             "`ProjectId`, " +
-                             "`Creation`, " +
-                             "`Modification`, " +
-                             "`Active`, " +
-                             "`Trashed`, " +
+            tFile.AppendLine("-- reference  " + ReferenceOld + " => " + ReferenceNew);
+            tFile.AppendLine("INSERT INTO [" + kTableName + "] (" +
+                             "[ProjectUniqueId], " +
+                             "[DataByDataTrack], " +
+                             "[Title], " +
+                             "[Description], " +
+                             "[ClassName], " +
+                             "[IsLocked], " +
+                             "[LockLimit], " +
+                             "[LockerName], " +
+                             "[AvailableForWeb], " +
+                             "[AvailableForGame], " +
+                             "[AvailableForApp], " +
+                             "[ProjectId], " +
+                             "[Creation], " +
+                             "[Modification], " +
+                             "[Active], " +
+                             "[Trashed], " +
                              //"`NeedTranslate`, " +
                              //"`NeedToBeTranslated` ," +
                              //Last line
-                             "`Reference`" +
+                             "[Reference]" +
                              ") VALUES "
                              + "("
                              + "" + kProjectID + ", " //project unique ID of babaoo game
-                             + "'[" + JsonConvert.SerializeObject(tData).Replace(@"\", @"\\").Replace("'", @"\'") + "]', " //DataByDataTrack
-                             + "'" + CleanString(sTitle.Replace("'", @"\'")) + "', " //Title
-                             + "'" + CleanString(sDescription.Replace("'", @"\'"), 100) + "', " //Description
-                             + "'" + ClassName(sClassName, sCustomClass = false).Replace("'", @"\'") + "', " //ClassName
+                             + "'[" + JsonConvert.SerializeObject(tData)/*.Replace(@"\", @"\\")*/.Replace("'", "''") + "]', " //DataByDataTrack
+                             + "'" + CleanString(sTitle).Replace("'", "''") + "', " //Title
+                             + "'" + CleanString(sDescription, 100).Replace("'", "''") + "', " //Description
+                             + "'" + ClassName(sClassName, sCustomClass = false).Replace("'", "''") + "', " //ClassName
                              + "0, " //IsLocked
                              + "0, " //LockLimit
                              + "'', " //LockerName

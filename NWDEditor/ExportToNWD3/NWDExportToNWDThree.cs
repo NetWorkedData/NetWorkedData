@@ -39,7 +39,7 @@ namespace NetWorkedData.NWDEditor
                         if (tHelper.TemplateHelper.GetAccountDependent() == NWDTemplateAccountDependent.NoAccountDependent && tHelper.TemplateHelper.GetSynchronizable() == NWDTemplateClusterDatabase.SynchronizableInClusterAllDatabase)
                         {
                             int tSubLine = 0;
-                            tFile.AppendLine("# export " + tHelper.ClassTableName);
+                            tFile.AppendLine("-- export " + tHelper.ClassTableName);
                             foreach (KeyValuePair<string, NWDTypeClass> tKeyValue in tHelper.DatasByReference)
                             {
                                 foreach (NWDExportObject tExport in tKeyValue.Value.ExportNWD3())
@@ -53,7 +53,7 @@ namespace NetWorkedData.NWDEditor
 
                                 tSubLine++;
                             }
-                            tClassResume.AppendLine("# export " + tHelper.ClassTableName + " lines = " + tSubLine);
+                            tClassResume.AppendLine("-- export " + tHelper.ClassTableName + " lines = " + tSubLine);
                         }
                     }
                 }

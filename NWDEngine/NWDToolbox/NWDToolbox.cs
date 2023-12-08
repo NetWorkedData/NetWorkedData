@@ -425,6 +425,11 @@ namespace NetWorkedData
         }//-------------------------------------------------------------------------------------------------------------
         static Regex NumericCleanerRgx = new Regex("[^0-9]");
         //-------------------------------------------------------------------------------------------------------------
+        public static long NumericCleaner(long sLong)
+        {
+            return NumericCleaner(sLong.ToString());
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static long NumericCleaner(string sString)
         {
             string tResult = NumericCleanerRgx.Replace(sString, string.Empty);
