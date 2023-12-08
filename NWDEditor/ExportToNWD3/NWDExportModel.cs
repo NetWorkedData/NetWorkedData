@@ -373,21 +373,33 @@ namespace NetWorkedData
 
             foreach (var k in tDico)
             {
-                string[] split = k.Value.Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries);
+                string[] split = k.Value.Split(NWDConstants.kFieldSeparatorD);
 
                 if (k.Key.Equals("fr"))
                 {
-                    tTextDico.Add(NWDLanguageEnum.French, split[0]);
-                    tAudioDico.Add(NWDLanguageEnum.French, ProcessNewAsset(split[1], AssetType.Object));
+                    if (!string.IsNullOrWhiteSpace(split[0]))
+                    {
+                        tTextDico.Add(NWDLanguageEnum.French, split[0]);
+                    }
+                    if (split.Length > 1 && !string.IsNullOrWhiteSpace(split[1]))
+                    {
+                        tAudioDico.Add(NWDLanguageEnum.French, ProcessNewAsset(split[1], AssetType.Object));
+                    }
                 }
                 else if (k.Key.Equals("en"))
                 {
-                    tTextDico.Add(NWDLanguageEnum.English, split[0]);
-                    tAudioDico.Add(NWDLanguageEnum.English, ProcessNewAsset(split[1], AssetType.Object));
+                    if (!string.IsNullOrWhiteSpace(split[0]))
+                    {
+                        tTextDico.Add(NWDLanguageEnum.English, split[0]);
+                    }
+                    if (split.Length > 1 && !string.IsNullOrWhiteSpace(split[1]))
+                    {
+                        tAudioDico.Add(NWDLanguageEnum.English, ProcessNewAsset(split[1], AssetType.Object));
+                    }
                 }
             }
 
-            string[] tBases = sValue.GetBaseString().Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries);
+            string[] tBases = sValue.GetBaseString().Split(NWDConstants.kFieldSeparatorD);
 
             if (!tTextDico.ContainsKey(NWDLanguageEnum.French))
             {
@@ -399,7 +411,7 @@ namespace NetWorkedData
 
             if (!tAudioDico.ContainsKey(NWDLanguageEnum.French))
             {
-                if (!string.IsNullOrWhiteSpace(tBases[1]))
+                if (tBases.Length > 1 && !string.IsNullOrWhiteSpace(tBases[1]))
                 {
                     tAudioDico.Add(NWDLanguageEnum.French, ProcessNewAsset(tBases[1], AssetType.Object));
                 }
